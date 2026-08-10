@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEYCORE | СИНДИКАТ ЛЭЙКОРА & КИБЕР-КУЛИНАРИЯ</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@700;900&family=Montserrat:wght@300;500;800;900&family=Fira+Code:wght@400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #08070b;
+            --bg-card: #110e17;
+            --accent-gold: #ffd700;
+            --accent-purple: #b026ff;
+            --accent-green: #00ff66;
+            --accent-cyan: #00f0ff;
+            --accent-crimson: #ff2a5f;
+            --accent-pink: #ff69b4;
+            --text-main: #f0eaf7;
+            --text-muted: #9a8eb3;
+            --font-header: 'Cinzel Decorative', 'Cinzel', serif;
+            --font-body: 'Montserrat', sans-serif;
+            --font-code: 'Fira Code', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(255, 42, 95, 0.1) 0%, transparent 45%),
+                radial-gradient(circle at 90% 80%, rgba(176, 38, 255, 0.1) 0%, transparent 45%);
+        }
+
+        /* SIDEBAR NAVIGATION (LEFT) */
+        .sidebar-nav {
+            position: fixed;
+            left: 0;
+            top: 160px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            z-index: 1000;
+        }
+
+        .sidebar-link {
+            width: 270px;
+            padding: 16px 22px 16px 18px;
+            background: rgba(17, 14, 23, 0.96);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: none;
+            border-radius: 0 12px 12px 0;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: var(--font-body);
+            font-weight: 800;
+            font-size: 0.82rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transform: translateX(-195px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 5px 10px 25px rgba(0, 0, 0, 0.6);
+            cursor: pointer;
+        }
+
+        .sidebar-link:hover {
+            transform: translateX(0);
+        }
+
+        .sidebar-link.active {
+            transform: translateX(0);
+            color: #fff;
+            border-color: currentColor;
+        }
+
+        .sidebar-link.link-cyan:hover,
+        .sidebar-link.link-cyan.active {
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.6);
+        }
+
+        .sidebar-link.link-green:hover,
+        .sidebar-link.link-green.active {
+            color: var(--accent-green);
+            border-color: var(--accent-green);
+            box-shadow: 0 0 30px rgba(0, 255, 102, 0.6);
+        }
+
+        .sidebar-link.link-purple:hover,
+        .sidebar-link.link-purple.active {
+            color: var(--accent-purple);
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 30px rgba(176, 38, 255, 0.6);
+        }
+
+        .sidebar-link.link-gold:hover,
+        .sidebar-link.link-gold.active {
+            color: var(--accent-gold);
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+        }
+
+        /* ВЕРТИКАЛЬНАЯ ШКАЛА ПРОГРЕССА (СПРАВА) */
+        .leycore-progress-widget {
+            position: fixed;
+            right: 20px;
+            top: 160px;
+            z-index: 999;
+            background: rgba(17, 14, 23, 0.95);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 12px;
+            padding: 16px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: 380px;
+            width: 70px;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
+            backdrop-filter: blur(12px);
+        }
+
+        .leycore-progress-head {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: var(--font-code);
+            font-size: 0.68rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            gap: 4px;
+        }
+
+        .leycore-progress-bg {
+            width: 12px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .leycore-progress-fill {
+            width: 100%;
+            height: var(--progress, 0%);
+            background: linear-gradient(0deg, var(--accent-cyan), var(--accent-purple), var(--accent-green));
+            transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 15px var(--accent-cyan);
+        }
+
+        .leycore-badge-unlocked {
+            display: none;
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 1002;
+            padding: 12px 24px;
+            background: rgba(0, 255, 102, 0.95);
+            color: #08070b;
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            font-weight: 800;
+            border-radius: 8px;
+            box-shadow: 0 0 35px rgba(0, 255, 102, 0.9);
+            animation: pulseGlow 1.5s infinite alternate;
+        }
+
+        /* AUDIO TERMINAL */
+        .audio-terminal {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 270px;
+            background: rgba(17, 14, 23, 0.95);
+            border: 1px solid var(--accent-crimson);
+            border-radius: 12px;
+            padding: 12px;
+            z-index: 1001;
+            box-shadow: 0 0 25px rgba(255, 42, 95, 0.4), inset 0 0 10px rgba(255, 105, 180, 0.2);
+            backdrop-filter: blur(8px);
+        }
+
+        .audio-title {
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            color: var(--accent-pink);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-shadow: 0 0 8px rgba(255, 105, 180, 0.6);
+        }
+
+        .audio-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .audio-btn {
+            background: rgba(255, 42, 95, 0.2);
+            border: 1px solid var(--accent-crimson);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-family: var(--font-code);
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.75rem;
+        }
+
+        .audio-btn:hover {
+            background: var(--accent-crimson);
+            box-shadow: 0 0 15px rgba(255, 42, 95, 0.8);
+        }
+
+        .track-select {
+            width: 100%;
+            background: #08070b;
+            border: 1px solid rgba(255, 42, 95, 0.4);
+            color: var(--text-main);
+            padding: 5px;
+            border-radius: 4px;
+            font-family: var(--font-code);
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+
+        .eq-bars {
+            display: flex;
+            gap: 2px;
+            align-items: flex-end;
+            height: 14px;
+        }
+
+        .eq-bar {
+            width: 2px;
+            height: 3px;
+            background: var(--accent-pink);
+            transition: 0.1s;
+        }
+
+        .eq-bars.playing .eq-bar {
+            animation: eqAnim 0.8s ease infinite alternate;
+        }
+
+        .eq-bars.playing .eq-bar:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .eq-bars.playing .eq-bar:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .eq-bars.playing .eq-bar:nth-child(4) {
+            animation-delay: 0.1s;
+        }
+
+        .eq-bars.playing .eq-bar:nth-child(5) {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes eqAnim {
+            0% {
+                height: 3px;
+            }
+
+            100% {
+                height: 14px;
+            }
+        }
+
+        /* HEADER */
+        header {
+            min-height: 48vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 3.5rem 2rem 2rem 2rem;
+            position: relative;
+            border-bottom: 1px solid rgba(176, 38, 255, 0.25);
+        }
+
+        .badge {
+            font-family: var(--font-code);
+            color: var(--accent-purple);
+            border: 1px solid var(--accent-purple);
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 20px rgba(176, 38, 255, 0.35);
+            animation: pulseGlow 2s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            from {
+                box-shadow: 0 0 10px rgba(176, 38, 255, 0.2);
+            }
+
+            to {
+                box-shadow: 0 0 25px rgba(176, 38, 255, 0.6);
+            }
+        }
+
+        h1 {
+            font-family: var(--font-header);
+            font-size: clamp(3.2rem, 9vw, 7rem);
+            font-weight: 900;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--accent-crimson) 0%, #ff0055 45%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.8rem;
+            filter: drop-shadow(0 0 35px rgba(176, 38, 255, 0.45));
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--text-muted);
+            max-width: 850px;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        /* CONTAINER & PAGES */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .page-view {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .page-view.active-page {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* LEYCORE HERO BOX */
+        .leycore-hero {
+            background: linear-gradient(135deg, rgba(176, 38, 255, 0.12), rgba(17, 14, 23, 0.96));
+            border: 1px solid var(--accent-purple);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 0 45px rgba(176, 38, 255, 0.35), inset 0 0 24px rgba(176, 38, 255, 0.08);
+        }
+
+        .leycore-hero p {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            line-height: 1.8;
+            margin-bottom: 1.8rem;
+        }
+
+        /* LEYCORE INTERACTIVE CARDS */
+        .leycore-def-card {
+            background: rgba(17, 14, 23, 0.85);
+            border: 1px solid rgba(176, 38, 255, 0.25);
+            border-radius: 12px;
+            margin-bottom: 14px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .leycore-def-card.opened {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
+        }
+
+        .leycore-def-header {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            padding: 18px 20px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 800;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .leycore-def-btn {
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            background: rgba(0, 240, 255, 0.1);
+            padding: 6px 14px;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .leycore-def-card.opened .leycore-def-btn {
+            color: var(--accent-green);
+            background: rgba(0, 255, 102, 0.15);
+            border-color: var(--accent-green);
+        }
+
+        .leycore-def-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+            background: rgba(5, 4, 7, 0.95);
+            line-height: 1.8;
+            color: var(--text-main);
+        }
+
+        .leycore-def-card.opened .leycore-def-body {
+            max-height: 1200px;
+            padding: 20px;
+            border-top: 1px solid rgba(0, 240, 255, 0.15);
+        }
+
+        /* COMPARISON BOX */
+        .comparison-box {
+            background: rgba(8, 7, 11, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 1.8rem;
+            margin: 1.5rem 0;
+        }
+
+        .comp-title-npc {
+            color: var(--text-muted);
+            font-family: var(--font-code);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .comp-title-leycore {
+            color: #ff8c00;
+            font-family: var(--font-code);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-shadow: 0 0 8px rgba(255, 140, 0, 0.75);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        .leycore-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .leycore-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-main);
+            font-size: 1.05rem;
+        }
+
+        .leycore-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-purple);
+            font-size: 1.4rem;
+            line-height: 1;
+        }
+
+        /* COMPLIMENTS BOX */
+        .compliments-box {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(8, 7, 11, 0.95));
+            border: 1px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 0 35px rgba(255, 215, 0, 0.2);
+        }
+
+        .compliment-item {
+            margin-bottom: 1.2rem;
+            background: rgba(17, 14, 23, 0.8);
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .compliment-header {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            padding: 16px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-style: italic;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .comp-btn-text {
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            color: var(--accent-gold);
+            letter-spacing: 1px;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .compliment-item.active .comp-btn-text {
+            color: var(--accent-crimson);
+            border-color: var(--accent-crimson);
+            background: rgba(255, 42, 95, 0.15);
+        }
+
+        .compliment-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+            background: rgba(5, 4, 7, 0.95);
+            line-height: 1.7;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .compliment-item.active .compliment-body {
+            max-height: 500px;
+            padding: 18px;
+        }
+
+        /* MENU GRID */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .dish-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 255, 102, 0.2);
+            border-radius: 12px;
+            padding: 1.8rem;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .dish-card:hover {
+            border-color: var(--accent-green);
+            box-shadow: 0 10px 30px rgba(0, 255, 102, 0.25);
+            transform: translateY(-5px);
+        }
+
+        .dish-card-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            margin-bottom: 0.8rem;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+        }
+
+        .macro-badge {
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.4);
+            color: var(--accent-green);
+            font-family: var(--font-code);
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--accent-green);
+            margin-bottom: 1.5rem;
+        }
+
+        .open-dish-btn {
+            width: 100%;
+            background: rgba(176, 38, 255, 0.15);
+            border: 1px solid var(--accent-purple);
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .open-dish-btn:hover {
+            background: var(--accent-purple);
+            box-shadow: 0 0 20px rgba(176, 38, 255, 0.6);
+        }
+
+        /* DISH DETAIL */
+        .dish-detail-container {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-green);
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 0 40px rgba(0, 255, 102, 0.15);
+        }
+
+        .dish-block {
+            margin-bottom: 2.5rem;
+            background: rgba(8, 7, 11, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.8rem;
+        }
+
+        .dish-block-title {
+            font-family: var(--font-code);
+            font-size: 1.1rem;
+            color: var(--accent-green);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .laykor-box {
+            background: linear-gradient(135deg, rgba(176, 38, 255, 0.1), rgba(8, 7, 11, 0.95));
+            border-left: 4px solid var(--accent-purple);
+            font-style: italic;
+        }
+
+        /* TALES INNER TABS */
+        .tales-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .tales-tab-btn {
+            background: rgba(17, 14, 23, 0.9);
+            border: 1px solid var(--accent-purple);
+            color: var(--text-muted);
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-family: var(--font-code);
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .tales-tab-btn:hover {
+            color: #fff;
+            border-color: var(--accent-gold);
+        }
+
+        .tales-tab-btn.active-tales-tab {
+            background: rgba(176, 38, 255, 0.2);
+            border-color: var(--accent-purple);
+            color: var(--accent-purple);
+            box-shadow: 0 0 20px rgba(176, 38, 255, 0.4);
+        }
+
+        /* TALES LIST */
+        .grid-tales {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .tale-list-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(176, 38, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: 0.3s;
+        }
+
+        .tale-list-card:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 30px rgba(176, 38, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .tale-list-title {
+            font-family: var(--font-header);
+            font-size: 1.25rem;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+            min-height: 2.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .tale-list-genre {
+            font-family: var(--font-code);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .tale-list-flag {
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            color: var(--accent-green);
+            margin-bottom: 1.5rem;
+            display: block;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .read-btn {
+            width: 100%;
+            background: rgba(176, 38, 255, 0.15);
+            border: 1px solid var(--accent-purple);
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .read-btn:hover {
+            background: var(--accent-purple);
+            box-shadow: 0 0 20px rgba(176, 38, 255, 0.6);
+        }
+
+        .tale-detail-view {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-purple);
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 0 45px rgba(176, 38, 255, 0.35);
+        }
+
+        .tale-full-text {
+            font-size: 1.15rem;
+            color: var(--text-main);
+            white-space: pre-wrap;
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+
+        .decode-section {
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            padding-top: 2.5rem;
+        }
+
+        .decode-toggle-btn {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 14px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: var(--font-code);
+            text-transform: uppercase;
+            font-weight: 700;
+            transition: 0.3s;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .decode-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: rgba(5, 4, 7, 0.95);
+            border-radius: 0 0 8px 8px;
+        }
+
+        .decode-content.open {
+            max-height: 1000px;
+            padding: 25px;
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            border-top: none;
+        }
+
+        /* DICTIONARY STYLES */
+        .dict-cat-header {
+            font-family: var(--font-header);
+            font-size: 1.8rem;
+            color: var(--accent-purple);
+            margin: 3rem 0 1.5rem 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(176, 38, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .dict-letter {
+            font-family: var(--font-header);
+            font-size: 1.4rem;
+            color: var(--accent-pink);
+            margin: 1.5rem 0 0.5rem 0;
+            text-shadow: 0 0 10px var(--accent-pink);
+            border-left: 4px solid var(--accent-pink);
+            padding-left: 15px;
+        }
+
+        .dict-row {
+            background: rgba(17, 14, 23, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            padding: 15px 20px;
+            transition: 0.3s;
+        }
+
+        .dict-row:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 20px rgba(176, 38, 255, 0.1);
+        }
+
+        .word-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .word-name {
+            font-family: var(--font-header);
+            font-size: 1.15rem;
+            color: var(--text-main);
+            letter-spacing: 1px;
+        }
+
+        .decode-btn {
+            background: rgba(176, 38, 255, 0.15);
+            border: 1px solid var(--accent-purple);
+            color: var(--text-main);
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-family: var(--font-code);
+            font-size: 0.7rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .word-def {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .dict-row.active .word-def {
+            max-height: 400px;
+            padding-top: 10px;
+            margin-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .section-title {
+            font-family: var(--font-header);
+            font-size: 2.2rem;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: currentColor;
+            margin: 10px auto 0 auto;
+            border-radius: 2px;
+        }
+
+        .title-green {
+            background: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            letter-spacing: 4px;
+        }
+
+        .title-purple {
+            color: var(--accent-purple);
+        }
+
+        .title-gold {
+            color: var(--accent-gold);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem;
+            border-top: 1px solid #222;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-family: var(--font-code);
+        }
+
+        /* MOBILE RESPONSIVE MEDIA QUERIES */
+        @media (max-width: 850px) {
+            .sidebar-nav {
+                position: relative !important;
+                top: 0 !important;
+                flex-direction: row !important;
+                flex-wrap: wrap;
+                justify-content: center;
+                width: 100% !important;
+                padding: 10px;
+                margin-top: 120px;
+                background: var(--bg-base);
+            }
+
+            .sidebar-link {
+                transform: none !important;
+                width: auto !important;
+                padding: 10px 14px !important;
+                border-radius: 8px !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                font-size: 0.7rem !important;
+                margin: 3px;
+            }
+
+            .sidebar-link:hover,
+            .sidebar-link.active {
+                transform: none !important;
+            }
+
+            .audio-terminal {
+                width: 92% !important;
+                left: 4% !important;
+            }
+
+            /* На мобилке шкала трансформируется в аккуратную верхнюю горизонтальную панель */
+            .leycore-progress-widget {
+                position: relative !important;
+                right: auto !important;
+                top: 0 !important;
+                width: 100% !important;
+                height: auto !important;
+                flex-direction: row !important;
+                padding: 12px 16px !important;
+                margin-bottom: 20px !important;
+            }
+
+            .leycore-progress-head {
+                flex-direction: row !important;
+                width: 100%;
+                justify-content: space-between;
+                font-size: 0.8rem !important;
+            }
+
+            .leycore-progress-bg {
+                width: 100% !important;
+                height: 10px !important;
+                margin-top: 6px;
+                align-items: flex-start !important;
+            }
+
+            .leycore-progress-fill {
+                height: 100% !important;
+                width: var(--progress, 0%) !important;
+                background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple), var(--accent-green)) !important;
+            }
+
+            header {
+                padding-top: 2rem !important;
+                min-height: 25vh !important;
+            }
+
+            h1 {
+                font-size: 3.2rem !important;
+            }
+
+            .container {
+                padding: 1.5rem 1rem !important;
+            }
+
+            .grid-3,
+            .grid-tales {
+                grid-template-columns: 1fr !important;
+            }
+
+            .leycore-hero,
+            .dish-detail-container,
+            .tale-detail-view {
+                padding: 1.5rem !important;
+            }
+
+            .tales-tabs {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+
+            .tales-tab-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ВЕРТИКАЛЬНЫЙ ВИДДЖЕТ ШКАЛЫ ПРОГРЕССА (СПРАВА) -->
+    <div class="leycore-progress-widget">
+        <div class="leycore-progress-head">
+            <span>⚡ ЛЭЙКОР</span>
+            <span id="leycore-percent-text" style="font-weight: 800; color: var(--accent-green);">0%</span>
+        </div>
+        <div class="leycore-progress-bg">
+            <div class="leycore-progress-fill" id="leycore-bar-fill"></div>
+        </div>
+    </div>
+
+    <!-- ВСПОПЛЫВАЮЩАЯ АЧИВКА ПРИ 100% -->
+    <div class="leycore-badge-unlocked" id="leycore-achievement">
+        🏆 СУВЕРЕННЫЙ РАЗУМ ОСВОЕН: ВЫ ПОЛНОСТЬЮ ПОЗНАЛИ ЛЭЙКОР!
+    </div>
+
+    <!-- AUDIO TERMINAL -->
+    <div class="audio-terminal" id="music-player">
+        <div class="audio-title">
+            <span>🎵 ПЛЕЙЛИСТ ЛЭЙКОРА</span>
+            <div class="eq-bars" id="eq-bars">
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+            </div>
+        </div>
+        <div class="audio-controls">
+            <button class="audio-btn" id="play-pause-btn" onclick="toggleAudio()">PLAY ▶</button>
+            <select class="track-select" id="track-select">
+                <option value="https://ice1.somafm.com/dronezone-128-mp3">1. SomaFM: Drone Zone</option>
+                <option value="https://ice2.somafm.com/deepspaceone-128-mp3">2. SomaFM: Deep Space One</option>
+                <option value="https://n01.radiojar.com/v8t5p0886t4tv">3. Dark Ambient Radio</option>
+                <option value="https://stream.radio.co/s6175e1823/listen">4. Ambient Sleeping Pill</option>
+                <option value="https://hyades.cdnstream.com/1392_128">5. Nightride FM (Ambient)</option>
+                <option value="https://stream.zeno.fm/f9u1067tqf8tv">6. Horror Soundscapes</option>
+                <option value="https://stream-mi.radioparadise.com/ambient-320">7. Ambient Paradise</option>
+                <option value="https://radio.darkwave.ro/darkwave.mp3">8. Dark Wave / EBM</option>
+                <option value="https://icecast.blacklightradio.com/blacklight.mp3">9. Blacklight Radio</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- SIDEBAR NAVIGATION -->
+    <nav class="sidebar-nav">
+        <a href="javascript:void(0)" onclick="switchPage('leycore')" id="nav-leycore"
+            class="sidebar-link link-cyan active"><span>LEYCORE (ГЛАВНАЯ)</span><span class="icon">⚡</span></a>
+        <a href="javascript:void(0)" onclick="switchPage('menu')" id="nav-menu"
+            class="sidebar-link link-green"><span>МЕНЮ ВАСИЛИЧА</span><span class="icon">🍖</span></a>
+        <a href="javascript:void(0)" onclick="switchPage('metaphors')" id="nav-metaphors"
+            class="sidebar-link link-purple"><span>СКАЗКИ/АПОСТЕРИОРИ</span><span class="icon">🔮</span></a>
+        <a href="javascript:void(0)" onclick="switchPage('dictionary')" id="nav-dictionary"
+            class="sidebar-link link-gold"><span>СЛОВАРЬ</span><span class="icon">📖</span></a>
+    </nav>
+
+    <header>
+        <div class="badge">LEYCORE // v130.0 // Синдикат Суверена</div>
+        <h1>LEYCORE</h1>
+        <p class="subtitle">Карта восприятия, творчества и скрытых связей между человеком и миром.</p>
+    </header>
+
+    <div class="container">
+
+        <!-- LEYCORE MAIN PAGE -->
+        <div id="page-leycore" class="page-view active-page">
+            <div class="leycore-hero">
+
+                <p style="font-size: 1.15rem; margin-bottom: 2rem;"><strong>LEYCORE</strong> — от англ. <em>core</em> —
+                    сердцевина, и от рус. <em>лей</em> — лить. Симбиоз этих слов образует словосочетание —
+                    <strong>льющийся в сердце</strong>. Кодекс лэйкора таков, что он недоступен людям, у которых не
+                    развиты два полушария мозга. Важно, чтобы они работали слаженно, образуя сложные нейронные сети.
+                    Проще говоря — он доступен творческим людям.</p>
+
+                <!-- ИНТЕРАКТИВНЫЕ КАРТОЧКИ ПОЗНАНИЯ (10 ПУНКТОВ) -->
+
+                <!-- 1. ФИЛЬТРЫ ВОСПРИЯТИЯ -->
+                <div class="leycore-def-card" id="lc-1">
+                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-1')">
+                        <span>👁️ LEYCORE — Это иное ощущение пространства</span>
+                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
+                    </button>
+                    <div class="leycore-def-body">
+                        <p>Восприятие мира вокруг себя с фильтрами. Они невидимы для людей с прошивкой npc-версий.
+                            Например:</p>
+                        <div class="comparison-box">
+                            <div class="comp-title-npc">🤖 Обычный человек гуляет по улице:</div>
+                            <p style="color: var(--text-muted); margin-bottom: 0;">Что он видит: здания, дорогу,
+                                деревья, небо, машины.</p>
+
+                            <div class="comp-title-leycore">👁️ Человек с лэйкором в голове гуляет по улице:</div>
+                            <p style="color: var(--text-main); margin-bottom: 1rem;">Что он видит:</p>
+                            <ul class="leycore-list">
+                                <li><strong>Здания</strong> плавно переплетены с пространством, словно древние
+                                    титанические монолиты, держащие купол горизонта.</li>
+                                <li><strong>Дорога</strong> раскатывается вдоль всего города хромированной лентой,
+                                    связывающей векторы человеческих судеб.</li>
+                                <li><strong>Деревья</strong> шелестят кронами в ритме пульсации ночного воздуха,
+                                    фильтруя свет сквозь изумрудную сетку ветвей.</li>
+                                <li><strong>Небо</strong> нависает величественным океаном, меняющим градиенты от
+                                    закатного пурпура до суверенной космической тьмы, а вечерний мрак выглядывает из-под
+                                    листьев у старого моста, превращая обычный путь домой в сакральное приключение для
+                                    двоих.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. ВЗГЛЯД НА ЧЕЛОВЕКА БЕЗ ЧСВ -->
+                <div class="leycore-def-card" id="lc-2">
+                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-2')">
+                        <span>👤 LEYCORE — Это глубокое видение человека (Без воронки ЧСВ)</span>
+                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
+                    </button>
+                    <div class="leycore-def-body">
+                        Это не только по-иному ощущать пространство. Это видеть человека по-иному. Видеть его работу над
+                        своей внешностью, видеть труд, вложенный в эту личность, будь то проблемы, будь то пустота.
+                        Лэйкор принимает каждый характер и не создает воронку ЧСВ.
+                    </div>
+                </div>
+
+                <!-- 3. ОДИНОЧЕСТВО И САНДБОКС -->
+                <div class="leycore-def-card" id="lc-3">
+                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-3')">
+                        <span>🧘 LEYCORE — Это суверенное одиночество и сандбокс Творца</span>
+                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
+                    </button>
+                    <div class="leycore-def-body">
+                        Лэйкор — это одиночество. Ты сам придумываешь ивенты, ты создаешь вокруг себя реальность
+                        собственными руками. Ты воспринимаешь реальность как игру, где законы мира — это квесты, а
+                        основные цели — водить краской по плоти вселенной и наслаждаться своими рисунками, живя в них.
+                        Это самодостаточность: ты не грустишь от отсутствия близких людей. Ты настолько близок с собой,
+                        что ты сам себе друг, ты дружишь со своими страхами, которые когда-то вывел на свет.
+                    </div>
+                </div>
+
+                <!-- 4. СИНЕРГИЯ С СОАВТОРОМ -->
+                <div class="leycore-def-card" id="lc-4">
+                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-4')">
+                        <span>✨ LEYCORE — Это гибкость</span>
+                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
+                    </button>
+                    <div class="leycore-def-body">
+                        Однако Лэйкор очень гибок. Если вплести в него соавтора — того, кто сам познал Лэйкор — то мир
+                        вокруг тебя окрасится такими красками, которых не существует в реальности. Словно фильтры,
+                        встроенные в твой мозг, взрываются и расцветают, образуя на старом фундаменте сверхновое
+                        поколение восприятия.
+                    </div>
+                </div>
+
+                <!-- 5. ПАПКА С КОДОМ -->
+                <div class="leycore-def-card" id="lc-5">
+                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-5')">
+                        <span>💻 LEYCORE — Это отдельная папка для своего кода</span>
+                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
+                    </button>
+                    <div class="leycore-def-body">
+                        Прописав свой код лет эдак 30 назад и забросив его в ноутбуке, обычный человек через 40 лет не
+                        найдет эти файлы в тысячах замусоренных папок и закроет крышку. Человек с Лэйкором создает
+                        отдельную подсвеченную директорию на видном месте, сохраняет к ней Root-доступ и в любое время
+                        может переписать свой системный код.
+                    </div>
+                </div>
+
+                <!-- 6. ТВОРЧЕСТВО В КАЖДОЙ СФЕРЕ -->
+                <div class="leycore-def-card" id="lc-6">
+                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-6')">
+                        <span>🎨 LEYCORE — Это творчество в каждой сфере</span>
+                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
+                    </button>
+                    <div class="leycore-def-body">
+                        Это про творчество в каждой сфере. Сила лэйкора в голове человека способна породить самые
+                        интересные, упоротые, завораживающие и комичные образы. Это словно магическая приправа для всех
+                        блюд, которую можно купить лишь сотнями дней работы над собой и своим мышлением. Примеры работ
+                        смотрим во вкладке <strong>"Сказки / Апостериори"</strong>.
+                    </div>
+                </div>
+
+                <!-- 7. ПСИХОЛОГИЯ НА УРОВНЕ МАГИИ -->
+                <div class="leycore-def-card" id="lc-7">
+                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-7')">
+                        <span>🔮 LEYCORE — Это психология на уровне магии (Сканер аур)</span>
+                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
+                    </button>
+                    <div class="leycore-def-body">
+                        Это видеть человека насквозь. У каждого человека есть аура, будь то злая, будь то хорошая.
+                        Опытный человек сразу распознает её. Проще говоря — это психология на уровне магии. С помощью
+                        этого навыка можно предотвратить контакт с человеком, имеющим странную ауру.
+                    </div>
+                </div>
+
+                <!-- 8. ДОБРО И ЗЛО -->
+                <div class="leycore-def-card" id="lc-8">
+                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-8')">
+                        <span>🛡️ LEYCORE — Это добро, осознающее природу зла</span>
+                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
+                    </button>
+                    <div class="leycore-def-body">
+                        Когда человек, прошедший сквозь годы личного ада и познавший самые тёмные, гнилые уголки этого
+                        мира, выбирается на свет с фундаментальным пониманием: истинная суверенность — это быть искренне
+                        добрым, но смертельно вооружённым.
+                    </div>
+                </div>
+
+                <!-- 9. ВСЁ В ЭТОМ МИРЕ -->
+                <div class="leycore-def-card" id="lc-9">
+                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-9')">
+                        <span>🌌 LEYCORE — Это всё в этом мире</span>
+                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
+                    </button>
+                    <div class="leycore-def-body">
+                        Он льется в сердцах всех людей, однако не каждый способен обнажить его.
+                    </div>
+                </div>
+
+                <!-- 10. ЯЗЫК МЕТАФОР И КОМПЛИМЕНТЫ -->
+                <div class="leycore-def-card" id="lc-10">
+                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-10')">
+                        <span>💬 LEYCORE — Это язык метафор и сакральные комплименты</span>
+                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
+                    </button>
+                    <div class="leycore-def-body">
+                        <p style="margin-bottom: 1.5rem;">Это объяснение различных вещей в жизни на языке метафор. Это
+                            язык, на котором невероятно красивые вещи объясняются невероятно непонятными словами.
+                            Например, комплименты:</p>
+
+                        <div class="compliments-box">
+                            <div class="compliment-item" id="c1">
+                                <button class="compliment-header" onclick="toggleComp('c1')">
+                                    <span>«Плацентарность твоего характера искушает, и воодушевляет тектонические плиты
+                                        моего восприятия, и, каждая доля сакральности, что вывеивается выходя в свет
+                                        рождает лингвистическую жадность мироздания»</span>
+                                    <span class="comp-btn-text" id="btn-text-c1">[ РАСШИФРОВАТЬ ]</span>
+                                </button>
+                                <div class="compliment-body">Твоя глубинная, обволакивающая и живая суть
+                                    (плацентарность) настолько мощна, что сотрясает основы моего мышления (тектонические
+                                    плиты). Каждый лучик твоей уникальности, когда ты показываешь его миру, пробуждает у
+                                    меня непреодолимое желание говорить о тебе бесконечно, забирая себе все слова
+                                    вселенной.</div>
+                            </div>
+
+                            <div class="compliment-item" id="c2">
+                                <button class="compliment-header" onclick="toggleComp('c2')">
+                                    <span>«Твоя мириада имманентных щёлочей меланина искажает пространство, даруя
+                                        этическим нормам природы дополнительный очаг изумления, детонирующее знамя моей
+                                        внутренней планеты»</span>
+                                    <span class="comp-btn-text" id="btn-text-c2">[ РАСШИФРОВАТЬ ]</span>
+                                </button>
+                                <div class="compliment-body">Твоя естественная красота и глубина (мириада щёлочей
+                                    меланина) настолько завораживают, что искривляют привычную реальность. Это
+                                    заставляет саму природу удивляться, а в моем внутреннем мире происходит взрыв
+                                    грандиозных эмоций и чувств к тебе.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- МЕНЮ ВАСИЛИЧА -->
+        <div id="page-menu" class="page-view">
+            <h2 class="section-title title-green" style="font-size: 3rem;">МЕНЮ ВАСИЛИЧА</h2>
+            <div class="grid-3" id="dishes-grid"></div>
+        </div>
+
+        <!-- СКАЗКИ / АПОСТЕРИОРИ -->
+        <div id="page-metaphors" class="page-view">
+            <h2 class="section-title title-purple">ХРАНИЛИЩЕ</h2>
+
+            <div class="tales-tabs">
+                <button class="tales-tab-btn active-tales-tab" onclick="switchTalesTab('tales', this)">🔮
+                    Сказки</button>
+                <button class="tales-tab-btn" onclick="switchTalesTab('aposteriori', this)">📜 Апостериори</button>
+            </div>
+
+            <div id="tales-list-container" class="grid-tales"></div>
+        </div>
+
+        <!-- СЛОВАРЬ ЛЭЙКОРА -->
+        <div id="page-dictionary" class="page-view">
+            <h2 class="section-title title-gold" style="font-size: 3rem;">СЛОВАРЬ ЛЭЙКОРА</h2>
+            <div id="dictionary-content"></div>
+        </div>
+
+        <!-- СТРАНИЦА ЧТЕНИЯ СКАЗКИ -->
+        <div id="page-tale-reading" class="page-view">
+            <button class="read-btn" onclick="switchPage('metaphors')"
+                style="width: auto; margin-bottom: 2rem; padding: 10px 30px;">← НАЗАД К ХРАНИЛИЩУ</button>
+            <div id="tale-content-target"></div>
+        </div>
+
+        <!-- ДЕТАЛИ БЛЮДА -->
+        <div id="page-dish-detail" class="page-view">
+            <button class="open-dish-btn" onclick="switchPage('menu')"
+                style="margin-bottom: 2rem; width: auto; padding: 12px 30px;">← НАЗАД В МЕНЮ</button>
+            <div id="dish-detail-content"></div>
+        </div>
+
+    </div>
+
+    <footer>LeyCore &copy; 2026</footer>
+
+    <script>
+        // ----------------------------------------------------
+        // 1. ВЕРТИКАЛЬНАЯ ШКАЛА ПРОГРЕССА (10 КАРТОЧЕК = 100%)
+        // ----------------------------------------------------
+        function toggleLeycoreDef(id) {
+            const card = document.getElementById(id);
+            if (!card) return;
+
+            card.classList.toggle('opened');
+            const btn = card.querySelector('.leycore-def-btn');
+
+            if (card.classList.contains('opened')) {
+                if (btn) btn.innerText = '✓ ИЗУЧЕНО';
+            } else {
+                if (btn) btn.innerText = '[ РАСКРЫТЬ ]';
+            }
+
+            updateLeycoreProgress();
+        }
+
+        function updateLeycoreProgress() {
+            const allCards = document.querySelectorAll('.leycore-def-card');
+            const openedCards = document.querySelectorAll('.leycore-def-card.opened');
+
+            if (allCards.length === 0) return;
+
+            const percent = Math.round((openedCards.length / allCards.length) * 100);
+
+            const fill = document.getElementById('leycore-bar-fill');
+            const text = document.getElementById('leycore-percent-text');
+            const badge = document.getElementById('leycore-achievement');
+
+            if (fill) fill.style.setProperty('--progress', percent + '%');
+            if (text) text.innerText = percent + '%';
+
+            if (badge) {
+                if (percent === 100) {
+                    badge.style.display = 'block';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        }
+
+        function toggleComp(id) {
+            const el = document.getElementById(id);
+            const btn = document.getElementById('btn-text-' + id);
+            if (!el || !btn) return;
+            el.classList.toggle('active');
+            btn.innerText = el.classList.contains('active') ? '[ СКРЫТЬ ]' : '[ РАСШИФРОВАТЬ ]';
+        }
+
+        // ----------------------------------------------------
+        // 2. АДАПТИВНАЯ НАВИГАЦИЯ ПО ВКАДКАМ
+        // ----------------------------------------------------
+        function switchPage(id) {
+            document.querySelectorAll('.page-view').forEach(p => {
+                p.classList.remove('active-page');
+                p.style.display = 'none';
+                p.style.opacity = '0';
+            });
+
+            const target = document.getElementById('page-' + id);
+            if (target) {
+                target.style.display = 'block';
+                setTimeout(() => {
+                    target.classList.add('active-page');
+                    target.style.opacity = '1';
+                }, 30);
+            }
+
+            document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+            const navItem = document.getElementById('nav-' + id);
+            if (navItem) navItem.classList.add('active');
+
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // ----------------------------------------------------
+        // 3. РЕЦЕПТЫ ВАСИЛИЧА
+        // ----------------------------------------------------
+        const dishes = [
+            {
+                title: "● Мясной Квазар",
+                macros: "~1350 ККАЛ // ~88г БЕЛКА",
+                composition: "Фарш (300г), картофель (300г), бекон копченый (50г), сливки 20% (100мл), сыр сулугуни/чеддер (150г), лук (1 шт), чеснок, копченая паприка, соевый соус.",
+                cooking: "Варишь картошку и мнёшь её в грубое пюре. На сковороде обжариваешь мелко нарезанный бекон и лук до золотистости, туда же кидаешь фарш, чеснок и копченую паприку, заливаешь соевым соусом. Когда фарш готов — смешиваешь его прямо на сковороде с картошкой, заливаешь сливками, а сверху засыпаешь толстым слоем сыра и накрываешь крышкой на 3 минуты, пока сыр не превратится в лаву.",
+                laykor: "На вид как жирный геологический сдвиг тектонических плит. На вкус — словно дымный мясной вулкан, обволакивающий желудок горячим сырным нектаром и выбивающий из головы все лишние мысли."
+            },
+            {
+                title: "● Медовый Склероз",
+                macros: "~1100 ККАЛ // ~75г БЕЛКА",
+                composition: "Куриное филе (350г), рис Басмати/Ясмин (150г сухого), мёд (2 ст.л.), соевый соус (4 ст.л.), чеснок (3 зубчика), сливочное масло (30г), кунжут, щепотка чили.",
+                cooking: "Отвариваешь рис и в конце вмешиваешь в него кусок сливочного масла. Филе режешь крупными кубиками и жаришь на сильном огне до румяной корочки. В чашке смешиваешь мёд, соевый соус, давленый чеснок и чили. Заливаешь эту смесь к курице — она мгновенно начнет карамелизоваться и обволакивать мясо липкой глянцевой глазурью. Выкладываешь курицу на подушку из масла и риса, посыпаешь кунжутом.",
+                laykor: "На вид как янтарные самородки из азиатской лаборатории. На вкус — сладко-пряная соевая бомба, которая заставляет рецепторы забыть текущую реальность и погрузиться в глубокий дофаминовый анабиоз."
+            },
+            {
+                title: "● Сливочный Бегемот",
+                macros: "~1400 ККАЛ // ~92г БЕЛКА",
+                composition: "Макароны (250г сухого), говядина или филе (300г), шампиньоны (150г), сливки 20% (150мл), плавленый сыр типа 'Янтарь/Хохланд' (100г), лук (1 шт), специи.",
+                cooking: "Варишь макароны. На раскаленной сковороде быстро обжариваешь тонкие полоски мяса до корочки (буквально 5-7 минут), откладываешь. На той же сковороде жаришь грибы с луком. Возвращаешь мясо, заливаешь сливками и добавляешь ложками плавленый сыр. Сыр тает, создавая густейший крем. Кидаешь туда макароны, перемешиваешь 1 минуту.",
+                laykor: "На вид как тягучий сливочный клей, собранный в венозной лаборатории. На вкус — мощный грибной гуляш с тяжелым сырным шлейфом, заставляющий животик урчать от блаженства."
+            },
+            {
+                title: "● Кровавая капсула",
+                macros: "~1250 ККАЛ // ~80г БЕЛКА",
+                composition: "Лаваш/Тортилья большая (2 шт), фарш или филе (250г), яйца (3 шт), сыр (120г), соленые огурчики (2 шт), томатный соус/кетчуп.",
+                cooking: "Обжариваешь фарш со специями. Отдельно делаешь быстрый скрембл (болтунью) из 3 яиц. Раскладываешь лаваш: слой мяса, яйца, нарезанные соленые огурцы, соус и гора тертого сыра. Заворачиваешь в плотный квадратный конверт и обжариваешь на сухой сковороде с двух сторон под прессом, пока лаваш не станет хрустящим, а сыр внутри не потечет.",
+                laykor: "На вид как золотой монолитный брикет спрессованного метаболизма. Когда раскусываешь хрустящую броню лаваша — наружу вырывается горячий сырно-мясной экссудат, даруя 100% сытости."
+            },
+            {
+                title: "● Титановый Корпускул",
+                macros: "~1280 ККАЛ // ~84г БЕЛКА",
+                composition: "Филе свинины или курицы (300г), картофель (350г), горчица зернистая (2 ст.л.), сливки 10-20% (100мл), сыр твердый (100г), чеснок (2 зубчика), сливочное масло (20г).",
+                cooking: "Картофель нарезаешь крупными дольками и запекаешь в духовке/жаришь на сковороде до румяной корочки. На отдельной сковороде обжариваешь куски мяса, добавляешь чеснок, зернистую горчицу и сливки. Помешиваешь 3 минуты, пока соус не загустеет. Выкладываешь мясо на картофель, посыпаешь сыром и даешь ему растаять под крышкой.",
+                laykor: "На вид как плотный гранитный сгусток из горной породы. На вкус — сливочно-горчичный взрыв с пряным мясным соком, наполняющий мышцы титановым объемом."
+            },
+            {
+                title: "● Мясной Хлеб из Бездны",
+                macros: "~1550 ККАЛ // ~105г БЕЛКА",
+                composition: "Фарш говяжий/свиной (400г), яйца вареные (3 шт), яйцо сырое (1 шт), лук (1 шт), томатная паста (2 ст.л.), сыр (150г), специи (соль, перец, паприка).",
+                cooking: "Отвариваешь 3 яйца вкрутую и чистишь. В фарш добавляешь сырое яйцо, мелко нарезанный лук, специи и томатную пасту, тщательно вымешиваешь. В форму для запекания (или на фольгу) выкладываешь половину фарша, по центру кладешь 3 целых вареных яйца, сверху закрываешь остатками фарша, формируя плотный батон. Запекаешь при 180°C около 35-40 минут, за 5 минут до готовности посыпаешь сыром.",
+                laykor: "На вид как монолитная капсула из тайного лабораторного цеха. В разрезе виднеются золотые сферы яиц, плавающие в запеченном мясном коконе."
+            },
+            {
+                title: "● Почтальон Печкин",
+                macros: "~980 ККАЛ // ~78г БЕЛКА",
+                composition: "Куриная печень (350г), гречка (150г сухой), сметана 15-20% (150г), лук репчатый (2 шт большая головка), сливочное масло (20г), специи.",
+                cooking: "Варишь гречку, в конце заправляешь сливочным маслом. На сковороде обжариваешь тонну лука до золотистого цвета, кидаешь туда промытую куриную печень (жарится буквально 7-10 минут, главное не пересушить). Заливаешь сметаной, солишь, перчишь и тушишь 3 минуты. Выкладываешь нежнейшую печень с луковым соусом прямо на подушку из рассыпчатой гречки.",
+                laykor: "На вид как темно-бархатный грунт из заброшенных степей. На вкус — таящая во рту сметанно-печеночная субстанция, доставляя в кровь железо и органический фосфор словно посылку "
+            },
+            {
+                title: "● Озоновый Дендрит",
+                macros: "~1150 ККАЛ // ~70г БЕЛКА",
+                composition: "Лапша Удон/Соба (200г), говядина или филе (250г), болгарский перец (1 шт), соевый соус (50мл), соус Терияки (3 ст.л.), кунжут, чеснок.",
+                cooking: "Отвариваешь лапшу Удон 5 минут. На раскаленной сковороде (лучше вок) на сильном огне быстро обжариваешь тонкие полоски мяса и накрошенный соломкой перец. Заливаешь соевым соусом, давишь чеснок и добавляешь терияки. Кидаешь готовую лапшу, интенсивно перемешиваешь 2 минуты, чтобы соус полностью облепил нити лапши. Посыпаешь кунжутом.",
+                laykor: "На вид как сплетение темных лиан и импульсивных нейронов. На вкус — глянец восточной гавани, пронзающий полость рта сочным мясным вкусом."
+            },
+            {
+                title: "● Висцеральный Торф",
+                macros: "~1100 ККАЛ // ~82г БЕЛКА",
+                composition: "Фарш (300г), брокколи или цветная капуста (250г), яйца (2 шт), сметана (100г), сыр моцарелла/гауда (150г), чеснок, специи.",
+                cooking: "Брокколи/цветную капусту отвариваешь в кипятке 3 минуты. Фарш обжариваешь на сковороде с чесноком и специями. В форму выкладываешь капусту и фарш. В отдельной миске взбиваешь 2 яйца со сметаной и щепоткой соли, заливаешь смесью форму и обильно засыпаешь сыром. Запекаешь в духовке при 200°C минут 20 до золотистой корочки.",
+                laykor: "На вид как запеченный зеленый дерн с выходящим наружу сырным экссудатом. На вкус — невероятно сочная овощная запеканка, где мясистый фарш сбалансирован мягким сырным кремом."
+            },
+            {
+                title: "● Фосфорная Олигархия",
+                macros: "~1020 ККАЛ // ~68г БЕЛКА",
+                composition: "Рыба (горбуша/минтай/тунец или красная 300г), рис (150г сухого), майонез или сметана (2 ст.л.), сыр (100г), лук (1 шт), соевый соус.",
+                cooking: "Отвариваешь рис. Рыбное филе режешь кусочками, маринуешь 5 минут в соевом соусе. На рис выкладываешь кусочки рыбы, сверху слой пассерованного лука. Делаешь сетку из майонеза/сметаны и засыпаешь сыром. Запекаешь в духовке 20-25 минут.",
+                laykor: "На вид как золотая морская плита, излучающая фосфорный свет. На вкус — тающая рыбная мякоть с сырной корочкой, дарующая чистую энергию омега-кислот."
+            },
+            {
+                title: "● Тектонический Драник",
+                macros: "~1320 ККАЛ // ~65г БЕЛКА",
+                composition: "Картофель большой (4 шт / 400г), фарш (200г), яйцо (1 шт), мука (2 ст.л.), сыр (100г), сметана (3 ст.л.), чеснок, соль.",
+                cooking: "Трёшь картофель на крупной терке, отжимаешь лишний сок. Добавляешь яйцо, муку, соль, чеснок. Выкладываешь половину картофельной массы на сковороду как один гигантский блин. Сверху выкладываешь обжаренный фарш и сыр, накрываешь второй половиной картофеля. Жаришь на среднем огне под крышкой до хрустящей корочки с двух сторон.",
+                laykor: "На вид как монолитный золотистый диск из печи древнего кузнеца. Хрустящая картофельная броня скрывает внутри горячее мясное ядро."
+            },
+            {
+                title: "● Сингулярный Плов",
+                macros: "~1400 ККАЛ // ~75г БЕЛКА",
+                composition: "Мясо/филе/говядина (350г), рис Девзира/Длиннозерный (250г), морковь (2 шт), лук (2 шт), головка чеснока (1 шт), приправа для плова (зира, барбарис), масло.",
+                cooking: "В глубокой сковороде/казане обжариваешь лук и морковь соломкой, затем крупно нарезанное мясо до темного цвета. Добавляешь специи (зирочку обязательно!), заливаешь кипятком и тушишь 15 минут (зирвак). Засыпаешь промытый рис, не перемешивая, втыкаешь в центр целую головку чеснока, заливаешь водой на 1.5 см выше риса. Закрываешь крышкой и томишь на минимальном огне до испарения воды.",
+                laykor: "На вид как маслянистый янтарный холм из восточной легенды. Вкус пропитан ароматом зиры и топленого мясного сока."
+            },
+            {
+                title: "● Анаболический Замес",
+                macros: "~1180 ККАЛ // ~72г БЕЛКА",
+                composition: "Творог 5% (300г), яйца (3 шт), банан (2 шт), изюм/орехи (50г), манная крупа или овсяная мука (3 ст.л.), сметана (2 ст.л.), мёд.",
+                cooking: "В миске блендером или вилкой перетираешь творог, яйца, 1 размятый банан и манку. Добавляешь изюм и орехи. Выливаешь в форму для запекания, сверху выкладываешь дольки второго банана. Запекаешь 30-35 минут при 180°C. Подаешь со сметаной и мёдом.",
+                laykor: "На вид как пышный белковый суфле-монолит. На вкус — сладкий кремовый деликатес, идеальный для подзарядки мышц перед тяжелым днем."
+            },
+            {
+                title: "● Омлетный Монолит",
+                macros: "~920 ККАЛ // ~62г БЕЛКА",
+                composition: "Яйца (6 шт), молоко (100мл), ветчина/филе (150г), помидор (1 шт), сыр (100г), зелень, сливочное масло (15г).",
+                cooking: "Взбиваешь 6 яиц с молоком и щепоткой соли. На сковороде на сливочном масле обжариваешь кубики ветчины и помидора 2 минуты. Заливаешь яичной смесью, посыпаешь зеленью и тертым сыром. Накрываешь крышкой и готовишь на малом огне 7-10 минут, пока омлет не поднимется и не станет пышной подушкой.",
+                laykor: "На вид как желтое пышное облако с вкраплениями рубиновых томатов. Легко залезает в желудок, даруя моментальный приток белка."
+            },
+            {
+    title: "● Таящий грааль",
+    macros: "~1220 ККАЛ // ~78г БЕЛКА",
+    composition: "Куриное филе или бедра (350г), сливки 20% (150мл), сливочное масло (30г), чеснок (5 зубчиков), твердый сыр (100г), макароны/гречка (200г).",
+    cooking: "Курицу режешь кусочками и обжариваешь на сливочном масле до золотистой корочки. Выдавливаешь туда кучу чеснока, заливаешь сливками и тушишь 5 минут на малом огне. Посыпаешь тертым сыром и смешиваешь с отваренным гарниром.",
+    laykor: "На вид как золотой сливочный нектар с ароматом чесночного заката. На вкус — густейший кремовый соус, полностью пропитывающий каждую крупицу гарнира сочным мясным вкусом."
+},
+{
+    title: "● Мексиканский Сплайсинг",
+    macros: "~1150 ККАЛ // ~82г БЕЛКА",
+    composition: "Фарш или рваная курица (300г), тортилья/лаваш (2 шт), консервированная кукуруза (100г), красная фасоль (100г), сыр (150г), томатная паста, паприка.",
+    cooking: "Обжариваешь фарш с фасолью, кукурузой, томатной пастой и паприкой. Выкладываешь начинку на одну половину тортильи, обильно засыпаешь сыром, накрываешь второй половиной и обжариваешь на сухой сковороде с двух сторон до хруста и расплавления сыра.",
+    laykor: "На вид как хрустящий сочный конверт из латинских кварталов. На вкус — острый, мясной, сырно-кукурузный взрыв с идеальным хрустом корочки."
+},
+{
+    title: "● Морщинистое пекло",
+    macros: "~1380 ККАЛ // ~86г БЕЛКА",
+    composition: "Свинина или говядина (350г), картофель (400г), морковь (1 шт), лук (1 шт), соленые огурцы (2 шт), томатная паста (2 ст.л.), чеснок.",
+    cooking: "Режешь мясо и овощи кубиками. В глубокой сковороде обжариваешь мясо до корочки, добавляешь лук, морковь, затем томатную пасту и нарезанные соленые огурцы. Заливаешь водой, кидаешь картофель и тушишь под крышкой 35-40 минут до мягкости.",
+    laykor: "На вид как традиционное наваристое азу из дубовой печи. На вкус — густое, с приятной огуречной кислинкой и мягчайшим мясом, распадающимся на волокна."
+},
+{
+    title: "● Азиатский Перехват",
+    macros: "~1080 ККАЛ // ~72г БЕЛКА",
+    composition: "Отварной рис (250г), куриное филе (250г), яйца (3 шт), зеленый лук, соевый соус (4 ст.л.), растительное масло.",
+    cooking: "На сильном огне обжариваешь мелко нарезанное филе. Отодвигаешь мясо на край сковороды, на свободное место разбиваешь 3 яйца и быстро мешаешь (скрембл). Добавляешь рис, заливаешь соевым соусом, жаришь 3-4 минуты, интенсивно помешивая. В конце посыпаешь горой зеленого лука.",
+    laykor: "На вид как пестрый золотистый рис с мясными крапинами. На вкус — классический сытный жареный рис вок, где каждый элемент пропитан соевым соусом."
+},
+{
+    title: "● Мясной Крок-Мадам",
+    macros: "~1120 ККАЛ // ~66г БЕЛКА",
+    composition: "Тостовый хлеб (4 ломотя), ветчина/филе (150г), сыр (120г), яйца (2 шт), сливочное масло (20г), горчица.",
+    cooking: "Смазываешь хлеб горчицей, кладешь ветчину и гору сыра, закрываешь вторым ломотем хлеба. Обжариваешь сэндвичи на сливочном масле с двух сторон до золотистой корочки. Отдельно жаришь 2 глазуньи (с жидким желтком) и выкладываешь по яйцу сверху на каждый сэндвич.",
+    laykor: "На вид как королевский двухэтажный тост. Когда надрезаешь яйцо, жидкий желток стекает по хрустящему хлебу и расплавленному сыру."
+},
+            {
+                title: "● Куриный экссудат",
+                macros: "~1150 ККАЛ // ~72г БЕЛКА",
+                composition: "Филе, сливки (10%/20%), картошка, приправа 'для курицы', 'хмели-сунели', соль, сыр (100г).",
+                cooking: "Нужны две сковородки, одна для картошки, другая для филе. Режешь картошку кубиками, закидываешь на средний огонь, должно средне смягчиться. Параллельно режешь филе так же, мелко кубиками, распариваешь на сковороде и только потом заливаешь сливки. Добавляешь приправу 'для курицы' и 'хмели сунели', в картошку обычную соль. Филе должно потушиться со сливками пару минут на около низком огне, нельзя чтобы сливки испарились, позже смешиваешь с картошкой, и доводишь до однородного блюда, пока все не приготовится, на вилку примеряешь мягкость картошки. Сверху посыпаешь грамм 100 сыра.",
+                laykor: "На вид как куриный гной, облитый на песочные камни из забытого пляжа. На вкус как молочный грааль, с ноткой мужественной экспансии. Она охватывает всю ротовую полость, расширяется и омывает вас замшелым петрикором молчания."
+            },
+            {
+                title: "● Налоги фермера",
+                macros: "~580 ККАЛ // ~46г БЕЛКА",
+                composition: "Тёртая морковь (200г), капуста (150г), филе куриное (150-200г), томатная паста (4-5 ст.л), зелень (50г), приправа 'для курицы', соль.",
+                cooking: "Трёшь морковь и капусту с зеленью, закидываешь в одну сковороду, но отдельно перед этим на этой же сковороде жаришь филе, добавляешь в него приправу 'для курицы' и соли щепотку. К филешке закидываешь всю ту субстанцию, и поверх кидаешь томатной пасты. Перемешиваешь, тушишь на малом огне минут 15, пробуешь по готовности. Капуста должна очень слегка хрустеть, а морковь полностью раствориться в томатной пасте.",
+                laykor: "Ощущения, словно ты фермер, удачно выплативший налоги и сидишь на причале под забвение солнца. На вкус как идеальная синергия овощей, дарующая вкусовым сосочкам незабываемые эмоции. Филе выступает в роли капитана армии. Куча овощной плоти стоит за спиной того, кто это всё и возглавляет. Филе дарит чувство плотности и завершённости блюда. Обвораживает даже самые замшелые фильтры восприятия."
+            },
+
+            {
+                title: "● Коктейль олимпа",
+                macros: "~980 ККАЛ // ~68г БЕЛКА",
+                composition: "Овсянка (50-100г), бананы (150-250г), арахисовая паста (40-80г), немолоко овсяное/шоколадное (300-400мл), протеин/изолят (30-50г).",
+                cooking: "Закидываешь в емкость для блендера бананы, арахисовую пасту, немолоко и овсянку. Добавляешь изолят по желанию. Вжух вжух и готово.",
+                laykor: "Если не хочешь давиться углями и твёрдой пищей — этот коктейль помилует вас. Его суть такова, что вы заправляетесь на 800-1000+ калорий просто выпив это за пару минут. В моменте вы ощущаете себя внебрачным сыном олимпа, который появился там по случайности. Вы обретаете мощь сизигии и разрушаете планеты по щелчку пальцев. На вкус как тот самый напиток богов, окутывающий вашу полость золотом."
+            },
+            {
+                title: "● Висцеральная желчь",
+                macros: "~2100 ККАЛ // ~115г БЕЛКА",
+                composition: "Фарш (200-400г), сладкий перец (50-80г), макароны (300-400г), творог 5%/обезжиренный (1 уп), яйца (2шт), томатная паста (3-4ст.л), сыр (100-200г), зелень (30-50г), специи (черный перец/паприка/соль).",
+                cooking: "Сначала закидываешь фарш, тушишь, и через минуты 2-3 закидываешь сладкий перец одну штуку, перед этим нарезав его на кубики. Добавляешь томатной пасты, зелени, специй, перца, соли — побольше, потому что позже мы добавляем макароны сверху и перемешиваем. Позже добавляем сверху воды, ориентируешься по макаронам, сколько должно впитать примерно. Пока оно готовится, создаем отдельную смесь: в блендер закидываем упаковку творога и 2 яйца. Блендерим, и на средней стадии готовки основного блюда закидываем туда эту смесь. Оно приобретет розоватый оттенок с плавающими белыми головками. Перемешиваем, закрываем и доводим до готового состояния, ориентируясь на макароны. Когда все готово, сверху сыр и все.",
+                laykor: "На вид как внутренности гиппопотама, светится желтизной (маслом от фарша), бурлит словно еда в желудочном соке, однако на вкус это словно война с армией помидора. Хотя помидора здесь нет, но помидор принял обличие перца, и поэтому он здесь так решает. А в остальном вкус походит на любовную сцену с закатом. Ее поцелуи плодят в вашей голове розовый гром дофамина, отчего вы падаете в синцитии (слияние в одну массу), превращаясь в поглощающего галактики червя."
+            },
+
+            {
+                title: "● Брюшной замес",
+                macros: "~1450 ККАЛ // ~68г БЕЛКА",
+                composition: "Спагетти (200-400г), помидоры (100-150г), фарш (200-300г), томатная паста (3ст.л), зелень (50-70г), чеснок (10-20г мелко нарезанный/чесночная специя), специи (соль/паприка/перец).",
+                cooking: "Закидываем фарш на сковороду, помидоры нарезанные кубиками и томатную пасту. Добавляешь специй, но главное не переборщить. Тушим минут 7-10. И сверху добавляем уже приготовленные (сваренные) спагетти. Все это тщательно перемешиваем, доводим до готовности и готово.",
+                laykor: "Блюдо само по себе выглядит как болоньезе в отставке. Однако оно ничем не хуже, напоминает его вкус разящий клинок помидорной гавани. Вас словно пронзает семя помидора во главе с фаршем и чесноком. Это главные антагонисты блюда. Спагетти создано для массовки, чтобы получить больше гонорара за блюдо. При потреблении вы затягиваете в себя спагетти так, словно пытаетесь запустить механизм замеса. Как только они оказываются в желудочке, начинается спагеттификация, и ваше брюшко месит по всем фронтам от удовольствия."
+            },
+            {
+                title: "● Сырный коллапс",
+                macros: "~1850 ККАЛ // ~85г БЕЛКА",
+                composition: "Макароны (200-400г), сливки 10-20% (60-100мл), помидоры (100г), филе (200г), сыр (200-300г), томатная паста (1ст.л), специи (для курицы/соль/чеснок).",
+                cooking: "Отдельно варим макароны, и пока они варятся делаем основную добавку. На сковороде жарим филе, добавляем помидорки, сливки и специи. Потушили пару минут, и на терке добавляем сыр с чесноком. Тушим еще чутка и добавляем макароны. Перемешиваем и готово.",
+                laykor: "На вид как тягучая субстанция для грима из фильмов ужасов. На вкус это словно плен, находясь в котором вы образуете коллапс, освобождая себя сыром. После взрыва вся ваша полость замуровывается вязким сыром и непревязанным ручьём варёных сливок."
+            },
+            {
+                title: "● Блевота богача",
+                macros: "~1200 ККАЛ // ~52г БЕЛКА",
+                composition: "Рис (300г сухого), куриное филе (200г), кисло-сладкий соус (кетчуп + соевый соус + хорошая щепотка сахара).",
+                cooking: "Рис, среднюю порцию (300г сухого) варим. Отдельно жаришь филе на соусе, приготовленном вот так: кетчуп смешиваешь с соевым соусом, добавляешь хорошую щепотка сахара. Готовишь филе, добавляешь приправы и смешиваешь с рисом.",
+                laykor: "Золотистый, на вид как блевота с опарышами, на вкус как богатая пряность небесов, изумляет вкусовые сосочки и атрофирует разум в первые секунды. Долго не можешь отойти от необычности и простоты блюда."
+            },
+            {
+                title: "● Овсяный стул",
+                macros: "~720 ККАЛ // ~32г БЕЛКА",
+                composition: "Овсянка (120г), немолоко (200мл), яйца (3 шт) — блинчик.",
+                cooking: "120г овсянки, немолока (200мл) и 3 яйца смешиваешь в блендере. Получается каловая масса, которую закидываешь в сковороду и делаешь как блин.",
+                laykor: "Монолитная тяга в животе, ощущение словно бог сидит на толчке, на вкус как крестьянский пир."
+            },
+            {
+                title: "● Заправка Василича",
+                macros: "~380 ККАЛ // ~35г БЕЛКА",
+                composition: "Филе или куриные желудочки (200г), морковь тёртая, лук, томатная паста, приправы.",
+                cooking: "Мелко режешь филе или куры-желудочки, обжариваешь с тёртой морковью и луком, добавляешь томатную пасту и специи, тушишь до мягкости. Идеальный подлив к любой крупе (рису, гречке, макаронам).",
+                laykor: "Универсальный соусной спаситель любых пресных круп. Превращает сухой гарнир в сочную, мясную, пряную карусель вкуса."
+            }
+        ];
+
+        // ----------------------------------------------------
+        // 4. ПОЛНЫЙ АРХИВ СКАЗОК И АПОСТЕРИОРИ (ОБНОВЛЕННЫЕ ТЕКСТЫ И АВТОРСКИЕ РАСШИФРОВКИ)
+        // ----------------------------------------------------
+        const talesData = {
+            tales: [
+                {
+                    title: "⚪️ Апостериори голого динозавра. Потуг изящества",
+                    genre: "Палеонтологический Абсурд",
+                    flag: "🔮 Сказка Лэйкора",
+                    content: "Мезозойская аутентичность лежалого яйца на окраине берега реки распространяла вокруг себя бремя пустотных потоков воздуха. Яйцо пошатывалось из стороны в сторону. Солнце меркло под гнётом тьмы, орнамент хрустящих сколов на яйце выдавал свою эфемерность. Лысый эквилибриум показался наружу. Голая матрешка вытаращила пятки наружу, давая природе занюхнуть трансцендентность потужных ароматов. \nСколотое яйцо начало благоухать, привлекая местных млекопитающих. Соблезубый велоцираптор вынул глаза из своей орбиты увидав лысогнойное существо пропитанной слизью и нелепыми наростами прохлождавшееся у скорлупы. Лысый гаргашлёп почуяв угрозу занырнул в норку, которая попалась на глаза, как тут же его встретили арахниды. Попытавшиеся уложить спать лысого окутав одеялом паутины, они не учли одного факта. Он спал слишком много, чтобы уснуть снова. Его резильентность уже на высоте младенческого уровня, он способен утоптыжить из самой коварной дырки паука шнюка. Его имплементация воли выдала божественный катарсис проктологии. Во время вылета с норы ему посчастливилось испытать профессиональные прыжки в воду. Разрезав поток воздуха пятерным сальто его встречают местные гастроэнтерологи, специализированные акулы, которые любят дегустировать динозавров. Изнанка эскапизма этого дня одарила динозавра экзистенциальным истощением и возврат по почте мезозоя в тот мир, когда его прецендент еще не был рождён. Летящий в умолке лысый кортизол видит перед собой рыбный кариес, гниющий во мраке гортани. \nОказавшийся в пасти, он видит нашествие нутриентов, пытающихся имплементировать из него нарратив изящества. Динозавр не прошёл верификацию на подлинность. Лысая небула закончила отождествление с этим миром, пойдя на белки и углеводы",
+                    decode: "Аллегорическая притча о попытке проявить изящество без реального фундамента. Незрелая, незащищенная особь («лысый эквилибриум») пытается совершать акробатический эскапизм и уходить от угроз мира, но из-за отсутствия аутентичности и истинного Лэйкора мгновенно проваливает верификацию природы, превращаясь лишь в строительные нутриенты (белки и углеводы) для более сильных хищных систем."
+                },
+                {
+                    title: "🔮 Биолюминесценция фотонной агломерации хрусталей. Крах эволюции",
+                    genre: "Квантовый Апокалипсис",
+                    flag: "🔮 Сказка Лэйкора",
+                    content: "Световой импульс распронзевающий суть ветра раскаялся у подножья холма. Окклюзия искристых спиралей вьётся на представлении скевоморфизма. Фея, собирающая ранний нектар вдыхает петрикор, насыщая легкие, испытывая мимолетный дофаминовый парез. Умиротворённая мгла еще не зарождённой эволюции порождает новые личинки крылатых девиц падающими дендритами. Павший взор на сизигию солнечной системы одного из вождей миров испытывает млечный лэйкостаз. В его руках. Всё было, тихо. \nСумрачные вёрстки ветров осыпали вселенское гало. Замшелый дендрит принёс в мир иноземный симулякр. Возниженная пенумбра под чужим существом рассеивалась во мраке. \nОслепляющая эманация разнесла герпес по планете. Сказка завершилась, цикл перешёл в необратимые реалии. Таящие сердца, испытывающие ишемию сказочные упыри не самовольно подписывают контракт на геморрагию долой с этой параллели. Неожиданный дендрит принёс еще одно существо. Человек. Расплескавшийся бетонный слой земли вознёсся в небеса от кратора взрыва после приземления. Человечество истребляло всё на своём пути, достигая свои цели",
+                    decode: "Здесь показан контраст между чистой, нетронутой магией природы и разрушительной природой человека. Пока волшебный мир дышал петрикором и жил в абсолютной гармонии, приход Человека с его бетоном и эгоизмом превратился в техногенный взрыв, истребляющий всё сакральное, тонкое и живое ради своих утилитарных целей"
+                },
+                {
+                    title: "🦧 Шимпанзе с расстёгнутой ширинкой",
+                    genre: "Сатирический Дрилл",
+                    flag: "🧩 Акростих: «ШИРИНКУ»",
+                    content: "Шепеляво брутальный стиль охватил двадцать первый век. Каждый человек носит то, что ему по душе. Неподалеку от города \"Нуар\" расположилась небритая джунглевая завеса с щетинистыми животными.\nИнтеллигентные шимпанзе ютившиеся в этом лопушатнике изредка гостят в том городке, имея хорошие отношения с людьми.\nРаем невиданные плоды питахайи влияют на их размеры, из-за этого им недоступна одежда людей. Члены буквально разрывают их джинсы.\nИндивидуалист в прайде обезьян без колебаний принял решение высечь эту проблему во благо классицизма!\n*пару спизженых джинсов\nНейро атлетично феноменальный шимпанзе этих дебрей взбирается на гору, прокрикивая:\n- я надел джинсы!\nКучерявые братья, проблема была в том, чтобы просто открыть У!",
+                    decode: "Высмеивание того, как люди любят усложнять жизнь и давиться узкими рамками моды. Пока серая масса пытается втиснуться в чужие стандарты и рвет свои джинсы, настоящий суверенный индивидуалист решает проблему в одно движение — он просто расстегивает ширинку, забивает на условности и победоносно забирает свой уникальный стиль"
+                },
+                {
+                    title: "☠️ Свидание с серийным убийцей",
+                    genre: "Хоррор / Черный Юмор",
+                    flag: "🧩 Акростих: «ВСТРЕЧА»",
+                    content: "Вера, в которую я влюбилась в клубе, на следующее утро назвалась верой в лучшее, ведь желудок просился в иной мир, когда я хотела еще полежать час другой в постели. Как только поток дерьма начал входить в атмосферу очка, мне позвонил на телефон незнакомый номер. Взяв его в руки, я чуть не взяла в руки фикалий, быстро летя в туалет.\nСаркастично садясь на унитаз, я взяла трубку. Это был мужчина:\n-Привет. Как ты?\n-Кто вы? Откуда у вас мой номер?\n-А ты не помнишь?\n-Нет.\n-Что это за звуки на заднем фоне😥 В общем, давай сегодня встретимся, в 6.\n*трубка сброшена\nТак.. Точно, я была в клубе вчера.. Вот те на. Он серьёзно думает, что я пойду на эту встречу, когда он ничего нормально не объяснил, к тому же я нехорошо себя чувствую.\nРаскалённые глаза подруги, вломившейся к девушке домой говорили о том, что случилось что-то плохое. Позже, за чашкой чая она рассказала о том, что сегодня видела свисающую голову на дереве у леса. Она помчалась сразу же к ней, чтобы сообщить об этом. Атмосфера в доме накалилась, услышав эту историю она прогнала подругу, и пошла в спальню.\nЕё опыт подобных случаев был ужасным. Отец погиб той же смертью пару недель назад, и подруга это знала. Она вынудила вспомнить её об этом, после чего они перестали общаться, на некоторое время.\nЧёрствомысленно ложась спать, девушка понимает, что встреча закончилась три часа назад. Она лежала, и поток мыслей был такой, будто что-то произойдет, потому что она не пришла. Она успокоилась.. В комнате темно. Через пару мгновенных дыханий, перед последним закрытием глаз, она видит, как потрёпанный кровью мужчина за окном разрезает стекло, вламываясь в квартиру.\n-Вот так А!!",
+                    decode: "Жесткая сатира на беззаботную современную жизнь. Попытка скрыться от реальности в похмельном туалете не спасает героиню от внешних суровых угроз."
+                },
+                {
+                    title: "🌟 Поэтапная стагнация обрубков девицы",
+                    genre: "Боди-Хоррор / Триллер",
+                    flag: "🧩 Акростих: «ТУПИК»",
+                    content: "Тайное влечение одного мужчины прятало за собой кучу трупов парней и изношенных по самые гланды дам. Качественно разделывая их плоть, он отбирает ДНК лучших и вкалывает в себя, превращая себя в монстра венозного обличия.\nУ порога какого-то клуба, он выцепил очередную леди, которой хотел восполнить рацион. Интимные моменты изредка останаливали мужчину, но как только дело доходит до обмена льющимися слюнями, его яд в пирсинге языка мгновенно отрофирует горло жертвы, после чего та, релаксающе летит в багаж гелика.\nПанически нервозные стоны, которые были слышны за стенкой багажа вынудили его остановиться и вырезать ей желудок прямо у леса. Достав свой кастомизированный пенис с заточенным концом он принимается вырезать узоры наделенные кровавым эффектом на корочке живота.\n(после пару минут мучений и отрубленной руки с торчащей наружу пуповиной)\nИронично выскальзывая из яйцевого хвата, девица вдыхает глоток надежды, и бежит к ближайшей тропе, где по идее должны быть люди. К счастью, она добегает до неё, но.. видит лишь коридор деревьев. Упав к одному, схватившись за кровавую дыру живота торчащей костью правой руки, она вырезает ею на коре: \"За что.. Моя жизнь была так прекрасна.. Кажется это К\"",
+                    decode: "Кто строит себя из чужой плоти, тот однажды превращает собственную жизнь в тупик."
+                },
+                {
+                    title: "🪦 Разделывание несуществующего брата",
+                    genre: "Шизоидный Психо-Хоррор",
+                    flag: "🧩 Акростих: «СЛИТОК»",
+                    content: "Слепок мозга уже был приделан в мою голову, и кажется.. завтра меня выписывают!\nЛето этого года было самым ужасным, но я рад, что пережил ситуацию, из которой не было возможно выжить в принципе. - Когда я снова полез в очередное заброшенное здание, и, пройдя пару метров в нём, на меня напрыгнуло ужасающее существо, изо рта которого изливалась сиреневая слизь. В криках о помощи, я параллельно пытался сбросить его с себя, и я смог это сделать разрубив его кусок головы, неподалёку лежащей ржавой трубкой, но всё же он успел обрызгать мою голову.\nИтогом этого случая стало то, что я получил мозговую опухоль. Это я выяснил с помощью врачей, они рассказали мне о том, что слизь, которая была на мне, содержала в себе мелких червей, которые взобрались и посилились в мозгу.\nТонко проделав свою работу, врачи всё же смогли меня избавить от опухоли, но после этой операции у меня отключилось пару функций восприятия мира.\nОтойдя от всего, меня уже выписали. Я отправился домой. Первым же делом я позвонил маме, сказать о том, что всё хорошо и я уже в пути. Идя по улице, мне повстречался человек, который похож на меня чертами лица, кажется это и вовсе был мой брат!\n-Эй!\nКалично подбежав к нему, я приплел к его телу какие-то свои внутренние помехи, из его глаз текла кровь, и мне хотелось просто избавиться от него! Я будто не слышал его откликов, я просто стал забивать его до смерти. Параллельно с тем, что я делал, в меня вселялось рвение взять то, что у меня удалили в клинике. Оторвав ножку с ближайшей скамьи я стал ковырять его голову, добираясь до мозга. Весь асфальт той улицы был залит кровью. Как только я всунул пять пальцев в мягкую часть мозга, мне стал шептать мой внутренний голос..\nвнутренний голос: Остановись, вспомни кто ты! Ублюдок!",
+                    decode: "Глубокая деконструкция самоидентификации после травмы. Опухоль и паразиты отключили фильтры восприятия, заставив героя принять за «брата» проекцию своих подавленных психотических желаний."
+                },
+                {
+                    title: "🧠 Теряющийся страх смерти",
+                    genre: "Сюрреалистический Абсурд",
+                    flag: "🧩 Акростих: «ПЛЁНКА»",
+                    content: "Пенсия, которую получала моя бабушка, давно достигла минимума. Она составляла 1000 рублей в месяц. Бабуля лежала на кровати, с торчащими рёбрами и виднеющимся желудком. Я не мог прокормить и её, и себя, у меня не было работы. Всё, что я мог, это лапать мусорки, чтобы прокормиться хоть чуточку.\nЛукавые слова бабушки о том, что всё хорошо, сподвигли меня ко сну. Я прилёг, видя свой выпирающий мозг на яву.\n\"Бабушка встает и выходит на прилавок, потрескивая скрипучим полом\"\nЁПАРЭСЭТЭ БАБУЛЯ! Негоже тебе соваться в эту пустошь! - Бабушка оттолкнула меня, и промолвила:\nБабушка: Внучок, в последние дни своей жизни, я хочу повидать речку, не иди за мной\"\nЯ встал, и отправился на кухню, глядя через окно, как бабуля ковыляет по траве, со сверкающими на луне рёбрами.\nНалив чаю, я сел. Атмосфера стала накаляться быстрее, чем остывал чай. Посмотрев в окно, я вижу как метеор летящий на вдали шедшую бабку разбрызгивает её по всей растительности, окрашивая зелень в красные краски.\nК..куда же ты.. бабка..😭\nИз метеора, приземлившегося неподалёку от дома, выползает сущность, похожая на сталь в оранжевых оттенках. На нём не было одежды, он просто шёл в сторону ближайшего дома, моего.\n👤: ЛАДНО, Я ВСЁ РАВНО ХОЧУ ЕСТЬ\nАтлетично подбежав к монстру, я дал понять, кто тут голоден без сникерса под рукой. Вблизи его лицо смазалось, а плечи и ноги стали макароновыми. Как только я нанёс свой первый бессильный удар, он взорвался, забрав у меня одно.. мой палец.",
+                    decode: "Экзистенциальный гротеск нищеты и угасания старого поколения."
+                },
+                {
+                    title: "💀 Спят усталые игрушки",
+                    genre: "Бытовой Слэшер",
+                    flag: "🧩 Акростих: «КРОШКА»",
+                    content: "Кажется.. ночью кто-то ходит по дому.. Постоянно, когда я лежу мне что-то чудиться в соседней комнате, где спит брат. Не думаю, что он будет ходить в столь позднее время по комнате. Но я все же решила это проверить в одну из ночей, после чего.. ничего не увидела. Тогда кто это может быть?\nРазрез на моей подушке, который был сделан, когда я ушла в комнату брата заставила меня занервничать. Пух из неё выходил так.. будто\n-органы из твоего живота? *шёпотом\n-Чч..что?! КТО ЗДЕСЬ?!\nО боже.. МАМА! Не услышав ничего в ответ, я помчалась вниз на первый этаж дома. Поскользнувшись на крови свисающей на люстре головы матери, я теряю сознание, после того как ударилась затылком об перило.\nШепелявый стон пролетевший в комнате брата разбудил меня после часового прохлаждения на полу. Я не знала что делать поэтому зарыдала на весь дом.\n*зовет брата\nКажется кто-то нажимает выключатель.. Звуки нажатия.. и какой-то писклявый смех были слышны в комнате брата. Обблевав весь первый этаж после взгляда на голову мамы, я зажалась и стала плакать, думая, что это всё сон.\nПрошло пару минут, как в доме царила тишина\n-Это всё сон.. это всё сон.. это всё сон!\nЯ медленно подняла голову, как вдруг из-за угла ко мне прикатывается вырезанная голова брата. Тут же мне на ухо прошептала моя игрушка\n-Мне жаль... А",
+                    decode: "Реальность не жалеет тех, кто слишком долго верит в детские иллюзии и колыбельные."
+                },
+                {
+                    title: "🌟 Личинки арахнида в теле всхлипывающего младенца",
+                    genre: "Кошмарный Биопанк",
+                    flag: "🧩 Акростих: «МЕЧТА»",
+                    content: "Млечное путешествие отправило очередной эмбрион в лоно прекрасной женщины. Зародыш, который начал развиваться, был очень слаб, но несмотря на это носительница употребляла заплесневевший инопланетный алкоголь. Пару недель спустя, после принятия десятков токсичных напитков, плод стал затягиваться скользкой био-сеткой.\nЕё не волновало, что биологический цикл подходит к концу. В глубокой депрессии, после расставания со своим соратником, эта женщина стала пить древние ферментированные смеси литрами, доводя организм до молекулярного распада.\nЧреватые дни, которые проживал зародыш, оканчивались мучительным слиянием с ползающими внутри него инопланетными личинками.\nТерпеливо вылезая наружу, новорожденный напоминал скрюченный сухофрукт, накаченный двигающимися червями. Осевшая на полу субстанция из слизи и паутины начала испускать пузыри газа. Слабый организм, лежащий на полу, скукоживается, вырастающие паучьи лапы заменяют отростки рук, а голова деформируется, производя взрыв.\nЧрез пару дней на запах био-взрыва приходят паукообразные исследователи. Проводя аудит останков младенца, они понимают, что тот прожил вторую свою фазу, реинкарнировавшись в зараженном организме. Собрав данные из его нейронных сетей, они вычислили, что его последней ментальной проекцией перед коллапсом было: 'В этой жизни мне не повезло, надеюсь в следующей.. сбудется моя А..'",
+                    decode: "Не пытайся найти глубокий смысл там, где мир просто решил сожрать сам себя изнутри."
+                },
+                {
+                    title: "👁️ Роскошная смерть озаренного нищеброда",
+                    genre: "Трагикомедия / Абсурд",
+                    flag: "🧩 Акростих: «ГРУСТЬ»",
+                    content: "Гурманское созидание двух апельсинок у неподалеку стоящей мусорки привлекало вкусовые рецепторы одного из бомжей, с голубыми глазами.\nРефрактовый взгляд взрослого пубертата односложно направлялся на те цитрусы. Встряхнув с собой крупицы разложившегося мусорного пакета он встал и поскальзываясь на разодранных пальцах ноги отправился к мусорке.\nУставившись на изливающийся цитрус, он берет его и всасывает деликатесное сечение долек, наполненных кислинкой обволакивая нищеброда очередной радостью за день. Последние дни он проживал счастливо в связи с появлением места жительства. Его дом был у сухой канавы, где он озябно жарил тушки крыс, наслаждаясь репищным вкусом.\nСчастье для этого человека измерялось в том, что он имеет в настоящее время, не думая о прошлом, не думая о том, кем он мог стать. Сложилось все так, как надо, его простой девиз по жизни. Не имея желания устраиваться на работу, он ищет легкие пути заработка.\nТипично заканчивая день с рублем в кармане, на пути к канаве его встречают пару людей, предлагающие работу за большие деньги. Синдром доверия выпирал наружу, и он сразу же согласился, ведь денег ему все же не хватало.\nОказалось так, что эти люди были охранниками того главного охраняемого здания в городе, у которого располагалась эта канава, они нашли его убежище и решили прогнать нестандартным способом. По итогу они отвезли бомжа к оврагу и скинули там. Чтобы сценарий был окончен, они закинули бомжу лежащем в овраге пару тысяч и уехали.\nСломав ногу, он видит как летят деньги, и присматриваясь к ним, видит надпись \"Билет банка приколов\". После этого он видит как к нему бегут разъяренные бульдоги и понимает, что этот момент олицетворяет Ь",
+                    decode: "Здесь показана вся фальшь системного мира и опасность иллюзорных соблазнов. Пока герой искренне кайфовал от простых апельсинов и жил *здесь и сейчас* в своем дзен-одиночестве, он был по-настоящему счастлив. Но стоит наивно поверить фальшивым обещаниям и погнаться за легкими бабками — как матрица тебя жестко ломает, кидает на фантики банка приколов и натравливает собак"
+                },
+                {
+                    title: "🥶 Голод тощего Деда Мороза",
+                    genre: "Молодежный Постмодерн",
+                    flag: "🧩 Акростих: «ПЕЧЕНЬЕ»",
+                    content: "Пристарелый муд обросшего сединой деда сегодня факапный. Зачиллившись на ободранном диване он трешует с отсутствия своего бывалого жира. Чекая новости, он предновогодне бомбит, ибо забыл о существовании праздника от слоупочного состояния и крипового трэпа вчерашнего дня, где каждый волос других дедов вайбил смертью. Одна пикми бабуленций решила подкатить щавелем к тощему крашу, но помешавший той ситуации бэнгер изуродовал лица каждого, ведь играл сасный трек Царица.\nЕжовый фейс деда охватил мир новыми свершениями, как только он понял, что после трэпа у него еще остались деньги на подарки.\n-I'm already flying, peace!🫡\nЧертовски дрилловые сани были намазаны говном оленей, которые всю неделю хавали кору пещеры. Затвердевший калл не отпускал сани в полет.. голод тощего деда мороза вейк апался с каждой секундой. Хангри Клаус распустил палитрового хайпа и забуллил храпящего оленя.\nЕще пару съеденных кусков плоти глоу-апали Клауса в KFC босса. Риззовые вайбы нахлынули на ту гору, после чего Клаус решил пройтись пешком с остатками презентов для леймовых детей.\nНе прошедшая у психолога оплата страшно сказывалась на состоянии Клауса. Токсично высказываясь каждому ребенку, он шеймит подарки, размазывая фейс-айди фимозным хейтом.\nКак только он дошел к дому, где его встретила найк про девушка, со слепящими фарами он видит гитару и глаза сразу отводятся на стоящее на столе ЬЕ\n*наевшись давно невиданным деликатесом, он убежал",
+                    decode: "Здесь высмеяны розовые праздничные стереотипы через призму современного сленгового абсурда. Здесь показано тотальное выгорание творца в информационном шуме: когда вокруг остался лишь фальшивый хайп, токсичные требования и заскриптованные дети, Дед Мороз сбрасывает маску милого добряка, забивает на правила и выбирает жесткое суверенное выживание"
+                }
+            ],
+            aposteriori: [
+                {
+                    title: "⛈ Грозовой сплайсинг. Мезенхима заряженной крови дородной размазни",
+                    genre: "Космогонический Гротеск",
+                    flag: "🔮Апостериори спокойствия",
+                    content: "Оцелованный Зевс трепетно выдавливал холестериновую торпеду в небесной параше, кажется, пора навалить делов и в земляной мир сенесценциальных псевдо эрудитов. Размазав блокнот дел грозным дерьмом он отдался небу в пустотные объятия, целуя гравитацию. \n🌎Люди с Земли увидели комету в одеяле томного неба, через пару мгновений раздался сингулярный взрыв. Всю планету окутало небесными экскрементами Зевса. В это время он уже во всю производил инженерский раскоп под плотью земной коры. Лиминальная позиция искрящегося крота уложила спать несколько человек сверху. Таящий золотой дождь окутывал растровые разумы беспомощной помидорной хреновины. Огурцовая закваска и чай с бергамотом унесли деда в одном из домов в облачный мир радуги. Бабушкины сухожилия превратились в сухофрукты из которых вытек жировой компот. Млекопитающие существа на детской площадке открыли шаурмечную лавку. Зевс разделял спермовое ложе с землей. В атмосферу вошли эдиты богов, мочевое кабарэ сопровождалось изоморфными спецэффектами дешевых мемов. И лишь толстая эпопея дородного демиурга расцветала лепя мезенхиму изящества и суверенности",
+                    decode: "Угар над серьезностью мира и показ того, что все катаклизмы и информационный шум вокруг — это просто бытовой хаос высших сил. Пока обыватели паникуют и разваливаются от любого трэша, Творец с Лэйкором не парится: он смотрит на этот меметичный цирк с ухмылкой и лепит из него свой личный стиль, изящество и абсолютную независимость"
+                },
+                {
+                    title: "👁 Метанойя рассечённого чрева",
+                    genre: "Трансгрессивный Боди-Хоррор",
+                    flag: "🔮 Апостериори осознания себя",
+                    content: "Гремящая эманация человечества порождает глянцевые миры в каждом из нас. Матовая шелуха озера лица плодит гнозис искрящейся доминанты в гомозиготной рецессиве жизни бледного эмбриона свисающего на пуповинной лиане. Утомившись от всего быта и плацентарного обмена он рассёк саму материю жизни засидевшейся на потугах яда матери. Испытав апорию он сходу трансгрессировал. Пронизанный амальгамой слизень аморфно выглядяще вошел в декогеренцию патафизично выстроив путь к суверенности. Хлипкая торчащая кишка из груши веяла потоками эсхатологии, казалось, он вот вот погаснет, словно коллапс глянцевого человечества, но малыш вынул из себя висцеральное нутро. Оголённое чрево тонуло в ишемии реального мира. Но, лишь высунув своё \"я\" наружу ребёнку удалось инкапсулироваться. Блуждающий экссудат терпко несётся по пространству не замечая ничего вокруг. Мантия тьмы, окутавшая лэйкор подростка воссоздала пространственный гнозис, атомными взрывами испепеляя молекулярность кислорода. Разум тлел, и нёсся в своём мире словно пони на гироскутере, а нутро делало свое дело..",
+                    decode: "Обретение суверенности через радикальное самоопределение. Герой в метафорическом чреве отказывается от фальшивой материнской матрицы ('яда матери')."
+                },
+                {
+                    title: "💪 Фагоцитоз лиминальной ярости",
+                    genre: "Деконструкция Самообраза",
+                    flag: "🔮 Физическая Аскеза",
+                    content: "Атрофированная слякоть в висцеральной капсуле скуфически одаренного мальчишки создавала эвент горизонт по отношению к свету олимпа. Фрактальный сгусток ума блуждал по солнечной системе без своего спутника. Амбициозная морщинистость преподносила ему рецепты новых гамбургеров, и каждый из них, он создавал с любовью, однако, не осознавал, что это был чистейший анабиоз. Текущий по телу экссудат словно жарил его разум на гарнире, он инкапсулировался все глубже и глубже, он обфусцировал себя ради гнилой эманации, что не была конгруэнтна его настоящей сути, это была его апория. Сквозь временные потуги, тяжко протекающие эмоции через интерференцированные фильтры он почуял глубокую экстраполяцию всего бытия. Это была закономерность, которую, сидя в капсуле он почувствовал как оковы каменного бремени сдавливают его морщины квантовыми тисками. Взяв все свои бургеры с мастерской он предстал над всеми \"i\" закрыв своим пузом все точки. Изучая энтропию помидоров. Изучая химеризм огурцов он осознает, что складки на теле это итог его висцеральной инкапсуляции в экссудатных гейзерах. Он создал своё второе \"я\", тератому, которая блевала ему под уши, замывая самые яркие мысли. Высекая смысл озаренными глазами ярости он остановил анабиоз, стагнирующий его настоящую суть. Жопный квазар жировых спагетти вытекал из него. Он регенерировал свой организм вечными асимптотами. Осмысленная декогеренция навестила его у окна, и принесла гостиницы. Новые продукты для новых гамбургеров. Он познал куриное филе. Он познал мышечный вес, а не жировой. Абсолютный ноль трансгрессировал в абсолютный десяток, выковав свой грааль войдя в высшую касту теневых толстячков.",
+                    decode: "Путь преодоления личной деградации через суровую физическую и ментальную аскезу."
+                },
+                {
+                    title: "🤮 Аплазия борборигмы",
+                    genre: "Гастрономический Абсурд / Черный юмор",
+                    flag: "🔥 Апостериори понимания",
+                    content: "Играющая миоклония одного кулинарного пердежиста воссоздавала художественные попукивания на холсте сковороды. Запрокидывая руколу и томаты он производит прием жаркой отрыжки. Перемешав во рту всю смесь он размазывает ее по нуарному дну маслянистой резильентности. Получив фрактальный синцитий возрадовался кулинарный девственник. Кладущий в роговицу глаза порцию смака, он замечает как в его стеркоральном изяществе не хватает перспирационной присыпки. Натирая мошонку он собирает урожай с тромбозных отеков грязи. Добавляя замшелую соль антрацитовой гавани он заводит мотор первой ложки. Попавшая пародия на мимозу продуктовая рецессива осуществляет стеноз фильтров организма. Льющийся галитоз со рта окутывает дом плачевно известного кулинара в облако гастрономического пареза. Жирная задница слиплась с полом. Целлюлитная морщина на подбородке сходила на свидание с шеей. Пупок встретил рассвет на восходящей жиже. Тело забурлило словно окрошка. Лежачий косплей на крошку опуповинил пердежом весь дом. Посуда сбежала, молоко растворилось, мебель подписала контракт на возврат. И лишь лежачий кудесник больше не испытывал борборигмы смиряясь с отдыхом на интоксикационном пляже.",
+                    decode: "Апостериори о цене личного эксперимента и тотальной перезагрузке системы. Метафора создания шедевра из подручной грязи и хаоса: когда ты сам завариваешь ядовитый кулинарный замес, ты обязан выпить его до дна. Итоговый гастрономический парез и лежка на интоксикационном пляже — это не поражение, а жесткий катарсис плоти. Аплазия борборигмы (прекращение урчания) достигается через полный пищевой отвал, даруя бытовому демиургу абсолютный тихий покой после пережитого шторма"
+                }
+            ]
+        };
+
+        // ----------------------------------------------------
+        // 5. ПОЛНЫЙ СЛОВАРЬ ЛЭЙКОРА (180+ СЛОВ)
+        // ----------------------------------------------------
+        const dictionaryData = {
+            "ФИЛОСОФИЯ & РЕФЛЕКСИЯ": [
+                {w: "АБСТРАКЦИЯ", d: "Отвлечение от несущественных свойств объекта ради понимания его абстрактной сути."},
+                {w: "АКТУАЛИЗАЦИЯ", d: "Перевод возможностей из скрытого состояния в явное и действующее."},
+                {w: "АМАЛЬГАМА", d: "Сплав, смесь совершенно разнородных, часто несовместимых вещей."},
+                {w: "АМБИВАЛЕНТНОСТЬ", d: "Двойственность отношения к чему-либо, одновременное присутствие противоположных чувств."},
+                {w: "АПОРИЯ", d: "Состояние интеллектуального тупика, неразрешимое логическое противоречие."},
+                {w: "АПОСТЕРИОРИ", d: "Знание, полученное из личного практического опыта. Твой пройденный ад — это Апостериори."},
+                {w: "АУТЕНТИЧНОСТЬ", d: "Подлинность, верность своей сути. Кодекс суверенного существования."},
+                {w: "ГНОЗИС", d: "Высшее интуитивное знание, озарение избранных."},
+                {w: "ДЕКОНСТРУКЦИЯ", d: "Разбор сложной системы на части для понимания её истинных внутренних механизмов."},
+                {w: "ДЕМИУРГ", d: "Творец собственной вселенной. Ты в своей комнате — Демиург."},
+                {w: "ДЕРЕАЛИЗАЦИЯ", d: "Ощущение нереальности окружающего мира, словно сквозь стекло или в фильме."},
+                {w: "ДИХОТОМИЯ", d: "Деление целого на две взаимно исключающие части."},
+                {w: "ИНКАПСУЛЯЦИЯ", d: "Герметизация Кронтара от внешних вирусов и паразитических программ."},
+                {w: "ИММАНЕНТНОСТЬ", d: "Внутренне присущее качество, неотъемлемое от самой природы объекта."},
+                {w: "ИНТРОСПЕКЦИЯ", d: "Наблюдение за собственными психическими процессами и мыслями."},
+                {w: "КАТАРСИС", d: "Духовное очищение и возвышение через сильное эмоциональное переживание."},
+                {w: "КОНГРУЭНТНОСТЬ", d: "Совпадение внешних слов и проявлений с внутренними делами и сутью."},
+                {w: "ЛИМИНАЛЬНОСТЬ", d: "Состояние порога между двумя реальностями или этапами жизни."},
+                {w: "МЕТАНОЙЯ", d: "Тотальное перерождение ума, восприятия и ценностей после катарсиса."},
+                {w: "ОБФУСКАЦИЯ", d: "Намеренное запутывание смысла. Шифрование мыслей от серой массы."},
+                {w: "РЕЗИЛЬЕНТНОСТЬ", d: "Способность держать удар, сохранять структуру и восстанавливаться после катастрофы."},
+                {w: "СИМУЛЯКР", d: "Пустая копия, фейк, изображение без реального оригинального содержимого."},
+                {w: "СУБЛИМАЦИЯ", d: "Перевод грязной или разрушительной энергии в чистое творчество и созидание."},
+                {w: "СУВЕРЕНИТЕТ", d: "Полная независимость и самодостаточность разума от внешних мнений."},
+                {w: "ТРАНСГРЕССИЯ", d: "Выход за пределы привычных норм и табу. Спуск в бездну и выход из неё."},
+                {w: "ЭКВИЛИБРИУМ", d: "Состояние абсолютного баланса, устойчивости и внутреннего покоя."},
+                {w: "ЭМАНАЦИЯ", d: "Излучение внутренней силы и Лэйкора во внешний окружающий мир."},
+                {w: "ЭКСПАНСИЯ", d: "Расширение границ своего влияния и своего Лэйкора на пространство."},
+                {w: "ЭКСТРАПОЛЯЦИЯ", d: "Перенос выводов с одной известной области на неизвестное будущее."}
+            ],
+            "БИОЛОГИЯ & АНАТОМИЯ": [
+                {w: "АМОРФНОСТЬ", d: "Отсутствие четкой формы, бесформенность мыслей или тела."},
+                {w: "АНАБИОЗ", d: "Замедление всех жизненных процессов для выживания в суровую бурю."},
+                {w: "АПЛАЗИЯ", d: "Недоразвитие или отсутствие органа / ткани в процессе роста."},
+                {w: "АТРОФИЯ", d: "Истощение и усыхание мышц или воли от отсутствия работы."},
+                {w: "БОРБОРИГМА", d: "Урчание в животе, вызванное движением газов и жидкостей в кишечнике."},
+                {w: "ВИСЦЕРАЛЬНЫЙ", d: "Внутренний, идущий из самых кишок. Истинный глубинный голос плоти."},
+                {w: "ГАЛИТОЗ", d: "Неприятный запах изо рта, символ гниения и разложения."},
+                {w: "ГОМОЗИГОТА", d: "Генетическая система с одинаковыми аллелями гена."},
+                {w: "ИШЕМИЯ", d: "Местное малокровие, вызывающее голодание тканей и органов."},
+                {w: "МИОКЛОНИЯ", d: "Быстрые, непроизвольные сокращения отдельных мышц или их групп."},
+                {w: "НЕКРОЗ", d: "Насильственное омертвение тканей под воздействием внешнего яда."},
+                {w: "ПАРЕЗ", d: "Уменьшение силы и амплитуды движений, обусловленное поражением нервов."},
+                {w: "ПЕРСПИРАЦИЯ", d: "Потоотделение, выделение влаги через поры кожи."},
+                {w: "ПЛАЦЕНТАРНОСТЬ", d: "Глубинное, обволакивающее и питающее живое начало."},
+                {w: "РЕГЕНЕРАЦИЯ", d: "Восстановление поврежденных структур. Сила Лэйкора в плоти."},
+                {w: "РЕЦЕССИВА", d: "Подавленный, скрытый признак, проявляющийся лишь при особых условиях."},
+                {w: "СИНЦИТИЙ", d: "Слияние множества клеток в одну непрерывную общую массу."},
+                {w: "СТЕНОЗ", d: "Патологическое сужение просвета любого полого органа или сосуда."},
+                {w: "СТЕРКОРАЛЬНЫЙ", d: "Относящийся к каловым массам, продукт глубокой утилизации."},
+                {w: "ТЕРАТОМА", d: "Опухоль, содержащая ткани различных органов, чужеродный слепок."},
+                {w: "ТРОМБОЗ", d: "Прижизненное формирование сгустков крови в сосудах, затор системы."},
+                {w: "ФАГОЦИТОЗ", d: "Процесс пожирания и утилизации токсичного мусора клетками зачистки."},
+                {w: "ЭКССУДАТ", d: "Мутный гнойный выпот. Символ воспаления внутренней системы."}
+            ],
+            "ФИЗИКА & КОСМОЛОГИЯ": [
+                {w: "АБСОЛЮТНЫЙ НОЛЬ", d: "Нижайший предел температуры, полное прекращение движения атомов."},
+                {w: "АККРЕЦИЯ", d: "Падение вещества на космическое тело под действием гравитации."},
+                {w: "АСИМПТОТА", d: "Прямая линия, к которой бесконечно приближается кривая, но никогда не пересекает."},
+                {w: "ДЕКОГЕРЕНЦИЯ", d: "Разрушение квантового порядка при контакте с внешним хаосом."},
+                {w: "ИНТЕРФЕРЕНЦИЯ", d: "Наложение волн друг на друга с усилением или гашением сигнала."},
+                {w: "КВАЗАР", d: "Ярчайший, мощнейший источник яростной энергии во Вселенной."},
+                {w: "ПЕТРИКОР", d: "Запах земли после первого дождя, аромат свежести после засухи."},
+                {w: "РЕФРАКЦИЯ", d: "Преломление волн света при прохождении через границу сред."},
+                {w: "СИЗИГИЯ", d: "Идеальное выравнивание трех и более небесных тел. Момент для рывка."},
+                {w: "СИНГУЛЯРНОСТЬ", d: "Точка бесконечной плотности и гравитации, где ломаются законы физики."},
+                {w: "СПАГЕТТИФИКАЦИЯ", d: "Растягивание объекта гравитацией черной дыры в тонкую нить."},
+                {w: "ФРАКТАЛ", d: "Геометрическая фигура, обладающая свойством самоподобия на всех масштабах."},
+                {w: "ЭНТРОПИЯ", d: "Мера хаоса и беспорядка. Естественное стремление всего к распаду."}
+            ],
+            "КИБЕРНЕТИКА & ЯЗЫКОВЫЕ МЕТАФОРЫ": [
+                {w: "АЛГОРИТМ", d: "Четкая последовательность шагов для достижения заданного результата."},
+                {w: "ДЕШИФРОВКА", d: "Перевод сложного сакрального кода Лэйкора на понятный язык."},
+                {w: "ДРИЛЛОВЫЙ", d: "Суровый, мрачный, ритмичный и агрессивный стиль."},
+                {w: "ИНТЕРФЕЙС", d: "Среда взаимодействия между человеком и сложной системой."},
+                {w: "КРОНТАР", d: "Главенствующая шестерёнка Лэйкора. Без него Лэйкор будет неполноценным"},
+                {w: "КОВОРКИНГ", d: "Совместное пространство для создания новых смыслов и проектов."},
+                {w: "ПАТАФИЗИКА", d: "Наука о воображаемых решениях и законах, управляющих исключениями."},
+                {w: "ПИКТУРА", d: "Картинка, визуальный срез пространства."},
+                {w: "ПИРОЛИЗ", d: "Термическое разложение органических соединений без доступа воздуха."},
+                {w: "ПИТЧИНГ", d: "Короткая убедительная презентация идеи или концепции."},
+                {w: "ПРИЗМА", d: "Оптика восприятия, через которую ты преломляешь окружающий мир."},
+                {w: "ПРОМПТ", d: "Входная команда или запрос, задающий вектор мышления."},
+                {w: "ПРОШИВКА", d: "Базовый набор правил и установок, заложенных в мозг."},
+                {w: "РЕФАКТОРИНГ", d: "Переработка и очистка внутреннего кода без изменения внешнего поведения."},
+                {w: "РИЗЗ", d: "Харизма, способность притягивать людей своим внутренним стилем."},
+                {w: "РУТ-ДОСТУП", d: "Права Администратора с полным контролем над своей личной системой."},
+                {w: "СКУФИЗАЦИЯ", d: "Бытовая деградация, заплывание жиром и потеря интереса к саморазвитию."},
+                {w: "СЛОУПОК", d: "Человек с заторможенной реакцией и медленным обновлением скриптов."},
+                {w: "ФАКАП", d: "Крупная неудача, сбой или провал в запланированном сценарии."},
+                {w: "ФИДБЕК", d: "Обратная связь, оценка результатов выполненной работы."},
+                {w: "ФРЕЙМ", d: "Смысловая рамка, определяющая восприятие любой ситуации."},
+            ]
+        };
+
+        // ----------------------------------------------------
+        // 6. НАДЕЖНЫЕ ФУНКЦИИ РЕНДЕРА
+        // ----------------------------------------------------
+        let currentTalesCategory = 'tales';
+
+        function renderDishes() {
+            const grid = document.getElementById('dishes-grid');
+            if (!grid) return;
+            grid.innerHTML = dishes.map((d, i) => `
+                <div class="dish-card">
+                    <div>
+                        <div class="dish-card-title">${d.title}</div>
+                        <div class="macro-badge">${d.macros}</div>
+                    </div>
+                    <button class="open-dish-btn" onclick="openDishPage(${i})">ПОСМОТРЕТЬ РЕЦЕПТ →</button>
+                </div>
+            `).join('');
+        }
+
+        function openDishPage(i) {
+            const d = dishes[i];
+            document.getElementById('dish-detail-content').innerHTML = `
+                <div class="dish-detail-container">
+                    <h2 class="section-title title-green">${d.title}</h2>
+                    <div class="dish-block"><div class="dish-block-title">🥗 СОСТАВ</div><p>${d.composition}</p></div>
+                    <div class="dish-block"><div class="dish-block-title">🔥 ПРИГОТОВЛЕНИЕ</div><p>${d.cooking}</p></div>
+                    <div class="dish-block laykor-box"><div class="dish-block-title" style="color:var(--accent-purple)">🔮 ЛЭЙКОР</div><p>${d.laykor}</p></div>
+                </div>
+            `;
+            switchPage('dish-detail');
+        }
+
+        function renderTalesList() {
+            const container = document.getElementById('tales-list-container');
+            if (!container) return;
+            const list = talesData[currentTalesCategory];
+            if (!list) return;
+
+            container.innerHTML = list.map((item, index) => `
+                <div class="tale-list-card">
+                    <div>
+                        <div class="tale-list-title">${item.title}</div>
+                        <div class="tale-list-genre">${item.genre}</div>
+                        <div class="tale-list-flag">${item.flag || '🔮 КЛАССИКА ЛЭЙКОРА'}</div>
+                    </div>
+                    <button class="read-btn" onclick="openTaleReading('${currentTalesCategory}', ${index})">ПРОЧИТАТЬ →</button>
+                </div>
+            `).join('');
+        }
+
+        function switchTalesTab(tabName, btnElement) {
+            currentTalesCategory = tabName;
+            document.querySelectorAll('.tales-tab-btn').forEach(btn => btn.classList.remove('active-tales-tab'));
+            if (btnElement) btnElement.classList.add('active-tales-tab');
+            renderTalesList();
+        }
+
+        function openTaleReading(category, index) {
+            const item = talesData[category][index];
+            document.getElementById('tale-content-target').innerHTML = `
+                <div class="tale-detail-view">
+                    <h2 class="section-title title-purple">${item.title}</h2>
+                    <div class="tale-full-text">${item.content}</div>
+                    <div class="decode-section">
+                        <button class="decode-toggle-btn" onclick="toggleTaleDecode()">
+                            <span>🔍 РАСШИФРОВАТЬ СМЫСЛ СУВЕРЕНА</span>
+                            <span id="decode-icon">▼</span>
+                        </button>
+                        <div id="tale-decode-content" class="decode-content">
+                            <p style="color: var(--text-muted); font-style: italic; line-height: 1.8;">${item.decode}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            switchPage('tale-reading');
+        }
+
+        function toggleTaleDecode() {
+            const content = document.getElementById('tale-decode-content');
+            const icon = document.getElementById('decode-icon');
+            if (!content || !icon) return;
+            content.classList.toggle('open');
+            icon.innerText = content.classList.contains('open') ? '▲' : '▼';
+        }
+
+        // РЕНДЕР СЛОВАРЯ С УНИКАЛЬНЫМИ СИСТЕМНЫМИ ИДЕНТИФИКАТОРАМИ
+        function renderDictionary() {
+            const container = document.getElementById('dictionary-content');
+            if (!container) return;
+            let html = '';
+            let catIdx = 0;
+
+            for (let category in dictionaryData) {
+                catIdx++;
+                html += `<div class="dict-cat-header">${category}</div>`;
+                let sortedWords = dictionaryData[category].sort((a, b) => a.w.localeCompare(b.w, 'ru'));
+                let currentLetter = '';
+
+                sortedWords.forEach((item, i) => {
+                    let firstLetter = item.w[0];
+                    if (firstLetter !== currentLetter) {
+                        currentLetter = firstLetter;
+                        html += `<div class="dict-letter">${currentLetter}</div>`;
+                    }
+                    const wordId = `word-c${catIdx}-${i}`;
+                    html += `
+                        <div class="dict-row" id="${wordId}">
+                            <div class="word-header">
+                                <span class="word-name">${item.w}</span>
+                                <button class="decode-btn" onclick="toggleWord('${wordId}')">ДЕШИФРОВКА</button>
+                            </div>
+                            <div class="word-def">${item.d}</div>
+                        </div>`;
+                });
+            }
+            container.innerHTML = html;
+        }
+
+        function toggleWord(id) {
+            const row = document.getElementById(id);
+            if (!row) return;
+            row.classList.toggle('active');
+            const btn = row.querySelector('.decode-btn');
+            if (btn) btn.innerText = row.classList.contains('active') ? 'СКРЫТЬ' : 'ДЕШИФРОВКА';
+        }
+
+        // ----------------------------------------------------
+        // 7. ПЛЕЕР И ИНИЦИАЛИЗАЦИЯ
+        // ----------------------------------------------------
+        let playState = false;
+        let audioHTMLNode = null;
+
+        function toggleAudio() {
+            const btn = document.getElementById('play-pause-btn');
+            const eq = document.getElementById('eq-bars');
+            const select = document.getElementById('track-select');
+            const url = select.value;
+
+            if (!playState) {
+                playState = true;
+                if (btn) btn.innerText = "PAUSE ⏸";
+                if (eq) eq.classList.add('playing');
+
+                if (url.startsWith('http')) {
+                    if (audioHTMLNode) audioHTMLNode.pause();
+                    audioHTMLNode = new Audio(url);
+                    audioHTMLNode.crossOrigin = "anonymous";
+                    audioHTMLNode.play().catch(e => console.log("Audio play constraint handled."));
+                }
+            } else {
+                playState = false;
+                if (btn) btn.innerText = "PLAY ▶";
+                if (eq) eq.classList.remove('playing');
+
+                if (audioHTMLNode) {
+                    audioHTMLNode.pause();
+                    audioHTMLNode = null;
+                }
+            }
+        }
+
+        window.onload = () => {
+            renderDishes();
+            renderTalesList();
+            renderDictionary();
+            updateLeycoreProgress();
+            switchPage('leycore');
+        };
+    </script>
+</body>
+
+</html>
