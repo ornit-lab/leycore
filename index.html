@@ -4,12 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEYCORE | СИНДИКАТ ЛЭЙКОРА & КИБЕР-КУЛИНАРИЯ</title>
+    <title>LEYCORE | КИБЕР-КУЛИНАРИЯ</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@700;900&family=Montserrat:wght@300;500;800;900&family=Fira+Code:wght@400;600&display=swap"
         rel="stylesheet">
     <style>
-        :root {
+        /* НЕОНОВЫЕ ПРЕСЕТЫ ДЛЯ КАТЕГОРИЙ */
+         .glow-heavy { color: var(--accent-crimson) !important; text-shadow: 0 0 15px var(--accent-crimson), 0 0 5px #fff; }
+         .glow-cloud { color: #ffffff !important; text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 5px rgba(0, 240, 255, 0.5); }
+         .glow-dessert { color: var(--accent-pink) !important; text-shadow: 0 0 15px var(--accent-pink), 0 0 5px #fff; }
+
+         :root {
             --bg-base: #08070b;
             --bg-card: #110e17;
             --accent-gold: #ffd700;
@@ -25,13 +30,7 @@
             --font-code: 'Fira Code', monospace;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            scroll-behavior: smooth;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
 
         body {
             background-color: var(--bg-base);
@@ -39,83 +38,21 @@
             font-family: var(--font-body);
             line-height: 1.6;
             overflow-x: hidden;
-            background-image:
+            background-image: 
                 radial-gradient(circle at 10% 20%, rgba(255, 42, 95, 0.1) 0%, transparent 45%),
                 radial-gradient(circle at 90% 80%, rgba(176, 38, 255, 0.1) 0%, transparent 45%);
         }
 
         /* SIDEBAR NAVIGATION (LEFT) */
-        .sidebar-nav {
-            position: fixed;
-            left: 0;
-            top: 160px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            z-index: 1000;
-        }
-
-        .sidebar-link {
-            width: 270px;
-            padding: 16px 22px 16px 18px;
-            background: rgba(17, 14, 23, 0.96);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-left: none;
-            border-radius: 0 12px 12px 0;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-family: var(--font-body);
-            font-weight: 800;
-            font-size: 0.82rem;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            transform: translateX(-195px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 5px 10px 25px rgba(0, 0, 0, 0.6);
-            cursor: pointer;
-        }
-
-        .sidebar-link:hover {
-            transform: translateX(0);
-        }
-
-        .sidebar-link.active {
-            transform: translateX(0);
-            color: #fff;
-            border-color: currentColor;
-        }
-
-        .sidebar-link.link-cyan:hover,
-        .sidebar-link.link-cyan.active {
-            color: var(--accent-cyan);
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.6);
-        }
-
-        .sidebar-link.link-green:hover,
-        .sidebar-link.link-green.active {
-            color: var(--accent-green);
-            border-color: var(--accent-green);
-            box-shadow: 0 0 30px rgba(0, 255, 102, 0.6);
-        }
-
-        .sidebar-link.link-purple:hover,
-        .sidebar-link.link-purple.active {
-            color: var(--accent-purple);
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 30px rgba(176, 38, 255, 0.6);
-        }
-
-        .sidebar-link.link-gold:hover,
-        .sidebar-link.link-gold.active {
-            color: var(--accent-gold);
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
-        }
+        .sidebar-nav { position: fixed; left: 0; top: 160px; display: flex; flex-direction: column; gap: 14px; z-index: 1000; }
+        .sidebar-link { width: 270px; padding: 16px 22px 16px 18px; background: rgba(17, 14, 23, 0.96); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-left: none; border-radius: 0 12px 12px 0; color: var(--text-muted); text-decoration: none; font-family: var(--font-body); font-weight: 800; font-size: 0.82rem; letter-spacing: 1.5px; text-transform: uppercase; transform: translateX(-195px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; justify-content: space-between; box-shadow: 5px 10px 25px rgba(0, 0, 0, 0.6); cursor: pointer; }
+        .sidebar-link:hover { transform: translateX(0); }
+        .sidebar-link.active { transform: translateX(0); color: #fff; border-color: currentColor; }
+        
+        .sidebar-link.link-cyan:hover, .sidebar-link.link-cyan.active { color: var(--accent-cyan); border-color: var(--accent-cyan); box-shadow: 0 0 30px rgba(0, 240, 255, 0.6); }
+        .sidebar-link.link-green:hover, .sidebar-link.link-green.active { color: var(--accent-green); border-color: var(--accent-green); box-shadow: 0 0 30px rgba(0, 255, 102, 0.6); }
+        .sidebar-link.link-purple:hover, .sidebar-link.link-purple.active { color: var(--accent-purple); border-color: var(--accent-purple); box-shadow: 0 0 30px rgba(176, 38, 255, 0.6); }
+        .sidebar-link.link-gold:hover, .sidebar-link.link-gold.active { color: var(--accent-gold); border-color: var(--accent-gold); box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); }
 
         /* ВЕРТИКАЛЬНАЯ ШКАЛА ПРОГРЕССА (СПРАВА) */
         .leycore-progress-widget {
@@ -136,7 +73,6 @@
             box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
             backdrop-filter: blur(12px);
         }
-
         .leycore-progress-head {
             display: flex;
             flex-direction: column;
@@ -149,7 +85,6 @@
             text-align: center;
             gap: 4px;
         }
-
         .leycore-progress-bg {
             width: 12px;
             height: 250px;
@@ -160,7 +95,6 @@
             display: flex;
             align-items: flex-end;
         }
-
         .leycore-progress-fill {
             width: 100%;
             height: var(--progress, 0%);
@@ -168,7 +102,6 @@
             transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 0 15px var(--accent-cyan);
         }
-
         .leycore-badge-unlocked {
             display: none;
             position: fixed;
@@ -187,187 +120,37 @@
         }
 
         /* AUDIO TERMINAL */
-        .audio-terminal {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            width: 270px;
-            background: rgba(17, 14, 23, 0.95);
-            border: 1px solid var(--accent-crimson);
-            border-radius: 12px;
-            padding: 12px;
-            z-index: 1001;
-            box-shadow: 0 0 25px rgba(255, 42, 95, 0.4), inset 0 0 10px rgba(255, 105, 180, 0.2);
-            backdrop-filter: blur(8px);
-        }
-
-        .audio-title {
-            font-family: var(--font-code);
-            font-size: 0.75rem;
-            color: var(--accent-pink);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-shadow: 0 0 8px rgba(255, 105, 180, 0.6);
-        }
-
-        .audio-controls {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .audio-btn {
-            background: rgba(255, 42, 95, 0.2);
-            border: 1px solid var(--accent-crimson);
-            color: #fff;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-family: var(--font-code);
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 0.75rem;
-        }
-
-        .audio-btn:hover {
-            background: var(--accent-crimson);
-            box-shadow: 0 0 15px rgba(255, 42, 95, 0.8);
-        }
-
-        .track-select {
-            width: 100%;
-            background: #08070b;
-            border: 1px solid rgba(255, 42, 95, 0.4);
-            color: var(--text-main);
-            padding: 5px;
-            border-radius: 4px;
-            font-family: var(--font-code);
-            font-size: 0.7rem;
-            cursor: pointer;
-        }
-
-        .eq-bars {
-            display: flex;
-            gap: 2px;
-            align-items: flex-end;
-            height: 14px;
-        }
-
-        .eq-bar {
-            width: 2px;
-            height: 3px;
-            background: var(--accent-pink);
-            transition: 0.1s;
-        }
-
-        .eq-bars.playing .eq-bar {
-            animation: eqAnim 0.8s ease infinite alternate;
-        }
-
-        .eq-bars.playing .eq-bar:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .eq-bars.playing .eq-bar:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        .eq-bars.playing .eq-bar:nth-child(4) {
-            animation-delay: 0.1s;
-        }
-
-        .eq-bars.playing .eq-bar:nth-child(5) {
-            animation-delay: 0.3s;
-        }
-
-        @keyframes eqAnim {
-            0% {
-                height: 3px;
-            }
-
-            100% {
-                height: 14px;
-            }
-        }
+        .audio-terminal { position: fixed; top: 20px; left: 20px; width: 270px; background: rgba(17, 14, 23, 0.95); border: 1px solid var(--accent-crimson); border-radius: 12px; padding: 12px; z-index: 1001; box-shadow: 0 0 25px rgba(255, 42, 95, 0.4), inset 0 0 10px rgba(255, 105, 180, 0.2); backdrop-filter: blur(8px); }
+        .audio-title { font-family: var(--font-code); font-size: 0.75rem; color: var(--accent-pink); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; text-shadow: 0 0 8px rgba(255, 105, 180, 0.6); }
+        .audio-controls { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+        .audio-btn { background: rgba(255, 42, 95, 0.2); border: 1px solid var(--accent-crimson); color: #fff; padding: 6px 12px; border-radius: 6px; font-family: var(--font-code); font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 0.75rem; }
+        .audio-btn:hover { background: var(--accent-crimson); box-shadow: 0 0 15px rgba(255, 42, 95, 0.8); }
+        .track-select { width: 100%; background: #08070b; border: 1px solid rgba(255, 42, 95, 0.4); color: var(--text-main); padding: 5px; border-radius: 4px; font-family: var(--font-code); font-size: 0.7rem; cursor: pointer; }
+        .eq-bars { display: flex; gap: 2px; align-items: flex-end; height: 14px; }
+        .eq-bar { width: 2px; height: 3px; background: var(--accent-pink); transition: 0.1s; }
+        .eq-bars.playing .eq-bar { animation: eqAnim 0.8s ease infinite alternate; }
+        .eq-bars.playing .eq-bar:nth-child(2) { animation-delay: 0.2s; }
+        .eq-bars.playing .eq-bar:nth-child(3) { animation-delay: 0.4s; }
+        .eq-bars.playing .eq-bar:nth-child(4) { animation-delay: 0.1s; }
+        .eq-bars.playing .eq-bar:nth-child(5) { animation-delay: 0.3s; }
+        @keyframes eqAnim { 0% { height: 3px; } 100% { height: 14px; } }
 
         /* HEADER */
-        header {
-            min-height: 48vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 3.5rem 2rem 2rem 2rem;
-            position: relative;
-            border-bottom: 1px solid rgba(176, 38, 255, 0.25);
-        }
-
-        .badge {
-            font-family: var(--font-code);
-            color: var(--accent-purple);
-            border: 1px solid var(--accent-purple);
-            padding: 6px 18px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 0 20px rgba(176, 38, 255, 0.35);
-            animation: pulseGlow 2s infinite alternate;
-        }
-
-        @keyframes pulseGlow {
-            from {
-                box-shadow: 0 0 10px rgba(176, 38, 255, 0.2);
-            }
-
-            to {
-                box-shadow: 0 0 25px rgba(176, 38, 255, 0.6);
-            }
-        }
-
-        h1 {
-            font-family: var(--font-header);
-            font-size: clamp(3.2rem, 9vw, 7rem);
-            font-weight: 900;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            background: linear-gradient(135deg, var(--accent-crimson) 0%, #ff0055 45%, var(--accent-purple) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.8rem;
-            filter: drop-shadow(0 0 35px rgba(176, 38, 255, 0.45));
-            line-height: 1.1;
-        }
-
-        .subtitle {
-            font-size: clamp(1rem, 2vw, 1.3rem);
-            color: var(--text-muted);
-            max-width: 850px;
-            margin-bottom: 2rem;
-            font-weight: 300;
-        }
+        header { min-height: 48vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 3.5rem 2rem 2rem 2rem; position: relative; border-bottom: 1px solid rgba(176, 38, 255, 0.25); }
+        .badge { font-family: var(--font-code); color: var(--accent-purple); border: 1px solid var(--accent-purple); padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1.5rem; box-shadow: 0 0 20px rgba(176, 38, 255, 0.35); animation: pulseGlow 2s infinite alternate; }
+        @keyframes pulseGlow { from { box-shadow: 0 0 10px rgba(176, 38, 255, 0.2); } to { box-shadow: 0 0 25px rgba(176, 38, 255, 0.6); } }
+        h1 { font-family: var(--font-header); font-size: clamp(3.2rem, 9vw, 7rem); font-weight: 900; letter-spacing: 8px; text-transform: uppercase; background: linear-gradient(135deg, var(--accent-crimson) 0%, #ff0055 45%, var(--accent-purple) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.8rem; filter: drop-shadow(0 0 35px rgba(176, 38, 255, 0.45)); line-height: 1.1; }
+        .subtitle { font-size: clamp(1rem, 2vw, 1.3rem); color: var(--text-muted); max-width: 850px; margin-bottom: 2rem; font-weight: 300; }
 
         /* CONTAINER & PAGES */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-        }
-
+        .container { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem; }
+        
         .page-view {
             display: none;
             opacity: 0;
             transform: translateY(15px);
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
-
         .page-view.active-page {
             display: block;
             opacity: 1;
@@ -375,21 +158,8 @@
         }
 
         /* LEYCORE HERO BOX */
-        .leycore-hero {
-            background: linear-gradient(135deg, rgba(176, 38, 255, 0.12), rgba(17, 14, 23, 0.96));
-            border: 1px solid var(--accent-purple);
-            border-radius: 16px;
-            padding: 3rem;
-            margin-bottom: 3rem;
-            box-shadow: 0 0 45px rgba(176, 38, 255, 0.35), inset 0 0 24px rgba(176, 38, 255, 0.08);
-        }
-
-        .leycore-hero p {
-            font-size: 1.1rem;
-            color: var(--text-main);
-            line-height: 1.8;
-            margin-bottom: 1.8rem;
-        }
+        .leycore-hero { background: linear-gradient(135deg, rgba(176, 38, 255, 0.12), rgba(17, 14, 23, 0.96)); border: 1px solid var(--accent-purple); border-radius: 16px; padding: 3rem; margin-bottom: 3rem; box-shadow: 0 0 45px rgba(176, 38, 255, 0.35), inset 0 0 24px rgba(176, 38, 255, 0.08); }
+        .leycore-hero p { font-size: 1.1rem; color: var(--text-main); line-height: 1.8; margin-bottom: 1.8rem; }
 
         /* LEYCORE INTERACTIVE CARDS */
         .leycore-def-card {
@@ -400,12 +170,10 @@
             overflow: hidden;
             transition: all 0.3s ease;
         }
-
         .leycore-def-card.opened {
             border-color: var(--accent-cyan);
             box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
         }
-
         .leycore-def-header {
             width: 100%;
             background: transparent;
@@ -422,7 +190,6 @@
             align-items: center;
             gap: 12px;
         }
-
         .leycore-def-btn {
             font-family: var(--font-code);
             font-size: 0.75rem;
@@ -434,13 +201,11 @@
             white-space: nowrap;
             transition: all 0.3s ease;
         }
-
         .leycore-def-card.opened .leycore-def-btn {
             color: var(--accent-green);
             background: rgba(0, 255, 102, 0.15);
             border-color: var(--accent-green);
         }
-
         .leycore-def-body {
             max-height: 0;
             overflow: hidden;
@@ -449,7 +214,6 @@
             line-height: 1.8;
             color: var(--text-main);
         }
-
         .leycore-def-card.opened .leycore-def-body {
             max-height: 1200px;
             padding: 20px;
@@ -457,506 +221,83 @@
         }
 
         /* COMPARISON BOX */
-        .comparison-box {
-            background: rgba(8, 7, 11, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 1.8rem;
-            margin: 1.5rem 0;
-        }
-
-        .comp-title-npc {
-            color: var(--text-muted);
-            font-family: var(--font-code);
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.95rem;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .comp-title-leycore {
-            color: #ff8c00;
-            font-family: var(--font-code);
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-shadow: 0 0 8px rgba(255, 140, 0, 0.75);
-            margin: 1.5rem 0 0.5rem 0;
-        }
-
-        .leycore-list {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .leycore-list li {
-            position: relative;
-            padding-left: 1.5rem;
-            margin-bottom: 0.8rem;
-            color: var(--text-main);
-            font-size: 1.05rem;
-        }
-
-        .leycore-list li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: var(--accent-purple);
-            font-size: 1.4rem;
-            line-height: 1;
-        }
+        .comparison-box { background: rgba(8, 7, 11, 0.8); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 1.8rem; margin: 1.5rem 0; }
+        .comp-title-npc { color: var(--text-muted); font-family: var(--font-code); font-weight: 700; text-transform: uppercase; font-size: 0.95rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px; }
+        .comp-title-leycore { color: #ff8c00; font-family: var(--font-code); font-weight: 700; text-transform: uppercase; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; text-shadow: 0 0 8px rgba(255, 140, 0, 0.75); margin: 1.5rem 0 0.5rem 0; }
+        .leycore-list { list-style: none; padding-left: 0; }
+        .leycore-list li { position: relative; padding-left: 1.5rem; margin-bottom: 0.8rem; color: var(--text-main); font-size: 1.05rem; }
+        .leycore-list li::before { content: '•'; position: absolute; left: 0; color: var(--accent-purple); font-size: 1.4rem; line-height: 1; }
 
         /* COMPLIMENTS BOX */
-        .compliments-box {
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(8, 7, 11, 0.95));
-            border: 1px solid var(--accent-gold);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            box-shadow: 0 0 35px rgba(255, 215, 0, 0.2);
-        }
+        .compliments-box { background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(8, 7, 11, 0.95)); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 1.5rem; margin-top: 1.5rem; box-shadow: 0 0 35px rgba(255, 215, 0, 0.2); }
+        .compliment-item { margin-bottom: 1.2rem; background: rgba(17, 14, 23, 0.8); border: 1px solid rgba(255, 215, 0, 0.25); border-radius: 8px; overflow: hidden; }
+        .compliment-header { width: 100%; background: transparent; border: none; color: var(--text-main); padding: 16px; font-family: var(--font-body); font-size: 0.95rem; font-style: italic; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 15px; }
+        .comp-btn-text { font-family: var(--font-code); font-size: 0.75rem; color: var(--accent-gold); letter-spacing: 1px; background: rgba(255, 215, 0, 0.1); padding: 6px 12px; border-radius: 4px; border: 1px solid rgba(255, 215, 0, 0.3); transition: all 0.3s ease; white-space: nowrap; }
+        .compliment-item.active .comp-btn-text { color: var(--accent-crimson); border-color: var(--accent-crimson); background: rgba(255, 42, 95, 0.15); }
+        .compliment-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; background: rgba(5, 4, 7, 0.95); line-height: 1.7; border-top: 1px solid rgba(255, 215, 0, 0.1); }
+        .compliment-item.active .compliment-body { max-height: 500px; padding: 18px; }
 
-        .compliment-item {
-            margin-bottom: 1.2rem;
-            background: rgba(17, 14, 23, 0.8);
-            border: 1px solid rgba(255, 215, 0, 0.25);
-            border-radius: 8px;
-            overflow: hidden;
-        }
+        /* MENU TABS & GRID */
+        .menu-tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+        .menu-tab-btn { background: rgba(17, 14, 23, 0.9); border: 1px solid var(--accent-green); color: var(--text-muted); padding: 10px 24px; border-radius: 30px; font-family: var(--font-code); font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; }
+        .menu-tab-btn:hover { color: #fff; border-color: var(--accent-gold); }
+        .menu-tab-btn.active-menu-tab { background: rgba(0, 255, 102, 0.2); border-color: var(--accent-green); color: var(--accent-green); box-shadow: 0 0 20px rgba(0, 255, 102, 0.3); }
 
-        .compliment-header {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: var(--text-main);
-            padding: 16px;
-            font-family: var(--font-body);
-            font-size: 0.95rem;
-            font-style: italic;
-            text-align: left;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .comp-btn-text {
-            font-family: var(--font-code);
-            font-size: 0.75rem;
-            color: var(--accent-gold);
-            letter-spacing: 1px;
-            background: rgba(255, 215, 0, 0.1);
-            padding: 6px 12px;
-            border-radius: 4px;
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .compliment-item.active .comp-btn-text {
-            color: var(--accent-crimson);
-            border-color: var(--accent-crimson);
-            background: rgba(255, 42, 95, 0.15);
-        }
-
-        .compliment-body {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.3s ease;
-            background: rgba(5, 4, 7, 0.95);
-            line-height: 1.7;
-            border-top: 1px solid rgba(255, 215, 0, 0.1);
-        }
-
-        .compliment-item.active .compliment-body {
-            max-height: 500px;
-            padding: 18px;
-        }
-
-        /* MENU GRID */
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-
-        .dish-card {
-            background: var(--bg-card);
-            border: 1px solid rgba(0, 255, 102, 0.2);
-            border-radius: 12px;
-            padding: 1.8rem;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .dish-card:hover {
-            border-color: var(--accent-green);
-            box-shadow: 0 10px 30px rgba(0, 255, 102, 0.25);
-            transform: translateY(-5px);
-        }
-
-        .dish-card-title {
-            font-size: 1.35rem;
-            font-weight: 800;
-            color: var(--accent-gold);
-            margin-bottom: 0.8rem;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
-        }
-
-        .macro-badge {
-            display: inline-block;
-            background: rgba(0, 0, 0, 0.4);
-            color: var(--accent-green);
-            font-family: var(--font-code);
-            font-size: 0.8rem;
-            padding: 6px 12px;
-            border-radius: 6px;
-            border: 1px solid var(--accent-green);
-            margin-bottom: 1.5rem;
-        }
-
-        .open-dish-btn {
-            width: 100%;
-            background: rgba(176, 38, 255, 0.15);
-            border: 1px solid var(--accent-purple);
-            color: var(--text-main);
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 800;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .open-dish-btn:hover {
-            background: var(--accent-purple);
-            box-shadow: 0 0 20px rgba(176, 38, 255, 0.6);
-        }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 4rem; }
+        .dish-card { background: var(--bg-card); border: 1px solid rgba(0, 255, 102, 0.2); border-radius: 12px; padding: 1.8rem; transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: space-between; }
+        .dish-card:hover { border-color: var(--accent-green); box-shadow: 0 10px 30px rgba(0, 255, 102, 0.25); transform: translateY(-5px); }
+        .dish-card-title { font-size: 1.35rem; font-weight: 800; color: var(--accent-gold); margin-bottom: 0.8rem; text-shadow: 0 0 10px rgba(255, 215, 0, 0.6); }
+        .macro-badge { display: inline-block; background: rgba(0, 0, 0, 0.4); color: var(--accent-green); font-family: var(--font-code); font-size: 0.8rem; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--accent-green); margin-bottom: 1.5rem; }
+        .open-dish-btn { width: 100%; background: rgba(176, 38, 255, 0.15); border: 1px solid var(--accent-purple); color: var(--text-main); padding: 12px; border-radius: 8px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+        .open-dish-btn:hover { background: var(--accent-purple); box-shadow: 0 0 20px rgba(176, 38, 255, 0.6); }
 
         /* DISH DETAIL */
-        .dish-detail-container {
-            background: var(--bg-card);
-            border: 1px solid var(--accent-green);
-            border-radius: 16px;
-            padding: 3rem;
-            box-shadow: 0 0 40px rgba(0, 255, 102, 0.15);
-        }
-
-        .dish-block {
-            margin-bottom: 2.5rem;
-            background: rgba(8, 7, 11, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 1.8rem;
-        }
-
-        .dish-block-title {
-            font-family: var(--font-code);
-            font-size: 1.1rem;
-            color: var(--accent-green);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
-        }
-
-        .laykor-box {
-            background: linear-gradient(135deg, rgba(176, 38, 255, 0.1), rgba(8, 7, 11, 0.95));
-            border-left: 4px solid var(--accent-purple);
-            font-style: italic;
-        }
+        .dish-detail-container { background: var(--bg-card); border: 1px solid var(--accent-green); border-radius: 16px; padding: 3rem; box-shadow: 0 0 40px rgba(0, 255, 102, 0.15); }
+        .dish-block { margin-bottom: 2.5rem; background: rgba(8, 7, 11, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 1.8rem; }
+        .dish-block-title { font-family: var(--font-code); font-size: 1.1rem; color: var(--accent-green); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; }
+        .laykor-box { background: linear-gradient(135deg, rgba(176, 38, 255, 0.1), rgba(8, 7, 11, 0.95)); border-left: 4px solid var(--accent-purple); font-style: italic; }
 
         /* TALES INNER TABS */
-        .tales-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .tales-tab-btn {
-            background: rgba(17, 14, 23, 0.9);
-            border: 1px solid var(--accent-purple);
-            color: var(--text-muted);
-            padding: 12px 30px;
-            border-radius: 30px;
-            font-family: var(--font-code);
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .tales-tab-btn:hover {
-            color: #fff;
-            border-color: var(--accent-gold);
-        }
-
-        .tales-tab-btn.active-tales-tab {
-            background: rgba(176, 38, 255, 0.2);
-            border-color: var(--accent-purple);
-            color: var(--accent-purple);
-            box-shadow: 0 0 20px rgba(176, 38, 255, 0.4);
-        }
+        .tales-tabs { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 2.5rem; }
+        .tales-tab-btn { background: rgba(17, 14, 23, 0.9); border: 1px solid var(--accent-purple); color: var(--text-muted); padding: 12px 30px; border-radius: 30px; font-family: var(--font-code); font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 2px; }
+        .tales-tab-btn:hover { color: #fff; border-color: var(--accent-gold); }
+        .tales-tab-btn.active-tales-tab { background: rgba(176, 38, 255, 0.2); border-color: var(--accent-purple); color: var(--accent-purple); box-shadow: 0 0 20px rgba(176, 38, 255, 0.4); }
 
         /* TALES LIST */
-        .grid-tales {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-top: 2rem;
-        }
+        .grid-tales { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2rem; }
+        .tale-list-card { background: var(--bg-card); border: 1px solid rgba(176, 38, 255, 0.2); border-radius: 12px; padding: 1.8rem; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; }
+        .tale-list-card:hover { border-color: var(--accent-purple); box-shadow: 0 0 30px rgba(176, 38, 255, 0.2); transform: translateY(-3px); }
+        .tale-list-title { font-family: var(--font-header); font-size: 1.25rem; color: var(--accent-gold); margin-bottom: 0.5rem; text-shadow: 0 0 8px rgba(255, 215, 0, 0.4); min-height: 2.8rem; display: flex; align-items: center; }
+        .tale-list-genre { font-family: var(--font-code); font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
+        .tale-list-flag { font-family: var(--font-code); font-size: 0.75rem; color: var(--accent-green); margin-bottom: 1.5rem; display: block; font-weight: 600; letter-spacing: 1px; }
+        .read-btn { width: 100%; background: rgba(176, 38, 255, 0.15); border: 1px solid var(--accent-purple); color: var(--text-main); padding: 12px; border-radius: 8px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+        .read-btn:hover { background: var(--accent-purple); box-shadow: 0 0 20px rgba(176, 38, 255, 0.6); }
 
-        .tale-list-card {
-            background: var(--bg-card);
-            border: 1px solid rgba(176, 38, 255, 0.2);
-            border-radius: 12px;
-            padding: 1.8rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: 0.3s;
-        }
-
-        .tale-list-card:hover {
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 30px rgba(176, 38, 255, 0.2);
-            transform: translateY(-3px);
-        }
-
-        .tale-list-title {
-            font-family: var(--font-header);
-            font-size: 1.25rem;
-            color: var(--accent-gold);
-            margin-bottom: 0.5rem;
-            text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
-            min-height: 2.8rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .tale-list-genre {
-            font-family: var(--font-code);
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-
-        .tale-list-flag {
-            font-family: var(--font-code);
-            font-size: 0.75rem;
-            color: var(--accent-green);
-            margin-bottom: 1.5rem;
-            display: block;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        .read-btn {
-            width: 100%;
-            background: rgba(176, 38, 255, 0.15);
-            border: 1px solid var(--accent-purple);
-            color: var(--text-main);
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 800;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .read-btn:hover {
-            background: var(--accent-purple);
-            box-shadow: 0 0 20px rgba(176, 38, 255, 0.6);
-        }
-
-        .tale-detail-view {
-            background: var(--bg-card);
-            border: 1px solid var(--accent-purple);
-            border-radius: 16px;
-            padding: 3rem;
-            box-shadow: 0 0 45px rgba(176, 38, 255, 0.35);
-        }
-
-        .tale-full-text {
-            font-size: 1.15rem;
-            color: var(--text-main);
-            white-space: pre-wrap;
-            margin-bottom: 3rem;
-            line-height: 1.8;
-        }
-
-        .decode-section {
-            border-top: 1px solid rgba(255, 215, 0, 0.2);
-            padding-top: 2.5rem;
-        }
-
-        .decode-toggle-btn {
-            background: rgba(255, 215, 0, 0.1);
-            border: 1px solid var(--accent-gold);
-            color: var(--accent-gold);
-            padding: 14px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: var(--font-code);
-            text-transform: uppercase;
-            font-weight: 700;
-            transition: 0.3s;
-            width: 100%;
-            text-align: left;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .decode-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease;
-            background: rgba(5, 4, 7, 0.95);
-            border-radius: 0 0 8px 8px;
-        }
-
-        .decode-content.open {
-            max-height: 1000px;
-            padding: 25px;
-            border: 1px solid rgba(255, 215, 0, 0.25);
-            border-top: none;
-        }
+        .tale-detail-view { background: var(--bg-card); border: 1px solid var(--accent-purple); border-radius: 16px; padding: 3rem; box-shadow: 0 0 45px rgba(176, 38, 255, 0.35); }
+        .tale-full-text { font-size: 1.15rem; color: var(--text-main); white-space: pre-wrap; margin-bottom: 3rem; line-height: 1.8; }
+        .decode-section { border-top: 1px solid rgba(255, 215, 0, 0.2); padding-top: 2.5rem; }
+        .decode-toggle-btn { background: rgba(255, 215, 0, 0.1); border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 14px 25px; border-radius: 8px; cursor: pointer; font-family: var(--font-code); text-transform: uppercase; font-weight: 700; transition: 0.3s; width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+        .decode-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; background: rgba(5, 4, 7, 0.95); border-radius: 0 0 8px 8px; }
+        .decode-content.open { max-height: 1000px; padding: 25px; border: 1px solid rgba(255, 215, 0, 0.25); border-top: none; }
 
         /* DICTIONARY STYLES */
-        .dict-cat-header {
-            font-family: var(--font-header);
-            font-size: 1.8rem;
-            color: var(--accent-purple);
-            margin: 3rem 0 1.5rem 0;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(176, 38, 255, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+        .dict-cat-header { font-family: var(--font-header); font-size: 1.8rem; color: var(--accent-purple); margin: 3rem 0 1.5rem 0; padding-bottom: 10px; border-bottom: 1px solid rgba(176, 38, 255, 0.3); text-transform: uppercase; letter-spacing: 2px; }
+        .dict-letter { font-family: var(--font-header); font-size: 1.4rem; color: var(--accent-pink); margin: 1.5rem 0 0.5rem 0; text-shadow: 0 0 10px var(--accent-pink); border-left: 4px solid var(--accent-pink); padding-left: 15px; }
+        .dict-row { background: rgba(17, 14, 23, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px; margin-bottom: 10px; padding: 15px 20px; transition: 0.3s; }
+        .dict-row:hover { border-color: var(--accent-purple); box-shadow: 0 0 20px rgba(176, 38, 255, 0.1); }
+        .word-header { display: flex; justify-content: space-between; align-items: center; }
+        .word-name { font-family: var(--font-header); font-size: 1.15rem; color: var(--text-main); letter-spacing: 1px; }
+        .decode-btn { background: rgba(176, 38, 255, 0.15); border: 1px solid var(--accent-purple); color: var(--text-main); padding: 5px 12px; border-radius: 4px; font-family: var(--font-code); font-size: 0.7rem; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .word-def { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+        .dict-row.active .word-def { max-height: 400px; padding-top: 10px; margin-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.05); }
 
-        .dict-letter {
-            font-family: var(--font-header);
-            font-size: 1.4rem;
-            color: var(--accent-pink);
-            margin: 1.5rem 0 0.5rem 0;
-            text-shadow: 0 0 10px var(--accent-pink);
-            border-left: 4px solid var(--accent-pink);
-            padding-left: 15px;
-        }
+        .section-title { font-family: var(--font-header); font-size: 2.2rem; margin-bottom: 2.5rem; text-align: center; letter-spacing: 2px; position: relative; }
+        .section-title::after { content: ''; display: block; width: 60px; height: 3px; background: currentColor; margin: 10px auto 0 auto; border-radius: 2px; }
+        .title-green { background: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; letter-spacing: 4px; }
+        .title-purple { color: var(--accent-purple); }
+        .title-gold { color: var(--accent-gold); }
 
-        .dict-row {
-            background: rgba(17, 14, 23, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            margin-bottom: 10px;
-            padding: 15px 20px;
-            transition: 0.3s;
-        }
-
-        .dict-row:hover {
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 20px rgba(176, 38, 255, 0.1);
-        }
-
-        .word-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .word-name {
-            font-family: var(--font-header);
-            font-size: 1.15rem;
-            color: var(--text-main);
-            letter-spacing: 1px;
-        }
-
-        .decode-btn {
-            background: rgba(176, 38, 255, 0.15);
-            border: 1px solid var(--accent-purple);
-            color: var(--text-main);
-            padding: 5px 12px;
-            border-radius: 4px;
-            font-family: var(--font-code);
-            font-size: 0.7rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .word-def {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.3s ease;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        .dict-row.active .word-def {
-            max-height: 400px;
-            padding-top: 10px;
-            margin-top: 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .section-title {
-            font-family: var(--font-header);
-            font-size: 2.2rem;
-            margin-bottom: 2.5rem;
-            text-align: center;
-            letter-spacing: 2px;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 3px;
-            background: currentColor;
-            margin: 10px auto 0 auto;
-            border-radius: 2px;
-        }
-
-        .title-green {
-            background: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-gold) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 900;
-            letter-spacing: 4px;
-        }
-
-        .title-purple {
-            color: var(--accent-purple);
-        }
-
-        .title-gold {
-            color: var(--accent-gold);
-        }
-
-        footer {
-            text-align: center;
-            padding: 3rem;
-            border-top: 1px solid #222;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            font-family: var(--font-code);
-        }
+        footer { text-align: center; padding: 3rem; border-top: 1px solid #222; color: var(--text-muted); font-size: 0.85rem; font-family: var(--font-code); }
 
         /* MOBILE RESPONSIVE MEDIA QUERIES */
         @media (max-width: 850px) {
@@ -971,7 +312,6 @@
                 margin-top: 120px;
                 background: var(--bg-base);
             }
-
             .sidebar-link {
                 transform: none !important;
                 width: auto !important;
@@ -981,17 +321,9 @@
                 font-size: 0.7rem !important;
                 margin: 3px;
             }
-
-            .sidebar-link:hover,
-            .sidebar-link.active {
-                transform: none !important;
-            }
-
-            .audio-terminal {
-                width: 92% !important;
-                left: 4% !important;
-            }
-
+            .sidebar-link:hover, .sidebar-link.active { transform: none !important; }
+            .audio-terminal { width: 92% !important; left: 4% !important; }
+            
             /* На мобилке шкала трансформируется в аккуратную верхнюю горизонтальную панель */
             .leycore-progress-widget {
                 position: relative !important;
@@ -1003,64 +335,34 @@
                 padding: 12px 16px !important;
                 margin-bottom: 20px !important;
             }
-
             .leycore-progress-head {
                 flex-direction: row !important;
                 width: 100%;
                 justify-content: space-between;
                 font-size: 0.8rem !important;
             }
-
             .leycore-progress-bg {
                 width: 100% !important;
                 height: 10px !important;
                 margin-top: 6px;
                 align-items: flex-start !important;
             }
-
             .leycore-progress-fill {
                 height: 100% !important;
                 width: var(--progress, 0%) !important;
                 background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple), var(--accent-green)) !important;
             }
 
-            header {
-                padding-top: 2rem !important;
-                min-height: 25vh !important;
-            }
-
-            h1 {
-                font-size: 3.2rem !important;
-            }
-
-            .container {
-                padding: 1.5rem 1rem !important;
-            }
-
-            .grid-3,
-            .grid-tales {
-                grid-template-columns: 1fr !important;
-            }
-
-            .leycore-hero,
-            .dish-detail-container,
-            .tale-detail-view {
-                padding: 1.5rem !important;
-            }
-
-            .tales-tabs {
-                flex-direction: column;
-                gap: 0.8rem;
-            }
-
-            .tales-tab-btn {
-                width: 100%;
-                text-align: center;
-            }
+            header { padding-top: 2rem !important; min-height: 25vh !important; }
+            h1 { font-size: 3.2rem !important; }
+            .container { padding: 1.5rem 1rem !important; }
+            .grid-3, .grid-tales { grid-grid-template-columns: 1fr !important; }
+            .leycore-hero, .dish-detail-container, .tale-detail-view { padding: 1.5rem !important; }
+            .tales-tabs, .menu-tabs { flex-direction: column; gap: 0.8rem; }
+            .tales-tab-btn, .menu-tab-btn { width: 100%; text-align: center; }
         }
     </style>
 </head>
-
 <body>
 
     <!-- ВЕРТИКАЛЬНЫЙ ВИДДЖЕТ ШКАЛЫ ПРОГРЕССА (СПРАВА) -->
@@ -1076,7 +378,7 @@
 
     <!-- ВСПОПЛЫВАЮЩАЯ АЧИВКА ПРИ 100% -->
     <div class="leycore-badge-unlocked" id="leycore-achievement">
-        🏆 СУВЕРЕННЫЙ РАЗУМ ОСВОЕН: ВЫ ПОЛНОСТЬЮ ПОЗНАЛИ ЛЭЙКОР!
+        🏆 ВЫ ПОЛНОСТЬЮ ПОЗНАЛИ ЛЭЙКОР!
     </div>
 
     <!-- AUDIO TERMINAL -->
@@ -1094,33 +396,31 @@
         <div class="audio-controls">
             <button class="audio-btn" id="play-pause-btn" onclick="toggleAudio()">PLAY ▶</button>
             <select class="track-select" id="track-select">
-                <option value="https://ice1.somafm.com/dronezone-128-mp3">1. SomaFM: Drone Zone</option>
-                <option value="https://ice2.somafm.com/deepspaceone-128-mp3">2. SomaFM: Deep Space One</option>
-                <option value="https://n01.radiojar.com/v8t5p0886t4tv">3. Dark Ambient Radio</option>
-                <option value="https://stream.radio.co/s6175e1823/listen">4. Ambient Sleeping Pill</option>
-                <option value="https://hyades.cdnstream.com/1392_128">5. Nightride FM (Ambient)</option>
-                <option value="https://stream.zeno.fm/f9u1067tqf8tv">6. Horror Soundscapes</option>
-                <option value="https://stream-mi.radioparadise.com/ambient-320">7. Ambient Paradise</option>
-                <option value="https://radio.darkwave.ro/darkwave.mp3">8. Dark Wave / EBM</option>
-                <option value="https://icecast.blacklightradio.com/blacklight.mp3">9. Blacklight Radio</option>
+    <option value="https://stream.radio.co/s6175e1823/listen">1. Ambient Sleeping Pill</option>
+    <option value="https://live.demodulated.net/listen/demodulated/radio.mp3">2. Demodulated (Cyber/Dark)</option>
+    <option value="https://ice1.somafm.com/dronezone-128-mp3">3. SomaFM: Drone Zone</option>
+    <option value="https://ice2.somafm.com/deepspaceone-128-mp3">4. SomaFM: Deep Space One</option>
+    <option value="https://radio.darkwave.ro/darkwave.mp3">5. Dark Wave / EBM</option>
+    <option value="https://stream-mi.radioparadise.com/ambient-320">6. Ambient Paradise</option>
+    <option value="https://hyades.cdnstream.com/1392_128">7. Nightride FM (Ambient)</option>
+    <option value="https://stream.zeno.fm/f9u1067tqf8tv">8. Horror Soundscapes</option>
+    <option value="https://n01.radiojar.com/v8t5p0886t4tv">9. Dark Ambient Radio</option>
+
+
             </select>
         </div>
     </div>
 
     <!-- SIDEBAR NAVIGATION -->
     <nav class="sidebar-nav">
-        <a href="javascript:void(0)" onclick="switchPage('leycore')" id="nav-leycore"
-            class="sidebar-link link-cyan active"><span>LEYCORE (ГЛАВНАЯ)</span><span class="icon">⚡</span></a>
-        <a href="javascript:void(0)" onclick="switchPage('menu')" id="nav-menu"
-            class="sidebar-link link-green"><span>МЕНЮ ВАСИЛИЧА</span><span class="icon">🍖</span></a>
-        <a href="javascript:void(0)" onclick="switchPage('metaphors')" id="nav-metaphors"
-            class="sidebar-link link-purple"><span>СКАЗКИ/АПОСТЕРИОРИ</span><span class="icon">🔮</span></a>
-        <a href="javascript:void(0)" onclick="switchPage('dictionary')" id="nav-dictionary"
-            class="sidebar-link link-gold"><span>СЛОВАРЬ</span><span class="icon">📖</span></a>
+        <a href="javascript:void(0)" onclick="switchPage('leycore')" id="nav-leycore" class="sidebar-link link-cyan active"><span>LEYCORE (ГЛАВНАЯ)</span><span class="icon">⚡</span></a>
+        <a href="javascript:void(0)" onclick="switchPage('menu')" id="nav-menu" class="sidebar-link link-green"><span>МЕНЮ ВАСИЛИЧА</span><span class="icon">🍖</span></a>
+        <a href="javascript:void(0)" onclick="switchPage('metaphors')" id="nav-metaphors" class="sidebar-link link-purple"><span>СКАЗКИ/АПОСТЕРИОРИ</span><span class="icon">🔮</span></a>
+        <a href="javascript:void(0)" onclick="switchPage('dictionary')" id="nav-dictionary" class="sidebar-link link-gold"><span>СЛОВАРЬ</span><span class="icon">📖</span></a>
     </nav>
 
     <header>
-        <div class="badge">LEYCORE // v130.0 // Синдикат Суверена</div>
+        <div class="badge">LEYCORE // v130.0 // local</div>
         <h1>LEYCORE</h1>
         <p class="subtitle">Карта восприятия, творчества и скрытых связей между человеком и миром.</p>
     </header>
@@ -1174,7 +474,7 @@
                 <!-- 2. ВЗГЛЯД НА ЧЕЛОВЕКА БЕЗ ЧСВ -->
                 <div class="leycore-def-card" id="lc-2">
                     <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-2')">
-                        <span>👤 LEYCORE — Это глубокое видение человека (Без воронки ЧСВ)</span>
+                        <span>👤 LEYCORE — Это глубокое видение человека (Без ЧСВ)</span>
                         <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
                     </button>
                     <div class="leycore-def-body">
@@ -1187,11 +487,11 @@
                 <!-- 3. ОДИНОЧЕСТВО И САНДБОКС -->
                 <div class="leycore-def-card" id="lc-3">
                     <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-3')">
-                        <span>🧘 LEYCORE — Это суверенное одиночество и сандбокс Творца</span>
+                        <span>🧘 LEYCORE — Это одиночество и сандбокс творца</span>
                         <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
                     </button>
                     <div class="leycore-def-body">
-                        Лэйкор — это одиночество. Ты сам придумываешь ивенты, ты создаешь вокруг себя реальность
+                         Ты сам придумываешь ивенты, ты создаешь вокруг себя реальность
                         собственными руками. Ты воспринимаешь реальность как игру, где законы мира — это квесты, а
                         основные цели — водить краской по плоти вселенной и наслаждаться своими рисунками, живя в них.
                         Это самодостаточность: ты не грустишь от отсутствия близких людей. Ты настолько близок с собой,
@@ -1206,7 +506,7 @@
                         <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
                     </button>
                     <div class="leycore-def-body">
-                        Однако Лэйкор очень гибок. Если вплести в него соавтора — того, кто сам познал Лэйкор — то мир
+                        Он очень гибок. Если вплести в него соавтора — того, кто сам познал Лэйкор — то мир
                         вокруг тебя окрасится такими красками, которых не существует в реальности. Словно фильтры,
                         встроенные в твой мозг, взрываются и расцветают, образуя на старом фундаменте сверхновое
                         поколение восприятия.
@@ -1234,7 +534,7 @@
                         <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
                     </button>
                     <div class="leycore-def-body">
-                        Это про творчество в каждой сфере. Сила лэйкора в голове человека способна породить самые
+                         Сила лэйкора в голове человека способна породить самые
                         интересные, упоротые, завораживающие и комичные образы. Это словно магическая приправа для всех
                         блюд, которую можно купить лишь сотнями дней работы над собой и своим мышлением. Примеры работ
                         смотрим во вкладке <strong>"Сказки / Апостериори"</strong>.
@@ -1248,7 +548,7 @@
                         <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
                     </button>
                     <div class="leycore-def-body">
-                        Это видеть человека насквозь. У каждого человека есть аура, будь то злая, будь то хорошая.
+                        У каждого человека есть аура, будь то злая, будь то хорошая.
                         Опытный человек сразу распознает её. Проще говоря — это психология на уровне магии. С помощью
                         этого навыка можно предотвратить контакт с человеком, имеющим странную ауру.
                     </div>
@@ -1324,8 +624,16 @@
         </div>
 
         <!-- МЕНЮ ВАСИЛИЧА -->
-        <div id="page-menu" class="page-view">
+       <div id="page-menu" class="page-view">
             <h2 class="section-title title-green" style="font-size: 3rem;">МЕНЮ ВАСИЛИЧА</h2>
+            
+            <div class="menu-tabs">
+                <button class="menu-tab-btn active-menu-tab" onclick="filterDishes('all', this)">⚡ ВСЁ МЕНЮ</button>
+                <button class="menu-tab-btn" onclick="filterDishes('heavy', this)">🍖 Тяжёлые (Масса)</button>
+                <button class="menu-tab-btn" onclick="filterDishes('cloud', this)">☁️ Облачные (Легкие)</button>
+                <button class="menu-tab-btn" onclick="filterDishes('dessert', this)">🧁 Десерты (Блаженство)</button>
+            </div>
+
             <div class="grid-3" id="dishes-grid"></div>
         </div>
 
@@ -1441,147 +749,16 @@
             const navItem = document.getElementById('nav-' + id);
             if (navItem) navItem.classList.add('active');
 
-            window.scrollTo({top: 0, behavior: 'smooth'});
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // ----------------------------------------------------
-        // 3. РЕЦЕПТЫ ВАСИЛИЧА
+        // 3. РЕЦЕПТЫ ВАСИЛИЧА (С КАТЕГОРИЯМИ: heavy, cloud, dessert)
         // ----------------------------------------------------
         const dishes = [
+            // ТЯЖЁЛЫЕ (HEAVY)
             {
-                title: "● Мясной Квазар",
-                macros: "~1350 ККАЛ // ~88г БЕЛКА",
-                composition: "Фарш (300г), картофель (300г), бекон копченый (50г), сливки 20% (100мл), сыр сулугуни/чеддер (150г), лук (1 шт), чеснок, копченая паприка, соевый соус.",
-                cooking: "Варишь картошку и мнёшь её в грубое пюре. На сковороде обжариваешь мелко нарезанный бекон и лук до золотистости, туда же кидаешь фарш, чеснок и копченую паприку, заливаешь соевым соусом. Когда фарш готов — смешиваешь его прямо на сковороде с картошкой, заливаешь сливками, а сверху засыпаешь толстым слоем сыра и накрываешь крышкой на 3 минуты, пока сыр не превратится в лаву.",
-                laykor: "На вид как жирный геологический сдвиг тектонических плит. На вкус — словно дымный мясной вулкан, обволакивающий желудок горячим сырным нектаром и выбивающий из головы все лишние мысли."
-            },
-            {
-                title: "● Медовый Склероз",
-                macros: "~1100 ККАЛ // ~75г БЕЛКА",
-                composition: "Куриное филе (350г), рис Басмати/Ясмин (150г сухого), мёд (2 ст.л.), соевый соус (4 ст.л.), чеснок (3 зубчика), сливочное масло (30г), кунжут, щепотка чили.",
-                cooking: "Отвариваешь рис и в конце вмешиваешь в него кусок сливочного масла. Филе режешь крупными кубиками и жаришь на сильном огне до румяной корочки. В чашке смешиваешь мёд, соевый соус, давленый чеснок и чили. Заливаешь эту смесь к курице — она мгновенно начнет карамелизоваться и обволакивать мясо липкой глянцевой глазурью. Выкладываешь курицу на подушку из масла и риса, посыпаешь кунжутом.",
-                laykor: "На вид как янтарные самородки из азиатской лаборатории. На вкус — сладко-пряная соевая бомба, которая заставляет рецепторы забыть текущую реальность и погрузиться в глубокий дофаминовый анабиоз."
-            },
-            {
-                title: "● Сливочный Бегемот",
-                macros: "~1400 ККАЛ // ~92г БЕЛКА",
-                composition: "Макароны (250г сухого), говядина или филе (300г), шампиньоны (150г), сливки 20% (150мл), плавленый сыр типа 'Янтарь/Хохланд' (100г), лук (1 шт), специи.",
-                cooking: "Варишь макароны. На раскаленной сковороде быстро обжариваешь тонкие полоски мяса до корочки (буквально 5-7 минут), откладываешь. На той же сковороде жаришь грибы с луком. Возвращаешь мясо, заливаешь сливками и добавляешь ложками плавленый сыр. Сыр тает, создавая густейший крем. Кидаешь туда макароны, перемешиваешь 1 минуту.",
-                laykor: "На вид как тягучий сливочный клей, собранный в венозной лаборатории. На вкус — мощный грибной гуляш с тяжелым сырным шлейфом, заставляющий животик урчать от блаженства."
-            },
-            {
-                title: "● Кровавая капсула",
-                macros: "~1250 ККАЛ // ~80г БЕЛКА",
-                composition: "Лаваш/Тортилья большая (2 шт), фарш или филе (250г), яйца (3 шт), сыр (120г), соленые огурчики (2 шт), томатный соус/кетчуп.",
-                cooking: "Обжариваешь фарш со специями. Отдельно делаешь быстрый скрембл (болтунью) из 3 яиц. Раскладываешь лаваш: слой мяса, яйца, нарезанные соленые огурцы, соус и гора тертого сыра. Заворачиваешь в плотный квадратный конверт и обжариваешь на сухой сковороде с двух сторон под прессом, пока лаваш не станет хрустящим, а сыр внутри не потечет.",
-                laykor: "На вид как золотой монолитный брикет спрессованного метаболизма. Когда раскусываешь хрустящую броню лаваша — наружу вырывается горячий сырно-мясной экссудат, даруя 100% сытости."
-            },
-            {
-                title: "● Титановый Корпускул",
-                macros: "~1280 ККАЛ // ~84г БЕЛКА",
-                composition: "Филе свинины или курицы (300г), картофель (350г), горчица зернистая (2 ст.л.), сливки 10-20% (100мл), сыр твердый (100г), чеснок (2 зубчика), сливочное масло (20г).",
-                cooking: "Картофель нарезаешь крупными дольками и запекаешь в духовке/жаришь на сковороде до румяной корочки. На отдельной сковороде обжариваешь куски мяса, добавляешь чеснок, зернистую горчицу и сливки. Помешиваешь 3 минуты, пока соус не загустеет. Выкладываешь мясо на картофель, посыпаешь сыром и даешь ему растаять под крышкой.",
-                laykor: "На вид как плотный гранитный сгусток из горной породы. На вкус — сливочно-горчичный взрыв с пряным мясным соком, наполняющий мышцы титановым объемом."
-            },
-            {
-                title: "● Мясной Хлеб из Бездны",
-                macros: "~1550 ККАЛ // ~105г БЕЛКА",
-                composition: "Фарш говяжий/свиной (400г), яйца вареные (3 шт), яйцо сырое (1 шт), лук (1 шт), томатная паста (2 ст.л.), сыр (150г), специи (соль, перец, паприка).",
-                cooking: "Отвариваешь 3 яйца вкрутую и чистишь. В фарш добавляешь сырое яйцо, мелко нарезанный лук, специи и томатную пасту, тщательно вымешиваешь. В форму для запекания (или на фольгу) выкладываешь половину фарша, по центру кладешь 3 целых вареных яйца, сверху закрываешь остатками фарша, формируя плотный батон. Запекаешь при 180°C около 35-40 минут, за 5 минут до готовности посыпаешь сыром.",
-                laykor: "На вид как монолитная капсула из тайного лабораторного цеха. В разрезе виднеются золотые сферы яиц, плавающие в запеченном мясном коконе."
-            },
-            {
-                title: "● Почтальон Печкин",
-                macros: "~980 ККАЛ // ~78г БЕЛКА",
-                composition: "Куриная печень (350г), гречка (150г сухой), сметана 15-20% (150г), лук репчатый (2 шт большая головка), сливочное масло (20г), специи.",
-                cooking: "Варишь гречку, в конце заправляешь сливочным маслом. На сковороде обжариваешь тонну лука до золотистого цвета, кидаешь туда промытую куриную печень (жарится буквально 7-10 минут, главное не пересушить). Заливаешь сметаной, солишь, перчишь и тушишь 3 минуты. Выкладываешь нежнейшую печень с луковым соусом прямо на подушку из рассыпчатой гречки.",
-                laykor: "На вид как темно-бархатный грунт из заброшенных степей. На вкус — таящая во рту сметанно-печеночная субстанция, доставляя в кровь железо и органический фосфор словно посылку "
-            },
-            {
-                title: "● Озоновый Дендрит",
-                macros: "~1150 ККАЛ // ~70г БЕЛКА",
-                composition: "Лапша Удон/Соба (200г), говядина или филе (250г), болгарский перец (1 шт), соевый соус (50мл), соус Терияки (3 ст.л.), кунжут, чеснок.",
-                cooking: "Отвариваешь лапшу Удон 5 минут. На раскаленной сковороде (лучше вок) на сильном огне быстро обжариваешь тонкие полоски мяса и накрошенный соломкой перец. Заливаешь соевым соусом, давишь чеснок и добавляешь терияки. Кидаешь готовую лапшу, интенсивно перемешиваешь 2 минуты, чтобы соус полностью облепил нити лапши. Посыпаешь кунжутом.",
-                laykor: "На вид как сплетение темных лиан и импульсивных нейронов. На вкус — глянец восточной гавани, пронзающий полость рта сочным мясным вкусом."
-            },
-            {
-                title: "● Висцеральный Торф",
-                macros: "~1100 ККАЛ // ~82г БЕЛКА",
-                composition: "Фарш (300г), брокколи или цветная капуста (250г), яйца (2 шт), сметана (100г), сыр моцарелла/гауда (150г), чеснок, специи.",
-                cooking: "Брокколи/цветную капусту отвариваешь в кипятке 3 минуты. Фарш обжариваешь на сковороде с чесноком и специями. В форму выкладываешь капусту и фарш. В отдельной миске взбиваешь 2 яйца со сметаной и щепоткой соли, заливаешь смесью форму и обильно засыпаешь сыром. Запекаешь в духовке при 200°C минут 20 до золотистой корочки.",
-                laykor: "На вид как запеченный зеленый дерн с выходящим наружу сырным экссудатом. На вкус — невероятно сочная овощная запеканка, где мясистый фарш сбалансирован мягким сырным кремом."
-            },
-            {
-                title: "● Фосфорная Олигархия",
-                macros: "~1020 ККАЛ // ~68г БЕЛКА",
-                composition: "Рыба (горбуша/минтай/тунец или красная 300г), рис (150г сухого), майонез или сметана (2 ст.л.), сыр (100г), лук (1 шт), соевый соус.",
-                cooking: "Отвариваешь рис. Рыбное филе режешь кусочками, маринуешь 5 минут в соевом соусе. На рис выкладываешь кусочки рыбы, сверху слой пассерованного лука. Делаешь сетку из майонеза/сметаны и засыпаешь сыром. Запекаешь в духовке 20-25 минут.",
-                laykor: "На вид как золотая морская плита, излучающая фосфорный свет. На вкус — тающая рыбная мякоть с сырной корочкой, дарующая чистую энергию омега-кислот."
-            },
-            {
-                title: "● Тектонический Драник",
-                macros: "~1320 ККАЛ // ~65г БЕЛКА",
-                composition: "Картофель большой (4 шт / 400г), фарш (200г), яйцо (1 шт), мука (2 ст.л.), сыр (100г), сметана (3 ст.л.), чеснок, соль.",
-                cooking: "Трёшь картофель на крупной терке, отжимаешь лишний сок. Добавляешь яйцо, муку, соль, чеснок. Выкладываешь половину картофельной массы на сковороду как один гигантский блин. Сверху выкладываешь обжаренный фарш и сыр, накрываешь второй половиной картофеля. Жаришь на среднем огне под крышкой до хрустящей корочки с двух сторон.",
-                laykor: "На вид как монолитный золотистый диск из печи древнего кузнеца. Хрустящая картофельная броня скрывает внутри горячее мясное ядро."
-            },
-            {
-                title: "● Сингулярный Плов",
-                macros: "~1400 ККАЛ // ~75г БЕЛКА",
-                composition: "Мясо/филе/говядина (350г), рис Девзира/Длиннозерный (250г), морковь (2 шт), лук (2 шт), головка чеснока (1 шт), приправа для плова (зира, барбарис), масло.",
-                cooking: "В глубокой сковороде/казане обжариваешь лук и морковь соломкой, затем крупно нарезанное мясо до темного цвета. Добавляешь специи (зирочку обязательно!), заливаешь кипятком и тушишь 15 минут (зирвак). Засыпаешь промытый рис, не перемешивая, втыкаешь в центр целую головку чеснока, заливаешь водой на 1.5 см выше риса. Закрываешь крышкой и томишь на минимальном огне до испарения воды.",
-                laykor: "На вид как маслянистый янтарный холм из восточной легенды. Вкус пропитан ароматом зиры и топленого мясного сока."
-            },
-            {
-                title: "● Анаболический Замес",
-                macros: "~1180 ККАЛ // ~72г БЕЛКА",
-                composition: "Творог 5% (300г), яйца (3 шт), банан (2 шт), изюм/орехи (50г), манная крупа или овсяная мука (3 ст.л.), сметана (2 ст.л.), мёд.",
-                cooking: "В миске блендером или вилкой перетираешь творог, яйца, 1 размятый банан и манку. Добавляешь изюм и орехи. Выливаешь в форму для запекания, сверху выкладываешь дольки второго банана. Запекаешь 30-35 минут при 180°C. Подаешь со сметаной и мёдом.",
-                laykor: "На вид как пышный белковый суфле-монолит. На вкус — сладкий кремовый деликатес, идеальный для подзарядки мышц перед тяжелым днем."
-            },
-            {
-                title: "● Омлетный Монолит",
-                macros: "~920 ККАЛ // ~62г БЕЛКА",
-                composition: "Яйца (6 шт), молоко (100мл), ветчина/филе (150г), помидор (1 шт), сыр (100г), зелень, сливочное масло (15г).",
-                cooking: "Взбиваешь 6 яиц с молоком и щепоткой соли. На сковороде на сливочном масле обжариваешь кубики ветчины и помидора 2 минуты. Заливаешь яичной смесью, посыпаешь зеленью и тертым сыром. Накрываешь крышкой и готовишь на малом огне 7-10 минут, пока омлет не поднимется и не станет пышной подушкой.",
-                laykor: "На вид как желтое пышное облако с вкраплениями рубиновых томатов. Легко залезает в желудок, даруя моментальный приток белка."
-            },
-            {
-    title: "● Таящий грааль",
-    macros: "~1220 ККАЛ // ~78г БЕЛКА",
-    composition: "Куриное филе или бедра (350г), сливки 20% (150мл), сливочное масло (30г), чеснок (5 зубчиков), твердый сыр (100г), макароны/гречка (200г).",
-    cooking: "Курицу режешь кусочками и обжариваешь на сливочном масле до золотистой корочки. Выдавливаешь туда кучу чеснока, заливаешь сливками и тушишь 5 минут на малом огне. Посыпаешь тертым сыром и смешиваешь с отваренным гарниром.",
-    laykor: "На вид как золотой сливочный нектар с ароматом чесночного заката. На вкус — густейший кремовый соус, полностью пропитывающий каждую крупицу гарнира сочным мясным вкусом."
-},
-{
-    title: "● Мексиканский Сплайсинг",
-    macros: "~1150 ККАЛ // ~82г БЕЛКА",
-    composition: "Фарш или рваная курица (300г), тортилья/лаваш (2 шт), консервированная кукуруза (100г), красная фасоль (100г), сыр (150г), томатная паста, паприка.",
-    cooking: "Обжариваешь фарш с фасолью, кукурузой, томатной пастой и паприкой. Выкладываешь начинку на одну половину тортильи, обильно засыпаешь сыром, накрываешь второй половиной и обжариваешь на сухой сковороде с двух сторон до хруста и расплавления сыра.",
-    laykor: "На вид как хрустящий сочный конверт из латинских кварталов. На вкус — острый, мясной, сырно-кукурузный взрыв с идеальным хрустом корочки."
-},
-{
-    title: "● Морщинистое пекло",
-    macros: "~1380 ККАЛ // ~86г БЕЛКА",
-    composition: "Свинина или говядина (350г), картофель (400г), морковь (1 шт), лук (1 шт), соленые огурцы (2 шт), томатная паста (2 ст.л.), чеснок.",
-    cooking: "Режешь мясо и овощи кубиками. В глубокой сковороде обжариваешь мясо до корочки, добавляешь лук, морковь, затем томатную пасту и нарезанные соленые огурцы. Заливаешь водой, кидаешь картофель и тушишь под крышкой 35-40 минут до мягкости.",
-    laykor: "На вид как традиционное наваристое азу из дубовой печи. На вкус — густое, с приятной огуречной кислинкой и мягчайшим мясом, распадающимся на волокна."
-},
-{
-    title: "● Азиатский Перехват",
-    macros: "~1080 ККАЛ // ~72г БЕЛКА",
-    composition: "Отварной рис (250г), куриное филе (250г), яйца (3 шт), зеленый лук, соевый соус (4 ст.л.), растительное масло.",
-    cooking: "На сильном огне обжариваешь мелко нарезанное филе. Отодвигаешь мясо на край сковороды, на свободное место разбиваешь 3 яйца и быстро мешаешь (скрембл). Добавляешь рис, заливаешь соевым соусом, жаришь 3-4 минуты, интенсивно помешивая. В конце посыпаешь горой зеленого лука.",
-    laykor: "На вид как пестрый золотистый рис с мясными крапинами. На вкус — классический сытный жареный рис вок, где каждый элемент пропитан соевым соусом."
-},
-{
-    title: "● Мясной Крок-Мадам",
-    macros: "~1120 ККАЛ // ~66г БЕЛКА",
-    composition: "Тостовый хлеб (4 ломотя), ветчина/филе (150г), сыр (120г), яйца (2 шт), сливочное масло (20г), горчица.",
-    cooking: "Смазываешь хлеб горчицей, кладешь ветчину и гору сыра, закрываешь вторым ломотем хлеба. Обжариваешь сэндвичи на сливочном масле с двух сторон до золотистой корочки. Отдельно жаришь 2 глазуньи (с жидким желтком) и выкладываешь по яйцу сверху на каждый сэндвич.",
-    laykor: "На вид как королевский двухэтажный тост. Когда надрезаешь яйцо, жидкий желток стекает по хрустящему хлебу и расплавленному сыру."
-},
-            {
+                category: "heavy",
                 title: "● Куриный экссудат",
                 macros: "~1150 ККАЛ // ~72г БЕЛКА",
                 composition: "Филе, сливки (10%/20%), картошка, приправа 'для курицы', 'хмели-сунели', соль, сыр (100г).",
@@ -1589,64 +766,229 @@
                 laykor: "На вид как куриный гной, облитый на песочные камни из забытого пляжа. На вкус как молочный грааль, с ноткой мужественной экспансии. Она охватывает всю ротовую полость, расширяется и омывает вас замшелым петрикором молчания."
             },
             {
+                category: "cloud",
                 title: "● Налоги фермера",
                 macros: "~580 ККАЛ // ~46г БЕЛКА",
                 composition: "Тёртая морковь (200г), капуста (150г), филе куриное (150-200г), томатная паста (4-5 ст.л), зелень (50г), приправа 'для курицы', соль.",
-                cooking: "Трёшь морковь и капусту с зеленью, закидываешь в одну сковороду, но отдельно перед этим на этой же сковороде жаришь филе, добавляешь в него приправу 'для курицы' и соли щепотку. К филешке закидываешь всю ту субстанцию, и поверх кидаешь томатной пасты. Перемешиваешь, тушишь на малом огне минут 15, пробуешь по готовности. Капуста должна очень слегка хрустеть, а морковь полностью раствориться в томатной пасте.",
+                cooking: "Трёшь морковь и капусту с зеленью, закидываешь в одну сковороду, но отдельно перед этим на этой же сковороде жаришь филе (150-200г), добавляешь в него приправу 'для курицы' и соли щепотку. К филешке закидываешь всю ту субстанцию, и поверх кидаешь томатной пасты. Перемешиваешь, тушишь на малом огне минут 15, пробуешь по готовности. Капуста должна очень слегка хрустеть, а морковь полностью раствориться в томатной пасте.",
                 laykor: "Ощущения, словно ты фермер, удачно выплативший налоги и сидишь на причале под забвение солнца. На вкус как идеальная синергия овощей, дарующая вкусовым сосочкам незабываемые эмоции. Филе выступает в роли капитана армии. Куча овощной плоти стоит за спиной того, кто это всё и возглавляет. Филе дарит чувство плотности и завершённости блюда. Обвораживает даже самые замшелые фильтры восприятия."
             },
-
             {
-                title: "● Коктейль олимпа",
-                macros: "~980 ККАЛ // ~68г БЕЛКА",
-                composition: "Овсянка (50-100г), бананы (150-250г), арахисовая паста (40-80г), немолоко овсяное/шоколадное (300-400мл), протеин/изолят (30-50г).",
-                cooking: "Закидываешь в емкость для блендера бананы, арахисовую пасту, немолоко и овсянку. Добавляешь изолят по желанию. Вжух вжух и готово.",
-                laykor: "Если не хочешь давиться углями и твёрдой пищей — этот коктейль помилует вас. Его суть такова, что вы заправляетесь на 800-1000+ калорий просто выпив это за пару минут. В моменте вы ощущаете себя внебрачным сыном олимпа, который появился там по случайности. Вы обретаете мощь сизигии и разрушаете планеты по щелчку пальцев. На вкус как тот самый напиток богов, окутывающий вашу полость золотом."
-            },
-            {
+                category: "heavy",
                 title: "● Висцеральная желчь",
                 macros: "~2100 ККАЛ // ~115г БЕЛКА",
-                composition: "Фарш (200-400г), сладкий перец (50-80г), макароны (300-400г), творог 5%/обезжиренный (1 уп), яйца (2шт), томатная паста (3-4ст.л), сыр (100-200г), зелень (30-50г), специи (черный перец/паприка/соль).",
-                cooking: "Сначала закидываешь фарш, тушишь, и через минуты 2-3 закидываешь сладкий перец одну штуку, перед этим нарезав его на кубики. Добавляешь томатной пасты, зелени, специй, перца, соли — побольше, потому что позже мы добавляем макароны сверху и перемешиваем. Позже добавляем сверху воды, ориентируешься по макаронам, сколько должно впитать примерно. Пока оно готовится, создаем отдельную смесь: в блендер закидываем упаковку творога и 2 яйца. Блендерим, и на средней стадии готовки основного блюда закидываем туда эту смесь. Оно приобретет розоватый оттенок с плавающими белыми головками. Перемешиваем, закрываем и доводим до готового состояния, ориентируясь на макароны. Когда все готово, сверху сыр и все.",
-                laykor: "На вид как внутренности гиппопотама, светится желтизной (маслом от фарша), бурлит словно еда в желудочном соке, однако на вкус это словно война с армией помидора. Хотя помидора здесь нет, но помидор принял обличие перца, и поэтому он здесь так решает. А в остальном вкус походит на любовную сцену с закатом. Ее поцелуи плодят в вашей голове розовый гром дофамина, отчего вы падаете в синцитии (слияние в одну массу), превращаясь в поглощающего галактики червя."
+                composition: "Фарш (200-400г), сладкий перец (50-80г), макароны (300-400г), творог 5%/обезжиренный (1 уп), яйца (2шт), томатная паста (3-4ст.л), сыр (100-200г), зелень (30-50г), специи.",
+                cooking: "Сначала закидываешь фарш, тушишь, и через минуты 2-3 закидываешь сладкий перец. Добавляешь томатной пасты, зелени, специй. Позже добавляем сверху воду и макароны. Пока готовится, в блендере смешиваем упаковку творога и 2 яйца, закидываем на средней стадии готовки. Сверху сыр и готово.",
+                laykor: "На вид как внутренности гиппопотама, светится желтизной, бурлит словно еда в желудочном соке. На вкус походит на любовную сцену с закатом, превращая вас в поглощающего галактики червя."
             },
-
             {
+                category: "heavy",
                 title: "● Брюшной замес",
                 macros: "~1450 ККАЛ // ~68г БЕЛКА",
-                composition: "Спагетти (200-400г), помидоры (100-150г), фарш (200-300г), томатная паста (3ст.л), зелень (50-70г), чеснок (10-20г мелко нарезанный/чесночная специя), специи (соль/паприка/перец).",
-                cooking: "Закидываем фарш на сковороду, помидоры нарезанные кубиками и томатную пасту. Добавляешь специй, но главное не переборщить. Тушим минут 7-10. И сверху добавляем уже приготовленные (сваренные) спагетти. Все это тщательно перемешиваем, доводим до готовности и готово.",
-                laykor: "Блюдо само по себе выглядит как болоньезе в отставке. Однако оно ничем не хуже, напоминает его вкус разящий клинок помидорной гавани. Вас словно пронзает семя помидора во главе с фаршем и чесноком. Это главные антагонисты блюда. Спагетти создано для массовки, чтобы получить больше гонорара за блюдо. При потреблении вы затягиваете в себя спагетти так, словно пытаетесь запустить механизм замеса. Как только они оказываются в желудочке, начинается спагеттификация, и ваше брюшко месит по всем фронтам от удовольствия."
+                composition: "Спагетти (200-400г), помидоры (100-150г), фарш (200-300г), томатная паста (3ст.л), зелень, чеснок, специи.",
+                cooking: "Закидываем фарш на сковороду, помидоры и томатную пасту. Тушим минут 7-10. Сверху добавляем отварные спагетти, тщательно перемешиваем и доводим до готовности.",
+                laykor: "Блюдо походит на болоньезе в отставке. Вас пронзает семя помидора во главе с фаршем и чесноком. Начинается спагеттификация, и животик месит по всем фронтам."
             },
             {
+                category: "heavy",
                 title: "● Сырный коллапс",
                 macros: "~1850 ККАЛ // ~85г БЕЛКА",
-                composition: "Макароны (200-400г), сливки 10-20% (60-100мл), помидоры (100г), филе (200г), сыр (200-300г), томатная паста (1ст.л), специи (для курицы/соль/чеснок).",
-                cooking: "Отдельно варим макароны, и пока они варятся делаем основную добавку. На сковороде жарим филе, добавляем помидорки, сливки и специи. Потушили пару минут, и на терке добавляем сыр с чесноком. Тушим еще чутка и добавляем макароны. Перемешиваем и готово.",
-                laykor: "На вид как тягучая субстанция для грима из фильмов ужасов. На вкус это словно плен, находясь в котором вы образуете коллапс, освобождая себя сыром. После взрыва вся ваша полость замуровывается вязким сыром и непревязанным ручьём варёных сливок."
+                composition: "Макароны (200-400г), сливки 10-20% (60-100мл), помидоры (100г), филе (200г), сыр (200-300г), томатная паста, специи.",
+                cooking: "Отдельно варганим макароны. На сковороде жарим филе, помидорки, сливки и специи. Добавляем сыр с чесноком, в конце смешиваем с макаронами.",
+                laykor: "На вид как тягучая субстанция для грима из фильмов ужасов. Вся ваша полость замуровывается вязким сыром и непревязанным ручьём варёных сливок."
             },
             {
+                category: "heavy",
                 title: "● Блевота богача",
                 macros: "~1200 ККАЛ // ~52г БЕЛКА",
-                composition: "Рис (300г сухого), куриное филе (200г), кисло-сладкий соус (кетчуп + соевый соус + хорошая щепотка сахара).",
-                cooking: "Рис, среднюю порцию (300г сухого) варим. Отдельно жаришь филе на соусе, приготовленном вот так: кетчуп смешиваешь с соевым соусом, добавляешь хорошую щепотка сахара. Готовишь филе, добавляешь приправы и смешиваешь с рисом.",
-                laykor: "Золотистый, на вид как блевота с опарышами, на вкус как богатая пряность небесов, изумляет вкусовые сосочки и атрофирует разум в первые секунды. Долго не можешь отойти от необычности и простоты блюда."
+                composition: "Рис (300г сухого), куриное филе (200г), кисло-сладкий соус (кетчуп + соевый соус + сахар).",
+                cooking: "Варим рис. Отдельно жарим филе на соусе из кетчупа, соевого соуса и щепотки сахара, приправляем и смешиваем с рисом.",
+                laykor: "На вид как блевота с опарышами, на вкус как богатая пряность небесов, изумляет вкусовые сосочки и атрофирует разум."
             },
             {
+                category: "heavy",
+                title: "● Мясной Квазар",
+                macros: "~1350 ККАЛ // ~88г БЕЛКА",
+                composition: "Фарш (300г), картофель (300г), бекон копченый (50г), сливки 20% (100мл), сыр (150г), лук, чеснок, паприка.",
+                cooking: "Варим и мнем картофель в пюре. На сковороде жарим бекон и лук, добавляем фарш, чеснок и паприку. Смешиваем с пюре, заливаем сливками, засыпаем сыром под крышку.",
+                laykor: "Жареный геологический сдвиг тектонических плит. Дымный мясной вулкан, обволакивающий желудок горячим сырным нектаром."
+            },
+            {
+                category: "heavy",
+                title: "● Сливочный Бегемот",
+                macros: "~1400 ККАЛ // ~92г БЕЛКА",
+                composition: "Фетучини (250г), говядина/филе (300г), шампиньоны (150г), сливки (150мл), плавленый сыр (100г), лук.",
+                cooking: "Жарим тонкие полоски мяса и грибы с луком. Заливаем сливками, плавим сыр до крем-соуса, кидаем готовые макароны и перемешиваем.",
+                laykor: "Тягучий сливочный клей, собранный в венозной лаборатории. Мощный грибной гуляш с тяжелым сырным шлейфом."
+            },
+            {
+                category: "heavy",
+                title: "● Мясной Хлеб из Бездны",
+                macros: "~1550 ККАЛ // ~105г БЕЛКА",
+                composition: "Фарш (400г), вареные яйца (3 шт), сырое яйцо, лук, томатная паста, сыр (150г).",
+                cooking: "Вылепляем батон из фарша со специями, запечатывая внутри три вареных яйца. Запекаем 40 минут при 180°C, посыпая сыром в конце.",
+                laykor: "Монолитная капсула из тайного цеха. В разрезе виднеются золотые сферы яиц в запеченном мясном коконе."
+            },
+
+            // ОБЛАЧНЫЕ (CLOUD)
+            {
+                category: "cloud",
+                title: "● Коктейль олимпа",
+                macros: "~980 ККАЛ // ~68г БЕЛКА",
+                composition: "Овсянка (50-100г), бананы (150-250г), арахисовая паста (40-80г), немолоко (300-400мл), протеин/изолят (30-50г).",
+                cooking: "Закидываешь все в блендер, вжух-вжух и готово. Пищевой нектар суверенного атлета.",
+                laykor: "Выпивая за пару минут, чувствуете себя внебрачным сыном олимпа. Напиток богов, окутывающий полость золотом."
+            },
+            {
+                category: "cloud",
                 title: "● Овсяный стул",
                 macros: "~720 ККАЛ // ~32г БЕЛКА",
-                composition: "Овсянка (120г), немолоко (200мл), яйца (3 шт) — блинчик.",
-                cooking: "120г овсянки, немолока (200мл) и 3 яйца смешиваешь в блендере. Получается каловая масса, которую закидываешь в сковороду и делаешь как блин.",
+                composition: "Овсянка (120г), немолоко (200мл), яйца (3 шт).",
+                cooking: "Смешиваешь в блендере до однородной массы и жаришь на сковороде как овсяно-яичный блин.",
                 laykor: "Монолитная тяга в животе, ощущение словно бог сидит на толчке, на вкус как крестьянский пир."
             },
             {
+                category: "cloud",
                 title: "● Заправка Василича",
                 macros: "~380 ККАЛ // ~35г БЕЛКА",
-                composition: "Филе или куриные желудочки (200г), морковь тёртая, лук, томатная паста, приправы.",
-                cooking: "Мелко режешь филе или куры-желудочки, обжариваешь с тёртой морковью и луком, добавляешь томатную пасту и специи, тушишь до мягкости. Идеальный подлив к любой крупе (рису, гречке, макаронам).",
-                laykor: "Универсальный соусной спаситель любых пресных круп. Превращает сухой гарнир в сочную, мясную, пряную карусель вкуса."
+                composition: "Филе или желудочки (200г), морковь тёртая, лук, томатная паста, специи.",
+                cooking: "Мелко режешь мясо, тушишь с морковью, луком и томатами до мягкости. Универсальный подлив к любой каше.",
+                laykor: "Универсальный соусной спаситель пресных круп. Превращает сухой гарнир в сочную мясную карусель вкуса."
+            },
+            {
+                category: "cloud",
+                title: "● Медовый Склероз",
+                macros: "~1100 ККАЛ // ~75г БЕЛКА",
+                composition: "Куриное филе (350г), рис Басмати (150г), мёд (2 ст.л.), соевый соус (4 ст.л.), чеснок, масло, кунжут.",
+                cooking: "Жарим филе до корочки, заливаем смесью меда, соевого соуса и чеснока. Карамелизуем мясо и подаем на масляном рисе.",
+                laykor: "Янтарные самородки из азиатской лаборатории. Сладко-пряная соевая бомба, погружающая в дофаминовый анабиоз."
+            },
+            {
+                category: "cloud",
+                title: "● Капсула гармонии ",
+                macros: "~1250 ККАЛ // ~80г БЕЛКА",
+                composition: "Лаваш (2 шт), фарш/филе (250г), яйца (3 шт), сыр (120г), огурцы соленые, соус.",
+                cooking: "Заворачиваем в лаваш мясо, скрембл из яиц, огурцы и гору сыра. Жарим конверт на сухой сковороде под прессом.",
+                laykor: "Золотой монолитный брикет метаболизма. При укусе наружу вырывается горячий сырно-мясной экссудат."
+            },
+            {
+                category: "cloud",
+                title: "● Почтальон Печкин",
+                macros: "~980 ККАЛ // ~78г БЕЛКА",
+                composition: "Куриная печень (350г), гречка (150г), сметана (150г), лук (2 шт), масло.",
+                cooking: "Жарим печень с карамельным луком (7 минут), тушим 3 минуты в сметане. Подаем на рассыпчатой гречке.",
+                laykor: "Плотная, теплая бандероль из куриной печени скользит по твоему пищеводу, обильно смазанная густым сметанным потом карамельного лука. Каждая гречинка падает в желудок, словно ржавые гвозди, забиваемые в посылочный ящик. Внезапно в твоих темных кишках начинается паническое бурление, и испуганный организм робко шепчет в пустоту: *Кто там?*. А это усатый Печкин принес посылку с чистейшим, тяжелым железом для твоего дряхлого тельца! Но он тебе ее не отдаст, пока ты не размажешь всю эту скользкую печеночную жижу по стенкам своего желудочного бака"
+            },
+            {
+                category: "cloud",
+                title: "● Озоновый Дендрит",
+                macros: "~1150 ККАЛ // ~70г БЕЛКА",
+                composition: "Лапша Удон (200г), филе (250г), перец болгарский, соевый соус, терияки, кунжут.",
+                cooking: "Быстро обжариваем мясо и овощи в воке, добавляем удон, соусы и кунжут. Интенсивно мешаем 2 минуты.",
+                laykor: "Сплетение лиан и нейронов. Глянец восточной гавани, пронзающий полость рта сочным вкусом."
+            },
+            {
+                category: "cloud",
+                title: "● Азиатский Перехват",
+                macros: "~1080 ККАЛ // ~72г БЕЛКА",
+                composition: "Рис вареный (250г), филе (250г), яйца (3 шт), зеленый лук, соевый соус.",
+                cooking: "Жарим филе, сдвигаем вбок, делаем яичный скрембл. Досыпаем рис, заливаем соевым соусом, засыпаем луком.",
+                laykor: "Пестрый золотистый рис с мясными крапинами. Классический сытный жареный вок."
+            },
+
+            // ДЕСЕРТЫ (DESSERT) - В ТОМ ЧИСЛЕ 2 НОВЫХ
+            {
+                category: "dessert",
+                title: "● Негристая стесняшка",
+                macros: "~1050 ККАЛ // ~55г БЕЛКА",
+                composition: "Овсянка (100г), какао (2 ст.л.), яйца (3 шт), банан (1 шт), арахисовая паста (50г), творог 5% (100г), сгущенка.",
+                cooking: "Взбиваем в блендере овсянку, какао, яйца, банан и творог. Жарим блин-пирог на сковороде под крышкой, в центр закладывая ложку арахисовой пасты. Полеваем сгущенкой.",
+                laykor: "Этот потный, шоколадный блин-монолит падает в твой животик липким комком горячего чернозёма, словно уставший африканский шахтер залез тебе под рёбра погреться после тяжелой смены. Из самого центра этой стесняшки под давлением лопается густая, склизкая арахисовая жижа, подозрительно напоминающая выделения из воспаленной потовой скважины. Сверху всё это залито липкой белой струей сгущенки, которая размазывается по черной плоти блина, пока твой пупок скукоживается от приторного спазма, издавая тонкий хирургический звон. Тающая на губах слюна намертво склеивается с банановым клеем, заставляя тебя судорожно сглатывать этот шоколадный грех"
+            },
+            {
+                category: "dessert",
+                title: "● Попукивания Царевны",
+                macros: "~1180 ККАЛ // ~72г БЕЛКА",
+                composition: "Творог 5% (300г), яйца (3 шт), банан (2 шт), изюм/орехи (50г), манная крупа (3 ст.л.), сметана, мёд.",
+                cooking: "В глубокой миске преврати бананы в однородную жижу, используя вилку или блендер, пока они не станут похожи на переваренное пюре из детского сада. Туда же вбей яйца и тщательно взбей массу до состояния мутной пены. Всыпь творог и манную крупу, замешивай это до тех пор, пока комочки не перестанут издеваться над твоим терпением.  Брось изюм и орехи пускай они там плавают, как нежданные гости в болоте.  Залей получившееся месиво в форму, смазанную маслом, и отправляй в духовку на 35 минут при 180°C, пока поверхность не покроется румяной коркой, напоминающей кожу старой Царевны.",
+                laykor: "Этот липкий, горячий кусок бананово-творожного греха падает в твой желудок тяжелым, сладким кирпичом. Но не расслабляйся — это ловушка. Сверху всё залито прохладной сметаной и тягучим мёдом исключительно ради того, чтобы усыпить бдительность твоего кишечника, который уже предчувствует неминуемую катастрофу. Как только запеканка оседает на дно, банан начинает стремительно бродить в твоих теплых недрах, манка разбухает до размеров футбольного мяча, а изюм коварно лопается. Спустя двадцать минут в твоем животе раздается первый влажный, басовитый аккорд — это твоя внутренняя Царевна кокетливо приподнимает подол пышного платья и выдает симфонию раскатистого пердежа. Звук сочный, возбуждающий, с отчетливым банановым шлейфом, от которого шторы в комнате начинают тихонько шевелиться."
+            },
+            {
+                category: "dessert",
+                title: "● Коварный Чизкейк",
+                macros: "~920 ККАЛ // ~48г БЕЛКА",
+                composition: "Творог мягкий 0-5% (400г), печенье юбилейное/овсяное (150г), сливочное масло (40г), яйцо (1 шт), мёд или сироп (3 ст.л.), ванилин.",
+                cooking: "Измельчаем печенье в крошку, смешиваем с растопленным маслом и утрамбовываем на дно формы как основу. В блендере взбиваем творог, яйцо, мёд и ванилин, выливаем поверх коржа. Запекаем 25 минут при 160°C, остужаем в холодильнике.",
+                laykor: "С виду этот десерт притворяется изящным белым облаком, но вся его гнилая сущность кроется на самом дне. Фундамент из раздавленного в пыль печенья, намертво склеенного жирным топленым маслом, падает в твой желудок плотным, мокрым слоем прибрежного песка. Поверх этой песчаной насыпи растекается бледная, холодная жижа из взбитого творога, скрепленная сырым яйцом и липким медом. Этот сладкий ванильный слизень бесшумно просачивается в твой пищевод, мгновенно блокируя фильтры организма и окутывая внутренности плотным гастрономическим парезом. Желудок даже не успевает понять, в какой момент его наглухо залили этим сладким творогом, напоминающим холодный строительный гипс. Чистейший обман вкуса: снаружи прохладная нежность, а внутри — тяжелый цементный замес"
+            },
+            {
+                category: "dessert",
+                title: "● Фруктовый ниндзя",
+                macros: "~780 ККАЛ // ~22г БЕЛКА",
+                composition: "Яблоки или груши (3 шт), корица (1 ч.л.), мёд (2 ст.л.), грецкие орехи (40г), мороженое пломбир (100г) или густой греческий йогурт.",
+                cooking: "Нарезаем фрукты дольками, тушим на сковороде со сливочным маслом, мёдом и корицей до мягкости и карамелизации. Выкладываем горячие фрукты в миску, щедро посыпаем измельченными орехами и сверху загружаем шар холодного пломбира.",
+                laykor: "Горячая коричная слизь от тушеных яблок падает в твой дряблый животик раскаленной жижей, моментально вызывая резкий хирургический звон в зубах от контакта с ледяным пломбиром. Тающая на губах слюна смешивается с липким медом, пока температурный шок наглухо закупоривает твои потные скважины. Сморщенные грецкие орехи противно хрустят на зубах, напоминая скукоженную от полярного холода мошонку, пока твой натянутый пупок медленно готовится к неизбежному взрыву от этой карамельной диверсии"
             }
         ];
+
+        // ----------------------------------------------------
+        // ФУНКЦИЯ ФИЛЬТРАЦИИ МЕНЮ ПО КАТЕГОРИЯМ
+        // ----------------------------------------------------
+                // ----------------------------------------------------
+        // ФУНКЦИЯ ФИЛЬТРАЦИИ МЕНЮ ПО КАТЕГОРИЯМ
+        // ----------------------------------------------------
+        function renderDishes(filter = 'all') {
+            const grid = document.getElementById('dishes-grid');
+            if (!grid) return;
+
+            let filtered = dishes;
+            if (filter !== 'all') {
+                filtered = dishes.filter(d => d.category === filter);
+            }
+
+            grid.innerHTML = filtered.map((d) => {
+                // Находим оригинальный индекс блюда в общем массиве dishes для корректного перехода
+                const realIndex = dishes.indexOf(d);
+                
+                // ОПРЕДЕЛЯЕМ ЦВЕТ СВЕЧЕНИЯ ПО КАТЕГОРИИ
+                let glowClass = '';
+                if (d.category === 'heavy') glowClass = 'glow-heavy';
+                else if (d.category === 'cloud') glowClass = 'glow-cloud';
+                else if (d.category === 'dessert') glowClass = 'glow-dessert';
+
+                return `
+                    <div class="dish-card">
+                        <div>
+                            <!-- ПРИМЕНЯЕМ НЕОНОВЫЙ КЛАСС К ЗАГОЛОВКУ -->
+                            <div class="dish-card-title ${glowClass}">${d.title}</div>
+                            <div class="macro-badge">${d.macros}</div>
+                        </div>
+                        <button class="open-dish-btn" onclick="openDishPage(${realIndex})">ПОСМОТРЕТЬ РЕЦЕПТ →</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterDishes(category, btnElement) {
+            document.querySelectorAll('.menu-tab-btn').forEach(btn => btn.classList.remove('active-menu-tab'));
+            if (btnElement) btnElement.classList.add('active-menu-tab');
+            renderDishes(category);
+        }
+
+        function openDishPage(i) {
+            const d = dishes[i];
+            document.getElementById('dish-detail-content').innerHTML = `
+                <div class="dish-detail-container">
+                    <h2 class="section-title title-green">${d.title}</h2>
+                    <div class="dish-block"><div class="dish-block-title">🥗 СОСТАВ</div><p>${d.composition}</p></div>
+                    <div class="dish-block"><div class="dish-block-title">🔥 ПРИГОТОВЛЕНИЕ</div><p>${d.cooking}</p></div>
+                    <div class="dish-block laykor-box"><div class="dish-block-title" style="color:var(--accent-purple)">🔮 ЛЭЙКОР</div><p>${d.laykor}</p></div>
+                </div>
+            `;
+            switchPage('dish-detail');
+        }
+
+
 
         // ----------------------------------------------------
         // 4. ПОЛНЫЙ АРХИВ СКАЗОК И АПОСТЕРИОРИ (ОБНОВЛЕННЫЕ ТЕКСТЫ И АВТОРСКИЕ РАСШИФРОВКИ)
@@ -1866,40 +1208,56 @@
         // ----------------------------------------------------
         // 6. НАДЕЖНЫЕ ФУНКЦИИ РЕНДЕРА
         // ----------------------------------------------------
+        function renderDictionary() {
+            const container = document.getElementById('dictionary-content');
+            if (!container) return;
+            let html = '';
+            let catIdx = 0;
+
+            for (let category in dictionaryData) {
+                catIdx++;
+                html += `<div class="dict-cat-header">${category}</div>`;
+                let sortedWords = dictionaryData[category].sort((a, b) => a.w.localeCompare(b.w, 'ru'));
+                let currentLetter = '';
+
+                sortedWords.forEach((item, i) => {
+                    let firstLetter = item.w[0];
+                    if (firstLetter !== currentLetter) {
+                        currentLetter = firstLetter;
+                        html += `<div class="dict-letter">${currentLetter}</div>`;
+                    }
+                    const wordId = `word-c${catIdx}-${i}`;
+                    html += `
+                        <div class="dict-row" id="${wordId}">
+                            <div class="word-header">
+                                <span class="word-name">${item.w}</span>
+                                <button class="decode-btn" onclick="toggleWord('${wordId}')">ДЕШИФРОВКА</button>
+                            </div>
+                            <div class="word-def">${item.d}</div>
+                        </div>`;
+                });
+            }
+            container.innerHTML = html;
+        }
+
+        function toggleWord(id) {
+            const row = document.getElementById(id);
+            if(!row) return;
+            row.classList.toggle('active');
+            const btn = row.querySelector('.decode-btn');
+            if(btn) btn.innerText = row.classList.contains('active') ? 'СКРЫТЬ' : 'ДЕШИФРОВКА';
+        }
+
+        // ----------------------------------------------------
+        // 7. РЕНДЕР СКАЗОК
+        // ----------------------------------------------------
         let currentTalesCategory = 'tales';
-
-        function renderDishes() {
-            const grid = document.getElementById('dishes-grid');
-            if (!grid) return;
-            grid.innerHTML = dishes.map((d, i) => `
-                <div class="dish-card">
-                    <div>
-                        <div class="dish-card-title">${d.title}</div>
-                        <div class="macro-badge">${d.macros}</div>
-                    </div>
-                    <button class="open-dish-btn" onclick="openDishPage(${i})">ПОСМОТРЕТЬ РЕЦЕПТ →</button>
-                </div>
-            `).join('');
-        }
-
-        function openDishPage(i) {
-            const d = dishes[i];
-            document.getElementById('dish-detail-content').innerHTML = `
-                <div class="dish-detail-container">
-                    <h2 class="section-title title-green">${d.title}</h2>
-                    <div class="dish-block"><div class="dish-block-title">🥗 СОСТАВ</div><p>${d.composition}</p></div>
-                    <div class="dish-block"><div class="dish-block-title">🔥 ПРИГОТОВЛЕНИЕ</div><p>${d.cooking}</p></div>
-                    <div class="dish-block laykor-box"><div class="dish-block-title" style="color:var(--accent-purple)">🔮 ЛЭЙКОР</div><p>${d.laykor}</p></div>
-                </div>
-            `;
-            switchPage('dish-detail');
-        }
 
         function renderTalesList() {
             const container = document.getElementById('tales-list-container');
-            if (!container) return;
+            if(!container) return;
             const list = talesData[currentTalesCategory];
-            if (!list) return;
+            if(!list) return;
 
             container.innerHTML = list.map((item, index) => `
                 <div class="tale-list-card">
@@ -1948,49 +1306,8 @@
             icon.innerText = content.classList.contains('open') ? '▲' : '▼';
         }
 
-        // РЕНДЕР СЛОВАРЯ С УНИКАЛЬНЫМИ СИСТЕМНЫМИ ИДЕНТИФИКАТОРАМИ
-        function renderDictionary() {
-            const container = document.getElementById('dictionary-content');
-            if (!container) return;
-            let html = '';
-            let catIdx = 0;
-
-            for (let category in dictionaryData) {
-                catIdx++;
-                html += `<div class="dict-cat-header">${category}</div>`;
-                let sortedWords = dictionaryData[category].sort((a, b) => a.w.localeCompare(b.w, 'ru'));
-                let currentLetter = '';
-
-                sortedWords.forEach((item, i) => {
-                    let firstLetter = item.w[0];
-                    if (firstLetter !== currentLetter) {
-                        currentLetter = firstLetter;
-                        html += `<div class="dict-letter">${currentLetter}</div>`;
-                    }
-                    const wordId = `word-c${catIdx}-${i}`;
-                    html += `
-                        <div class="dict-row" id="${wordId}">
-                            <div class="word-header">
-                                <span class="word-name">${item.w}</span>
-                                <button class="decode-btn" onclick="toggleWord('${wordId}')">ДЕШИФРОВКА</button>
-                            </div>
-                            <div class="word-def">${item.d}</div>
-                        </div>`;
-                });
-            }
-            container.innerHTML = html;
-        }
-
-        function toggleWord(id) {
-            const row = document.getElementById(id);
-            if (!row) return;
-            row.classList.toggle('active');
-            const btn = row.querySelector('.decode-btn');
-            if (btn) btn.innerText = row.classList.contains('active') ? 'СКРЫТЬ' : 'ДЕШИФРОВКА';
-        }
-
         // ----------------------------------------------------
-        // 7. ПЛЕЕР И ИНИЦИАЛИЗАЦИЯ
+        // 8. ПЛЕЕР И ИНИЦИАЛИЗАЦИЯ
         // ----------------------------------------------------
         let playState = false;
         let audioHTMLNode = null;
@@ -2025,7 +1342,7 @@
         }
 
         window.onload = () => {
-            renderDishes();
+            renderDishes('all');
             renderTalesList();
             renderDictionary();
             updateLeycoreProgress();
