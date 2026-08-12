@@ -612,9 +612,56 @@
             border: 2px solid rgba(255, 255, 255, 0.1);
             background: #08070b;
         }
+                /* --- СТИЛИ ДЛЯ ИГРОВОЙ ЗОНЫ (ЦАРЕВНА) --- */
+        .flappy-arcade-container {
+            position: relative;
+            width: 400px;
+            height: 500px;
+            margin: 20px auto;
+            border: 2px solid var(--accent-gold);
+            border-radius: 12px;
+            overflow: hidden; /* Чтобы игра не вылезала за края */
+            background: #000;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+        }
+
         #flappyCanvas {
             display: block;
+            width: 100%;
+            height: 100%;
             background: linear-gradient(to bottom, #110e17, #1f1424);
+        }
+
+        /* Оверлей (Кнопка Старт), который висит НАД игрой */
+        .arcade-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .arcade-start-btn {
+            background: var(--accent-pink);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-family: var(--font-code);
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0 0 20px var(--accent-pink);
+            transition: transform 0.2s;
+        }
+
+        .arcade-start-btn:hover {
+            transform: scale(1.1);
+        }
+
         }
         .arcade-overlay {
             position: absolute;
@@ -1165,35 +1212,44 @@
             <div id="dish-detail-content"></div>
         </div>
 
-        <!-- PAGE: GAMES -->
+       <!-- PAGE: GAMES -->
 <div id="page-games" class="page-view">
     <h2 class="section-title title-gold">АРКАДНЫЙ ЗАЛ ЛЭЙКОРА</h2>
     
     <!-- Флэппи Царевна -->
     <div class="flappy-arcade-container">
         <h3>💨 ПОЛЕТ ЦАРЕВНЫ</h3>
-        <canvas id="flappyCanvas" width="400" height="500"></canvas>
-        <div id="arcade-overlay" class="arcade-overlay">
-            <button onclick="startFlappyGame()" class="arcade-start-btn">▶️ СТАРТ</button>
+        <p>Жми ПРОБЕЛ или КЛИКАЙ мышкой, чтобы Царевна пукала и набирала высоту! Облетай стены овсянки и долети до десерта!</p>
+        <div class="arcade-screen-box">
+            <canvas id="flappyCanvas" width="400" height="500"></canvas>
+            <div id="arcade-overlay" class="arcade-overlay">
+                <h2 id="arcade-title">ИГРА ГОТОВА!</h2>
+                <p id="arcade-sub">Нажми СТАРТ, чтобы запустить реактивный пердеж</p>
+                <button onclick="startFlappyGame()" class="arcade-start-btn">▶️ СТАРТ ПОЛЕТА</button>
+            </div>
+        </div>
+        <div id="arcade-achievement" class="arcade-achievement" style="display: none;">
+            🏆 АЧИВКА РАЗБЛОКИРОВАНА: <span style="color: var(--accent-green);">«Попукивания освоены!»</span> ✨
         </div>
     </div>
 
     <!-- КЛИКЕР БОБНИТА -->
     <div class="leycore-hero" style="text-align: center;">
         <h3>🍔 НАКАЧАЙ БОБНИТА БУРГЕРАМИ</h3>
-        <p>Мотивация: 10,000 бургеров = Секретный рецепт "Дядя Хрюшка"</p>
-        <div id="bobnit-clicker-area" onclick="clickBobnit()" style="cursor: pointer; margin: 20px 0;">
+        <p>Мотивация: 10,000 бургеров = Секретный рецепт "Позвоночник Жирдяя"</p>
+        <div id="bobnit-clicker-area" onclick="clickBobnit(event)" style="cursor: pointer; margin: 20px 0;">
             <img id="bobnit-clicker-img" src="bobnit_thanos.jpg" style="width: 200px; border-radius: 50%; transition: transform 0.1s;">
         </div>
         <h2 id="clicker-counter">Бургеров: 0</h2>
         
         <!-- Секретный рецепт (сначала скрыт) -->
         <div id="secret-recipe" style="display: none; background: #1a0000; border: 2px solid gold; padding: 20px; margin-top: 20px;">
-            <h2 style="color: gold;">📜 СЕКРЕТНЫЙ РЕЦЕПТ: Дядя Хрюшка</h2>
+            <h2 style="color: gold;">📜 СЕКРЕТНЫЙ РЕЦЕПТ: ПОЗВОНОЧНИК ЖИРДЯЯ</h2>
             <p>Это блюдо настолько жирное, что твой унитаз потребует отставки...</p>
         </div>
     </div>
 </div>
+
 
 
     </div>
