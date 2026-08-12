@@ -1797,20 +1797,24 @@
                 // ----------------------------------------------------
         // МИНИ-ИГРА: ФЛЭППИ ПЕРДЕЖ ЦАРЕВНЫ
         // ----------------------------------------------------
+               // ----------------------------------------------------
+        // МИНИ-ИГРА: ФЛЭППИ ПЕРДЕЖ ЦАРЕВНЫ (РЕЖИМ 2.0)
+        // ----------------------------------------------------
         const canvas = document.getElementById("flappyCanvas");
         const ctx = canvas ? canvas.getContext("2d") : null;
 
-        let bird = { x: 50, y: 250, radius: 18, gravity: 0.5, lift: -8, velocity: 0 };
+        // ПАРАМЕТРЫ СЛОЖНОСТИ (СДЕЛАЛИ ПОМЕЧЕЕ)
+        let bird = { x: 50, y: 250, radius: 18, gravity: 0.35, lift: -6.5, velocity: 0 }; 
         let pipes = [];
         let score = 0;
         let gameInterval = null;
         let isPlaying = false;
-        let farts = []; // Облачка газа
+        let farts = [];
 
         function startFlappyGame() {
             document.getElementById("arcade-overlay").style.display = "none";
             document.getElementById("arcade-achievement").style.display = "none";
-            bird = { x: 50, y: 250, radius: 18, gravity: 0.5, lift: -8, velocity: 0 };
+            bird = { x: 50, y: 250, radius: 18, gravity: 0.35, lift: -6.5, velocity: 0 }; // Уменьшили гравитацию и прыжок
             pipes = [];
             farts = [];
             score = 0;
@@ -1823,11 +1827,10 @@
         function triggerFlappyJump() {
             if (!isPlaying) return;
             bird.velocity = bird.lift;
-            // Добавляем облачко газа под Царевну при прыжке!
-            farts.push({ x: bird.x - 15, y: bird.y + 10, alpha: 1, size: 10 });
+            // Зеленый газ (Висцеральная желчь)
+            farts.push({ x: bird.x - 10, y: bird.y + 15, alpha: 1, size: 8 });
         }
 
-        // Клик по холсту или нажатие пробела
         if (canvas) {
             canvas.addEventListener("click", triggerFlappyJump);
             document.addEventListener("keydown", (e) => {
@@ -1840,115 +1843,72 @@
 
         function updateFlappyGame() {
             if (!isPlaying || !ctx) return;
-
-            // Физика птички
             bird.velocity += bird.gravity;
             bird.y += bird.velocity;
 
-            // Генерация труб (препятствий из овсянки)
-            if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - 200) {
-                let gap = 140;
-                let topHeight = Math.floor(Math.random() * 200) + 50;
+            if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - 250) { // Увеличили дистанцию между столбами
+                let gap = 160; // Увеличили проход для Царевны
+                let topHeight = Math.floor(Math.random() * 200) + 60;
                 pipes.push({ x: canvas.width, top: topHeight, bottom: canvas.height - topHeight - gap, passed: false });
             }
 
-            // Движение труб
             for (let i = pipes.length - 1; i >= 0; i--) {
-                pipes[i].x -= 2.5;
-
-                // Столкновение с трубами
-                if (
-                    bird.x + bird.radius > pipes[i].x &&
-                    bird.x - bird.radius < pipes[i].x + 60 &&
-                    (bird.y - bird.radius < pipes[i].top || bird.y + bird.radius > canvas.height - pipes[i].bottom)
-                ) {
+                pipes[i].x -= 2; // Замедлили скорость движения
+                if (bird.x + bird.radius > pipes[i].x && bird.x - bird.radius < pipes[i].x + 60 &&
+                    (bird.y - bird.radius < pipes[i].top || bird.y + bird.radius > canvas.height - pipes[i].bottom)) {
                     gameOverFlappy();
                 }
-
-                // Подсчет очков
-                if (!pipes[i].passed && pipes[i].x < bird.x) {
-                    pipes[i].passed = true;
-                    score++;
-                }
-
-                // Удаление старых труб
-                if (pipes[i].x < -60) {
-                    pipes.splice(i, 1);
-                }
+                if (!pipes[i].passed && pipes[i].x < bird.x) { pipes[i].passed = true; score++; }
+                if (pipes[i].x < -60) pipes.splice(i, 1);
             }
 
-            // Столкновение с полом или потолком
-            if (bird.y + bird.radius > canvas.height || bird.y - bird.radius < 0) {
-                gameOverFlappy();
-            }
+            if (bird.y + bird.radius > canvas.height || bird.y - bird.radius < 0) gameOverFlappy();
 
-            // Отрисовка сцены
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Рисуем газовые облачка (пердеж)
+            // Рендер ЗЕЛЕНОГО ГАЗА
             for (let i = farts.length - 1; i >= 0; i--) {
-                farts[i].x -= 1.5;
-                farts[i].size += 0.5;
-                farts[i].alpha -= 0.03;
-                if (farts[i].alpha <= 0) {
-                    farts.splice(i, 1);
-                } else {
-                    ctx.fillStyle = `rgba(255, 105, 180, ${farts[i].alpha})`;
+                farts[i].x -= 1; farts[i].size += 0.3; farts[i].alpha -= 0.02;
+                if (farts[i].alpha <= 0) farts.splice(i, 1);
+                else {
+                    ctx.fillStyle = `rgba(0, 255, 102, ${farts[i].alpha})`;
                     ctx.beginPath();
-                    ctx.arc(farts[i].x, farts[i].y, farts[i].size, 0, Math.PI * 2);
-                    ctx.fill();
+                    ctx.arc(farts[i].x, farts[i].y, farts[i].size, 0, Math.PI * 2); ctx.fill();
                 }
             }
 
-            // Рисуем трубы (овсяные монолиты)
-            ctx.fillStyle = "#8b7355";
+            // Рендер ОВСЯНЫХ МОНОЛИТОВ (Текстурные)
+            ctx.fillStyle = "#5c4d36";
             pipes.forEach(p => {
                 ctx.fillRect(p.x, 0, 60, p.top);
                 ctx.fillRect(p.x, canvas.height - p.bottom, 60, p.bottom);
+                // "Овсяная корка"
+                ctx.strokeStyle = "#8b7355"; ctx.strokeRect(p.x, 0, 60, p.top);
             });
 
-            // Рисуем Царевну (розовый шарик с короной)
+            // Рендер Царевны (Текстура розового блина)
             ctx.fillStyle = "#ff69b4";
             ctx.beginPath();
-            ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = "#ffffff";
-            ctx.stroke();
+            ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2); ctx.fill();
+            // Деталь короны
+            ctx.fillStyle = "#ffcc00"; ctx.fillRect(bird.x - 6, bird.y - 22, 12, 6);
 
-            // Корона Царевны
-            ctx.fillStyle = "#ffd700";
-            ctx.fillRect(bird.x - 8, bird.y - 25, 16, 8);
-
-            // Очки на экране
-            ctx.fillStyle = "#ffffff";
-            ctx.font = "bold 20px monospace";
+            ctx.fillStyle = "#ffffff"; ctx.font = "bold 20px monospace";
             ctx.fillText("ОЧКИ: " + score, 20, 40);
-            ctx.fillText("ЦЕЛЬ: 5 (ДЕСЕРТ)", 20, 70);
-
-            // Проверка победы (если набрал 5 очков — побеждаем!)
-            if (score >= 5) {
-                winFlappyGame();
-            }
+            if (score >= 5) winFlappyGame();
         }
 
         function gameOverFlappy() {
-            isPlaying = false;
-            clearInterval(gameInterval);
-            document.getElementById("arcade-title").innerText = "💥 АВАРИЯ КИШЕЧНИКА!";
-            document.getElementById("arcade-sub").innerText = "Твоя Царевна врезалась в овсяный запор! Очков набрано: " + score;
-            document.querySelector(".arcade-start-btn").innerText = "🔄 ПЕРЕПУСК ПЕРДЕЖА";
+            isPlaying = false; clearInterval(gameInterval);
+            document.getElementById("arcade-title").innerText = "💥 МЕТАБОЛИЧЕСКИЙ КРАХ";
             document.getElementById("arcade-overlay").style.display = "flex";
         }
 
         function winFlappyGame() {
-            isPlaying = false;
-            clearInterval(gameInterval);
-            document.getElementById("arcade-title").innerText = "👑 ПОБЕДА! ДЕСЕРТ ПОЛУЧЕН!";
-            document.getElementById("arcade-sub").innerText = "Ты долетел до финиша на чистой реактивной тяге!";
-            document.querySelector(".arcade-start-btn").innerText = "🎮 ИГРАТЬ СНОВА";
+            isPlaying = false; clearInterval(gameInterval);
+            document.getElementById("arcade-title").innerText = "👑 ПОБЕДА! ДЕСЕРТ!";
             document.getElementById("arcade-overlay").style.display = "flex";
-            document.getElementById("arcade-achievement").style.display = "block"; // Выскакивает ачивка!
+            document.getElementById("arcade-achievement").style.display = "block";
         }
         
     </script>
