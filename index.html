@@ -149,21 +149,7 @@
             animation: pulseGlow 1.5s infinite alternate;
         }
 
-        /* AUDIO TERMINAL */
-        .audio-terminal { position: fixed; top: 20px; left: 20px; width: 270px; background: rgba(17, 14, 23, 0.95); border: 1px solid var(--accent-crimson); border-radius: 12px; padding: 12px; z-index: 1001; box-shadow: 0 0 25px rgba(255, 42, 95, 0.4), inset 0 0 10px rgba(255, 105, 180, 0.2); backdrop-filter: blur(8px); }
-        .audio-title { font-family: var(--font-code); font-size: 0.75rem; color: var(--accent-pink); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; text-shadow: 0 0 8px rgba(255, 105, 180, 0.6); }
-        .audio-controls { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
-        .audio-btn { background: rgba(255, 42, 95, 0.2); border: 1px solid var(--accent-crimson); color: #fff; padding: 6px 12px; border-radius: 6px; font-family: var(--font-code); font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 0.75rem; }
-        .audio-btn:hover { background: var(--accent-crimson); box-shadow: 0 0 15px rgba(255, 42, 95, 0.8); }
-        .track-select { width: 100%; background: #08070b; border: 1px solid rgba(255, 42, 95, 0.4); color: var(--text-main); padding: 5px; border-radius: 4px; font-family: var(--font-code); font-size: 0.7rem; cursor: pointer; }
-        .eq-bars { display: flex; gap: 2px; align-items: flex-end; height: 14px; }
-        .eq-bar { width: 2px; height: 3px; background: var(--accent-pink); transition: 0.1s; }
-        .eq-bars.playing .eq-bar { animation: eqAnim 0.8s ease infinite alternate; }
-        .eq-bars.playing .eq-bar:nth-child(2) { animation-delay: 0.2s; }
-        .eq-bars.playing .eq-bar:nth-child(3) { animation-delay: 0.4s; }
-        .eq-bars.playing .eq-bar:nth-child(4) { animation-delay: 0.1s; }
-        .eq-bars.playing .eq-bar:nth-child(5) { animation-delay: 0.3s; }
-        @keyframes eqAnim { 0% { height: 3px; } 100% { height: 14px; } }
+       
 
         /* HEADER */
         header { min-height: 48vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 3.5rem 2rem 2rem 2rem; position: relative; border-bottom: 1px solid rgba(176, 38, 255, 0.25); }
@@ -799,6 +785,30 @@
     box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); 
 }
 
+        .grand-player {
+    background: rgba(20, 10, 30, 0.7);
+    border: 3px solid var(--accent-purple);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    margin-bottom: 40px;
+    box-shadow: 0 0 50px rgba(163, 51, 255, 0.4);
+}
+.big-play-btn {
+    width: 130px; height: 130px; border-radius: 50%;
+    background: var(--accent-purple); border: none; color: white;
+    font-size: 4rem; cursor: pointer; margin: 20px 0;
+    box-shadow: 0 0 30px var(--accent-purple); transition: 0.3s;
+}
+.big-play-btn:hover { transform: scale(1.1); box-shadow: 0 0 60px var(--accent-purple); }
+.playback-container { display: flex; align-items: center; gap: 15px; margin-top: 20px; }
+.seek-slider { flex-grow: 1; accent-color: var(--accent-purple); cursor: pointer; }
+.symphony-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.symphony-category { background: rgba(0,0,0,0.5); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); }
+.track-item { padding: 12px; margin: 8px 0; background: rgba(255,255,255,0.05); border-radius: 6px; cursor: pointer; transition: 0.2s; border-left: 3px solid transparent; }
+.track-item:hover { background: rgba(255,255,255,0.1); border-left: 3px solid var(--accent-purple); }
+.track-item.active-track { background: rgba(163, 51, 255, 0.2); border-left: 3px solid var(--accent-purple); color: #fff; }
+
 
     </style>
 </head>
@@ -856,7 +866,9 @@
         <a href="javascript:void(0)" onclick="switchPage('menu')" id="nav-menu" class="sidebar-link link-green"><span>МЕНЮ ВАСИЛИЧА</span><span class="icon">🍖</span></a>
         <a href="javascript:void(0)" onclick="switchPage('metaphors')" id="nav-metaphors" class="sidebar-link link-purple"><span>СКАЗКИ/АПОСТЕРИОРИ</span><span class="icon">🔮</span></a>
         <a href="javascript:void(0)" onclick="switchPage('dictionary')" id="nav-dictionary" class="sidebar-link link-gold"><span>СЛОВАРЬ</span><span class="icon">📖</span></a>
-        <a onclick="switchPage('games')" id="nav-games" class="sidebar-link link-gold"><span>ИГРЫ</span></a>
+        <a onclick="switchPage('games')" id="nav-games" class="sidebar-link link-gold"><span>ИГРЫ</span><span class="icon">🎮</span></a>
+        <a onclick="switchPage('symphonies')" id="nav-symphonies" class="sidebar-link link-purple"><span>СИМФОНИИ</span><span class="icon">🎧</span></a>
+
 
     </nav>
 
@@ -864,7 +876,7 @@
          <div class="badge">LEYCORE // v130.0 // local</div>
         <h1 id="main-title">LEYCORE</h1>
         <!-- НАША КНОПКА СТЁБА -->
-        <button id="npc-toggle-btn" class="npc-toggle-btn" onclick="toggleNpcMode()">🚨 ВКЛЮЧИТЬ РЕЖИМ НПС</button>
+        <button id="npc-toggle-btn" class="npc-toggle-btn" onclick="toggleNpcMode()">🚨 ВЫКЛЮЧИТЬ ЛЭЙКОР</button>
         <p class="subtitle">Карта восприятия, творчества и скрытых связей между человеком и миром.</p>
     </header>
 
@@ -1133,9 +1145,52 @@
             <div id="dish-detail-content"></div>
         </div>
 
+        <!-- PAGE: SYMPHONIES -->
+<div id="page-symphonies" class="page-view">
+    <h2 class="section-title title-purple">ЗАЛ ВЕЧНЫХ СИМФОНИЙ</h2>
+    
+    <!-- ГЛАВНЫЙ МОЩНЫЙ ПЛЕЕР -->
+    <div class="grand-player">
+        <div class="track-info">
+            <h3 id="current-track-title">ВЫБЕРИТЕ СИМФОНИЮ</h3>
+            <p id="current-track-cat">Жанр: —</p>
+        </div>
+        
+        <!-- Большая кнопка Плей/Пауза -->
+        <button id="main-play-btn" class="big-play-btn" onclick="toggleMainPlayer()">▶️</button>
+        
+        <!-- Прогресс-бар (Перемотка) -->
+        <div class="playback-container">
+            <span id="time-current">00:00</span>
+            <input type="range" id="seek-slider" class="seek-slider" value="0" max="100" oninput="seekTrack()">
+            <span id="time-total">00:00</span>
+        </div>
+    </div>
+
+    <!-- КАТЕГОРИИ ТРЕКОВ -->
+    <div class="symphony-grid">
+        <div class="symphony-category">
+            <h3 class="cat-title" style="color: var(--accent-cyan)">💧 ГРУСТЬ</h3>
+            <div id="list-sad" class="track-list"></div>
+        </div>
+        <div class="symphony-category">
+            <h3 class="cat-title" style="color: var(--accent-green)">🍃 СПОКОЙСТВИЕ</h3>
+            <div id="list-calm" class="track-list"></div>
+        </div>
+        <div class="symphony-category">
+            <h3 class="cat-title" style="color: var(--accent-pink)">🔥 ВЕСЕЛЬЕ</h3>
+            <div id="list-cheerful" class="track-list"></div>
+        </div>
+    </div>
+</div>
+
+<!-- НЕВИДИМЫЙ ДВИЖОК ЗВУКА -->
+<audio id="global-audio-element" ontimeupdate="updateProgress()"></audio>
+
+
        <!-- PAGE: GAMES -->
 <div id="page-games" class="page-view">
-    <h2 class="section-title title-gold">АРКАДНЫЙ ЗАЛ ЛЭЙКОРА</h2>
+    <h2 class="section-title title-gold">АРКАДНЫЙ ЗАЛ</h2>
     
     <!-- Флэппи Царевна -->
     <div class="flappy-arcade-container">
@@ -1157,7 +1212,7 @@
     <!-- КЛИКЕР БОБНИТА -->
     <div class="leycore-hero" style="text-align: center;">
         <h3>🍔 НАКАЧАЙ БОБНИТА БУРГЕРАМИ</h3>
-        <p>Мотивация: 10,000 бургеров = Секретный рецепт "Позвоночник Жирдяя"</p>
+        <p>Мотивация: 10,000 бургеров = Секретный рецепт "Сопля динозавра"</p>
         <div id="bobnit-clicker-area" onclick="clickBobnit(event)" style="cursor: pointer; margin: 20px 0;">
             <img id="bobnit-clicker-img" src="bobnit_thanos.jpg" style="width: 200px; border-radius: 50%; transition: transform 0.1s;">
         </div>
@@ -1165,8 +1220,8 @@
         
         <!-- Секретный рецепт (сначала скрыт) -->
         <div id="secret-recipe" style="display: none; background: #1a0000; border: 2px solid gold; padding: 20px; margin-top: 20px;">
-            <h2 style="color: gold;">📜 СЕКРЕТНЫЙ РЕЦЕПТ: ПОЗВОНОЧНИК ЖИРДЯЯ</h2>
-            <p>Это блюдо настолько жирное, что твой унитаз потребует отставки...</p>
+            <h2 style="color: gold;">📜 СЕКРЕТНЫЙ РЕЦЕПТ: Сопля динозавра</h2>
+            <p>Это блюдо настолько слизское, что твой унитаз потребует отставки...</p>
         </div>
     </div>
 </div>
@@ -1210,7 +1265,7 @@
              <img src="bobnit_thanos.jpg" alt="Суверен">
          </div>
     
-                <h4 class="profile-name">БОБНИТ ВАСИЛИЧ</h4>
+                <h4 class="profile-name">ВАСИЛИЧ</h4>
                 <div class="profile-status">Демиург v130.0</div>
                 <p class="profile-bio">«Архитектор настольных карт, изобретатель Лэйкора и единственный Повелитель Сельдерейного Царства. Жру чизбургеры, ломаю простофиль, выжигаю реальность.»</p>
                 <div class="profile-stat-box">
@@ -2419,6 +2474,83 @@ function unlockSecretRecipe() {
     alert("КРОНТАР ДОВОЛЕН! СЕКРЕТНЫЙ РЕЦЕПТ ОТКРЫТ!");
 }
 
+    const tracks = [
+    { cat: 'sad', title: 'Мёртвая Тень', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+    { cat: 'sad', title: 'Вакуум Одиночества', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' },
+    { cat: 'sad', title: 'Шёпот Бездны', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3' },
+    { cat: 'sad', title: 'Слёзы кетчупа', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3' },
+    { cat: 'sad', title: 'Забытая Могила', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3' },
+    { cat: 'calm', title: 'Тлеющий Эфир', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3' },
+    { cat: 'calm', title: 'Дыхание глаз', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3' },
+    { cat: 'calm', title: 'Спящий Шифу', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3' },
+    { cat: 'calm', title: 'Вакуумный Слой', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3' },
+    { cat: 'calm', title: 'Аура бургера', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3' },
+    { cat: 'cheerful', title: 'Кибернетический Гнев', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3' },
+    { cat: 'cheerful', title: 'Ритм дрища', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3' },
+    { cat: 'cheerful', title: 'Танец Царевны', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3' },
+    { cat: 'cheerful', title: 'Взрыв жопы', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3' },
+    { cat: 'cheerful', title: 'Победа толстячка', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3' }
+];
+
+const audio = document.getElementById('global-audio-element');
+
+function renderSymphonies() {
+    ['sad', 'calm', 'cheerful'].forEach(cat => {
+        const container = document.getElementById(`list-${cat}`);
+        if (!container) return;
+        container.innerHTML = tracks
+            .filter(t => t.cat === cat)
+            .map(t => `<div class="track-item" onclick="loadTrack('${t.title}')">${t.title}</div>`)
+            .join('');
+    });
+}
+
+function loadTrack(title) {
+    const track = tracks.find(t => t.title === title);
+    if (!track) return;
+    audio.src = track.url;
+    document.getElementById('current-track-title').innerText = track.title;
+    document.getElementById('current-track-cat').innerText = "Жанр: " + track.cat.toUpperCase();
+    document.querySelectorAll('.track-item').forEach(el => {
+        el.classList.toggle('active-track', el.innerText === title);
+    });
+    audio.play();
+    document.getElementById('main-play-btn').innerText = "⏸";
+}
+
+function toggleMainPlayer() {
+    if (audio.paused) {
+        if (!audio.src) loadTrack(tracks[0].title);
+        else audio.play();
+        document.getElementById('main-play-btn').innerText = "⏸";
+    } else {
+        audio.pause();
+        document.getElementById('main-play-btn').innerText = "▶";
+    }
+}
+
+function updateProgress() {
+    const slider = document.getElementById('seek-slider');
+    if (!isNaN(audio.duration)) {
+        slider.value = (audio.currentTime / audio.duration) * 100;
+        document.getElementById('time-current').innerText = formatTime(audio.currentTime);
+        document.getElementById('time-total').innerText = formatTime(audio.duration);
+    }
+}
+
+function seekTrack() {
+    const slider = document.getElementById('seek-slider');
+    audio.currentTime = (slider.value / 100) * audio.duration;
+}
+
+function formatTime(s) {
+    let m = Math.floor(s / 60);
+    let sec = Math.floor(s % 60);
+    return (m < 10 ? "0" + m : m) + ":" + (sec < 10 ? "0" + sec : sec);
+}
+
+// Запуск рендера
+renderSymphonies();
     </script>
 
     
