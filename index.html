@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LEYCORE | КИБЕР-КУЛИНАРИЯ</title>
     <link
-     href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@700;900&family=Montserrat:wght@300;500;800;900&family=Fira+Code:wght@400;600&family=Unbounded:wght@800;900&family=Russo+One&family=Philosopher:wght@400;700&family=Caveat:wght@700&family=Stalinist+One&display=swap" rel="stylesheet">
+     href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@700;900&family=Montserrat:wght@300;500;800;900&family=Fira+Code:wght@400;600&family=Unbounded:wght@800;900&family=Russo+One&family=Philosopher:wght@400;700&family=Caveat:wght@700&family=Stalinist+One&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+
 
 
     <style>
@@ -292,7 +293,16 @@
         .grid-tales { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2rem; }
         .tale-list-card { background: var(--bg-card); border: 1px solid rgba(176, 38, 255, 0.2); border-radius: 12px; padding: 1.8rem; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; }
         .tale-list-card:hover { border-color: var(--accent-purple); box-shadow: 0 0 30px rgba(176, 38, 255, 0.2); transform: translateY(-3px); }
-        .tale-list-title { font-family: var(--font-header); font-size: 1.25rem; color: var(--accent-gold); margin-bottom: 0.5rem; text-shadow: 0 0 8px rgba(255, 215, 0, 0.4); min-height: 2.8rem; display: flex; align-items: center; }
+               .tale-list-title { 
+            font-family: 'Playfair Display', serif !important; 
+            font-weight: 700 !important;
+            font-size: 1.4rem !important;
+            color: var(--accent-gold) !important; 
+            margin-bottom: 0.5rem !important; 
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3) !important;
+            line-height: 1.2 !important;
+        }
+
         .tale-list-genre { font-family: var(--font-code); font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
         .tale-list-flag { font-family: var(--font-code); font-size: 0.75rem; color: var(--accent-green); margin-bottom: 1.5rem; display: block; font-weight: 600; letter-spacing: 1px; }
         .read-btn { width: 100%; background: rgba(176, 38, 255, 0.15); border: 1px solid var(--accent-purple); color: var(--text-main); padding: 12px; border-radius: 8px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
@@ -332,7 +342,18 @@
             text-transform: uppercase !important;
         }
 
-        .title-purple { color: var(--accent-purple); }
+                /* ЗАГОЛОВОК ХРАНИЛИЩА (ЗАГАДОЧНЫЙ И ОБВОЛАКИВАЮЩИЙ) */
+        .title-purple { 
+            font-family: 'Playfair Display', serif !important; 
+            font-weight: 900 !important;
+            font-size: clamp(2.5rem, 7vw, 4.5rem) !important;
+            color: var(--accent-purple) !important;
+            text-shadow: 0 0 20px rgba(176, 38, 255, 0.4) !important;
+            letter-spacing: 3px !important;
+            text-transform: uppercase !important;
+            margin-bottom: 3rem !important;
+        }
+
         .title-gold { color: var(--accent-gold); }
 
         footer { text-align: center; padding: 3rem; border-top: 1px solid #222; color: var(--text-muted); font-size: 0.85rem; font-family: var(--font-code); }
