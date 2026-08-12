@@ -667,6 +667,17 @@
             100% { opacity: 0.8; }
         }
 
+                #bobnit-chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 9999; width: 300px; }
+        #bobnit-chat-header { background: var(--accent-purple); padding: 10px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        #bobnit-chat-header img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid white; }
+        #bobnit-chat-window { background: #0f0b14; border: 2px solid var(--accent-purple); border-radius: 12px; height: 350px; display: flex; flex-direction: column; overflow: hidden; margin-top: 10px; }
+        #bobnit-messages { flex: 1; padding: 15px; overflow-y: auto; font-size: 0.85rem; }
+        .msg { margin-bottom: 10px; padding: 8px; border-radius: 8px; }
+        .msg.bot { background: rgba(176, 38, 255, 0.2); border-left: 3px solid var(--accent-purple); }
+        .msg.user { background: rgba(255,255,255,0.05); text-align: right; }
+        .bobnit-input-box { display: flex; padding: 10px; border-top: 1px solid #333; }
+        #bobnit-input { flex: 1; background: transparent; border: none; color: white; outline: none; }
+
 
     </style>
 </head>
@@ -1910,6 +1921,41 @@
             document.getElementById("arcade-overlay").style.display = "flex";
             document.getElementById("arcade-achievement").style.display = "block";
         }
+
+                function toggleBobnitChat() {
+            const win = document.getElementById('bobnit-chat-window');
+            win.style.display = win.style.display === 'none' ? 'flex' : 'none';
+        }
+
+        function sendBobnitMessage() {
+            const input = document.getElementById('bobnit-input');
+            const msgBox = document.getElementById('bobnit-messages');
+            if (!input.value.trim()) return;
+
+            // Добавляем сообщение юзера
+            msgBox.innerHTML += `<div class="msg user">${input.value}</div>`;
+            
+            // Ответ Бобнита
+            setTimeout(() => {
+                const response = getBobnitResponse(input.value);
+                msgBox.innerHTML += `<div class="msg bot">${response}</div>`;
+                msgBox.scrollTop = msgBox.scrollHeight;
+                input.value = '';
+            }, 600);
+        }
+
+        function getBobnitResponse(userText) {
+            // МАССИВ СУВЕРЕННОГО БРЕДА (Сюда мы будем добавлять твои фразы!)
+            const responses = [
+                "Твой метаболизм требует немедленного вброса 300г творога, инакче пупок издаст гулкий звон.",
+                "Я вижу, что твоя аура заблокирована шлаками. Где, я спрашиваю, клетчатка из Сельдерейного Царства?!",
+                "Эти вопросы отвлекают от Великого анаболизма. Иди присядь 50 раз, тогда и поговорим.",
+                "Твоя прошивка требует обновления белком. Закинь экссудата и не позорь Суверена.",
+                "Мой ответ написан в зеркальном отражении твоих кишок, иди посмотри."
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
         
     </script>
         <!-- МОДАЛЬНОЕ ОКНО БЛОКИРОВКИ 18+ ДЛЯ ХРАНИЛИЩА -->
@@ -1932,6 +1978,23 @@
         </div>
     </div>
 
+
+        <!-- ОРАКУЛ БОБНИТА -->
+    <div id="bobnit-chat-widget">
+        <div id="bobnit-chat-header" onclick="toggleBobnitChat()">
+            <img src="suveren.jpg" alt="Бобнит">
+            <span>БОБНИТ-ОРАКУЛ</span>
+        </div>
+        <div id="bobnit-chat-window" style="display: none;">
+            <div id="bobnit-messages">
+                <div class="msg bot">Привет, сухой Титан. Что беспокоит твой пупок?</div>
+            </div>
+            <div class="bobnit-input-box">
+                <input type="text" id="bobnit-input" placeholder="Спроси у оракула...">
+                <button onclick="sendBobnitMessage()">></button>
+            </div>
+        </div>
+    </div>
 
 </body>
 
