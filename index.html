@@ -1119,9 +1119,9 @@
             <div id="dish-detail-content"></div>
         </div>
 
-        <!-- PAGE: SYMPHONIES -->
+       <!-- PAGE: SYMPHONIES -->
 <div id="page-symphonies" class="page-view">
-    <h2 class="section-title title-purple">ЗАЛ ВЕЧНЫХ СИМФОНИЙ</h2>
+    <h2 class="section-title title-purple">ЗАЛ СИМФОНИЙ</h2>
     
     <!-- ГЛАВНЫЙ МОЩНЫЙ ПЛЕЕР -->
     <div class="grand-player">
@@ -1141,25 +1141,33 @@
         </div>
     </div>
 
+    <!-- ⬇️ ВОТ ЭТОГО У ТЕБЯ НЕ ХВАТАЛО НА СКРИНШОТЕ! ДОБАВЬ ЭТО: ⬇️ -->
+
     <!-- КАТЕГОРИИ ТРЕКОВ -->
     <div class="symphony-grid">
         <div class="symphony-category">
             <h3 class="cat-title" style="color: var(--accent-cyan)">💧 ГРУСТЬ</h3>
             <div id="list-sad" class="track-list"></div>
         </div>
+
         <div class="symphony-category">
             <h3 class="cat-title" style="color: var(--accent-green)">🍃 СПОКОЙСТВИЕ</h3>
             <div id="list-calm" class="track-list"></div>
         </div>
+
         <div class="symphony-category">
-            <h3 class="cat-title" style="color: var(--accent-pink)">🔥 ВЕСЕЛЬЕ</h3>
+            <h3 class="cat-title" style="color: var(--accent-pink)">🔥 ЭЙФОРИЯ</h3>
             <div id="list-cheerful" class="track-list"></div>
         </div>
     </div>
-</div>
 
-<!-- НЕВИДИМЫЙ ДВИЖОК ЗВУКА -->
-<audio id="global-audio-element" ontimeupdate="updateProgress()"></audio>
+</div> <!-- Закрытие page-symphonies -->
+
+<!-- ЭТОТ ТЕГ АУДИО ДОЛЖЕН БЫТЬ ОБЯЗАТЕЛЬНО -->
+<audio id="global-audio-element"></audio>
+
+    </div>
+
 
 
        <!-- PAGE: GAMES -->
