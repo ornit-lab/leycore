@@ -667,16 +667,41 @@
             100% { opacity: 0.8; }
         }
 
-                #bobnit-chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 9999; width: 300px; }
-        #bobnit-chat-header { background: var(--accent-purple); padding: 10px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-        #bobnit-chat-header img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid white; }
-        #bobnit-chat-window { background: #0f0b14; border: 2px solid var(--accent-purple); border-radius: 12px; height: 350px; display: flex; flex-direction: column; overflow: hidden; margin-top: 10px; }
-        #bobnit-messages { flex: 1; padding: 15px; overflow-y: auto; font-size: 0.85rem; }
-        .msg { margin-bottom: 10px; padding: 8px; border-radius: 8px; }
-        .msg.bot { background: rgba(176, 38, 255, 0.2); border-left: 3px solid var(--accent-purple); }
-        .msg.user { background: rgba(255,255,255,0.05); text-align: right; }
-        .bobnit-input-box { display: flex; padding: 10px; border-top: 1px solid #333; }
-        #bobnit-input { flex: 1; background: transparent; border: none; color: white; outline: none; }
+                        /* СТИЛИ ЧАТА И ПРОФИЛЯ БОБНИТА */
+        #bobnit-chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 9999; width: 320px; font-family: 'Montserrat', sans-serif; }
+        #bobnit-chat-header { background: rgba(17, 14, 23, 0.95); border: 2px solid var(--accent-purple); padding: 10px 15px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; box-shadow: 0 5px 25px rgba(176, 38, 255, 0.3); }
+        #bobnit-chat-header img { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--accent-purple); }
+        #bobnit-chat-window { background: #0c0910; border: 2px solid var(--accent-purple); border-radius: 12px; height: 420px; display: flex; flex-direction: column; overflow: hidden; margin-top: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        
+        /* Уведомление на входе */
+        .bobnit-notif-bubble { display: flex; align-items: center; gap: 12px; background: #110e17; border: 2px solid var(--accent-gold); padding: 12px 16px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3); cursor: pointer; animation: slideInNotif 0.5s ease-out; }
+        .bobnit-notif-bubble img { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--accent-gold); }
+        .notif-sender { font-size: 0.75rem; font-weight: 900; color: var(--accent-gold); }
+        .notif-text { font-size: 0.8rem; color: #fff; }
+        @keyframes slideInNotif { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* Вкладка Профиля */
+        #bobnit-profile-view { display: flex; flex-direction: column; align-items: center; padding: 20px; height: 100%; text-align: center; background: #08070b; }
+        .back-to-chat-btn { background: transparent; border: none; color: var(--accent-purple); cursor: pointer; font-size: 0.8rem; margin-bottom: 15px; font-weight: 800; text-decoration: underline; }
+        .profile-avatar-box { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; border: 3px solid var(--accent-gold); box-shadow: 0 0 15px var(--accent-gold); margin-bottom: 15px; }
+        .profile-avatar-box img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-name { font-family: 'Unbounded', sans-serif; font-size: 0.95rem; color: #fff; margin-bottom: 5px; }
+        .profile-status { font-size: 0.7rem; color: var(--accent-purple); font-weight: 800; text-transform: uppercase; margin-bottom: 15px; }
+        .profile-bio { font-size: 0.75rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px; padding: 0 10px; }
+        .profile-stat-box { display: flex; gap: 15px; width: 100%; justify-content: space-around; border-top: 1px solid #222; padding-top: 15px; }
+        .profile-stat-box div b { color: var(--accent-gold); font-size: 0.95rem; }
+        .profile-stat-box div span { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; }
+
+        /* Чат */
+        .chat-top-bar { background: rgba(176, 38, 255, 0.1); border-bottom: 1px solid #222; text-align: center; padding: 8px; font-size: 0.7rem; font-weight: 800; color: var(--accent-purple); cursor: pointer; transition: 0.3s; }
+        .chat-top-bar:hover { background: rgba(176, 38, 255, 0.25); text-shadow: 0 0 10px var(--accent-purple); }
+        #bobnit-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 85%; padding: 10px; border-radius: 10px; font-size: 0.8rem; line-height: 1.4; word-wrap: break-word; }
+        .msg.bot { background: rgba(176, 38, 255, 0.15); border: 1px solid rgba(176, 38, 255, 0.3); color: #fff; align-self: flex-start; border-bottom-left-radius: 2px; }
+        .msg.user { background: rgba(255, 255, 255, 0.05); color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
+        .bobnit-input-box { display: flex; padding: 12px; border-top: 1px solid #222; background: #0c0910; }
+        #bobnit-input { flex: 1; background: transparent; border: none; color: white; outline: none; font-size: 0.85rem; }
+        .bobnit-input-box button { background: var(--accent-purple); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; font-weight: 900; cursor: pointer; }
 
 
     </style>
@@ -1922,9 +1947,48 @@
             document.getElementById("arcade-achievement").style.display = "block";
         }
 
-                function toggleBobnitChat() {
+         // ----------------------------------------------------
+        // ЛОГИКА БОБНИТА 2.0 (УВЕДОМЛЕНИЕ + ЧАТ + ПРОФИЛЬ)
+        // ----------------------------------------------------
+        let isChatOpen = false;
+
+        // Показываем уведомление через 3 секунды после входа на сайт
+        setTimeout(() => {
+            const notif = document.getElementById('bobnit-notification');
+            if (notif) notif.style.display = 'flex';
+        }, 3000);
+
+        function openBobnitChatFromNotif() {
+            // Скрываем уведомление
+            document.getElementById('bobnit-notification').style.display = 'none';
+            // Открываем чат
+            isChatOpen = true;
+            document.getElementById('bobnit-chat-window').style.display = 'flex';
+            // Вбрасываем первое приветствие
+            triggerBobnitGreeting();
+        }
+
+        function toggleBobnitChat() {
             const win = document.getElementById('bobnit-chat-window');
-            win.style.display = win.style.display === 'none' ? 'flex' : 'none';
+            if (!win) return;
+            isChatOpen = !isChatOpen;
+            win.style.display = isChatOpen ? 'flex' : 'none';
+            
+            // Если открыли впервые — пишем приветствие
+            const msgBox = document.getElementById('bobnit-messages');
+            if (isChatOpen && msgBox.children.length === 0) {
+                triggerBobnitGreeting();
+            }
+        }
+
+        function triggerBobnitGreeting() {
+            const msgBox = document.getElementById('bobnit-messages');
+            msgBox.innerHTML = `<div class="msg bot">Добро пожаловать в мир кулинарии и высокого познания во всех сферах. Если хотите пообщаться со мной — отпишите сюда. На связи. 🦾🍩</div>`;
+        }
+
+        function toggleBobnitProfile(show) {
+            document.getElementById('bobnit-profile-view').style.display = show ? 'flex' : 'none';
+            document.getElementById('bobnit-chat-view').style.display = show ? 'none' : 'flex';
         }
 
         function sendBobnitMessage() {
@@ -1932,31 +1996,30 @@
             const msgBox = document.getElementById('bobnit-messages');
             if (!input.value.trim()) return;
 
-            // Добавляем сообщение юзера
             msgBox.innerHTML += `<div class="msg user">${input.value}</div>`;
-            
-            // Ответ Бобнита
+            const userQuery = input.value;
+            input.value = '';
+            msgBox.scrollTop = msgBox.scrollHeight;
+
             setTimeout(() => {
-                const response = getBobnitResponse(input.value);
+                const response = getBobnitResponse(userQuery);
                 msgBox.innerHTML += `<div class="msg bot">${response}</div>`;
                 msgBox.scrollTop = msgBox.scrollHeight;
-                input.value = '';
-            }, 600);
+            }, 800);
         }
 
         function getBobnitResponse(userText) {
-            // МАССИВ СУВЕРЕННОГО БРЕДА (Сюда мы будем добавлять твои фразы!)
             const responses = [
-                "Твой метаболизм требует немедленного вброса 300г творога, инакче пупок издаст гулкий звон.",
+                "Твой метаболизм требует немедленного вброса 300г творога, иначе пупок издаст гулкий звон.",
                 "Я вижу, что твоя аура заблокирована шлаками. Где, я спрашиваю, клетчатка из Сельдерейного Царства?!",
-                "Эти вопросы отвлекают от Великого анаболизма. Иди присядь 50 раз, тогда и поговорим.",
+                "Эти глупые вопросы отвлекают от Великого анаболизма. Иди присядь 50 раз, тогда и поговорим.",
                 "Твоя прошивка требует обновления белком. Закинь экссудата и не позорь Суверена.",
-                "Мой ответ написан в зеркальном отражении твоих кишок, иди посмотри."
+                "Мой ответ написан в зеркальном отражении твоих кишок, иди посмотри.",
+                "Пончик × Пончик − Пончик... Ты хотя бы знаешь этот код, чтобы задавать мне вопросы, НПС?",
+                "Пока ты пишешь мне глупости, в Стране Сельдерея созрел очередной Выкидыш Громовержца. Иди готовь!"
             ];
             return responses[Math.floor(Math.random() * responses.length)];
         }
-
-        
     </script>
         <!-- МОДАЛЬНОЕ ОКНО БЛОКИРОВКИ 18+ ДЛЯ ХРАНИЛИЩА -->
        <div id="tales-lock-modal" class="lock-modal-overlay" style="display: none;">
@@ -1979,22 +2042,6 @@
     </div>
 
 
-        <!-- ОРАКУЛ БОБНИТА -->
-    <div id="bobnit-chat-widget">
-        <div id="bobnit-chat-header" onclick="toggleBobnitChat()">
-            <img src="suveren.jpg" alt="Бобнит">
-            <span>БОБНИТ-ОРАКУЛ</span>
-        </div>
-        <div id="bobnit-chat-window" style="display: none;">
-            <div id="bobnit-messages">
-                <div class="msg bot">Привет, сухой Титан. Что беспокоит твой пупок?</div>
-            </div>
-            <div class="bobnit-input-box">
-                <input type="text" id="bobnit-input" placeholder="Спроси у оракула...">
-                <button onclick="sendBobnitMessage()">></button>
-            </div>
-        </div>
-    </div>
 
 </body>
 
