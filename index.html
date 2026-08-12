@@ -1064,6 +1064,61 @@
 
     <footer>LeyCore &copy; 2026</footer>
 
+        <!-- ОРАКУЛ БОБНИТА 2.0 (С ПРОФИЛЕМ И УВЕДОМЛЕНИЕМ) -->
+    <div id="bobnit-chat-widget">
+        <!-- Всплывающее облачко-уведомление от Бобнита -->
+        <div id="bobnit-notification" class="bobnit-notif-bubble" style="display: none;" onclick="openBobnitChatFromNotif()">
+            <img src="suveren.jpg" alt="Бобнит">
+            <div>
+                <div class="notif-sender">💬 БОБНИТ ВАСИЛИЧ</div>
+                <div class="notif-text">Вам новое сообщение...</div>
+            </div>
+        </div>
+
+        <!-- Шапка чата -->
+        <div id="bobnit-chat-header" onclick="toggleBobnitChat()">
+            <img src="suveren.jpg" alt="Бобнит">
+            <div style="display: flex; flex-direction: column;">
+                <span style="font-weight: 800; font-size: 0.85rem; letter-spacing: 1px;">БОБНИТ-ОРАКУЛ</span>
+                <span style="font-size: 0.65rem; color: #00ff66;">● В СЕТИ (ЖРЕТ ТВОРОГ)</span>
+            </div>
+        </div>
+
+        <!-- Окно чата -->
+        <div id="bobnit-chat-window" style="display: none;">
+            <!-- Вкладка ПРОФИЛЯ (скрыта по умолчанию) -->
+            <div id="bobnit-profile-view" style="display: none;">
+                <button class="back-to-chat-btn" onclick="toggleBobnitProfile(false)">← Назад в чат</button>
+                <div class="profile-avatar-box">
+                    <img src="suveren.jpg" alt="Суверен">
+                </div>
+                <h4 class="profile-name">БОБНИТ ВАСИЛИЧ</h4>
+                <div class="profile-status">Суверенный Демиург v134.0</div>
+                <p class="profile-bio">«Архитектор 800+ карт, изобретатель Лэйкора и единственный Повелитель Сельдерейного Царства. Жру творог, ломаю НПС, кодирую реальность.»</p>
+                <div class="profile-stat-box">
+                    <div><b>800+</b><br><span>карт</span></div>
+                    <div><b>300г</b><br><span>творога в день</span></div>
+                    <div><b>134</b><br><span>дня аскезы</span></div>
+                </div>
+            </div>
+
+            <!-- Вкладка ЧАТА -->
+            <div id="bobnit-chat-view" style="display: flex; flex-direction: column; height: 100%;">
+                <div class="chat-top-bar" onclick="toggleBobnitProfile(true)">
+                    <span>ПРОСМОТРЕТЬ ПРОФИЛЬ 👤</span>
+                </div>
+                <div id="bobnit-messages">
+                    <!-- Сообщения будут генерироваться динамически -->
+                </div>
+                <div class="bobnit-input-box">
+                    <input type="text" id="bobnit-input" placeholder="Спроси у оракула...">
+                    <button onclick="sendBobnitMessage()">></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script>
         // ----------------------------------------------------
         // 1. ВЕРТИКАЛЬНАЯ ШКАЛА ПРОГРЕССА (10 КАРТОЧЕК = 100%)
@@ -1951,6 +2006,79 @@
             document.getElementById("arcade-achievement").style.display = "block";
         }
 
+                // ----------------------------------------------------
+        // ЛОГИКА БОБНИТА 2.0 (УВЕДОМЛЕНИЕ + ЧАТ + ПРОФИЛЬ)
+        // ----------------------------------------------------
+        let isChatOpen = false;
+
+        // Показываем уведомление через 3 секунды после входа на сайт
+        setTimeout(() => {
+            const notif = document.getElementById('bobnit-notification');
+            if (notif) notif.style.display = 'flex';
+        }, 3000);
+
+        function openBobnitChatFromNotif() {
+            // Скрываем уведомление
+            document.getElementById('bobnit-notification').style.display = 'none';
+            // Открываем чат
+            isChatOpen = true;
+            document.getElementById('bobnit-chat-window').style.display = 'flex';
+            // Вбрасываем первое приветствие
+            triggerBobnitGreeting();
+        }
+
+        function toggleBobnitChat() {
+            const win = document.getElementById('bobnit-chat-window');
+            if (!win) return;
+            isChatOpen = !isChatOpen;
+            win.style.display = isChatOpen ? 'flex' : 'none';
+            
+            // Если открыли впервые — пишем приветствие
+            const msgBox = document.getElementById('bobnit-messages');
+            if (isChatOpen && msgBox.children.length === 0) {
+                triggerBobnitGreeting();
+            }
+        }
+
+        function triggerBobnitGreeting() {
+            const msgBox = document.getElementById('bobnit-messages');
+            msgBox.innerHTML = `<div class="msg bot">Добро пожаловать в мир кулинарии и высокого познания во всех сферах. Если хотите пообщаться со мной — отпишите сюда. На связи. 🦾🍩</div>`;
+        }
+
+        function toggleBobnitProfile(show) {
+            document.getElementById('bobnit-profile-view').style.display = show ? 'flex' : 'none';
+            document.getElementById('bobnit-chat-view').style.display = show ? 'none' : 'flex';
+        }
+
+        function sendBobnitMessage() {
+            const input = document.getElementById('bobnit-input');
+            const msgBox = document.getElementById('bobnit-messages');
+            if (!input.value.trim()) return;
+
+            msgBox.innerHTML += `<div class="msg user">${input.value}</div>`;
+            const userQuery = input.value;
+            input.value = '';
+            msgBox.scrollTop = msgBox.scrollHeight;
+
+            setTimeout(() => {
+                const response = getBobnitResponse(userQuery);
+                msgBox.innerHTML += `<div class="msg bot">${response}</div>`;
+                msgBox.scrollTop = msgBox.scrollHeight;
+            }, 800);
+        }
+
+        function getBobnitResponse(userText) {
+            const responses = [
+                "Твой метаболизм требует немедленного вброса 300г творога, иначе пупок издаст гулкий звон.",
+                "Я вижу, что твоя аура заблокирована шлаками. Где, я спрашиваю, клетчатка из Сельдерейного Царства?!",
+                "Эти глупые вопросы отвлекают от Великого анаболизма. Иди присядь 50 раз, тогда и поговорим.",
+                "Твоя прошивка требует обновления белком. Закинь экссудата и не позорь Суверена.",
+                "Мой ответ написан в зеркальном отражении твоих кишок, иди посмотри.",
+                "Пончик × Пончик − Пончик... Ты хотя бы знаешь этот код, чтобы задавать мне вопросы, НПС?",
+                "Пока ты пишешь мне глупости, в Стране Сельдерея созрел очередной Выкидыш Громовержца. Иди готовь!"
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
     </script>
 
     
