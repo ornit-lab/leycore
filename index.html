@@ -996,22 +996,20 @@
         }
 
         // ПРОВЕРКА ПАРОЛЯ ДЛЯ СКАЗОК
-        function checkTalesPassword() {
+               function checkTalesPassword() {
             const input = document.getElementById('tales-pass-input').value.trim();
             const errorText = document.getElementById('lock-error-text');
 
-            if (input === '18' || input === '20' || input === '30') {
+            // Математический расчет: 10 * 10 - 10 / 10 + 10 = 109
+            if (input === '109') {
                 isTalesUnlocked = true;
                 document.getElementById('tales-lock-modal').style.display = 'none';
                 switchPage('metaphors'); 
             } else {
-                errorText.innerText = '❌ НЕВЕРНЫЙ КОД! ДОСТУП ОГРАНИЧЕН.';
+                errorText.innerText = '❌ ОШИБКА! ТЫ ЕЩЕ НЕ ВЫУЧИЛА ПРАВИЛА УМНОЖЕНИЯ.';
             }
         }
 
-        function closeTalesLock() {
-            document.getElementById('tales-lock-modal').style.display = 'none';
-        }
 
 
         // ----------------------------------------------------
@@ -1664,25 +1662,25 @@
 
     </script>
         <!-- МОДАЛЬНОЕ ОКНО БЛОКИРОВКИ 18+ ДЛЯ ХРАНИЛИЩА -->
-    <div id="tales-lock-modal" class="lock-modal-overlay" style="display: none;">
+       <div id="tales-lock-modal" class="lock-modal-overlay" style="display: none;">
         <div class="lock-modal-card">
-            <div class="lock-icon">🔒</div>
-            <h3 class="lock-title">САКРАЛЬНЫЙ ФИЛЬТР 18+</h3>
-            <p class="lock-desc">Раздел «Хранилище» содержит суровые сказки, трансгрессивный хоррор и лексику 18+. Для входа решите загадку замка Сельдерея с баннера:</p>
+            <div class="lock-icon">🍩</div>
+            <h3 class="lock-title"> АРИФМЕТИКА ЛЭЙКОРА</h3>
+            <p class="lock-desc">Сестренка, вход в Хранилище доступен только тем, кто познал порядок действий. Реши уравнение Суверена (вспомни, чему равен один пончик):</p>
             
-            <div class="lock-riddle-box">
-                <span style="color: var(--accent-gold);">🍩 + 🍩 + 🍩 = 30</span><br>
-                <span style="font-size: 0.85rem; color: var(--text-muted);">Введите возраст совершеннолетия ИЛИ стоимость двух пончиков:</span>
+            <div class="lock-riddle-box" style="font-family: var(--font-code); color: var(--accent-gold); font-size: 1.4rem; padding: 20px;">
+                🍩 × 🍩 − 🍩 ÷ 🍩 + 🍩 = ?
             </div>
 
             <div class="lock-input-group">
-                <input type="text" id="tales-pass-input" placeholder="Введите код..." class="lock-input">
-                <button onclick="checkTalesPassword()" class="lock-btn">ОТКРЫТЬ →</button>
+                <input type="text" id="tales-pass-input" placeholder="Введите число..." class="lock-input">
+                <button onclick="checkTalesPassword()" class="lock-btn">ВЗЛОМАТЬ →</button>
             </div>
             <p id="lock-error-text" class="lock-error"></p>
-            <button onclick="closeTalesLock()" class="lock-close-btn">← НАЗАД В БЕЗОПАСНУЮ ЗОНУ</button>
+            <button onclick="closeTalesLock()" class="lock-close-btn">← ВЕРНУТЬСЯ К ОВОЩАМ</button>
         </div>
     </div>
+
 
 </body>
 
