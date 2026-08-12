@@ -576,6 +576,98 @@
         .lock-close-btn { background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.8rem; text-decoration: underline; }
 
 
+                /* СТИЛИ МИНИ-ИГРЫ ФЛЭППИ */
+        .flappy-arcade-container {
+            max-width: 450px;
+            margin: 3rem auto;
+            background: rgba(17, 14, 23, 0.95);
+            border: 2px solid var(--accent-pink);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
+        }
+        .arcade-header h3 {
+            font-family: 'Unbounded', sans-serif;
+            color: var(--accent-pink);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        .arcade-header p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        .arcade-screen-box {
+            position: relative;
+            width: 400px;
+            height: 500px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: #08070b;
+        }
+        #flappyCanvas {
+            display: block;
+            background: linear-gradient(to bottom, #110e17, #1f1424);
+        }
+        .arcade-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(8, 7, 11, 0.85);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 10;
+        }
+        .arcade-overlay h2 {
+            font-family: 'Unbounded', sans-serif;
+            color: var(--accent-gold);
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        .arcade-overlay p {
+            font-size: 0.9rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+        }
+        .arcade-start-btn {
+            background: var(--accent-pink);
+            border: none;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--accent-pink);
+            transition: 0.3s;
+        }
+        .arcade-start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--accent-pink);
+        }
+        .arcade-achievement {
+            margin-top: 1rem;
+            background: rgba(0, 255, 102, 0.1);
+            border: 1px dashed var(--accent-green);
+            padding: 10px;
+            border-radius: 8px;
+            font-family: var(--font-code);
+            font-weight: 800;
+            font-size: 0.9rem;
+            animation: pulseAchi 1.5s infinite;
+        }
+        @keyframes pulseAchi {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; text-shadow: 0 0 10px var(--accent-green); }
+            100% { opacity: 0.8; }
+        }
+
+
     </style>
 </head>
 <body>
@@ -906,6 +998,29 @@
         </div>
 
     </div>
+        <!-- МИНИ-ИГРА: ФЛЭППИ ПЕРДЕЖ ЦАРЕВНЫ -->
+    <div class="flappy-arcade-container">
+        <div class="arcade-header">
+            <h3>💨 МИНИ-ИГРА: «ПОЛЕТ ЦАРЕВНЫ»</h3>
+            <p>Жми ПРОБЕЛ или КЛИКАЙ мышей, чтобы Царевна пукала и набирала высоту! Облетай стены овсянки и долети до десерта!</p>
+        </div>
+        
+        <div class="arcade-screen-box">
+            <canvas id="flappyCanvas" width="400" height="500"></canvas>
+            
+            <!-- Окно старта / рестарта -->
+            <div id="arcade-overlay" class="arcade-overlay">
+                <h2 id="arcade-title">ИГРА ГОТОВА</h2>
+                <p id="arcade-sub">Нажми СТАРТ, чтобы запустить реактивный пердеж</p>
+                <button onclick="startFlappyGame()" class="arcade-start-btn">▶️ СТАРТ ПОЛЕТА</button>
+            </div>
+        </div>
+        
+        <div id="arcade-achievement" class="arcade-achievement" style="display: none;">
+            🏆 АЧИВКА РАЗБЛОКИРОВАНА: <span style="color: var(--accent-green);">«Попукивания освоены!»</span> 💨✨
+        </div>
+    </div>
+
 
     <footer>LeyCore &copy; 2026</footer>
 
@@ -1678,6 +1793,164 @@
             switchPage('leycore');
         };
 
+
+                // ----------------------------------------------------
+        // МИНИ-ИГРА: ФЛЭППИ ПЕРДЕЖ ЦАРЕВНЫ
+        // ----------------------------------------------------
+        const canvas = document.getElementById("flappyCanvas");
+        const ctx = canvas ? canvas.getContext("2d") : null;
+
+        let bird = { x: 50, y: 250, radius: 18, gravity: 0.5, lift: -8, velocity: 0 };
+        let pipes = [];
+        let score = 0;
+        let gameInterval = null;
+        let isPlaying = false;
+        let farts = []; // Облачка газа
+
+        function startFlappyGame() {
+            document.getElementById("arcade-overlay").style.display = "none";
+            document.getElementById("arcade-achievement").style.display = "none";
+            bird = { x: 50, y: 250, radius: 18, gravity: 0.5, lift: -8, velocity: 0 };
+            pipes = [];
+            farts = [];
+            score = 0;
+            isPlaying = true;
+            
+            if (gameInterval) clearInterval(gameInterval);
+            gameInterval = setInterval(updateFlappyGame, 1000 / 60);
+        }
+
+        function triggerFlappyJump() {
+            if (!isPlaying) return;
+            bird.velocity = bird.lift;
+            // Добавляем облачко газа под Царевну при прыжке!
+            farts.push({ x: bird.x - 15, y: bird.y + 10, alpha: 1, size: 10 });
+        }
+
+        // Клик по холсту или нажатие пробела
+        if (canvas) {
+            canvas.addEventListener("click", triggerFlappyJump);
+            document.addEventListener("keydown", (e) => {
+                if (e.code === "Space" && isPlaying) {
+                    e.preventDefault();
+                    triggerFlappyJump();
+                }
+            });
+        }
+
+        function updateFlappyGame() {
+            if (!isPlaying || !ctx) return;
+
+            // Физика птички
+            bird.velocity += bird.gravity;
+            bird.y += bird.velocity;
+
+            // Генерация труб (препятствий из овсянки)
+            if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - 200) {
+                let gap = 140;
+                let topHeight = Math.floor(Math.random() * 200) + 50;
+                pipes.push({ x: canvas.width, top: topHeight, bottom: canvas.height - topHeight - gap, passed: false });
+            }
+
+            // Движение труб
+            for (let i = pipes.length - 1; i >= 0; i--) {
+                pipes[i].x -= 2.5;
+
+                // Столкновение с трубами
+                if (
+                    bird.x + bird.radius > pipes[i].x &&
+                    bird.x - bird.radius < pipes[i].x + 60 &&
+                    (bird.y - bird.radius < pipes[i].top || bird.y + bird.radius > canvas.height - pipes[i].bottom)
+                ) {
+                    gameOverFlappy();
+                }
+
+                // Подсчет очков
+                if (!pipes[i].passed && pipes[i].x < bird.x) {
+                    pipes[i].passed = true;
+                    score++;
+                }
+
+                // Удаление старых труб
+                if (pipes[i].x < -60) {
+                    pipes.splice(i, 1);
+                }
+            }
+
+            // Столкновение с полом или потолком
+            if (bird.y + bird.radius > canvas.height || bird.y - bird.radius < 0) {
+                gameOverFlappy();
+            }
+
+            // Отрисовка сцены
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Рисуем газовые облачка (пердеж)
+            for (let i = farts.length - 1; i >= 0; i--) {
+                farts[i].x -= 1.5;
+                farts[i].size += 0.5;
+                farts[i].alpha -= 0.03;
+                if (farts[i].alpha <= 0) {
+                    farts.splice(i, 1);
+                } else {
+                    ctx.fillStyle = `rgba(255, 105, 180, ${farts[i].alpha})`;
+                    ctx.beginPath();
+                    ctx.arc(farts[i].x, farts[i].y, farts[i].size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            // Рисуем трубы (овсяные монолиты)
+            ctx.fillStyle = "#8b7355";
+            pipes.forEach(p => {
+                ctx.fillRect(p.x, 0, 60, p.top);
+                ctx.fillRect(p.x, canvas.height - p.bottom, 60, p.bottom);
+            });
+
+            // Рисуем Царевну (розовый шарик с короной)
+            ctx.fillStyle = "#ff69b4";
+            ctx.beginPath();
+            ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "#ffffff";
+            ctx.stroke();
+
+            // Корона Царевны
+            ctx.fillStyle = "#ffd700";
+            ctx.fillRect(bird.x - 8, bird.y - 25, 16, 8);
+
+            // Очки на экране
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 20px monospace";
+            ctx.fillText("ОЧКИ: " + score, 20, 40);
+            ctx.fillText("ЦЕЛЬ: 5 (ДЕСЕРТ)", 20, 70);
+
+            // Проверка победы (если набрал 5 очков — побеждаем!)
+            if (score >= 5) {
+                winFlappyGame();
+            }
+        }
+
+        function gameOverFlappy() {
+            isPlaying = false;
+            clearInterval(gameInterval);
+            document.getElementById("arcade-title").innerText = "💥 АВАРИЯ КИШЕЧНИКА!";
+            document.getElementById("arcade-sub").innerText = "Твоя Царевна врезалась в овсяный запор! Очков набрано: " + score;
+            document.querySelector(".arcade-start-btn").innerText = "🔄 ПЕРЕПУСК ПЕРДЕЖА";
+            document.getElementById("arcade-overlay").style.display = "flex";
+        }
+
+        function winFlappyGame() {
+            isPlaying = false;
+            clearInterval(gameInterval);
+            document.getElementById("arcade-title").innerText = "👑 ПОБЕДА! ДЕСЕРТ ПОЛУЧЕН!";
+            document.getElementById("arcade-sub").innerText = "Ты долетел до финиша на чистой реактивной тяге!";
+            document.querySelector(".arcade-start-btn").innerText = "🎮 ИГРАТЬ СНОВА";
+            document.getElementById("arcade-overlay").style.display = "flex";
+            document.getElementById("arcade-achievement").style.display = "block"; // Выскакивает ачивка!
+        }
+        
     </script>
         <!-- МОДАЛЬНОЕ ОКНО БЛОКИРОВКИ 18+ ДЛЯ ХРАНИЛИЩА -->
        <div id="tales-lock-modal" class="lock-modal-overlay" style="display: none;">
