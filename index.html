@@ -1010,6 +1010,24 @@
             }
         }
 
+                // ФУНКЦИЯ ДЛЯ ВЫХОДА ИЗ СЕЙФА (КАТАПУЛЬТА В БЕЗОПАСНУЮ ЗОНУ)
+        function closeTalesLock() {
+            // 1. Скрываем модальное окно сейфа
+            const modal = document.getElementById('tales-lock-modal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+
+            // 2. Сбрасываем поле ввода, чтобы сестра не видела попыток
+            const input = document.getElementById('tales-pass-input');
+            if (input) {
+                input.value = '';
+            }
+
+            // 3. Перекидываем пользователя на безопасную главную страницу
+            switchPage('leycore'); 
+        }
+
 
 
         // ----------------------------------------------------
@@ -1669,7 +1687,7 @@
             <p class="lock-desc"> Раздел "Хранилище" содержит суровые сказки, трансгрессивный хоррор и лексику 18+. Для входа реши уравнение:</p>
             
             <div class="lock-riddle-box" style="font-family: var(--font-code); color: var(--accent-gold); font-size: 1.4rem; padding: 20px;">
-                🍩 × 🍩 − 🍩 ÷ 🍩 + 🍩 = ?
+                🍩 × 10 − 🍩 ÷ 10 + 10 = 🍩9?
             </div>
 
             <div class="lock-input-group">
