@@ -825,6 +825,13 @@
             background: #28a745 !important; /* Скучный зеленый цвет загрузки */
         }
 
+        .sidebar-link.link-gold:hover, .sidebar-link.link-gold.active { 
+    color: var(--accent-gold); 
+    border-color: var(--accent-gold); 
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); 
+}
+
+
     </style>
 </head>
 <body>
@@ -881,6 +888,8 @@
         <a href="javascript:void(0)" onclick="switchPage('menu')" id="nav-menu" class="sidebar-link link-green"><span>МЕНЮ ВАСИЛИЧА</span><span class="icon">🍖</span></a>
         <a href="javascript:void(0)" onclick="switchPage('metaphors')" id="nav-metaphors" class="sidebar-link link-purple"><span>СКАЗКИ/АПОСТЕРИОРИ</span><span class="icon">🔮</span></a>
         <a href="javascript:void(0)" onclick="switchPage('dictionary')" id="nav-dictionary" class="sidebar-link link-gold"><span>СЛОВАРЬ</span><span class="icon">📖</span></a>
+        <a onclick="switchPage('games')" id="nav-games" class="sidebar-link link-gold"><span>ИГРЫ</span></a>
+
     </nav>
 
     <header>
@@ -1155,6 +1164,37 @@
                 style="margin-bottom: 2rem; width: auto; padding: 12px 30px;">← НАЗАД В МЕНЮ</button>
             <div id="dish-detail-content"></div>
         </div>
+
+        <!-- PAGE: GAMES -->
+<div id="page-games" class="page-view">
+    <h2 class="section-title title-gold">АРКАДНЫЙ ЗАЛ ЛЭЙКОРА</h2>
+    
+    <!-- Флэппи Царевна -->
+    <div class="flappy-arcade-container">
+        <h3>💨 ПОЛЕТ ЦАРЕВНЫ</h3>
+        <canvas id="flappyCanvas" width="400" height="500"></canvas>
+        <div id="arcade-overlay" class="arcade-overlay">
+            <button onclick="startFlappyGame()" class="arcade-start-btn">▶️ СТАРТ</button>
+        </div>
+    </div>
+
+    <!-- КЛИКЕР БОБНИТА -->
+    <div class="leycore-hero" style="text-align: center;">
+        <h3>🍔 НАКАЧАЙ БОБНИТА БУРГЕРАМИ</h3>
+        <p>Мотивация: 10,000 бургеров = Секретный рецепт "Дядя Хрюшка"</p>
+        <div id="bobnit-clicker-area" onclick="clickBobnit()" style="cursor: pointer; margin: 20px 0;">
+            <img id="bobnit-clicker-img" src="bobnit_thanos.jpg" style="width: 200px; border-radius: 50%; transition: transform 0.1s;">
+        </div>
+        <h2 id="clicker-counter">Бургеров: 0</h2>
+        
+        <!-- Секретный рецепт (сначала скрыт) -->
+        <div id="secret-recipe" style="display: none; background: #1a0000; border: 2px solid gold; padding: 20px; margin-top: 20px;">
+            <h2 style="color: gold;">📜 СЕКРЕТНЫЙ РЕЦЕПТ: Дядя Хрюшка</h2>
+            <p>Это блюдо настолько жирное, что твой унитаз потребует отставки...</p>
+        </div>
+    </div>
+</div>
+
 
     </div>
         <!-- МИНИ-ИГРА: ФЛЭППИ ПЕРДЕЖ ЦАРЕВНЫ -->
@@ -2397,6 +2437,32 @@
                 if (title) title.innerText = "LEYCORE";
             }
         }
+
+    // ----------------------------------------------------
+// 🍔 КЛИКЕР БОБНИТА: НАКАЧАЙ БУРГЕРАМИ
+// ----------------------------------------------------
+let burgerCount = 0;
+const targetCount = 10000;
+
+function clickBobnit() {
+    burgerCount++;
+    document.getElementById('clicker-counter').innerText = "Бургеров: " + burgerCount;
+    
+    // Эффект сжатия при клике
+    const img = document.getElementById('bobnit-clicker-img');
+    img.style.transform = "scale(0.95)";
+    setTimeout(() => img.style.transform = "scale(1)", 100);
+
+    // Проверка победы
+    if (burgerCount === targetCount) {
+        unlockSecretRecipe();
+    }
+}
+
+function unlockSecretRecipe() {
+    document.getElementById('secret-recipe').style.display = "block";
+    alert("КРОНТАР ДОВОЛЕН! СЕКРЕТНЫЙ РЕЦЕПТ ОТКРЫТ!");
+}
 
     </script>
 
