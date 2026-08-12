@@ -2457,27 +2457,29 @@ function unlockSecretRecipe() {
 }
 
    const tracks = [
-    // 💧 ГРУСТЬ // ТЛЕН (Меланхоличный Lo-Fi, дождливое пианино)
-    { cat: 'sad', title: 'Midnight Coffee & Rain', url: 'https://cdn.pixabay.com/download/audio/2022/05/16/audio_db7c73fa92.mp3?filename=lofi-study-112191.mp3' },
-    { cat: 'sad', title: 'Lonely Window', url: 'https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=ambient-piano-and-strings-10711.mp3' },
-    { cat: 'sad', title: 'Empty Streets at 3AM', url: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=dark-ambient-106290.mp3' },
-    { cat: 'sad', title: 'Last Smoke of the Day', url: 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8309854.mp3?filename=emotional-piano-ambient-100224.mp3' },
-    { cat: 'sad', title: 'Lost in Code', url: 'https://cdn.pixabay.com/download/audio/2022/08/02/audio_1677353f47.mp3?filename=dark-space-ambient-114400.mp3' },
+    // 💧 ГРУСТЬ (Стабильные ссылки)
+    { cat: 'sad', title: 'Midnight Rain', url: 'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Jinsang/Solitude/Jinsang_-_01_-_Affection.mp3' },
+    { cat: 'sad', title: 'Dark Echoes', url: 'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/Birocratic/The_Birocratic_EP/Birocratic_-_03_-_Tony_Starks.mp3' },
+    { cat: 'sad', title: 'Lonely Vibes', url: 'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Blue_Dot_Sessions/Piano_Transitions/Blue_Dot_Sessions_-_06_-_Ground_Pine.mp3' },
+    { cat: 'sad', title: 'Lost Script', url: 'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Birocratic/Beats_For_Days/Birocratic_-_02_-_Brahms.mp3' },
+    { cat: 'sad', title: 'Cold Memory', url: 'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Jinsang/Solitude/Jinsang_-_04_-_Here.mp3' },
     
-    // 🍃 СПОКОЙСТВИЕ // ВАКУУМ (Уютный Chillhop, мягкие ударные)
-    { cat: 'calm', title: 'Chill Coding Session', url: 'https://cdn.pixabay.com/download/audio/2022/05/16/audio_19f39007f3.mp3?filename=calm-ambient-111304.mp3' },
-    { cat: 'calm', title: 'Vinyl Dust & Chill', url: 'https://cdn.pixabay.com/download/audio/2022/03/24/audio_c35f29d2f2.mp3?filename=meditation-ambient-102554.mp3' },
-    { cat: 'calm', title: 'Warm Blanket & Tea', url: 'https://cdn.pixabay.com/download/audio/2021/11/25/audio_9185a72449.mp3?filename=deep-ambient-11116.mp3' },
-    { cat: 'calm', title: 'Late Night Thoughts', url: 'https://cdn.pixabay.com/download/audio/2022/04/27/audio_651a02b1f8.mp3?filename=ambient-relax-110036.mp3' },
-    { cat: 'calm', title: 'Floating Through Dreams', url: 'https://cdn.pixabay.com/download/audio/2022/01/18/audio_d217983636.mp3?filename=space-chillout-10609.mp3' },
+    // 🍃 СПОКОЙСТВИЕ (Стабильные ссылки)
+    { cat: 'calm', title: 'Distant Galaxy', url: 'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/Birocratic/The_Birocratic_EP/Birocratic_-_01_-_Birocratic_-_Relax.mp3' },
+    { cat: 'calm', title: 'Soft Fog', url: 'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Blue_Dot_Sessions/Piano_Transitions/Blue_Dot_Sessions_-_02_-_Algea_Field.mp3' },
+    { cat: 'calm', title: 'Night Ether', url: 'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Blue_Dot_Sessions/Piano_Transitions/Blue_Dot_Sessions_-_04_-_Silk_Vault.mp3' },
+    { cat: 'calm', title: 'Ocean Whisper', url: 'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Blue_Dot_Sessions/Piano_Transitions/Blue_Dot_Sessions_-_05_-_Vela.mp3' },
+    { cat: 'calm', title: 'Dreaming', url: 'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Jinsang/Solitude/Jinsang_-_06_-_I_Feel_Fine.mp3' },
 
-    // 🔥 ЭЙФОРИЯ // ДРАЙВ (Качающий Lo-Fi бит, сэмплы и вайб)
-    { cat: 'cheerful', title: 'Coffee Shop Beats', url: 'https://cdn.pixabay.com/download/audio/2022/03/10/audio_c18cb9d5a7.mp3?filename=cyberpunk-2099-10701.mp3' },
-    { cat: 'cheerful', title: 'Retro Sunset Drive', url: 'https://cdn.pixabay.com/download/audio/2022/01/18/audio_d82a1738c8.mp3?filename=synthwave-80s-10977.mp3' },
-    { cat: 'cheerful', title: 'Lofi Flow & Burgers', url: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_145d8b2d18.mp3?filename=electronic-future-beats-107693.mp3' },
-    { cat: 'cheerful', title: 'Urban Chillout', url: 'https://cdn.pixabay.com/download/audio/2022/01/18/audio_7315570222.mp3?filename=action-cyberpunk-10702.mp3' },
-    { cat: 'cheerful', title: 'Sovereign Lofi Groove', url: 'https://cdn.pixabay.com/download/audio/2022/05/16/audio_db7c73fa92.mp3?filename=retrowave-111059.mp3' }
+    // 🔥 ЭЙФОРИЯ (Стабильные ссылки)
+    { cat: 'cheerful', title: 'Cyber Pulse', url: 'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Birocratic/Beats_For_Days/Birocratic_-_01_-_Passage.mp3' },
+    { cat: 'cheerful', title: 'Kronthar Rhythm', url: 'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Birocratic/Beats_For_Days/Birocratic_-_04_-_Komorebi.mp3' },
+    { cat: 'cheerful', title: 'Neon Sunset', url: 'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Birocratic/Beats_For_Days/Birocratic_-_05_-_Pavement.mp3' },
+    { cat: 'cheerful', title: 'Exudate Energy', url: 'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Birocratic/Beats_For_Days/Birocratic_-_06_-_Slo_Clap.mp3' },
+    { cat: 'cheerful', title: 'Matrix Breach', url: 'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Birocratic/Beats_For_Days/Birocratic_-_08_-_Unwind.mp3' }
 ];
+
+
 
 
 
