@@ -708,6 +708,123 @@
         .bobnit-input-box button { background: var(--accent-purple); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; font-weight: 900; cursor: pointer; }
 
 
+                /* ====================================================
+           🧬 РЕЖИМ НПС: ТОТАЛЬНОЕ СХЛОПЫВАНИЕ ВЕЛИЧИЯ
+           ==================================================== */
+        /* Наша унылая кнопка в нормальном режиме */
+        .npc-toggle-btn {
+            background: rgba(255, 42, 95, 0.15);
+            border: 2px solid var(--accent-crimson);
+            color: var(--accent-crimson);
+            padding: 8px 16px;
+            font-family: var(--font-code);
+            font-weight: bold;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 42, 95, 0.3);
+            margin-top: 15px;
+        }
+        .npc-toggle-btn:hover {
+            background: var(--accent-crimson);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 42, 95, 0.7);
+        }
+
+        /* Правила деградации интерфейса при активации класса .npc-theme */
+        body.npc-theme {
+            /* Подменяем неоновые цвета на убогий офисный серый и болотный */
+            --bg-base: #e4e4e4 !important;
+            --bg-card: #ffffff !important;
+            --text-main: #222222 !important;
+            --text-muted: #666666 !important;
+            
+            /* Унылые скуфские цвета вместо неона */
+            --accent-gold: #555555 !important;
+            --accent-purple: #777777 !important;
+            --accent-green: #28a745 !important;
+            --accent-cyan: #0056b3 !important;
+            --accent-crimson: #990000 !important;
+            --accent-pink: #cc6699 !important;
+
+            /* Самые скучные шрифты в истории человечества */
+            --font-header: 'Times New Roman', Times, serif !important;
+            --font-body: 'Arial', sans-serif !important;
+            --font-code: 'Courier New', monospace !important;
+            
+            background-image: none !important; /* Выжигаем задние градиенты */
+        }
+
+        /* Полное уничтожение неонового Лэйкора во всех узлах сайта */
+        body.npc-theme * {
+            box-shadow: none !important;
+            text-shadow: none !important;
+            border-radius: 0px !important; /* Никаких плавных углов, только жесткие коробки! */
+            animation: none !important; /* Убиваем анимации */
+            background-image: none !important;
+        }
+
+        /* Уничтожаем неоновые пресеты блюд */
+        body.npc-theme .glow-heavy,
+        body.npc-theme .glow-cloud,
+        body.npc-theme .glow-dessert {
+            font-family: 'Times New Roman', serif !important;
+            color: #222222 !important;
+            text-shadow: none !important;
+            font-weight: bold !important;
+        }
+
+        /* Превращаем заголовок LEYCORE в серый заголовок доклада */
+        body.npc-theme h1 {
+            background: none !important;
+            -webkit-text-fill-color: #222222 !important;
+            color: #222222 !important;
+            font-size: 3rem !important;
+        }
+
+        /* Делаем сайдбар плоским, уродливым списком слева */
+        body.npc-theme .sidebar-nav {
+            position: static !important;
+            flex-direction: row !important;
+            background: #ccc !important;
+            padding: 10px !important;
+            border: 1px solid #999 !important;
+            margin-bottom: 20px;
+        }
+        body.npc-theme .sidebar-link {
+            transform: none !important;
+            border: 1px solid #777 !important;
+            background: #ddd !important;
+            color: #000 !important;
+            padding: 5px 10px !important;
+            font-size: 0.8rem !important;
+        }
+        body.npc-theme .sidebar-link:hover {
+            background: #bbb !important;
+        }
+
+        /* Шкала прогресса становится унылым серым прямоугольником */
+        body.npc-theme .leycore-progress-widget {
+            position: static !important;
+            width: 100% !important;
+            height: auto !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+            background: #ddd !important;
+            border: 1px solid #999 !important;
+            padding: 10px !important;
+        }
+        body.npc-theme .leycore-progress-bg {
+            width: 70% !important;
+            height: 20px !important;
+            margin-top: 0px !important;
+            background: #bbb !important;
+        }
+        body.npc-theme .leycore-progress-fill {
+            background: #28a745 !important; /* Скучный зеленый цвет загрузки */
+        }
+
     </style>
 </head>
 <body>
@@ -767,8 +884,10 @@
     </nav>
 
     <header>
-        <div class="badge">LEYCORE // v130.0 // local</div>
-        <h1>LEYCORE</h1>
+         <div class="badge">LEYCORE // v130.0 // local</div>
+        <h1 id="main-title">LEYCORE</h1>
+        <!-- НАША КНОПКА СТЁБА -->
+        <button id="npc-toggle-btn" class="npc-toggle-btn" onclick="toggleNpcMode()">🚨 ВКЛЮЧИТЬ РЕЖИМ НПС</button>
         <p class="subtitle">Карта восприятия, творчества и скрытых связей между человеком и миром.</p>
     </header>
 
@@ -2250,6 +2369,33 @@
             ];
             
             return randomResponses[Math.floor(Math.random() * randomResponses.length)];
+        }
+
+                // ----------------------------------------------------
+        // 🛠️ СЕКРЕТНЫЙ РЕЖИМ НПС (ДЕГРАДАЦИЯ ИНТЕРФЕЙСА)
+        // ----------------------------------------------------
+        function toggleNpcMode() {
+            const body = document.body;
+            body.classList.toggle('npc-theme');
+            
+            const btn = document.getElementById('npc-toggle-btn');
+            const title = document.getElementById('main-title');
+            
+            if (body.classList.contains('npc-theme')) {
+                // Если включен режим НПС
+                btn.innerText = "🟢 ВЕРНУТЬ ВЕЛИКИЙ ЛЭЙКОР";
+                btn.style.background = "#28a745";
+                btn.style.color = "#ffffff";
+                btn.style.borderColor = "#1e7e34";
+                if (title) title.innerText = "БЛОГ О ЗДОРОВОМ ПИТАНИИ И КАТЕХИЗИСЕ ОВОЩЕЙ";
+            } else {
+                // Если вернулись в Лэйкор
+                btn.innerText = "🚨 ВКЛЮЧИТЬ РЕЖИМ НПС";
+                btn.style.background = ""; // Сбрасываем инлайн-стили к CSS дефолтам
+                btn.style.color = "";
+                btn.style.borderColor = "";
+                if (title) title.innerText = "LEYCORE";
+            }
         }
 
     </script>
