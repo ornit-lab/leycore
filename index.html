@@ -484,6 +484,76 @@
             }
         }
 
+                /* БАННЕР ХРАНИЛИЩА (СКАЗКИ / АПОСТЕРИОРИ) */
+        .tales-banner {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(17, 14, 23, 0.95));
+            border: 2px solid var(--accent-purple);
+            border-radius: 16px;
+            padding: 1.8rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 0 35px rgba(176, 38, 255, 0.3), inset 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .tales-avatar-box {
+            flex-shrink: 0;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--accent-purple);
+            box-shadow: 0 0 20px rgba(176, 38, 255, 0.5);
+        }
+
+        .tales-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .tales-quote-box {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .tales-badge {
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            color: var(--accent-purple);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .tales-quote {
+            font-family: 'Playfair Display', serif; /* Используем шрифт Хранилища */
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+            font-style: italic;
+            line-height: 1.5;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        @media (max-width: 850px) {
+            .tales-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+                padding: 1.2rem;
+            }
+            .tales-avatar-box {
+                width: 110px;
+                height: 110px;
+            }
+            .tales-quote {
+                font-size: 1.05rem;
+            }
+        }
+
 
     </style>
 </head>
@@ -774,6 +844,16 @@
         <!-- СКАЗКИ / АПОСТЕРИОРИ -->
         <div id="page-metaphors" class="page-view">
             <h2 class="section-title title-purple">ХРАНИЛИЩЕ</h2>
+            <!-- БАННЕР ХРАНИЛИЩА -->
+            <div class="tales-banner">
+                <div class="tales-avatar-box">
+                    <img src="tales_keeper.jpg" alt="Хранитель Сказок" class="tales-img">
+                </div>
+                <div class="tales-quote-box">
+                    <div class="tales-badge">🔮 АРХИВ 🔮</div>
+                    <p class="tales-quote" id="tales-dynamic-quote"></p>
+                </div>
+            </div>
 
             <div class="tales-tabs">
                 <button class="tales-tab-btn active-tales-tab" onclick="switchTalesTab('tales', this)">🔮
@@ -1507,6 +1587,36 @@
             updateLeycoreProgress();
             switchPage('leycore');
         };
+
+                // ----------------------------------------------------
+        // ДИНАМИЧЕСКИЕ ЦИТАТЫ ДЛЯ БАННЕРА ХРАНИЛИЩА
+        // ----------------------------------------------------
+        const talesQuotes = [
+            "«Прочитаешь эти сказки — умней не станешь, зато прозреешь от бездны человеческого сознания.»",
+            "«Каждая история здесь — это карта к безумию, или к просветлению. Выбирай свой путь, Сталкер.»",
+            "«Здесь хранятся данные о параллельных мирах, где логика отдыхает, а абсурд — Король.»",
+            "«Осторожно! Чтение этих текстов может вызвать необратимые изменения в твоей прошивке.»",
+            "«В этой библиотеке ты найдешь не ответы, а вопросы, от которых твой мозг начнет эволюционировать.»"
+        ];
+
+        function setRandomTalesQuote() {
+            const quoteElement = document.getElementById('tales-dynamic-quote');
+            if (quoteElement) {
+                const randomIndex = Math.floor(Math.random() * talesQuotes.length);
+                quoteElement.innerText = talesQuotes[randomIndex];
+            }
+        }
+
+        // Вызываем функцию при загрузке страницы
+        window.onload = () => {
+            renderDishes('all');
+            renderTalesList();
+            renderDictionary();
+            updateLeycoreProgress();
+            setRandomTalesQuote(); // <-- НОВАЯ СТРОЧКА!
+            switchPage('leycore');
+        };
+
     </script>
 </body>
 
