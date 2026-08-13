@@ -2605,43 +2605,33 @@
         // ----------------------------------------------------
         let isTalesUnlocked = false; // Статус разблокировки (по умолчанию закрыто)
 
-        function switchPage(id) { // Используем 'id'
-    // Сначала скрываем все страницы
-    document.querySelectorAll('.page-view').forEach(page => {
-        page.style.display = 'none';
-        page.style.opacity = '0';
+       function switchPage(id) { 
+    // 1. ТВОЯ СТАРАЯ ЛОГИКА (Переключение классов, которое у тебя было)
+    document.querySelectorAll('.page-view').forEach(p => {
+        p.style.display = 'none';
+        p.classList.remove('active-page');
     });
+    
+    // Показываем нужную страницу
+    const page = document.getElementById('page-' + id);
+    if (page) {
+        page.style.display = 'block';
+        page.classList.add('active-page');
+    }
 
-    // Убираем активный класс со всех ссылок сайдбара
-    document.querySelectorAll('.sidebar-link').forEach(link => {
-        link.classList.remove('active-page');
-    });
-
-    // 1. ПРОВЕРКА НА БЛОКИРОВКУ СКАЗОК (Оставляем как было)
+    // 2. ПРОВЕРКА НА БЛОКИРОВКУ СКАЗОК (Твоя логика)
     if (id === 'metaphors' && !isTalesUnlocked) {
         document.getElementById('tales-lock-modal').style.display = 'flex';
-        return; // Выходим из функции, если сказки заблокированы
+        return;
     }
 
-    // ⬇️⬇️⬇️ ВОТ СЮДА ПЕРЕНОСИМ ЗАГРУЗКУ ЧАТА! ⬇️⬇️⬇️
-    if (id === 'global-chat') { // Теперь используем правильный 'id'
+    // 3. ✨ ВОТ ОНА, СВЯЗЬ С ЧАТОМ! ✨
+    // Проверяем id, который пришел в функцию
+    if (id === 'global-chat') {
         loadChatHistory();
     }
-    // ⬆️⬆️⬆️ ЭТОТ БЛОК ДОЛЖЕН БЫТЬ ЗДЕСЬ! ⬆️⬆️⬆️
-
-    // Показываем нужную страницу
-    const activePage = document.getElementById('page-' + id);
-    if (activePage) {
-        activePage.style.display = 'block';
-        setTimeout(() => activePage.style.opacity = '1', 10);
-    }
-
-    // Добавляем активный класс текущей ссылке сайдбара
-    const activeLink = document.getElementById('nav-' + id);
-    if (activeLink) {
-        activeLink.classList.add('active-page');
-    }
 }
+
 
 
             document.querySelectorAll('.page-view').forEach(p => {
