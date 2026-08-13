@@ -1357,28 +1357,36 @@
         }
 
 
-        /* Контейнер игры — абсолютная база */
+               /* Контейнер игры — ОБЯЗАТЕЛЬНО position: relative */
         .flappy-arcade-container {
             position: relative;
-            /* Обязательно для привязки оверлея! */
             width: 420px;
+            max-width: 100%;
             margin: 20px auto;
             background: #000;
             border: 2px solid var(--accent-gold);
             border-radius: 12px;
-            padding: 20px;
+            padding: 15px;
             text-align: center;
             box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+        }
+
+        /* Обертка для канваса и оверлея */
+        .arcade-screen-box {
+            position: relative;
+            width: 100%;
+            height: 400px; /* Фиксируем рабочую высоту для экрана */
+            margin-top: 10px;
+            overflow: hidden;
+            border-radius: 8px;
         }
 
         /* Сам канвас игры */
         #flappyCanvas {
             display: block;
             width: 100%;
-            height: 400px;
+            height: 100%;
             background: linear-gradient(to bottom, #110e17, #1f1424);
-            border-radius: 8px;
-            margin-top: 15px;
         }
 
         /* СТРОГОЕ ОКНО ОВЕРЛЕЯ (КНОПКА СТАРТ) */
@@ -1388,15 +1396,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 10, 15, 0.9);
-            /* Плотный темный фон, чтобы текст не просвечивал */
+            background: rgba(10, 10, 15, 0.95); /* Плотный темный фон */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border-radius: 12px;
-            z-index: 20;
-            /* Поверх всего */
+            z-index: 20; /* Поверх канваса */
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .arcade-start-btn {
@@ -1417,6 +1424,7 @@
         .arcade-start-btn:hover {
             transform: scale(1.05);
         }
+
 
 
         /* СТИЛИ ЧАТА И ПРОФИЛЯ БОБНИТА */
@@ -2678,32 +2686,26 @@
     <div id="page-games" class="page-view">
         <h2 class="section-title title-gold">АРКАДНЫЙ ЗАЛ</h2>
 
-        <!-- Флэппи Царевна -->
-       <!-- Флэппи Царевна -->
-<div class="flappy-arcade-container" style="max-width: 100%;">
-    <h3>💨 ПОЛЕТ ЦАРЕВНЫ</h3>
-    <div class="arcade-screen-box" style="position: relative;">
-        <canvas id="flappyCanvas" width="400" height="500" style="width: 100%; height: auto; max-height: 400px;"></canvas>
-        <div id="arcade-overlay" class="arcade-overlay">
-            <!-- ... -->
-        </div>
-    </div>
-</div>
-
-            <p>Жми ПРОБЕЛ или КЛИКАЙ мышкой, чтобы Царевна пукала и набирала высоту! Облетай стены овсянки и долети до
-                десерта!</p>
+               <!-- Флэппи Царевна -->
+        <div class="flappy-arcade-container">
+            <h3>💨 ПОЛЕТ ЦАРЕВНЫ</h3>
+            <p style="font-size: 0.85rem; margin-bottom: 5px;">Жми ПРОБЕЛ или КЛИКАЙ, чтобы Царевна пукала и набирала высоту!</p>
+            
             <div class="arcade-screen-box">
                 <canvas id="flappyCanvas" width="400" height="500"></canvas>
+                
                 <div id="arcade-overlay" class="arcade-overlay">
-                    <h2 id="arcade-title">ИГРА ГОТОВА!</h2>
-                    <p id="arcade-sub">Нажми СТАРТ, чтобы запустить реактивный пердеж</p>
-                    <button onclick="startFlappyGame()" class="arcade-start-btn">▶️ СТАРТ ПОЛЕТА</button>
+                    <h2 id="arcade-title" style="font-size: 1.4rem; color: #fff;">ИГРА ГОТОВА!</h2>
+                    <p id="arcade-sub" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Нажми СТАРТ, чтобы запустить реактивный пердеж</p>
+                    <button onclick="startFlappyGame()" class="arcade-start-btn">▶️ СТАРТ</button>
                 </div>
             </div>
-            <div id="arcade-achievement" class="arcade-achievement" style="display: none;">
-                🏆 АЧИВКА РАЗБЛОКИРОВАНА: <span style="color: var(--accent-green);">«Попукивания освоены!»</span> ✨
+
+            <div id="arcade-achievement" class="arcade-achievement" style="display: none; font-size: 0.8rem; margin-top: 10px;">
+                🏆 АЧИВКА: <span style="color: var(--accent-green);">«Попукивания освоены!»</span> ✨
             </div>
         </div>
+
 
                 <!-- КЛИКЕР БОБНИТА -->
         <div class="leycore-hero" style="text-align: center;">
