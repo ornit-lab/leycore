@@ -2079,6 +2079,36 @@
     padding: 0 20px; border-radius: 8px; font-weight: bold; cursor: pointer;
 }
 
+        /* АНИМАЦИЯ +1 ДЛЯ КЛИКЕРА */
+        .click-effect {
+            position: absolute;
+            font-family: var(--font-code);
+            font-size: 2.2rem; /* Увеличил размер, чтобы было видно */
+            font-weight: 900;
+            color: var(--accent-gold);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+            pointer-events: none; /* Чтобы не мешало кликать */
+            animation: clickFadeOut 0.8s ease-out forwards; /* Анимация */
+            opacity: 0; /* Стартовая прозрачность */
+            z-index: 10000; /* Поверх всего */
+        }
+
+        @keyframes clickFadeOut {
+            0% {
+                opacity: 0;
+                transform: translateY(0px) scale(0.8);
+            }
+            30% {
+                opacity: 1;
+                transform: translateY(-20px) scale(1.1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-50px) scale(1.2);
+            }
+        }
+
+
     </style>
 </head>
 
@@ -2487,22 +2517,40 @@
             </div>
         </div>
 
-        <!-- КЛИКЕР БОБНИТА -->
+                                <!-- КЛИКЕР БОБНИТА -->
         <div class="leycore-hero" style="text-align: center;">
             <h3>🍔 НАКАЧАЙ БОБНИТА БУРГЕРАМИ</h3>
-            <p>Мотивация: 10,000 бургеров = Секретный рецепт "Сопля динозавра"</p>
-            <div id="bobnit-clicker-area" onclick="clickBobnit(event)" style="cursor: pointer; margin: 20px 0;">
-                <img id="bobnit-clicker-img" src="bobnit_thanos.jpg"
-                    style="width: 200px; border-radius: 50%; transition: transform 0.1s;">
-            </div>
-            <h2 id="clicker-counter">Бургеров: 0</h2>
+            <p>Цель: 5,000 бургеров = Секретный рецепт "Сопли динозавра"</p>
+            
+            <!-- Кибер-обертка: Сетка, где СТАДИЯ сбоку на ПК, и сверху на телефонах -->
+            <div class="bobnit-clicker-wrapper" style="display: flex; align-items: center; justify-content: center; gap: 25px; flex-wrap: wrap; margin: 30px auto; max-width: 1100px;">
+                
+                <!-- Виджет стадии (СБОКУ) -->
+                <div id="bobnit-stage-side" style="background: rgba(17, 14, 23, 0.95); border: 2px solid var(--accent-gold); padding: 20px; border-radius: 12px; box-shadow: 0 0 25px rgba(255, 215, 0, 0.35); font-family: 'Unbounded', sans-serif; min-width: 220px; text-align: center;">
+                    <span style="font-size: 0.75rem; letter-spacing: 2px; color: var(--text-muted); display: block; margin-bottom: 8px;">ТЕКУЩИЙ СТАТУС:</span>
+                    <span id="bobnit-stage-title" style="color: var(--accent-gold); font-weight: 900; font-size: 1.15rem; text-shadow: 0 0 10px var(--accent-gold);">💀 СКЕЛЕТ</span>
+                </div>
 
-            <!-- Секретный рецепт (сначала скрыт) -->
-            <div id="secret-recipe"
-                style="display: none; background: #1a0000; border: 2px solid gold; padding: 20px; margin-top: 20px;">
-                <h2 style="color: gold;">📜 СЕКРЕТНЫЙ РЕЦЕПТ: Сопля динозавра</h2>
-                <p>Это блюдо настолько слизское, что твой унитаз потребует отставки...</p>
+                <!-- Картинка кликера -->
+                <div id="bobnit-clicker-area" onclick="clickBobnit(event)" style="cursor: pointer; position: relative; overflow: hidden; display: inline-block;">
+                    <img id="bobnit-clicker-img" src="bobnit_stage0_skeleton.jpg"
+                         style="width: 800px; height: 450px; object-fit: cover; border-radius: 12px; border: 2px solid var(--accent-gold); box-shadow: 0 0 45px rgba(255, 215, 0, 0.4); transition: transform 0.1s;">
+                </div>
             </div>
+            
+            <h2 id="clicker-counter" style="margin-top: 15px;">Бургеров: 0</h2>
+            
+            <!-- ЗОЛОТАЯ МИНИ-ИСТОРИЯ (СНИЗУ КЛИКЕРА) -->
+            <p id="bobnit-stage-story" style="color: var(--accent-gold); font-family: var(--font-code); font-size: 1.15rem; max-width: 800px; margin: 20px auto 0 auto; text-shadow: 0 0 8px rgba(255, 215, 0, 0.5); line-height: 1.6; font-weight: 700;">
+                Он не знает, что такое еда... Помоги ему набрать вес.
+            </p>
+        </div>
+
+
+
+
+        
+            
         </div>
     </div>
 
@@ -2725,6 +2773,9 @@
         // ----------------------------------------------------
         const dishes = [
             // ТЯЖЁЛЫЕ (HEAVY)
+
+    
+
             {
                 category: "heavy",
                 title: "● Куриный экссудат",
@@ -2860,6 +2911,7 @@
                     { user: 'Гость Царства', text: 'Попробовали, родился мальчик. Назвали его Тор', rating: 4 }
                 ]
             },
+
 
             // ОБЛАЧНЫЕ (CLOUD)
             {
@@ -3044,6 +3096,8 @@
                     { user: 'Гость Царства', text: 'Игра детства, бобнит жирдяй', rating: 4 }
                 ]
             }
+
+            
         ];
 
         // ----------------------------------------------------
@@ -3524,15 +3578,25 @@
             }
         }
 
-        // Вызываем функцию при загрузке страницы
         window.onload = () => {
-            renderDishes('all');
-            renderTalesList();
-            renderDictionary();
-            updateLeycoreProgress();
-            setRandomTalesQuote(); // <-- НОВАЯ СТРОЧКА!
-            switchPage('leycore');
-        };
+    const counterEl = document.getElementById('clicker-counter');
+
+    if (counterEl) {
+        counterEl.innerText = "Бургеров: " + burgerCount;
+    }
+
+    updateBobnitStageUI();
+
+    if (typeof renderDishes === 'function') renderDishes('all');
+    if (typeof renderTalesList === 'function') renderTalesList();
+    if (typeof renderDictionary === 'function') renderDictionary();
+    if (typeof updateLeycoreProgress === 'function') updateLeycoreProgress();
+    if (typeof setRandomTalesQuote === 'function') setRandomTalesQuote();
+    if (typeof switchPage === 'function') switchPage('leycore');
+    if (typeof renderSymphonies === 'function') renderSymphonies();
+};
+
+
 
 
         // ----------------------------------------------------
@@ -3966,14 +4030,14 @@
 
             if (body.classList.contains('npc-theme')) {
                 // Если включен режим НПС
-                btn.innerText = "🟢 ВЕРНУТЬ ВЕЛИКИЙ ЛЭЙКОР";
+                btn.innerText = "🟢 ВЕРНУТЬ ЛЭЙКОР";
                 btn.style.background = "#28a745";
                 btn.style.color = "#ffffff";
                 btn.style.borderColor = "#1e7e34";
                 if (title) title.innerText = "БЛОГ О ЗДОРОВОМ ПИТАНИИ И КАТЕХИЗИСЕ ОВОЩЕЙ";
             } else {
                 // Если вернулись в Лэйкор
-                btn.innerText = "🚨 ВКЛЮЧИТЬ РЕЖИМ НПС";
+                btn.innerText = "🚨 ВЫКЛЮЧИТЬ ЛЭЙКОР";
                 btn.style.background = ""; // Сбрасываем инлайн-стили к CSS дефолтам
                 btn.style.color = "";
                 btn.style.borderColor = "";
@@ -3981,31 +4045,182 @@
             }
         }
 
+                // ----------------------------------------------------
+        // 🍔 КЛИКЕР БОБНИТА: СИСТЕМА СТАДИЙ И ИСТОРИЙ
         // ----------------------------------------------------
-        // 🍔 КЛИКЕР БОБНИТА: НАКАЧАЙ БУРГЕРАМИ
-        // ----------------------------------------------------
-        let burgerCount = 0;
-        const targetCount = 10000;
+        let burgerCount = parseInt(localStorage.getItem('bobnitBurgerCount') || '0', 10);
+        let bobnitCurrentStage = parseInt(localStorage.getItem('bobnitCurrentStage') || '0', 10);
+        
+        // Массив путей к картинкам на GitHub (или в папке проекта)
+        const bobnitImages = [
+            'bobnit_stage0_skeleton.jpg',   // 0 - 299 кликов
+            'bobnit_stage1_normal.jpg',     // 300 - 999 кликов
+            'bobnit_stage2_muscular.jpg',   // 1000 - 2999 кликов
+            'bobnit_stage3_flabby.jpg',     // 3000 - 4999 кликов
+            'bobnit_stage4_thanos.jpg',     // 5000 - 9999 кликов
+            'bobnit_stage5_galaxy.jpg'      // 10000+ кликов
+        ];
 
-        function clickBobnit() {
-            burgerCount++;
-            document.getElementById('clicker-counter').innerText = "Бургеров: " + burgerCount;
+        // Названия стадий и их золотые истории
+        const bobnitStagesData = [
+            {
+                name: "💀 СКЕЛЕТ",
+                story: "Он не знает, что такое еда... Помоги ему набрать вес и восстановить структуру Лэйкора."
+            },
+            {
+                name: "👤 ДРИЩ С ОПЫТОМ",
+                story: "Он обзавелся первыми бургерами. В бургерах очень много калорий... Текстура кожи начинает оживать!"
+            },
+            {
+                name: "💪 ВЕНОЗНЫЙ АТЛЕТ",
+                story: "Чистый анаболизм! Мышцы разрывают его плоть, золотая сила Лэйкора течет прямо по его венам!"
+            },
+            {
+                name: "🐷 ЖИРОВОЙ ЗАМЕС",
+                story: "Масса заплывает жиром. Висцеральный экссудат обволакивает его изнутри. Это подготовка к квантовому скачку!"
+            },
+            {
+                name: "👑 БОБНИТ-ТАНОС",
+                story: "Бобнит обрел Перчатку Продуктов! Один щелчок — и половина серого голода во вселенной уничтожена!"
+            },
+            {
+                name: "🌌 ВЛАДЫКА ГАЛАКТИКИ",
+                story: "Бобнита разорвало на целую галактику! Бесконечное величие Лэйкора вышло за пределы физической оболочки."
+            }
+        ];
 
-            // Эффект сжатия при клике
+        // Функция обновления внешнего вида кликера
+        function updateBobnitStageUI() {
             const img = document.getElementById('bobnit-clicker-img');
-            img.style.transform = "scale(0.95)";
-            setTimeout(() => img.style.transform = "scale(1)", 100);
+            const title = document.getElementById('bobnit-stage-title');
+            const story = document.getElementById('bobnit-stage-story');
 
-            // Проверка победы
-            if (burgerCount === targetCount) {
+            if (img && bobnitImages[bobnitCurrentStage]) {
+                img.src = bobnitImages[bobnitCurrentStage];
+            }
+            if (title && bobnitStagesData[bobnitCurrentStage]) {
+                title.innerText = bobnitStagesData[bobnitCurrentStage].name;
+            }
+            if (story && bobnitStagesData[bobnitCurrentStage]) {
+                story.innerText = bobnitStagesData[bobnitCurrentStage].story;
+            }
+        }
+
+        function clickBobnit(event) {
+            burgerCount++;
+            createClickEffect(event); // Создаем эффект +1
+
+            const counterEl = document.getElementById('clicker-counter');
+            if (counterEl) counterEl.innerText = "Бургеров: " + burgerCount;
+
+            const img = document.getElementById('bobnit-clicker-img');
+            if (img) {
+                img.style.transform = "scale(0.97)";
+                setTimeout(() => img.style.transform = "scale(1)", 80);
+            }
+
+            // Рассчитываем стадию
+            let newStage = bobnitCurrentStage;
+
+            if (burgerCount < 300) {
+                newStage = 0;
+            } else if (burgerCount < 1000) {
+                newStage = 1;
+            } else if (burgerCount < 3000) {
+                newStage = 2;
+            } else if (burgerCount < 5000) {
+                newStage = 3;
+            } else if (burgerCount < 10000) {
+                newStage = 4;
+            } else {
+                newStage = 5;
+            }
+
+            if (newStage !== bobnitCurrentStage) {
+                bobnitCurrentStage = newStage;
+                updateBobnitStageUI();
+            }
+
+            // Сохранение в память браузера
+            localStorage.setItem('bobnitBurgerCount', burgerCount.toString());
+            localStorage.setItem('bobnitCurrentStage', bobnitCurrentStage.toString());
+
+            // Награда на 5000 кликов (открытие секретного рецепта)
+            if (burgerCount >= 5000 && !localStorage.getItem('dinoSnotUnlocked')) {
+                localStorage.setItem('dinoSnotUnlocked', 'true');
                 unlockSecretRecipe();
             }
         }
 
-        function unlockSecretRecipe() {
-            document.getElementById('secret-recipe').style.display = "block";
-            alert("КРОНТАР ДОВОЛЕН! СЕКРЕТНЫЙ РЕЦЕПТ ОТКРЫТ!");
+        // Эффект всплывающей цифры +1
+        function createClickEffect(event) {
+            const clickerArea = document.getElementById('bobnit-clicker-area');
+            if (!clickerArea) return;
+
+            const effect = document.createElement('div');
+            effect.innerText = "+1";
+            effect.classList.add('click-effect');
+
+            const rect = clickerArea.getBoundingClientRect();
+            effect.style.left = (event.clientX - rect.left - 20) + 'px';
+            effect.style.top = (event.clientY - rect.top - 20) + 'px';
+            
+            clickerArea.appendChild(effect);
+
+            effect.addEventListener('animationend', () => {
+                effect.remove();
+            });
         }
+
+        function unlockSecretRecipe() {
+            alert("👑 ТРИУМФ! СЕКРЕТНЫЙ РЕЦЕПТ 'СОПЛИ ДИНОЗАВРА' РАЗБЛОКИРОВАН!");
+            
+            const dinoSnotRecipe = {
+                category: "heavy",
+                title: "● Сопли динозавра (Секрет Демиурга)",
+                image: "dino_snot.jpg",
+                macros: "~1800 ККАЛ // ~120г БЕЛКА",
+                composition: "Куриная грудка (500г), плавленый сыр (200г), шпинат (150г), сливки 20% (200мл), желатин пищевой (15г), чеснок, специи.",
+                cooking: "Отвариваешь куриную грудку, разбираешь её на волокна. В сотейнике разогреваешь сливки, всыпаешь плавленый сыр и мелко нарезанный шпинат, дожидаясь, пока масса не станет вязкой и тягучей. Добавляешь предварительно разведенный желатин, чеснок и специи. Засыпаешь туда волокна курицы, тщательно перемешиваешь этот густой изумрудный замес и отправляешь в холодильник на 2 часа до полного застывания в желеобразную субстанцию.",
+                laykor: "На вид — пульсирующая зеленая масса, свисающая с ложки, словно сопли доисторического ящера. На вкус — мощный сливочно-чесночный удар, обволакивающий пищевод плотным слоем белкового анабиоза.",
+                likes: 1,
+                dislikes: 0,
+                comments: [{ user: 'Бобнит', text: 'Ты прошел этот путь и заслужил слизь. Уважение! 🦾', rating: 5 }]
+            };
+
+            dishes.push(dinoSnotRecipe);
+            const secretIndex = dishes.length - 1;
+            openDishPage(secretIndex);
+        }
+
+
+
+                function unlockSecretRecipe() {
+            alert("👑 ТРИУМФ! СЕКРЕТНЫЙ РЕЦЕПТ 'СОПЛИ ДИНОЗАВРА' РАЗБЛОКИРОВАН!");
+            
+            // Динамически создаем объект секретного рецепта прямо в памяти
+            const dinoSnotRecipe = {
+                category: "heavy",
+                title: "● Сопли динозавра (Секрет Демиурга)",
+                image: "dino_snot.jpg",
+                macros: "~1800 ККАЛ // ~120г БЕЛКА",
+                composition: "Куриная грудка (500г), плавленый сыр (200г), шпинат (150г), сливки 20% (200мл), желатин пищевой (15г), чеснок, специи.",
+                cooking: "Отвариваешь куриную грудку, разбираешь её на волокна. В сотейнике разогреваешь сливки, всыпаешь плавленый сыр и мелко нарезанный шпинат... (секретная технология Кронтара).",
+                laykor: "На вид — пульсирующая зеленая масса, свисающая с ложки, словно сопли доисторического ящера. На вкус — мощный сливочно-чесночный удар, обволакивающий пищевод плотным слоем белкового анабиоза.",
+                likes: 1,
+                dislikes: 0,
+                comments: [{ user: 'Бобнит', text: 'Ты прошел этот путь и заслужил слизь. Уважение! 🦾', rating: 5 }]
+            };
+
+            // Добавляем его в массив dishes на лету
+            dishes.push(dinoSnotRecipe);
+            const secretIndex = dishes.length - 1;
+
+            // Перенаправляем игрока на страницу этого секретного рецепта
+            openDishPage(secretIndex);
+        }
+
+
 
         const tracks = [
             // 💧 ГРУСТЬ (Стабильные ссылки)
