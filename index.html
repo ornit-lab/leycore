@@ -2603,31 +2603,43 @@
         let isTalesUnlocked = false; // Статус разблокировки (по умолчанию закрыто)
 
        function switchPage(id) { 
-    // 1. ТВОЯ СТАРАЯ ЛОГИКА (Переключение классов, которое у тебя было)
+    // 1. СКРЫВАЕМ ВСЕ СТРАНИЦЫ И ДЕЛАЕМ ИХ ПРОЗРАЧНЫМИ
     document.querySelectorAll('.page-view').forEach(p => {
         p.style.display = 'none';
         p.classList.remove('active-page');
+        p.style.opacity = '0';
     });
     
-    // Показываем нужную страницу
+    // 2. ПОКАЗЫВАЕМ НУЖНУЮ СТРАНИЦУ С ПЛАВНЫМ ПОЯВЛЕНИЕМ
     const page = document.getElementById('page-' + id);
     if (page) {
         page.style.display = 'block';
-        page.classList.add('active-page');
+        setTimeout(() => {
+            page.classList.add('active-page');
+            page.style.opacity = '1';
+        }, 30);
     }
 
-    // 2. ПРОВЕРКА НА БЛОКИРОВКУ СКАЗОК (Твоя логика)
+    // 3. ЧИНИМ МЕНЮ: Убираем выделение со всех вкладок и выделяем ТЕКУЩУЮ (чтобы Главная не торчала!)
+    document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+    const navItem = document.getElementById('nav-' + id);
+    if (navItem) navItem.classList.add('active');
+
+    // 4. ПЛАВНО СКРОЛЛИМ ВВЕРХ ПРИ ПЕРЕХОДЕ
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // 5. ПРОВЕРКА НА БЛОКИРОВКУ СКАЗОК
     if (id === 'metaphors' && !isTalesUnlocked) {
         document.getElementById('tales-lock-modal').style.display = 'flex';
         return;
     }
 
-    // 3. ✨ ВОТ ОНА, СВЯЗЬ С ЧАТОМ! ✨
-    // Проверяем id, который пришел в функцию
+    // 6. СВЯЗЬ С ЧАТОМ
     if (id === 'global-chat') {
         loadChatHistory();
     }
 }
+
 
     
 
@@ -4288,7 +4300,7 @@ setInterval(() => {
 
             <div class="lock-riddle-box"
                 style="font-family: var(--font-code); color: var(--accent-gold); font-size: 1.4rem; padding: 20px;">
-                10 × 10 − 10 ÷ 10 + 10 = 🍩?
+                🍩 × 10 − 🍩 ÷ 10 + 10 = 🍩?
             </div>
 
             <div class="lock-input-group">
