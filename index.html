@@ -2978,18 +2978,21 @@ function addAchievement(name) {
     if (fill) fill.style.setProperty('--progress', percent + '%');
     if (text) text.innerText = percent + '%';
 
-    if (badge) {
-        if (percent === 100) {
-            badge.style.display = 'block';
+   if (badge) {
+    if (percent === 100) {
+        badge.style.display = 'block';
 
-            setTimeout(() => {
-                badge.style.display = 'none';
-            }, 5000);
-        } else {
+        // Записываем достижение один раз
+        addAchievement("Познание Лэйкора");
+
+        setTimeout(() => {
             badge.style.display = 'none';
-        }
+        }, 5000);
+    } else {
+        badge.style.display = 'none';
     }
-} // обязательно
+}
+
 
 
         function toggleComp(id) {
@@ -3946,6 +3949,11 @@ if (savedCustomDishes) {
 
             // Восстанавливаем картинку, стадию и историю
             updateBobnitStageUI();
+            // Восстанавливаем достижения по уже имеющемуся прогрессу
+if (burgerCount >= 10000) {
+    addAchievement("10.000 кликов в кликере");
+}
+
 
             // Рендер остальных элементов сайта
             if (typeof renderDishes === 'function') renderDishes('all');
@@ -5152,7 +5160,7 @@ function renderAchievements() {
     if (!list) return;
     
     // Список всех возможных ачивок (база)
-    const allPossible = ["Познание Лэйкора", "10.000 кликов в Бобните", "Секретный рецепт"];
+    const allPossible = ["Познание Лэйкора", "10.000 кликов в кликере", "Секретный рецепт"];
     
     list.innerHTML = allPossible.map(a => `
         <div class="dish-card" style="border-color: ${myAchievements.includes(a) ? 'var(--accent-green)' : '#333'}">
