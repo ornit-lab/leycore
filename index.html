@@ -3309,6 +3309,21 @@
                     { user: 'Гость Царства', text: 'Игра детства, бобнит жирдяй', rating: 4 }
                 ]
             }
+        // Проверяем, не был ли сохранен секретный рецепт ранее в памяти браузера
+        const savedCustomDishes = localStorage.getItem('leycore_custom_dishes');
+        if (savedCustomDishes) {
+            try {
+                const parsedDishes = JSON.parse(savedCustomDishes);
+                // Если в сохраненных есть рецепт "Сопли динозавра", а в текущем массиве его нет — добавляем
+                parsedDishes.forEach(savedDish => {
+                    if (!dishes.some(d => d.title === savedDish.title)) {
+                        dishes.push(savedDish);
+                    }
+                });
+            } catch (e) {
+                console.error("Ошибка загрузки кастомных блюд:", e);
+            }
+        }
 
 
         ];
@@ -4458,12 +4473,16 @@
             });
         }
 
-        // Разблокировка секретного рецепта
+                // Разблокировка секретного рецепта
         function unlockSecretRecipe() {
-            alert("👑 КРОНТАР ТРИУМФИРУЕТ! СЕКРЕТНЫЙ РЕЦЕПТ 'СОПЛИ ДИНОЗАВРА' РАЗБЛОКИРОВАН!");
+            // Проверяем, есть ли рецепт уже в массиве (чтобы не дублировать при повторных триггерах)
+            const exists = dishes.some(d => d.title.includes("Сопли динозавра"));
+            if (exists) return;
 
+            alert("👑 ТРИУМФ! СЕКРЕТНЫЙ РЕЦЕПТ 'СОПЛИ ДИНОЗАВРА' НАВСЕГДА ДОБАВЛЕН В МЕНЮ (КАТЕГОРИЯ: ОБЛАЧНЫЕ)!");
+            
             const dinoSnotRecipe = {
-                category: "heavy",
+                category: "cloud", // Отправляем в облачные (как ты и хотел!)
                 title: "● Сопли динозавра (Секрет Демиурга)",
                 image: "dino_snot.jpg",
                 macros: "~1800 ККАЛ // ~120г БЕЛКА",
@@ -4475,10 +4494,22 @@
                 comments: [{ user: 'Бобнит', text: 'Ты прошел этот путь и заслужил слизь. Уважение! 🦾', rating: 5 }]
             };
 
+            // Добавляем в общий массив блюд
             dishes.push(dinoSnotRecipe);
+
+            // Сохраняем весь массив блюд в localStorage, включая секретный рецепт!
+            localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
+
+            // Перенаправляем игрока на страницу нового рецепта
             const secretIndex = dishes.length - 1;
             openDishPage(secretIndex);
+            
+            // Если игрок сейчас в меню, обновляем сетку
+            if (typeof renderDishes === 'function') {
+                renderDishes('all');
+            }
         }
+
 
         // ----------------------------------------------------
         // 🏆 ЛИДЕРБОРД: ЗАЛ СЛАВЫ КРОНТАРА
