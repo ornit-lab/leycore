@@ -2787,6 +2787,22 @@
             <div id="arcade-achievement" class="arcade-achievement" style="display: none; font-size: 0.8rem; margin-top: 10px;">
                 🏆 АЧИВКА: <span style="color: var(--accent-green);">«Попукивания освоены!»</span> ✨
             </div>
+            <!-- ТАБЛИЦА ЛИДЕРОВ ПЕРДЕЖА ЦАРЕВНЫ -->
+<div class="leaderboard-widget" style="margin: 25px auto 0; max-width: 420px;">
+    <h4>👑 ЗАЛ СЛАВЫ ЦАРЕВНЫ</h4>
+
+    <p style="text-align: center; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 12px;">
+        ЛИДЕРЫ ПО ПРОЛЕТЁННЫМ КОЛОННАМ
+    </p>
+
+    <ul id="flappy-leaderboard-list" class="leaderboard-list">
+        <li>
+            <span>ЗАГРУЗКА...</span>
+            <span></span>
+        </li>
+    </ul>
+</div>
+
         </div>
 
 
@@ -3955,6 +3971,12 @@ if (burgerCount >= 10000) {
     addAchievement("10.000 кликов в кликере");
 }
 
+// Восстанавливаем ачивку Царевны по сохранённому рекорду
+if (bestFlappyScore >= 30) {
+    addAchievement("Попукивания разблокированы");
+}
+
+
 if (
     localStorage.getItem('dinoSnotUnlocked') === 'true' ||
     dishes.some(d => d.title.includes("Сопли динозавра"))
@@ -3985,6 +4007,8 @@ if (
 
             // Загружаем список лидеров кликера
             loadLeaderboard();
+            loadFlappyLeaderboard();
+
         };
 
 
@@ -4005,6 +4029,22 @@ if (
         let bird = { x: 50, y: 250, radius: 18, gravity: 0.35, lift: -6.5, velocity: 0 };
         let pipes = [];
         let score = 0;
+        let bestFlappyScore = parseInt(
+    localStorage.getItem('flappyBestScore') || '0',
+    10
+);
+let flappyPlayerId = localStorage.getItem('flappyPlayerId');
+
+if (!flappyPlayerId) {
+    flappyPlayerId = crypto.randomUUID
+        ? crypto.randomUUID()
+        : 'flappy-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+
+    localStorage.setItem('flappyPlayerId', flappyPlayerId);
+}
+
+let flappySaveTimer = null;
+
         let gameInterval = null;
         let isPlaying = false;
         let farts = [];
@@ -4021,6 +4061,107 @@ if (
             if (gameInterval) clearInterval(gameInterval);
             gameInterval = setInterval(updateFlappyGame, 1000 / 60);
         }
+
+        async function saveFlappyScore() {
+    const nameKey = 'flappyPlayerName';
+    let playerName = localStorage.getItem(nameKey);
+
+    if (!playerName) {
+        playerName = prompt(
+            '👑 Ты установил рекорд Царевны! Введи имя для таблицы лидеров:'
+        );
+
+        if (!playerName) return;
+
+        playerName = playerName
+            .trim()
+            .replace(/[<>]/g, '')
+            .slice(0, 20);
+
+        if (!playerName) return;
+
+        localStorage.setItem(nameKey, playerName);
+    }
+
+    const { error } = await _supabase
+        .from('flappy_leaderboard')
+        .upsert(
+            [{
+                player_id: flappyPlayerId,
+                player_name: playerName,
+                score: bestFlappyScore,
+                updated_at: new Date().toISOString()
+            }],
+            {
+                onConflict: 'player_id'
+            }
+        );
+
+    if (error) {
+    console.error('Ошибка сохранения рекорда Царевны:', error);
+} else {
+    console.log('Рекорд Царевны сохранён:', bestFlappyScore);
+    loadFlappyLeaderboard();
+}
+
+}
+
+function scheduleFlappyScoreSave() {
+    clearTimeout(flappySaveTimer);
+
+    flappySaveTimer = setTimeout(() => {
+        saveFlappyScore();
+    }, 700);
+}
+
+async function loadFlappyLeaderboard() {
+    const list = document.getElementById('flappy-leaderboard-list');
+    if (!list) return;
+
+    list.innerHTML = `
+        <li>
+            <span>ЗАГРУЗКА...</span>
+            <span></span>
+        </li>
+    `;
+
+    const { data, error } = await _supabase
+        .from('flappy_leaderboard')
+        .select('player_name, score')
+        .order('score', { ascending: false })
+        .limit(10);
+
+    if (error) {
+        console.error('Ошибка загрузки топа Царевны:', error);
+
+        list.innerHTML = `
+            <li>
+                <span>ОШИБКА ЗАГРУЗКИ</span>
+                <span>—</span>
+            </li>
+        `;
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        list.innerHTML = `
+            <li>
+                <span>ПОКА НЕТ ГЕРОЕВ</span>
+                <span>—</span>
+            </li>
+        `;
+        return;
+    }
+
+    list.innerHTML = data.map((player, index) => `
+        <li>
+            <span>${index + 1}. ${player.player_name}</span>
+            <span>${player.score} колонн</span>
+        </li>
+    `).join('');
+}
+
+
 
         function triggerFlappyJump() {
             if (!isPlaying) return;
@@ -4056,7 +4197,23 @@ if (
                     (bird.y - bird.radius < pipes[i].top || bird.y + bird.radius > canvas.height - pipes[i].bottom)) {
                     gameOverFlappy();
                 }
-                if (!pipes[i].passed && pipes[i].x < bird.x) { pipes[i].passed = true; score++; }
+                if (!pipes[i].passed && pipes[i].x < bird.x) {
+    pipes[i].passed = true;
+    score++;
+
+    if (score > bestFlappyScore) {
+    bestFlappyScore = score;
+
+    localStorage.setItem(
+        'flappyBestScore',
+        bestFlappyScore.toString()
+    );
+
+    scheduleFlappyScoreSave();
+}
+}
+
+
                 if (pipes[i].x < -60) pipes.splice(i, 1);
             }
 
@@ -4091,9 +4248,18 @@ if (
             // Деталь короны
             ctx.fillStyle = "#ffcc00"; ctx.fillRect(bird.x - 6, bird.y - 22, 12, 6);
 
-            ctx.fillStyle = "#ffffff"; ctx.font = "bold 20px monospace";
-            ctx.fillText("ОЧКИ: " + score, 20, 40);
-            if (score >= 5) winFlappyGame();
+           ctx.fillStyle = "#ffffff";
+ctx.font = "bold 20px monospace";
+
+ctx.fillText("КОЛОННЫ: " + score, 20, 40);
+ctx.fillText("РЕКОРД: " + bestFlappyScore, 20, 68);
+
+
+// Ачивка за 30 успешно пролетённых колонн
+if (score >= 30) {
+    addAchievement("Попукивания разблокированы");
+}
+
         }
 
         function gameOverFlappy() {
@@ -5181,7 +5347,13 @@ function renderAchievements() {
     if (!list) return;
     
     // Список всех возможных ачивок (база)
-    const allPossible = ["Познание Лэйкора", "10.000 кликов в кликере", "Секретный рецепт"];
+    const allPossible = [
+    "Познание Лэйкора",
+    "10.000 кликов в кликере",
+    "Секретный рецепт",
+    "Попукивания разблокированы"
+];
+
     
     list.innerHTML = allPossible.map(a => `
         <div class="dish-card" style="border-color: ${myAchievements.includes(a) ? 'var(--accent-green)' : '#333'}">
