@@ -3952,8 +3952,16 @@ if (savedCustomDishes) {
             updateBobnitStageUI();
             // Восстанавливаем достижения по уже имеющемуся прогрессу
 if (burgerCount >= 10000) {
-        addAchievement("10.000 кликов в кликере");
-    }
+    addAchievement("10.000 кликов в кликере");
+}
+
+if (
+    localStorage.getItem('dinoSnotUnlocked') === 'true' ||
+    dishes.some(d => d.title.includes("Сопли динозавра"))
+) {
+    addAchievement("Секретный рецепт");
+}
+
     
 
 
@@ -4620,10 +4628,14 @@ if (burgerCount >= 10000) {
         }
 
                 // Разблокировка секретного рецепта
-        function unlockSecretRecipe() {
-            // Проверяем, есть ли рецепт уже в массиве (чтобы не дублировать при повторных триггерах)
-            const exists = dishes.some(d => d.title.includes("Сопли динозавра"));
-            if (exists) return;
+       function unlockSecretRecipe() {
+    const exists = dishes.some(d => d.title.includes("Сопли динозавра"));
+
+    if (exists) {
+        addAchievement("Секретный рецепт");
+        return;
+    }
+
 
             alert("👑 ТРИУМФ! СЕКРЕТНЫЙ РЕЦЕПТ 'СОПЛИ ДИНОЗАВРА' НАВСЕГДА ДОБАВЛЕН В МЕНЮ (КАТЕГОРИЯ: ОБЛАЧНЫЕ)!");
             
@@ -4641,7 +4653,14 @@ if (burgerCount >= 10000) {
             };
 
             // Добавляем в общий массив блюд
-            dishes.push(dinoSnotRecipe);
+           dishes.push(dinoSnotRecipe);
+addAchievement("Секретный рецепт");
+
+localStorage.setItem(
+    'leycore_custom_dishes',
+    JSON.stringify(dishes)
+);
+
 
             // Сохраняем весь массив блюд в localStorage, включая секретный рецепт!
             localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
