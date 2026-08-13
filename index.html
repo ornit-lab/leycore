@@ -3309,24 +3309,26 @@
                     { user: 'Гость Царства', text: 'Игра детства, бобнит жирдяй', rating: 4 }
                 ]
             }
-        // Проверяем, не был ли сохранен секретный рецепт ранее в памяти браузера
-        const savedCustomDishes = localStorage.getItem('leycore_custom_dishes');
-        if (savedCustomDishes) {
-            try {
-                const parsedDishes = JSON.parse(savedCustomDishes);
-                // Если в сохраненных есть рецепт "Сопли динозавра", а в текущем массиве его нет — добавляем
-                parsedDishes.forEach(savedDish => {
-                    if (!dishes.some(d => d.title === savedDish.title)) {
-                        dishes.push(savedDish);
-                    }
-                });
-            } catch (e) {
-                console.error("Ошибка загрузки кастомных блюд:", e);
-            }
-        }
-
-
+        
         ];
+
+        // Загружаем сохранённые секретные рецепты после закрытия массива dishes
+const savedCustomDishes = localStorage.getItem('leycore_custom_dishes');
+
+if (savedCustomDishes) {
+    try {
+        const parsedDishes = JSON.parse(savedCustomDishes);
+
+        parsedDishes.forEach(savedDish => {
+            if (!dishes.some(d => d.title === savedDish.title)) {
+                dishes.push(savedDish);
+            }
+        });
+    } catch (e) {
+        console.error('Ошибка загрузки кастомных блюд:', e);
+    }
+}
+
 
         // ----------------------------------------------------
         // ФУНКЦИЯ ФИЛЬТРАЦИИ МЕНЮ ПО КАТЕГОРИЯМ
