@@ -2293,6 +2293,82 @@
     .leaderboard-widget { width: 100% !important; margin-left: 0 !important; }
 }
 
+/* АДАПТАЦИЯ СКАЗОК И СЕЙФА ДЛЯ СМАРТФОНОВ */
+@media (max-width: 850px) {
+    /* 1. Баннер в Хранилище (чтобы аватар и цитата встали вертикально) */
+    .tales-banner {
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 15px !important;
+        padding: 1.5rem !important;
+    }
+
+    .tales-avatar-box {
+        width: 100px !important;
+        height: 100px !important;
+        margin: 0 auto !important;
+    }
+
+    .tales-quote {
+        font-size: 1rem !important;
+    }
+
+    /* 2. Сетка карточек сказок (в одну колонку на весь экран) */
+    .grid-tales {
+        grid-template-columns: 1fr !important;
+        gap: 1.2rem !important;
+        margin-top: 1rem !important;
+    }
+
+    .tale-list-card {
+        padding: 1.2rem !important;
+    }
+
+    .tale-list-title {
+        font-size: 1.15rem !important;
+    }
+
+    /* 3. Окно чтения сказки */
+    .tale-detail-view {
+        padding: 1.2rem !important;
+    }
+
+    .tale-full-text {
+        font-size: 0.95rem !important;
+    }
+
+    /* 4. МОДАЛЬНОЕ ОКНО ПАРОЛЯ (СЕЙФ) — ЧТОБЫ НЕ ВЫЛЕЗАЛО ЗА КРАЯ */
+    .lock-modal-card {
+        padding: 1.5rem !important;
+        max-width: 92% !important; /* На весь экран смартфона с отступами */
+        margin: 0 auto;
+    }
+
+    .lock-title {
+        font-size: 1.4rem !important;
+    }
+
+    .lock-riddle-box {
+        font-size: 1rem !important;
+        padding: 12px !important;
+    }
+
+    .lock-input-group {
+        flex-direction: column !important; /* Инпут сверху, кнопка снизу на мобилках */
+        gap: 10px !important;
+    }
+
+    .lock-input {
+        width: 100% !important;
+        font-size: 1rem !important;
+        padding: 10px !important;
+    }
+
+    .lock-btn {
+        width: 100% !important;
+        padding: 12px !important;
+    }
+}
 
     </style>
 </head>
