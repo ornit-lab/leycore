@@ -2408,6 +2408,9 @@
             class="sidebar-link link-purple"><span>СИМФОНИИ</span><span class="icon">🎧</span></a>
         <a onclick="switchPage('global-chat')" id="nav-chat" class="sidebar-link link-cyan"><span>ЧАТ</span><span
                 class="icon">💬</span></a>
+        <a href="javascript:void(0)" onclick="switchPage('achievements')" id="nav-achievements" class="sidebar-link link-purple">
+    <span>ДОСТИЖЕНИЯ</span><span class="icon">🏆</span></a>
+
 
 
 
@@ -2755,6 +2758,10 @@
 
 
     </div>
+<div id="page-achievements" class="page-view">
+    <h2 class="section-title title-gold">ТВОИ ДОСТИЖЕНИЯ</h2>
+    <div id="achievements-list" class="grid-3" style="text-align: center;"></div>
+</div>
 
 
 
@@ -2925,6 +2932,18 @@
 
 
     <script>
+
+        let myAchievements = JSON.parse(localStorage.getItem('leycore_achievements')) || [];
+
+function addAchievement(name) {
+    if (!myAchievements.includes(name)) {
+        myAchievements.push(name);
+        localStorage.setItem('leycore_achievements', JSON.stringify(myAchievements));
+        alert("🏆 НОВАЯ АЧИВКА: " + name);
+        renderAchievements(); // Обновляем список, если мы в профиле
+    }
+}
+
         // ----------------------------------------------------
         // 1. ВЕРТИКАЛЬНАЯ ШКАЛА ПРОГРЕССА (10 КАРТОЧЕК = 100%)
         // ----------------------------------------------------
@@ -2962,11 +2981,15 @@
             if (badge) {
                 if (percent === 100) {
                     badge.style.display = 'block';
+                    // Прячем через 5 секунд
+                    setTimeout(() => {
+                        badge.style.display = 'none';
+                    }, 5000);
                 } else {
                     badge.style.display = 'none';
                 }
             }
-        }
+
 
         function toggleComp(id) {
             const el = document.getElementById(id);
@@ -3018,7 +3041,10 @@
                 loadChatHistory();
             }
         }
-
+              if (id === 'achievements') {
+                renderAchievements();
+             }
+        }
 
 
 
@@ -4538,6 +4564,9 @@ if (savedCustomDishes) {
                 bobnitCurrentStage = newStage;
                 updateBobnitStageUI();
             }
+              if (burgerCount === 10000) {
+                addAchievement("10.000 кликов в кликере");
+            }
     // ... (весь код clickBobnit до этого места) ...
 
     localStorage.setItem('bobnitBurgerCount', burgerCount.toString());
@@ -5116,6 +5145,21 @@ if (savedCustomDishes) {
             sendBobnitMessage(); // Автоматически отправляем в чат!
         }
 
+function renderAchievements() {
+    const list = document.getElementById('achievements-list');
+    if (!list) return;
+    
+    // Список всех возможных ачивок (база)
+    const allPossible = ["Познание Лэйкора", "10.000 кликов в Бобните", "Секретный рецепт"];
+    
+    list.innerHTML = allPossible.map(a => `
+        <div class="dish-card" style="border-color: ${myAchievements.includes(a) ? 'var(--accent-green)' : '#333'}">
+            <h3 style="color: ${myAchievements.includes(a) ? 'var(--accent-gold)' : '#555'}">
+                ${myAchievements.includes(a) ? '🏆' : '🔒'} ${a}
+            </h3>
+        </div>
+    `).join('');
+}
 
 
 
