@@ -2249,36 +2249,42 @@
             }
         }
 
-        /* АДАПТАЦИЯ ИГР И КЛИКЕРА ДЛЯ СМАРТФОНОВ */
+       /* АДАПТАЦИЯ ДЛЯ СМАРТФОНОВ */
 @media (max-width: 600px) {
     /* Фиксим контейнер игры */
     .flappy-arcade-container {
-        width: 95% !important; /* На весь экран */
-        padding: 10px !important;
+        width: 100% !important;
+        margin: 10px 0 !important;
+        padding: 12px !important;
     }
 
+    /* Адаптивный Canvas без искажения пропорций */
     #flappyCanvas {
-        height: 300px !important; /* Уменьшаем высоту канваса */
+        width: 100% !important;
+        height: auto !important;
+        max-height: 380px !important;
+        object-fit: contain;
     }
 
     /* Фиксим картинку кликера */
     #bobnit-clicker-img {
         width: 100% !important;
-        height: auto !important; /* Авто-высота, чтобы не было сплющивания */
+        height: auto !important;
         max-height: 250px !important;
     }
 
-    /* Делаем все элементы кликера по вертикали */
+    /* Все элементы кликера выстраиваем в колонку */
     .bobnit-clicker-wrapper {
         flex-direction: column !important;
-        gap: 10px !important;
+        gap: 15px !important;
     }
 
-    /* Сжимаем текст внутри кликера */
-    .leycore-hero h3 { font-size: 1.2rem !important; }
-    #clicker-counter { font-size: 1.5rem !important; }
+    .leycore-hero h3 { font-size: 1.1rem !important; }
+    #clicker-counter { font-size: 1.3rem !important; }
     #bobnit-stage-side { min-width: 100% !important; }
+    .leaderboard-widget { width: 100% !important; margin-left: 0 !important; }
 }
+
 
     </style>
 </head>
