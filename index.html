@@ -2420,9 +2420,11 @@
             <!-- Сообщения будут прилетать сюда -->
         </div>
         <div class="chat-input-area">
-            <input type="text" id="chat-user-name" placeholder="Твоё имя..." value="Гость Царства">
+            <input type="text" id="chat-user-name" placeholder="Твоё имя..." value="Гость Царства" maxlength="15">
+
             <div class="chat-send-row">
-                <input type="text" id="chat-user-msg" placeholder="Напиши в эфир..." onkeydown="if(event.key === 'Enter') sendGlobalMessage()">
+                <input type="text" id="chat-user-msg" placeholder="Напиши в эфир..." onkeydown="if(event.key === 'Enter') sendGlobalMessage()" maxlength="200">
+
                 <button onclick="sendGlobalMessage()" class="chat-send-btn">ОТПРАВИТЬ</button>
             </div>
         </div>
