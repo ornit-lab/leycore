@@ -4226,42 +4226,45 @@
         // ----------------------------------------------------
         let burgerCount = parseInt(localStorage.getItem('bobnitBurgerCount') || '0', 10);
         let bobnitCurrentStage = parseInt(localStorage.getItem('bobnitCurrentStage') || '0', 10);
-        let leaderboardSaveTimer = null;
+            let leaderboardSaveTimer = null; // Должна быть объявлена глобально
 
-function scheduleLeaderboardSave() {
-    if (burgerCount < 100) return;
+    function scheduleLeaderboardSave() {
+        if (burgerCount < 100) return;
 
-    clearTimeout(leaderboardSaveTimer);
+        clearTimeout(leaderboardSaveTimer);
 
-    leaderboardSaveTimer = setTimeout(async () => {
-        const playerName =
-            localStorage.getItem('leaderboardPlayerName');
+        leaderboardSaveTimer = setTimeout(async () => {
+            const playerName =
+                localStorage.getItem('leaderboardPlayerName');
 
-        if (!playerName) {
-            await promptForLeaderboardSubmission();
-        } else {
-            await sendScoreToLeaderboard(playerName, burgerCount);
-        }
-    }, 500);
-}
+            if (!playerName) { // Если имени нет, запрашиваем его
+                await promptForLeaderboardSubmission();
+            } else { // Если имя уже есть, просто отправляем/обновляем счет
+                await sendScoreToLeaderboard(playerName, burgerCount);
+            }
+        }, 500); // Отправляем результат раз в 0.5 секунды
+    }
+    
+
 
         
 // ID текущего игрока для обновления одной записи в лидерборде
-let leaderboardPlayerId =
-    localStorage.getItem('leaderboardPlayerId');
+    let leaderboardPlayerId =
+        localStorage.getItem('leaderboardPlayerId');
 
-if (!leaderboardPlayerId) {
-    leaderboardPlayerId =
-        crypto.randomUUID
-            ? crypto.randomUUID()
-            : 'player-' + Date.now() + '-' +
-              Math.random().toString(36).slice(2);
+    if (!leaderboardPlayerId) {
+        leaderboardPlayerId =
+            crypto.randomUUID
+                ? crypto.randomUUID()
+                : 'player-' + Date.now() + '-' + Math.random().toString(36).slice(2);
 
-    localStorage.setItem(
-        'leaderboardPlayerId',
-        leaderboardPlayerId
-    );
-}
+        localStorage.setItem(
+            'leaderboardPlayerId',
+            leaderboardPlayerId
+        );
+    }
+    
+
         let lastClickTime = Date.now(); // Для античита
         const minTimeBetweenClicks = 50; // Минимальное время между кликами в мс (20 кликов в секунду)
 
@@ -4364,24 +4367,24 @@ if (!leaderboardPlayerId) {
                 bobnitCurrentStage = newStage;
                 updateBobnitStageUI();
             }
+    // ... (весь код clickBobnit до этого места) ...
 
-                        // Сохранение прогресса
-            localStorage.setItem('bobnitBurgerCount', burgerCount.toString());
-            localStorage.setItem('bobnitCurrentStage', bobnitCurrentStage.toString());
+    localStorage.setItem('bobnitBurgerCount', burgerCount.toString());
+    localStorage.setItem('bobnitCurrentStage', bobnitCurrentStage.toString());
 
-            // Лидерборд — начиная со 100 кликов, обновляется регулярно через scheduleLeaderboardSave
-            if (burgerCount >= 100) {
-                scheduleLeaderboardSave();
-            }
+    // Лидерборд — начиная со 100 кликов, обновляется регулярно
+    if (burgerCount >= 100) {
+        scheduleLeaderboardSave();
+    }
 
-            // Секретная награда — на 5000 кликах (проверяется только один раз)
-            if (burgerCount >= 5000 && !localStorage.getItem('dinoSnotUnlocked')) {
-                localStorage.setItem('dinoSnotUnlocked', 'true');
-                unlockSecretRecipe();
-            }
+    // Секретная награда — на 5000 кликах
+    if (burgerCount >= 5000 && !localStorage.getItem('dinoSnotUnlocked')) {
+        localStorage.setItem('dinoSnotUnlocked', 'true');
+        unlockSecretRecipe();
+    }
+    } // Конец clickBobnit
 
 
-} // <--- Это закрывающая скобка функции clickBobnit
 
 
         // Эффект всплывающей цифры +1
@@ -4430,62 +4433,73 @@ if (!leaderboardPlayerId) {
         // 🏆 ЛИДЕРБОРД: ЗАЛ СЛАВЫ КРОНТАРА
         // ----------------------------------------------------
 
-        // Запрос имени и отправка в Supabase
-        async function promptForLeaderboardSubmission() {
-    let playerName = localStorage.getItem('leaderboardPlayerName');
+            async function promptForLeaderboardSubmission() {
+        let playerName = localStorage.getItem('leaderboardPlayerName');
 
-    if (!playerName) {
-        playerName = prompt(
-            '🏆 Ты набрал 100 кликов! Введи имя для лидерборда:'
-        );
-
-        if (!playerName) return false;
-
-        playerName = playerName
-            .trim()
-            .replace(/[<>]/g, '')
-            .slice(0, 15);
-
-        if (!playerName) return false;
-
-        localStorage.setItem(
-            'leaderboardPlayerName',
-            playerName
-        );
-    }
-
-    await sendScoreToLeaderboard(playerName, burgerCount);
-    return true;
-}
-
-
-
-        async function sendScoreToLeaderboard(playerName, score) {
-    try {
-        const { error } = await _supabase
-            .from('leaderboard')
-            .upsert(
-                [{
-                    player_id: leaderboardPlayerId,
-                    player_name: playerName,
-                    score: score
-                }],
-                {
-                    onConflict: 'player_id'
-                }
+        if (!playerName) { // Если имя не сохранено, запрашиваем
+            playerName = prompt(
+                '🏆 Ты набрал 100 кликов! Введи имя для лидерборда:'
             );
 
-        if (error) {
-            console.error('Ошибка обновления лидерборда:', error);
-            return;
+            if (!playerName) return false; // Если отменил, не продолжаем
+
+            playerName = playerName
+                .trim()
+                .replace(/[<>]/g, '') // Защита от XSS-инъекций
+                .slice(0, 15); // Ограничение длины
+
+            if (!playerName) return false; // Если после обрезки стало пустым
         }
 
-        await loadLeaderboard();
+        // Отправляем счет
+        const success = await sendScoreToLeaderboard(playerName, burgerCount);
 
-    } catch (err) {
-        console.error('Сбой связи с лидербордом:', err);
+        // Сохраняем имя только после успешной отправки в Supabase
+        if (success) {
+            localStorage.setItem('leaderboardPlayerName', playerName);
+            return true;
+        }
+
+        return false;
     }
-}
+    
+
+
+
+           async function sendScoreToLeaderboard(playerName, score) {
+        try {
+            const { data, error } = await _supabase
+                .from('leaderboard')
+                .upsert(
+                    [{
+                        player_id: leaderboardPlayerId, // Используем уникальный ID игрока
+                        player_name: playerName,
+                        score: score
+                    }],
+                    {
+                        onConflict: 'player_id' // Обновляем, если player_id уже существует
+                    }
+                )
+                .select(); // Добавляем .select() для получения данных обратно, если нужно
+
+            if (error) {
+                console.error('Ошибка отправки в лидерборд:', error);
+                alert('Лидерборд отклонил запись: ' + error.message);
+                return false;
+            }
+
+            console.log('Результат отправлен:', data); // Для отладки
+            await loadLeaderboard(); // Обновляем список лидеров
+            return true;
+
+        } catch (err) {
+            console.error('Сбой связи с лидербордом:', err);
+            alert('Ошибка связи с Supabase: ' + err.message);
+            return false;
+        }
+    }
+    
+
 
 
         // Загрузка списка лидеров из Supabase
