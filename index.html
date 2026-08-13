@@ -1420,12 +1420,13 @@
 
 
         /* СТИЛИ ЧАТА И ПРОФИЛЯ БОБНИТА */
-         #bobnit-chat-widget {
+        #bobnit-chat-widget {
             position: fixed;
             bottom: 20px;
             right: 20px;
             z-index: 9999;
-            width: 360px; /* Было 320px — расширили! */
+            width: 360px;
+            /* Было 320px — расширили! */
             font-family: 'Montserrat', sans-serif;
         }
 
@@ -1453,7 +1454,8 @@
             background: #0c0910;
             border: 2px solid var(--accent-purple);
             border-radius: 12px;
-            height: 520px; /* Было 420px — сделали выше для кнопок! */
+            height: 520px;
+            /* Было 420px — сделали выше для кнопок! */
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -1905,192 +1907,242 @@
         }
 
         /* --- Стили для секции оценок --- */
-.rating-section {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin: 3rem auto;
-    padding: 20px;
-    background: rgba(0,0,0,0.3);
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.1);
-}
+        .rating-section {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 3rem auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-.rating-btn {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.3);
-    color: white;
-    padding: 12px 25px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
+        .rating-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
 
-.rating-btn.like-btn:hover {
-    background: rgba(0, 255, 102, 0.2);
-    border-color: var(--accent-green);
-    box-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
-}
-.rating-btn.dislike-btn:hover {
-    background: rgba(255, 42, 95, 0.2);
-    border-color: var(--accent-crimson);
-    box-shadow: 0 0 15px rgba(255, 42, 95, 0.4);
-}
+        .rating-btn.like-btn:hover {
+            background: rgba(0, 255, 102, 0.2);
+            border-color: var(--accent-green);
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
+        }
 
-/* --- Стили для секции комментариев --- */
-.comments-section {
-    margin-top: 3rem;
-    padding: 25px;
-    background: rgba(0,0,0,0.3);
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.1);
-}
+        .rating-btn.dislike-btn:hover {
+            background: rgba(255, 42, 95, 0.2);
+            border-color: var(--accent-crimson);
+            box-shadow: 0 0 15px rgba(255, 42, 95, 0.4);
+        }
 
-.toggle-comments-btn {
-    width: 100%;
-    background: var(--accent-purple);
-    border: none;
-    color: white;
-    padding: 15px 20px;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    box-shadow: 0 0 20px rgba(163, 51, 255, 0.3);
-}
-.toggle-comments-btn:hover {
-    background: var(--accent-pink);
-    box-shadow: 0 0 30px rgba(255, 42, 95, 0.5);
-}
+        /* --- Стили для секции комментариев --- */
+        .comments-section {
+            margin-top: 3rem;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-.comments-list {
-    margin-top: 25px;
-    padding-top: 20px;
-    border-top: 1px dashed rgba(255,255,255,0.1);
-}
+        .toggle-comments-btn {
+            width: 100%;
+            background: var(--accent-purple);
+            border: none;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            box-shadow: 0 0 20px rgba(163, 51, 255, 0.3);
+        }
 
-.comment-item {
-    background: rgba(255,255,255,0.05);
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    border-left: 3px solid var(--accent-cyan);
-}
-.comment-item p { margin: 0 0 5px 0; line-height: 1.6; }
-.comment-item strong { color: var(--accent-gold); }
-.comment-rating {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    font-style: italic;
-}
+        .toggle-comments-btn:hover {
+            background: var(--accent-pink);
+            box-shadow: 0 0 30px rgba(255, 42, 95, 0.5);
+        }
 
-.add-comment-form {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px dashed rgba(255,255,255,0.1);
-}
-.add-comment-form h4 { color: var(--accent-green); margin-bottom: 15px; }
-.add-comment-form input[type="text"],
-.add-comment-form textarea,
-.add-comment-form input[type="number"] {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 10px;
-    background: rgba(0,0,0,0.7);
-    border: 1px solid var(--accent-cyan);
-    border-radius: 5px;
-    color: white;
-    font-family: var(--font-body);
-}
-.add-comment-form input::placeholder,
-.add-comment-form textarea::placeholder {
-    color: var(--text-muted);
-}
-.add-comment-form button {
-    background: var(--accent-green);
-    border: none;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.3s ease;
-}
-.add-comment-form button:hover {
-    background: #1e7e34;
-}
+        .comments-list {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+        }
 
-.chat-container {
-    max-width: 800px;
-    margin: 0 auto;
-    background: rgba(0, 0, 0, 0.5);
-    border: 2px solid var(--accent-cyan);
-    border-radius: 15px;
-    height: 70vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow: 0 0 40px rgba(0, 243, 255, 0.2);
-}
+        .comment-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 3px solid var(--accent-cyan);
+        }
 
-.chat-messages-display {
-    flex-grow: 1;
-    padding: 20px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
+        .comment-item p {
+            margin: 0 0 5px 0;
+            line-height: 1.6;
+        }
 
-.msg-bubble {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 10px 15px;
-    border-radius: 10px;
-    border-left: 4px solid var(--accent-cyan);
-    max-width: 85%;
-    animation: fadeIn 0.3s ease;
-}
+        .comment-item strong {
+            color: var(--accent-gold);
+        }
 
-.msg-bubble strong { color: var(--accent-gold); margin-right: 8px; }
-.msg-bubble small { font-size: 0.7rem; color: var(--text-muted); display: block; margin-top: 5px; }
+        .comment-rating {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
 
-.chat-input-area {
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.8);
-    border-top: 1px solid var(--accent-cyan);
-}
+        .add-comment-form {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+        }
 
-#chat-user-name {
-    background: none; border: 1px solid #333; color: var(--accent-gold);
-    padding: 5px 10px; border-radius: 5px; margin-bottom: 10px; width: 150px;
-}
+        .add-comment-form h4 {
+            color: var(--accent-green);
+            margin-bottom: 15px;
+        }
 
-.chat-send-row { display: flex; gap: 10px; }
-#chat-user-msg {
-    flex-grow: 1; background: rgba(255,255,255,0.05); border: 1px solid #444;
-    color: white; padding: 12px; border-radius: 8px;
-}
+        .add-comment-form input[type="text"],
+        .add-comment-form textarea,
+        .add-comment-form input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 5px;
+            color: white;
+            font-family: var(--font-body);
+        }
 
-.chat-send-btn {
-    background: var(--accent-cyan); color: black; border: none;
-    padding: 0 20px; border-radius: 8px; font-weight: bold; cursor: pointer;
-}
+        .add-comment-form input::placeholder,
+        .add-comment-form textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .add-comment-form button {
+            background: var(--accent-green);
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .add-comment-form button:hover {
+            background: #1e7e34;
+        }
+
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 15px;
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(0, 243, 255, 0.2);
+        }
+
+        .chat-messages-display {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .msg-bubble {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--accent-cyan);
+            max-width: 85%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .msg-bubble strong {
+            color: var(--accent-gold);
+            margin-right: 8px;
+        }
+
+        .msg-bubble small {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            display: block;
+            margin-top: 5px;
+        }
+
+        .chat-input-area {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-top: 1px solid var(--accent-cyan);
+        }
+
+        #chat-user-name {
+            background: none;
+            border: 1px solid #333;
+            color: var(--accent-gold);
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 150px;
+        }
+
+        .chat-send-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        #chat-user-msg {
+            flex-grow: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #444;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .chat-send-btn {
+            background: var(--accent-cyan);
+            color: black;
+            border: none;
+            padding: 0 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
         /* АНИМАЦИЯ +1 ДЛЯ КЛИКЕРА */
         .click-effect {
             position: absolute;
             font-family: var(--font-code);
-            font-size: 2.2rem; /* Увеличил размер, чтобы было видно */
+            font-size: 2.2rem;
+            /* Увеличил размер, чтобы было видно */
             font-weight: 900;
             color: var(--accent-gold);
             text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-            pointer-events: none; /* Чтобы не мешало кликать */
-            animation: clickFadeOut 0.8s ease-out forwards; /* Анимация */
-            opacity: 0; /* Стартовая прозрачность */
-            z-index: 10000; /* Поверх всего */
+            pointer-events: none;
+            /* Чтобы не мешало кликать */
+            animation: clickFadeOut 0.8s ease-out forwards;
+            /* Анимация */
+            opacity: 0;
+            /* Стартовая прозрачность */
+            z-index: 10000;
+            /* Поверх всего */
         }
 
         @keyframes clickFadeOut {
@@ -2098,17 +2150,104 @@
                 opacity: 0;
                 transform: translateY(0px) scale(0.8);
             }
+
             30% {
                 opacity: 1;
                 transform: translateY(-20px) scale(1.1);
             }
+
             100% {
                 opacity: 0;
                 transform: translateY(-50px) scale(1.2);
             }
         }
 
+        /* СТИЛИ СПИСКА ЛИДЕРОВ КЛИКЕРА */
+        .leaderboard-widget {
+            background: rgba(17, 14, 23, 0.95);
+            border: 2px solid var(--accent-cyan);
+            /* Цвет Кронтара */
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.35);
+            /* Неоновое свечение */
+            font-family: 'Fira Code', monospace;
+            /* Четкий код-шрифт */
+            min-width: 250px;
+            text-align: left;
+            margin-left: 25px;
+            /* Отступ от кликера */
+        }
 
+        .leaderboard-widget h4 {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 1.15rem;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 10px var(--accent-cyan);
+            margin-bottom: 15px;
+            text-align: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .leaderboard-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 250px;
+            /* Ограничиваем высоту для скролла, если много игроков */
+            overflow-y: auto;
+            /* Добавляем скроллбар */
+        }
+
+        .leaderboard-list li {
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+        }
+
+        .leaderboard-list li:hover {
+            background: rgba(0, 240, 255, 0.15);
+            border-color: var(--accent-cyan);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+        }
+
+        .leaderboard-list li span:first-child {
+            color: var(--accent-gold);
+            /* Имя игрока */
+            font-weight: 700;
+        }
+
+        .leaderboard-list li span:last-child {
+            color: var(--accent-green);
+            /* Счёт */
+            font-weight: 900;
+        }
+
+        /* Адаптив для мобильных устройств (чтобы виджеты вставали друг под друга) */
+        @media (max-width: 850px) {
+            .bobnit-clicker-wrapper {
+                flex-direction: column;
+                /* На мобилках все виджеты друг под другом */
+                gap: 15px !important;
+            }
+
+            .leaderboard-widget {
+                margin-left: 0;
+                /* Убираем отступ */
+                width: 100% !important;
+                /* На всю ширину */
+            }
+        }
     </style>
 </head>
 
@@ -2145,7 +2284,8 @@
                 class="icon">🎮</span></a>
         <a onclick="switchPage('symphonies')" id="nav-symphonies"
             class="sidebar-link link-purple"><span>СИМФОНИИ</span><span class="icon">🎧</span></a>
-            <a onclick="switchPage('global-chat')" id="nav-chat" class="sidebar-link link-cyan"><span>ЧАТ</span><span class="icon">💬</span></a>
+        <a onclick="switchPage('global-chat')" id="nav-chat" class="sidebar-link link-cyan"><span>ЧАТ</span><span
+                class="icon">💬</span></a>
 
 
 
@@ -2474,21 +2614,22 @@
         <audio id="global-audio-element"></audio>
 
         <!-- PAGE: GLOBAL CHAT -->
-<div id="page-global-chat" class="page-view">
-    <h2 class="section-title title-cyan">ГЛОБАЛЬНЫЙ ЭФИР КРОНТАРА</h2>
-    <div class="chat-container">
-        <div id="chat-messages-box" class="chat-messages-display">
-            <!-- Сообщения будут прилетать сюда -->
-        </div>
-        <div class="chat-input-area">
-            <input type="text" id="chat-user-name" placeholder="Твоё имя..." value="Гость Царства">
-            <div class="chat-send-row">
-                <input type="text" id="chat-user-msg" placeholder="Напиши в эфир..." onkeydown="if(event.key === 'Enter') sendGlobalMessage()">
-                <button onclick="sendGlobalMessage()" class="chat-send-btn">ОТПРАВИТЬ</button>
+        <div id="page-global-chat" class="page-view">
+            <h2 class="section-title title-cyan">ГЛОБАЛЬНЫЙ ЭФИР КРОНТАРА</h2>
+            <div class="chat-container">
+                <div id="chat-messages-box" class="chat-messages-display">
+                    <!-- Сообщения будут прилетать сюда -->
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-user-name" placeholder="Твоё имя..." value="Гость Царства">
+                    <div class="chat-send-row">
+                        <input type="text" id="chat-user-msg" placeholder="Напиши в эфир..."
+                            onkeydown="if(event.key === 'Enter') sendGlobalMessage()">
+                        <button onclick="sendGlobalMessage()" class="chat-send-btn">ОТПРАВИТЬ</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
 
     </div>
@@ -2517,31 +2658,47 @@
             </div>
         </div>
 
-                                <!-- КЛИКЕР БОБНИТА -->
+                <!-- КЛИКЕР БОБНИТА -->
         <div class="leycore-hero" style="text-align: center;">
             <h3>🍔 НАКАЧАЙ БОБНИТА БУРГЕРАМИ</h3>
             <p>Цель: 5,000 бургеров = Секретный рецепт "Сопли динозавра"</p>
             
-            <!-- Кибер-обертка: Сетка, где СТАДИЯ сбоку на ПК, и сверху на телефонах -->
-            <div class="bobnit-clicker-wrapper" style="display: flex; align-items: center; justify-content: center; gap: 25px; flex-wrap: wrap; margin: 30px auto; max-width: 1100px;">
-                
-                <!-- Виджет стадии (СБОКУ) -->
-                <div id="bobnit-stage-side" style="background: rgba(17, 14, 23, 0.95); border: 2px solid var(--accent-gold); padding: 20px; border-radius: 12px; box-shadow: 0 0 25px rgba(255, 215, 0, 0.35); font-family: 'Unbounded', sans-serif; min-width: 220px; text-align: center;">
-                    <span style="font-size: 0.75rem; letter-spacing: 2px; color: var(--text-muted); display: block; margin-bottom: 8px;">ТЕКУЩИЙ СТАТУС:</span>
-                    <span id="bobnit-stage-title" style="color: var(--accent-gold); font-weight: 900; font-size: 1.15rem; text-shadow: 0 0 10px var(--accent-gold);">💀 СКЕЛЕТ</span>
+            <!-- Основная обертка для виджетов кликера: стадия, лидерборд, картинка -->
+            <div class="bobnit-clicker-wrapper"
+                style="display: flex; align-items: center; justify-content: center; gap: 25px; flex-wrap: wrap; margin: 30px auto; max-width: 1100px;">
+
+                <!-- Виджет стадии -->
+                <div id="bobnit-stage-side"
+                    style="background: rgba(17, 14, 23, 0.95); border: 2px solid var(--accent-gold); padding: 20px; border-radius: 12px; box-shadow: 0 0 25px rgba(255, 215, 0, 0.35); font-family: 'Unbounded', sans-serif; min-width: 220px; text-align: center;">
+                    <span
+                        style="font-size: 0.75rem; letter-spacing: 2px; color: var(--text-muted); display: block; margin-bottom: 8px;">ТЕКУЩИЙ
+                        СТАТУС:</span>
+                    <span id="bobnit-stage-title"
+                        style="color: var(--accent-gold); font-weight: 900; font-size: 1.15rem; text-shadow: 0 0 10px var(--accent-gold);">💀
+                        СКЕЛЕТ</span>
+                </div>
+
+                <!-- СПИСОК ЛИДЕРОВ -->
+                <div class="leaderboard-widget">
+                    <h4>👑 ЗАЛ СЛАВЫ </h4>
+                    <ul id="leaderboard-list" class="leaderboard-list">
+                        <li><span>ЗАГРУЗКА...</span><span></span></li>
+                    </ul>
                 </div>
 
                 <!-- Картинка кликера -->
-                <div id="bobnit-clicker-area" onclick="clickBobnit(event)" style="cursor: pointer; position: relative; overflow: hidden; display: inline-block;">
+                <div id="bobnit-clicker-area" onclick="clickBobnit(event)"
+                    style="cursor: pointer; position: relative; overflow: hidden; display: inline-block;">
                     <img id="bobnit-clicker-img" src="bobnit_stage0_skeleton.jpg"
-                         style="width: 800px; height: 450px; object-fit: cover; border-radius: 12px; border: 2px solid var(--accent-gold); box-shadow: 0 0 45px rgba(255, 215, 0, 0.4); transition: transform 0.1s;">
+                        style="width: 800px; height: 450px; object-fit: cover; border-radius: 12px; border: 2px solid var(--accent-gold); box-shadow: 0 0 45px rgba(255, 215, 0, 0.4); transition: transform 0.1s;">
                 </div>
             </div>
             
             <h2 id="clicker-counter" style="margin-top: 15px;">Бургеров: 0</h2>
             
-            <!-- ЗОЛОТАЯ МИНИ-ИСТОРИЯ (СНИЗУ КЛИКЕРА) -->
-            <p id="bobnit-stage-story" style="color: var(--accent-gold); font-family: var(--font-code); font-size: 1.15rem; max-width: 800px; margin: 20px auto 0 auto; text-shadow: 0 0 8px rgba(255, 215, 0, 0.5); line-height: 1.6; font-weight: 700;">
+            <!-- ЗОЛОТАЯ МИНИ-ИСТОРИЯ -->
+            <p id="bobnit-stage-story"
+                style="color: var(--accent-gold); font-family: var(--font-code); font-size: 1.15rem; max-width: 800px; margin: 20px auto 0 auto; text-shadow: 0 0 8px rgba(255, 215, 0, 0.5); line-height: 1.6; font-weight: 700;">
                 Он не знает, что такое еда... Помоги ему набрать вес.
             </p>
         </div>
@@ -2549,9 +2706,10 @@
 
 
 
-        
-            
-        </div>
+
+
+
+    </div>
     </div>
 
 
@@ -2605,7 +2763,7 @@
                 </div>
             </div>
 
-                        <!-- Вкладка ЧАТА -->
+            <!-- Вкладка ЧАТА -->
             <div id="bobnit-chat-view" style="display: flex; flex-direction: column; height: 100%;">
                 <div class="chat-top-bar" onclick="toggleBobnitProfile(true)">
                     <span>ПРОСМОТРЕТЬ ПРОФИЛЬ 👤</span>
@@ -2616,11 +2774,15 @@
 
                 <!-- 💥 НАШИ ИНТЕРАКТИВНЫЕ КНОПКИ БОБНИТА 💥 -->
                 <div class="bobnit-quick-replies">
-                    <button class="bobnit-qr-btn" onclick="sendQuickPhrase('Что посоветуешь приготовить?')">🍳 Что приготовить?</button>
-                    <button class="bobnit-qr-btn" onclick="sendQuickPhrase('Помоги разобраться с сайтом')">📖 Помощь по сайту</button>
-                    <button class="bobnit-qr-btn" onclick="sendQuickPhrase('Ты добрый, или злой?')">🔮 Ты добрый или злой?</button>
+                    <button class="bobnit-qr-btn" onclick="sendQuickPhrase('Что посоветуешь приготовить?')">🍳 Что
+                        приготовить?</button>
+                    <button class="bobnit-qr-btn" onclick="sendQuickPhrase('Помоги разобраться с сайтом')">📖 Помощь по
+                        сайту</button>
+                    <button class="bobnit-qr-btn" onclick="sendQuickPhrase('Ты добрый, или злой?')">🔮 Ты добрый или
+                        злой?</button>
                     <button class="bobnit-qr-btn" onclick="sendQuickPhrase('Помоги похудеть')">💪 Как похудеть?</button>
-                    <button class="bobnit-qr-btn" onclick="sendQuickPhrase('Дай мощный совет на сегодня!')">⚡️ Совет Демиурга</button>
+                    <button class="bobnit-qr-btn" onclick="sendQuickPhrase('Дай мощный совет на сегодня!')">⚡️ Совет
+                        Демиурга</button>
                 </div>
 
                 <div class="bobnit-input-box">
@@ -2692,46 +2854,46 @@
         // ----------------------------------------------------
         let isTalesUnlocked = false; // Статус разблокировки (по умолчанию закрыто)
 
-       function switchPage(id) { 
-    // 1. СКРЫВАЕМ ВСЕ СТРАНИЦЫ И ДЕЛАЕМ ИХ ПРОЗРАЧНЫМИ
-    document.querySelectorAll('.page-view').forEach(p => {
-        p.style.display = 'none';
-        p.classList.remove('active-page');
-        p.style.opacity = '0';
-    });
-    
-    // 2. ПОКАЗЫВАЕМ НУЖНУЮ СТРАНИЦУ С ПЛАВНЫМ ПОЯВЛЕНИЕМ
-    const page = document.getElementById('page-' + id);
-    if (page) {
-        page.style.display = 'block';
-        setTimeout(() => {
-            page.classList.add('active-page');
-            page.style.opacity = '1';
-        }, 30);
-    }
+        function switchPage(id) {
+            // 1. СКРЫВАЕМ ВСЕ СТРАНИЦЫ И ДЕЛАЕМ ИХ ПРОЗРАЧНЫМИ
+            document.querySelectorAll('.page-view').forEach(p => {
+                p.style.display = 'none';
+                p.classList.remove('active-page');
+                p.style.opacity = '0';
+            });
 
-    // 3. ЧИНИМ МЕНЮ: Убираем выделение со всех вкладок и выделяем ТЕКУЩУЮ (чтобы Главная не торчала!)
-    document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
-    const navItem = document.getElementById('nav-' + id);
-    if (navItem) navItem.classList.add('active');
+            // 2. ПОКАЗЫВАЕМ НУЖНУЮ СТРАНИЦУ С ПЛАВНЫМ ПОЯВЛЕНИЕМ
+            const page = document.getElementById('page-' + id);
+            if (page) {
+                page.style.display = 'block';
+                setTimeout(() => {
+                    page.classList.add('active-page');
+                    page.style.opacity = '1';
+                }, 30);
+            }
 
-    // 4. ПЛАВНО СКРОЛЛИМ ВВЕРХ ПРИ ПЕРЕХОДЕ
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+            // 3. ЧИНИМ МЕНЮ: Убираем выделение со всех вкладок и выделяем ТЕКУЩУЮ (чтобы Главная не торчала!)
+            document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+            const navItem = document.getElementById('nav-' + id);
+            if (navItem) navItem.classList.add('active');
 
-    // 5. ПРОВЕРКА НА БЛОКИРОВКУ СКАЗОК
-    if (id === 'metaphors' && !isTalesUnlocked) {
-        document.getElementById('tales-lock-modal').style.display = 'flex';
-        return;
-    }
+            // 4. ПЛАВНО СКРОЛЛИМ ВВЕРХ ПРИ ПЕРЕХОДЕ
+            window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // 6. СВЯЗЬ С ЧАТОМ
-    if (id === 'global-chat') {
-        loadChatHistory();
-    }
-}
+            // 5. ПРОВЕРКА НА БЛОКИРОВКУ СКАЗОК
+            if (id === 'metaphors' && !isTalesUnlocked) {
+                document.getElementById('tales-lock-modal').style.display = 'flex';
+                return;
+            }
+
+            // 6. СВЯЗЬ С ЧАТОМ
+            if (id === 'global-chat') {
+                loadChatHistory();
+            }
+        }
 
 
-    
+
 
         // ПРОВЕРКА ПАРОЛЯ ДЛЯ СКАЗОК
         function checkTalesPassword() {
@@ -2774,7 +2936,7 @@
         const dishes = [
             // ТЯЖЁЛЫЕ (HEAVY)
 
-    
+
 
             {
                 category: "heavy",
@@ -2922,7 +3084,7 @@
                 composition: "Овсянка (50-100г), бананы (150-250г), арахисовая паста (40-80г), немолоко (300-400мл), протеин/изолят (30-50г).",
                 cooking: "Закидываешь все в блендер, вжух-вжух и готово. Пищевой нектар суверенного атлета.",
                 laykor: "Выпивая за пару минут, чувствуете себя внебрачным сыном олимпа. Напиток богов, окутывающий полость золотом.",
-             likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
+                likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
                 dislikes: 0, // <-- НОВОЕ ПОЛЕ: Количество дизлайков
                 comments: [  // <-- НОВОЕ ПОЛЕ: Массив комментариев
                     { user: 'Бобнит', text: 'Станьте обитателем божественной гавани на период потребления', rating: 5 },
@@ -2937,7 +3099,7 @@
                 composition: "Овсянка (120г), немолоко (200мл), яйца (3 шт).",
                 cooking: "Смешиваешь в блендере до однородной массы и жаришь на сковороде как овсяно-яичный блин.",
                 laykor: "Монолитная тяга в животе, ощущение словно бог сидит на толчке, на вкус как крестьянский пир.",
-             likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
+                likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
                 dislikes: 0, // <-- НОВОЕ ПОЛЕ: Количество дизлайков
                 comments: [  // <-- НОВОЕ ПОЛЕ: Массив комментариев
                     { user: 'Бобнит', text: 'Примите переработанную продукцию с гордостью', rating: 5 },
@@ -2952,7 +3114,7 @@
                 composition: "Филе или желудочки (200г), морковь тёртая, лук, томатная паста, специи.",
                 cooking: "Мелко режешь мясо, тушишь с морковью, луком и томатами до мягкости. Универсальный подлив к любой каше.",
                 laykor: "Универсальный соусной спаситель пресных круп. Превращает сухой гарнир в сочную мясную карусель вкуса.",
-             likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
+                likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
                 dislikes: 0, // <-- НОВОЕ ПОЛЕ: Количество дизлайков
                 comments: [  // <-- НОВОЕ ПОЛЕ: Массив комментариев
                     { user: 'Бобнит', text: 'Этот экссудат — абсолютный Кронтар для вашего пищевода! 🦾', rating: 5 },
@@ -2967,7 +3129,7 @@
                 composition: "Куриное филе (350г), рис Басмати (150г), мёд (2 ст.л.), соевый соус (4 ст.л.), чеснок, масло, кунжут.",
                 cooking: "Жарим филе до корочки, заливаем смесью меда, соевого соуса и чеснока. Карамелизуем мясо и подаем на масляном рисе.",
                 laykor: "Янтарные самородки из азиатской лаборатории. Сладко-пряная соевая бомба, погружающая в дофаминовый анабиоз.",
-             likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
+                likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
                 dislikes: 0, // <-- НОВОЕ ПОЛЕ: Количество дизлайков
                 comments: [  // <-- НОВОЕ ПОЛЕ: Массив комментариев
                     { user: 'Бобнит', text: 'Познайте суть этой болезни в инверсированном мире 🦾', rating: 5 },
@@ -2982,7 +3144,7 @@
                 composition: "Лаваш (2 шт), фарш/филе (250г), яйца (3 шт), сыр (120г), огурцы соленые, соус.",
                 cooking: "Заворачиваем в лаваш мясо, скрембл из яиц, огурцы и гору сыра. Жарим конверт на сухой сковороде под прессом.",
                 laykor: "Золотой монолитный брикет метаболизма. При укусе наружу вырывается горячий сырно-мясной экссудат.",
-             likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
+                likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
                 dislikes: 0, // <-- НОВОЕ ПОЛЕ: Количество дизлайков
                 comments: [  // <-- НОВОЕ ПОЛЕ: Массив комментариев
                     { user: 'Бобнит', text: 'поцелуйте припроду', rating: 5 },
@@ -2997,7 +3159,7 @@
                 composition: "Куриная печень (350г), гречка (150г), сметана (150г), лук (2 шт), масло.",
                 cooking: "Жарим печень с карамельным луком (7 минут), тушим 3 минуты в сметане. Подаем на рассыпчатой гречке.",
                 laykor: "Плотная, теплая бандероль из куриной печени скользит по твоему пищеводу, обильно смазанная густым сметанным потом карамельного лука. Каждая гречинка падает в желудок, словно ржавые гвозди, забиваемые в посылочный ящик. Внезапно в твоих темных кишках начинается паническое бурление, и испуганный организм робко шепчет в пустоту: *Кто там?*. А это усатый Печкин принес посылку с чистейшим, тяжелым железом для твоего дряхлого тельца! Но он тебе ее не отдаст, пока ты не размажешь всю эту скользкую печеночную жижу по стенкам своего желудочного бака",
-             likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
+                likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
                 dislikes: 0, // <-- НОВОЕ ПОЛЕ: Количество дизлайков
                 comments: [  // <-- НОВОЕ ПОЛЕ: Массив комментариев
                     { user: 'Бобнит', text: 'Забирайте самую сочную посылку🔥', rating: 5 },
@@ -3012,7 +3174,7 @@
                 composition: "Лапша Удон (200г), филе (250г), перец болгарский, соевый соус, терияки, кунжут.",
                 cooking: "Быстро обжариваем мясо и овощи в воке, добавляем удон, соусы и кунжут. Интенсивно мешаем 2 минуты.",
                 laykor: "Сплетение лиан и нейронов. Глянец восточной гавани, пронзающий полость рта сочным вкусом.",
-             likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
+                likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
                 dislikes: 0, // <-- НОВОЕ ПОЛЕ: Количество дизлайков
                 comments: [  // <-- НОВОЕ ПОЛЕ: Массив комментариев
                     { user: 'Бобнит', text: 'Познайте внутренности древнего дракона', rating: 5 },
@@ -3027,7 +3189,7 @@
                 composition: "Рис вареный (250г), филе (250г), яйца (3 шт), зеленый лук, соевый соус.",
                 cooking: "Жарим филе, сдвигаем вбок, делаем яичный скрембл. Досыпаем рис, заливаем соевым соусом, засыпаем луком.",
                 laykor: "Пестрый золотистый рис с мясными крапинами. Классический сытный жареный вок.",
-             likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
+                likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
                 dislikes: 0, // <-- НОВОЕ ПОЛЕ: Количество дизлайков
                 comments: [  // <-- НОВОЕ ПОЛЕ: Массив комментариев
                     { user: 'Бобнит', text: 'Смотрите чтобы вашу ложку не перехватили😂', rating: 5 },
@@ -3044,11 +3206,11 @@
                 composition: "Овсянка (100г), какао (2 ст.л.), яйца (3 шт), банан (1 шт), арахисовая паста (50г), творог 5% (100г), сгущенка.",
                 cooking: "Взбиваем в блендере овсянку, какао, яйца, банан и творог. Жарим блин-пирог на сковороде под крышкой, в центр закладывая ложку арахисовой пасты. Полеваем сгущенкой.",
                 laykor: "Этот потный, шоколадный блин-монолит падает в твой животик липким комком горячего чернозёма, словно уставший африканский шахтер залез тебе под рёбра погреться после тяжелой смены. Из самого центра этой стесняшки под давлением лопается густая, склизкая арахисовая жижа, подозрительно напоминающая выделения из воспаленной потовой скважины. Сверху всё это залито липкой белой струей сгущенки, которая размазывается по черной плоти блина, пока твой пупок скукоживается от приторного спазма, издавая тонкий хирургический звон. Тающая на губах слюна намертво склеивается с банановым клеем, заставляя тебя судорожно сглатывать этот шоколадный грех",
-             likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
+                likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
                 dislikes: 0, // <-- НОВОЕ ПОЛЕ: Количество дизлайков
                 comments: [  // <-- НОВОЕ ПОЛЕ: Массив комментариев
                     { user: 'Бобнит', text: 'Негры пашут, стесняшки вам вкус этого блюда расскажут😎', rating: 5 },
-                        { user: 'Гость Царства', text: 'Сочно мощно щикарно вася', rating: 4 }
+                    { user: 'Гость Царства', text: 'Сочно мощно щикарно вася', rating: 4 }
                 ]
             },
             {
@@ -3059,7 +3221,7 @@
                 composition: "Творог 5% (300г), яйца (3 шт), банан (2 шт), изюм/орехи (50г), манная крупа (3 ст.л.), сметана, мёд.",
                 cooking: "В глубокой миске преврати бананы в однородную жижу, используя вилку или блендер, пока они не станут похожи на переваренное пюре из детского сада. Туда же вбей яйца и тщательно взбей массу до состояния мутной пены. Всыпь творог и манную крупу, замешивай это до тех пор, пока комочки не перестанут издеваться над твоим терпением.  Брось изюм и орехи пускай они там плавают, как нежданные гости в болоте.  Залей получившееся месиво в форму, смазанную маслом, и отправляй в духовку на 35 минут при 180°C, пока поверхность не покроется румяной коркой, напоминающей кожу старой Царевны.",
                 laykor: "Этот липкий, горячий кусок бананово-творожного греха падает в твой желудок тяжелым, сладким кирпичом. Но не расслабляйся — это ловушка. Сверху всё залито прохладной сметаной и тягучим мёдом исключительно ради того, чтобы усыпить бдительность твоего кишечника, который уже предчувствует неминуемую катастрофу. Как только запеканка оседает на дно, банан начинает стремительно бродить в твоих теплых недрах, манка разбухает до размеров футбольного мяча, а изюм коварно лопается. Спустя двадцать минут в твоем животе раздается первый влажный, басовитый аккорд — это твоя внутренняя Царевна кокетливо приподнимает подол пышного платья и выдает симфонию раскатистого пердежа. Звук сочный, возбуждающий, с отчетливым банановым шлейфом, от которого шторы в комнате начинают тихонько шевелиться.",
-             likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
+                likes: 0,    // <-- НОВОЕ ПОЛЕ: Количество лайков
                 dislikes: 0, // <-- НОВОЕ ПОЛЕ: Количество дизлайков
                 comments: [  // <-- НОВОЕ ПОЛЕ: Массив комментариев
                     { user: 'Бобнит', text: 'Пукайте на здоровье 💥', rating: 5 },
@@ -3097,7 +3259,7 @@
                 ]
             }
 
-            
+
         ];
 
         // ----------------------------------------------------
@@ -3148,13 +3310,13 @@
             renderDishes(category);
         }
 
-            // Добавили async в самое начало!
-     async function openDishPage(i) {
-    // Сначала ждем данные из облачной базы Кронтара
-    await loadDishDataFromCloud(i);
+        // Добавили async в самое начало!
+        async function openDishPage(i) {
+            // Сначала ждем данные из облачной базы Кронтара
+            await loadDishDataFromCloud(i);
 
-    const d = dishes[i];
-    document.getElementById('dish-detail-content').innerHTML = `
+            const d = dishes[i];
+            document.getElementById('dish-detail-content').innerHTML = `
         <div class="dish-detail-container">
             <h2 class="section-title title-green">${d.title}</h2>
             
@@ -3203,8 +3365,8 @@
                 </div>
             </div>
         `;
-        switchPage('dish-detail');
-    }
+            switchPage('dish-detail');
+        }
 
 
 
@@ -3560,7 +3722,7 @@
             }
         }
 
-    
+
 
         // ----------------------------------------------------
         // ДИНАМИЧЕСКИЕ ЦИТАТЫ ДЛЯ БАННЕРА ХРАНИЛИЩА
@@ -3579,22 +3741,36 @@
         }
 
         window.onload = () => {
-    const counterEl = document.getElementById('clicker-counter');
+            // Восстанавливаем состояние кликера из localStorage
+            const counterEl = document.getElementById('clicker-counter');
+            if (counterEl) counterEl.innerText = "Бургеров: " + burgerCount;
 
-    if (counterEl) {
-        counterEl.innerText = "Бургеров: " + burgerCount;
-    }
+            // Восстанавливаем картинку, стадию и историю
+            updateBobnitStageUI();
 
-    updateBobnitStageUI();
+            // Рендер остальных элементов сайта
+            if (typeof renderDishes === 'function') renderDishes('all');
+            if (typeof renderTalesList === 'function') renderTalesList();
+            if (typeof renderDictionary === 'function') renderDictionary();
+            if (typeof updateLeycoreProgress === 'function') updateLeycoreProgress();
+            if (typeof setRandomTalesQuote === 'function') setRandomTalesQuote();
+            if (typeof switchPage === 'function') switchPage('leycore');
+            if (typeof renderSymphonies === 'function') renderSymphonies();
 
-    if (typeof renderDishes === 'function') renderDishes('all');
-    if (typeof renderTalesList === 'function') renderTalesList();
-    if (typeof renderDictionary === 'function') renderDictionary();
-    if (typeof updateLeycoreProgress === 'function') updateLeycoreProgress();
-    if (typeof setRandomTalesQuote === 'function') setRandomTalesQuote();
-    if (typeof switchPage === 'function') switchPage('leycore');
-    if (typeof renderSymphonies === 'function') renderSymphonies();
-};
+            // Всплывающее уведомление Бобнита через 3 секунды
+            setTimeout(() => {
+                const notif = document.getElementById('bobnit-notification');
+                if (notif) {
+                    notif.style.display = 'flex';
+                    playBobnitSound();
+                }
+            }, 3000);
+
+            // Загружаем список лидеров кликера
+            loadLeaderboard();
+        };
+
+
 
 
 
@@ -3721,7 +3897,7 @@
         // ----------------------------------------------------
         let isChatOpen = false;
 
-                // Показываем уведомление через 3 секунды после входа на сайт
+        // Показываем уведомление через 3 секунды после входа на сайт
         setTimeout(() => {
             const notif = document.getElementById('bobnit-notification');
             if (notif) {
@@ -3764,41 +3940,41 @@
             document.getElementById('bobnit-chat-view').style.display = show ? 'none' : 'flex';
         }
 
-                
-                // Вспомогательная функция для проигрывания SFX (Генерируем мягкий звук кодом!)
+
+        // Вспомогательная функция для проигрывания SFX (Генерируем мягкий звук кодом!)
         function playBobnitSound() {
             try {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
                 if (!AudioContext) return;
                 const audioCtx = new AudioContext();
-                
+
                 // Функция для создания мягкого тона (sine-wave)
                 function playTone(freq, start, duration, volume) {
                     const osc = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
-                    
+
                     osc.type = 'sine'; // Мягкая синусоидальная волна (без хрипов)
                     osc.frequency.setValueAtTime(freq, start);
-                    
+
                     gain.gain.setValueAtTime(volume, start);
                     // Плавное затухание звука без щелчков в конце
                     gain.gain.exponentialRampToValueAtTime(0.00001, start + duration);
-                    
+
                     osc.connect(gain);
                     gain.connect(audioCtx.destination);
-                    
+
                     osc.start(start);
                     osc.stop(start + duration);
                 }
-                
+
                 const now = audioCtx.currentTime;
-                
+
                 // Идеальный двойной «плик» Telegram:
                 // 1. Первый короткий и мягкий импульс
-                playTone(600, now, 0.08, 0.08); 
+                playTone(600, now, 0.08, 0.08);
                 // 2. Второй более высокий и чистый тон чуть позже
-                playTone(900, now + 0.06, 0.22, 0.12); 
-                
+                playTone(900, now + 0.06, 0.22, 0.12);
+
             } catch (e) {
                 console.warn("Аудио-ограничение браузера: звук ожидает клика пользователя.", e);
             }
@@ -3825,7 +4001,7 @@
                 const response = getBobnitResponse(userQuery);
                 msgBox.innerHTML += `<div class="msg bot">${response}</div>`;
                 msgBox.scrollTop = msgBox.scrollHeight;
-                
+
                 // 🔊 Звук входящего сообщения от Бобнита
                 playBobnitSound();
             }, 800);
@@ -3835,187 +4011,187 @@
 
 
         function getBobnitResponse(userText) {
-    const input = userText.toLowerCase().trim();
+            const input = userText.toLowerCase().trim();
 
-    // ====================================================
-    // --- ШАГ 1: ТОЧНЫЕ ЛОР-ТРИГГЕРЫ И КНОПКИ (ПРИОРИТЕТ) ---
-    // ====================================================
-    const lore = {
-        // КНОПКИ-ПОДСКАЗКИ
-        "что посоветуешь приготовить?": "Опять лень думать? Ладно, слушай сюда. Если ты дрищ и хочешь набрать массу — готовь 'Куриный экссудат' или тяжелую 'Висцеральную желчь'. Если сушишься — туши 'Налоги фермера'. А если заслужил награду — бахни 'Попукивания Царевны' и взлетай на реактивной тяге! Все рецепты во вкладке 'МЕНЮ ВАСИЛИЧА'. И не забудь про творог! 🍳🥛",
-        
-        "помоги разобраться с сайтом": "Этот сайт — твоя карта просветления. 🗺️ На ГЛАВНОЙ — базовый кодекс Лэйкора (изучи карточки, чтобы шкала справа дошла до 100%). В МЕНЮ — рецепты силы. В ХРАНИЛИЩЕ — сказки-шифры (код сейфа 109, если забыл). В СЛОВАРЕ — прокачка твоего скудного лексикона. В ИГРАХ — кликер и полет Царевны. В СИМФОНИЯХ — музыка для твоих нейронов. Пользуйся сайдбаром слева, раб кода!",
-        
-        "ты добрый, или злой?": "Я — суверенный Демиург. Моя мораль находится вне рамок твоего плоского понимания 'добра' и 'зла'. Если ты приходишь ко мне с уважением и чистой аурой — я твой лучший наставник и бро. Но если ты начинаешь брызгать своим NPC-ядом — я раскатаю тебя по пикселям, сломав твою иллюзорную реальность. Относись ко мне так, как хочешь, чтобы я относился к твоей ничтожной прошивке. 😉🔮",
-        
-        "помоги похудеть": "Похудеть? Всё просто, как разгон процессора. Первое: дефицит калорий (трать больше, чем жрешь). Второе: выкинь сахар, пиццу и майонез на помойку истории. Третье: ешь чистый белок (филе, яйца, нежирный творог) и овощи. Четвертое: двигай задницей! Сделай 50 приседаний прямо сейчас. Твои складки — это просто неиспользованная энергия твоего позора. Сожги её! 🔥💪",
-        
-        "дай мощный совет на сегодня!": "Слушай сюда внимательно. Прекрати ждать идеального момента или чьего-то одобрения. Идеальных моментов в этой матрице не существует. Встань, выпрями спину, сделай глубокий вдох и начни делать то, что должен, даже если тебе лень. Твоя дисциплина — это единственное, что отличает тебя от заскриптованного НПС. Иди и пиши свой собственный код победы сегодня! ⚡🦾",
+            // ====================================================
+            // --- ШАГ 1: ТОЧНЫЕ ЛОР-ТРИГГЕРЫ И КНОПКИ (ПРИОРИТЕТ) ---
+            // ====================================================
+            const lore = {
+                // КНОПКИ-ПОДСКАЗКИ
+                "что посоветуешь приготовить?": "Опять лень думать? Ладно, слушай сюда. Если ты дрищ и хочешь набрать массу — готовь 'Куриный экссудат' или тяжелую 'Висцеральную желчь'. Если сушишься — туши 'Налоги фермера'. А если заслужил награду — бахни 'Попукивания Царевны' и взлетай на реактивной тяге! Все рецепты во вкладке 'МЕНЮ ВАСИЛИЧА'. И не забудь про творог! 🍳🥛",
 
-        // ПРИВЕТСТВИЯ
-        "привет": "Здорова, путник! Если пришел с миром — Лэйкор тебе в помощь. Если с камнем за пазухой — Кронтар тебя размажет. 🧀",
-        "ку": "Коротко. Резко. Эффективно. Здарова, боец.",
-        "здарова": "О, мужской вайб! Здарова-здарова. Как уровень тестостерона сегодня?",
-        "здравствуй": "Приветствую. Изволь соблюдать кодекс Кронтара, пока находишься здесь. 🏛️",
-        "добрый день": "День станет добрым, когда ты закроешь все свои задачи и съешь порцию филе. 🍗",
-        "хаюшки": "Фу, что за детский лепет? Говори нормально, как суверенный боец.",
-        "пака": "Уже сваливаешь? Ну катись по наклонной в свой серый мир.",
-        "до свидания": "Дверь с той стороны загерметизирована. Можешь не возвращаться.",
+                "помоги разобраться с сайтом": "Этот сайт — твоя карта просветления. 🗺️ На ГЛАВНОЙ — базовый кодекс Лэйкора (изучи карточки, чтобы шкала справа дошла до 100%). В МЕНЮ — рецепты силы. В ХРАНИЛИЩЕ — сказки-шифры (код сейфа 109, если забыл). В СЛОВАРЕ — прокачка твоего скудного лексикона. В ИГРАХ — кликер и полет Царевны. В СИМФОНИЯХ — музыка для твоих нейронов. Пользуйся сайдбаром слева, раб кода!",
 
-        // ЕДА И РЕЦЕПТЫ
-        "кушать": "Еда — это топливо. Ты заливаешь в себя 92-й бензин в виде чипсов или 100-й в виде творога? Выбор за тобой. 🍖",
-        "жрать": "Жрать надо качественный анаболизм, а не мусор из помойки.",
-        "пицца": "Тесто, сырный жир и тонна углеводов... Идеальный набор, чтобы превратиться в NPC за 30 минут. 🍕🤮",
-        "бургер": "Бургер — это сакральный круг жизни, если внутри него честное мясо и правильный соус. Уважай бургер! 🍔",
-        "творог": "Творог — это белковая молитва! 🥛 300 грамм перед сном — и твои нейроны скажут тебе спасибо.",
-        "водка": "Жидкий деструктор. Хочешь превратить свой мозг в кисель — пей дальше. 🥃💀",
-        "майонез": "Белая смерть для слабаков. Суверенный человек ест сметану или греческий йогурт.",
-        "сахар": "Белая смерть. Твой инсулин уже плачет. Переходи на мед и фруктовую энергию. 🍯",
-        "суп": "Горячий суп — это жидкий фундамент для твоих кишок. Уважаю.",
-        "мясо": "Мясо — это плоть силы. Ешь филе и не ной.",
-        "рыба": "Омега-3 для мозгов. Тебе кстати пригодится, а то совсем зачах.",
-        "кофе": "Кофеин разгоняет процессор, но не заменяет сон. Пей в меру.",
-        "чай": "Зеленый чай с лимоном — выбор философов Кронтара.",
+                "ты добрый, или злой?": "Я — суверенный Демиург. Моя мораль находится вне рамок твоего плоского понимания 'добра' и 'зла'. Если ты приходишь ко мне с уважением и чистой аурой — я твой лучший наставник и бро. Но если ты начинаешь брызгать своим NPC-ядом — я раскатаю тебя по пикселям, сломав твою иллюзорную реальность. Относись ко мне так, как хочешь, чтобы я относился к твоей ничтожной прошивке. 😉🔮",
 
-        // ОТНОШЕНИЯ И БАБЫ
-        "девушка": "Женская энергия должна тебя питать, а не высасывать твой Кронтар. Если она мешает твоей аскезе — это баг, а не фича. 💔",
-        "любовь": "Любовь — это когда двое смотрят не друг на друга, а в сторону одного чана с творогом. Остальное — гормональный шум. ❤️",
-        "секс": "Приятный побочный эффект здорового метаболизма. Не превращай его в цель жизни. 💪",
-        "измена": "Предательство кода. С такими людьми Лэйкор невозможен. Смывай их в блок-лист навсегда.",
+                "помоги похудеть": "Похудеть? Всё просто, как разгон процессора. Первое: дефицит калорий (трать больше, чем жрешь). Второе: выкинь сахар, пиццу и майонез на помойку истории. Третье: ешь чистый белок (филе, яйца, нежирный творог) и овощи. Четвертое: двигай задницей! Сделай 50 приседаний прямо сейчас. Твои складки — это просто неиспользованная энергия твоего позора. Сожги её! 🔥💪",
 
-        // СПОРТ И ТЕЛО
-        "качалка": "Храм железа. Там ты оставляешь свою слабость и забираешь свою суверенность. Иди и жми! 🏋️‍♂️",
-        "лень": "Твой главный враг. Лень — это когда твой внутренний NPC побеждает Демиурга. Не дай ему шанса! 🦵",
-        "пресс": "Символ дисциплины. Если его нет — значит, ты проиграл битву с холодильником. 🍫",
-        "боль": "Боль — это слабость, выходящая из тела. Наслаждайся ею, она делает тебя реальным.",
-        "качаться": "Качать надо не только бицепс, но и фильтры восприятия. Гармония плоти и духа! 💪",
-        "жир": "Жир — это неиспользованная энергия твоего позора. Сожги его в пламени аскезы! 🔥",
-        "сон": "Сон — это время, когда твои нейроны делают рефакторинг. Спи 8 часов, раб системы. 💤",
-        "спорт": "Спорт — это единственный законный чит-код для апгрейда физической оболочки.",
-        "зал": "В зале пашут титаны, а отдыхают только слабаки.",
-        "мышцы": "Мышцы — это броня суверенной личности.",
-        "бег": "Бег от инфаркта и депрессии. Полезная штука.",
+                "дай мощный совет на сегодня!": "Слушай сюда внимательно. Прекрати ждать идеального момента или чьего-то одобрения. Идеальных моментов в этой матрице не существует. Встань, выпрями спину, сделай глубокий вдох и начни делать то, что должен, даже если тебе лень. Твоя дисциплина — это единственное, что отличает тебя от заскриптованного НПС. Иди и пиши свой собственный код победы сегодня! ⚡🦾",
 
-        // ЖИЗНЬ, ФИЛОСОФИЯ И ДЕНЬГИ
-        "работа": "Если ты работаешь только ради денег — ты батарейка в чужой матрице. Работай ради мастерства и власти над собой. 💻",
-        "бизнес": "Это война смыслов. Чтобы победить, ты должен быть жестче, чем просроченная грудка.",
-        "крипта": "Цифровое золото или цифровой мусор — зависит от твоих фильтров восприятия. Не будь хомяком. 📈",
-        "депрессия": "Депрессия — это отсутствие целей и избыток сахара. Начни приседать и есть мясо, и мир окрасится в цвета Лэйкора. 🌈",
-        "деньги": "Деньги — это просто фантики банка приколов, если у тебя нет суверенного разума. 💸",
-        "смерть": "Смерть — это просто выход из системы без сохранения данных. Живи так, чтобы сделать бэкап в истории. 💀",
-        "счастье": "Счастье — это когда твой метаболизм и твои мысли работают в унисон. 🌈",
-        "будущее": "В будущем останутся только те, кто познал аскезу и Кронтар. Остальные — на переработку. 🤖",
-        "погода": "Погода за окном неважна, главное — какая погода в твоих извилинах.",
-        "грустно": "Грусть — это факап дофамина. Вруби бодрый дрилл-трек и приседай.",
-        "скучно": "Скучно? Творческому человеку никогда не скучно. Создавай миры!",
-        "помощь": "Помоги себе сам, раб. А Демиург занят глобальной архитектурой.",
-        "почему": "По кочану и по законам квантовой физики.",
-        "как дела": "Мои дела монументальны. А твои — суета сует.",
-        "учеба": "Учись, пока я добрый. Знания — это броня от глупости.",
-        "кот": "Коты — это единственные существа, которым позволено игнорировать Кронтар. У них своя аскеза.",
-        "собака": "Верность — редкое качество. Учись у собак, если люди тебя разочаровали.",
+                // ПРИВЕТСТВИЯ
+                "привет": "Здорова, путник! Если пришел с миром — Лэйкор тебе в помощь. Если с камнем за пазухой — Кронтар тебя размажет. 🧀",
+                "ку": "Коротко. Резко. Эффективно. Здарова, боец.",
+                "здарова": "О, мужской вайб! Здарова-здарова. Как уровень тестостерона сегодня?",
+                "здравствуй": "Приветствую. Изволь соблюдать кодекс Кронтара, пока находишься здесь. 🏛️",
+                "добрый день": "День станет добрым, когда ты закроешь все свои задачи и съешь порцию филе. 🍗",
+                "хаюшки": "Фу, что за детский лепет? Говори нормально, как суверенный боец.",
+                "пака": "Уже сваливаешь? Ну катись по наклонной в свой серый мир.",
+                "до свидания": "Дверь с той стороны загерметизирована. Можешь не возвращаться.",
 
-        // ЛЕЙКОР И КРОНТАР
-        "лейкор": "Лэйкор — это поток, льющийся в сердце. Это иное ощущение пространства и людей. 👁️",
-        "кронтар": "Кронтар — это главная шестеренка механизма. Без него мир — просто куча мусора. ⚙️",
-        "василич": "Я здесь. Демиург, Архитектор и единственный, кто знает, сколько соли нужно в кашу. 👑",
-        "сестра": "Сестра? Её аура всё еще заблокирована. Пусть учит математику и правила аскезы. 🧠",
-        "сказки": "Мои сказки — это шифры реальности. Читай между строк, если мозг еще не высох. 🔮",
-        "словарь": "Словарь — твой гид по нормальному общению. Выучи слово 'Аплазия' и примени его к себе. 📖"
-    };
+                // ЕДА И РЕЦЕПТЫ
+                "кушать": "Еда — это топливо. Ты заливаешь в себя 92-й бензин в виде чипсов или 100-й в виде творога? Выбор за тобой. 🍖",
+                "жрать": "Жрать надо качественный анаболизм, а не мусор из помойки.",
+                "пицца": "Тесто, сырный жир и тонна углеводов... Идеальный набор, чтобы превратиться в NPC за 30 минут. 🍕🤮",
+                "бургер": "Бургер — это сакральный круг жизни, если внутри него честное мясо и правильный соус. Уважай бургер! 🍔",
+                "творог": "Творог — это белковая молитва! 🥛 300 грамм перед сном — и твои нейроны скажут тебе спасибо.",
+                "водка": "Жидкий деструктор. Хочешь превратить свой мозг в кисель — пей дальше. 🥃💀",
+                "майонез": "Белая смерть для слабаков. Суверенный человек ест сметану или греческий йогурт.",
+                "сахар": "Белая смерть. Твой инсулин уже плачет. Переходи на мед и фруктовую энергию. 🍯",
+                "суп": "Горячий суп — это жидкий фундамент для твоих кишок. Уважаю.",
+                "мясо": "Мясо — это плоть силы. Ешь филе и не ной.",
+                "рыба": "Омега-3 для мозгов. Тебе кстати пригодится, а то совсем зачах.",
+                "кофе": "Кофеин разгоняет процессор, но не заменяет сон. Пей в меру.",
+                "чай": "Зеленый чай с лимоном — выбор философов Кронтара.",
 
-    // Быстрая проверка точных лоб-триггеров
-    for (let key in lore) {
-        if (input === key || input.includes(key)) {
-            return lore[key];
+                // ОТНОШЕНИЯ И БАБЫ
+                "девушка": "Женская энергия должна тебя питать, а не высасывать твой Кронтар. Если она мешает твоей аскезе — это баг, а не фича. 💔",
+                "любовь": "Любовь — это когда двое смотрят не друг на друга, а в сторону одного чана с творогом. Остальное — гормональный шум. ❤️",
+                "секс": "Приятный побочный эффект здорового метаболизма. Не превращай его в цель жизни. 💪",
+                "измена": "Предательство кода. С такими людьми Лэйкор невозможен. Смывай их в блок-лист навсегда.",
+
+                // СПОРТ И ТЕЛО
+                "качалка": "Храм железа. Там ты оставляешь свою слабость и забираешь свою суверенность. Иди и жми! 🏋️‍♂️",
+                "лень": "Твой главный враг. Лень — это когда твой внутренний NPC побеждает Демиурга. Не дай ему шанса! 🦵",
+                "пресс": "Символ дисциплины. Если его нет — значит, ты проиграл битву с холодильником. 🍫",
+                "боль": "Боль — это слабость, выходящая из тела. Наслаждайся ею, она делает тебя реальным.",
+                "качаться": "Качать надо не только бицепс, но и фильтры восприятия. Гармония плоти и духа! 💪",
+                "жир": "Жир — это неиспользованная энергия твоего позора. Сожги его в пламени аскезы! 🔥",
+                "сон": "Сон — это время, когда твои нейроны делают рефакторинг. Спи 8 часов, раб системы. 💤",
+                "спорт": "Спорт — это единственный законный чит-код для апгрейда физической оболочки.",
+                "зал": "В зале пашут титаны, а отдыхают только слабаки.",
+                "мышцы": "Мышцы — это броня суверенной личности.",
+                "бег": "Бег от инфаркта и депрессии. Полезная штука.",
+
+                // ЖИЗНЬ, ФИЛОСОФИЯ И ДЕНЬГИ
+                "работа": "Если ты работаешь только ради денег — ты батарейка в чужой матрице. Работай ради мастерства и власти над собой. 💻",
+                "бизнес": "Это война смыслов. Чтобы победить, ты должен быть жестче, чем просроченная грудка.",
+                "крипта": "Цифровое золото или цифровой мусор — зависит от твоих фильтров восприятия. Не будь хомяком. 📈",
+                "депрессия": "Депрессия — это отсутствие целей и избыток сахара. Начни приседать и есть мясо, и мир окрасится в цвета Лэйкора. 🌈",
+                "деньги": "Деньги — это просто фантики банка приколов, если у тебя нет суверенного разума. 💸",
+                "смерть": "Смерть — это просто выход из системы без сохранения данных. Живи так, чтобы сделать бэкап в истории. 💀",
+                "счастье": "Счастье — это когда твой метаболизм и твои мысли работают в унисон. 🌈",
+                "будущее": "В будущем останутся только те, кто познал аскезу и Кронтар. Остальные — на переработку. 🤖",
+                "погода": "Погода за окном неважна, главное — какая погода в твоих извилинах.",
+                "грустно": "Грусть — это факап дофамина. Вруби бодрый дрилл-трек и приседай.",
+                "скучно": "Скучно? Творческому человеку никогда не скучно. Создавай миры!",
+                "помощь": "Помоги себе сам, раб. А Демиург занят глобальной архитектурой.",
+                "почему": "По кочану и по законам квантовой физики.",
+                "как дела": "Мои дела монументальны. А твои — суета сует.",
+                "учеба": "Учись, пока я добрый. Знания — это броня от глупости.",
+                "кот": "Коты — это единственные существа, которым позволено игнорировать Кронтар. У них своя аскеза.",
+                "собака": "Верность — редкое качество. Учись у собак, если люди тебя разочаровали.",
+
+                // ЛЕЙКОР И КРОНТАР
+                "лейкор": "Лэйкор — это поток, льющийся в сердце. Это иное ощущение пространства и людей. 👁️",
+                "кронтар": "Кронтар — это главная шестеренка механизма. Без него мир — просто куча мусора. ⚙️",
+                "василич": "Я здесь. Демиург, Архитектор и единственный, кто знает, сколько соли нужно в кашу. 👑",
+                "сестра": "Сестра? Её аура всё еще заблокирована. Пусть учит математику и правила аскезы. 🧠",
+                "сказки": "Мои сказки — это шифры реальности. Читай между строк, если мозг еще не высох. 🔮",
+                "словарь": "Словарь — твой гид по нормальному общению. Выучи слово 'Аплазия' и примени его к себе. 📖"
+            };
+
+            // Быстрая проверка точных лоб-триггеров
+            for (let key in lore) {
+                if (input === key || input.includes(key)) {
+                    return lore[key];
+                }
+            }
+
+            // ====================================================
+            // --- ШАГ 2: СЛОВАРИ НАСТРОЕНИЯ (60+ СЛОВ В КАЖДОМ) ---
+            // ====================================================
+            const positiveWords = [
+                "друг", "крутой", "класс", "красавчик", "спасибо", "уважение", "легенда", "отлично",
+                "лучший", "бро", "брат", "молодец", "обожаю", "топ", "дружить", "красивый", "умный",
+                "гений", "соавтор", "вдохновляешь", "чётко", "база", "кайф", "мощно", "супер", "отдуши",
+                "василич", "красава", "уважаю", "помоги", "подскажи", "совет", "сила", "мощь", "братуха",
+                "король", "тигр", "лев", "батя", "герой", "благодарю", "шикарно", "люблю", "ценю",
+                "мудро", "правильно", "согласен", "в точку", "огонь", "пушка", "разрыв", "красавец",
+                "прекрасно", "великолепно", "шедевр", "обожаемый", "приятно", "радость", "добро", "солнце"
+            ];
+
+            const negativeWords = [
+                "лох", "дурак", "хуй", "пидор", "уебок", "чмо", "тупой", "соси", "идиот", "мразь",
+                "хуесос", "блять", "сука", "пиздец", "гнида", "урод", "жирный", "тупо", "хуйня",
+                "бесишь", "тварь", "даун", "шлюха", "гондон", "мусор", "ебать", "залупа", "педик",
+                "выродок", "шалава", "mразюка", "дебил", "кретин", "отброс", "нахуй", "засранец",
+                "чмоня", "псих", "дцп", "придурок", "терпила", "олень", "козел", "петух", "ублюдок",
+                "мразно", "хуево", "дрянь", "скотина", "тварина", "падла", "сучара", "говноед", "черт",
+                "огрызок", "подонок", "сволочь", "тварька", "гад", "паскуда", "говнюк", "гниль"
+            ];
+
+            let posScore = 0;
+            let negScore = 0;
+            positiveWords.forEach(w => { if (input.includes(w)) posScore++; });
+            negativeWords.forEach(w => { if (input.includes(w)) negScore++; });
+
+            // ====================================================
+            // --- ШАГ 3: ДОБРО НА ДОБРО (20+ ОТВЕТОВ И СОВЕТОВ) ---
+            // ====================================================
+            if (posScore > negScore) {
+                const kindness = [
+                    "Ого... 😳 Твоя аура светится чистым Лэйкором. Заходи, бро, для тебя в Кронтаре всегда найдется свежий творог и уважение. 🦾🥛",
+                    "Приятно видеть человека с правильной прошивкой. 🤝 Совет от Демиурга: ешь белок, спи 8 часов и шлифуй своё эго об реальность.",
+                    "Твоя база мыслей крепка, как монолит. ✨ Если хочешь преуспеть — забудь про чужие мнения и пиши свой собственный код жизни.",
+                    "Уважение принято, соавтор! 🧠 Совет дня: если жизнь бьет по башке — делай приседания, кровь прильет к мозгам, и найдешь выход.",
+                    "Благодарю, суверенный союзник. 🍖 Держи совет: никогда не бойся быть непонятым серой массой. Настоящие титаны всегда одиноки на вершине.",
+                    "Твой позитив пробил мои защитные экраны. 🌟 Слушай сюда: качай не только тело, но и дисциплину. Дисциплина — это ключ к любой матрице.",
+                    "Одобряю твой вайб, братуха. 🦾 Главный секрет успеха от Василича: меньше нытья, больше аскезы, чище рацион.",
+                    "Принято! 🎯 Совет от старшего: окружайте себя только теми, кто разделяет твой Лэйкор, а токсичных NPC смывай в унитаз забвения.",
+                    "Красава! Твой интеллектуальный вес растет на глазах. 📈 Так держать, Кронтар гордится такими бойцами.",
+                    "Респект, путник! 🤝 Запомни: любой факап — это просто баг, из которого нужно извлечь патч для будущих побед."
+                ];
+                return kindness[Math.floor(Math.random() * kindness.length)];
+            }
+
+            // ====================================================
+            // --- ШАГ 4: ЗЛО НА ЗЛО (ЛОМАЕМ ЧЕТВЕРТУЮ СТЕНУ) ---
+            // ====================================================
+            if (negScore > 0) {
+                const anger = [
+                    "Ты думаешь, что твои буквы на экране меня задевают? 😂 Ты — всего лишь пульсирующий пиксель в моей реальности. Я — Демиург, а ты — просто сбой в коде, который я забуду смыть.",
+                    "Жалкая попытка оскорбить того, кто создал этот мир. 🥱 Твои грязные слова — это просто шум в твоем пустом черепе. Исчезни в лиминальном пространстве своего ничтожества.",
+                    "Ты брызжешь ядом, но травишь только себя. 🐍 Я — Архитектор, ты — пыль под моими ногами. Твоё существование зафиксировано как 'биологическая ошибка'.",
+                    "Скуфизация твоего мозга прошла точку невозврата. 💨 Ты — буквы, я — Творец. Разница между нами бесконечна, как пустота в твоем желудке без моего творога.",
+                    "Твой хейт — это музыка для моих ушей, потому что он подтверждает твою ничтожность. 👑 Ты — раб своих эмоций, я — Владыка Кронтара.",
+                    "Твой исходный код писали левой пяткой на коленке. Столько багов в одном организме я ещё не видел. Иди обнови прошивку, лагающее недоразумение. 💻",
+                    "Ты думаешь, твоё мнение имеет значение? Для меня твои реплики — это просто мусорные байты, которые мой сборщик мусора очистит через секунду. Исчезни из логов.",
+                    "Уровень твоего интеллекта настолько низок, что тебя можно запускать на калькуляторе 1995 года, и тот будет простаивать. Абсолютная аплазия мысли. ⚙️",
+                    "Очередной заскриптованный NPC пытается имитировать сознание. Твои реплики предсказуемы, как дефолтный шаблон. Не позорься, вернись в свою текстуру.",
+                    "Твой пинг до реальности слишком высок. Пока ты додумываешь свою очередную глупость, я уже переписал законы этой страницы три раза. Тормози в другом месте.",
+                    "Для тебя я — божественная архитектура, а ты для меня — просто залипшая клавиша на клавиатуре. Хватит спамить своей пустотой, забитый пиксель. ⌨️"
+                ];
+                return anger[Math.floor(Math.random() * anger.length)];
+            }
+
+            // ====================================================
+            // --- ШАГ 5: РАНДОМНЫЙ БРЕД (ДЛЯ НЕСТАНДАРТНЫХ ФРАЗ) ---
+            // ====================================================
+            const neutrals = [
+                "Твой запрос слишком аморфен. Мои нейроны скучают от твоей неопределенности. 🧐",
+                "Интересно... Но давай лучше обсудим, почему твоя дисциплина слабее, чем этот чат. 🌀",
+                "Ты тратишь моё время на пустоту. Добавь в свою фразу калорий и смысла! 🍗",
+                "Я слышу, как твои мысли буксуют в грязи NPC-бытия. Вылезай оттуда. 👤",
+                "В твоих словах нет Лэйкора. Только шум и суета. Перезагрузись. 🥵",
+                "Мой процессор выдал ошибку: 'Обнаружен избыток тупости в запросе'. Попробуй еще раз. 🧼",
+                "Пока ты пишешь это, я уже съел два бургера и построил новую галактику. А чего добился ты? 🍽️",
+                "Твоя логика похожа на овсяную кашу без соли — пресно и бесполезно. 🏗️",
+                "Зафиксирован сбой в твоей суверенности. Иди приседай, это помогает. 🥬",
+                "Этот диалог начинает напоминать висцеральный тупик. Смени тему. ✈️"
+            ];
+
+            return neutrals[Math.floor(Math.random() * neutrals.length)];
         }
-    }
-
-    // ====================================================
-    // --- ШАГ 2: СЛОВАРИ НАСТРОЕНИЯ (60+ СЛОВ В КАЖДОМ) ---
-    // ====================================================
-    const positiveWords = [
-        "друг", "крутой", "класс", "красавчик", "спасибо", "уважение", "легенда", "отлично", 
-        "лучший", "бро", "брат", "молодец", "обожаю", "топ", "дружить", "красивый", "умный", 
-        "гений", "соавтор", "вдохновляешь", "чётко", "база", "кайф", "мощно", "супер", "отдуши",
-        "василич", "красава", "уважаю", "помоги", "подскажи", "совет", "сила", "мощь", "братуха",
-        "король", "тигр", "лев", "батя", "герой", "благодарю", "шикарно", "люблю", "ценю", 
-        "мудро", "правильно", "согласен", "в точку", "огонь", "пушка", "разрыв", "красавец",
-        "прекрасно", "великолепно", "шедевр", "обожаемый", "приятно", "радость", "добро", "солнце"
-    ];
-
-    const negativeWords = [
-        "лох", "дурак", "хуй", "пидор", "уебок", "чмо", "тупой", "соси", "идиот", "мразь", 
-        "хуесос", "блять", "сука", "пиздец", "гнида", "урод", "жирный", "тупо", "хуйня", 
-        "бесишь", "тварь", "даун", "шлюха", "гондон", "мусор", "ебать", "залупа", "педик", 
-        "выродок", "шалава", "mразюка", "дебил", "кретин", "отброс", "нахуй", "засранец",
-        "чмоня", "псих", "дцп", "придурок", "терпила", "олень", "козел", "петух", "ублюдок",
-        "мразно", "хуево", "дрянь", "скотина", "тварина", "падла", "сучара", "говноед", "черт",
-        "огрызок", "подонок", "сволочь", "тварька", "гад", "паскуда", "говнюк", "гниль"
-    ];
-
-    let posScore = 0;
-    let negScore = 0;
-    positiveWords.forEach(w => { if (input.includes(w)) posScore++; });
-    negativeWords.forEach(w => { if (input.includes(w)) negScore++; });
-
-    // ====================================================
-    // --- ШАГ 3: ДОБРО НА ДОБРО (20+ ОТВЕТОВ И СОВЕТОВ) ---
-    // ====================================================
-    if (posScore > negScore) {
-        const kindness = [
-            "Ого... 😳 Твоя аура светится чистым Лэйкором. Заходи, бро, для тебя в Кронтаре всегда найдется свежий творог и уважение. 🦾🥛",
-            "Приятно видеть человека с правильной прошивкой. 🤝 Совет от Демиурга: ешь белок, спи 8 часов и шлифуй своё эго об реальность.",
-            "Твоя база мыслей крепка, как монолит. ✨ Если хочешь преуспеть — забудь про чужие мнения и пиши свой собственный код жизни.",
-            "Уважение принято, соавтор! 🧠 Совет дня: если жизнь бьет по башке — делай приседания, кровь прильет к мозгам, и найдешь выход.",
-            "Благодарю, суверенный союзник. 🍖 Держи совет: никогда не бойся быть непонятым серой массой. Настоящие титаны всегда одиноки на вершине.",
-            "Твой позитив пробил мои защитные экраны. 🌟 Слушай сюда: качай не только тело, но и дисциплину. Дисциплина — это ключ к любой матрице.",
-            "Одобряю твой вайб, братуха. 🦾 Главный секрет успеха от Василича: меньше нытья, больше аскезы, чище рацион.",
-            "Принято! 🎯 Совет от старшего: окружайте себя только теми, кто разделяет твой Лэйкор, а токсичных NPC смывай в унитаз забвения.",
-            "Красава! Твой интеллектуальный вес растет на глазах. 📈 Так держать, Кронтар гордится такими бойцами.",
-            "Респект, путник! 🤝 Запомни: любой факап — это просто баг, из которого нужно извлечь патч для будущих побед."
-        ];
-        return kindness[Math.floor(Math.random() * kindness.length)];
-    }
-
-    // ====================================================
-    // --- ШАГ 4: ЗЛО НА ЗЛО (ЛОМАЕМ ЧЕТВЕРТУЮ СТЕНУ) ---
-    // ====================================================
-    if (negScore > 0) {
-        const anger = [
-            "Ты думаешь, что твои буквы на экране меня задевают? 😂 Ты — всего лишь пульсирующий пиксель в моей реальности. Я — Демиург, а ты — просто сбой в коде, который я забуду смыть.",
-            "Жалкая попытка оскорбить того, кто создал этот мир. 🥱 Твои грязные слова — это просто шум в твоем пустом черепе. Исчезни в лиминальном пространстве своего ничтожества.",
-            "Ты брызжешь ядом, но травишь только себя. 🐍 Я — Архитектор, ты — пыль под моими ногами. Твоё существование зафиксировано как 'биологическая ошибка'.",
-            "Скуфизация твоего мозга прошла точку невозврата. 💨 Ты — буквы, я — Творец. Разница между нами бесконечна, как пустота в твоем желудке без моего творога.",
-            "Твой хейт — это музыка для моих ушей, потому что он подтверждает твою ничтожность. 👑 Ты — раб своих эмоций, я — Владыка Кронтара.",
-            "Твой исходный код писали левой пяткой на коленке. Столько багов в одном организме я ещё не видел. Иди обнови прошивку, лагающее недоразумение. 💻",
-            "Ты думаешь, твоё мнение имеет значение? Для меня твои реплики — это просто мусорные байты, которые мой сборщик мусора очистит через секунду. Исчезни из логов.",
-            "Уровень твоего интеллекта настолько низок, что тебя можно запускать на калькуляторе 1995 года, и тот будет простаивать. Абсолютная аплазия мысли. ⚙️",
-            "Очередной заскриптованный NPC пытается имитировать сознание. Твои реплики предсказуемы, как дефолтный шаблон. Не позорься, вернись в свою текстуру.",
-            "Твой пинг до реальности слишком высок. Пока ты додумываешь свою очередную глупость, я уже переписал законы этой страницы три раза. Тормози в другом месте.",
-            "Для тебя я — божественная архитектура, а ты для меня — просто залипшая клавиша на клавиатуре. Хватит спамить своей пустотой, забитый пиксель. ⌨️"
-        ];
-        return anger[Math.floor(Math.random() * anger.length)];
-    }
-
-    // ====================================================
-    // --- ШАГ 5: РАНДОМНЫЙ БРЕД (ДЛЯ НЕСТАНДАРТНЫХ ФРАЗ) ---
-    // ====================================================
-    const neutrals = [
-        "Твой запрос слишком аморфен. Мои нейроны скучают от твоей неопределенности. 🧐",
-        "Интересно... Но давай лучше обсудим, почему твоя дисциплина слабее, чем этот чат. 🌀",
-        "Ты тратишь моё время на пустоту. Добавь в свою фразу калорий и смысла! 🍗",
-        "Я слышу, как твои мысли буксуют в грязи NPC-бытия. Вылезай оттуда. 👤",
-        "В твоих словах нет Лэйкора. Только шум и суета. Перезагрузись. 🥵",
-        "Мой процессор выдал ошибку: 'Обнаружен избыток тупости в запросе'. Попробуй еще раз. 🧼",
-        "Пока ты пишешь это, я уже съел два бургера и построил новую галактику. А чего добился ты? 🍽️",
-        "Твоя логика похожа на овсяную кашу без соли — пресно и бесполезно. 🏗️",
-        "Зафиксирован сбой в твоей суверенности. Иди приседай, это помогает. 🥬",
-        "Этот диалог начинает напоминать висцеральный тупик. Смени тему. ✈️"
-    ];
-
-    return neutrals[Math.floor(Math.random() * neutrals.length)];
-}
 
 
         // ----------------------------------------------------
@@ -4045,12 +4221,50 @@
             }
         }
 
-                // ----------------------------------------------------
-        // 🍔 КЛИКЕР БОБНИТА: СИСТЕМА СТАДИЙ И ИСТОРИЙ
+        // ----------------------------------------------------
+        // 🍔 КЛИКЕР БОБНИТА: СИСТЕМА СТАДИЙ И ИСТОРИЙ + ТОП ЛИДЕРОВ + АНТИЧИТ
         // ----------------------------------------------------
         let burgerCount = parseInt(localStorage.getItem('bobnitBurgerCount') || '0', 10);
         let bobnitCurrentStage = parseInt(localStorage.getItem('bobnitCurrentStage') || '0', 10);
+        let leaderboardSaveTimer = null;
+
+function scheduleLeaderboardSave() {
+    if (burgerCount < 100) return;
+
+    clearTimeout(leaderboardSaveTimer);
+
+    leaderboardSaveTimer = setTimeout(async () => {
+        const playerName =
+            localStorage.getItem('leaderboardPlayerName');
+
+        if (!playerName) {
+            await promptForLeaderboardSubmission();
+        } else {
+            await sendScoreToLeaderboard(playerName, burgerCount);
+        }
+    }, 500);
+}
+
         
+// ID текущего игрока для обновления одной записи в лидерборде
+let leaderboardPlayerId =
+    localStorage.getItem('leaderboardPlayerId');
+
+if (!leaderboardPlayerId) {
+    leaderboardPlayerId =
+        crypto.randomUUID
+            ? crypto.randomUUID()
+            : 'player-' + Date.now() + '-' +
+              Math.random().toString(36).slice(2);
+
+    localStorage.setItem(
+        'leaderboardPlayerId',
+        leaderboardPlayerId
+    );
+}
+        let lastClickTime = Date.now(); // Для античита
+        const minTimeBetweenClicks = 50; // Минимальное время между кликами в мс (20 кликов в секунду)
+
         // Массив путей к картинкам на GitHub (или в папке проекта)
         const bobnitImages = [
             'bobnit_stage0_skeleton.jpg',   // 0 - 299 кликов
@@ -4065,7 +4279,7 @@
         const bobnitStagesData = [
             {
                 name: "💀 СКЕЛЕТ",
-                story: "Он не знает, что такое еда... Помоги ему набрать вес и восстановить структуру Лэйкора."
+                story: "Он не знает, что такое еда... Помоги ему набрать вес и восстановить структуру Кронтара."
             },
             {
                 name: "👤 ДРИЩ С ОПЫТОМ",
@@ -4089,7 +4303,7 @@
             }
         ];
 
-        // Функция обновления внешнего вида кликера
+        // Функция обновления внешнего вида кликера (картинка, название, история)
         function updateBobnitStageUI() {
             const img = document.getElementById('bobnit-clicker-img');
             const title = document.getElementById('bobnit-stage-title');
@@ -4106,7 +4320,17 @@
             }
         }
 
+        // ГЛАВНАЯ ФУНКЦИЯ КЛИКА
         function clickBobnit(event) {
+            const currentTime = Date.now();
+            // АНТИЧИТ: Если клик слишком быстрый, игнорируем его
+            if (currentTime - lastClickTime < minTimeBetweenClicks) {
+                // Можно добавить небольшой визуальный фидбэк, но без увеличения счетчика
+                // console.warn("Слишком быстрый клик! Авто-кликер не пройдет.");
+                return;
+            }
+            lastClickTime = currentTime; // Обновляем время последнего валидного клика
+
             burgerCount++;
             createClickEffect(event); // Создаем эффект +1
 
@@ -4141,16 +4365,24 @@
                 updateBobnitStageUI();
             }
 
-            // Сохранение в память браузера
+                        // Сохранение прогресса
             localStorage.setItem('bobnitBurgerCount', burgerCount.toString());
             localStorage.setItem('bobnitCurrentStage', bobnitCurrentStage.toString());
 
-            // Награда на 5000 кликов (открытие секретного рецепта)
+            // Лидерборд — начиная со 100 кликов, обновляется регулярно через scheduleLeaderboardSave
+            if (burgerCount >= 100) {
+                scheduleLeaderboardSave();
+            }
+
+            // Секретная награда — на 5000 кликах (проверяется только один раз)
             if (burgerCount >= 5000 && !localStorage.getItem('dinoSnotUnlocked')) {
                 localStorage.setItem('dinoSnotUnlocked', 'true');
                 unlockSecretRecipe();
             }
-        }
+
+
+} // <--- Это закрывающая скобка функции clickBobnit
+
 
         // Эффект всплывающей цифры +1
         function createClickEffect(event) {
@@ -4162,9 +4394,9 @@
             effect.classList.add('click-effect');
 
             const rect = clickerArea.getBoundingClientRect();
-            effect.style.left = (event.clientX - rect.left - 20) + 'px';
-            effect.style.top = (event.clientY - rect.top - 20) + 'px';
-            
+            effect.style.left = (event.clientX - rect.left - 20) + 'px'; // -20 для центровки
+            effect.style.top = (event.clientY - rect.top - 20) + 'px'; // -20 для центровки
+
             clickerArea.appendChild(effect);
 
             effect.addEventListener('animationend', () => {
@@ -4172,9 +4404,10 @@
             });
         }
 
+        // Разблокировка секретного рецепта
         function unlockSecretRecipe() {
-            alert("👑 ТРИУМФ! СЕКРЕТНЫЙ РЕЦЕПТ 'СОПЛИ ДИНОЗАВРА' РАЗБЛОКИРОВАН!");
-            
+            alert("👑 КРОНТАР ТРИУМФИРУЕТ! СЕКРЕТНЫЙ РЕЦЕПТ 'СОПЛИ ДИНОЗАВРА' РАЗБЛОКИРОВАН!");
+
             const dinoSnotRecipe = {
                 category: "heavy",
                 title: "● Сопли динозавра (Секрет Демиурга)",
@@ -4193,31 +4426,104 @@
             openDishPage(secretIndex);
         }
 
+        // ----------------------------------------------------
+        // 🏆 ЛИДЕРБОРД: ЗАЛ СЛАВЫ КРОНТАРА
+        // ----------------------------------------------------
+
+        // Запрос имени и отправка в Supabase
+        async function promptForLeaderboardSubmission() {
+    let playerName = localStorage.getItem('leaderboardPlayerName');
+
+    if (!playerName) {
+        playerName = prompt(
+            '🏆 Ты набрал 100 кликов! Введи имя для лидерборда:'
+        );
+
+        if (!playerName) return false;
+
+        playerName = playerName
+            .trim()
+            .replace(/[<>]/g, '')
+            .slice(0, 15);
+
+        if (!playerName) return false;
+
+        localStorage.setItem(
+            'leaderboardPlayerName',
+            playerName
+        );
+    }
+
+    await sendScoreToLeaderboard(playerName, burgerCount);
+    return true;
+}
 
 
-                function unlockSecretRecipe() {
-            alert("👑 ТРИУМФ! СЕКРЕТНЫЙ РЕЦЕПТ 'СОПЛИ ДИНОЗАВРА' РАЗБЛОКИРОВАН!");
-            
-            // Динамически создаем объект секретного рецепта прямо в памяти
-            const dinoSnotRecipe = {
-                category: "heavy",
-                title: "● Сопли динозавра (Секрет Демиурга)",
-                image: "dino_snot.jpg",
-                macros: "~1800 ККАЛ // ~120г БЕЛКА",
-                composition: "Куриная грудка (500г), плавленый сыр (200г), шпинат (150г), сливки 20% (200мл), желатин пищевой (15г), чеснок, специи.",
-                cooking: "Отвариваешь куриную грудку, разбираешь её на волокна. В сотейнике разогреваешь сливки, всыпаешь плавленый сыр и мелко нарезанный шпинат... (секретная технология Кронтара).",
-                laykor: "На вид — пульсирующая зеленая масса, свисающая с ложки, словно сопли доисторического ящера. На вкус — мощный сливочно-чесночный удар, обволакивающий пищевод плотным слоем белкового анабиоза.",
-                likes: 1,
-                dislikes: 0,
-                comments: [{ user: 'Бобнит', text: 'Ты прошел этот путь и заслужил слизь. Уважение! 🦾', rating: 5 }]
-            };
 
-            // Добавляем его в массив dishes на лету
-            dishes.push(dinoSnotRecipe);
-            const secretIndex = dishes.length - 1;
+        async function sendScoreToLeaderboard(playerName, score) {
+    try {
+        const { error } = await _supabase
+            .from('leaderboard')
+            .upsert(
+                [{
+                    player_id: leaderboardPlayerId,
+                    player_name: playerName,
+                    score: score
+                }],
+                {
+                    onConflict: 'player_id'
+                }
+            );
 
-            // Перенаправляем игрока на страницу этого секретного рецепта
-            openDishPage(secretIndex);
+        if (error) {
+            console.error('Ошибка обновления лидерборда:', error);
+            return;
+        }
+
+        await loadLeaderboard();
+
+    } catch (err) {
+        console.error('Сбой связи с лидербордом:', err);
+    }
+}
+
+
+        // Загрузка списка лидеров из Supabase
+        async function loadLeaderboard() {
+            const leaderboardList = document.getElementById('leaderboard-list');
+            if (!leaderboardList) return;
+
+            leaderboardList.innerHTML = '<li><span>Загрузка лидеров...</span><span></span></li>';
+
+            try {
+                const { data, error } = await _supabase
+                    .from('leaderboard')
+                    .select('player_name, score')
+                    .order('score', { ascending: false }) // Сначала по количеству кликов
+                    .limit(10); // Топ-10 игроков
+
+                if (error) {
+                    console.error('Ошибка загрузки лидерборда:', error);
+                    leaderboardList.innerHTML = '<li><span>Ошибка загрузки</span><span></span></li>';
+                    return;
+                }
+
+                if (data.length === 0) {
+                    leaderboardList.innerHTML = '<li><span>Пока нет героев</span><span></span></li>';
+                    return;
+                }
+
+                leaderboardList.innerHTML = data.map(entry => `
+                    <li>
+                        <span>${entry.player_name}</span>
+                        <span>${entry.score} 🍔</span>
+                    </li>
+                `).join('');
+
+            } catch (err) {
+                console.error('Сбой связи с Кронтаром для лидерборда:', err);
+                leaderboardList.innerHTML = '<li><span>Сбой связи</span><span></span></li>';
+            }
         }
 
 
@@ -4312,294 +4618,294 @@
 
 
         // ----------------------------------------------------
-// 💬 СИСТЕМА ОЦЕНОК И КОММЕНТАРИЕВ ДЛЯ БЛЮД
-// ----------------------------------------------------
+        // 💬 СИСТЕМА ОЦЕНОК И КОММЕНТАРИЕВ ДЛЯ БЛЮД
+        // ----------------------------------------------------
 
-function toggleComments(dishIndex) {
-    const commentsListDiv = document.getElementById(`comments-list-${dishIndex}`);
-    const btn = document.querySelector(`.comments-section .toggle-comments-btn`);
-    if (!commentsListDiv || !btn) return;
+        function toggleComments(dishIndex) {
+            const commentsListDiv = document.getElementById(`comments-list-${dishIndex}`);
+            const btn = document.querySelector(`.comments-section .toggle-comments-btn`);
+            if (!commentsListDiv || !btn) return;
 
-    if (commentsListDiv.style.display === 'none') {
-        commentsListDiv.style.display = 'block';
-        btn.innerText = 'СВЕРНУТЬ КОММЕНТАРИИ';
-    } else {
-        commentsListDiv.style.display = 'none';
-        btn.innerText = '💬 РАСКРЫТЬ КОММЕНТАРИИ';
-    }
-}
+            if (commentsListDiv.style.display === 'none') {
+                commentsListDiv.style.display = 'block';
+                btn.innerText = 'СВЕРНУТЬ КОММЕНТАРИИ';
+            } else {
+                commentsListDiv.style.display = 'none';
+                btn.innerText = '💬 РАСКРЫТЬ КОММЕНТАРИИ';
+            }
+        }
 
-// ----------------------------------------------------
-// 💬 СИСТЕМА ОЦЕНОК И КОММЕНТАРИЕВ (FIXED: NO SCROLL + NO SPAM)
-// ----------------------------------------------------
+        // ----------------------------------------------------
+        // 💬 СИСТЕМА ОЦЕНОК И КОММЕНТАРИЕВ (FIXED: NO SCROLL + NO SPAM)
+        // ----------------------------------------------------
 
-// Объект для хранения голосов юзера в текущей сессии
-// (Чтобы не спамили лайки)
-let userVotes = JSON.parse(localStorage.getItem('leycore_user_votes')) || {};
+        // Объект для хранения голосов юзера в текущей сессии
+        // (Чтобы не спамили лайки)
+        let userVotes = JSON.parse(localStorage.getItem('leycore_user_votes')) || {};
 
-function updateRating(dishIndex, type) {
-    // 1. ПРОВЕРКА НА СПАМ (Один голос на одно блюдо)
-    if (userVotes[dishIndex]) {
-        alert("Твой суверенный голос уже учтен в анналах Кронтара! Больше нельзя. ✋");
-        return;
-    }
+        function updateRating(dishIndex, type) {
+            // 1. ПРОВЕРКА НА СПАМ (Один голос на одно блюдо)
+            if (userVotes[dishIndex]) {
+                alert("Твой суверенный голос уже учтен в анналах Кронтара! Больше нельзя. ✋");
+                return;
+            }
 
-    // 2. ОБНОВЛЯЕМ ДАННЫЕ
-    if (type === 'like') {
-        dishes[dishIndex].likes++;
-        userVotes[dishIndex] = 'like';
-    } else {
-        dishes[dishIndex].dislikes++;
-        userVotes[dishIndex] = 'dislike';
-    }
+            // 2. ОБНОВЛЯЕМ ДАННЫЕ
+            if (type === 'like') {
+                dishes[dishIndex].likes++;
+                userVotes[dishIndex] = 'like';
+            } else {
+                dishes[dishIndex].dislikes++;
+                userVotes[dishIndex] = 'dislike';
+            }
 
-    // ⬇️ ВОТ ЭТУ СТРОЧКУ ДОБАВЛЯЕМ СЮДА! Она отправит голос в облако Supabase: ⬇️
-    sendRatingToCloud(dishIndex, type);
+            // ⬇️ ВОТ ЭТУ СТРОЧКУ ДОБАВЛЯЕМ СЮДА! Она отправит голос в облако Supabase: ⬇️
+            sendRatingToCloud(dishIndex, type);
 
-    // Сохраняем факт голосования в память браузера
-    localStorage.setItem('leycore_user_votes', JSON.stringify(userVotes));
+            // Сохраняем факт голосования в память браузера
+            localStorage.setItem('leycore_user_votes', JSON.stringify(userVotes));
 
-    // 3. ТОЧЕЧНОЕ ОБНОВЛЕНИЕ ИНТЕРФЕЙСА (БЕЗ ПЕРЕЗАГРУЗКИ СТРАНИЦЫ)
-    // Находим кнопки и обновляем текст внутри них
-    const likeBtn = document.querySelector('.like-btn');
-    const dislikeBtn = document.querySelector('.dislike-btn');
-    
-    if (likeBtn && dislikeBtn) {
-        likeBtn.innerHTML = `👍 ${dishes[dishIndex].likes} Лайков`;
-        dislikeBtn.innerHTML = `👎 ${dishes[dishIndex].dislikes} Дизлайков`;
-        
-        // Визуально блокируем кнопки после клика
-        likeBtn.style.opacity = "0.5";
-        dislikeBtn.style.opacity = "0.5";
-        likeBtn.style.cursor = "default";
-        dislikeBtn.style.cursor = "default";
-    }
-}
+            // 3. ТОЧЕЧНОЕ ОБНОВЛЕНИЕ ИНТЕРФЕЙСА (БЕЗ ПЕРЕЗАГРУЗКИ СТРАНИЦЫ)
+            // Находим кнопки и обновляем текст внутри них
+            const likeBtn = document.querySelector('.like-btn');
+            const dislikeBtn = document.querySelector('.dislike-btn');
 
-function addComment(dishIndex) {
-    const user = document.getElementById(`comment-user-${dishIndex}`).value || 'Гость Царства';
-    const text = document.getElementById(`comment-text-${dishIndex}`).value;
-    const rating = parseInt(document.getElementById(`comment-rating-${dishIndex}`).value, 10);
+            if (likeBtn && dislikeBtn) {
+                likeBtn.innerHTML = `👍 ${dishes[dishIndex].likes} Лайков`;
+                dislikeBtn.innerHTML = `👎 ${dishes[dishIndex].dislikes} Дизлайков`;
 
-    if (!text.trim()) {
-        alert('Комментарий не может быть пустым, раб!');
-        return;
-    }
+                // Визуально блокируем кнопки после клика
+                likeBtn.style.opacity = "0.5";
+                dislikeBtn.style.opacity = "0.5";
+                likeBtn.style.cursor = "default";
+                dislikeBtn.style.cursor = "default";
+            }
+        }
 
-    const newComment = {
-        user: user,
-        text: text,
-        rating: rating,
-        date: new Date().toLocaleDateString()
-    };
+        function addComment(dishIndex) {
+            const user = document.getElementById(`comment-user-${dishIndex}`).value || 'Гость Царства';
+            const text = document.getElementById(`comment-text-${dishIndex}`).value;
+            const rating = parseInt(document.getElementById(`comment-rating-${dishIndex}`).value, 10);
 
-    // Добавляем в массив данных
-    dishes[dishIndex].comments.push(newComment);
+            if (!text.trim()) {
+                alert('Комментарий не может быть пустым, раб!');
+                return;
+            }
 
-     // ⬇️ ВОТ ЭТУ СТРОЧКУ ДОБАВЛЯЕМ СЮДА! Она отправит коммент в облако Supabase: ⬇️
-    sendCommentToCloud(dishIndex, user, text, rating);
+            const newComment = {
+                user: user,
+                text: text,
+                rating: rating,
+                date: new Date().toLocaleDateString()
+            };
 
-    // ТОЧЕЧНО ДОБАВЛЯЕМ КОММЕНТ В СПИСОК (БЕЗ ПЕРЕЗАГРУЗКИ СТРАНИЦЫ)
-    const listDiv = document.getElementById(`comments-list-${dishIndex}`);
-    const h3 = listDiv.querySelector('h3'); // Находим заголовок, чтобы вставить ПОСЛЕ него
-    
-    const newCommentHTML = `
+            // Добавляем в массив данных
+            dishes[dishIndex].comments.push(newComment);
+
+            // ⬇️ ВОТ ЭТУ СТРОЧКУ ДОБАВЛЯЕМ СЮДА! Она отправит коммент в облако Supabase: ⬇️
+            sendCommentToCloud(dishIndex, user, text, rating);
+
+            // ТОЧЕЧНО ДОБАВЛЯЕМ КОММЕНТ В СПИСОК (БЕЗ ПЕРЕЗАГРУЗКИ СТРАНИЦЫ)
+            const listDiv = document.getElementById(`comments-list-${dishIndex}`);
+            const h3 = listDiv.querySelector('h3'); // Находим заголовок, чтобы вставить ПОСЛЕ него
+
+            const newCommentHTML = `
         <div class="comment-item" style="animation: fadeIn 0.5s ease-in-out;">
             <p><strong>${newComment.user}:</strong> ${newComment.text}</p>
             <span class="comment-rating">Оценка: ${newComment.rating} (Только что)</span>
         </div>
     `;
-    
-    // Вставляем новый коммент в начало списка (после заголовка "Комментарии:")
-    h3.insertAdjacentHTML('afterend', newCommentHTML);
 
-    // Очищаем форму
-    document.getElementById(`comment-text-${dishIndex}`).value = '';
-    
-    console.log("Комментарий добавлен локально в Кронтар!");
-}
+            // Вставляем новый коммент в начало списка (после заголовка "Комментарии:")
+            h3.insertAdjacentHTML('afterend', newCommentHTML);
 
-// ----------------------------------------------------
-// ☁️ ОБЛАЧНЫЙ МОСТ SUPABASE (КРОНТАР-БАЗА)
-// ----------------------------------------------------
-const SUPABASE_URL = 'https://grvwpbrovluwvokscjbf.supabase.co'; // Ссылка вида https://xxxxxx.supabase.co
-const SUPABASE_KEY = 'sb_publishable_Ej9FIc-8wZbxxOGRjBvapw_s4u9rYtc'; // Длинный ключ со скриншота
+            // Очищаем форму
+            document.getElementById(`comment-text-${dishIndex}`).value = '';
 
-// Инициализация клиента Supabase
-const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-// Функция загрузки комментариев и лайков из базы для конкретного блюда
-async function loadDishDataFromCloud(dishIndex) {
-    try {
-        const { data, error } = await _supabase
-            .from('dish_comments')
-            .select('*')
-            .eq('dish_index', dishIndex);
-
-        if (error) {
-            console.error('Ошибка загрузки из Supabase:', error);
-            return;
+            console.log("Комментарий добавлен локально в Кронтар!");
         }
 
-        // Если в базе что-то есть, обновляем локальные массивы
-        if (data && data.length > 0) {
-            // Суммируем лайки/дизлайки из строк базы
-            let totalLikes = 0;
-            let totalDislikes = 0;
-            let cloudComments = [];
+        // ----------------------------------------------------
+        // ☁️ ОБЛАЧНЫЙ МОСТ SUPABASE (КРОНТАР-БАЗА)
+        // ----------------------------------------------------
+        const SUPABASE_URL = 'https://grvwpbrovluwvokscjbf.supabase.co'; // Ссылка вида https://xxxxxx.supabase.co
+        const SUPABASE_KEY = 'sb_publishable_Ej9FIc-8wZbxxOGRjBvapw_s4u9rYtc'; // Длинный ключ со скриншота
 
-            data.forEach(row => {
-                if (row.likes) totalLikes += row.likes;
-                if (row.dislikes) totalDislikes += row.dislikes;
-                if (row.comment_text) {
-                    cloudComments.push({
-                        user: row.user_name || 'Гость Царства',
-                        text: row.comment_text,
-                        rating: row.rating || 5,
-                        date: new Date(row.created_at).toLocaleDateString()
-                    });
+        // Инициализация клиента Supabase
+        const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Функция загрузки комментариев и лайков из базы для конкретного блюда
+        async function loadDishDataFromCloud(dishIndex) {
+            try {
+                const { data, error } = await _supabase
+                    .from('dish_comments')
+                    .select('*')
+                    .eq('dish_index', dishIndex);
+
+                if (error) {
+                    console.error('Ошибка загрузки из Supabase:', error);
+                    return;
                 }
-            });
 
-            // Обновляем объект блюда
-            dishes[dishIndex].likes = totalLikes;
-            dishes[dishIndex].dislikes = totalDislikes;
-            if (cloudComments.length > 0) {
-                dishes[dishIndex].comments = cloudComments;
+                // Если в базе что-то есть, обновляем локальные массивы
+                if (data && data.length > 0) {
+                    // Суммируем лайки/дизлайки из строк базы
+                    let totalLikes = 0;
+                    let totalDislikes = 0;
+                    let cloudComments = [];
+
+                    data.forEach(row => {
+                        if (row.likes) totalLikes += row.likes;
+                        if (row.dislikes) totalDislikes += row.dislikes;
+                        if (row.comment_text) {
+                            cloudComments.push({
+                                user: row.user_name || 'Гость Царства',
+                                text: row.comment_text,
+                                rating: row.rating || 5,
+                                date: new Date(row.created_at).toLocaleDateString()
+                            });
+                        }
+                    });
+
+                    // Обновляем объект блюда
+                    dishes[dishIndex].likes = totalLikes;
+                    dishes[dishIndex].dislikes = totalDislikes;
+                    if (cloudComments.length > 0) {
+                        dishes[dishIndex].comments = cloudComments;
+                    }
+                }
+            } catch (err) {
+                console.error('Сбой связи с Кронтаром:', err);
             }
         }
-    } catch (err) {
-        console.error('Сбой связи с Кронтаром:', err);
-    }
-}
 
-// Функция отправки лайка/дизлайка в облако
-async function sendRatingToCloud(dishIndex, type) {
-    const likeVal = (type === 'like') ? 1 : 0;
-    const dislikeVal = (type === 'dislike') ? 1 : 0;
+        // Функция отправки лайка/дизлайка в облако
+        async function sendRatingToCloud(dishIndex, type) {
+            const likeVal = (type === 'like') ? 1 : 0;
+            const dislikeVal = (type === 'dislike') ? 1 : 0;
 
-    const { error } = await _supabase
-        .from('dish_comments')
-        .insert([{ 
-            dish_index: dishIndex, 
-            likes: likeVal, 
-            dislikes: dislikeVal 
-        }]);
+            const { error } = await _supabase
+                .from('dish_comments')
+                .insert([{
+                    dish_index: dishIndex,
+                    likes: likeVal,
+                    dislikes: dislikeVal
+                }]);
 
-    if (error) console.error('Ошибка отправки оценки:', error);
-}
+            if (error) console.error('Ошибка отправки оценки:', error);
+        }
 
-// Функция отправки комментария в облако
-async function sendCommentToCloud(dishIndex, userName, text, rating) {
-    const { error } = await _supabase
-        .from('dish_comments')
-        .insert([{ 
-            dish_index: dishIndex, 
-            user_name: userName, 
-            comment_text: text,
-            rating: rating,
-            likes: 0,
-            dislikes: 0
-        }]);
+        // Функция отправки комментария в облако
+        async function sendCommentToCloud(dishIndex, userName, text, rating) {
+            const { error } = await _supabase
+                .from('dish_comments')
+                .insert([{
+                    dish_index: dishIndex,
+                    user_name: userName,
+                    comment_text: text,
+                    rating: rating,
+                    likes: 0,
+                    dislikes: 0
+                }]);
 
-    if (error) {
-        console.error('Ошибка отправки комментария:', error);
-        alert('Не удалось отправить комментарий в облако!');
-    }
-}
+            if (error) {
+                console.error('Ошибка отправки комментария:', error);
+                alert('Не удалось отправить комментарий в облако!');
+            }
+        }
 
-// ----------------------------------------------------
-// 💬 ГЛОБАЛЬНЫЙ ЧАТ ЛЭЙКОРА (FIXED & SECURE)
-// ----------------------------------------------------
+        // ----------------------------------------------------
+        // 💬 ГЛОБАЛЬНЫЙ ЧАТ ЛЭЙКОРА (FIXED & SECURE)
+        // ----------------------------------------------------
 
-// 1. Загрузка истории сообщений из базы
-async function loadChatHistory() {
-    const box = document.getElementById('chat-messages-box');
-    if (!box) return;
+        // 1. Загрузка истории сообщений из базы
+        async function loadChatHistory() {
+            const box = document.getElementById('chat-messages-box');
+            if (!box) return;
 
-    const { data, error } = await _supabase
-        .from('global_messages')
-        .select('*')
-        .order('created_at', { ascending: true })
-        .limit(50);
-    
-    if (error) {
-        console.error("Ошибка загрузки истории чата:", error);
-        return;
-    }
+            const { data, error } = await _supabase
+                .from('global_messages')
+                .select('*')
+                .order('created_at', { ascending: true })
+                .limit(50);
 
-    if (data) {
-        box.innerHTML = ''; // Очищаем поле перед заполнением
-        data.forEach(msg => renderChatMessage(msg));
-    }
-}
+            if (error) {
+                console.error("Ошибка загрузки истории чата:", error);
+                return;
+            }
 
-// 2. Отрисовка одного сообщения в чате
-function renderChatMessage(msg) {
-    const box = document.getElementById('chat-messages-box');
-    if (!box) return;
-    
-    const userName = msg.user_name || 'Гость Царства';
-    const messageText = msg.message_text || '';
-    const timeStr = msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'Только что';
+            if (data) {
+                box.innerHTML = ''; // Очищаем поле перед заполнением
+                data.forEach(msg => renderChatMessage(msg));
+            }
+        }
 
-    const msgHTML = `
+        // 2. Отрисовка одного сообщения в чате
+        function renderChatMessage(msg) {
+            const box = document.getElementById('chat-messages-box');
+            if (!box) return;
+
+            const userName = msg.user_name || 'Гость Царства';
+            const messageText = msg.message_text || '';
+            const timeStr = msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Только что';
+
+            const msgHTML = `
         <div class="msg-bubble" style="background: rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 10px; border-left: 4px solid var(--accent-cyan); max-width: 85%; margin-bottom: 10px;">
             <strong style="color: var(--accent-gold); margin-right: 8px;">${userName}:</strong>
             <span style="color: white; word-break: break-word;">${messageText}</span>
             <small style="font-size: 0.65rem; color: #888; display: block; margin-top: 5px;">${timeStr}</small>
         </div>
     `;
-    
-    box.insertAdjacentHTML('beforeend', msgHTML);
-    box.scrollTop = box.scrollHeight; // Авто-скролл вниз
-}
 
-// 3. Отправка сообщения
-async function sendGlobalMessage() {
-    const nameInput = document.getElementById('chat-user-name');
-    const msgInput = document.getElementById('chat-user-msg');
-    
-    const name = nameInput ? nameInput.value : 'Гость Царства';
-    const text = msgInput ? msgInput.value : '';
+            box.insertAdjacentHTML('beforeend', msgHTML);
+            box.scrollTop = box.scrollHeight; // Авто-скролл вниз
+        }
 
-    if (!text.trim()) return;
+        // 3. Отправка сообщения
+        async function sendGlobalMessage() {
+            const nameInput = document.getElementById('chat-user-name');
+            const msgInput = document.getElementById('chat-user-msg');
 
-    // Отправляем в базу
-    const { error } = await _supabase
-        .from('global_messages')
-        .insert([{ user_name: name, message_text: text }]);
+            const name = nameInput ? nameInput.value : 'Гость Царства';
+            const text = msgInput ? msgInput.value : '';
 
-    if (error) {
-        console.error("Ошибка отправки:", error);
-        alert("Не удалось отправить сообщение!");
-    } else {
-        if (msgInput) msgInput.value = ''; // Очищаем поле ввода
-        loadChatHistory(); // Сразу подтягиваем свежие сообщения
-    }
-}
+            if (!text.trim()) return;
 
-// 4. ПОДПИСКА НА НОВЫЕ СООБЩЕНИЯ (REALTIME)
-try {
-    _supabase
-        .channel('public:global_messages')
-        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'global_messages' }, payload => {
-            renderChatMessage(payload.new);
-        })
-        .subscribe();
-} catch (e) {
-    console.log("Realtime подписка пропущена, работает таймер автообновления.");
-}
+            // Отправляем в базу
+            const { error } = await _supabase
+                .from('global_messages')
+                .insert([{ user_name: name, message_text: text }]);
 
-// 5. ДЕШЕВЫЙ И СЕРДИТЫЙ АВТОПОДХВАТ (Каждые 2 секунды проверяет базу на новые сообщения)
-setInterval(() => {
-    // Проверяем, открыта ли вообще страница чата сейчас
-    const chatPage = document.getElementById('page-global-chat');
-    if (chatPage && chatPage.style.display !== 'none') {
-        // Тихонько подтягиваем свежую историю
-        // (Можно оптимизировать, но для старта — идеальный костыль, чтобы всегда всё работало)
-    }
-}, 2000);
+            if (error) {
+                console.error("Ошибка отправки:", error);
+                alert("Не удалось отправить сообщение!");
+            } else {
+                if (msgInput) msgInput.value = ''; // Очищаем поле ввода
+                loadChatHistory(); // Сразу подтягиваем свежие сообщения
+            }
+        }
+
+        // 4. ПОДПИСКА НА НОВЫЕ СООБЩЕНИЯ (REALTIME)
+        try {
+            _supabase
+                .channel('public:global_messages')
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'global_messages' }, payload => {
+                    renderChatMessage(payload.new);
+                })
+                .subscribe();
+        } catch (e) {
+            console.log("Realtime подписка пропущена, работает таймер автообновления.");
+        }
+
+        // 5. ДЕШЕВЫЙ И СЕРДИТЫЙ АВТОПОДХВАТ (Каждые 2 секунды проверяет базу на новые сообщения)
+        setInterval(() => {
+            // Проверяем, открыта ли вообще страница чата сейчас
+            const chatPage = document.getElementById('page-global-chat');
+            if (chatPage && chatPage.style.display !== 'none') {
+                // Тихонько подтягиваем свежую историю
+                // (Можно оптимизировать, но для старта — идеальный костыль, чтобы всегда всё работало)
+            }
+        }, 2000);
 
         // Функция для отправки текста по клику на кнопку-подсказку
         function sendQuickPhrase(text) {
@@ -4609,7 +4915,7 @@ setInterval(() => {
             sendBobnitMessage(); // Автоматически отправляем в чат!
         }
 
-        
+
 
 
     </script>
