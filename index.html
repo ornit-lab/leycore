@@ -2069,9 +2069,6 @@
         🏆 ВЫ ПОЛНОСТЬЮ ПОЗНАЛИ ЛЭЙКОР!
     </div>
 
-    </select>
-    </div>
-    </div>
 
     <!-- SIDEBAR NAVIGATION -->
     <nav class="sidebar-nav">
@@ -2632,29 +2629,7 @@
     }
 }
 
-
-
-            document.querySelectorAll('.page-view').forEach(p => {
-                p.classList.remove('active-page');
-                p.style.display = 'none';
-                p.style.opacity = '0';
-            });
-
-            const target = document.getElementById('page-' + id);
-            if (target) {
-                target.style.display = 'block';
-                setTimeout(() => {
-                    target.classList.add('active-page');
-                    target.style.opacity = '1';
-                }, 30);
-            }
-
-            document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
-            const navItem = document.getElementById('nav-' + id);
-            if (navItem) navItem.classList.add('active');
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+    
 
         // ПРОВЕРКА ПАРОЛЯ ДЛЯ СКАЗОК
         function checkTalesPassword() {
@@ -3477,13 +3452,7 @@
             }
         }
 
-        window.onload = () => {
-            renderDishes('all');
-            renderTalesList();
-            renderDictionary();
-            updateLeycoreProgress();
-            switchPage('leycore');
-        };
+    
 
         // ----------------------------------------------------
         // ДИНАМИЧЕСКИЕ ЦИТАТЫ ДЛЯ БАННЕРА ХРАНИЛИЩА
@@ -4276,7 +4245,7 @@ async function sendGlobalMessage() {
         alert("Не удалось отправить сообщение!");
     } else {
         if (msgInput) msgInput.value = ''; // Очищаем поле ввода
-        loadChatHistory5(); // Сразу подтягиваем свежие сообщения
+        loadChatHistory(); // Сразу подтягиваем свежие сообщения
     }
 }
 
@@ -4319,7 +4288,7 @@ setInterval(() => {
 
             <div class="lock-riddle-box"
                 style="font-family: var(--font-code); color: var(--accent-gold); font-size: 1.4rem; padding: 20px;">
-                🍩 × 10 − 🍩 ÷ 10 + 10 = 🍩?
+                10 × 10 − 10 ÷ 10 + 10 = 🍩?
             </div>
 
             <div class="lock-input-group">
