@@ -3700,17 +3700,46 @@
             document.getElementById('bobnit-chat-view').style.display = show ? 'none' : 'flex';
         }
 
-                // Вспомогательная функция для проигрывания SFX (Её вставляем сюда)
+                
+                // Вспомогательная функция для проигрывания SFX (Генерируем мягкий звук кодом!)
         function playBobnitSound() {
-            const sfx = document.getElementById('bobnit-sfx');
-            if (sfx) {
-                sfx.currentTime = 0; // Сбрасываем на начало
-                sfx.play().catch(e => {
-                    // Игнорируем блокировку браузера
-                    console.log("SFX ожидает клика пользователя.");
-                });
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const audioCtx = new AudioContext();
+                
+                // Функция для создания мягкого тона (sine-wave)
+                function playTone(freq, start, duration, volume) {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    
+                    osc.type = 'sine'; // Мягкая синусоидальная волна (без хрипов)
+                    osc.frequency.setValueAtTime(freq, start);
+                    
+                    gain.gain.setValueAtTime(volume, start);
+                    // Плавное затухание звука без щелчков в конце
+                    gain.gain.exponentialRampToValueAtTime(0.00001, start + duration);
+                    
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    
+                    osc.start(start);
+                    osc.stop(start + duration);
+                }
+                
+                const now = audioCtx.currentTime;
+                
+                // Идеальный двойной «плик» Telegram:
+                // 1. Первый короткий и мягкий импульс
+                playTone(600, now, 0.08, 0.08); 
+                // 2. Второй более высокий и чистый тон чуть позже
+                playTone(900, now + 0.06, 0.22, 0.12); 
+                
+            } catch (e) {
+                console.warn("Аудио-ограничение браузера: звук ожидает клика пользователя.", e);
             }
         }
+
 
         // Обновленная функция чата (Заменяет старую)
         function sendBobnitMessage() {
@@ -4365,17 +4394,7 @@ setInterval(() => {
             sendBobnitMessage(); // Автоматически отправляем в чат!
         }
 
-        // Вспомогательная функция для проигрывания SFX
-        function playBobnitSound() {
-            const sfx = document.getElementById('bobnit-sfx');
-            if (sfx) {
-                sfx.currentTime = 0; // Сбрасываем на начало, чтобы звук играл быстро
-                sfx.play().catch(e => {
-                    // Браузеры иногда блокируют звук до первого клика пользователя — это норма
-                    console.log("Аудио-ограничение браузера:", e);
-                });
-            }
-        }
+        
 
 
     </script>
@@ -4404,8 +4423,8 @@ setInterval(() => {
         </div>
     </div>
 
-   <!-- Оригинальный мягкий звук Telegram (сверхстабильный CDN) -->
-<audio id="bobnit-sfx" src="https://cdn.jsdelivr.net/gh/mitchghent/telegram-clone@master/public/sounds/notification.mp3" preload="auto"></audio>
+
+
 
 
 
