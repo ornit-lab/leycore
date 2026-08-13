@@ -2248,6 +2248,38 @@
                 /* На всю ширину */
             }
         }
+
+        /* АДАПТАЦИЯ ИГР И КЛИКЕРА ДЛЯ СМАРТФОНОВ */
+@media (max-width: 600px) {
+    /* Фиксим контейнер игры */
+    .flappy-arcade-container {
+        width: 95% !important; /* На весь экран */
+        padding: 10px !important;
+    }
+
+    #flappyCanvas {
+        height: 300px !important; /* Уменьшаем высоту канваса */
+    }
+
+    /* Фиксим картинку кликера */
+    #bobnit-clicker-img {
+        width: 100% !important;
+        height: auto !important; /* Авто-высота, чтобы не было сплющивания */
+        max-height: 250px !important;
+    }
+
+    /* Делаем все элементы кликера по вертикали */
+    .bobnit-clicker-wrapper {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    /* Сжимаем текст внутри кликера */
+    .leycore-hero h3 { font-size: 1.2rem !important; }
+    #clicker-counter { font-size: 1.5rem !important; }
+    #bobnit-stage-side { min-width: 100% !important; }
+}
+
     </style>
 </head>
 
@@ -2641,8 +2673,17 @@
         <h2 class="section-title title-gold">АРКАДНЫЙ ЗАЛ</h2>
 
         <!-- Флэппи Царевна -->
-        <div class="flappy-arcade-container">
-            <h3>💨 ПОЛЕТ ЦАРЕВНЫ</h3>
+       <!-- Флэппи Царевна -->
+<div class="flappy-arcade-container" style="max-width: 100%;">
+    <h3>💨 ПОЛЕТ ЦАРЕВНЫ</h3>
+    <div class="arcade-screen-box" style="position: relative;">
+        <canvas id="flappyCanvas" width="400" height="500" style="width: 100%; height: auto; max-height: 400px;"></canvas>
+        <div id="arcade-overlay" class="arcade-overlay">
+            <!-- ... -->
+        </div>
+    </div>
+</div>
+
             <p>Жми ПРОБЕЛ или КЛИКАЙ мышкой, чтобы Царевна пукала и набирала высоту! Облетай стены овсянки и долети до
                 десерта!</p>
             <div class="arcade-screen-box">
@@ -2689,8 +2730,10 @@
                 <!-- Картинка кликера -->
                 <div id="bobnit-clicker-area" onclick="clickBobnit(event)"
                     style="cursor: pointer; position: relative; overflow: hidden; display: inline-block;">
-                    <img id="bobnit-clicker-img" src="bobnit_stage0_skeleton.jpg"
-                        style="width: 800px; height: 450px; object-fit: cover; border-radius: 12px; border: 2px solid var(--accent-gold); box-shadow: 0 0 45px rgba(255, 215, 0, 0.4); transition: transform 0.1s;">
+                      <img id="bobnit-clicker-img" src="bobnit_stage0_skeleton.jpg" 
+        style="width: 100%; max-width: 800px; height: auto; border-radius: 12px; border: 2px solid var(--accent-gold); box-shadow: 0 0 45px rgba(255, 215, 0, 0.4);">
+   
+
                 </div>
             </div>
             
