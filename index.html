@@ -2963,32 +2963,33 @@ function addAchievement(name) {
             updateLeycoreProgress();
         }
 
-        function updateLeycoreProgress() {
-            const allCards = document.querySelectorAll('.leycore-def-card');
-            const openedCards = document.querySelectorAll('.leycore-def-card.opened');
+       function updateLeycoreProgress() {
+    const allCards = document.querySelectorAll('.leycore-def-card');
+    const openedCards = document.querySelectorAll('.leycore-def-card.opened');
 
-            if (allCards.length === 0) return;
+    if (allCards.length === 0) return;
 
-            const percent = Math.round((openedCards.length / allCards.length) * 100);
+    const percent = Math.round((openedCards.length / allCards.length) * 100);
 
-            const fill = document.getElementById('leycore-bar-fill');
-            const text = document.getElementById('leycore-percent-text');
-            const badge = document.getElementById('leycore-achievement');
+    const fill = document.getElementById('leycore-bar-fill');
+    const text = document.getElementById('leycore-percent-text');
+    const badge = document.getElementById('leycore-achievement');
 
-            if (fill) fill.style.setProperty('--progress', percent + '%');
-            if (text) text.innerText = percent + '%';
+    if (fill) fill.style.setProperty('--progress', percent + '%');
+    if (text) text.innerText = percent + '%';
 
-            if (badge) {
-                if (percent === 100) {
-                    badge.style.display = 'block';
-                    // Прячем через 5 секунд
-                    setTimeout(() => {
-                        badge.style.display = 'none';
-                    }, 5000);
-                } else {
-                    badge.style.display = 'none';
-                }
-            }
+    if (badge) {
+        if (percent === 100) {
+            badge.style.display = 'block';
+
+            setTimeout(() => {
+                badge.style.display = 'none';
+            }, 5000);
+        } else {
+            badge.style.display = 'none';
+        }
+    }
+} // обязательно
 
 
         function toggleComp(id) {
@@ -3037,14 +3038,15 @@ function addAchievement(name) {
             }
 
             // 6. СВЯЗЬ С ЧАТОМ
-            if (id === 'global-chat') {
+                        if (id === 'global-chat') {
                 loadChatHistory();
             }
-        }
-              if (id === 'achievements') {
+
+            if (id === 'achievements') {
                 renderAchievements();
-             }
-        }
+            }
+        } // <-- конец switchPage
+
 
 
 
