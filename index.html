@@ -3657,11 +3657,15 @@
         // ----------------------------------------------------
         let isChatOpen = false;
 
-        // Показываем уведомление через 3 секунды после входа на сайт
+                // Показываем уведомление через 3 секунды после входа на сайт
         setTimeout(() => {
             const notif = document.getElementById('bobnit-notification');
-            if (notif) notif.style.display = 'flex';
+            if (notif) {
+                notif.style.display = 'flex';
+                playBobnitSound(); // 🔊 ВОТ ЭТУ СТРОЧКУ ДОБАВЛЯЕМ СЮДА!
+            }
         }, 3000);
+
 
         function openBobnitChatFromNotif() {
             // Скрываем уведомление
@@ -3696,22 +3700,46 @@
             document.getElementById('bobnit-chat-view').style.display = show ? 'none' : 'flex';
         }
 
+                // Вспомогательная функция для проигрывания SFX (Её вставляем сюда)
+        function playBobnitSound() {
+            const sfx = document.getElementById('bobnit-sfx');
+            if (sfx) {
+                sfx.currentTime = 0; // Сбрасываем на начало
+                sfx.play().catch(e => {
+                    // Игнорируем блокировку браузера
+                    console.log("SFX ожидает клика пользователя.");
+                });
+            }
+        }
+
+        // Обновленная функция чата (Заменяет старую)
         function sendBobnitMessage() {
             const input = document.getElementById('bobnit-input');
             const msgBox = document.getElementById('bobnit-messages');
-            if (!input.value.trim()) return;
+            if (!input || !input.value.trim()) return;
 
+            // 1. Выводим сообщение пользователя
             msgBox.innerHTML += `<div class="msg user">${input.value}</div>`;
             const userQuery = input.value;
             input.value = '';
             msgBox.scrollTop = msgBox.scrollHeight;
 
+            // 🔊 Звук отправленного сообщения
+            playBobnitSound();
+
+            // 2. Имитируем ответ Бобнита с задержкой
             setTimeout(() => {
                 const response = getBobnitResponse(userQuery);
                 msgBox.innerHTML += `<div class="msg bot">${response}</div>`;
                 msgBox.scrollTop = msgBox.scrollHeight;
+                
+                // 🔊 Звук входящего сообщения от Бобнита
+                playBobnitSound();
             }, 800);
         }
+
+
+
 
         function getBobnitResponse(userText) {
     const input = userText.toLowerCase().trim();
@@ -4337,6 +4365,17 @@ setInterval(() => {
             sendBobnitMessage(); // Автоматически отправляем в чат!
         }
 
+        // Вспомогательная функция для проигрывания SFX
+        function playBobnitSound() {
+            const sfx = document.getElementById('bobnit-sfx');
+            if (sfx) {
+                sfx.currentTime = 0; // Сбрасываем на начало, чтобы звук играл быстро
+                sfx.play().catch(e => {
+                    // Браузеры иногда блокируют звук до первого клика пользователя — это норма
+                    console.log("Аудио-ограничение браузера:", e);
+                });
+            }
+        }
 
 
     </script>
@@ -4364,6 +4403,10 @@ setInterval(() => {
             <button onclick="closeTalesLock()" class="lock-close-btn">← ВЕРНУТЬСЯ К ОВОЩАМ</button>
         </div>
     </div>
+
+   <!-- Мягкий SFX уведомления (как в Telegram) -->
+<audio id="bobnit-sfx" src="https://cdn.freesound.org/previews/536/536108_11861866-lq.mp3" preload="auto"></audio>
+
 
 
 
