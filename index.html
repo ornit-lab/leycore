@@ -2554,6 +2554,50 @@
             100% { background-position: 200% center; }
         }
 
+                /* ====================================================
+           🎮 КАТЕГОРИИ И ФИЛЬТРЫ В ИГРАХ
+           ==================================================== */
+        .games-category-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px auto 30px auto;
+            max-width: 800px;
+        }
+
+        .game-cat-btn {
+            background: rgba(17, 14, 23, 0.8);
+            border: 1px solid var(--accent-purple);
+            color: var(--text-muted);
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .game-cat-btn:hover {
+            color: #fff;
+            border-color: var(--accent-gold);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .game-cat-btn.active {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-gold));
+            color: #000;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+        }
+
+        .game-section-block {
+            transition: all 0.3s ease;
+        }
+
 
     </style>
 </head>
@@ -2986,141 +3030,124 @@
 
 
 
-    <!-- PAGE: GAMES -->
+        <!-- PAGE: GAMES -->
     <div id="page-games" class="page-view">
+        <!-- КНОПКИ ФИЛЬТРАЦИИ ИГР -->
+        <div class="games-category-nav">
+            <button class="game-cat-btn active" onclick="filterGames('all', this)">🌐 ВСЕ ИГРЫ</button>
+            <button class="game-cat-btn" onclick="filterGames('casino', this)">🎰 КАЗИНО ВАСИЛИЧА</button>
+            <button class="game-cat-btn" onclick="filterGames('flappy', this)">👑 ПОЛЁТ ЦАРЕВНЫ</button>
+            <button class="game-cat-btn" onclick="filterGames('clicker', this)">🍔 КЛИКЕР БОБНИТА</button>
+        </div>
+
         <h2 class="section-title title-gold">АРКАДНЫЙ ЗАЛ</h2>
 
-               <!-- Флэппи Царевна -->
-        <div class="flappy-arcade-container">
-            <h3>💨 ПОЛЕТ ЦАРЕВНЫ</h3>
-            <p style="font-size: 0.85rem; margin-bottom: 5px;">Жми ПРОБЕЛ или КЛИКАЙ, чтобы Царевна пукала и набирала высоту!</p>
-            
-            <div class="arcade-screen-box">
-                <canvas id="flappyCanvas" width="400" height="500"></canvas>
+        <!-- 1. ПОЛЁТ ЦАРЕВНЫ -->
+        <div id="game-block-flappy" class="game-section-block">
+            <div class="flappy-arcade-container">
+                <h3>💨 ПОЛЕТ ЦАРЕВНЫ</h3>
+                <p style="font-size: 0.85rem; margin-bottom: 5px;">Жми ПРОБЕЛ или КЛИКАЙ, чтобы Царевна пукала и набирала высоту!</p>
                 
-                <div id="arcade-overlay" class="arcade-overlay">
-                    <h2 id="arcade-title" style="font-size: 1.4rem; color: #fff;">ИГРА ГОТОВА!</h2>
-                    <p id="arcade-sub" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Нажми СТАРТ, чтобы запустить реактивный пердеж</p>
-                    <button onclick="startFlappyGame()" class="arcade-start-btn">▶️ СТАРТ</button>
-                </div>
-            </div>
-
-            <div id="arcade-achievement" class="arcade-achievement" style="display: none; font-size: 0.8rem; margin-top: 10px;">
-                🏆 АЧИВКА: <span style="color: var(--accent-green);">«Попукивания освоены!»</span> ✨
-            </div>
-            <!-- ТАБЛИЦА ЛИДЕРОВ ПЕРДЕЖА ЦАРЕВНЫ -->
-<div class="leaderboard-widget" style="margin: 25px auto 0; max-width: 420px;">
-    <h4>👑 ЗАЛ СЛАВЫ ЦАРЕВНЫ</h4>
-
-    <p style="text-align: center; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 12px;">
-        ЛИДЕРЫ ПО ПРОЛЕТЁННЫМ КОЛОННАМ
-    </p>
-
-    <ul id="flappy-leaderboard-list" class="leaderboard-list">
-        <li>
-            <span>ЗАГРУЗКА...</span>
-            <span></span>
-        </li>
-    </ul>
-</div>
-
-        </div>
-
-                <!-- 🎰 СЛОТ-МАШИНА ВАСИЛИЧА -->
-        <div class="casino-wrapper">
-            <h3 class="casino-title">🎰 КАЗИНО ДЕМИУРГА ВАСИЛИЧА</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">
-                Крути барабан, выбивай рецепты, величественные титулы для чата и темы сайта!
-            </p>
-
-            <div class="slot-display">
-                <div class="slot-reel" id="reel-1">🎰</div>
-                <div class="slot-reel" id="reel-2">🎰</div>
-                <div class="slot-reel" id="reel-3">🎰</div>
-            </div>
-
-            <button id="spin-btn" class="casino-btn" onclick="spinCasino()">🎰 ВРАЩАТЬ (1 🪙)</button>
-            <br>
-            <button class="casino-secondary-btn" onclick="claimFreeChips()" style="margin-top: 15px;">
-                🎁 ЗАБРАТЬ 10 ФИШЕК (КАЖДЫЕ 3 ЧАСА)
-            </button>
-            <div id="casino-timer-text" style="font-family: var(--font-code); font-size: 0.8rem; color: var(--accent-cyan); margin-top: 8px;"></div>
-
-            <!-- Карточка унижения от Бобнита при проигрыше -->
-            <div id="bobnit-humiliation-card" class="bobnit-humiliation-card">
-                <img src="bobnit_thanos.jpg" alt="Бобнит">
-                <div>
-                    <div style="font-family: var(--font-code); font-size: 0.7rem; color: var(--accent-crimson); font-weight: 900;">Б ОБНИТ ГОВОРИТ:</div>
-                    <div id="bobnit-humiliation-text" class="bobnit-humiliation-text"></div>
-                </div>
-            </div>
-
-            <!-- Таблица шансов и редкостей -->
-            <div class="rarity-info-box">
-                <b style="color: var(--accent-gold); display: block; margin-bottom: 6px;">🔮 ВЕРОЯТНОСТИ ВЫПАДЕНИЯ:</b>
-                <span class="rarity-tag rarity-artefact">Артефакт (5%)</span> — 5 Рецептов силы<br>
-                <span class="rarity-tag rarity-relic">Реликт (15%)</span> — 5 Титулов для чата<br>
-                <span class="rarity-tag rarity-theme">Радуга (25%)</span> — 3 Темы оформления<br>
-                <span class="rarity-tag rarity-emenit">Именит (10%)</span> — +5 Бонусных фишек<br>
-                <span class="rarity-tag rarity-junk">Мусор (45%)</span> — Хлам для переработки
-            </div>
-        </div>
-
-
-                <!-- КЛИКЕР БОБНИТА -->
-        <div class="leycore-hero" style="text-align: center;">
-            <h3>🍔 НАКАЧАЙ БОБНИТА БУРГЕРАМИ</h3>
-            <p>Цель: 5,000 бургеров = Секретный рецепт "Сопли динозавра"</p>
-            
-            <!-- Основная обертка для виджетов кликера: стадия, лидерборд, картинка -->
-            <div class="bobnit-clicker-wrapper"
-                style="display: flex; align-items: center; justify-content: center; gap: 25px; flex-wrap: wrap; margin: 30px auto; max-width: 1100px;">
-
-                <!-- Виджет стадии -->
-                <div id="bobnit-stage-side"
-                    style="background: rgba(17, 14, 23, 0.95); border: 2px solid var(--accent-gold); padding: 20px; border-radius: 12px; box-shadow: 0 0 25px rgba(255, 215, 0, 0.35); font-family: 'Unbounded', sans-serif; min-width: 220px; text-align: center;">
-                    <span
-                        style="font-size: 0.75rem; letter-spacing: 2px; color: var(--text-muted); display: block; margin-bottom: 8px;">ТЕКУЩИЙ
-                        СТАТУС:</span>
-                    <span id="bobnit-stage-title"
-                        style="color: var(--accent-gold); font-weight: 900; font-size: 1.15rem; text-shadow: 0 0 10px var(--accent-gold);">💀
-                        СКЕЛЕТ</span>
+                <div class="arcade-screen-box">
+                    <canvas id="flappyCanvas" width="400" height="500"></canvas>
+                    
+                    <div id="arcade-overlay" class="arcade-overlay">
+                        <h2 id="arcade-title" style="font-size: 1.4rem; color: #fff;">ИГРА ГОТОВА!</h2>
+                        <p id="arcade-sub" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Нажми СТАРТ, чтобы запустить реактивный пердеж</p>
+                        <button onclick="startFlappyGame()" class="arcade-start-btn">▶️ СТАРТ</button>
+                    </div>
                 </div>
 
-                <!-- СПИСОК ЛИДЕРОВ -->
-                <div class="leaderboard-widget">
-                    <h4>👑 ЗАЛ СЛАВЫ </h4>
-                    <ul id="leaderboard-list" class="leaderboard-list">
+                <div id="arcade-achievement" class="arcade-achievement" style="display: none; font-size: 0.8rem; margin-top: 10px;">
+                    🏆 АЧИВКА: <span style="color: var(--accent-green);">«Попукивания освоены!»</span> ✨
+                </div>
+
+                <!-- ТАБЛИЦА ЛИДЕРОВ ПЕРДЕЖА ЦАРЕВНЫ -->
+                <div class="leaderboard-widget" style="margin: 25px auto 0; max-width: 420px;">
+                    <h4>👑 ЗАЛ СЛАВЫ ЦАРЕВНЫ</h4>
+                    <p style="text-align: center; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 12px;">
+                        ЛИДЕРЫ ПО ПРОЛЕТЁННЫМ КОЛОННАМ
+                    </p>
+                    <ul id="flappy-leaderboard-list" class="leaderboard-list">
                         <li><span>ЗАГРУЗКА...</span><span></span></li>
                     </ul>
                 </div>
-
-                <!-- Картинка кликера -->
-                <div id="bobnit-clicker-area" onclick="clickBobnit(event)"
-                    style="cursor: pointer; position: relative; overflow: hidden; display: inline-block;">
-                      <img id="bobnit-clicker-img" src="bobnit_stage0_skeleton.jpg" 
-        style="width: 100%; max-width: 800px; height: auto; border-radius: 12px; border: 2px solid var(--accent-gold); box-shadow: 0 0 45px rgba(255, 215, 0, 0.4);">
-   
-
-                </div>
             </div>
-            
-            <h2 id="clicker-counter" style="margin-top: 15px;">Бургеров: 0</h2>
-            
-            <!-- ЗОЛОТАЯ МИНИ-ИСТОРИЯ -->
-            <p id="bobnit-stage-story"
-                style="color: var(--accent-gold); font-family: var(--font-code); font-size: 1.15rem; max-width: 800px; margin: 20px auto 0 auto; text-shadow: 0 0 8px rgba(255, 215, 0, 0.5); line-height: 1.6; font-weight: 700;">
-                Он не знает, что такое еда... Помоги ему набрать вес.
-            </p>
         </div>
 
+        <!-- 2. 🎰 СЛОТ-МАШИНА ВАСИЛИЧА -->
+        <div id="game-block-casino" class="game-section-block">
+            <div class="casino-wrapper">
+                <h3 class="casino-title">🎰 КАЗИНО ДЕМИУРГА ВАСИЛИЧА</h3>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">
+                    Крути барабан, выбивай рецепты, величественные титулы для чата и темы сайта!
+                </p>
 
+                <div class="slot-display">
+                    <div class="slot-reel" id="reel-1">🎰</div>
+                    <div class="slot-reel" id="reel-2">🎰</div>
+                    <div class="slot-reel" id="reel-3">🎰</div>
+                </div>
 
+                <button id="spin-btn" class="casino-btn" onclick="spinCasino()">🎰 ВРАЩАТЬ (1 🪙)</button>
+                <br>
+                <button class="casino-secondary-btn" onclick="claimFreeChips()" style="margin-top: 15px;">
+                    🎁 ЗАБРАТЬ 10 ФИШЕК (КАЖДЫЕ 3 ЧАСА)
+                </button>
+                <div id="casino-timer-text" style="font-family: var(--font-code); font-size: 0.8rem; color: var(--accent-cyan); margin-top: 8px;"></div>
 
+                <!-- Карточка унижения от Бобнита при проигрыше -->
+                <div id="bobnit-humiliation-card" class="bobnit-humiliation-card">
+                    <img src="bobnit_thanos.jpg" alt="Бобнит">
+                    <div>
+                        <div style="font-family: var(--font-code); font-size: 0.7rem; color: var(--accent-crimson); font-weight: 900;">БОБНИТ ГОВОРИТ:</div>
+                        <div id="bobnit-humiliation-text" class="bobnit-humiliation-text"></div>
+                    </div>
+                </div>
 
+                <!-- Таблица шансов и редкостей -->
+                <div class="rarity-info-box">
+                    <b style="color: var(--accent-gold); display: block; margin-bottom: 6px;">🔮 ВЕРОЯТНОСТИ ВЫПАДЕНИЯ:</b>
+                    <span class="rarity-tag rarity-artefact">Артефакт (5%)</span> — 5 Рецептов для меню<br>
+                    <span class="rarity-tag rarity-relic">Реликт (15%)</span> — 5 Титулов (видны всем)<br>
+                    <span class="rarity-tag rarity-theme">Радуга (25%)</span> — 3 Темы оформления<br>
+                    <span class="rarity-tag rarity-emenit">Именит (10%)</span> — +5 Бонусных фишек<br>
+                    <span class="rarity-tag rarity-junk">Мусор (45%)</span> — Хлам для переработки
+                </div>
+            </div>
+        </div>
 
+        <!-- 3. КЛИКЕР БОБНИТА -->
+        <div id="game-block-clicker" class="game-section-block">
+            <div class="leycore-hero" style="text-align: center;">
+                <h3>🍔 НАКАЧАЙ БОБНИТА БУРГЕРАМИ</h3>
+                <p>Цель: 5,000 бургеров = Секретный рецепт "Сопли динозавра"</p>
+                
+                <div class="bobnit-clicker-wrapper" style="display: flex; align-items: center; justify-content: center; gap: 25px; flex-wrap: wrap; margin: 30px auto; max-width: 1100px;">
+                    <div id="bobnit-stage-side" style="background: rgba(17, 14, 23, 0.95); border: 2px solid var(--accent-gold); padding: 20px; border-radius: 12px; box-shadow: 0 0 25px rgba(255, 215, 0, 0.35); font-family: 'Unbounded', sans-serif; min-width: 220px; text-align: center;">
+                        <span style="font-size: 0.75rem; letter-spacing: 2px; color: var(--text-muted); display: block; margin-bottom: 8px;">ТЕКУЩИЙ СТАТУС:</span>
+                        <span id="bobnit-stage-title" style="color: var(--accent-gold); font-weight: 900; font-size: 1.15rem; text-shadow: 0 0 10px var(--accent-gold);">💀 СКЕЛЕТ</span>
+                    </div>
 
-    </div>
+                    <div class="leaderboard-widget">
+                        <h4>👑 ЗАЛ СЛАВЫ </h4>
+                        <ul id="leaderboard-list" class="leaderboard-list">
+                            <li><span>ЗАГРУЗКА...</span><span></span></li>
+                        </ul>
+                    </div>
+
+                    <div id="bobnit-clicker-area" onclick="clickBobnit(event)" style="cursor: pointer; position: relative; overflow: hidden; display: inline-block;">
+                        <img id="bobnit-clicker-img" src="bobnit_stage0_skeleton.jpg" style="width: 100%; max-width: 800px; height: auto; border-radius: 12px; border: 2px solid var(--accent-gold); box-shadow: 0 0 45px rgba(255, 215, 0, 0.4);">
+                    </div>
+                </div>
+                
+                <h2 id="clicker-counter" style="margin-top: 15px;">Бургеров: 0</h2>
+                
+                <p id="bobnit-stage-story" style="color: var(--accent-gold); font-family: var(--font-code); font-size: 1.15rem; max-width: 800px; margin: 20px auto 0 auto; text-shadow: 0 0 8px rgba(255, 215, 0, 0.5); line-height: 1.6; font-weight: 700;">
+                    Он не знает, что такое еда... Помоги ему набрать вес.
+                </p>
+            </div>
+        </div>
     </div>
 
 
@@ -5733,7 +5760,6 @@ function renderAchievements() {
             `Пока ты тут крутишь, мои пальцы ног маринуются в собственном соку, создавая более ценный продукт, чем твой выигрыш 🦶💦`,
             `Твой баланс худеет быстрее, чем я после того, как сел на кефирную диету (шучу, я всё ещё вешу тонну) 🤡`
         ];
-    
 
 
         // 5 СЕКРЕТНЫХ РЕЦЕПТОВ КАЗИНО
@@ -6180,6 +6206,74 @@ function renderAchievements() {
                 badge.style.display = (id === 'games') ? 'block' : 'none';
             }
         };
+
+                        // ====================================================
+        // 🎮 ФИЛЬТРАЦИЯ ИГР ПО КАТЕГОРИЯМ
+        // ====================================================
+        function filterGames(category, btnEl) {
+            const allBtns = document.querySelectorAll('.game-cat-btn');
+            allBtns.forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+
+            const casinoBlock = document.getElementById('game-block-casino');
+            const flappyBlock = document.getElementById('game-block-flappy');
+            const clickerBlock = document.getElementById('game-block-clicker');
+
+            if (category === 'all') {
+                if (casinoBlock) casinoBlock.style.display = 'block';
+                if (flappyBlock) flappyBlock.style.display = 'block';
+                if (clickerBlock) clickerBlock.style.display = 'block';
+            } else if (category === 'casino') {
+                if (casinoBlock) casinoBlock.style.display = 'block';
+                if (flappyBlock) flappyBlock.style.display = 'none';
+                if (clickerBlock) clickerBlock.style.display = 'none';
+            } else if (category === 'flappy') {
+                if (casinoBlock) casinoBlock.style.display = 'none';
+                if (flappyBlock) flappyBlock.style.display = 'block';
+                if (clickerBlock) clickerBlock.style.display = 'none';
+            } else if (category === 'clicker') {
+                if (casinoBlock) casinoBlock.style.display = 'none';
+                if (flappyBlock) flappyBlock.style.display = 'none';
+                if (clickerBlock) clickerBlock.style.display = 'block';
+            }
+        }
+
+
+                // ====================================================
+        // 🎮 УНИВЕРСАЛЬНЫЙ ПЕРЕКЛЮЧАТЕЛЬ КАТЕГОРИЙ ИГР
+        // ====================================================
+        function filterGames(category, btnEl) {
+            // 1. Меняем активную подсветку у кнопок
+            const allBtns = document.querySelectorAll('.game-cat-btn');
+            allBtns.forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+
+            // 2. Находим блоки игр
+            const casinoBlock = document.getElementById('game-block-casino');
+            const flappyBlock = document.getElementById('game-block-flappy');
+            const clickerBlock = document.getElementById('game-block-clicker');
+
+            // 3. Показываем/скрываем с гарантией
+            if (category === 'all') {
+                if (casinoBlock) casinoBlock.style.display = 'block';
+                if (flappyBlock) flappyBlock.style.display = 'block';
+                if (clickerBlock) clickerBlock.style.display = 'block';
+            } else if (category === 'casino') {
+                if (casinoBlock) casinoBlock.style.display = 'block';
+                if (flappyBlock) flappyBlock.style.display = 'none';
+                if (clickerBlock) clickerBlock.style.display = 'none';
+            } else if (category === 'flappy') {
+                if (casinoBlock) casinoBlock.style.display = 'none';
+                if (flappyBlock) flappyBlock.style.display = 'block';
+                if (clickerBlock) clickerBlock.style.display = 'none';
+            } else if (category === 'clicker') {
+                if (casinoBlock) casinoBlock.style.display = 'none';
+                if (flappyBlock) flappyBlock.style.display = 'none';
+                if (clickerBlock) clickerBlock.style.display = 'block';
+            }
+        }
+
+        
 
 
     </script>
