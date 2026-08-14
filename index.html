@@ -2370,10 +2370,202 @@
     }
 }
 
+        /* ====================================================
+           🎰 КАЗИНО ВАСИЛИЧА 2.0 — ПОЛНЫЙ СТИЛЕВОЙ ПАКЕТ
+           ==================================================== */
+
+        /* Фиксированный значок баланса фишек (виден только во вкладке Игры) */
+        .games-top-badge {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1005;
+            background: rgba(17, 14, 23, 0.95);
+            border: 2px solid var(--accent-gold);
+            padding: 10px 20px;
+            border-radius: 30px;
+            color: var(--accent-gold);
+            font-family: var(--font-code);
+            font-weight: 900;
+            font-size: 0.95rem;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+            backdrop-filter: blur(10px);
+            animation: pulseGlow 2s infinite alternate;
+        }
+
+        .casino-wrapper {
+            max-width: 720px;
+            margin: 30px auto;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(17, 14, 23, 0.98));
+            border: 2px solid var(--accent-gold);
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3), inset 0 0 20px rgba(255, 215, 0, 0.05);
+        }
+
+        .casino-title {
+            font-family: 'Unbounded', sans-serif;
+            color: var(--accent-gold);
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+        }
+
+        .slot-display {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+            padding: 20px;
+            background: #08070b;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 14px;
+        }
+
+        .slot-reel {
+            width: 90px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #110e17;
+            border: 2px solid var(--accent-purple);
+            border-radius: 12px;
+            font-size: 3rem;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.9), 0 0 15px rgba(176, 38, 255, 0.3);
+            transition: transform 0.1s ease;
+        }
+
+        .casino-btn {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent-gold), #ff8c00);
+            color: #000;
+            font-family: var(--font-code);
+            font-size: 1rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+            transition: all 0.2s ease;
+        }
+
+        .casino-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 35px rgba(255, 215, 0, 0.8);
+        }
+
+        /* Карточка унижения Бобнита (Прямоугольный поп-ап) */
+        .bobnit-humiliation-card {
+            display: none;
+            align-items: center;
+            gap: 18px;
+            background: rgba(17, 14, 23, 0.98);
+            border: 2px solid var(--accent-crimson);
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin-top: 25px;
+            text-align: left;
+            box-shadow: 0 0 30px rgba(255, 42, 95, 0.4);
+            animation: slideInNotif 0.4s ease-out;
+        }
+
+        .bobnit-humiliation-card img {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-crimson);
+            flex-shrink: 0;
+        }
+
+        .bobnit-humiliation-text {
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        /* Шкалы и плашки редких предметов */
+        .rarity-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            font-family: var(--font-code);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .rarity-artefact { background: rgba(255, 140, 0, 0.2); border: 1px solid #ff8c00; color: #ff8c00; box-shadow: 0 0 10px #ff8c00; }
+        .rarity-relic { background: rgba(255, 0, 127, 0.2); border: 1px solid #ff007f; color: #ff007f; box-shadow: 0 0 10px #ff007f; }
+        .rarity-theme { background: linear-gradient(90deg, #ff0000, #00ff00, #00f0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; border: 1px solid #00f0ff; padding: 4px 10px; }
+        .rarity-emenit { background: rgba(0, 255, 102, 0.2); border: 1px solid #00ff66; color: #00ff66; box-shadow: 0 0 10px #00ff66; }
+        .rarity-junk { background: rgba(120, 120, 120, 0.2); border: 1px solid #777; color: #aaa; }
+
+        /* Таблица подсказки шансов */
+        .rarity-info-box {
+            background: rgba(8, 7, 11, 0.85);
+            border: 1px dashed rgba(255, 215, 0, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 0.78rem;
+            text-align: left;
+        }
+
+        /* ТЕМЫ ОФОРМЛЕНИЯ САЙТА */
+        body.theme-orange {
+            --accent-purple: #ff8c00 !important;
+            --accent-cyan: #ffaa00 !important;
+            --bg-base: #120a02 !important;
+        }
+        body.theme-crimson {
+            --accent-purple: #ff2a5f !important;
+            --accent-cyan: #ff5500 !important;
+            --bg-base: #140307 !important;
+        }
+        body.theme-rainbow h1, body.theme-rainbow .section-title {
+            background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #8b00ff) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+        }
+
+        /* 👑 АНИМИРОВАННЫЕ ВЕЛИЧЕСТВЕННЫЕ ТИТУЛЫ */
+        .user-title-badge {
+            display: block;
+            font-family: var(--font-code);
+            font-size: 0.68rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #ff007f, #ffd700, #00f0ff, #ff007f);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleShimmer 3s linear infinite;
+            line-height: 1.2;
+            margin-bottom: 2px;
+        }
+
+        @keyframes titleShimmer {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+
     </style>
 </head>
 
 <body>
+
+
+        <!-- ВЕРХНИЙ ЗНАЧОК ФИШЕК (ВИДЕН ТОЛЬКО В ИГРАХ) -->
+    <div id="games-top-badge" class="games-top-badge">
+        🪙 ФИШКИ: <span id="top-chip-count">10</span>
+    </div>
+
 
     <!-- ВЕРТИКАЛЬНЫЙ ВИДДЖЕТ ШКАЛЫ ПРОГРЕССА (СПРАВА) -->
     <div class="leycore-progress-widget">
@@ -2761,6 +2953,35 @@
 <div id="page-achievements" class="page-view">
     <h2 class="section-title title-gold">ТВОИ ДОСТИЖЕНИЯ</h2>
     <div id="achievements-list" class="grid-3" style="text-align: center;"></div>
+        <!-- СЕКЦИЯ ТИТУЛОВ И ИНВЕНТАРЯ МУСОРА -->
+    <div style="margin-top: 40px; border-top: 1px dashed rgba(255,215,0,0.3); padding-top: 30px;">
+        <h3 style="color: var(--accent-gold); font-family: var(--font-header); text-align: center; margin-bottom: 20px;">
+            🧰 СКЛАД И ВЫБОР ТИТУЛА
+        </h3>
+                <!-- ТЕМЫ ДЛЯ САЙТА -->
+        <div style="background: rgba(17,14,23,0.9); border: 1px solid var(--accent-cyan); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+            <h4 style="color: var(--accent-cyan); margin-bottom: 10px;">🎨 ТВОИ ВЫБИТЫЕ ТЕМЫ САЙТА:</h4>
+            <div id="unlocked-themes-list" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;"></div>
+        </div>
+
+
+        <!-- ТИТУЛЫ ДЛЯ ЧАТА -->
+        <div style="background: rgba(17,14,23,0.9); border: 1px solid var(--accent-purple); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+            <h4 style="color: var(--accent-purple); margin-bottom: 10px;">👑 ТВОИ ВЫБИТЫЕ ТИТУЛЫ:</h4>
+            <div id="unlocked-titles-list" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;"></div>
+        </div>
+
+        <!-- ИНВЕНТАРЬ МУСОРА И ОБМЕННИК -->
+        <div style="background: rgba(17,14,23,0.9); border: 1px solid #555; padding: 20px; border-radius: 12px; text-align: center;">
+            <h4 style="color: #aaa; margin-bottom: 10px;">🗑️ СКЛАД МУСОРА КРОНТАРА</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">
+                Курс обмена: <b>10 шт. мусора = 5 🪙 фишек</b> (Курс 0.5)
+            </p>
+            <h2 id="junk-counter-display" style="color: var(--accent-gold); margin-bottom: 15px;">На складе: 0 шт.</h2>
+            <button class="casino-btn" onclick="exchangeJunkForChips()">♻️ ПЕРЕРАБОТАТЬ 10 МУСОРА В 5 ФИШЕК</button>
+        </div>
+    </div>
+
 </div>
 
 
@@ -2803,6 +3024,46 @@
     </ul>
 </div>
 
+        </div>
+
+                <!-- 🎰 СЛОТ-МАШИНА ВАСИЛИЧА -->
+        <div class="casino-wrapper">
+            <h3 class="casino-title">🎰 КАЗИНО ДЕМИУРГА ВАСИЛИЧА</h3>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">
+                Крути барабан, выбивай рецепты, величественные титулы для чата и темы сайта!
+            </p>
+
+            <div class="slot-display">
+                <div class="slot-reel" id="reel-1">🎰</div>
+                <div class="slot-reel" id="reel-2">🎰</div>
+                <div class="slot-reel" id="reel-3">🎰</div>
+            </div>
+
+            <button id="spin-btn" class="casino-btn" onclick="spinCasino()">🎰 ВРАЩАТЬ (1 🪙)</button>
+            <br>
+            <button class="casino-secondary-btn" onclick="claimFreeChips()" style="margin-top: 15px;">
+                🎁 ЗАБРАТЬ 10 ФИШЕК (КАЖДЫЕ 3 ЧАСА)
+            </button>
+            <div id="casino-timer-text" style="font-family: var(--font-code); font-size: 0.8rem; color: var(--accent-cyan); margin-top: 8px;"></div>
+
+            <!-- Карточка унижения от Бобнита при проигрыше -->
+            <div id="bobnit-humiliation-card" class="bobnit-humiliation-card">
+                <img src="bobnit_thanos.jpg" alt="Бобнит">
+                <div>
+                    <div style="font-family: var(--font-code); font-size: 0.7rem; color: var(--accent-crimson); font-weight: 900;">Б ОБНИТ ГОВОРИТ:</div>
+                    <div id="bobnit-humiliation-text" class="bobnit-humiliation-text"></div>
+                </div>
+            </div>
+
+            <!-- Таблица шансов и редкостей -->
+            <div class="rarity-info-box">
+                <b style="color: var(--accent-gold); display: block; margin-bottom: 6px;">🔮 ВЕРОЯТНОСТИ ВЫПАДЕНИЯ:</b>
+                <span class="rarity-tag rarity-artefact">Артефакт (5%)</span> — 5 Рецептов силы<br>
+                <span class="rarity-tag rarity-relic">Реликт (15%)</span> — 5 Титулов для чата<br>
+                <span class="rarity-tag rarity-theme">Радуга (25%)</span> — 3 Темы оформления<br>
+                <span class="rarity-tag rarity-emenit">Именит (10%)</span> — +5 Бонусных фишек<br>
+                <span class="rarity-tag rarity-junk">Мусор (45%)</span> — Хлам для переработки
+            </div>
         </div>
 
 
@@ -3064,6 +3325,13 @@ function addAchievement(name) {
             if (id === 'achievements') {
                 renderAchievements();
             }
+
+                        // Гарантированный показ плашки фишек только во вкладке "Игры"
+            const gamesBadge = document.getElementById('games-top-badge');
+            if (gamesBadge) {
+                gamesBadge.style.display = (id === 'games') ? 'flex' : 'none';
+            }
+
         } // <-- Эта скобка закрывает switchPage
 
 
@@ -4879,78 +5147,127 @@ localStorage.setItem(
 
 
 
-           async function sendScoreToLeaderboard(playerName, score) {
-        try {
-            const { data, error } = await _supabase
-                .from('leaderboard')
-                .upsert(
-                    [{
-                        player_id: leaderboardPlayerId, // Используем уникальный ID игрока
-                        player_name: playerName,
-                        score: score
-                    }],
-                    {
-                        onConflict: 'player_id' // Обновляем, если player_id уже существует
-                    }
-                )
-                .select(); // Добавляем .select() для получения данных обратно, если нужно
-
-            if (error) {
-                console.error('Ошибка отправки в лидерборд:', error);
-                alert('Лидерборд отклонил запись: ' + error.message);
-                return false;
-            }
-
-            console.log('Результат отправлен:', data); // Для отладки
-            await loadLeaderboard(); // Обновляем список лидеров
-            return true;
-
-        } catch (err) {
-            console.error('Сбой связи с лидербордом:', err);
-            alert('Ошибка связи с Supabase: ' + err.message);
-            return false;
-        }
-    }
-    
-
-
-
-        // Загрузка списка лидеров из Supabase
+                   // Загрузка топа Кликера с титулами
         async function loadLeaderboard() {
             const leaderboardList = document.getElementById('leaderboard-list');
             if (!leaderboardList) return;
-
-            leaderboardList.innerHTML = '<li><span>Загрузка лидеров...</span><span></span></li>';
 
             try {
                 const { data, error } = await _supabase
                     .from('leaderboard')
                     .select('player_name, score')
-                    .order('score', { ascending: false }) // Сначала по количеству кликов
-                    .limit(10); // Топ-10 игроков
+                    .order('score', { ascending: false })
+                    .limit(10);
 
-                if (error) {
-                    console.error('Ошибка загрузки лидерборда:', error);
-                    leaderboardList.innerHTML = '<li><span>Ошибка загрузки</span><span></span></li>';
-                    return;
+                if (error || !data) return;
+
+                leaderboardList.innerHTML = data.map((entry, index) => {
+                    let rawName = entry.player_name || 'Герой';
+                    let title = '';
+                    let name = rawName;
+
+                    if (rawName.includes('|')) {
+                        const parts = rawName.split('|');
+                        title = parts[0];
+                        name = parts[1];
+                    }
+
+                    return `
+                        <li style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px;">
+                            <div style="display: flex; flex-direction: column; text-align: left;">
+                                ${title ? `<span class="user-title-badge">${title}</span>` : ''}
+                                <span>${index + 1}. ${name}</span>
+                            </div>
+                            <span>${entry.score} 🍔</span>
+                        </li>
+                    `;
+                }).join('');
+            } catch (err) {}
+        }
+
+        // Отправка счета в лидерборд кликера с титулом
+        async function sendScoreToLeaderboard(playerName, score) {
+            try {
+                const cleanName = playerName.replace(/\|/g, '').trim();
+                const activeTitle = localStorage.getItem('leycore_active_title') || '';
+                const fullName = activeTitle ? `${activeTitle}|${cleanName}` : cleanName;
+
+                await _supabase
+                    .from('leaderboard')
+                    .upsert([{
+                        player_id: leaderboardPlayerId,
+                        player_name: fullName,
+                        score: score
+                    }], { onConflict: 'player_id' });
+
+                await loadLeaderboard();
+                return true;
+            } catch (err) { return false; }
+        }
+
+        // Загрузка топа Царевны с титулами
+        async function loadFlappyLeaderboard() {
+            const list = document.getElementById('flappy-leaderboard-list');
+            if (!list) return;
+
+            const { data, error } = await _supabase
+                .from('flappy_leaderboard')
+                .select('player_name, score')
+                .order('score', { ascending: false })
+                .limit(10);
+
+            if (error || !data) return;
+
+            list.innerHTML = data.map((player, index) => {
+                let rawName = player.player_name || 'Герой';
+                let title = '';
+                let name = rawName;
+
+                if (rawName.includes('|')) {
+                    const parts = rawName.split('|');
+                    title = parts[0];
+                    name = parts[1];
                 }
 
-                if (data.length === 0) {
-                    leaderboardList.innerHTML = '<li><span>Пока нет героев</span><span></span></li>';
-                    return;
-                }
-
-                leaderboardList.innerHTML = data.map(entry => `
-                    <li>
-                        <span>${entry.player_name}</span>
-                        <span>${entry.score} 🍔</span>
+                return `
+                    <li style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px;">
+                        <div style="display: flex; flex-direction: column; text-align: left;">
+                            ${title ? `<span class="user-title-badge">${title}</span>` : ''}
+                            <span>${index + 1}. ${name}</span>
+                        </div>
+                        <span>${player.score} колонн</span>
                     </li>
-                `).join('');
+                `;
+            }).join('');
+        }
 
-            } catch (err) {
-                console.error('Сбой связи с Кронтаром для лидерборда:', err);
-                leaderboardList.innerHTML = '<li><span>Сбой связи</span><span></span></li>';
+        // Сохранение рекорда Царевны с титулом
+        async function saveFlappyScore() {
+            const nameKey = 'flappyPlayerName';
+            let playerName = localStorage.getItem(nameKey);
+
+            if (!playerName) {
+                playerName = prompt('👑 Введи имя для таблицы лидеров:');
+                if (!playerName) return;
+                playerName = playerName.trim().replace(/[<>]/g, '').slice(0, 18);
+                if (!playerName) return;
+                localStorage.setItem(nameKey, playerName);
             }
+
+            const cleanName = playerName.replace(/\|/g, '').trim();
+            const activeTitle = localStorage.getItem('leycore_active_title') || '';
+            const fullName = activeTitle ? `${activeTitle}|${cleanName}` : cleanName;
+
+            await _supabase
+                .from('flappy_leaderboard')
+                .upsert([{
+                    player_id: flappyPlayerId,
+                    player_name: fullName,
+                    score: bestFlappyScore,
+                    updated_at: new Date().toISOString()
+                }], { onConflict: 'player_id' });
+
+            loadFlappyLeaderboard();
         }
 
 
@@ -5267,50 +5584,65 @@ localStorage.setItem(
             }
         }
 
-        // 2. Отрисовка одного сообщения в чате
+                // 1. Отрисовка сообщения с Титулом над ником
         function renderChatMessage(msg) {
             const box = document.getElementById('chat-messages-box');
             if (!box) return;
 
-            const userName = msg.user_name || 'Гость Царства';
+            let rawName = msg.user_name || 'Гость Царства';
+            let title = '';
+            let userName = rawName;
+
+            // Разделяем титул и имя
+            if (rawName.includes('|')) {
+                const parts = rawName.split('|');
+                title = parts[0];
+                userName = parts[1];
+            }
+
             const messageText = msg.message_text || '';
             const timeStr = msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Только что';
 
             const msgHTML = `
-        <div class="msg-bubble" style="background: rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 10px; border-left: 4px solid var(--accent-cyan); max-width: 85%; margin-bottom: 10px;">
-            <strong style="color: var(--accent-gold); margin-right: 8px;">${userName}:</strong>
-            <span style="color: white; word-break: break-word;">${messageText}</span>
-            <small style="font-size: 0.65rem; color: #888; display: block; margin-top: 5px;">${timeStr}</small>
-        </div>
-    `;
+                <div class="msg-bubble" style="background: rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 10px; border-left: 4px solid var(--accent-cyan); max-width: 85%; margin-bottom: 10px;">
+                    ${title ? `<span class="user-title-badge">${title}</span>` : ''}
+                    <strong style="color: var(--accent-gold); margin-right: 8px;">${userName}:</strong>
+                    <span style="color: white; word-break: break-word;">${messageText}</span>
+                    <small style="font-size: 0.65rem; color: #888; display: block; margin-top: 5px;">${timeStr}</small>
+                </div>
+            `;
 
             box.insertAdjacentHTML('beforeend', msgHTML);
-            box.scrollTop = box.scrollHeight; // Авто-скролл вниз
+            box.scrollTop = box.scrollHeight;
         }
 
-        // 3. Отправка сообщения
+        // 2. Отправка сообщения с текущим титулом
         async function sendGlobalMessage() {
             const nameInput = document.getElementById('chat-user-name');
             const msgInput = document.getElementById('chat-user-msg');
 
-            const name = nameInput ? nameInput.value : 'Гость Царства';
+            let cleanName = nameInput ? nameInput.value.replace(/\|/g, '').trim() : 'Гость Царства';
             const text = msgInput ? msgInput.value : '';
 
             if (!text.trim()) return;
 
-            // Отправляем в базу
+            // Прикрепляем активный титул к имени
+            const activeTitle = localStorage.getItem('leycore_active_title') || '';
+            const fullName = activeTitle ? `${activeTitle}|${cleanName}` : cleanName;
+
             const { error } = await _supabase
                 .from('global_messages')
-                .insert([{ user_name: name, message_text: text }]);
+                .insert([{ user_name: fullName, message_text: text }]);
 
             if (error) {
                 console.error("Ошибка отправки:", error);
                 alert("Не удалось отправить сообщение!");
             } else {
-                if (msgInput) msgInput.value = ''; // Очищаем поле ввода
-                loadChatHistory(); // Сразу подтягиваем свежие сообщения
+                if (msgInput) msgInput.value = '';
+                loadChatHistory();
             }
         }
+
 
         // 4. ПОДПИСКА НА НОВЫЕ СООБЩЕНИЯ (REALTIME)
         try {
@@ -5364,6 +5696,479 @@ function renderAchievements() {
     `).join('');
 }
 
+
+        // ====================================================
+        // 🎰 КАЗИНО ВАСИЛИЧА — ПОЛНАЯ ЭКОНОМИКА И ЛОГИКА
+        // ====================================================
+
+        let casinoChips = parseInt(localStorage.getItem('leycore_chips') || '10', 10);
+        let totalChipsSpent = parseInt(localStorage.getItem('leycore_chips_spent') || '0', 10);
+        let junkCount = parseInt(localStorage.getItem('leycore_junk_count') || '0', 10);
+        let lastChipClaimTime = parseInt(localStorage.getItem('leycore_last_claim') || '0', 10);
+
+        let unlockedTitles = JSON.parse(localStorage.getItem('leycore_titles')) || ["Гость Царства"];
+        let activeTitle = localStorage.getItem('leycore_active_title') || "Гость Царства";
+        let unlockedThemes = JSON.parse(localStorage.getItem('leycore_themes')) || [];
+
+        // 10 УНИЗИТЕЛЬНЫХ ФРАЗ БОБНИТА
+        const bobnitInsults = [
+            "Ты выиграл абсолютное ничего. Иди поплачь у куста с сельдереем, НПС!",
+            "Василич лично забирает твои фишки на покупку очередного бургера. Спасибо за спонсорство, слабоумный!",
+            "Твой удачный шанс растворился в висцеральной желчи бытия. Крути дальше, сливной бачок!",
+            "Поздравляю! Твой баланс стремится к абсолютному нулю, а уровень интеллекта — к нулю квадратному.",
+            "Слот-машина выплюнула твою надежду прямо в мусорный бак. Вернись, когда вырастишь нормальные нейроны!",
+            "Держи чистый ноль! Даже заскриптованный бот на калькуляторе 1995 года выбивает комбинации лучше твоей тушки.",
+            "Фишки сгорели в пламени моего анаболического реактора. Пожалуй, съем за твое здоровье двойной чизбургер!",
+            "Твоя удача ушла на переработку вместе с просроченным обезжиренным творогом. Слейся из автомата!",
+            "Какое зрелище! Очередной матричный зевака проиграл все полимеры в Казино Демиурга. Беги жалуйся в чат!",
+            "Ошибка 404: Фортуна не найдена в твоем исходном коде. Закинь новые фишки через 3 часа и не ной!"
+        ];
+
+        // 5 СЕКРЕТНЫХ РЕЦЕПТОВ КАЗИНО
+        const casinoRecipes = [
+            { category: "heavy", title: "● Пряный титаник", image: "tektonik.jpg", macros: "~1650 ККАЛ // ~95г БЕЛКА", composition: "Фарш говяжий (350г), картофельное пюре, сливки 20%, сыр, жареный лук.", cooking: "Жарим фарш с луком, смешиваем с пюре и сливками, засыпаем сыром.", laykor: "Тягучая горячая лава из фарша и сыра. Желудок испытывает тектонический сдвиг плит.", likes: 0, dislikes: 0, comments: [] },
+            { category: "heavy", title: "● Взрыв Нефтепровода", image: "oil.jpg", macros: "~1480 ККАЛ // ~88г БЕЛКА", composition: "Спагетти (250г), бекон (100г), печень (200г), терияки, Гауда.", cooking: "Жарим печень и бекон в терияки, смешиваем со спагетти и засыпаем сыром.", laykor: "Смолистый, чернеющий соус, заливающий пищевод вязким нефтяным соком.", likes: 0, dislikes: 0, comments: [] },
+            { category: "cloud", title: "● Туман поноса", image: "fog.jpg", macros: "~510 ККАЛ // ~48г БЕЛКА", composition: "Индейка (200г), кабачок, цветная капуста, греческий йогурт.", cooking: "Тушим индейку с овощами в йогурте 15 минут.", laykor: "Легчайший диетический мусс, восстанавливающий клетки печени.", likes: 0, dislikes: 0, comments: [] },
+            { category: "cloud", title: "●  Поднебесье пернатых", image: "exudate2.jpg", macros: "~590 ККАЛ // ~52г БЕЛКА", composition: "Белки яичные (5 шт), шпинат (100г), творог 0%, огурец.", cooking: "Взбиваем белки со шпинатом и творогом, запекаем омлет.", laykor: "Изумрудная протеиновая пена без грамма лишнего жира.", likes: 0, dislikes: 0, comments: [] },
+            { category: "dessert", title: "● Смех шоколадки", image: "choco.jpg", macros: "~1120 ККАЛ // ~65г БЕЛКА", composition: "Творог 5% (250г), какао, банан (2 шт), паста арахисовая, мёд.", cooking: "Взбиваем всё в блендере в однородный шоколадный крем.", laykor: "Густая нуга, наглухо склеивающая зубы и отправляющая рецепторы в космос.", likes: 0, dislikes: 0, comments: [] }
+        ];
+
+        // 5 ВЕЛИЧЕСТВЕННЫХ ТИТУЛОВ
+        const casinoTitles = [
+            "⚡️ Повелитель смертных",
+            "👑 Пердящий скозняк",
+            "🔥 Грязный свин",
+            "🔮 Мастер аркад аркад",
+            "🍖 Покоритель Массы"
+        ];
+
+                // ====================================================
+        // 🎨 УПРАВЛЕНИЕ ТЕМАМИ И БАЛАНСОМ ФИШЕК
+        // ====================================================
+        let activeTheme = localStorage.getItem('leycore_active_theme') || '';
+
+        function updateCasinoUI() {
+            // Обновляем балансы фишек
+            const topChipEl = document.getElementById('top-chip-count');
+            if (topChipEl) topChipEl.innerText = casinoChips;
+
+            const casinoCount = document.getElementById('casino-chip-count');
+            if (casinoCount) casinoCount.innerText = casinoChips;
+
+            const junkDisplay = document.getElementById('junk-counter-display');
+            if (junkDisplay) junkDisplay.innerText = `На складе: ${junkCount} шт.`;
+
+            // Сохраняем значения
+            localStorage.setItem('leycore_chips', casinoChips);
+            localStorage.setItem('leycore_chips_spent', totalChipsSpent);
+            localStorage.setItem('leycore_junk_count', junkCount);
+
+            // Отрисовываем списки титулов и тем
+            renderTitlesList();
+            renderThemesList();
+            updateTimerUI();
+            
+            // Применяем текущую выбранную тему
+            applyTheme(activeTheme);
+        }
+
+        // ОТРИСОВКА И ВЫБОР ТЕМ САЙТА
+        function renderThemesList() {
+            const box = document.getElementById('unlocked-themes-list');
+            if (!box) return;
+
+            const themeNames = {
+                '': '⚡️ Стандарт (Лэйкор)',
+                'theme-orange': '🍊 Оранжевый Кибер',
+                'theme-crimson': '🌅 Красный Закат',
+                'theme-rainbow': '🌈 Радужный Неон'
+            };
+
+            // Стандартная тема доступна всегда
+            let available = [''];
+            unlockedThemes.forEach(t => {
+                if (!available.includes(t)) available.push(t);
+            });
+
+            box.innerHTML = available.map(t => `
+                <button onclick="selectTheme('${t}')" style="background: ${activeTheme === t ? 'var(--accent-cyan)' : 'rgba(255,255,255,0.1)'}; color: ${activeTheme === t ? '#000' : '#fff'}; border: 1px solid var(--accent-cyan); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-family: var(--font-code); font-size: 0.8rem;">
+                    ${themeNames[t] || t} ${activeTheme === t ? '✓ (АКТИВНО)' : ''}
+                </button>
+            `).join('');
+        }
+
+        function selectTheme(t) {
+            activeTheme = t;
+            localStorage.setItem('leycore_active_theme', activeTheme);
+            applyTheme(activeTheme);
+            renderThemesList();
+        }
+
+        function applyTheme(themeClass) {
+            document.body.classList.remove('theme-orange', 'theme-crimson', 'theme-rainbow');
+            if (themeClass) {
+                document.body.classList.add(themeClass);
+            }
+        }
+
+
+                // ====================================================
+        // 🔊 ЗВУКОВОЙ СИНТЕЗАТОР КАЗИНО (БЕЗ ВНЕШНИХ MP3)
+        // ====================================================
+        function playCasinoClickSound() {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const ctx = new AudioCtx();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(120, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.05);
+
+                gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start();
+                osc.stop(ctx.currentTime + 0.05);
+            } catch (e) {}
+        }
+
+        function playReelStopSound() {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const ctx = new AudioCtx();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(220, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.08);
+
+                gain.gain.setValueAtTime(0.25, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start();
+                osc.stop(ctx.currentTime + 0.08);
+            } catch (e) {}
+        }
+
+        // ====================================================
+        // 🎰 ОБНОВЛЕННАЯ ЛОГИКА ВРАЩЕНИЯ (5 СЕКУНД + 3 СОВПАДЕНИЯ)
+        // ====================================================
+        function spinCasino() {
+            if (casinoChips < 1) {
+                alert("У тебя нет фишек! Забери бесплатный бонус или переработай мусор.");
+                return;
+            }
+
+            casinoChips--;
+            totalChipsSpent++;
+            updateCasinoUI();
+
+            if (totalChipsSpent >= 30) {
+                addAchievement("Лудоман");
+            }
+
+            const spinBtn = document.getElementById('spin-btn');
+            spinBtn.disabled = true;
+
+            const reel1 = document.getElementById('reel-1');
+            const reel2 = document.getElementById('reel-2');
+            const reel3 = document.getElementById('reel-3');
+            const humCard = document.getElementById('bobnit-humiliation-card');
+            if (humCard) humCard.style.display = 'none';
+
+            // 1. ЗАРАНЕЕ РАССЧИТЫВАЕМ ИТОГ И ШАНСЫ (70% МУСОР / 30% ПРИЗЫ)
+            const rand = Math.random() * 100;
+            let targetSymbols = [];
+            let winType = 'junk';
+
+            if (rand < 3) {
+                // 3% - АРТЕФАКТ (Рецепт) -> 3 Мяса
+                targetSymbols = ['🍖', '🍖', '🍖'];
+                winType = 'artefact';
+            } else if (rand < 10) {
+                // 7% - РЕЛИКТ (Титул) -> 3 Шара
+                targetSymbols = ['🔮', '🔮', '🔮'];
+                winType = 'relic';
+            } else if (rand < 20) {
+                // 10% - РАДУГА (Тема) -> 3 Радуги
+                targetSymbols = ['🌈', '🌈', '🌈'];
+                winType = 'theme';
+            } else if (rand < 30) {
+                // 10% - ИМЕНИТ (+5 фишек) -> 3 Молнии
+                targetSymbols = ['⚡', '⚡', '⚡'];
+                winType = 'emenit';
+            } else {
+                // 70% - МУСОР / НЕСОВПАДЕНИЕ
+                winType = 'junk';
+                const junkPool = ['🍖', '🔮', '🌈', '⚡', '🧁', '🗑️'];
+                let s1 = junkPool[Math.floor(Math.random() * junkPool.length)];
+                let s2 = junkPool[Math.floor(Math.random() * junkPool.length)];
+                let s3 = junkPool[Math.floor(Math.random() * junkPool.length)];
+                if (s1 === s2 && s2 === s3) {
+                    s3 = (s3 === '🗑️') ? '🍖' : '🗑️';
+                }
+                targetSymbols = [s1, s2, s3];
+            }
+
+            const allEmojis = ['🍖', '🔮', '🌈', '⚡', '🧁', '🗑️', '🍪'];
+            let spinTime = 0;
+
+            const soundInterval = setInterval(() => {
+                playCasinoClickSound();
+            }, 120);
+
+            const animInterval = setInterval(() => {
+                spinTime += 80;
+
+                if (spinTime < 3000) {
+                    reel1.innerText = allEmojis[Math.floor(Math.random() * allEmojis.length)];
+                } else if (spinTime === 3000 || (spinTime > 3000 && reel1.innerText !== targetSymbols[0])) {
+                    reel1.innerText = targetSymbols[0];
+                    playReelStopSound();
+                }
+
+                if (spinTime < 4000) {
+                    reel2.innerText = allEmojis[Math.floor(Math.random() * allEmojis.length)];
+                } else if (spinTime === 4000 || (spinTime > 4000 && reel2.innerText !== targetSymbols[1])) {
+                    reel2.innerText = targetSymbols[1];
+                    playReelStopSound();
+                }
+
+                if (spinTime < 5000) {
+                    reel3.innerText = allEmojis[Math.floor(Math.random() * allEmojis.length)];
+                } else if (spinTime >= 5000) {
+                    reel3.innerText = targetSymbols[2];
+                    playReelStopSound();
+
+                    clearInterval(animInterval);
+                    clearInterval(soundInterval);
+                    spinBtn.disabled = false;
+
+                    processCasinoOutcome(winType);
+                }
+            }, 80);
+        }
+
+        // ОБРАБОТКА ВЫИГРЫША ПОСЛЕ ПОЛНОЙ ОСТАНОВКИ (5 СЕКУНД)
+        function processCasinoOutcome(winType) {
+            if (winType === 'artefact') {
+                const unowned = casinoSecretRecipes.filter(r => !dishes.some(d => d.title === r.title));
+                if (unowned.length > 0) {
+                    const winRecipe = unowned[Math.floor(Math.random() * unowned.length)];
+                    dishes.push(winRecipe);
+                    localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
+                    alert(`🏆 ТРИ СОВПАДЕНИЯ (🍖🍖🍖)! Выбит секретный рецепт: "${winRecipe.title}"! Он добавлен в Меню!`);
+                    renderDishes('all');
+                } else {
+                    casinoChips += 5;
+                    alert("🏆 ТРИ СОВПАДЕНИЯ (🍖🍖🍖)! Все рецепты уже открыты, получено +5 🪙!");
+                }
+            } else if (winType === 'relic') {
+                const unowned = casinoTitles.filter(t => !unlockedTitles.includes(t));
+                if (unowned.length > 0) {
+                    const winTitle = unowned[Math.floor(Math.random() * unowned.length)];
+                    unlockedTitles.push(winTitle);
+                    localStorage.setItem('leycore_titles', JSON.stringify(unlockedTitles));
+                    alert(`🔮 ТРИ СОВПАДЕНИЯ (🔮🔮🔮)! Выбит титул: "${winTitle}"!`);
+                } else {
+                    casinoChips += 3;
+                    alert("🔮 ТРИ СОВПАДЕНИЯ! Все титулы открыты, получено +3 🪙!");
+                }
+            } else if (winType === 'theme') {
+                const themes = ['theme-orange', 'theme-crimson', 'theme-rainbow'];
+                const unowned = themes.filter(t => !unlockedThemes.includes(t));
+                if (unowned.length > 0) {
+                    const winTheme = unowned[0];
+                    unlockedThemes.push(winTheme);
+                    localStorage.setItem('leycore_themes', JSON.stringify(unlockedThemes));
+                    applyTheme(winTheme);
+                    alert(`🌈 ТРИ СОВПАДЕНИЯ (🌈🌈🌈)! Разблокирована новая тема сайта!`);
+                } else {
+                    casinoChips += 2;
+                    alert("🌈 ТЕМА! Все темы открыты, получено +2 🪙!");
+                }
+            } else if (winType === 'emenit') {
+                casinoChips += 5;
+                alert("⚡️ ТРИ СОВПАДЕНИЯ (⚡⚡⚡)! Вы выиграли +5 Бонусных Фишек!");
+            } else {
+                junkCount++;
+                updateCasinoUI();
+
+                if (Math.random() < 0.5) {
+                    const humCard = document.getElementById('bobnit-humiliation-card');
+                    const humText = document.getElementById('bobnit-humiliation-text');
+                    if (humCard && humText) {
+                        humText.innerText = bobnitHumiliations[Math.floor(Math.random() * bobnitHumiliations.length)];
+                        humCard.style.display = 'flex';
+                    }
+                } else {
+                    alert("🗑️ Символы не совпали! Выпал мусор Кронтара (отправлен на Склад).");
+                }
+            }
+            updateCasinoUI();
+        }
+
+            // 1. АРТЕФАКТ (5%) — РЕЦЕПТЫ
+            if (rand < 5) {
+                const unowned = casinoSecretRecipes.filter(r => !dishes.some(d => d.title === r.title));
+                if (unowned.length > 0) {
+                    const winRecipe = unowned[Math.floor(Math.random() * unowned.length)];
+                    dishes.push(winRecipe);
+                    localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
+                    alert(`🏆 АРТЕФАКТ! Выбит секретный рецепт: "${winRecipe.title}"! Он навсегда добавлен в Меню!`);
+                    renderDishes('all');
+                } else {
+                    casinoChips += 5;
+                    alert("🏆 АРТЕФАКТ! Все рецепты уже открыты, получено +5 🪙!");
+                }
+            }
+            // 2. РЕЛИКТ (15%) — ТИТУЛЫ
+            else if (rand < 20) {
+                const unowned = casinoTitles.filter(t => !unlockedTitles.includes(t));
+                if (unowned.length > 0) {
+                    const winTitle = unowned[Math.floor(Math.random() * unowned.length)];
+                    unlockedTitles.push(winTitle);
+                    localStorage.setItem('leycore_titles', JSON.stringify(unlockedTitles));
+                    alert(`🔮 РЕЛИКТ! Разблокирован величественный титул: "${winTitle}"!`);
+                } else {
+                    casinoChips += 3;
+                    alert("🔮 РЕЛИКТ! Все титулы открыты, получено +3 🪙!");
+                }
+            }
+            // 3. РАДУГА (25%) — ТЕМЫ ОФОРМЛЕНИЯ
+            else if (rand < 45) {
+                const themes = ['theme-orange', 'theme-crimson', 'theme-rainbow'];
+                const unowned = themes.filter(t => !unlockedThemes.includes(t));
+                if (unowned.length > 0) {
+                    const winTheme = unowned[0];
+                    unlockedThemes.push(winTheme);
+                    localStorage.setItem('leycore_themes', JSON.stringify(unlockedThemes));
+                    applyTheme(winTheme);
+                    alert(`🌈 РАДУЖНЫЙ ПРИЗ! Открыта новая тема оформления сайта!`);
+                } else {
+                    casinoChips += 2;
+                    alert("🌈 ТЕМА! Все темы уже открыты, получено +2 🪙!");
+                }
+            }
+            // 4. ИМЕНИТ (10%) — ДОП ФИШКИ
+            else if (rand < 55) {
+                casinoChips += 5;
+                alert("⚡️ ИМЕНИТ! Вы выиграли +5 Бонусных Фишек!");
+            }
+            // 5. МУСОР (45%)
+            else {
+                junkCount++;
+                updateCasinoUI();
+
+                // 50% шанс на унизительную карточку Бобнита при мусоре/проигрыше
+                if (Math.random() < 0.5) {
+                    const humCard = document.getElementById('bobnit-humiliation-card');
+                    const humText = document.getElementById('bobnit-humiliation-text');
+                    humText.innerText = bobnitHumiliations[Math.floor(Math.random() * bobnitHumiliations.length)];
+                    humCard.style.display = 'flex';
+                } else {
+                    alert("🗑️ Выпал мусор Кронтара. Предмет отправлен на Склад в Достижениях.");
+                }
+            }
+            updateCasinoUI();
+        
+
+        // ТАЙМЕР И БОНУС 10 ФИШЕК КАЖДЫЕ 3 ЧАСА (НЕ СТАКАЕТСЯ)
+        function claimFreeChips() {
+            const now = Date.now();
+            const threeHours = 3 * 60 * 60 * 1000;
+
+            if (now - lastChipClaimTime >= threeHours) {
+                casinoChips += 10;
+                lastChipClaimTime = now;
+                localStorage.setItem('leycore_last_claim', lastChipClaimTime);
+                updateCasinoUI();
+                alert("🎁 Вы получили 10 свободных фишек! Следующий бонус доступен через 3 часа.");
+            } else {
+                alert("⏳ Бонус ещё не готов! Дождитесь окончания таймера.");
+            }
+        }
+
+        function updateTimerUI() {
+            const timerEl = document.getElementById('casino-timer-text');
+            if (!timerEl) return;
+
+            const now = Date.now();
+            const threeHours = 3 * 60 * 60 * 1000;
+            const diff = threeHours - (now - lastChipClaimTime);
+
+            if (diff <= 0) {
+                timerEl.innerText = "🎁 БОНУС ДОСТУПЕН К ПОЛУЧЕНИЮ!";
+                timerEl.style.color = "var(--accent-green)";
+            } else {
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const secs = Math.floor((diff % (1000 * 60)) / 1000);
+                timerEl.innerText = `⏳ Следующий бонус через: ${hours}ч ${mins}м ${secs}с`;
+                timerEl.style.color = "var(--accent-cyan)";
+            }
+        }
+        setInterval(updateTimerUI, 1000);
+
+        // ОБМЕН МУСОРА (10 МУСОРА = 5 ФИШЕК)
+        function exchangeJunkForChips() {
+            if (junkCount < 10) {
+                alert("У вас недостаточно мусора! Нужно минимум 10 шт.");
+                return;
+            }
+            junkCount -= 10;
+            casinoChips += 5;
+            updateCasinoUI();
+            alert("♻️ Успешный обмен! 10 шт. мусора переработаны в 5 фишек.");
+        }
+
+        // ОТРИСОВКА И ВЫБОР ТИТУЛА
+        function renderTitlesList() {
+            const box = document.getElementById('unlocked-titles-list');
+            if (!box) return;
+
+            box.innerHTML = unlockedTitles.map(t => `
+                <button onclick="selectTitle('${t}')" style="background: ${activeTitle === t ? 'var(--accent-gold)' : 'rgba(255,255,255,0.1)'}; color: ${activeTitle === t ? '#000' : '#fff'}; border: 1px solid var(--accent-gold); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">
+                    ${t} ${activeTitle === t ? '✓' : ''}
+                </button>
+            `).join('');
+        }
+
+        function selectTitle(t) {
+            activeTitle = t;
+            localStorage.setItem('leycore_active_title', activeTitle);
+            const chatName = document.getElementById('chat-user-name');
+            if (chatName) chatName.value = `${activeTitle}`;
+            renderTitlesList();
+            alert(`Титул "${activeTitle}" успешно выбран!`);
+        }
+
+        function applyTheme(themeClass) {
+            document.body.classList.remove('theme-orange', 'theme-crimson', 'theme-rainbow');
+            if (themeClass) document.body.classList.add(themeClass);
+        }
+
+        // ОБНОВЛЁННЫЙ ПЕРЕКЛЮЧАТЕЛЬ СТРАНИЦ С ПОКАЗОМ ЗНАЧКА ФИШЕК
+        const oldSwitchPage = window.switchPage;
+        window.switchPage = function(id) {
+            if (typeof oldSwitchPage === 'function') oldSwitchPage(id);
+
+            const badge = document.getElementById('games-top-badge');
+            if (badge) {
+                badge.style.display = (id === 'games') ? 'block' : 'none';
+            }
+        };
 
 
     </script>
