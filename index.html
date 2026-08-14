@@ -5729,16 +5729,13 @@ function renderAchievements() {
         // ====================================================
 
         let casinoChips = parseInt(localStorage.getItem('leycore_chips') || '10', 10);
-        console.log('Значение casinoChips при загрузке:', casinoChips); // <-- ЭТУ СТРОЧКУ ДОБАВЬ!
         let totalChipsSpent = parseInt(localStorage.getItem('leycore_chips_spent') || '0', 10);
         let junkCount = parseInt(localStorage.getItem('leycore_junk_count') || '0', 10);
         let lastChipClaimTime = parseInt(localStorage.getItem('leycore_last_claim') || '0', 10);
+
         let unlockedTitles = JSON.parse(localStorage.getItem('leycore_titles')) || ["Гость Царства"];
         let activeTitle = localStorage.getItem('leycore_active_title') || "Гость Царства";
         let unlockedThemes = JSON.parse(localStorage.getItem('leycore_themes')) || [];
-// Автоматически обновляем счетчик фишек на экране при загрузке страницы:
-
-
 
                 // 10 УНИЗИТЕЛЬНЫХ ФРАЗ БОБНИТА (В косых кавычках можно писать любые кавычки и символы!)
         const bobnitHumiliations = [
@@ -5942,7 +5939,7 @@ function spinCasino() {
     updateCasinoUI();
 
     if (totalChipsSpent >= 30) {
-        if (typeof addAchievement === 'function') addAchievement("Лудоман");
+        addAchievement("Лудоман");
     }
 
     const spinBtn = document.getElementById('spin-btn');
@@ -5954,37 +5951,41 @@ function spinCasino() {
     const humCard = document.getElementById('bobnit-humiliation-card');
     if (humCard) humCard.style.display = 'none';
 
-    // РАССЧИТЫВАЕМ ШАНСЫ
+    // РАССЧИТЫВАЕМ ШАНСЫ ПО ТЗ
     currentCasinoRand = Math.random() * 100;
     let targetSymbols = [];
     let winType = 'junk';
 
     if (currentCasinoRand < 2) {
+        // 2% — РЕЦЕПТ
         targetSymbols = ['🍖', '🍖', '🍖'];
         winType = 'artefact';
     } else if (currentCasinoRand < 5) {
+        // 3% — ТИТУЛ (2 + 3 = 5)
         targetSymbols = ['🔮', '🔮', '🔮'];
         winType = 'relic';
     } else if (currentCasinoRand < 10) {
+        // 5% — ТЕМА (5 + 5 = 10)
         targetSymbols = ['🌈', '🌈', '🌈'];
         winType = 'theme';
     } else if (currentCasinoRand < 17) {
-        targetSymbols = ['⚡️', '⚡️', '⚡️'];
+        // 7% — ФИШКИ +5 (10 + 7 = 17)
+        targetSymbols = ['⚡', '⚡', '⚡'];
         winType = 'emenit';
     } else {
+        // 83% — МУСОР
         winType = 'junk';
-        const junkPool = ['🍖', '🔮', '🌈', '⚡️', '🧁', '🗑️'];
+        const junkPool = ['🍖', '🔮', '🌈', '⚡', '🧁', '🗑️'];
         let s1 = junkPool[Math.floor(Math.random() * junkPool.length)];
         let s2 = junkPool[Math.floor(Math.random() * junkPool.length)];
         let s3 = junkPool[Math.floor(Math.random() * junkPool.length)];
-        // Не даем выпасть трем одинаковым случайно при проигрыше
         if (s1 === s2 && s2 === s3) {
             s3 = (s3 === '🗑️') ? '🍖' : '🗑️';
         }
         targetSymbols = [s1, s2, s3];
     }
 
-    const allEmojis = ['🍖', '🔮', '🌈', '⚡️', '🧁', '🗑️', '🍪'];
+    const allEmojis = ['🍖', '🔮', '🌈', '⚡', '🧁', '🗑️', '🍪'];
     let spinTime = 0;
 
     const soundInterval = setInterval(playCasinoClickSound, 120);
@@ -6008,7 +6009,6 @@ function spinCasino() {
         if (spinTime < 5000) {
             if (reel3) reel3.innerText = allEmojis[Math.floor(Math.random() * allEmojis.length)];
         } else if (spinTime >= 5000) {
-            // Сначала ГАРАНТИРОВАННО перерисовываем 3-ю эмодзи на экране!
             if (reel3) reel3.innerText = targetSymbols[2];
             playReelStopSound();
 
@@ -6016,21 +6016,17 @@ function spinCasino() {
             clearInterval(soundInterval);
             if (spinBtn) spinBtn.disabled = false;
 
-            // ⚠️ ФИКС: Задержка 300 мс, чтобы глаз увидел 3-ю эмодзи ДО появления плашки
-            setTimeout(() => {
-                processCasinoOutcome(winType);
-            }, 300);
+            processCasinoOutcome(winType);
         }
     }, 80);
 }
-
 
 // ====================================================
 // 🎁 3. ВЫДАЧА ПРИЗОВ С ПРОВЕРКОЙ ПОВТОРОВ
 // ====================================================
 function processCasinoOutcome(winType) {
     if (winType === 'artefact') {
-        const unowned = casinoRecipes.filter(r => !dishes.some(d => d.title === r.title));
+        const unowned = casinoSecretRecipes.filter(r => !dishes.some(d => d.title === r.title));
         if (unowned.length > 0) {
             const winRecipe = unowned[Math.floor(Math.random() * unowned.length)];
             dishes.push(winRecipe);
@@ -6069,6 +6065,61 @@ function processCasinoOutcome(winType) {
         }
     } else if (winType === 'emenit') {
         addChips(5);
+        alert("⚡️ ТРИ СОВПАДЕНИЯ (⚡⚡⚡)! Вы выиграли +5 Бонусных Фишек!");
+    } else {
+        junkCount++;
+        const humCard = document.getElementById('bobnit-humiliation-card');
+        const humText = document.getElementById('bobnit-humiliation-text');
+        if (humCard && humText) {
+            humText.innerText = bobnitHumiliations[Math.floor(Math.random() * bobnitHumiliations.length)];
+            humCard.style.display = 'flex';
+        }
+    }
+    updateCasinoUI();
+}
+
+        // ОБРАБОТКА ВЫИГРЫША ПОСЛЕ ПОЛНОЙ ОСТАНОВКИ (5 СЕКУНД)
+        function processCasinoOutcome(winType) {
+    if (winType === 'artefact') {
+        const unowned = casinoSecretRecipes.filter(r => !dishes.some(d => d.title === r.title));
+        if (unowned.length > 0) {
+            const winRecipe = unowned[Math.floor(Math.random() * unowned.length)];
+            dishes.push(winRecipe);
+            localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
+            alert(`🏆 ТРИ СОВПАДЕНИЯ (🍖🍖🍖)! Выбит секретный рецепт: "${winRecipe.title}"!`);
+            renderDishes('all');
+        } else {
+            addChips(5); // Если всё открыто — даем фишки
+            alert("🏆 Все секретные рецепты уже открыты! Вместо них получено +5 🪙!");
+        }
+    } else if (winType === 'relic') {
+        const unowned = casinoTitles.filter(t => !unlockedTitles.includes(t));
+        if (unowned.length > 0) {
+            const winTitle = unowned[Math.floor(Math.random() * unowned.length)];
+            unlockedTitles.push(winTitle);
+            localStorage.setItem('leycore_titles', JSON.stringify(unlockedTitles));
+            alert(`🔮 ТРИ СОВПАДЕНИЯ (🔮🔮🔮)! Выбит редкий титул: "${winTitle}"!`);
+            renderTitlesList();
+        } else {
+            addChips(3); // Если все титулы собраны — даем фишки
+            alert("🔮 Все титулы уже собраны! Вместо повтора начислено +3 🪙!");
+        }
+    } else if (winType === 'theme') {
+        const themes = ['theme-orange', 'theme-crimson', 'theme-rainbow'];
+        const unowned = themes.filter(t => !unlockedThemes.includes(t));
+        if (unowned.length > 0) {
+            const winTheme = unowned[0];
+            unlockedThemes.push(winTheme);
+            localStorage.setItem('leycore_themes', JSON.stringify(unlockedThemes));
+            applyTheme(winTheme);
+            alert("🌈 ТРИ СОВПАДЕНИЯ (🌈🌈🌈)! Разблокирована новая тема оформления!");
+            renderThemesList();
+        } else {
+            addChips(2);
+            alert("🌈 Все темы уже открыты! Начислено +2 🪙!");
+        }
+    } else if (winType === 'emenit') {
+        addChips(5);
         alert("⚡️ ТРИ СОВПАДЕНИЯ (⚡️⚡️⚡️)! Вы выиграли +5 Бонусных Фишек!");
     } else {
         junkCount++;
@@ -6083,6 +6134,69 @@ function processCasinoOutcome(winType) {
 }
 
 
+            // 1. АРТЕФАКТ (5%) — РЕЦЕПТЫ
+            if (rand < 5) {
+                const unowned = casinoSecretRecipes.filter(r => !dishes.some(d => d.title === r.title));
+                if (unowned.length > 0) {
+                    const winRecipe = unowned[Math.floor(Math.random() * unowned.length)];
+                    dishes.push(winRecipe);
+                    localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
+                    alert(`🏆 АРТЕФАКТ! Выбит секретный рецепт: "${winRecipe.title}"! Он навсегда добавлен в Меню!`);
+                    renderDishes('all');
+                } else {
+                    casinoChips += 5;
+                    alert("🏆 АРТЕФАКТ! Все рецепты уже открыты, получено +5 🪙!");
+                }
+            }
+            // 2. РЕЛИКТ (15%) — ТИТУЛЫ
+            else if (rand < 20) {
+                const unowned = casinoTitles.filter(t => !unlockedTitles.includes(t));
+                if (unowned.length > 0) {
+                    const winTitle = unowned[Math.floor(Math.random() * unowned.length)];
+                    unlockedTitles.push(winTitle);
+                    localStorage.setItem('leycore_titles', JSON.stringify(unlockedTitles));
+                    alert(`🔮 РЕЛИКТ! Разблокирован величественный титул: "${winTitle}"!`);
+                } else {
+                    casinoChips += 3;
+                    alert("🔮 РЕЛИКТ! Все титулы открыты, получено +3 🪙!");
+                }
+            }
+            // 3. РАДУГА (25%) — ТЕМЫ ОФОРМЛЕНИЯ
+            else if (rand < 45) {
+                const themes = ['theme-orange', 'theme-crimson', 'theme-rainbow'];
+                const unowned = themes.filter(t => !unlockedThemes.includes(t));
+                if (unowned.length > 0) {
+                    const winTheme = unowned[0];
+                    unlockedThemes.push(winTheme);
+                    localStorage.setItem('leycore_themes', JSON.stringify(unlockedThemes));
+                    applyTheme(winTheme);
+                    alert(`🌈 РАДУЖНЫЙ ПРИЗ! Открыта новая тема оформления сайта!`);
+                } else {
+                    casinoChips += 2;
+                    alert("🌈 ТЕМА! Все темы уже открыты, получено +2 🪙!");
+                }
+            }
+            // 4. ИМЕНИТ (10%) — ДОП ФИШКИ
+            else if (rand < 55) {
+                casinoChips += 5;
+                alert("⚡️ ИМЕНИТ! Вы выиграли +5 Бонусных Фишек!");
+            }
+            // 5. МУСОР (45%)
+            else {
+                junkCount++;
+                updateCasinoUI();
+
+                // 50% шанс на унизительную карточку Бобнита при мусоре/проигрыше
+                if (Math.random() < 0.5) {
+                    const humCard = document.getElementById('bobnit-humiliation-card');
+                    const humText = document.getElementById('bobnit-humiliation-text');
+                    humText.innerText = bobnitHumiliations[Math.floor(Math.random() * bobnitHumiliations.length)];
+                    humCard.style.display = 'flex';
+                } else {
+                    alert("🗑️ Выпал мусор Кронтара. Предмет отправлен на Склад в Достижениях.");
+                }
+            }
+            updateCasinoUI();
         
 
         // ТАЙМЕР И БОНУС 10 ФИШЕК КАЖДЫЕ 3 ЧАСА (НЕ СТАКАЕТСЯ)
@@ -6202,11 +6316,42 @@ function processCasinoOutcome(winType) {
             }
         }
 
-        // Ждем, пока вся страница загрузится, и только потом обновляем интерфейс
-window.onload = function() {
-    updateCasinoUI();
-};
 
+                // ====================================================
+        // 🎮 УНИВЕРСАЛЬНЫЙ ПЕРЕКЛЮЧАТЕЛЬ КАТЕГОРИЙ ИГР
+        // ====================================================
+        function filterGames(category, btnEl) {
+            // 1. Меняем активную подсветку у кнопок
+            const allBtns = document.querySelectorAll('.game-cat-btn');
+            allBtns.forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+
+            // 2. Находим блоки игр
+            const casinoBlock = document.getElementById('game-block-casino');
+            const flappyBlock = document.getElementById('game-block-flappy');
+            const clickerBlock = document.getElementById('game-block-clicker');
+
+            // 3. Показываем/скрываем с гарантией
+            if (category === 'all') {
+                if (casinoBlock) casinoBlock.style.display = 'block';
+                if (flappyBlock) flappyBlock.style.display = 'block';
+                if (clickerBlock) clickerBlock.style.display = 'block';
+            } else if (category === 'casino') {
+                if (casinoBlock) casinoBlock.style.display = 'block';
+                if (flappyBlock) flappyBlock.style.display = 'none';
+                if (clickerBlock) clickerBlock.style.display = 'none';
+            } else if (category === 'flappy') {
+                if (casinoBlock) casinoBlock.style.display = 'none';
+                if (flappyBlock) flappyBlock.style.display = 'block';
+                if (clickerBlock) clickerBlock.style.display = 'none';
+            } else if (category === 'clicker') {
+                if (casinoBlock) casinoBlock.style.display = 'none';
+                if (flappyBlock) flappyBlock.style.display = 'none';
+                if (clickerBlock) clickerBlock.style.display = 'block';
+            }
+        }
+
+        
 
 
     </script>
