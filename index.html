@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ru">
 
 <head>
@@ -290,18 +290,21 @@
             padding: 3rem 2rem;
         }
 
-        .page-view {
-            display: none;
-            opacity: 0;
-            transform: translateY(15px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
+       /* Строка ~293 */
+.page-view {
+    display: none !important; /* Жестко скрывает неактивные страницы */
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
 
-        .page-view.active-page {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
+.page-view.active-page {
+    display: block !important; /* Показывает ТОЛЬКО активную страницу */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
 
         /* LEYCORE HERO BOX */
         .leycore-hero {
@@ -2534,20 +2537,20 @@
 
         /* 👑 АНИМИРОВАННЫЕ ВЕЛИЧЕСТВЕННЫЕ ТИТУЛЫ */
         .user-title-badge {
-            display: block;
-            font-family: var(--font-code);
-            font-size: 0.68rem;
-            font-weight: 900;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, #ff007f, #ffd700, #00f0ff, #ff007f);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: titleShimmer 3s linear infinite;
-            line-height: 1.2;
-            margin-bottom: 2px;
-        }
+    display: inline-block;
+    color: #ffffff !important;                     /* Четкий белый цвет текста */
+    background: rgba(0, 242, 254, 0.12) !important;/* Тонкий красивый бирюзовый фон */
+    border: 1px solid rgba(0, 242, 254, 0.5) !important; /* Аккуратная светящаяся рамка */
+    border-radius: 6px;                            /* Скругление углов */
+    padding: 2px 8px;                              /* Отступы вокруг текста */
+    font-size: 0.75rem;                            /* Компактный размер */
+    font-weight: 600;                              /* Жирный читаемый шрифт */
+    margin-bottom: 4px;                            /* Небольшой отступ до ника */
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);   /* Легкое неоновое свечение */
+    text-shadow: none !important;                  /* Убираем старые тени */
+    -webkit-text-fill-color: initial !important;   /* Отменяем прозрачность текста */
+}
+
 
         @keyframes titleShimmer {
             0% { background-position: 0% center; }
@@ -2597,6 +2600,237 @@
         .game-section-block {
             transition: all 0.3s ease;
         }
+
+
+        /* ====================================================
+   🔥 ЛАВОВЫЙ НЕОН ДЛЯ ЭЛИТНЫХ ТИТУЛОВ И ТАБЫ ПРОФИЛЯ
+   ==================================================== */
+.lava-title-badge {
+    background: linear-gradient(45deg, #ff2200, #ff8c00, #ff0055, #ffaa00);
+    background-size: 300% 300%;
+    animation: lavaGlowAnimation 3s ease infinite;
+    color: #ffffff !important;
+    font-weight: 900;
+    padding: 3px 8px;
+    border-radius: 5px;
+    box-shadow: 0 0 12px rgba(255, 34, 0, 0.9), 0 0 25px rgba(255, 140, 0, 0.6);
+    border: 1px solid #ffe600;
+    text-shadow: 0 0 4px #000;
+    display: inline-block;
+    font-size: 0.75rem;
+}
+
+@keyframes lavaGlowAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Стандартный неон для обычных титулов */
+.user-title-badge {
+    background: rgba(255, 255, 255, 0.1);
+    color: #00ffcc;
+    border: 1px solid #00ffcc;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    box-shadow: 0 0 8px rgba(0, 255, 204, 0.3);
+    display: inline-block;
+}
+
+/* Переключатель вкладок внутри Профиля */
+.profile-nav-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.profile-tab-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-muted);
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--font-code);
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.profile-tab-btn:hover {
+    border-color: var(--accent-gold);
+    color: #fff;
+}
+
+.profile-tab-btn.active-profile-tab {
+    background: var(--accent-gold);
+    color: #000;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
+}
+
+.shop-products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto 30px;
+    box-sizing: border-box;
+}
+
+.shop-products-grid .dish-card {
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ====================================================
+   🏆 СТРАНИЦА ДОСТИЖЕНИЙ И МАГАЗИНА
+   ==================================================== */
+#page-achievements {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0 auto;
+    padding: 0 20px 50px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+
+#page-achievements #achievements-list {
+    display: block !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+    min-width: 0 !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+}
+
+
+/* ====================================================
+   🔝 ЕДИНЫЙ ВЕРХНИЙ БАР ВКАДОК ДЛЯ ПРОФИЛЯ
+   ==================================================== */
+.profile-tabs-header {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    max-width: 900px !important;
+    min-width: 0 !important;
+    margin: 0 auto 30px !important;
+    padding: 0 10px 15px !important;
+    box-sizing: border-box !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    flex-wrap: wrap !important;
+}
+
+
+.profile-tab-btn {
+    flex: 0 1 auto !important;
+    width: auto !important;
+    min-width: 130px !important;
+    white-space: nowrap !important;
+}
+
+
+.profile-tab-btn:hover {
+    border-color: #ffcc00 !important;
+    color: #fff !important;
+}
+
+.profile-tab-btn.active-profile-tab {
+    background: #ffcc00 !important;
+    color: #000 !important;
+    border-color: #ffcc00 !important;
+    box-shadow: 0 0 15px rgba(255, 204, 0, 0.4) !important;
+}
+
+/* ====================================================
+   🛒 СЕТКА МАГАЗИНА
+   ==================================================== */
+.shop-products-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 18px !important;
+    width: 100% !important;
+    max-width: 1100px !important;
+    min-width: 0 !important;
+    margin: 0 auto 30px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.shop-products-grid > .dish-card {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+}
+
+@media (max-width: 1100px) {
+    .shop-products-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 700px) {
+    #page-achievements {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    #page-achievements #achievements-list {
+        max-width: 100% !important;
+    }
+
+    .shop-products-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+    }
+
+    .profile-tabs-header {
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+    }
+
+    .profile-tab-btn {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        padding: 9px 12px !important;
+        font-size: 0.78rem !important;
+    }
+}
+
+
+/* Лавовый титул */
+.lava-title-badge {
+    background: linear-gradient(45deg, #ff2200, #ff8c00, #ff0055, #ffaa00);
+    background-size: 300% 300%;
+    animation: lavaGlowAnimation 3s ease infinite;
+    color: #ffffff !important;
+    font-weight: 900;
+    padding: 3px 8px;
+    border-radius: 5px;
+    box-shadow: 0 0 12px rgba(255, 34, 0, 0.9);
+    border: 1px solid #ffe600;
+    text-shadow: 0 0 4px #000;
+    display: inline-block;
+    font-size: 0.8rem;
+}
+
+@keyframes lavaGlowAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
 
 
     </style>
@@ -2997,35 +3231,7 @@
 <div id="page-achievements" class="page-view">
     <h2 class="section-title title-gold">ТВОИ ДОСТИЖЕНИЯ</h2>
     <div id="achievements-list" class="grid-3" style="text-align: center;"></div>
-        <!-- СЕКЦИЯ ТИТУЛОВ И ИНВЕНТАРЯ МУСОРА -->
-    <div style="margin-top: 40px; border-top: 1px dashed rgba(255,215,0,0.3); padding-top: 30px;">
-        <h3 style="color: var(--accent-gold); font-family: var(--font-header); text-align: center; margin-bottom: 20px;">
-            🧰 СКЛАД И ВЫБОР ТИТУЛА
-        </h3>
-                <!-- ТЕМЫ ДЛЯ САЙТА -->
-        <div style="background: rgba(17,14,23,0.9); border: 1px solid var(--accent-cyan); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-            <h4 style="color: var(--accent-cyan); margin-bottom: 10px;">🎨 ТВОИ ВЫБИТЫЕ ТЕМЫ САЙТА:</h4>
-            <div id="unlocked-themes-list" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;"></div>
-        </div>
-
-
-        <!-- ТИТУЛЫ ДЛЯ ЧАТА -->
-        <div style="background: rgba(17,14,23,0.9); border: 1px solid var(--accent-purple); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-            <h4 style="color: var(--accent-purple); margin-bottom: 10px;">👑 ТВОИ ВЫБИТЫЕ ТИТУЛЫ:</h4>
-            <div id="unlocked-titles-list" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;"></div>
-        </div>
-
-        <!-- ИНВЕНТАРЬ МУСОРА И ОБМЕННИК -->
-        <div style="background: rgba(17,14,23,0.9); border: 1px solid #555; padding: 20px; border-radius: 12px; text-align: center;">
-            <h4 style="color: #aaa; margin-bottom: 10px;">🗑️ СКЛАД МУСОРА КРОНТАРА</h4>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">
-                Курс обмена: <b>10 шт. мусора = 5 🪙 фишек</b> (Курс 0.5)
-            </p>
-            <h2 id="junk-counter-display" style="color: var(--accent-gold); margin-bottom: 15px;">На складе: 0 шт.</h2>
-            <button class="casino-btn" onclick="exchangeJunkForChips()">♻️ ПЕРЕРАБОТАТЬ 10 МУСОРА В 5 ФИШЕК</button>
-        </div>
-    </div>
-
+    
 </div>
 
 
@@ -3236,8 +3442,10 @@
 
 
     <script>
-
-        let myAchievements = JSON.parse(localStorage.getItem('leycore_achievements')) || [];
+ 
+ 
+ 
+ let myAchievements = JSON.parse(localStorage.getItem('leycore_achievements')) || [];
 
 function addAchievement(name) {
     if (!myAchievements.includes(name)) {
@@ -3358,6 +3566,10 @@ function addAchievement(name) {
             if (gamesBadge) {
                 gamesBadge.style.display = (id === 'games') ? 'flex' : 'none';
             }
+            if (id === 'games' && typeof filterGames === 'function') {
+    filterGames('all');
+}
+
 
         } // <-- Эта скобка закрывает switchPage
 
@@ -4441,7 +4653,7 @@ function scheduleFlappyScoreSave() {
 
             for (let i = pipes.length - 1; i >= 0; i--) {
                 pipes[i].x -= 2; // Замедлили скорость движения
-                if (bird.x + bird.radius > pipes[i].x && bird.x - bird.radius < pipes[i].x + 60 &&
+                if (bird.x + bird.radius > pipes[i].x && bird.x - bird.radius < pipes[i].x + 60&&
                     (bird.y - bird.radius < pipes[i].top || bird.y + bird.radius > canvas.height - pipes[i].bottom)) {
                     gameOverFlappy();
                 }
@@ -4462,7 +4674,7 @@ function scheduleFlappyScoreSave() {
 }
 
 
-                if (pipes[i].x < -60) pipes.splice(i, 1);
+               if (bird.y + bird.radius > canvas.height || bird.y - bird.radius < 0);
             }
 
             if (bird.y + bird.radius > canvas.height || bird.y - bird.radius < 0) gameOverFlappy();
@@ -5155,7 +5367,8 @@ localStorage.setItem(
                     return `
                         <li style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px;">
                             <div style="display: flex; flex-direction: column; text-align: left;">
-                                ${title ? `<span class="user-title-badge">${title}</span>` : ''}
+                                ${title ? `<span class="${shopLavaTitles.includes(title) ? 'lava-title-badge' : 'user-title-badge'}">${title}</span>` : ''}
+
                                 <span>${index + 1}. ${name}</span>
                             </div>
                             <span>${entry.score} 🍔</span>
@@ -5212,7 +5425,8 @@ localStorage.setItem(
                 return `
                     <li style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px;">
                         <div style="display: flex; flex-direction: column; text-align: left;">
-                            ${title ? `<span class="user-title-badge">${title}</span>` : ''}
+                            ${title ? `<span class="${shopLavaTitles.includes(title) ? 'lava-title-badge' : 'user-title-badge'}">${title}</span>` : ''}
+
                             <span>${index + 1}. ${name}</span>
                         </div>
                         <span>${player.score} колонн</span>
@@ -5558,7 +5772,8 @@ localStorage.setItem(
 
             const msgHTML = `
                 <div class="msg-bubble" style="background: rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 10px; border-left: 4px solid var(--accent-cyan); max-width: 85%; margin-bottom: 10px;">
-                    ${title ? `<span class="user-title-badge">${title}</span>` : ''}
+                   ${title ? `<span class="${shopLavaTitles.includes(title) ? 'lava-title-badge' : 'user-title-badge'}">${title}</span>` : ''}
+
                     <strong style="color: var(--accent-gold); margin-right: 8px;">${userName}:</strong>
                     <span style="color: white; word-break: break-word;">${messageText}</span>
                     <small style="font-size: 0.65rem; color: #888; display: block; margin-top: 5px;">${timeStr}</small>
@@ -5627,27 +5842,186 @@ localStorage.setItem(
             sendBobnitMessage(); // Автоматически отправляем в чат!
         }
 
-function renderAchievements() {
-    const list = document.getElementById('achievements-list');
-    if (!list) return;
-    
-    // Список всех возможных ачивок (база)
-    const allPossible = [
-    "Познание Лэйкора",
-    "10.000 кликов в кликере",
-    "Секретный рецепт",
-    "Попукивания разблокированы"
-];
+         // ====================================================
+        // 🏆 ВИТРИНА ПРОФИЛЯ: ДОСТИЖЕНИЯ | ИНВЕНТАРЬ | МАГАЗИН
+        // ====================================================
+        let currentProfileSubTab = 'achievements';
 
-    
-    list.innerHTML = allPossible.map(a => `
-        <div class="dish-card" style="border-color: ${myAchievements.includes(a) ? 'var(--accent-green)' : '#333'}">
-            <h3 style="color: ${myAchievements.includes(a) ? 'var(--accent-gold)' : '#555'}">
-                ${myAchievements.includes(a) ? '🏆' : '🔒'} ${a}
-            </h3>
-        </div>
-    `).join('');
-}
+        function switchProfileSubTab(tabName) {
+            currentProfileSubTab = tabName;
+            renderAchievements();
+        }
+
+        function renderAchievements() {
+            const list = document.getElementById('achievements-list');
+            if (!list) return;
+
+            // 1. ВЕРХНИЙ ФИКСИРОВАННЫЙ БАР ТАБОВ (КАК В МЕНЮ И СКАЗКАХ)
+            let html = `
+                <div class="profile-tabs-header">
+                    <button class="profile-tab-btn ${currentProfileSubTab === 'achievements' ? 'active-profile-tab' : ''}" onclick="switchProfileSubTab('achievements')">
+                        🏆 ДОСТИЖЕНИЯ
+                    </button>
+                    <button class="profile-tab-btn ${currentProfileSubTab === 'inventory' ? 'active-profile-tab' : ''}" onclick="switchProfileSubTab('inventory')">
+                        🎒 ИНВЕНТАРЬ
+                    </button>
+                    <button class="profile-tab-btn ${currentProfileSubTab === 'shop' ? 'active-profile-tab' : ''}" onclick="switchProfileSubTab('shop')">
+                        🛒 МАГАЗИН · ${getChipBalance()} 🪙
+                    </button>
+                </div>
+            `;
+
+            // 2. ОТДЕЛЬНЫЙ КОНТЕЙНЕР ДЛЯ КОНТЕНТА ВНИЗУ
+            html += `<div style="width: 100%; max-width: 1000px; margin: 0 auto; box-sizing: border-box;">`;
+
+            // ----------------------------------------------------
+            // РАЗДЕЛ 1: ДОСТИЖЕНИЯ
+            // ----------------------------------------------------
+            if (currentProfileSubTab === 'achievements') {
+                const allPossible = [
+                    "Познание Лэйкора",
+                    "10.000 кликов в кликере",
+                    "Секретный рецепт",
+                    "Попукивания разблокированы",
+                    "Лудоман"
+                ];
+
+                html += `<div class="shop-products-grid">`;
+                html += allPossible.map(a => `
+                    <div class="dish-card" style="border-color: ${myAchievements.includes(a) ? 'var(--accent-green)' : '#333'}; text-align: center; padding: 20px;">
+                        <h3 style="color: ${myAchievements.includes(a) ? 'var(--accent-gold)' : '#555'}; font-size: 1.1rem; margin: 0;">
+                            ${myAchievements.includes(a) ? '🏆' : '🔒'} ${a}
+                        </h3>
+                        <span style="font-size: 0.8rem; color: #777; display: block; margin-top: 8px;">
+                            ${myAchievements.includes(a) ? 'РАЗБЛОКИРОВАНО' : 'ЗАБЛОКИРОВАНО'}
+                        </span>
+                    </div>
+                `).join('');
+                html += `</div>`;
+            }
+
+            // ----------------------------------------------------
+            // РАЗДЕЛ 2: ИНВЕНТАРЬ
+            // ----------------------------------------------------
+            else if (currentProfileSubTab === 'inventory') {
+                html += `<div style="display: flex; flex-direction: column; gap: 20px; width: 100%;">`;
+
+                html += `
+                    <div class="dish-block">
+                        <div class="dish-block-title">🏷️ ВАШИ ТИТУЛЫ (НАЖМИТЕ ДЛЯ ВЫБОРА)</div>
+                        <div id="unlocked-titles-list" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;"></div>
+                    </div>
+                `;
+
+                html += `
+                    <div class="dish-block">
+                        <div class="dish-block-title">🎨 ТЕМЫ ОФОРМЛЕНИЯ</div>
+                        <div id="unlocked-themes-list" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;"></div>
+                    </div>
+                `;
+
+                html += `
+                    <div class="dish-block">
+                        <div class="dish-block-title">🗑️ СКЛАД МУСОРА КРОНТАРА</div>
+                        <p style="margin: 10px 0;">Накоплено мусора: <strong style="color: var(--accent-gold);" id="junk-counter-display">${junkCount} шт.</strong></p>
+                        <button onclick="exchangeJunkForChips()" class="open-dish-btn" style="max-width: 280px;">♻️ ОБМЕНЯТЬ 10 МУСОРА НА 5 🪙</button>
+                    </div>
+                `;
+
+                html += `</div>`;
+
+                setTimeout(() => {
+                    if (typeof renderTitlesList === 'function') renderTitlesList();
+                    if (typeof renderThemesList === 'function') renderThemesList();
+                }, 50);
+            }
+
+            // ----------------------------------------------------
+            // РАЗДЕЛ 3: МАГАЗИН ВАСИЛИЧА
+            // ----------------------------------------------------
+            else if (currentProfileSubTab === 'shop') {
+                html += `<h3 style="color: var(--accent-gold); margin-bottom: 20px; text-align: center;">📜 РЕЦЕПТЫ ВАСИЛИЧА (50 🪙 КАЖДЫЙ)</h3>`;
+                html += `<div class="shop-products-grid">`;
+
+                html += shopRecipes.map((r, i) => {
+                    const isBought = dishes.some(d => d.title === r.title);
+                    return `
+                        <div class="dish-card" style="border-color: ${isBought ? 'var(--accent-green)' : 'var(--accent-gold)'}; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div class="dish-card-title">${r.title}</div>
+                                <div class="macro-badge">${r.macros}</div>
+                                <p style="font-size: 0.8rem; color: #aaa; margin: 10px 0;">Категория: ${r.category.toUpperCase()}</p>
+                            </div>
+                            ${isBought 
+                                ? `<button class="open-dish-btn" style="background: #222; color: #666; cursor: default;">✓ В МЕНЮ</button>`
+                                : `<button class="open-dish-btn" onclick="buyShopRecipe(${i})">КУПИТЬ ЗА 50 🪙</button>`
+                            }
+                        </div>
+                    `;
+                }).join('');
+                html += `</div>`;
+
+                html += `<h3 style="color: #ff4500; margin-top: 35px; margin-bottom: 20px; text-align: center;">🌋 ВЕЛИЧЕСТВЕННЫЕ ЛАВОВЫЕ ТИТУЛЫ (100 🪙 КАЖДЫЙ)</h3>`;
+                html += `<div class="shop-products-grid">`;
+
+                html += shopLavaTitles.map((title, i) => {
+                    const isBought = unlockedTitles.includes(title);
+                    return `
+                        <div class="dish-card" style="border-color: ${isBought ? 'var(--accent-green)' : '#ff4500'}; text-align: center; display: flex; flex-direction: column; justify-content: space-between; padding: 20px 15px;">
+                            <div style="margin-bottom: 15px;"><span class="lava-title-badge">${title}</span></div>
+                            ${isBought 
+                                ? `<button class="open-dish-btn" style="background: #222; color: #666; cursor: default;">✓ КУПЛЕНО</button>`
+                                : `<button class="open-dish-btn" style="background: linear-gradient(45deg, #ff2200, #ff8c00); color: #fff;" onclick="buyLavaTitle(${i})">КУПИТЬ ЗА 100 🪙</button>`
+                            }
+                        </div>
+                    `;
+                }).join('');
+                html += `</div>`;
+            }
+
+            html += `</div>`; // Закрываем контейнер контента
+            list.innerHTML = html;
+        }
+
+        // ====================================================
+        // 🛒 ФУНКЦИИ ПОКУПКИ В МАГАЗИНЕ
+        // ====================================================
+        function buyShopRecipe(index) {
+            const recipe = shopRecipes[index];
+            if (dishes.some(d => d.title === recipe.title)) {
+                alert("Этот рецепт уже куплен и находится в Меню!");
+                return;
+            }
+
+            if (!spendChips(50)) {
+                alert("У тебя недостаточно фишек! Покрути казино или кликай Бобнита.");
+                return;
+            }
+
+            dishes.push(recipe);
+            localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
+            alert(`🎉 ПОЗДРАВЛЯЕМ! Рецепт "${recipe.title}" успешно куплен за 50 🪙 и добавлен в Меню!`);
+            renderAchievements();
+            if (typeof renderDishes === 'function') renderDishes('all');
+        }
+
+        function buyLavaTitle(index) {
+            const title = shopLavaTitles[index];
+            if (unlockedTitles.includes(title)) {
+                alert("Этот титул уже в твоем Инвентаре!");
+                return;
+            }
+
+            if (!spendChips(100)) {
+                alert("У тебя недостаточно фишек! Нужно 100 🪙.");
+                return;
+            }
+
+            unlockedTitles.push(title);
+            localStorage.setItem('leycore_titles', JSON.stringify(unlockedTitles));
+            alert(`🌋 ВЕЛИЧЕСТВЕННО! Лавовый титул "${title}" куплен и доступен в Инвентаре!`);
+            renderAchievements();
+        }
 
 
         // ====================================================
@@ -5662,6 +6036,71 @@ function renderAchievements() {
         let unlockedTitles = JSON.parse(localStorage.getItem('leycore_titles')) || ["Гость Царства"];
         let activeTitle = localStorage.getItem('leycore_active_title') || "Гость Царства";
         let unlockedThemes = JSON.parse(localStorage.getItem('leycore_themes')) || [];
+
+         // ====================================================
+        // 🛒 ТОВАРЫ МАГАЗИНА (РЕЦЕПТЫ ВАСИЛИЧА ПО 50 🪙 И ЛАВОВЫЕ ТИТУЛЫ ПО 100 🪙)
+        // ====================================================
+        const shopRecipes = [
+            {
+                category: "heavy",
+                title: "● Вены Левиафана",
+                image: "leviathan.jpg",
+                macros: "~1950 ККАЛ // ~110г БЕЛКА",
+                composition: "Говяжий фарш/стейки (400г), картофельный гратен, сливки 30%, сыр Чеддер (200г), чеснок, перец чили.",
+                cooking: "Жарим мясо на раскаленном огне до глубокой корочки. В сотейнике плавим чеддер со сливками и чили. Заливаем золотистый картофель этим венозным соусом и запекаем до обугливания краев.",
+                laykor: "Тяжелая тектоническая сцепка белков и тугого жира. Каждая ложка оседает в желудке, словно чугунный якорь древнего монстра, блокируя лишние мысли.",
+                likes: 0, dislikes: 0, comments: []
+            },
+            {
+                category: "heavy",
+                title: "● Коллапс Гладиатора",
+                image: "gladiator.jpg",
+                macros: "~2100 ККАЛ // ~130г БЕЛКА",
+                composition: "Куриные бедра без кости (400г), макароны перья (300г), бекон (100г), яичные желтки (3 шт), Пармезан (150г).",
+                cooking: "Обжариваем бекон и куру до каленого хруста. Варим пасту, замешиваем густой соус из желтков и пармезана. Замешиваем монолит в глубокой чаше.",
+                laykor: "Римский катарсис для мышц. Густой сливочно-желтковый туман обволакивает пищевод, даруя чистый анаболический парез.",
+                likes: 0, dislikes: 0, comments: []
+            },
+            {
+                category: "cloud",
+                title: "● Амброзия Демиурга",
+                image: "ambrosia.jpg",
+                macros: "~850 ККАЛ // ~75г БЕЛКА",
+                composition: "Творог обезжиренный (300г), протеин изолят (40г), ягоды черники (100г), миндальное молоко, семена чиа.",
+                cooking: "Взбиваем творог с изолятом и холодным немолоком до состояния воздушного зефира. Посыпаем ягодами и семенами чиа.",
+                laykor: "Нектар высших сфер. Пролетает сквозь гортань молниеносным облаком, восстанавливая нейронные фильтры без тяжести.",
+                likes: 0, dislikes: 0, comments: []
+            },
+            {
+                category: "cloud",
+                title: "● Эфирный Поток Кронтара",
+                image: "ether.jpg",
+                macros: "~740 ККАЛ // ~65г БЕЛКА",
+                composition: "Филе индейки (300г), брокколи (150г), стручковая фасоль, соевый соус, сок лайма, кунжут.",
+                cooking: "Обжариваем индейку на мощном огне 4 минуты. Закидываем зеленые овощи, сбрызгиваем соком лайма и соусом Терияки.",
+                laykor: "Чистый кислородный замес. Сочное зеленое безумие, обогащающее кровь и дарующее легкий суверенный полет.",
+                likes: 0, dislikes: 0, comments: []
+            },
+            {
+                category: "dessert",
+                title: "● Квантовый Замес Василича",
+                image: "quantum_dessert.jpg",
+                macros: "~1300 ККАЛ // ~60г БЕЛКА",
+                composition: "Овсяная мука (100г), какао (30г), яйца (2 шт), мягкий творог (200г), арахисовое масло, мед (3 ст.л).",
+                cooking: "Выпекаем пышный шоколадный корж в микроволновке за 4 минуты. Разрезаем на слои, промазываем творогом с медом и запечатываем арахисовой глазурью.",
+                laykor: "Шоколадно-арахисовый коллапс. Вязкий дофаминовый удар, наглухо склеивающий усталость и дарующий титанический прилив эндорфинов.",
+                likes: 0, dislikes: 0, comments: []
+            }
+        ];
+
+        // 5 ЛАВОВЫХ ТИТУЛОВ ИЗ МАГАЗИНА ПО 100 🪙
+        const shopLavaTitles = [
+            "🌋 Владыка Суверенного Космоса",
+            "🔥 Архитектор Первозданного Огня",
+            "⚡️ Демиург Высшего Кронтара",
+            "👑 Абсолютный Творец Лэйкора",
+            "💎 Бессмертный Вершитель Судеб"
+        ];
 
                 // 10 УНИЗИТЕЛЬНЫХ ФРАЗ БОБНИТА (В косых кавычках можно писать любые кавычки и символы!)
         const bobnitHumiliations = [
@@ -6014,63 +6453,6 @@ function spendChips(amount) {
         }
 
 
-                // ====================================================
-        // 🎁 ОБРАБОТКА ВЫИГРЫША В КАЗИНО
-        // ====================================================
-        function processCasinoOutcome(winType) {
-            if (winType === 'artefact') {
-                const unowned = casinoRecipes.filter(r => !dishes.some(d => d.title === r.title));
-                if (unowned.length > 0) {
-                    const winRecipe = unowned[Math.floor(Math.random() * unowned.length)];
-                    dishes.push(winRecipe);
-                    localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
-                    alert(`🏆 ТРИ СОВПАДЕНИЯ (🍖🍖🍖)! Выбит секретный рецепт: "${winRecipe.title}"!`);
-                    if (typeof renderDishes === 'function') renderDishes('all');
-                } else {
-                    addChips(5);
-                    alert("🏆 Все секретные рецепты уже открыты! Начислено +5 🪙!");
-                }
-            } else if (winType === 'relic') {
-                const unowned = casinoTitles.filter(t => !unlockedTitles.includes(t));
-                if (unowned.length > 0) {
-                    const winTitle = unowned[Math.floor(Math.random() * unowned.length)];
-                    unlockedTitles.push(winTitle);
-                    localStorage.setItem('leycore_titles', JSON.stringify(unlockedTitles));
-                    alert(`🔮 ТРИ СОВПАДЕНИЯ (🔮🔮🔮)! Выбит редкий титул: "${winTitle}"!`);
-                    if (typeof renderTitlesList === 'function') renderTitlesList();
-                } else {
-                    addChips(3);
-                    alert("🔮 Все титулы уже собраны! Начислено +3 🪙!");
-                }
-            } else if (winType === 'theme') {
-                const themes = ['theme-orange', 'theme-crimson', 'theme-rainbow'];
-                const unowned = themes.filter(t => !unlockedThemes.includes(t));
-                if (unowned.length > 0) {
-                    const winTheme = unowned[0];
-                    unlockedThemes.push(winTheme);
-                    localStorage.setItem('leycore_themes', JSON.stringify(unlockedThemes));
-                    applyTheme(winTheme);
-                    alert("🌈 ТРИ СОВПАДЕНИЯ (🌈🌈🌈)! Разблокирована новая тема!");
-                    if (typeof renderThemesList === 'function') renderThemesList();
-                } else {
-                    addChips(2);
-                    alert("🌈 Все темы открыты! Начислено +2 🪙!");
-                }
-            } else if (winType === 'emenit') {
-                addChips(5);
-                alert("⚡️ ТРИ СОВПАДЕНИЯ (⚡️⚡️⚡️)! Вы выиграли +5 Бонусных Фишек!");
-            } else {
-                junkCount++;
-                const humCard = document.getElementById('bobnit-humiliation-card');
-                const humText = document.getElementById('bobnit-humiliation-text');
-                if (humCard && humText) {
-                    humText.innerText = bobnitHumiliations[Math.floor(Math.random() * bobnitHumiliations.length)];
-                    humCard.style.display = 'flex';
-                }
-            }
-            updateCasinoUI();
-        }
-
         
 
         // ТАЙМЕР И БОНУС 10 ФИШЕК КАЖДЫЕ 3 ЧАСА (НЕ СТАКАЕТСЯ)
@@ -6148,16 +6530,6 @@ function spendChips(amount) {
             if (themeClass) document.body.classList.add(themeClass);
         }
 
-        // ОБНОВЛЁННЫЙ ПЕРЕКЛЮЧАТЕЛЬ СТРАНИЦ С ПОКАЗОМ ЗНАЧКА ФИШЕК
-        const oldSwitchPage = window.switchPage;
-        window.switchPage = function(id) {
-            if (typeof oldSwitchPage === 'function') oldSwitchPage(id);
-
-            const badge = document.getElementById('games-top-badge');
-            if (badge) {
-                badge.style.display = (id === 'games') ? 'block' : 'none';
-            }
-        };
 
                         // ====================================================
         // 🎮 ФИЛЬТРАЦИЯ ИГР ПО КАТЕГОРИЯМ
@@ -6190,13 +6562,10 @@ function spendChips(amount) {
             }
         }
 
+        </script>
 
-                
-    </script>
-
-
-
-    <!-- МОДАЛЬНОЕ ОКНО БЛОКИРОВКИ 18+ ДЛЯ ХРАНИЛИЩА -->
+        
+         <!-- МОДАЛЬНОЕ ОКНО БЛОКИРОВКИ 18+ ДЛЯ ХРАНИЛИЩА -->
     <div id="tales-lock-modal" class="lock-modal-overlay" style="display: none;">
         <div class="lock-modal-card">
             <div class="lock-icon">🍩</div>
