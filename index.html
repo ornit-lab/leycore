@@ -3593,6 +3593,16 @@ let clickWarnings = 0;
 let clickMultiplier = 1;
 let boosterTimer = null;
 
+      // Переменные казино, которые мы только что перенесли
+    let casinoChips = parseInt(localStorage.getItem('leycore_chips')) || 10; // Исправил '10', 10) на 10
+    let totalChipsSpent = parseInt(localStorage.getItem('leycore_chips_spent')) || 0; // Исправил '0', 10) на 0
+    let junkCount = parseInt(localStorage.getItem('leycore_junk_count')) || 0; // Исправил '0', 10) на 0
+    let lastChipClaimTime = parseInt(localStorage.getItem('leycore_last_claim')) || 0; // Исправил '0', 10) на 0
+
+    let unlockedTitles = JSON.parse(localStorage.getItem('leycore_titles')) || ["Гость Царства"];
+    let activeTitle = localStorage.getItem('leycore_active_title') || "Гость Царства";
+    let unlockedThemes = JSON.parse(localStorage.getItem('leycore_themes')) || [];
+
 // Убедись, что тут твои реальные фразы, а не три точки!
 const bobnitWinPhrases = [
     "Ладно-ладно, в этот раз тебе повезло, шельма... Но мои фишки я всё равно отработаю!",
@@ -6399,20 +6409,6 @@ localStorage.setItem(
             alert(`🌋 ВЕЛИЧЕСТВЕННО! Лавовый титул "${title}" куплен и доступен в Инвентаре!`);
             renderAchievements();
         }
-
-
-        // ====================================================
-        // 🎰 КАЗИНО ВАСИЛИЧА — ПОЛНАЯ ЭКОНОМИКА И ЛОГИКА
-        // ====================================================
-
-        let casinoChips = parseInt(localStorage.getItem('leycore_chips') || '10', 10);
-        let totalChipsSpent = parseInt(localStorage.getItem('leycore_chips_spent') || '0', 10);
-        let junkCount = parseInt(localStorage.getItem('leycore_junk_count') || '0', 10);
-        let lastChipClaimTime = parseInt(localStorage.getItem('leycore_last_claim') || '0', 10);
-
-        let unlockedTitles = JSON.parse(localStorage.getItem('leycore_titles')) || ["Гость Царства"];
-        let activeTitle = localStorage.getItem('leycore_active_title') || "Гость Царства";
-        let unlockedThemes = JSON.parse(localStorage.getItem('leycore_themes')) || [];
 
          // ====================================================
         // 🛒 ТОВАРЫ МАГАЗИНА (РЕЦЕПТЫ ВАСИЛИЧА ПО 50 🪙 И ЛАВОВЫЕ ТИТУЛЫ ПО 100 🪙)
