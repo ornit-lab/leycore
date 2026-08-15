@@ -18,6 +18,98 @@
     <style>
 
 
+/* ==========================================
+   1. РЕЖИМ СВЕТА И СЕРОСТИ (ТЕМНЫЙ БУНКЕР)
+   ========================================== */
+
+/* Когда свет ВЫКЛЮЧЕН — весь сайт серый, мрачный и обесцвеченный */
+body.leycore-dark {
+  background-color: #08080a !important;
+  /* Обесцвечиваем абсолютно ВСЁ на странице */
+  filter: grayscale(100%) brightness(40%) contrast(120%);
+  transition: filter 0.6s ease, background-color 0.6s ease;
+}
+
+/* Исключение: САМА ЛАМПА остается цветной и яркой даже в серости */
+body.leycore-dark #leycore-lamp-container {
+  filter: grayscale(0%) brightness(250%) !important;
+}
+
+/* Когда свет ВКЛЮЧЕН — полный возврат оригинальных цветов */
+body.leycore-light {
+  filter: none !important;
+  transition: filter 0.6s ease, background-color 0.6s ease;
+}
+
+
+/* ==========================================
+   2. КОНСТРУКЦИЯ И АНИМАЦИЯ ПОКАЧИВАНИЯ ЛАМПЫ
+   ========================================== */
+
+#leycore-lamp-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0 auto 15px auto;
+  width: 80px;
+  cursor: pointer;
+  z-index: 10000;
+  
+  /* Анимация раскачивания */
+  transform-origin: top center;
+  animation: lampSway 3.5s ease-in-out infinite alternate;
+  user-select: none;
+}
+
+/* Провод лампы */
+.lamp-wire {
+  width: 2px;
+  height: 40px;
+  background: linear-gradient(to bottom, #555, #222);
+}
+
+/* Цоколь и лампочка */
+.lamp-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lamp-bulb {
+  font-size: 38px;
+  line-height: 1;
+  transition: transform 0.2s ease, filter 0.3s ease;
+}
+
+#leycore-lamp-container:hover .lamp-bulb {
+  transform: scale(1.15);
+}
+
+/* Желтое свечение вокруг лампы */
+.lamp-glow {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 204, 0, 0.6) 0%, rgba(255, 150, 0, 0.2) 40%, rgba(0,0,0,0) 70%);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* КАДРЫ АНИМАЦИИ ПОКАЧИВАНИЯ */
+@keyframes lampSway {
+  0% {
+    transform: rotate(-6deg);
+  }
+  100% {
+    transform: rotate(6deg);
+  }
+}
+
+
 /* Старый класс для достижений и титулов (оставляем как было) */
 .dish-card {
     background: rgba(20, 20, 25, 0.8);
@@ -3011,6 +3103,8 @@
 
 <body>
 
+    
+
 
         <!-- ВЕРХНИЙ ЗНАЧОК ФИШЕК (ВИДЕН ТОЛЬКО В ИГРАХ) -->
     <div id="games-top-badge" class="games-top-badge">
@@ -3019,6 +3113,15 @@
 
 
     <!-- ВЕРТИКАЛЬНЫЙ ВИДДЖЕТ ШКАЛЫ ПРОГРЕССА (СПРАВА) -->
+     <!-- ИНТЕРАКТИВНАЯ ЛАМПА ЛЭЙКОРА -->
+<div id="leycore-lamp-container" onclick="toggleLeycoreLight()">
+  <div class="lamp-wire"></div>
+  <div class="lamp-head">
+    <div class="lamp-bulb" id="lamp-bulb">💡</div>
+    <div class="lamp-glow"></div>
+  </div>
+</div>
+
     <div class="leycore-progress-widget">
         <div class="leycore-progress-head">
             <span>⚡ ЛЭЙКОР</span>
@@ -6434,7 +6537,7 @@ localStorage.setItem(
         const shopRecipes = [
             {
                 category: "heavy",
-                title: "● Подлива Каннибала",
+                title: "● Вены Левиафана",
                 image: "leviathan.jpg",
                 macros: "~1950 ККАЛ // ~110г БЕЛКА",
                 composition: "Говяжий фарш/стейки (400г), картофельный гратен, сливки 30%, сыр Чеддер (200г), чеснок, перец чили.",
@@ -6464,7 +6567,7 @@ localStorage.setItem(
             },
             {
                 category: "cloud",
-                title: "● Крах вегана",
+                title: "● Кунг-Фу-Панда",
                 image: "ether.jpg",
                 macros: "~740 ККАЛ // ~65г БЕЛКА",
                 composition: "Филе индейки (300г), брокколи (150г), стручковая фасоль, соевый соус, сок лайма, кунжут.",
@@ -7032,6 +7135,50 @@ window.showBobnitWinReaction = function() {
                 if (clickerBlock) clickerBlock.style.display = 'block';
             }
         }
+
+
+        // Функция переключения света
+function toggleLeycoreLight() {
+  const body = document.body;
+  const glow = document.querySelector('.lamp-glow');
+  
+  if (body.classList.contains('leycore-dark')) {
+    // Включаем сочный цветной режим!
+    body.classList.remove('leycore-dark');
+    body.classList.add('leycore-light');
+    
+    if (glow) {
+      glow.style.opacity = '1';
+      glow.style.transform = 'scale(1.3)';
+    }
+    
+    localStorage.setItem('leycore_light_state', 'on');
+  } else {
+    // Возвращаем серый монохромный бункер!
+    body.classList.remove('leycore-light');
+    body.classList.add('leycore-dark');
+    
+    if (glow) {
+      glow.style.opacity = '0.5';
+      glow.style.transform = 'scale(1)';
+    }
+    
+    localStorage.setItem('leycore_light_state', 'off');
+  }
+}
+
+// Авто-проверка при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+  const savedState = localStorage.getItem('leycore_light_state');
+  
+  // По умолчанию ставим СЕРЫЙ РЕЖИМ (OFF), если пользователь еще не нажимал
+  if (savedState === 'on') {
+    document.body.classList.add('leycore-light');
+  } else {
+    document.body.classList.add('leycore-dark');
+  }
+});
+
 
         </script>
 
