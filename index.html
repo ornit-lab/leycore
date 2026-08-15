@@ -4688,6 +4688,11 @@ if (burgerCount >= 10000) {
 if (bestFlappyScore >= 30) {
     addAchievement("Попукивания разблокированы");
 }
+// Восстанавливаем достижение "Опытный пердежист"
+if (bestFlappyScore >= 100) {
+    addAchievement("Опытный пердежист");
+}
+
 
 
 if (
@@ -4860,12 +4865,16 @@ function scheduleFlappyScoreSave() {
                 if (!pipes[i].passed && pipes[i].x < bird.x) {
     pipes[i].passed = true;
     score++;
-    // Проверка на достижение "Разработанный газовый аппарат"
-if (score === 100) {
+    // Проверка на достижение "Опытный пердежист" (срабатывает при достижении 100 и больше)
+if (score >= 100) {
     if (typeof unlockAchievement === 'function') {
+        console.log("Попытка разблокировать ачивку Опытный пердежист...");
         unlockAchievement("Опытный пердежист", 20);
+    } else {
+        console.warn("Функция unlockAchievement не найдена!");
     }
 }
+
 
 
     if (score > bestFlappyScore) {
@@ -5355,6 +5364,39 @@ if (score >= 30) {
                 story: "Бобнита разорвало на целую галактику! Бесконечное величие Лэйкора вышло за пределы физической оболочки."
             }
         ];
+
+
+            // УНИВЕРСАЛЬНАЯ ФУНКЦИЯ ВЫДАЧИ ДОСТИЖЕНИЙ
+    function unlockAchievement(title, rewardChips) {
+        // Проверяем, есть ли уже этот массив у пользователя (если нет - создаем)
+        if (typeof unlockedAchievements === 'undefined') {
+            window.unlockedAchievements = [];
+        }
+
+        // Если ачивка ЕЩЕ НЕ получена:
+        if (!unlockedAchievements.includes(title)) {
+            unlockedAchievements.push(title);
+            
+            // Сохраняем в localStorage
+            localStorage.setItem('leycore_unlocked_achievements', JSON.stringify(unlockedAchievements));
+
+            // Начисляем фишки награды
+            if (typeof addChips === 'function') {
+                addChips(rewardChips);
+            }
+
+            // Показываем красивое уведомление игроку
+            alert(`🏆 ДОСТИЖЕНИЕ РАЗБЛОКИРОВАНО!\n«${title}»\nНаграда: +${rewardChips} 🪙`);
+            
+            // Обновляем список на странице достижений, если функция существует
+            if (typeof renderAchievements === 'function') {
+                renderAchievements();
+            }
+            
+            console.log("Успешно выдана ачивка:", title);
+        }
+    }
+    
 
         // Функция обновления внешнего вида кликера (картинка, название, история)
         function updateBobnitStageUI() {
