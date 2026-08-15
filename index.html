@@ -18,6 +18,38 @@
     <style>
 
 
+/* Старый класс для достижений и титулов (оставляем как было) */
+.dish-card {
+    background: rgba(20, 20, 25, 0.8);
+    border: 2px solid var(--accent-gold);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* НОВЫЙ КЛАСС специально для магазина (с картинками) */
+.shop-dish-card {
+    min-height: 410px; /* Фиксируем высоту ТОЛЬКО для магазина */
+    background: rgba(20, 20, 25, 0.8);
+    border: 2px solid var(--accent-gold);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Картинка теперь тоже привязана только к магазину */
+.shop-dish-card .recipe-card-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
 
 /* Стили для победной карточки Бобнита */
 .bobnit-win-card {
@@ -2788,6 +2820,7 @@
     box-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
 }
 
+/* Контейнер сетки магазина */
 .shop-products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -2798,11 +2831,34 @@
     box-sizing: border-box;
 }
 
-.shop-products-grid .dish-card {
+/* Исправляем селектор: теперь он нацелен на твой новый класс */
+.shop-dish-card {
+    min-height: 410px; /* Теперь это сработает! */
     min-width: 0;
     width: 100%;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    /* Добавь сюда свои визуальные стили, если они не подхватываются */
+    background: rgba(20, 20, 25, 0.8);
+    border: 2px solid var(--accent-gold);
+    border-radius: 12px;
+    padding: 15px;
 }
+
+
+/* Стиль самой картинки блюда */
+.recipe-card-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;     /* Картинка красиво заполняет блок без искажений */
+    border-radius: 8px;    /* Скругление углов */
+    margin-bottom: 12px;   /* Отступ до названия */
+    border: 1px solid rgba(255, 215, 0, 0.2); /* Тонкая золотая рамочка */
+}
+
 
 /* ====================================================
    🏆 СТРАНИЦА ДОСТИЖЕНИЙ И МАГАЗИНА
@@ -6272,23 +6328,28 @@ localStorage.setItem(
             else if (currentProfileSubTab === 'shop') {
                 html += `<h3 style="color: var(--accent-gold); margin-bottom: 20px; text-align: center;">📜 РЕЦЕПТЫ ВАСИЛИЧА (50 🪙 КАЖДЫЙ)</h3>`;
                 html += `<div class="shop-products-grid">`;
+        html += shopRecipes.map((r, i) => {
+            const isBought = dishes.some(d => d.title === r.title);
+            return `
+                <div class="shop-dish-card" style="border-color: ${isBought ? 'var(--accent-green)' : 'var(--accent-gold)'}; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <!-- КАРТИНКА БЛЮДА -->
+                        <img src="${r.image}" class="recipe-card-img" alt="${r.title}">
+                        
+                        <div class="dish-card-title">${r.title}</div>
+                        <div class="macro-badge">${r.macros}</div>
+                        <p style="font-size: 0.8rem; color: #aaa; margin: 10px 0;">Категория: ${r.category.toUpperCase()}</p>
+                    </div>
+                    
+                    ${isBought
+                        ? `<button class="open-dish-btn" style="background: #222; color: #666; cursor: default;">✓ В МЕНЮ</button>`
+                        : `<button class="open-dish-btn" onclick="buyShopRecipe(${i})">КУПИТЬ ЗА 50 🪙</button>`
+                    }
+                </div>
+            `;
+        }).join('');
 
-                html += shopRecipes.map((r, i) => {
-                    const isBought = dishes.some(d => d.title === r.title);
-                    return `
-                        <div class="dish-card" style="border-color: ${isBought ? 'var(--accent-green)' : 'var(--accent-gold)'}; display: flex; flex-direction: column; justify-content: space-between;">
-                            <div>
-                                <div class="dish-card-title">${r.title}</div>
-                                <div class="macro-badge">${r.macros}</div>
-                                <p style="font-size: 0.8rem; color: #aaa; margin: 10px 0;">Категория: ${r.category.toUpperCase()}</p>
-                            </div>
-                            ${isBought 
-                                ? `<button class="open-dish-btn" style="background: #222; color: #666; cursor: default;">✓ В МЕНЮ</button>`
-                                : `<button class="open-dish-btn" onclick="buyShopRecipe(${i})">КУПИТЬ ЗА 50 🪙</button>`
-                            }
-                        </div>
-                    `;
-                }).join('');
+
                 html += `</div>`;
 
                 html += `<h3 style="color: #ff4500; margin-top: 35px; margin-bottom: 20px; text-align: center;">🌋 ВЕЛИЧЕСТВЕННЫЕ ЛАВОВЫЕ ТИТУЛЫ (100 🪙 КАЖДЫЙ)</h3>`;
