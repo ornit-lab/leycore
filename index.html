@@ -3586,31 +3586,17 @@
 
     <script>
  
- 
-
-let lastClickTime = 0; 
-let clickWarnings = 0;
-let clickMultiplier = 1;
-let boosterTimer = null;
-
-      // Переменные казино, которые мы только что перенесли
-    let casinoChips = parseInt(localStorage.getItem('leycore_chips')) || 10; // Исправил '10', 10) на 10
-    let totalChipsSpent = parseInt(localStorage.getItem('leycore_chips_spent')) || 0; // Исправил '0', 10) на 0
-    let junkCount = parseInt(localStorage.getItem('leycore_junk_count')) || 0; // Исправил '0', 10) на 0
-    let lastChipClaimTime = parseInt(localStorage.getItem('leycore_last_claim')) || 0; // Исправил '0', 10) на 0
-
-    let unlockedTitles = JSON.parse(localStorage.getItem('leycore_titles')) || ["Гость Царства"];
-    let activeTitle = localStorage.getItem('leycore_active_title') || "Гость Царства";
-    let unlockedThemes = JSON.parse(localStorage.getItem('leycore_themes')) || [];
-
-// Убедись, что тут твои реальные фразы, а не три точки!
-const bobnitWinPhrases = [
+ const bobnitWinPhrases = [
     "Ладно-ладно, в этот раз тебе повезло, шельма... Но мои фишки я всё равно отработаю!",
     "ЧЁ?! Казино сломалось?! Василич, пересчитай бургеры, нас обчистили!",
     "Ты забрал мои фишки?! Да я за них на складе три смены без обеда пахал!",
     "Фортуна улыбнулась тебе... или просто чихнула в твою сторону. Посмотрим в следующий раз!",
     "Наслаждайся выигрышем, сударь! Но помни: бургеры сгорают, а Бобнит остаётся!"
 ];
+
+
+ let clickMultiplier = 1;
+let boosterTimer = null;
 
 function buyClickerBooster(factor, durationSec, cost) {
     // Используем getChipBalance() для проверки текущего количества фишек
@@ -5367,7 +5353,7 @@ if (score >= 30) {
     }
     
 
-         lastClickTime = Date.now(); // Для античита
+        let lastClickTime = Date.now(); // Для античита
         const minTimeBetweenClicks = 50; // Минимальное время между кликами в мс (20 кликов в секунду)
 
         // Массив путей к картинкам на GitHub (или в папке проекта)
@@ -5466,60 +5452,19 @@ if (score >= 30) {
 
         // ГЛАВНАЯ ФУНКЦИЯ КЛИКА
         function clickBobnit(event) {
-    const now = Date.now();
-    
-    // --- АНТИЧИТ ПРОВЕРКА ---
-    if (now - lastClickTime < 80) {
-        clickWarnings++;
-        if (clickWarnings > 10) {
-            console.warn("Бобнит: Эй, ты слишком быстрый! Перчатка Таноса уже наготове... 🫰");
-            return; // Просто не считаем этот клик
-        }
-    } else {
-        clickWarnings = 0;
-    }
-    lastClickTime = now;
-    // --- КОНЕЦ АНТИЧИТА ---
-
-    // --- ЛОГИКА НАЧИСЛЕНИЯ БУРГЕРОВ ---
-    const oldBurgerCount = burgerCount; // Записываем старое значение
-    burgerCount += clickMultiplier; // Прибавляем клики (с учетом множителя)
-    
-    console.log("Кликер: Старый счёт:", oldBurgerCount, "Новый счёт:", burgerCount, "Множитель:", clickMultiplier); // <-- ВОТ ЭТОТ ЛОГ ОЧЕНЬ ВАЖЕН!
-
-    createClickEffect(event); // Создаем эффект +1
-
-    // --- ОБНОВЛЕНИЕ ОТОБРАЖЕНИЯ НА ЭКРАНЕ ---
-    const counterEl = document.getElementById('clicker-counter');
-    if (counterEl) {
-        counterEl.innerText = "Бургеров: " + burgerCount;
-        console.log("Кликер: Обновили отображение на экране!"); // <-- ЕЩЕ ОДИН ЛОГ
-    } else {
-        console.warn("Кликер: Элемент clicker-counter не найден!");
-    }
-
-    // --- СОХРАНЕНИЕ В Supabase И LOCALSTORAGE ---
-    // Это очень важно! Возможно, эти функции потерялись
-    if (typeof saveUserData === 'function') {
-        saveUserData(); // Твоя функция сохранения в localStorage
-        console.log("Кликер: Данные сохранены в localStorage!");
-    }
-    if (typeof updateSupabaseScore === 'function') { // Если у тебя есть функция для Supabase
-        updateSupabaseScore(burgerCount); // Обновляем Supabase
-        console.log("Кликер: Данные отправлены в Supabase!");
-    } else {
-        console.warn("Кликер: Функция updateSupabaseScore для Supabase не найдена!");
-    }
-
-    // --- ЛОГИКА СТАДИЙ БОБНИТА И АЧИВОК ---
-    updateBobnitStageUI(); // Обновляем картинку и статус Бобнита
-    // Проверки ачивок (50k, 10k) уже происходят где-то в другом месте при updateBobnitStageUI или при загрузке.
-}
-
+            const currentTime = Date.now();
+            // АНТИЧИТ: Если клик слишком быстрый, игнорируем его
+            if (currentTime - lastClickTime < minTimeBetweenClicks) {
+                // Можно добавить небольшой визуальный фидбэк, но без увеличения счетчика
+                // console.warn("Слишком быстрый клик! Авто-кликер не пройдет.");
+                return;
+            }
+            lastClickTime = currentTime; // Обновляем время последнего валидного клика
 
             
 
-          
+           let lastClickTime = 0;
+let clickWarnings = 0;
 
 function clickBurger() {
     const now = Date.now();
@@ -5598,7 +5543,7 @@ if (burgerCount >= 50000) {
         localStorage.setItem('dinoSnotUnlocked', 'true');
         unlockSecretRecipe();
     }
-   
+    } // Конец clickBobnit
 
 
 
@@ -6409,6 +6354,20 @@ localStorage.setItem(
             alert(`🌋 ВЕЛИЧЕСТВЕННО! Лавовый титул "${title}" куплен и доступен в Инвентаре!`);
             renderAchievements();
         }
+
+
+        // ====================================================
+        // 🎰 КАЗИНО ВАСИЛИЧА — ПОЛНАЯ ЭКОНОМИКА И ЛОГИКА
+        // ====================================================
+
+        let casinoChips = parseInt(localStorage.getItem('leycore_chips') || '10', 10);
+        let totalChipsSpent = parseInt(localStorage.getItem('leycore_chips_spent') || '0', 10);
+        let junkCount = parseInt(localStorage.getItem('leycore_junk_count') || '0', 10);
+        let lastChipClaimTime = parseInt(localStorage.getItem('leycore_last_claim') || '0', 10);
+
+        let unlockedTitles = JSON.parse(localStorage.getItem('leycore_titles')) || ["Гость Царства"];
+        let activeTitle = localStorage.getItem('leycore_active_title') || "Гость Царства";
+        let unlockedThemes = JSON.parse(localStorage.getItem('leycore_themes')) || [];
 
          // ====================================================
         // 🛒 ТОВАРЫ МАГАЗИНА (РЕЦЕПТЫ ВАСИЛИЧА ПО 50 🪙 И ЛАВОВЫЕ ТИТУЛЫ ПО 100 🪙)
