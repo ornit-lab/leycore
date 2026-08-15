@@ -3653,14 +3653,34 @@ function showBobnitWinReaction() {
  
  let myAchievements = JSON.parse(localStorage.getItem('leycore_achievements')) || [];
 
+// Словарь наград: за какую ачивку сколько фишек давать
+const achievementRewards = {
+    "Опытный пердежист": 20,
+    "50.000 кликов в кликере": 50,
+    // Можешь сюда дописывать и другие ачивки в будущем, например:
+    // "Секретный рецепт": 15
+};
+
 function addAchievement(name) {
     if (!myAchievements.includes(name)) {
         myAchievements.push(name);
         localStorage.setItem('leycore_achievements', JSON.stringify(myAchievements));
-        alert("🏆 НОВАЯ АЧИВКА: " + name);
+        
+        // Проверяем, есть ли награда за эту ачивку
+        let rewardText = "";
+        if (achievementRewards[name]) {
+            const reward = achievementRewards[name];
+            if (typeof addChips === 'function') {
+                addChips(reward); // Начисляем фишки
+                rewardText = `\n🎁 Награда: +${reward} 🪙`;
+            }
+        }
+
+        alert("🏆 НОВАЯ АЧИВКА: " + name + rewardText);
         renderAchievements(); // Обновляем список, если мы в профиле
     }
 }
+
 
         // ----------------------------------------------------
         // 1. ВЕРТИКАЛЬНАЯ ШКАЛА ПРОГРЕССА (10 КАРТОЧЕК = 100%)
@@ -4691,6 +4711,15 @@ if (bestFlappyScore >= 30) {
 // Восстанавливаем достижение "Опытный пердежист"
 if (bestFlappyScore >= 100) {
     addAchievement("Опытный пердежист");
+    // ДОПОЛНИТЕЛЬНАЯ ПРОВЕРКА ДЛЯ СТАРЫХ ИГРОКОВ:
+    // Проверяем, забирал ли он уже бонусные 20 фишек за эту ачивку
+    if (!localStorage.getItem('flappy_reward_claimed')) {
+        if (typeof addChips === 'function') {
+            addChips(20); // Начисляем 20 фишек
+            localStorage.setItem('flappy_reward_claimed', 'true'); // Ставим метку, что бонус забран
+            alert("🎁 Бобнит выписал компенсацию! Начислено +20 🪙 за прошлые заслуги в Полёте Царевны!");
+        }
+    }
 }
 
 
