@@ -5426,7 +5426,30 @@ if (score >= 30) {
             }
             lastClickTime = currentTime; // Обновляем время последнего валидного клика
 
-            burgerCount += clickMultiplier;
+            
+
+           let lastClickTime = 0;
+let clickWarnings = 0;
+
+function clickBurger() {
+    const now = Date.now();
+    
+    // Если между кликами прошло меньше 80 миллисекунд (это ОЧЕНЬ быстро, человек так не может долго)
+    if (now - lastClickTime < 80) {
+        clickWarnings++;
+        if (clickWarnings > 10) {
+            console.warn("Бобнит: Эй, ты слишком быстрый! Перчатка Таноса уже наготове... 🫰");
+            return; // Просто не считаем этот клик
+        }
+    } else {
+        clickWarnings = 0; // Сбрасываем предупреждения, если темп нормальный
+    }
+    lastClickTime = now;
+
+    // Твой обычный код клика...
+    burgerCount += clickMultiplier;
+}
+
             // Проверка на 50 000 кликов (бургеров)
 if (burgerCount >= 50000) {
     if (typeof unlockAchievement === 'function') {
@@ -5601,20 +5624,34 @@ localStorage.setItem(
             const leaderboardList = document.getElementById('leaderboard-list');
             if (!leaderboardList) return;
 
-            try {
-                const { data, error } = await _supabase
-                    .from('leaderboard')
-                    .select('player_name, score')
-                    .order('score', { ascending: false })
-                    .limit(10);
+                  try {
+        const { data, error } = await _supabase
+            .from('leaderboard')
+            .select('player_name, score, submitted_at') // Заменили на правильное имя колонки
+            .order('score', { ascending: false })
+            .limit(20);
 
-                if (error || !data) return;
+        if (error || !data) return;
 
-                leaderboardList.innerHTML = data.map((entry, index) => {
-                    let rawName = entry.player_name || 'Герой';
-                    let title = '';
-                    let name = rawName;
+        // УМНЫЙ ФИЛЬТР БОБНИТА:
+        const honestPlayers = data.filter(entry => {
+            // Используем submitted_at
+            const startDate = entry.submitted_at ? new Date(entry.submitted_at) : new Date();
+            const now = new Date();
+            const daysPlaying = Math.max(1, Math.ceil((now - startDate) / (1000 * 60 * 60 * 24)));
+            
+            // ЛИМИТ: 100 000 кликов в день.
+            const maxAllowed = daysPlaying * 100000; 
 
+            return entry.score <= maxAllowed;
+        });
+
+
+        // ОТРИСОВКА: берем только первые 10 ЧЕСТНЫХ игроков
+        leaderboardList.innerHTML = honestPlayers.slice(0, 10).map((entry, index) => {
+            let rawName = entry.player_name || 'Герой';
+            let title = '';
+            let name = rawName;
                     if (rawName.includes('|')) {
                         const parts = rawName.split('|');
                         title = parts[0];
