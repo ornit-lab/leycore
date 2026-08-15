@@ -5450,100 +5450,98 @@ if (score >= 30) {
             }
         }
 
-        // ГЛАВНАЯ ФУНКЦИЯ КЛИКА
-        function clickBobnit(event) {
-            const currentTime = Date.now();
-            // АНТИЧИТ: Если клик слишком быстрый, игнорируем его
-            if (currentTime - lastClickTime < minTimeBetweenClicks) {
-                // Можно добавить небольшой визуальный фидбэк, но без увеличения счетчика
-                // console.warn("Слишком быстрый клик! Авто-кликер не пройдет.");
-                return;
-            }
-            lastClickTime = currentTime; // Обновляем время последнего валидного клика
-
-            
-
-           let lastClickTime = 0;
-let clickWarnings = 0;
-
-function clickBurger() {
-    const now = Date.now();
+       // === ГЛАВНАЯ И ЕДИНСТВЕННАЯ ФУНКЦИЯ КЛИКА БОБНИТА ===
+function clickBobnit(event) {
+    const now = Date.now(); // Текущее время для античита
     
-    // Если между кликами прошло меньше 80 миллисекунд (это ОЧЕНЬ быстро, человек так не может долго)
-    if (now - lastClickTime < 80) {
-        clickWarnings++;
-        if (clickWarnings > 10) {
+    // ИНИЦИАЛИЗАЦИЯ ГЛОБАЛЬНЫХ ПЕРЕМЕННЫХ АНТИЧИТА (через window, чтобы не было ошибок!)
+    if (typeof window.lastClickTime === 'undefined') window.lastClickTime = 0;
+    if (typeof window.clickWarnings === 'undefined') window.clickWarnings = 0;
+    // minTimeBetweenClicks берем из того, что уже работало (80мс)
+    const minTimeBetweenClicks = 80; 
+
+    // 1. АНТИЧИТ: Защита от слишком быстрых кликов (автокликеров)
+    if (now - window.lastClickTime < minTimeBetweenClicks) {
+        window.clickWarnings++;
+        if (window.clickWarnings > 10) { // После 10 предупреждений, перестаем считать
             console.warn("Бобнит: Эй, ты слишком быстрый! Перчатка Таноса уже наготове... 🫰");
-            return; // Просто не считаем этот клик
+            return; // Игнорируем этот клик
         }
     } else {
-        clickWarnings = 0; // Сбрасываем предупреждения, если темп нормальный
+        window.clickWarnings = 0; // Сбрасываем предупреждения, если темп нормальный
     }
-    lastClickTime = now;
+    window.lastClickTime = now; // Запоминаем время последнего успешного клика
 
-    // Твой обычный код клика...
-    burgerCount += clickMultiplier;
-}
+    // 2. НАЧИСЛЕНИЕ БУРГЕРОВ (с учетом множителей х2/х3)
+    // burgerCount и clickMultiplier должны быть глобальными переменными
+    burgerCount += clickMultiplier; 
 
-            // Проверка на 50 000 кликов (бургеров)
-if (burgerCount >= 50000) {
-    if (typeof unlockAchievement === 'function') {
-        unlockAchievement("50.000 кликов в кликере", 50); // даем ачивку и 50 фишек
+    // 3. ВИЗУАЛЬНЫЙ ЭФФЕКТ +1 (Всплывающая цифра)
+    if (typeof createClickEffect === 'function') {
+        createClickEffect(event); // Требует 'event' для правильного позиционирования
     }
-}
 
+    // 4. ОБНОВЛЕНИЕ ТЕКСТА СЧЕТЧИКА НА ЭКРАНЕ
+    const counterEl = document.getElementById('clicker-counter');
+    if (counterEl) {
+        counterEl.innerText = "Бургеров: " + burgerCount;
+    }
 
-            createClickEffect(event); // Создаем эффект +1
+    // 5. ОБНОВЛЕНИЕ КАРТИНКИ И ЭВОЛЮЦИИ БОБНИТА (Расчет стадии и обновление UI)
+    let newStage = bobnitCurrentStage; // Предполагаем, что bobnitCurrentStage - глобальная переменная
 
-            const counterEl = document.getElementById('clicker-counter');
-            if (counterEl) counterEl.innerText = "Бургеров: " + burgerCount;
+    // ЛОГИКА РАСЧЕТА СТАДИЙ (0 до 6)
+    if (burgerCount < 300) { newStage = 0; }
+    else if (burgerCount < 1000) { newStage = 1; }
+    else if (burgerCount < 3000) { newStage = 2; }
+    else if (burgerCount < 5000) { newStage = 3; }
+    else if (burgerCount < 10000) { newStage = 4; }
+    else if (burgerCount < 30000) { newStage = 5; } // Стадия "galaxy.jpg"
+    else { newStage = 6; } // Новая стадия "poglotitel.jpg"
 
-            const img = document.getElementById('bobnit-clicker-img');
-            if (img) {
-                img.style.transform = "scale(0.97)";
-                setTimeout(() => img.style.transform = "scale(1)", 80);
-            }
+    if (newStage !== bobnitCurrentStage) {
+        bobnitCurrentStage = newStage;
+        if (typeof updateBobnitStageUI === 'function') {
+            updateBobnitStageUI(); // Эта функция должна обновить img.src и текст статуса Бобнита
+        }
+    }
 
-            // Рассчитываем стадию
-            let newStage = bobnitCurrentStage;
-
-            if (burgerCount < 300) {
-                newStage = 0;
-            } else if (burgerCount < 1000) {
-                newStage = 1;
-            } else if (burgerCount < 3000) {
-                newStage = 2;
-            } else if (burgerCount < 5000) {
-                newStage = 3;
-            } else if (burgerCount < 10000) {
-                newStage = 4;
-            } else {
-                newStage = 5;
-            }
-
-            if (newStage !== bobnitCurrentStage) {
-                bobnitCurrentStage = newStage;
-                updateBobnitStageUI();
-            }
-              if (burgerCount === 10000) {
-                addAchievement("10.000 кликов в кликере");
-            }
-    // ... (весь код clickBobnit до этого места) ...
-
+    // 6. СОХРАНЕНИЕ ДАННЫХ В LOCALSTORAGE (конкретно для кликера)
     localStorage.setItem('bobnitBurgerCount', burgerCount.toString());
     localStorage.setItem('bobnitCurrentStage', bobnitCurrentStage.toString());
-
-    // Лидерборд — начиная со 100 кликов, обновляется регулярно
-    if (burgerCount >= 100) {
-        scheduleLeaderboardSave();
+    
+    // Также вызываем твою общую функцию сохранения данных (включая Supabase)
+    if (typeof saveUserData === 'function') {
+        saveUserData(); 
     }
 
-    // Секретная награда — на 5000 кликах
+    // 7. ПРОВЕРКИ НА ДОСТИЖЕНИЯ
+    if (burgerCount === 10000) { // Ачивка "10.000 кликов"
+        if (typeof addAchievement === 'function') {
+            addAchievement("10.000 кликов в кликере");
+        }
+    }
+    if (burgerCount >= 50000) { // Ачивка "50.000 кликов"
+        if (typeof addAchievement === 'function') {
+            addAchievement("50.000 кликов в кликере");
+        }
+    }
+
+    // 8. СОХРАНЕНИЕ ЛИДЕРБОРДА В SUPABASE (если burgerCount достаточно большой)
+    if (burgerCount >= 100) { 
+        if (typeof scheduleLeaderboardSave === 'function') {
+            scheduleLeaderboardSave(); // Эта функция должна отправлять данные в Supabase
+        }
+    }
+
+    // 9. РАЗБЛОКИРОВКА СЕКРЕТНОГО РЕЦЕПТА (Dino Snot)
     if (burgerCount >= 5000 && !localStorage.getItem('dinoSnotUnlocked')) {
         localStorage.setItem('dinoSnotUnlocked', 'true');
-        unlockSecretRecipe();
+        if (typeof unlockSecretRecipe === 'function') {
+            unlockSecretRecipe();
+        }
     }
-    } // Конец clickBobnit
+}
 
 
 
