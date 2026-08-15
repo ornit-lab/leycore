@@ -16,6 +16,110 @@
 
 
     <style>
+
+
+
+/* Стили для победной карточки Бобнита */
+.bobnit-win-card {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(74, 222, 128, 0.15)); /* Мягкий зеленый градиент */
+    border: 1px solid rgba(34, 197, 94, 0.5); /* Зеленая рамка */
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2); /* Зеленое свечение */
+}
+
+/* Базовый стиль карточки Бобнита (по умолчанию пусть будет красным для проигрыша) */
+#bobnit-humiliation-card {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(185, 28, 28, 0.15)) !important;
+    border: 1px solid rgba(239, 68, 68, 0.5) !important;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2) !important;
+    display: none; /* Скрыта по умолчанию */
+}
+
+/* Зеленый стиль для ПОБЕДЫ с !important, чтобы перебить базовый красный */
+#bobnit-humiliation-card.bobnit-win-card {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(21, 128, 61, 0.25)) !important;
+    border: 1px solid rgba(34, 197, 94, 0.8) !important;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4) !important;
+}
+
+
+
+        .clicker-boosters {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+
+.booster-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 10px;
+    padding: 12px 18px;
+    text-align: center;
+    min-width: 140px;
+}
+
+.booster-title { color: #ffd700; font-weight: bold; font-size: 0.95rem; }
+.booster-desc { color: #aaa; font-size: 0.75rem; margin: 4px 0 8px; }
+
+.booster-btn {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.8rem;
+    transition: transform 0.2s;
+}
+.booster-btn:hover { transform: scale(1.05); }
+
+.booster-active-status {
+    color: #4ade80;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    animation: blink 1s infinite alternate;
+}
+
+
+        .thanos-warning-banner {
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.15), rgba(79, 70, 229, 0.15));
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin: 15px auto;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 15px rgba(147, 51, 234, 0.1);
+}
+
+.thanos-avatar {
+    font-size: 28px;
+    animation: pulseThanos 2s infinite ease-in-out;
+}
+
+.thanos-text {
+    color: #e9d5ff;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.thanos-text strong {
+    color: #c084fc;
+    display: block;
+}
+
+@keyframes pulseThanos {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
         /* НЕОНОВЫЕ ПРЕСЕТЫ И ЧЕТКИЕ ШРИФТЫ ДЛЯ КАТЕГОРИЙ */
         .glow-heavy {
             font-family: 'Unbounded', sans-serif !important;
@@ -3328,6 +3432,29 @@
             <div class="leycore-hero" style="text-align: center;">
                 <h3>🍔 НАКАЧАЙ БОБНИТА БУРГЕРАМИ</h3>
                 <p>Цель: 5,000 бургеров = Секретный рецепт "Сопли динозавра"</p>
+                  <!-- ПЛАШКА ПРЕДУПРЕЖДЕНИЯ БОБНИТА-ТАНОСА -->
+<div class="thanos-warning-banner">
+    <div class="thanos-avatar">🫰</div>
+    <div class="thanos-text">
+        <strong>Бобнит предупреждает:</strong> 
+        «Если ты используешь кликер, то я щёлкаю перчаткой продуктов и ты исчезаешь с лидерборда! 😉»
+    </div>
+</div>
+                <!-- БЛОК БУСТЕРОВ КЛИКЕРА -->
+<div class="clicker-boosters">
+    <div class="booster-card">
+        <div class="booster-title">⚡️ Множитель x2</div>
+        <div class="booster-desc">Длится 2 минуты</div>
+        <button class="booster-btn" onclick="buyClickerBooster(2, 120, 5)">Купить за 5 🪙</button>
+    </div>
+    <div class="booster-card">
+        <div class="booster-title">🔥 Множитель x3</div>
+        <div class="booster-desc">Длится 1 минуту</div>
+        <button class="booster-btn" onclick="buyClickerBooster(3, 60, 7)">Купить за 7 🪙</button>
+    </div>
+</div>
+<div id="booster-timer-display" style="display: none;" class="booster-active-status"></div>
+
                 
                 <div class="bobnit-clicker-wrapper" style="display: flex; align-items: center; justify-content: center; gap: 25px; flex-wrap: wrap; margin: 30px auto; max-width: 1100px;">
                     <div id="bobnit-stage-side" style="background: rgba(17, 14, 23, 0.95); border: 2px solid var(--accent-gold); padding: 20px; border-radius: 12px; box-shadow: 0 0 25px rgba(255, 215, 0, 0.35); font-family: 'Unbounded', sans-serif; min-width: 220px; text-align: center;">
@@ -3443,7 +3570,70 @@
 
     <script>
  
- 
+ const bobnitWinPhrases = [
+    "Ладно-ладно, в этот раз тебе повезло, шельма... Но мои фишки я всё равно отработаю!",
+    "ЧЁ?! Казино сломалось?! Василич, пересчитай бургеры, нас обчистили!",
+    "Ты забрал мои фишки?! Да я за них на складе три смены без обеда пахал!",
+    "Фортуна улыбнулась тебе... или просто чихнула в твою сторону. Посмотрим в следующий раз!",
+    "Наслаждайся выигрышем, сударь! Но помни: бургеры сгорают, а Бобнит остаётся!"
+];
+
+
+ let clickMultiplier = 1;
+let boosterTimer = null;
+
+function buyClickerBooster(factor, durationSec, cost) {
+    // Используем getChipBalance() для проверки текущего количества фишек
+    if (getChipBalance() < cost) {
+        alert('Не хватает фишек! Нужно: ' + cost + ' 🪙');
+        return;
+    }
+
+    // Списываем фишки через setChipBalance()
+    setChipBalance(getChipBalance() - cost);
+    // setChipBalance() должен сам обновить отображение и сохранить данные, 
+    // поэтому отдельные вызовы updateChipsDisplay() и saveUserData() здесь не нужны.
+
+    // Активируем множитель
+    clickMultiplier = factor;
+    let secondsLeft = durationSec;
+    
+    const display = document.getElementById('booster-timer-display');
+    if (display) display.style.display = 'block';
+
+    if (boosterTimer) clearInterval(boosterTimer);
+
+    boosterTimer = setInterval(() => {
+        secondsLeft--;
+        const mins = Math.floor(secondsLeft / 60);
+        const secs = secondsLeft % 60;
+        
+        if (display) {
+            display.innerHTML = `🚀 Активен бустер x${factor}! Осталось: ${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        if (secondsLeft <= 0) {
+            clearInterval(boosterTimer);
+            clickMultiplier = 1;
+            if (display) display.style.display = 'none';
+            alert('Срок действия бустера истек!');
+        }
+    }, 1000);
+
+    alert(`Бустер x${factor} куплен!`);
+}
+
+
+function showBobnitWinReaction() {
+    const randomPhrase = bobnitWinPhrases[Math.floor(Math.random() * bobnitWinPhrases.length)];
+    
+    // Вызываем функцию отправки сообщения от Бобнита (у тебя она называется sendBobnitMessage)
+    if (typeof sendBobnitMessage === 'function') {
+        sendBobnitMessage(randomPhrase);
+    }
+}
+
+
  
  let myAchievements = JSON.parse(localStorage.getItem('leycore_achievements')) || [];
 
@@ -4520,12 +4710,6 @@ if (
 
 
 
-
-
-
-        // ----------------------------------------------------
-        // МИНИ-ИГРА: ФЛЭППИ ПЕРДЕЖ ЦАРЕВНЫ
-        // ----------------------------------------------------
         // ----------------------------------------------------
         // МИНИ-ИГРА: ФЛЭППИ ПЕРДЕЖ ЦАРЕВНЫ (РЕЖИМ 2.0)
         // ----------------------------------------------------
@@ -4660,6 +4844,13 @@ function scheduleFlappyScoreSave() {
                 if (!pipes[i].passed && pipes[i].x < bird.x) {
     pipes[i].passed = true;
     score++;
+    // Проверка на достижение "Разработанный газовый аппарат"
+if (score === 100) {
+    if (typeof unlockAchievement === 'function') {
+        unlockAchievement("Опытный пердежист", 20);
+    }
+}
+
 
     if (score > bestFlappyScore) {
     bestFlappyScore = score;
@@ -5177,7 +5368,15 @@ if (score >= 30) {
             }
             lastClickTime = currentTime; // Обновляем время последнего валидного клика
 
-            burgerCount++;
+            burgerCount += clickMultiplier;
+            // Проверка на 50 000 кликов (бургеров)
+if (burgerCount >= 50000) {
+    if (typeof unlockAchievement === 'function') {
+        unlockAchievement("50.000 кликов в кликере", 50); // даем ачивку и 50 фишек
+    }
+}
+
+
             createClickEffect(event); // Создаем эффект +1
 
             const counterEl = document.getElementById('clicker-counter');
@@ -5879,12 +6078,15 @@ localStorage.setItem(
             // ----------------------------------------------------
             if (currentProfileSubTab === 'achievements') {
                 const allPossible = [
-                    "Познание Лэйкора",
-                    "10.000 кликов в кликере",
-                    "Секретный рецепт",
-                    "Попукивания разблокированы",
-                    "Лудоман"
-                ];
+                 "Познание Лэйкора",
+                 "10.000 кликов в кликере",
+                 "50.000 кликов в кликере",        // <-- Новое достижение!
+                 "Секретный рецепт",
+                 "Попукивания разблокированы",
+                 "Опытный пердежист",  // <-- Новое достижение!
+                 "Лудоман"
+                 ];
+
 
                 html += `<div class="shop-products-grid">`;
                 html += allPossible.map(a => `
@@ -6399,58 +6601,138 @@ function spendChips(amount) {
         // 🎁 ОБРАБОТКА ВЫИГРЫША В КАЗИНО
         // ====================================================
         function processCasinoOutcome(winType) {
-            if (winType === 'artefact') {
-                const unowned = casinoRecipes.filter(r => !dishes.some(d => d.title === r.title));
-                if (unowned.length > 0) {
-                    const winRecipe = unowned[Math.floor(Math.random() * unowned.length)];
-                    dishes.push(winRecipe);
-                    localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
-                    alert(`🏆 ТРИ СОВПАДЕНИЯ (🍖🍖🍖)! Выбит секретный рецепт: "${winRecipe.title}"!`);
-                    if (typeof renderDishes === 'function') renderDishes('all');
-                } else {
-                    addChips(5);
-                    alert("🏆 Все секретные рецепты уже открыты! Начислено +5 🪙!");
-                }
-            } else if (winType === 'relic') {
-                const unowned = casinoTitles.filter(t => !unlockedTitles.includes(t));
-                if (unowned.length > 0) {
-                    const winTitle = unowned[Math.floor(Math.random() * unowned.length)];
-                    unlockedTitles.push(winTitle);
-                    localStorage.setItem('leycore_titles', JSON.stringify(unlockedTitles));
-                    alert(`🔮 ТРИ СОВПАДЕНИЯ (🔮🔮🔮)! Выбит редкий титул: "${winTitle}"!`);
-                    if (typeof renderTitlesList === 'function') renderTitlesList();
-                } else {
-                    addChips(3);
-                    alert("🔮 Все титулы уже собраны! Начислено +3 🪙!");
-                }
-            } else if (winType === 'theme') {
-                const themes = ['theme-orange', 'theme-crimson', 'theme-rainbow'];
-                const unowned = themes.filter(t => !unlockedThemes.includes(t));
-                if (unowned.length > 0) {
-                    const winTheme = unowned[0];
-                    unlockedThemes.push(winTheme);
-                    localStorage.setItem('leycore_themes', JSON.stringify(unlockedThemes));
-                    applyTheme(winTheme);
-                    alert("🌈 ТРИ СОВПАДЕНИЯ (🌈🌈🌈)! Разблокирована новая тема!");
-                    if (typeof renderThemesList === 'function') renderThemesList();
-                } else {
-                    addChips(2);
-                    alert("🌈 Все темы открыты! Начислено +2 🪙!");
-                }
-            } else if (winType === 'emenit') {
-                addChips(5);
-                alert("⚡️ ТРИ СОВПАДЕНИЯ (⚡️⚡️⚡️)! Вы выиграли +5 Бонусных Фишек!");
-            } else {
-                junkCount++;
-                const humCard = document.getElementById('bobnit-humiliation-card');
-                const humText = document.getElementById('bobnit-humiliation-text');
-                if (humCard && humText) {
-                    humText.innerText = bobnitHumiliations[Math.floor(Math.random() * bobnitHumiliations.length)];
-                    humCard.style.display = 'flex';
-                }
-            }
-            updateCasinoUI();
+    if (winType === 'artefact') {
+        const unowned = casinoRecipes.filter(r => !dishes.some(d => d.title === r.title));
+        if (unowned.length > 0) {
+            const winRecipe = unowned[Math.floor(Math.random() * unowned.length)];
+            dishes.push(winRecipe);
+            localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
+            showBobnitWinReaction(); // <--- СЮДА!
+            alert(`🏆 ТРИ СОВПАДЕНИЯ (🍖🍖🍖)! Выбит секретный рецепт: "${winRecipe.title}"!`);
+            if (typeof renderDishes === 'function') renderDishes('all');
+        } else {
+            addChips(5);
+            showBobnitWinReaction(); // <--- И СЮДА! (если все рецепты открыты, но есть победа)
+            alert("🏆 Все секретные рецепты уже открыты! Начислено +5 🪙!");
         }
+    } else if (winType === 'relic') {
+        const unowned = casinoTitles.filter(t => !unlockedTitles.includes(t));
+        if (unowned.length > 0) {
+            const winTitle = unowned[Math.floor(Math.random() * unowned.length)];
+            unlockedTitles.push(winTitle);
+            localStorage.setItem('leycore_titles', JSON.stringify(unlockedTitles));
+            showBobnitWinReaction(); // <--- СЮДА!
+            alert(`🔮 ТРИ СОВПАДЕНИЯ (🔮🔮🔮)! Выбит редкий титул: "${winTitle}"!`);
+            if (typeof renderTitlesList === 'function') renderTitlesList();
+        } else {
+            addChips(3);
+            showBobnitWinReaction(); // <--- И СЮДА! (если все титулы собраны, но есть победа)
+            alert("🔮 Все титулы уже собраны! Начислено +3 🪙!");
+        }
+    } else if (winType === 'theme') {
+        const themes = ['theme-orange', 'theme-crimson', 'theme-rainbow'];
+        const unowned = themes.filter(t => !unlockedThemes.includes(t));
+        if (unowned.length > 0) {
+            const winTheme = unowned[0];
+            unlockedThemes.push(winTheme);
+            localStorage.setItem('leycore_themes', JSON.stringify(unlockedThemes));
+            applyTheme(winTheme);
+            showBobnitWinReaction(); // <--- СЮДА!
+            alert("🌈 ТРИ СОВПАДЕНИЯ (🌈🌈🌈)! Разблокирована новая тема!");
+            if (typeof renderThemesList === 'function') renderThemesList();
+        } else {
+            addChips(2);
+            showBobnitWinReaction(); // <--- СЮДА!
+            alert("🌈 Все темы открыты! Начислено +2 🪙!");
+        }
+    } else if (winType === 'emenit') {
+        addChips(5);
+        alert("⚡️ ТРИ СОВПАДЕНИЯ (⚡️⚡️⚡️)! Вы выиграли +5 Бонусных Фишек!");
+        showBobnitWinReaction(); // <--- СЮДА!
+        // ЭТО БЛОК ПРОИГРЫША, ТУТ НЕ НАДО ДОБАВЛЯТЬ showBobnitWinReaction()
+                } else {
+        junkCount++;
+        const humCard = document.getElementById('bobnit-humiliation-card');
+        const humText = document.getElementById('bobnit-humiliation-text');
+        if (humCard && humText) {
+            // --- ВОЗВРАЩАЕМ РОДНОЙ КРАСНЫЙ ЦВЕТ ПРИ ПРОИГРЫШЕ ---
+            humCard.style.setProperty('background', 'linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(185, 28, 28, 0.15))', 'important');
+            humCard.style.setProperty('border', '1px solid rgba(239, 68, 68, 0.5)', 'important');
+            humCard.style.setProperty('box-shadow', '0 4px 15px rgba(239, 68, 68, 0.2)', 'important');
+            
+            // --- Возвращаем надпись "БОБНИТ ГОВОРИТ:" в красный ---
+            const bobnitSaysDiv = humCard.querySelector('div[style*="font-family: var(--font-code)"]');
+            if (bobnitSaysDiv) {
+                bobnitSaysDiv.style.setProperty('color', '#ef4444', 'important'); // Красный цвет
+            }
+
+            // --- Возвращаем ободок аватарки в красный ---
+            const avatarWrapper = humCard.querySelector('div[style*="border-radius"]');
+            if (avatarWrapper) {
+                avatarWrapper.style.setProperty('border-color', '#ef4444', 'important'); // Красный ободок
+            }
+            // --- КОНЕЦ ИЗМЕНЕНИЙ ---
+
+            humText.innerText = bobnitHumiliations[Math.floor(Math.random() * bobnitHumiliations.length)];
+            humCard.style.display = 'flex';
+        }
+    }
+    updateCasinoUI();
+
+
+}
+
+window.showBobnitWinReaction = function() {
+    console.log("Бобнит пытается заговорить при победе...");
+    
+    if (typeof bobnitWinPhrases === 'undefined') {
+        console.error("Массив bobnitWinPhrases не найден!");
+        return;
+    }
+    
+    const randomPhrase = bobnitWinPhrases[Math.floor(Math.random() * bobnitWinPhrases.length)];
+    
+    const humCard = document.getElementById('bobnit-humiliation-card');
+    const humText = document.getElementById('bobnit-humiliation-text');
+    
+    if (humCard && humText) {
+        humText.innerText = randomPhrase;
+        
+        // --- ГАРАНТИРОВАННЫЙ ЗЕЛЕНЫЙ ЦВЕТ ДЛЯ ПОБЕДЫ ---
+        humCard.style.setProperty('background', 'linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(21, 128, 61, 0.25))', 'important');
+        humCard.style.setProperty('border', '1px solid rgba(34, 197, 94, 0.8)', 'important');
+        humCard.style.setProperty('box-shadow', '0 4px 15px rgba(34, 197, 94, 0.4)', 'important');
+        
+        // --- Перекрашиваем надпись "БОБНИТ ГОВОРИТ:" в зеленый ---
+        const bobnitSaysDiv = humCard.querySelector('div[style*="font-family: var(--font-code)"]');
+        if (bobnitSaysDiv) {
+            bobnitSaysDiv.style.setProperty('color', '#4ade80', 'important'); // Зеленый цвет
+        }
+
+        // --- Перекрашиваем ободок аватарки в зеленый ---
+        // Находим div, который является контейнером для аватарки и имени "Бобнит"
+        const bobnitAvatarContainer = humCard.querySelector('.bobnit-avatar-container'); // Если есть такой класс
+        // Если нет отдельного контейнера, то сам div bobnit-humiliation-card имеет ободок
+        // На твоем скрине видно, что это border-radius и outline у самой плашки, 
+        // но также может быть border у контейнера аватара.
+        // Давай попробуем найти именно ободок:
+        const avatarWrapper = humCard.querySelector('div[style*="border-radius"]'); // Ищем div с border-radius
+        if (avatarWrapper) {
+            avatarWrapper.style.setProperty('border-color', '#4ade80', 'important'); // Делаем ободок зеленым
+        }
+        // --- КОНЕЦ ИЗМЕНЕНИЙ ---
+
+        humCard.style.display = 'flex';
+        console.log("Бобнит успешно высказался в карточке: " + randomPhrase);
+    } else {
+        alert("Бобнит: " + randomPhrase);
+    }
+};
+
+
+
+
+
 
 
         
