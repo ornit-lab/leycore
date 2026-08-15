@@ -3586,17 +3586,21 @@
 
     <script>
  
- const bobnitWinPhrases = [
+ 
+
+let lastClickTime = 0;
+let clickWarnings = 0;
+
+ let clickMultiplier = 1;
+let boosterTimer = null;
+
+     const bobnitWinPhrases = [
     "Ладно-ладно, в этот раз тебе повезло, шельма... Но мои фишки я всё равно отработаю!",
     "ЧЁ?! Казино сломалось?! Василич, пересчитай бургеры, нас обчистили!",
     "Ты забрал мои фишки?! Да я за них на складе три смены без обеда пахал!",
     "Фортуна улыбнулась тебе... или просто чихнула в твою сторону. Посмотрим в следующий раз!",
     "Наслаждайся выигрышем, сударь! Но помни: бургеры сгорают, а Бобнит остаётся!"
 ];
-
-
- let clickMultiplier = 1;
-let boosterTimer = null;
 
 function buyClickerBooster(factor, durationSec, cost) {
     // Используем getChipBalance() для проверки текущего количества фишек
@@ -5463,8 +5467,7 @@ if (score >= 30) {
 
             
 
-           let lastClickTime = 0;
-let clickWarnings = 0;
+          
 
 function clickBurger() {
     const now = Date.now();
