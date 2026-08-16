@@ -3165,35 +3165,41 @@ body.leycore-light {
         }
 
         /* Боковой компактный плеер */
-        .side-player-panel {
-            background: rgba(15, 15, 20, 0.9);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            border-radius: 14px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-        }
-
         .side-player-btn {
-            width: 70px;
-            height: 70px;
-            font-size: 28px;
-            background: linear-gradient(135deg, var(--accent-gold, #ffd700), #ff8c00);
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-        }
+    width: 70px;
+    height: 70px;
+    font-size: 28px;
+    
+    /* === БАЗОВЫЙ ЦВЕТ (ОРАНЖЕВЫЙ ДЛЯ ПАУЗЫ/НЕАКТИВНОСТИ) === */
+    background: linear-gradient(135deg, #ff8c00, #f59e0b); /* Оранжевый градиент */
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255, 140, 0, 0.4); /* Оранжевое свечение */
+    /* ======================================================= */
 
-        .side-player-btn:hover {
-            transform: scale(1.08);
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
-        }
+    transition: transform 0.2s, box-shadow 0.2s, background 0.3s ease; /* Добавили анимацию цвета */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.side-player-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(255, 140, 0, 0.7); /* Оранжевое свечение при наведении */
+}
+
+/* === НОВЫЙ КЛАСС: КНОПКА АКТИВНОГО ПРОИГРЫВАНИЯ (ЗЕЛЕНАЯ ЛАЗУРЬ) === */
+.side-player-btn.playing {
+    background: linear-gradient(135deg, #20c997, #17a2b8); /* Зелено-бирюзовый градиент */
+    box-shadow: 0 0 15px rgba(32, 201, 151, 0.5); /* Зеленое свечение */
+}
+
+.side-player-btn.playing:hover {
+    box-shadow: 0 0 25px rgba(32, 201, 151, 0.8); /* Более яркое зеленое свечение при наведении */
+}
+
 
         .now-playing-info h4 {
             font-size: 0.95rem;
@@ -6240,20 +6246,25 @@ function toggleAccordion(accId) {
     }
 }
 
-// Кнопка Плей/Пауза сбоку (синхронизирована с твоим HTML)
+// Кнопка Плей/Пауза сбоку
 function togglePlayPause() {
+    const playBtn = document.getElementById('main-play-btn');
+
     if (audio.paused) {
         if (!audio.src) {
             loadTrack(tracks[0].title);
         } else {
             audio.play();
-            document.getElementById('main-play-btn').innerText = "⏸️";
         }
+        playBtn.innerText = "⏸️";
+        playBtn.classList.add('playing'); // <--- ДОБАВЛЯЕМ ЗЕЛЕНЫЙ ЦВЕТ
     } else {
         audio.pause();
-        document.getElementById('main-play-btn').innerText = "▶️";
+        playBtn.innerText = "▶️";
+        playBtn.classList.remove('playing'); // <--- УБИРАЕМ ЗЕЛЕНЫЙ ЦВЕТ (становится оранжевым)
     }
 }
+
 
 // Автоматический запуск рендера при загрузке страницы
 window.addEventListener('DOMContentLoaded', () => {
