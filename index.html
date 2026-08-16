@@ -3098,6 +3098,195 @@ body.leycore-light {
 }
 
 
+ /* Базовые стили для обновленной вкладки музыки */
+        .symphony-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: 'Unbounded', sans-serif;
+            color: #fff;
+        }
+
+        /* Шапка Бобнита */
+        .bobnit-music-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: linear-gradient(135deg, rgba(20, 20, 30, 0.9), rgba(40, 30, 60, 0.8));
+            border: 2px solid var(--accent-gold, #ffd700);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+        }
+
+        .bobnit-music-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid var(--accent-gold, #ffd700);
+            object-fit: cover;
+            flex-shrink: 0;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .bobnit-music-speech {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 12px;
+            padding: 12px 18px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: #e2e8f0;
+            position: relative;
+        }
+
+        /* Основной пульт плеера и аккордеон категорий */
+        .music-main-layout {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .music-main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Боковой компактный плеер */
+        .side-player-panel {
+            background: rgba(15, 15, 20, 0.9);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .side-player-btn {
+            width: 70px;
+            height: 70px;
+            font-size: 28px;
+            background: linear-gradient(135deg, var(--accent-gold, #ffd700), #ff8c00);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .side-player-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
+        }
+
+        .now-playing-info h4 {
+            font-size: 0.95rem;
+            color: var(--accent-gold, #ffd700);
+            margin: 5px 0;
+            word-break: break-all;
+        }
+
+        .now-playing-info p {
+            font-size: 0.75rem;
+            color: #aaa;
+            margin: 0;
+        }
+
+        /* Аккордеон категорий (Лента FAQ) */
+        .music-accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .accordion-item {
+            background: rgba(20, 20, 25, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+
+        .accordion-item:hover {
+            border-color: rgba(255, 215, 0, 0.4);
+        }
+
+        .accordion-header {
+            padding: 15px 20px;
+            background: rgba(25, 25, 35, 0.9);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1rem;
+            user-select: none;
+        }
+
+        .accordion-header::after {
+            content: '▼';
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+        }
+
+        .accordion-item.open .accordion-header::after {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: rgba(10, 10, 15, 0.5);
+        }
+
+        .accordion-item.open .accordion-content {
+            max-height: 500px; /* Достаточно для 5 треков */
+            transition: max-height 0.4s ease-in;
+        }
+
+        .track-list-inner {
+            padding: 10px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .track-item {
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s, padding-left 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .track-item:hover {
+            background: rgba(255, 215, 0, 0.15);
+            padding-left: 16px;
+        }
+
+        .track-item.active-track {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.5);
+            color: #4ade80;
+            font-weight: bold;
+        }
+
+
+
+
+
     </style>
 </head>
 
@@ -3438,47 +3627,74 @@ body.leycore-light {
         </div>
 
         <!-- PAGE: SYMPHONIES -->
-        <div id="page-symphonies" class="page-view">
-            <h2 class="section-title title-purple">ЗАЛ СИМФОНИЙ</h2>
+<div id="page-symphonies" class="page-view">
 
-            <!-- ГЛАВНЫЙ МОЩНЫЙ ПЛЕЕР -->
-            <div class="grand-player">
-                <div class="track-info">
-                    <h3 id="current-track-title">Погрузитесь в лэйкостаз</h3>
-                    <p id="current-track-cat">Жанр: —</p>
+    
+    <!-- АВАТАРКА БОБНИТА И ФРАЗА -->
+    <div class="bobnit-music-header">
+        <img src="strannik.jpg" alt="Бобнит Странник" class="bobnit-music-avatar">
+        <div class="bobnit-music-speech">
+            <strong>Бобнит шепчет:</strong> 
+            «Выкручивай колонки на максимум, путник! Этот лоу-фай бас лечит геморрой и заряжает бургеры чистой энергией космоса 🎧✨»
+        </div>
+    </div>
+
+    <!-- МАКЕТ: ПЛЕЕР СБОКУ + АККОРДЕОН СПРАВА -->
+    <div class="music-main-layout">
+        
+        <!-- БОКОВОЙ ПЛЕЕР -->
+        <div class="side-player-panel">
+            <button id="main-play-btn" class="side-player-btn" onclick="togglePlayPause()">▶️</button>
+            <div class="now-playing-info">
+                <p>ТЕКУЩИЙ ТРЕК:</p>
+                <h4 id="current-track-title">Выбери трек</h4>
+                <p id="current-track-cat">Жанр: —</p>
+            </div>
+        </div>
+
+        <!-- ЛЕНТА-АККОРДЕОН (FAQ С КАТЕГОРИЯМИ) -->
+        <div class="music-accordion">
+            
+            <!-- Категория 1: Грусть -->
+            <div class="accordion-item" id="acc-sad">
+                <div class="accordion-header" onclick="toggleAccordion('acc-sad')">
+                    💧 Грусть (Lo-Fi / Melancholy)
                 </div>
-
-                <!-- Большая кнопка Плей/Пауза -->
-                <button id="main-play-btn" class="big-play-btn" onclick="toggleMainPlayer()">▶️</button>
-
-                <!-- Прогресс-бар (Перемотка) -->
-                <div class="playback-container">
-                    <span id="time-current">00:00</span>
-                    <input type="range" id="seek-slider" class="seek-slider" value="0" max="100" oninput="seekTrack()">
-                    <span id="time-total">00:00</span>
+                <div class="accordion-content">
+                    <div class="track-list-inner" id="list-sad">
+                        <!-- Скрипт сам подставит треки сюда -->
+                    </div>
                 </div>
             </div>
 
-
-            <!-- КАТЕГОРИИ ТРЕКОВ -->
-            <div class="symphony-grid">
-                <div class="symphony-category">
-                    <h3 class="cat-title" style="color: var(--accent-cyan)">💧 ГРУСТЬ</h3>
-                    <div id="list-sad" class="track-list"></div>
+            <!-- Категория 2: Спокойствие -->
+            <div class="accordion-item" id="acc-calm">
+                <div class="accordion-header" onclick="toggleAccordion('acc-calm')">
+                    🍃 Спокойствие (Ambient / Chill)
                 </div>
-
-                <div class="symphony-category">
-                    <h3 class="cat-title" style="color: var(--accent-green)">🍃 СПОКОЙСТВИЕ</h3>
-                    <div id="list-calm" class="track-list"></div>
-                </div>
-
-                <div class="symphony-category">
-                    <h3 class="cat-title" style="color: var(--accent-pink)">🔥 ЭЙФОРИЯ</h3>
-                    <div id="list-cheerful" class="track-list"></div>
+                <div class="accordion-content">
+                    <div class="track-list-inner" id="list-calm">
+                        <!-- Скрипт сам подставит треки сюда -->
+                    </div>
                 </div>
             </div>
 
-        </div> <!-- Закрытие page-symphonies -->
+            <!-- Категория 3: Эйфория -->
+            <div class="accordion-item" id="acc-cheerful">
+                <div class="accordion-header" onclick="toggleAccordion('acc-cheerful')">
+                    🔥 Эйфория (Upbeat / Cyber)
+                </div>
+                <div class="accordion-content">
+                    <div class="track-list-inner" id="list-cheerful">
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div> <!-- конец  -->
+
 
         <!-- ЭТОТ ТЕГ АУДИО ДОЛЖЕН БЫТЬ ОБЯЗАТЕЛЬНО -->
         <audio id="global-audio-element"></audio>
@@ -5925,21 +6141,21 @@ localStorage.setItem(
 
 
         const tracks = [
-    // 💧 ГРУСТЬ (Твои локальные файлы)
+    // 💧 ГРУСТЬ
     { cat: 'sad', title: 'Midnight Rain', url: 'saD.mp3' },
-    { cat: 'sad', title: 'Dark Echoes', url: 'sad2.mp3' },
+    { cat: 'dark', title: 'Dark Echoes', url: 'sad2.mp3' },
     { cat: 'sad', title: 'Lonely Vibes', url: 'sad3.mp3' },
     { cat: 'sad', title: 'Lost Script', url: 'sad4.mp3' },
     { cat: 'sad', title: 'Cold Memory', url: 'sad5.mp3' },
 
-    // 🍃 СПОКОЙСТВИЕ (Твои локальные файлы)
+    // 🍃 СПОКОЙСТВИЕ
     { cat: 'calm', title: 'Distant Galaxy', url: 'relax5.mp3' },
     { cat: 'calm', title: 'Soft Fog', url: 'relax4.mp3' },
     { cat: 'calm', title: 'Night Ether', url: 'relax3.mp3' },
     { cat: 'calm', title: 'Ocean Whisper', url: 'relax2.mp3' },
     { cat: 'calm', title: 'Dreaming', url: 'relax.mp3' },
 
-    // 🔥 ЭЙФОРИЯ (Твои локальные файлы)
+    // 🔥 ЭЙФОРИЯ
     { cat: 'cheerful', title: 'Cyber Pulse', url: 'happy.mp3' },
     { cat: 'cheerful', title: 'Kronthar Rhythm', url: 'happy2.mp3' },
     { cat: 'cheerful', title: 'Neon Sunset', url: 'Happy3.mp3' },
@@ -5947,26 +6163,27 @@ localStorage.setItem(
     { cat: 'cheerful', title: 'Matrix Breach', url: 'happy5.mp3' }
 ];
 
+// Используем глобальный аудио-элемент или создаем новый, если его нет
+const audio = document.getElementById('global-audio-element') || new Audio();
 
+// Рендер треков по категориям в наш новый аккордеон
+function renderSymphonies() {
+    ['sad', 'calm', 'cheerful'].forEach(cat => {
+        const container = document.getElementById(`list-${cat}`); // ИСПРАВЛЕНО (добавлены кавычки)
+        if (!container) return;
+        
+        container.innerHTML = tracks
+            .filter(t => t.cat === cat)
+            .map(t => `<div class="track-item" onclick="loadTrack('${t.title}')">
+                        <span>🎵 ${t.title}</span>
+                        <span style="font-size: 0.7rem; color: #888;">Слушать ▶</span>
+                       </div>`) // ИСПРАВЛЕНО (добавлены обратные кавычки бэктэки)
+            .join('');
+    });
+}
 
-
-
-
-
-        const audio = document.getElementById('global-audio-element');
-
-        function renderSymphonies() {
-            ['sad', 'calm', 'cheerful'].forEach(cat => {
-                const container = document.getElementById(`list-${cat}`);
-                if (!container) return;
-                container.innerHTML = tracks
-                    .filter(t => t.cat === cat)
-                    .map(t => `<div class="track-item" onclick="loadTrack('${t.title}')">${t.title}</div>`)
-                    .join('');
-            });
-        }
-
-        function loadTrack(title) {
+// Твоя надежная функция загрузки трека
+function loadTrack(title) {
     const track = tracks.find(t => t.title === title);
     if (!track) return;
     
@@ -5975,26 +6192,21 @@ localStorage.setItem(
     document.getElementById('current-track-cat').innerText = "Жанр: " + track.cat.toUpperCase();
     
     document.querySelectorAll('.track-item').forEach(el => {
-        el.classList.toggle('active-track', el.innerText === title);
+        el.classList.toggle('active-track', el.innerText.includes(title));
     });
 
-    // Безопасный запуск воспроизведения с обработкой капризов браузера
     const playPromise = audio.play();
 
     if (playPromise !== undefined) {
         playPromise
             .then(() => {
-                // Если запустилось — ставим иконку паузы
                 document.getElementById('main-play-btn').innerText = "⏸️";
                 console.log("Музыка успешно играет:", track.title);
             })
             .catch(error => {
                 console.warn("Браузер придержал автовоспроизведение. Ждем клика пользователя...", error);
-                
-                // Ставим иконку плей, показывая, что трек готов к запуску по клику
                 document.getElementById('main-play-btn').innerText = "▶️";
                 
-                // Вешаем одноразовый запуск на первый клик по сайту
                 document.body.addEventListener('click', () => {
                     audio.play()
                         .then(() => {
@@ -6006,40 +6218,38 @@ localStorage.setItem(
     }
 }
 
+// Управление аккордеоном (FAQ-лента)
+function toggleAccordion(accId) {
+    const item = document.getElementById(accId);
+    const isOpen = item.classList.contains('open');
+    
+    // Закрываем остальные категории (оставляем открытой только одну)
+    document.querySelectorAll('.accordion-item').forEach(el => el.classList.remove('open'));
+    
+    if (!isOpen) {
+        item.classList.add('open');
+    }
+}
 
-        function toggleMainPlayer() {
-            if (audio.paused) {
-                if (!audio.src) loadTrack(tracks[0].title);
-                else audio.play();
-                document.getElementById('main-play-btn').innerText = "⏸";
-            } else {
-                audio.pause();
-                document.getElementById('main-play-btn').innerText = "▶";
-            }
+// Кнопка Плей/Пауза сбоку (синхронизирована с твоим HTML)
+function togglePlayPause() {
+    if (audio.paused) {
+        if (!audio.src) {
+            loadTrack(tracks[0].title);
+        } else {
+            audio.play();
+            document.getElementById('main-play-btn').innerText = "⏸️";
         }
+    } else {
+        audio.pause();
+        document.getElementById('main-play-btn').innerText = "▶️";
+    }
+}
 
-        function updateProgress() {
-            const slider = document.getElementById('seek-slider');
-            if (!isNaN(audio.duration)) {
-                slider.value = (audio.currentTime / audio.duration) * 100;
-                document.getElementById('time-current').innerText = formatTime(audio.currentTime);
-                document.getElementById('time-total').innerText = formatTime(audio.duration);
-            }
-        }
-
-        function seekTrack() {
-            const slider = document.getElementById('seek-slider');
-            audio.currentTime = (slider.value / 100) * audio.duration;
-        }
-
-        function formatTime(s) {
-            let m = Math.floor(s / 60);
-            let sec = Math.floor(s % 60);
-            return (m < 10 ? "0" + m : m) + ":" + (sec < 10 ? "0" + sec : sec);
-        }
-
-        // Запуск рендера
-        renderSymphonies();
+// Автоматический запуск рендера при загрузке страницы
+window.addEventListener('DOMContentLoaded', () => {
+    renderSymphonies();
+});
 
 
         // ----------------------------------------------------
