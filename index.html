@@ -3448,269 +3448,291 @@
             font-weight: bold;
         }
 
-/* ==========================================
+        /* ==========================================
    УЛЬТИМАТИВНЫЕ СТИЛИ ИГРЫ "МГБ" (ВЕРСИЯ V2)
    ========================================== */
 
-.mgb-game-container {
-    background: linear-gradient(135deg, rgba(25, 15, 40, 0.95), rgba(15, 10, 25, 0.98));
-    border: 2px solid var(--accent-gold);
-    border-radius: 16px;
-    padding: 15px;
-    box-shadow: 0 0 25px rgba(168, 85, 247, 0.2);
-    max-width: 800px;
-    margin: 0 auto;
-    width: 100%;
-    box-sizing: border-box;
-}
+        .mgb-game-container {
+            background: linear-gradient(135deg, rgba(25, 15, 40, 0.95), rgba(15, 10, 25, 0.98));
+            border: 2px solid var(--accent-gold);
+            border-radius: 16px;
+            padding: 15px;
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.2);
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
 
-.mgb-title {
-    text-align: center;
-    color: var(--accent-gold);
-    font-size: 1.3rem;
-    margin-bottom: 5px;
-}
+        .mgb-title {
+            text-align: center;
+            color: var(--accent-gold);
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
 
-/* Сетка: Бобнит слева, кухня справа */
-.mgb-play-zone {
-    display: grid;
-    grid-template-columns: 240px 1fr;
-    gap: 20px;
-    align-items: center;
-    width: 100%;
-}
+        /* Сетка: Бобнит слева, кухня справа */
+        .mgb-play-zone {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 20px;
+            align-items: center;
+            width: 100%;
+        }
 
-/* Блок Бобнита слева */
-.mgb-bobnit-aside {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-}
+        /* Блок Бобнита слева */
+        .mgb-bobnit-aside {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
 
-/* Рамка для прозрачного Бобнита */
-.mgb-bobnit-avatar-wrapper {
-    position: relative;
-    width: 180px;
-    height: 180px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        /* Рамка для прозрачного Бобнита */
+        .mgb-bobnit-avatar-wrapper {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-#mgb-bobnit-pic {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.35)); /* Красивый неоновый ореол */
-}
+        #mgb-bobnit-pic {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.35));
+            /* Красивый неоновый ореол */
+        }
 
-/* Спящее облако над Бобнитом */
-.mgb-sleep-cloud {
-    position: absolute;
-    top: -15px;
-    right: -15px;
-    background: #ffffff;
-    color: #000000;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: bold;
-    box-shadow: 0 4px 10px rgba(255,255,255,0.4);
-    animation: bounceSleep 2s infinite ease-in-out;
-    z-index: 10;
-}
+        /* Спящее облако над Бобнитом */
+        .mgb-sleep-cloud {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: #ffffff;
+            color: #000000;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.4);
+            animation: bounceSleep 2s infinite ease-in-out;
+            z-index: 10;
+        }
 
-/* Динамическое белое комиксное облачко с текстом */
-.mgb-bubble {
-    background: #ffffff;
-    color: #000000;
-    border: 3px solid var(--accent-gold);
-    border-radius: 16px;
-    padding: 10px 14px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    text-align: center;
-    line-height: 1.3;
-    position: relative;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
-    max-width: 220px;
-    margin-top: 10px;
-    animation: floatBubble 3s infinite ease-in-out;
-}
+        /* Динамическое белое комиксное облачко с текстом */
+        .mgb-bubble {
+            background: #ffffff;
+            color: #000000;
+            border: 3px solid var(--accent-gold);
+            border-radius: 16px;
+            padding: 10px 14px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.3;
+            position: relative;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+            max-width: 220px;
+            margin-top: 10px;
+            animation: floatBubble 3s infinite ease-in-out;
+        }
 
-/* Хвостик облачка */
-.mgb-bubble::after {
-    content: '';
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 0 10px 12px 10px;
-    border-style: solid;
-    border-color: transparent transparent #ffffff transparent;
-}
+        /* Хвостик облачка */
+        .mgb-bubble::after {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 10px 12px 10px;
+            border-style: solid;
+            border-color: transparent transparent #ffffff transparent;
+        }
 
-/* Облачко для выскакивающего Бобнита-вымогателя в углу экрана */
-.stalker-speech-bubble {
-    position: absolute;
-    top: -45px;
-    left: -110px;
-    width: 130px;
-    background: #ffffff;
-    color: #000000;
-    padding: 6px 10px;
-    border-radius: 10px;
-    font-size: 0.75rem;
-    font-weight: 900;
-    border: 2px solid #ff0055;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-}
+        /* Облачко для выскакивающего Бобнита-вымогателя в углу экрана */
+        .stalker-speech-bubble {
+            position: absolute;
+            top: -45px;
+            left: -110px;
+            width: 130px;
+            background: #ffffff;
+            color: #000000;
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            border: 2px solid #ff0055;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
 
-/* Игровая арена */
-.mgb-arena {
-    position: relative;
-    width: 100%;
-    height: 340px;
-    background: rgba(10, 10, 15, 0.95);
-    border: 2px solid rgba(255, 215, 0, 0.2);
-    border-radius: 12px;
-    overflow: hidden;
-    user-select: none;
-    touch-action: none; /* Блокирует скролл экрана пальцем на мобилках */
-}
+        /* Игровая арена */
+        .mgb-arena {
+            position: relative;
+            width: 100%;
+            height: 340px;
+            background: rgba(10, 10, 15, 0.95);
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            user-select: none;
+            touch-action: none;
+            /* Блокирует скролл экрана пальцем на мобилках */
+        }
 
-/* Центральный Бургер, куда тащим котлеты */
-.mgb-center-burger {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 55px;
-    z-index: 1;
-    pointer-events: none;
-    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4));
-    transition: transform 0.1s ease;
-}
+        /* Центральный Бургер, куда тащим котлеты */
+        .mgb-center-burger {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 55px;
+            z-index: 1;
+            pointer-events: none;
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4));
+            transition: transform 0.1s ease;
+        }
 
-.mgb-start-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(10, 10, 15, 0.97);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    text-align: center;
-    z-index: 10;
-}
+        .mgb-start-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 15, 0.97);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            z-index: 10;
+        }
 
-.mgb-start-btn {
-    background: linear-gradient(135deg, var(--accent-gold), #ff8c00);
-    border: none;
-    border-radius: 8px;
-    color: #000;
-    padding: 12px 24px;
-    font-weight: 900;
-    font-size: 0.9rem;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-    transition: transform 0.2s;
-}
+        .mgb-start-btn {
+            background: linear-gradient(135deg, var(--accent-gold), #ff8c00);
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            padding: 12px 24px;
+            font-weight: 900;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            transition: transform 0.2s;
+        }
 
-.mgb-start-btn:hover {
-    transform: scale(1.05);
-}
+        .mgb-start-btn:hover {
+            transform: scale(1.05);
+        }
 
-/* Ингредиенты на арене */
-.mgb-ingredient {
-    position: absolute;
-    width: 48px;
-    height: 48px;
-    font-size: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-    cursor: grab;
-    z-index: 5;
-    transition: transform 0.1s ease;
-}
+        /* Ингредиенты на арене */
+        .mgb-ingredient {
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            cursor: grab;
+            z-index: 5;
+            transition: transform 0.1s ease;
+        }
 
-.mgb-ingredient:active {
-    cursor: grabbing;
-}
+        .mgb-ingredient:active {
+            cursor: grabbing;
+        }
 
-/* Анимированная Рука-Вор */
-.mgb-hand-enemy {
-    font-size: 38px;
-    animation: handWiggle 0.3s infinite alternate;
-}
+        /* Анимированная Рука-Вор */
+        .mgb-hand-enemy {
+            font-size: 38px;
+            animation: handWiggle 0.3s infinite alternate;
+        }
 
-@keyframes handWiggle {
-    0% { transform: scale(1) rotate(-5deg); }
-    100% { transform: scale(1.1) rotate(5deg); }
-}
+        @keyframes handWiggle {
+            0% {
+                transform: scale(1) rotate(-5deg);
+            }
 
-/* Прогресс-бар */
-#mgb-progress-bar-container {
-    position: absolute;
-    bottom: 15px;
-    left: 15px;
-    right: 15px;
-}
+            100% {
+                transform: scale(1.1) rotate(5deg);
+            }
+        }
 
-.mgb-progress-text {
-    font-size: 0.75rem;
-    margin-bottom: 5px;
-    color: #ccc;
-}
+        /* Прогресс-бар */
+        #mgb-progress-bar-container {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            right: 15px;
+        }
 
-.mgb-progress-track {
-    width: 100%;
-    height: 10px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 5px;
-    overflow: hidden;
-}
+        .mgb-progress-text {
+            font-size: 0.75rem;
+            margin-bottom: 5px;
+            color: #ccc;
+        }
 
-#mgb-progress-fill {
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(90deg, #4ade80, #22c55e);
-    transition: width 0.1s ease;
-}
+        .mgb-progress-track {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
 
-/* АНИМАЦИИ */
-@keyframes bounceSleep {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-}
+        #mgb-progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            transition: width 0.1s ease;
+        }
 
-@keyframes floatBubble {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-}
+        /* АНИМАЦИИ */
+        @keyframes bounceSleep {
 
-/* АДАПТИВНОСТЬ ПОД МОБИЛКИ (Чтобы ничего не уползало!) */
-@media (max-width: 768px) {
-    .mgb-play-zone {
-        grid-template-columns: 1fr !important;
-        justify-items: center;
-    }
-    .mgb-kitchen-aside {
-        width: 100%;
-    }
-    .mgb-arena {
-        height: 300px !important;
-    }
-}
-        
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes floatBubble {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* АДАПТИВНОСТЬ ПОД МОБИЛКИ (Чтобы ничего не уползало!) */
+        @media (max-width: 768px) {
+            .mgb-play-zone {
+                grid-template-columns: 1fr !important;
+                justify-items: center;
+            }
+
+            .mgb-kitchen-aside {
+                width: 100%;
+            }
+
+            .mgb-arena {
+                height: 300px !important;
+            }
+        }
     </style>
 </head>
 
@@ -4320,6 +4342,26 @@
         <!-- 4. ИГРА: МОЙ ГОЛОДНЫЙ БОБНИТ (МГБ) -->
         <div id="game-block-mgb" class="game-section-block" style="display: none;">
             <div class="mgb-game-container">
+                <!-- ТАБЛИЦА ЛИДЕРОВ МГБ -->
+                <div class="leaderboard-widget" style="margin: 25px auto 0; max-width: 450px;">
+                    <h4>🏆 ЗАЛ СЛАВЫ ШЕФ-ПОВАРА (МГБ)</h4>
+                    <p style="text-align: center; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 10px;">
+                        ТОП ИГРОКОВ ПО СПАСЁННЫМ БУРГЕРАМ
+                    </p>
+
+                    <div
+                        style="text-align: center; font-size: 0.85rem; color: var(--accent-gold); font-weight: bold; margin-bottom: 12px; background: rgba(255, 215, 0, 0.1); padding: 8px; border-radius: 8px; border: 1px solid rgba(255, 215, 0, 0.2);">
+                        Твой личный рекорд: <span id="mgb-my-score" style="color: #4ade80; font-size: 1rem;">0</span> 🍔
+                    </div>
+
+                    <ul id="mgb-leaderboard-list" class="leaderboard-list">
+                        <li style="text-align: center; color: #888; padding: 10px;">
+                            <span>⏳ Загрузка онлайн-лидеров...</span>
+                        </li>
+                    </ul>
+                </div>
+
+
                 <h3 class="mgb-title">👾 МОЙ ГОЛОДНЫЙ БОБНИТ (МГБ)</h3>
                 <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px; text-align: center;">
                     Вход: 1 🪙. Приготовь бургер Василича и спаси разбегающиеся ингредиенты!
@@ -4334,7 +4376,7 @@
                             <div id="mgb-sleep-cloud" class="mgb-sleep-cloud" style="display: none;">Z-Zzz-ZZ-zz...
                             </div>
                         </div>
-                        <div class="mgb-bubble" id="mgb-bobnit-text">«ЖРАТЬ! Накорми меня честно, или я высосу твои
+                        <div class="mgb-bubble" id="mgb-bobnit-text">«ЖРАТЬ! Накорми меня, или я высосу твои
                             фишки! 😈»</div>
                     </div>
 
@@ -4359,7 +4401,7 @@
                                         <li>🤚 <b>Рука-Вор:</b> кликни <b>3 раза</b>, пока не украла бургер!</li>
                                     </ul>
                                     <button id="mgb-main-start-btn" onclick="startMgbGame()" class="mgb-start-btn"
-                                        style="margin-top: 10px;">ПОДАТЬ 1 🪙 И ИГРАТЬ</button>
+                                        style="margin-top: 10px;">СКОРМИТЬ 1🪙 И ИГРАТЬ</button>
                                 </div>
 
                                 <div id="mgb-game-elements"></div>
@@ -7855,7 +7897,7 @@
         }
 
 
-                // ====================================================
+        // ====================================================
         // 🎮 ФИЛЬТРАЦИЯ ИГР ПО КАТЕГОРИЯМ
         // ====================================================
         function filterGames(category, btnEl) {
@@ -7943,506 +7985,513 @@
 
 
         // ==========================================
-// ИГРА: МОЙ ГОЛОДНЫЙ БОБНИТ (МГБ) - HARDCORE V2
-// ==========================================
+        // ИГРА: МОЙ ГОЛОДНЫЙ БОБНИТ (МГБ) - HARDCORE V2
+        // ==========================================
+        // Счетчик приговленных бургеров в МГБ
+        let mgbCookedCount = parseInt(localStorage.getItem('mgb_cooked_count') || '0');
 
-let mgbIsPlaying = false;
-let mgbProgress = 0;
-let mgbEscaped = 0;
-let mgbActiveElements = [];
-let mgbGameInterval = null;
-let mgbSpawnInterval = null;
-let mgbLockedTabs = [];
-let mgbIsMouseDown = false; // Отслеживание зажатой кнопки мыши на ПК
+        let mgbIsPlaying = false;
+        let mgbProgress = 0;
+        let mgbEscaped = 0;
+        let mgbActiveElements = [];
+        let mgbGameInterval = null;
+        let mgbSpawnInterval = null;
+        let mgbLockedTabs = [];
+        let mgbIsMouseDown = false; // Отслеживание зажатой кнопки мыши на ПК
 
-// Глобальное отслеживание зажатия мыши
-window.addEventListener('mousedown', () => mgbIsMouseDown = true);
-window.addEventListener('mouseup', () => mgbIsMouseDown = false);
+        // Глобальное отслеживание зажатия мыши
+        window.addEventListener('mousedown', () => mgbIsMouseDown = true);
+        window.addEventListener('mouseup', () => mgbIsMouseDown = false);
 
-// ПОНЧИКОВЫЕ ЗАГАДКИ
-const mgbRiddles = [
-    { q: "У чего есть дырка, но оно не иголка и не бублик Василича?", a: "пончик" },
-    { q: "Если у Бобнита 5 пончиков, а ты забрал 2, что у тебя будет?", a: "синяк" },
-    { q: "Круглый, сладкий, в глазури и делает Бобнита добрым на 5 секунд?", a: "пончик" },
-    { q: "Как Бобнит называет пончик без дырки?", a: "ошибка" },
-    { q: "Сколько пончиков нужно Бобниту для счастья?", a: "еще один" }
-];
+        // ПОНЧИКОВЫЕ ЗАГАДКИ
+        const mgbRiddles = [
+            { q: "У чего есть дырка, но оно не иголка и не бублик Василича?", a: "пончик" },
+            { q: "Если у Бобнита 5 пончиков, а ты забрал 2, что у тебя будет?", a: "синяк" },
+            { q: "Круглый, сладкий, в глазури и делает Бобнита добрым на 5 секунд?", a: "пончик" },
+            { q: "Как Бобнит называет пончик без дырки?", a: "ошибка" },
+            { q: "Сколько пончиков нужно Бобниту для счастья?", a: "еще один" }
+        ];
 
-// ИНИЦИАЛИЗАЦИЯ И ПРОВЕРКА КУЛДАУНА (10 МИНУТ СНА)
-function initMgbTerror() {
-    checkMgbCooldown();
-    setInterval(checkMgbCooldown, 1000); // Таймер кулдауна
-    setInterval(checkBobnitHungerStalker, 30000); // Слежка за голодом (2 часа)
-}
-
-// Проверка 10-минутного сна Бобнита
-function checkMgbCooldown() {
-    const cdUntil = parseInt(localStorage.getItem('mgb_cooldown_until') || '0');
-    const now = Date.now();
-    const btn = document.getElementById('mgb-main-start-btn');
-
-    if (now < cdUntil && !mgbIsPlaying) {
-        const diffSec = Math.ceil((cdUntil - now) / 1000);
-        const mins = Math.floor(diffSec / 60);
-        const secs = diffSec % 60;
-        const timeStr = `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
-
-        if (btn) {
-            btn.disabled = true;
-            btn.innerText = `😴 БОБНИТ СПИТ (${timeStr})`;
-            btn.style.opacity = '0.6';
-            btn.style.cursor = 'not-allowed';
+        // ИНИЦИАЛИЗАЦИЯ И ПРОВЕРКА КУЛДАУНА (10 МИНУТ СНА)
+        function initMgbTerror() {
+            checkMgbCooldown();
+            setInterval(checkMgbCooldown, 1000); // Таймер кулдауна
+            setInterval(checkBobnitHungerStalker, 30000); // Слежка за голодом (2 часа)
         }
 
-        // Бобнит спит во время КД
-        const pic = document.getElementById('mgb-bobnit-pic');
-        if (pic && !pic.src.includes('bobnit_sleep.webp')) {
-            pic.src = 'bobnit_sleep.webp';
-            document.getElementById('mgb-sleep-cloud').style.display = 'block';
-            document.getElementById('mgb-bobnit-text').innerText = "«Z-Zzz... Полный бак... Спим...» 😴";
+        // Проверка 10-минутного сна Бобнита
+        function checkMgbCooldown() {
+            const cdUntil = parseInt(localStorage.getItem('mgb_cooldown_until') || '0');
+            const now = Date.now();
+            const btn = document.getElementById('mgb-main-start-btn');
+
+            if (now < cdUntil && !mgbIsPlaying) {
+                const diffSec = Math.ceil((cdUntil - now) / 1000);
+                const mins = Math.floor(diffSec / 60);
+                const secs = diffSec % 60;
+                const timeStr = `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerText = `😴 БОБНИТ СПИТ (${timeStr})`;
+                    btn.style.opacity = '0.6';
+                    btn.style.cursor = 'not-allowed';
+                }
+
+                // Бобнит спит во время КД
+                const pic = document.getElementById('mgb-bobnit-pic');
+                if (pic && !pic.src.includes('bobnit_sleep.webp')) {
+                    pic.src = 'bobnit_sleep.webp';
+                    document.getElementById('mgb-sleep-cloud').style.display = 'block';
+                    document.getElementById('mgb-bobnit-text').innerText = "«Z-Zzz... Полный бак... Спим...» 😴";
+                }
+            } else if (!mgbIsPlaying) {
+                if (btn && btn.disabled) {
+                    btn.disabled = false;
+                    btn.innerText = "ПОДАТЬ 1 🪙 И ИГРАТЬ";
+                    btn.style.opacity = '1';
+                    btn.style.cursor = 'pointer';
+                    resetToSadState();
+                }
+            }
         }
-    } else if (!mgbIsPlaying) {
-        if (btn && btn.disabled) {
-            btn.disabled = false;
-            btn.innerText = "ПОДАТЬ 1 🪙 И ИГРАТЬ";
-            btn.style.opacity = '1';
-            btn.style.cursor = 'pointer';
-            resetToSadState();
+
+
+        // Проверка 2 часов неактивности
+        function checkBobnitHungerStalker() {
+            const lastPlay = parseInt(localStorage.getItem('mgb_last_play') || '0');
+            const hoursPassed = (Date.now() - lastPlay) / (1000 * 60 * 60);
+
+            if (hoursPassed >= 2 && !document.getElementById('bobnit-stalker')) {
+                createStalkerPopup('bobnit_begging.webp', 'ПОКОРМИ МЕНЯ! 😭', true);
+            }
         }
-    }
-}
 
+        function createStalkerPopup(imgSrc, text, isBegging = false) {
+            const old = document.getElementById('bobnit-stalker');
+            if (old) old.remove();
 
-// Проверка 2 часов неактивности
-function checkBobnitHungerStalker() {
-    const lastPlay = parseInt(localStorage.getItem('mgb_last_play') || '0');
-    const hoursPassed = (Date.now() - lastPlay) / (1000 * 60 * 60);
+            const stalker = document.createElement('div');
+            stalker.id = 'bobnit-stalker';
+            stalker.style = `position:fixed; bottom:-160px; right:40px; width:160px; height:160px; z-index:10000; transition:bottom 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor:pointer; pointer-events:auto;`;
 
-    if (hoursPassed >= 2 && !document.getElementById('bobnit-stalker')) {
-        createStalkerPopup('bobnit_begging.webp', 'ПОКОРМИ МЕНЯ! 😭', true);
-    }
-}
-
-function createStalkerPopup(imgSrc, text, isBegging = false) {
-    const old = document.getElementById('bobnit-stalker');
-    if (old) old.remove();
-
-    const stalker = document.createElement('div');
-    stalker.id = 'bobnit-stalker';
-    stalker.style = `position:fixed; bottom:-160px; right:40px; width:160px; height:160px; z-index:10000; transition:bottom 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor:pointer; pointer-events:auto;`;
-    
-    stalker.innerHTML = `
+            stalker.innerHTML = `
         <div style="position:relative; width:100%; height:100%;">
             <img src="${imgSrc}" style="width:100%; height:100%; object-fit:contain;">
             ${text ? `<div class="stalker-speech-bubble">${text}</div>` : ''}
         </div>
     `;
 
-    document.body.appendChild(stalker);
-    setTimeout(() => { stalker.style.bottom = '20px'; }, 100);
+            document.body.appendChild(stalker);
+            setTimeout(() => { stalker.style.bottom = '20px'; }, 100);
 
-    stalker.onclick = () => {
-        stalker.style.bottom = '-200px';
-        setTimeout(() => stalker.remove(), 600);
-    };
-
-    if (!isBegging) {
-        setTimeout(() => { 
-            if(stalker) {
+            stalker.onclick = () => {
                 stalker.style.bottom = '-200px';
                 setTimeout(() => stalker.remove(), 600);
-            }
-        }, 3000);
-    }
-}
+            };
 
-// 2. ЗАПУСК ИГРЫ
-window.startMgbGame = function() {
-    if (mgbIsPlaying) return;
-
-    // Проверка КД
-    const cdUntil = parseInt(localStorage.getItem('mgb_cooldown_until') || '0');
-    if (Date.now() < cdUntil) {
-        alert("Бобнит ещё спит! Дай ему переварить бургеры!");
-        return;
-    }
-
-    if (typeof casinoChips === 'undefined') window.casinoChips = 0;
-    if (casinoChips < 1) { 
-        triggerBobnitRage(); 
-        return; 
-    }
-
-    casinoChips -= 1;
-    localStorage.setItem('leycore_chips', casinoChips.toString());
-    localStorage.setItem('mgb_last_play', Date.now().toString());
-    if (typeof updateCasinoUI === 'function') updateCasinoUI();
-
-    mgbIsPlaying = true;
-    mgbProgress = 0;
-    mgbEscaped = 0;
-    mgbActiveElements = [];
-    
-    document.getElementById('mgb-start-overlay').style.display = 'none';
-    document.getElementById('mgb-progress-bar-container').style.display = 'block';
-
-    // КАРТИНКА: БОБНИТ ЗАМЫШЛЯЕТ
-    const pic = document.getElementById('mgb-bobnit-pic');
-    pic.src = 'bobnit_scheming.webp';
-    document.getElementById('mgb-sleep-cloud').style.display = 'none';
-    document.getElementById('mgb-bobnit-text').innerText = "«Хе-хе... Посмотрим, как ты справишься с хаосом...» 😈";
-
-    mgbGameInterval = setInterval(updateMgbArena, 30);
-    mgbSpawnInterval = setInterval(spawnIngredient, 1200); // Быстрый спавн!
-};
-
-// 3. СПАВН ИНГРЕДИЕНТОВ, МУСОРА И РУКИ-ВОРА
-function spawnIngredient() {
-    if (!mgbIsPlaying) return;
-
-    const arena = document.getElementById('mgb-game-arena');
-    if (!arena) return;
-
-    // Список всех возможных объектов
-    const types = [
-        { emoji: '🥩', type: 'patty' },
-        { emoji: '🥬', type: 'cabbage' },
-        { emoji: '🥒', type: 'cucumber' },
-        { emoji: '🥫', type: 'sauce' },
-        { emoji: '🗑️', type: 'trash' },
-        { emoji: '🧦', type: 'trash' },
-        { emoji: '👞', type: 'trash' },
-        { emoji: '🤚', type: 'hand' }
-    ];
-
-    const item = types[Math.floor(Math.random() * types.length)];
-
-    const el = document.createElement('div');
-    el.className = 'mgb-ingredient' + (item.type === 'hand' ? ' mgb-hand-enemy' : '');
-    el.innerHTML = item.emoji;
-    el.dataset.type = item.type;
-    
-    // Спавн с края арены
-    const side = Math.floor(Math.random() * 4);
-    let startX, startY;
-    if (side === 0) { startX = Math.random() * arena.offsetWidth; startY = 0; }
-    else if (side === 1) { startX = arena.offsetWidth - 50; startY = Math.random() * arena.offsetHeight; }
-    else if (side === 2) { startX = Math.random() * arena.offsetWidth; startY = arena.offsetHeight - 50; }
-    else { startX = 0; startY = Math.random() * arena.offsetHeight; }
-
-    el.style.left = startX + 'px';
-    el.style.top = startY + 'px';
-    
-    // Вектор скорости к центру или случайный
-    const centerX = arena.offsetWidth / 2 - 25;
-    const centerY = arena.offsetHeight / 2 - 25;
-    const angle = Math.atan2(centerY - startY, centerX - startX) + (Math.random() * 0.6 - 0.3);
-    const speed = item.type === 'hand' ? 1.0 : (1.8 + Math.random() * 2); // Рука ползет медленно
-    
-    el.dataset.vx = Math.cos(angle) * speed;
-    el.dataset.vy = Math.sin(angle) * speed;
-    el.dataset.x = startX;
-    el.dataset.y = startY;
-
-    // ИНТЕРАКТИВНЫЕ ЖЕСТЫ:
-
-    // А) Котлета & Мусор - Drag & Drop (Перетаскивание)
-    if (item.type === 'patty' || item.type === 'trash') {
-        let isDragging = false;
-        
-        const startDrag = () => { isDragging = true; el.style.transform = 'scale(1.2)'; };
-        const stopDrag = () => { isDragging = false; el.style.transform = 'scale(1)'; };
-
-        el.addEventListener('mousedown', startDrag);
-        el.addEventListener('touchstart', startDrag);
-
-        const onMove = (clientX, clientY) => {
-            if (!isDragging) return;
-            const rect = arena.getBoundingClientRect();
-            const mouseX = clientX - rect.left - 25;
-            const mouseY = clientY - rect.top - 25;
-            
-            el.style.left = mouseX + 'px';
-            el.style.top = mouseY + 'px';
-            el.dataset.x = mouseX;
-            el.dataset.y = mouseY;
-
-            // Котлета -> в Центр!
-            if (item.type === 'patty') {
-                const dist = Math.hypot(mouseX - centerX, mouseY - centerY);
-                if (dist < 45) {
-                    stopDrag();
-                    catchIngredient(el);
-                }
-            }
-
-            // Мусор -> ЗА КРАЙ арены!
-            if (item.type === 'trash') {
-                if (mouseX < 5 || mouseX > arena.offsetWidth - 45 || mouseY < 5 || mouseY > arena.offsetHeight - 45) {
-                    stopDrag();
-                    // Выбросил мусор успешно!
-                    el.style.transform = 'scale(0)';
-                    setTimeout(() => el.remove(), 100);
-                    const index = mgbActiveElements.indexOf(el);
-                    if (index > -1) mgbActiveElements.splice(index, 1);
-                }
-            }
-        };
-
-        arena.addEventListener('mousemove', (e) => onMove(e.clientX, e.clientY));
-        arena.addEventListener('touchmove', (e) => {
-            if (e.touches[0]) onMove(e.touches[0].clientX, e.touches[0].clientY);
-        });
-
-        window.addEventListener('mouseup', stopDrag);
-        window.addEventListener('touchend', stopDrag);
-    }
-
-    // Б) Капуста - Разрезать 1 раз (Только при зажатой мышке/пальце!)
-    if (item.type === 'cabbage') {
-        const slice = () => {
-            if (mgbIsMouseDown || true) { // Для тачскрина или свайпа
-                el.innerHTML = '✂️';
-                setTimeout(() => catchIngredient(el), 100);
-            }
-        };
-        el.addEventListener('mouseenter', () => { if (mgbIsMouseDown) slice(); });
-        el.addEventListener('touchmove', slice);
-    }
-
-    // В) Огурец - Разрезать 2 РАЗА!
-    if (item.type === 'cucumber') {
-        el.dataset.cuts = '0';
-        const sliceCuke = () => {
-            if (mgbIsMouseDown || true) {
-                let cuts = parseInt(el.dataset.cuts) + 1;
-                el.dataset.cuts = cuts.toString();
-                if (cuts === 1) {
-                    el.style.filter = 'hue-rotate(90deg)'; // Менять цвет при первом разрезе
-                    el.style.transform = 'scale(0.8)';
-                } else if (cuts >= 2) {
-                    el.innerHTML = '✂️';
-                    setTimeout(() => catchIngredient(el), 100);
-                }
-            }
-        };
-        el.addEventListener('mouseenter', () => { if (mgbIsMouseDown) sliceCuke(); });
-        el.addEventListener('touchmove', sliceCuke);
-    }
-
-    // Г) Соус - Двойной клик
-    if (item.type === 'sauce') {
-        el.addEventListener('dblclick', () => catchIngredient(el));
-    }
-
-    // Д) Рука-Вор - Кликнуть 3 РАЗА!
-    if (item.type === 'hand') {
-        el.dataset.hp = '3';
-        const hitHand = () => {
-            let hp = parseInt(el.dataset.hp) - 1;
-            el.dataset.hp = hp.toString();
-            el.style.transform = `scale(${0.7 + hp * 0.2})`;
-            
-            if (hp <= 0) {
-                el.remove();
-                const index = mgbActiveElements.indexOf(el);
-                if (index > -1) mgbActiveElements.splice(index, 1);
-            }
-        };
-        el.addEventListener('click', hitHand);
-        el.addEventListener('touchstart', hitHand);
-    }
-
-    document.getElementById('mgb-game-elements').appendChild(el);
-    mgbActiveElements.push(el);
-}
-
-// 4. ДВИЖЕНИЕ И СТОЛКНОВЕНИЯ С ЦЕНТРАЛЬНЫМ БУРГЕРОМ
-function updateMgbArena() {
-    const arena = document.getElementById('mgb-game-arena');
-    if (!arena) return;
-
-    const centerX = arena.offsetWidth / 2 - 25;
-    const centerY = arena.offsetHeight / 2 - 25;
-
-    for (let i = mgbActiveElements.length - 1; i >= 0; i--) {
-        const el = mgbActiveElements[i];
-        let x = parseFloat(el.dataset.x);
-        let y = parseFloat(el.dataset.y);
-        const vx = parseFloat(el.dataset.vx);
-        const vy = parseFloat(el.dataset.vy);
-        const type = el.dataset.type;
-
-        // Движение
-        if (el.style.transform !== 'scale(1.2)') {
-            x += vx;
-            y += vy;
-            el.dataset.x = x;
-            el.dataset.y = y;
-            el.style.left = x + 'px';
-            el.style.top = y + 'px';
-        }
-
-        // ВЗАИМОДЕЙСТВИЕ С ЦЕНТРАЛЬНЫМ БУРГЕРОМ:
-        const distToCenter = Math.hypot(x - centerX, y - centerY);
-
-        // Рука или Мусор дошли до центра бургера -> ПОРАЖЕНИЕ!
-        if (distToCenter < 35 && (type === 'trash' || type === 'hand')) {
-            mgbLoseGame();
-            break;
-        }
-
-        // Побег ингредиентов за края арены
-        if ((x < -20 || x > arena.offsetWidth || y < -20 || y > arena.offsetHeight) && type !== 'trash') {
-            el.remove();
-            mgbActiveElements.splice(i, 1);
-            mgbEscaped++;
-            
-            if (mgbEscaped >= 2) {
-                mgbLoseGame();
-                break;
+            if (!isBegging) {
+                setTimeout(() => {
+                    if (stalker) {
+                        stalker.style.bottom = '-200px';
+                        setTimeout(() => stalker.remove(), 600);
+                    }
+                }, 3000);
             }
         }
-    }
-}
 
-// 1. ОТЛОВ ИНГРЕДИЕНТА С ЗАЩИТОЙ ОТ ДВОЙНОГО ТАЧА НА СМАРТФОНАХ
-function catchIngredient(el) {
-    // Если игра уже закончилась или предмет УЖЕ пойман — ИГНОРИРУЕМ!
-    if (!mgbIsPlaying || el.dataset.caught === "true") return;
-    
-    el.dataset.caught = "true"; // Помечаем как пойманный
-    el.style.transform = 'scale(0)';
-    setTimeout(() => el.remove(), 100);
-    
-    const index = mgbActiveElements.indexOf(el);
-    if (index > -1) mgbActiveElements.splice(index, 1);
+        // 2. ЗАПУСК ИГРЫ
+        window.startMgbGame = function () {
+            if (mgbIsPlaying) return;
 
-    // Вспышка центрального бургера
-    const burger = document.getElementById('mgb-center-burger');
-    if (burger) {
-        burger.style.transform = 'translate(-50%, -50%) scale(1.3)';
-        setTimeout(() => burger.style.transform = 'translate(-50%, -50%) scale(1)', 150);
-    }
+            // Проверка КД
+            const cdUntil = parseInt(localStorage.getItem('mgb_cooldown_until') || '0');
+            if (Date.now() < cdUntil) {
+                alert("Бобнит ещё спит! Дай ему переварить бургеры!");
+                return;
+            }
 
-    mgbProgress += 7; // Начисление прогресса
-    if (mgbProgress > 100) mgbProgress = 100;
+            if (typeof casinoChips === 'undefined') window.casinoChips = 0;
+            if (casinoChips < 1) {
+                triggerBobnitRage();
+                return;
+            }
 
-    document.getElementById('mgb-progress-fill').style.width = mgbProgress + '%';
-    document.getElementById('mgb-pct').innerText = mgbProgress;
+            casinoChips -= 1;
+            localStorage.setItem('leycore_chips', casinoChips.toString());
+            localStorage.setItem('mgb_last_play', Date.now().toString());
+            if (typeof updateCasinoUI === 'function') updateCasinoUI();
 
-    // ПРОВЕРКА НА ПОБЕДУ
-    if (mgbProgress >= 100) {
-        mgbWinGame();
-    }
-}
+            mgbIsPlaying = true;
+            mgbProgress = 0;
+            mgbEscaped = 0;
+            mgbActiveElements = [];
 
-// 2. БРОНЕБОЙНАЯ ПОБЕДА (ЗАЩИТА ОТ МНОГОКРАТНОГО НАЧИСЛЕНИЯ ФИШЕК)
-function mgbWinGame() {
-    // ЕСЛИ ИГРА УЖЕ ОСТАНОВЛЕНА - ВЫХОДИМ (Защита от бага 50 фишек!)
-    if (!mgbIsPlaying) return;
-    
-    mgbIsPlaying = false; // МГНОВЕННО выключаем флаг игры!
-    stopMgbIntervals();
+            document.getElementById('mgb-start-overlay').style.display = 'none';
+            document.getElementById('mgb-progress-bar-container').style.display = 'block';
 
-    // Начисляем +3 фишки СТРОГО 1 РАЗ!
-    casinoChips += 3;
-    localStorage.setItem('leycore_chips', casinoChips.toString());
-    
-    // Включаем 10 минут кулдауна
-    const cdUntil = Date.now() + (10 * 60 * 1000);
-    localStorage.setItem('mgb_cooldown_until', cdUntil.toString());
+            // КАРТИНКА: БОБНИТ ЗАМЫШЛЯЕТ
+            const pic = document.getElementById('mgb-bobnit-pic');
+            pic.src = 'bobnit_scheming.webp';
+            document.getElementById('mgb-sleep-cloud').style.display = 'none';
+            document.getElementById('mgb-bobnit-text').innerText = "«Хе-хе... Посмотрим, как ты справишься с хаосом...» 😈";
 
-    if (typeof updateCasinoUI === 'function') updateCasinoUI();
+            mgbGameInterval = setInterval(updateMgbArena, 30);
+            mgbSpawnInterval = setInterval(spawnIngredient, 1200); // Быстрый спавн!
+        };
 
-    document.getElementById('mgb-bobnit-pic').src = 'bobnit_sleep.webp';
-    document.getElementById('mgb-sleep-cloud').style.display = 'block';
-    document.getElementById('mgb-bobnit-text').innerText = "«Z-Zzz... Обожрался... Не буди 10 минут...» 😴";
+        // 3. СПАВН ИНГРЕДИЕНТОВ, МУСОРА И РУКИ-ВОРА
+        function spawnIngredient() {
+            if (!mgbIsPlaying) return;
 
-    // Скрываем 100% сборку и возвращаем оверлей с таймером
-    document.getElementById('mgb-progress-bar-container').style.display = 'none';
-    document.getElementById('mgb-start-overlay').style.display = 'flex';
+            const arena = document.getElementById('mgb-game-arena');
+            if (!arena) return;
 
-    alert("🏆 БУРГЕР СОБРАН!\nБобнит обожрался и уснул на 10 минут!\nТы по-тихому крадешь +3 🪙 и сваливаешь!");
-    
-    checkMgbCooldown();
-}
+            // Список всех возможных объектов
+            const types = [
+                { emoji: '🥩', type: 'patty' },
+                { emoji: '🥬', type: 'cabbage' },
+                { emoji: '🥒', type: 'cucumber' },
+                { emoji: '🥫', type: 'sauce' },
+                { emoji: '🗑️', type: 'trash' },
+                { emoji: '🧦', type: 'trash' },
+                { emoji: '👞', type: 'trash' },
+                { emoji: '🤚', type: 'hand' }
+            ];
 
-// 3. БРОНЕБОЙНЫЙ ПРОИГРЫШ
-function mgbLoseGame() {
-    if (!mgbIsPlaying) return;
-    
-    mgbIsPlaying = false; // МГНОВЕННО выключаем флаг игры!
-    stopMgbIntervals();
+            const item = types[Math.floor(Math.random() * types.length)];
 
-    casinoChips = Math.max(0, casinoChips - 3);
-    localStorage.setItem('leycore_chips', casinoChips.toString());
-    if (typeof updateCasinoUI === 'function') updateCasinoUI();
+            const el = document.createElement('div');
+            el.className = 'mgb-ingredient' + (item.type === 'hand' ? ' mgb-hand-enemy' : '');
+            el.innerHTML = item.emoji;
+            el.dataset.type = item.type;
 
-    document.getElementById('mgb-bobnit-pic').src = 'bobnit_angry_full.webp';
-    document.getElementById('mgb-bobnit-text').innerText = "«ГДЕ ЕДА, ЖИВОТНОЕ?! МИНУС 3 ФИШКИ!» 🤬";
+            // Спавн с края арены
+            const side = Math.floor(Math.random() * 4);
+            let startX, startY;
+            if (side === 0) { startX = Math.random() * arena.offsetWidth; startY = 0; }
+            else if (side === 1) { startX = arena.offsetWidth - 50; startY = Math.random() * arena.offsetHeight; }
+            else if (side === 2) { startX = Math.random() * arena.offsetWidth; startY = arena.offsetHeight - 50; }
+            else { startX = 0; startY = Math.random() * arena.offsetHeight; }
 
-    createStalkerPopup('bobnit_crazy.webp', null, false);
+            el.style.left = startX + 'px';
+            el.style.top = startY + 'px';
 
-    alert("💀 ПРОИГРЫШ!\nКухня уничтожена, Бобнит украл ещё -3 🪙!");
-    
-    if (casinoChips === 0) {
-        triggerBobnitRage();
-    } else {
-        setTimeout(resetToSadState, 5000);
-    }
-}
+            // Вектор скорости к центру или случайный
+            const centerX = arena.offsetWidth / 2 - 25;
+            const centerY = arena.offsetHeight / 2 - 25;
+            const angle = Math.atan2(centerY - startY, centerX - startX) + (Math.random() * 0.6 - 0.3);
+            const speed = item.type === 'hand' ? 1.0 : (1.8 + Math.random() * 2); // Рука ползет медленно
+
+            el.dataset.vx = Math.cos(angle) * speed;
+            el.dataset.vy = Math.sin(angle) * speed;
+            el.dataset.x = startX;
+            el.dataset.y = startY;
+
+            // ИНТЕРАКТИВНЫЕ ЖЕСТЫ:
+
+            // А) Котлета & Мусор - Drag & Drop (Перетаскивание)
+            if (item.type === 'patty' || item.type === 'trash') {
+                let isDragging = false;
+
+                const startDrag = () => { isDragging = true; el.style.transform = 'scale(1.2)'; };
+                const stopDrag = () => { isDragging = false; el.style.transform = 'scale(1)'; };
+
+                el.addEventListener('mousedown', startDrag);
+                el.addEventListener('touchstart', startDrag);
+
+                const onMove = (clientX, clientY) => {
+                    if (!isDragging) return;
+                    const rect = arena.getBoundingClientRect();
+                    const mouseX = clientX - rect.left - 25;
+                    const mouseY = clientY - rect.top - 25;
+
+                    el.style.left = mouseX + 'px';
+                    el.style.top = mouseY + 'px';
+                    el.dataset.x = mouseX;
+                    el.dataset.y = mouseY;
+
+                    // Котлета -> в Центр!
+                    if (item.type === 'patty') {
+                        const dist = Math.hypot(mouseX - centerX, mouseY - centerY);
+                        if (dist < 45) {
+                            stopDrag();
+                            catchIngredient(el);
+                        }
+                    }
+
+                    // Мусор -> ЗА КРАЙ арены!
+                    if (item.type === 'trash') {
+                        if (mouseX < 5 || mouseX > arena.offsetWidth - 45 || mouseY < 5 || mouseY > arena.offsetHeight - 45) {
+                            stopDrag();
+                            // Выбросил мусор успешно!
+                            el.style.transform = 'scale(0)';
+                            setTimeout(() => el.remove(), 100);
+                            const index = mgbActiveElements.indexOf(el);
+                            if (index > -1) mgbActiveElements.splice(index, 1);
+                        }
+                    }
+                };
+
+                arena.addEventListener('mousemove', (e) => onMove(e.clientX, e.clientY));
+                arena.addEventListener('touchmove', (e) => {
+                    if (e.touches[0]) onMove(e.touches[0].clientX, e.touches[0].clientY);
+                });
+
+                window.addEventListener('mouseup', stopDrag);
+                window.addEventListener('touchend', stopDrag);
+            }
+
+            // Б) Капуста - Разрезать 1 раз (Только при зажатой мышке/пальце!)
+            if (item.type === 'cabbage') {
+                const slice = () => {
+                    if (mgbIsMouseDown || true) { // Для тачскрина или свайпа
+                        el.innerHTML = '✂️';
+                        setTimeout(() => catchIngredient(el), 100);
+                    }
+                };
+                el.addEventListener('mouseenter', () => { if (mgbIsMouseDown) slice(); });
+                el.addEventListener('touchmove', slice);
+            }
+
+            // В) Огурец - Разрезать 2 РАЗА!
+            if (item.type === 'cucumber') {
+                el.dataset.cuts = '0';
+                const sliceCuke = () => {
+                    if (mgbIsMouseDown || true) {
+                        let cuts = parseInt(el.dataset.cuts) + 1;
+                        el.dataset.cuts = cuts.toString();
+                        if (cuts === 1) {
+                            el.style.filter = 'hue-rotate(90deg)'; // Менять цвет при первом разрезе
+                            el.style.transform = 'scale(0.8)';
+                        } else if (cuts >= 2) {
+                            el.innerHTML = '✂️';
+                            setTimeout(() => catchIngredient(el), 100);
+                        }
+                    }
+                };
+                el.addEventListener('mouseenter', () => { if (mgbIsMouseDown) sliceCuke(); });
+                el.addEventListener('touchmove', sliceCuke);
+            }
+
+            // Г) Соус - Двойной клик
+            if (item.type === 'sauce') {
+                el.addEventListener('dblclick', () => catchIngredient(el));
+            }
+
+            // Д) Рука-Вор - Кликнуть 3 РАЗА!
+            if (item.type === 'hand') {
+                el.dataset.hp = '3';
+                const hitHand = () => {
+                    let hp = parseInt(el.dataset.hp) - 1;
+                    el.dataset.hp = hp.toString();
+                    el.style.transform = `scale(${0.7 + hp * 0.2})`;
+
+                    if (hp <= 0) {
+                        el.remove();
+                        const index = mgbActiveElements.indexOf(el);
+                        if (index > -1) mgbActiveElements.splice(index, 1);
+                    }
+                };
+                el.addEventListener('click', hitHand);
+                el.addEventListener('touchstart', hitHand);
+            }
+
+            document.getElementById('mgb-game-elements').appendChild(el);
+            mgbActiveElements.push(el);
+        }
+
+        // 4. ДВИЖЕНИЕ И СТОЛКНОВЕНИЯ С ЦЕНТРАЛЬНЫМ БУРГЕРОМ
+        function updateMgbArena() {
+            const arena = document.getElementById('mgb-game-arena');
+            if (!arena) return;
+
+            const centerX = arena.offsetWidth / 2 - 25;
+            const centerY = arena.offsetHeight / 2 - 25;
+
+            for (let i = mgbActiveElements.length - 1; i >= 0; i--) {
+                const el = mgbActiveElements[i];
+                let x = parseFloat(el.dataset.x);
+                let y = parseFloat(el.dataset.y);
+                const vx = parseFloat(el.dataset.vx);
+                const vy = parseFloat(el.dataset.vy);
+                const type = el.dataset.type;
+
+                // Движение
+                if (el.style.transform !== 'scale(1.2)') {
+                    x += vx;
+                    y += vy;
+                    el.dataset.x = x;
+                    el.dataset.y = y;
+                    el.style.left = x + 'px';
+                    el.style.top = y + 'px';
+                }
+
+                // ВЗАИМОДЕЙСТВИЕ С ЦЕНТРАЛЬНЫМ БУРГЕРОМ:
+                const distToCenter = Math.hypot(x - centerX, y - centerY);
+
+                // Рука или Мусор дошли до центра бургера -> ПОРАЖЕНИЕ!
+                if (distToCenter < 35 && (type === 'trash' || type === 'hand')) {
+                    mgbLoseGame();
+                    break;
+                }
+
+                // Побег ингредиентов за края арены
+                if ((x < -20 || x > arena.offsetWidth || y < -20 || y > arena.offsetHeight) && type !== 'trash') {
+                    el.remove();
+                    mgbActiveElements.splice(i, 1);
+                    mgbEscaped++;
+
+                    if (mgbEscaped >= 2) {
+                        mgbLoseGame();
+                        break;
+                    }
+                }
+            }
+        }
+
+        // 1. ОТЛОВ ИНГРЕДИЕНТА С ЗАЩИТОЙ ОТ ДВОЙНОГО ТАЧА НА СМАРТФОНАХ
+        function catchIngredient(el) {
+            // Если игра уже закончилась или предмет УЖЕ пойман — ИГНОРИРУЕМ!
+            if (!mgbIsPlaying || el.dataset.caught === "true") return;
+
+            el.dataset.caught = "true"; // Помечаем как пойманный
+            el.style.transform = 'scale(0)';
+            setTimeout(() => el.remove(), 100);
+
+            const index = mgbActiveElements.indexOf(el);
+            if (index > -1) mgbActiveElements.splice(index, 1);
+
+            // Вспышка центрального бургера
+            const burger = document.getElementById('mgb-center-burger');
+            if (burger) {
+                burger.style.transform = 'translate(-50%, -50%) scale(1.3)';
+                setTimeout(() => burger.style.transform = 'translate(-50%, -50%) scale(1)', 150);
+            }
+
+            mgbProgress += 7; // Начисление прогресса
+            if (mgbProgress > 100) mgbProgress = 100;
+
+            document.getElementById('mgb-progress-fill').style.width = mgbProgress + '%';
+            document.getElementById('mgb-pct').innerText = mgbProgress;
+
+            // ПРОВЕРКА НА ПОБЕДУ
+            if (mgbProgress >= 100) {
+                mgbWinGame();
+            }
+        }
+
+        // 2. БРОНЕБОЙНАЯ ПОБЕДА (ЗАЩИТА ОТ МНОГОКРАТНОГО НАЧИСЛЕНИЯ ФИШЕК)
+        function mgbWinGame() {
+            // ЕСЛИ ИГРА УЖЕ ОСТАНОВЛЕНА - ВЫХОДИМ (Защита от бага 50 фишек!)
+            if (!mgbIsPlaying) return;
+
+            mgbIsPlaying = false; // МГНОВЕННО выключаем флаг игры!
+            stopMgbIntervals();
+
+            // Начисляем +3 фишки СТРОГО 1 РАЗ!
+            casinoChips += 3;
+            localStorage.setItem('leycore_chips', casinoChips.toString());
+            // НАЧИСЛЯЕМ +1 ПРИГОТОВЛЕННЫЙ БУРГЕР В СТАТИСТИКУ
+            mgbCookedCount++;
+            localStorage.setItem('mgb_cooked_count', mgbCookedCount.toString());
+            updateMgbLeaderboardUI(); // Обновляем Лидерборд на экране!
 
 
-function stopMgbIntervals() {
-    mgbIsPlaying = false;
-    clearInterval(mgbGameInterval);
-    clearInterval(mgbSpawnInterval);
-}
+            // Включаем 10 минут кулдауна
+            const cdUntil = Date.now() + (10 * 60 * 1000);
+            localStorage.setItem('mgb_cooldown_until', cdUntil.toString());
 
-function resetToSadState() {
-    if (mgbIsPlaying) return;
-    
-    const cdUntil = parseInt(localStorage.getItem('mgb_cooldown_until') || '0');
-    if (Date.now() < cdUntil) return; // Если ещё спит, не сбрасываем
+            if (typeof updateCasinoUI === 'function') updateCasinoUI();
 
-    const pic = document.getElementById('mgb-bobnit-pic');
-    if (pic) pic.src = 'bobnit_sad_full.webp';
-    
-    document.getElementById('mgb-bobnit-text').innerText = "«А кушать будет?..» 🥺";
-    document.getElementById('mgb-sleep-cloud').style.display = 'none';
-    document.getElementById('mgb-start-overlay').style.display = 'flex';
-    document.getElementById('mgb-progress-bar-container').style.display = 'none';
-}
+            document.getElementById('mgb-bobnit-pic').src = 'bobnit_sleep.webp';
+            document.getElementById('mgb-sleep-cloud').style.display = 'block';
+            document.getElementById('mgb-bobnit-text').innerText = "«Z-Zzz... Обожрался... Не буди 10 минут...» 😴";
 
-// 8. БЛОКИРОВКА ВКЛАДОК
-function triggerBobnitRage() {
-    mgbLockedTabs = ['page-games', 'page-shop'];
-    showRiddleOverlay('page-games');
-}
+            // Скрываем 100% сборку и возвращаем оверлей с таймером
+            document.getElementById('mgb-progress-bar-container').style.display = 'none';
+            document.getElementById('mgb-start-overlay').style.display = 'flex';
 
-const originalSwitchPage = window.switchPage;
-window.switchPage = function(pageId) {
-    if (mgbLockedTabs.includes(pageId) && casinoChips === 0) {
-        showRiddleOverlay(pageId);
-        return;
-    }
-    if (typeof originalSwitchPage === 'function') {
-        originalSwitchPage(pageId);
-    }
-};
+            alert("🏆 БУРГЕР СОБРАН!\nБобнит обожрался и уснул на 10 минут!\nТы по-тихому крадешь +3 🪙 и сваливаешь!");
 
-function showRiddleOverlay(pageId) {
-    const old = document.getElementById('riddle-overlay');
-    if (old) old.remove();
+            checkMgbCooldown();
+        }
 
-    const riddle = mgbRiddles[Math.floor(Math.random() * mgbRiddles.length)];
+        // 3. БРОНЕБОЙНЫЙ ПРОИГРЫШ
+        function mgbLoseGame() {
+            if (!mgbIsPlaying) return;
 
-    const div = document.createElement('div');
-    div.id = 'riddle-overlay';
-    div.style = "position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(10,5,20,0.96); z-index:100000; display:flex; flex-direction:column; align-items:center; justify-content:center; color:white; font-family:'Unbounded', sans-serif; padding:20px;";
-    
-    div.innerHTML = `
+            mgbIsPlaying = false; // МГНОВЕННО выключаем флаг игры!
+            stopMgbIntervals();
+
+            casinoChips = Math.max(0, casinoChips - 3);
+            localStorage.setItem('leycore_chips', casinoChips.toString());
+            if (typeof updateCasinoUI === 'function') updateCasinoUI();
+
+            document.getElementById('mgb-bobnit-pic').src = 'bobnit_angry_full.webp';
+            document.getElementById('mgb-bobnit-text').innerText = "«ГДЕ ЕДА, ЖИВОТНОЕ?! МИНУС 3 ФИШКИ!» 🤬";
+
+            createStalkerPopup('bobnit_crazy.webp', null, false);
+
+            alert("💀 ПРОИГРЫШ!\nКухня уничтожена, Бобнит украл ещё -3 🪙!");
+
+            if (casinoChips === 0) {
+                triggerBobnitRage();
+            } else {
+                setTimeout(resetToSadState, 5000);
+            }
+        }
+
+
+        function stopMgbIntervals() {
+            mgbIsPlaying = false;
+            clearInterval(mgbGameInterval);
+            clearInterval(mgbSpawnInterval);
+        }
+
+        function resetToSadState() {
+            if (mgbIsPlaying) return;
+
+            const cdUntil = parseInt(localStorage.getItem('mgb_cooldown_until') || '0');
+            if (Date.now() < cdUntil) return; // Если ещё спит, не сбрасываем
+
+            const pic = document.getElementById('mgb-bobnit-pic');
+            if (pic) pic.src = 'bobnit_sad_full.webp';
+
+            document.getElementById('mgb-bobnit-text').innerText = "«А кушать будет?..» 🥺";
+            document.getElementById('mgb-sleep-cloud').style.display = 'none';
+            document.getElementById('mgb-start-overlay').style.display = 'flex';
+            document.getElementById('mgb-progress-bar-container').style.display = 'none';
+        }
+
+        // 8. БЛОКИРОВКА ВКЛАДОК
+        function triggerBobnitRage() {
+            mgbLockedTabs = ['page-games', 'page-shop'];
+            showRiddleOverlay('page-games');
+        }
+
+        const originalSwitchPage = window.switchPage;
+        window.switchPage = function (pageId) {
+            if (mgbLockedTabs.includes(pageId) && casinoChips === 0) {
+                showRiddleOverlay(pageId);
+                return;
+            }
+            if (typeof originalSwitchPage === 'function') {
+                originalSwitchPage(pageId);
+            }
+        };
+
+        function showRiddleOverlay(pageId) {
+            const old = document.getElementById('riddle-overlay');
+            if (old) old.remove();
+
+            const riddle = mgbRiddles[Math.floor(Math.random() * mgbRiddles.length)];
+
+            const div = document.createElement('div');
+            div.id = 'riddle-overlay';
+            div.style = "position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(10,5,20,0.96); z-index:100000; display:flex; flex-direction:column; align-items:center; justify-content:center; color:white; font-family:'Unbounded', sans-serif; padding:20px;";
+
+            div.innerHTML = `
         <div style="position:relative; text-align:center;">
             <img src="bobnit_donuts.webp" style="width:220px; filter:drop-shadow(0 0 20px #ff0055); margin-bottom:15px;">
             <h2 style="color:#ff0055; font-size:1.2rem; margin-bottom:10px;">ВХОД ЗАБЛОКИРОВАН БОБНИТОМ!</h2>
@@ -8454,32 +8503,112 @@ function showRiddleOverlay(pageId) {
             <button onclick="checkMgbRiddle('${riddle.a}', '${pageId}')" style="background:linear-gradient(135deg, var(--accent-gold), #ff8c00); color:#000; padding:12px 20px; border:none; border-radius:8px; font-weight:900; cursor:pointer; width:100%;">ОТДАТЬ ПОНЧИК</button>
         </div>
     `;
-    document.body.appendChild(div);
-}
-
-window.checkMgbRiddle = function(correct, pageId) {
-    const val = document.getElementById('riddle-inp').value.toLowerCase().trim();
-    if (val === correct) {
-        alert("Бобнит довольно чавкает пончиком и пропускает тебя... 🍩");
-        mgbLockedTabs = [];
-        document.getElementById('riddle-overlay').remove();
-        
-        casinoChips += 2;
-        localStorage.setItem('leycore_chips', casinoChips.toString());
-        if (typeof updateCasinoUI === 'function') updateCasinoUI();
-        
-        resetToSadState();
-
-        if (typeof originalSwitchPage === 'function') {
-            originalSwitchPage(pageId);
+            document.body.appendChild(div);
         }
-    } else {
-        alert("НЕПРАВИЛЬНО!\nБобнит обиженно кусает тебя за палец! 👺🍩");
-    }
-};
 
-// Запуск при старте сайта
-initMgbTerror();
+        window.checkMgbRiddle = function (correct, pageId) {
+            const val = document.getElementById('riddle-inp').value.toLowerCase().trim();
+            if (val === correct) {
+                alert("Бобнит довольно чавкает пончиком и пропускает тебя... 🍩");
+                mgbLockedTabs = [];
+                document.getElementById('riddle-overlay').remove();
+
+                casinoChips += 2;
+                localStorage.setItem('leycore_chips', casinoChips.toString());
+                if (typeof updateCasinoUI === 'function') updateCasinoUI();
+
+                resetToSadState();
+
+                if (typeof originalSwitchPage === 'function') {
+                    originalSwitchPage(pageId);
+                }
+            } else {
+                alert("НЕПРАВИЛЬНО!\nБобнит обиженно кусает тебя за палец! 👺🍩");
+            }
+        };
+
+        // Запуск при старте сайта
+        initMgbTerror();
+
+
+        // ==========================================
+        // ЧЕСТНЫЙ ГЛОБАЛЬНЫЙ ОНЛАЙН-ЛИДЕРБОРД МГБ (SUPABASE)
+        // ==========================================
+
+        async function updateMgbLeaderboardUI() {
+            // 1. Показываем личный рекорд
+            const myScoreEl = document.getElementById('mgb-my-score');
+            if (myScoreEl) myScoreEl.innerText = mgbCookedCount + " 🍔";
+
+            const myName = localStorage.getItem('leycore_username') || 'Анонимный Повар';
+
+            // 2. ОТПРАВЛЯЕМ СВЕЖИЙ РЕКОРД В SUPABASE
+            if (typeof supabase !== 'undefined' && supabase) {
+                try {
+                    const { data, error } = await supabase
+                        .from('leaderboard') // Имя твоей таблицы в Supabase
+                        .upsert({
+                            username: myName,
+                            mgb_score: mgbCookedCount
+                        }, { onConflict: 'username' });
+
+                    if (error) console.warn("Ошибка сохранения МГБ в Supabase:", error.message);
+                } catch (e) {
+                    console.warn("Supabase недоступен, работаем через локальный режим", e);
+                }
+            }
+
+            // 3. СКАЧИВАЕМ ГЛОБАЛЬНЫЙ ТОП-5 НАСТОЯЩИХ ИГРОКОВ (только те, у кого больше 0 бургеров)
+            let leaders = [];
+            if (typeof supabase !== 'undefined' && supabase) {
+                try {
+                    const { data, error } = await supabase
+                        .from('leaderboard')
+                        .select('username, mgb_score')
+                        .gt('mgb_score', 0) // СКАЧИВАЕМ ТОЛЬКО ТЕХ, КТО СДЕЛАЛ X > 0 БУРГЕРОВ!
+                        .order('mgb_score', { ascending: false })
+                        .limit(5);
+
+                    if (!error && data) {
+                        leaders = data.map(row => ({ name: row.username, score: row.mgb_score || 0 }));
+                    }
+                } catch (e) {
+                    console.warn("Не удалось загрузить онлайн-лидерборд МГБ", e);
+                }
+            }
+
+            // Если базы нет, а локально игрок уже готовил — показываем хотя бы его реальный рекорд
+            if (leaders.length === 0 && mgbCookedCount > 0) {
+                leaders = [{ name: myName, score: mgbCookedCount }];
+            }
+
+            // 4. ОТРИСОВЫВАЕМ ТОЛЬКО НАСТОЯЩИХ ИГРОКОВ В HTML
+            const listEl = document.getElementById('mgb-leaderboard-list');
+            if (listEl) {
+                if (leaders.length === 0) {
+                    // Если ещё никто не играл
+                    listEl.innerHTML = `
+                <li style="text-align: center; color: #888; font-size: 0.8rem; padding: 12px; list-style: none;">
+                    🍔 В Зале Славы пока пусто.<br><span style="color: var(--accent-gold);">Приготовь первый бургер и возглавь ТОП!</span>
+                </li>
+            `;
+                } else {
+                    listEl.innerHTML = leaders.map((player, index) => {
+                        const medal = index === 0 ? '👑 ' : index === 1 ? '🥈 ' : index === 2 ? '🥉 ' : `${index + 1}. `;
+                        const isMe = player.name === myName ? 'style="color: #4ade80; font-weight: bold;"' : '';
+
+                        return `
+                    <li style="display: flex; justify-content: space-between; padding: 6px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.8rem;">
+                        <span ${isMe}>${medal}${player.name}</span>
+                        <span style="color: var(--accent-gold); font-weight: bold;">${player.score} 🍔</span>
+                    </li>
+                `;
+                    }).join('');
+                }
+            }
+        }
+
+
 
 
     </script>
