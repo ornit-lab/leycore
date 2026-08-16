@@ -4329,7 +4329,7 @@
                     <!-- Слева: Сам Бобнит -->
                     <div class="mgb-bobnit-aside">
                         <div class="mgb-bobnit-avatar-wrapper">
-                            <img id="mgb-bobnit-pic" src="bobnit_hungry.jpg" alt="Бобнит">
+                            <img id="mgb-bobnit-pic" src="bobnit_hungry.webp" alt="Бобнит">
                             <!-- Спящее облако (изначально скрыто) -->
                             <div id="mgb-sleep-cloud" class="mgb-sleep-cloud" style="display: none;">Z-Zzz-ZZ-zz...
                             </div>
@@ -7991,6 +7991,7 @@ function checkMgbCooldown() {
             btn.disabled = true;
             btn.innerText = `😴 БОБНИТ СПИТ (${timeStr})`;
             btn.style.opacity = '0.6';
+            btn.style.cursor = 'not-allowed';
         }
 
         // Бобнит спит во время КД
@@ -7998,17 +7999,19 @@ function checkMgbCooldown() {
         if (pic && !pic.src.includes('bobnit_sleep.webp')) {
             pic.src = 'bobnit_sleep.webp';
             document.getElementById('mgb-sleep-cloud').style.display = 'block';
-            document.getElementById('mgb-bobnit-text').innerText = "«Z-Zzz... Полный бак... Не буди 10 минут...» 😴";
+            document.getElementById('mgb-bobnit-text').innerText = "«Z-Zzz... Полный бак... Спим...» 😴";
         }
     } else if (!mgbIsPlaying) {
         if (btn && btn.disabled) {
             btn.disabled = false;
             btn.innerText = "ПОДАТЬ 1 🪙 И ИГРАТЬ";
             btn.style.opacity = '1';
+            btn.style.cursor = 'pointer';
             resetToSadState();
         }
     }
 }
+
 
 // Проверка 2 часов неактивности
 function checkBobnitHungerStalker() {
@@ -8303,8 +8306,12 @@ function updateMgbArena() {
     }
 }
 
-// 5. ОТЛОВ ИНГРЕДИЕНТА
+// 1. ОТЛОВ ИНГРЕДИЕНТА С ЗАЩИТОЙ ОТ ДВОЙНОГО ТАЧА НА СМАРТФОНАХ
 function catchIngredient(el) {
+    // Если игра уже закончилась или предмет УЖЕ пойман — ИГНОРИРУЕМ!
+    if (!mgbIsPlaying || el.dataset.caught === "true") return;
+    
+    el.dataset.caught = "true"; // Помечаем как пойманный
     el.style.transform = 'scale(0)';
     setTimeout(() => el.remove(), 100);
     
@@ -8318,24 +8325,31 @@ function catchIngredient(el) {
         setTimeout(() => burger.style.transform = 'translate(-50%, -50%) scale(1)', 150);
     }
 
-    mgbProgress += 7; // Повысили сложность! Нужно ~15 предметов для 100%
+    mgbProgress += 7; // Начисление прогресса
     if (mgbProgress > 100) mgbProgress = 100;
 
     document.getElementById('mgb-progress-fill').style.width = mgbProgress + '%';
     document.getElementById('mgb-pct').innerText = mgbProgress;
 
+    // ПРОВЕРКА НА ПОБЕДУ
     if (mgbProgress >= 100) {
         mgbWinGame();
     }
 }
 
-// 6. ПОБЕДА (ВКЛЮЧАЕТ КУЛДАУН 10 МИНУТ)
+// 2. БРОНЕБОЙНАЯ ПОБЕДА (ЗАЩИТА ОТ МНОГОКРАТНОГО НАЧИСЛЕНИЯ ФИШЕК)
 function mgbWinGame() {
+    // ЕСЛИ ИГРА УЖЕ ОСТАНОВЛЕНА - ВЫХОДИМ (Защита от бага 50 фишек!)
+    if (!mgbIsPlaying) return;
+    
+    mgbIsPlaying = false; // МГНОВЕННО выключаем флаг игры!
     stopMgbIntervals();
+
+    // Начисляем +3 фишки СТРОГО 1 РАЗ!
     casinoChips += 3;
     localStorage.setItem('leycore_chips', casinoChips.toString());
     
-    // Включаем 10 минут кулдауна (10 * 60 * 1000 мс)
+    // Включаем 10 минут кулдауна
     const cdUntil = Date.now() + (10 * 60 * 1000);
     localStorage.setItem('mgb_cooldown_until', cdUntil.toString());
 
@@ -8343,16 +8357,24 @@ function mgbWinGame() {
 
     document.getElementById('mgb-bobnit-pic').src = 'bobnit_sleep.webp';
     document.getElementById('mgb-sleep-cloud').style.display = 'block';
-    document.getElementById('mgb-bobnit-text').innerText = "«Z-Zzz... Обожрался... Ушел в спячку на 10 минут...» 😴";
+    document.getElementById('mgb-bobnit-text').innerText = "«Z-Zzz... Обожрался... Не буди 10 минут...» 😴";
+
+    // Скрываем 100% сборку и возвращаем оверлей с таймером
+    document.getElementById('mgb-progress-bar-container').style.display = 'none';
+    document.getElementById('mgb-start-overlay').style.display = 'flex';
 
     alert("🏆 БУРГЕР СОБРАН!\nБобнит обожрался и уснул на 10 минут!\nТы по-тихому крадешь +3 🪙 и сваливаешь!");
     
     checkMgbCooldown();
 }
 
-// 7. ПРОИГРЫШ
+// 3. БРОНЕБОЙНЫЙ ПРОИГРЫШ
 function mgbLoseGame() {
+    if (!mgbIsPlaying) return;
+    
+    mgbIsPlaying = false; // МГНОВЕННО выключаем флаг игры!
     stopMgbIntervals();
+
     casinoChips = Math.max(0, casinoChips - 3);
     localStorage.setItem('leycore_chips', casinoChips.toString());
     if (typeof updateCasinoUI === 'function') updateCasinoUI();
@@ -8370,6 +8392,7 @@ function mgbLoseGame() {
         setTimeout(resetToSadState, 5000);
     }
 }
+
 
 function stopMgbIntervals() {
     mgbIsPlaying = false;
