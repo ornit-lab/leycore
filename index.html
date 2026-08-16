@@ -3659,7 +3659,7 @@ body.leycore-light {
         
         <!-- БОКОВОЙ ПЛЕЕР -->
         <div class="side-player-panel">
-            <button id="main-play-btn" class="side-player-btn" onclick="togglePlayPause()">⏵</button>
+            <button id="main-play-btn" class="side-player-btn" onclick="togglePlayPause()">⯈</button>
             <div class="now-playing-info">
                 <p>ТЕКУЩИЙ ТРЕК:</p>
                 <h4 id="current-track-title">Выбери трек</h4>
@@ -6220,7 +6220,7 @@ function loadTrack(title) {
             })
             .catch(error => {
                 console.warn("Браузер придержал автовоспроизведение. Ждем клика пользователя...", error);
-                document.getElementById('main-play-btn').innerText = "⏵";
+                document.getElementById('main-play-btn').innerText = "⯈";
                 
                 document.body.addEventListener('click', () => {
                     audio.play()
@@ -6260,7 +6260,7 @@ function togglePlayPause() {
         playBtn.classList.add('playing'); // <--- ДОБАВЛЯЕМ ЗЕЛЕНЫЙ ЦВЕТ
     } else {
         audio.pause();
-        playBtn.innerText = "⏵";
+        playBtn.innerText = "⯈";
         playBtn.classList.remove('playing'); // <--- УБИРАЕМ ЗЕЛЕНЫЙ ЦВЕТ (становится оранжевым)
     }
 }
