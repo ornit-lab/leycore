@@ -3109,12 +3109,17 @@ body.leycore-light {
 
  /* Базовые стили для обновленной вкладки музыки */
         .symphony-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            font-family: 'Unbounded', sans-serif;
-            color: #fff;
-        }
+    padding: 20px;
+    
+    /* === НАШ СПАСИТЕЛЬНЫЙ СДВИГ ВПРАВО === */
+    padding-left: 110px; /* Отодвигает весь контент (и Бобнита, и плеер) из-под сайдбара */
+    
+    font-family: 'Unbounded', sans-serif;
+    color: #fff;
+    width: 100%;
+    box-sizing: border-box; /* Чтобы отступ не растягивал экран вширь */
+}
+
 
         /* Шапка Бобнита */
         .bobnit-music-header {
