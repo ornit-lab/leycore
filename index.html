@@ -3319,6 +3319,246 @@ body.leycore-light {
         }
 
 
+        /* --- СТИЛИ ИГРЫ МОЙ ГОЛОДНЫЙ БОБНИТ (МГБ) --- */
+.mgb-game-container {
+    background: linear-gradient(135deg, rgba(25, 15, 40, 0.9), rgba(15, 10, 25, 0.95));
+    border: 2px solid var(--accent-gold);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.2);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.mgb-title {
+    text-align: center;
+    color: var(--accent-gold);
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+}
+
+.mgb-play-zone {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 20px;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .mgb-play-zone {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+}
+
+/* Блок Бобнита слева */
+.mgb-bobnit-aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.mgb-bobnit-avatar-wrapper {
+    position: relative;
+    width: 140px;
+    height: 140px;
+}
+
+#mgb-bobnit-pic {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid var(--accent-gold);
+    object-fit: cover;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+/* Спящее облако над Бобнитом */
+.mgb-sleep-cloud {
+    position: absolute;
+    top: -20px;
+    right: -25px;
+    background: #fff;
+    color: #000;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(255,255,255,0.4);
+    animation: bounceSleep 2s infinite ease-in-out;
+}
+
+@keyframes bounceSleep {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.mgb-bubble {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 12px;
+    padding: 10px 15px;
+    font-size: 0.8rem;
+    text-align: center;
+    line-height: 1.4;
+    color: #e2e8f0;
+}
+
+/* Игровая арена */
+.mgb-arena {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    background: rgba(10, 10, 15, 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.mgb-start-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 15, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    z-index: 10;
+}
+
+.mgb-start-btn {
+    background: linear-gradient(135deg, var(--accent-gold), #ff8c00);
+    border: none;
+    border-radius: 8px;
+    color: #000;
+    padding: 12px 24px;
+    font-weight: 900;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    transition: transform 0.2s;
+}
+
+.mgb-start-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Ингредиенты на арене */
+.mgb-ingredient {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+/* Прогресс-бар */
+#mgb-progress-bar-container {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+}
+
+.mgb-progress-text {
+    font-size: 0.75rem;
+    margin-bottom: 5px;
+    color: #ccc;
+}
+
+.mgb-progress-track {
+    width: 100%;
+    height: 10px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#mgb-progress-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #4ade80, #22c55e);
+    transition: width 0.1s ease;
+}
+
+/* --- СТИЛИ ДЛЯ ОБЛАЧЕК И ПРОЗРАЧНОГО БОБНИТА --- */
+.mgb-bobnit-avatar-wrapper {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#mgb-bobnit-pic {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3)); /* Легкое неоновое свечение вокруг прозрачного Бобнита */
+}
+
+/* Динамическое комиксное облачко с текстом */
+.mgb-bubble {
+    background: #ffffff;
+    color: #000000;
+    border: 3px solid var(--accent-gold);
+    border-radius: 16px;
+    padding: 10px 14px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.3;
+    position: relative;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+    max-width: 220px;
+    margin-top: 10px;
+    animation: floatBubble 3s infinite ease-in-out;
+}
+
+.mgb-bubble::after {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 10px 12px 10px;
+    border-style: solid;
+    border-color: transparent transparent #ffffff transparent;
+}
+
+@keyframes floatBubble {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Облачко для выскакивающего Бобнита в углу экрана */
+.stalker-speech-bubble {
+    position: absolute;
+    top: -45px;
+    left: -110px;
+    width: 130px;
+    background: #ffffff;
+    color: #000000;
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 900;
+    border: 2px solid #ff0055;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
 
 
 
@@ -3758,13 +3998,15 @@ body.leycore-light {
 
         <!-- PAGE: GAMES -->
     <div id="page-games" class="page-view">
-        <!-- КНОПКИ ФИЛЬТРАЦИИ ИГР -->
+                <!-- КНОПКИ ФИЛЬТРАЦИИ ИГР -->
         <div class="games-category-nav">
-            <button class="game-cat-btn active" onclick="filterGames('all', this)">🌐 ВСЕ ИГРЫ</button>
+            <button class="game-cat-btn active" onclick="filterGames('all', this)">ВСЕ ИГРЫ</button>
             <button class="game-cat-btn" onclick="filterGames('casino', this)">🎰 КАЗИНО ВАСИЛИЧА</button>
-            <button class="game-cat-btn" onclick="filterGames('flappy', this)">👑 ПОЛЁТ ЦАРЕВНЫ</button>
+            <button class="game-cat-btn" onclick="filterGames('flappy', this)">💨 ПОЛЁТ ЦАРЕВНЫ</button>
             <button class="game-cat-btn" onclick="filterGames('clicker', this)">🍔 КЛИКЕР БОБНИТА</button>
+            <button class="game-cat-btn" onclick="filterGames('mgb', this)">🌮 МГБ</button>
         </div>
+
 
         <h2 class="section-title title-gold">АРКАДНЫЙ ЗАЛ</h2>
 
@@ -3851,7 +4093,7 @@ body.leycore-light {
                   <!-- ПЛАШКА ПРЕДУПРЕЖДЕНИЯ БОБНИТА-ТАНОСА -->
 <div class="thanos-warning-banner">
     <div class="thanos-avatar-container">
-        <img src="bobnit_thanos.jpg" alt="Бобнит Танос" class="thanos-avatar-img">
+        <img src="bobnit_thanos.jpg" alt="Бобнит" class="thanos-avatar-img">
     </div>
     <div class="thanos-text">
         <strong>Бобнит предупреждает:</strong> 
@@ -3900,6 +4142,52 @@ body.leycore-light {
                 </p>
             </div>
         </div>
+                <!-- 4. ИГРА: МОЙ ГОЛОДНЫЙ БОБНИТ (МГБ) -->
+        <div id="game-block-mgb" class="game-section-block" style="display: none;">
+            <div class="mgb-game-container">
+                <h3 class="mgb-title">👾 МОЙ ГОЛОДНЫЙ БОБНИТ (МГБ)</h3>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px; text-align: center;">
+                    Вход: 1 🪙. Приготовь бургер Василича и спаси разбегающиеся ингредиенты!
+                </p>
+
+                <div class="mgb-play-zone">
+                    <!-- Слева: Сам Бобнит -->
+                    <div class="mgb-bobnit-aside">
+                        <div class="mgb-bobnit-avatar-wrapper">
+                            <img id="mgb-bobnit-pic" src="bobnit_hungry.jpg" alt="Бобнит">
+                            <!-- Спящее облако (изначально скрыто) -->
+                            <div id="mgb-sleep-cloud" class="mgb-sleep-cloud" style="display: none;">Z-Zzz-ZZ-zz...</div>
+                        </div>
+                        <div class="mgb-bubble" id="mgb-bobnit-text">«ЖРАТЬ! Накорми меня честно, или я высосу твои фишки! 😈»</div>
+                    </div>
+
+                    <!-- Справа: Кухонный блок -->
+                    <div class="mgb-kitchen-aside">
+                        <div class="mgb-screen-box">
+                            <!-- Интерактивная игровая арена -->
+                            <div id="mgb-game-arena" class="mgb-arena">
+                                <div id="mgb-start-overlay" class="mgb-start-overlay">
+                                    <h4>КУХНЯ ВАСИЛИЧА ГОТОВА</h4>
+                                    <p>Разбегающиеся продукты нужно возвращать на базу:</p>
+                                    <ul style="font-size: 0.75rem; text-align: left; display: inline-block; color: #ccc; margin: 10px 0;">
+                                        <li>🥩 <b>Котлета:</b> зажми и перетащи её в центр!</li>
+                                        <li>🥬 <b>Капуста:</b> свайпни (быстро проведи мышкой), чтобы разрезать!</li>
+                                        <li>🥫 <b>Соус:</b> кликни дважды (Double Click), чтобы собрать!</li>
+                                    </ul>
+                                    <button onclick="startMgbGame()" class="mgb-start-btn">ПОДАТЬ 1 🪙 И ИГРАТЬ</button>
+                                </div>
+                                <div id="mgb-game-elements"></div> <!-- Сюда будут спавниться убегающие продукты -->
+                                <div id="mgb-progress-bar-container" style="display: none;">
+                                    <div class="mgb-progress-text">Сборка бургера: <span id="mgb-pct">0</span>%</div>
+                                    <div class="mgb-progress-track"><div id="mgb-progress-fill"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 
@@ -7450,6 +7738,396 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('leycore-dark');
   }
 });
+
+
+
+// ==========================================
+// ИГРА: МОЙ ГОЛОДНЫЙ БОБНИТ (МГБ) - ВЕРСИЯ "ПОЛНЫЙ ТЕРРОР"
+// ==========================================
+
+let mgbIsPlaying = false;
+let mgbProgress = 0;
+let mgbEscaped = 0;
+let mgbActiveElements = [];
+let mgbGameInterval = null;
+let mgbSpawnInterval = null;
+let mgbLockedTabs = [];
+
+// ПОНЧИКОВЫЕ ЗАГАДКИ ДЛЯ РАЗБЛОКИРОВКИ
+const mgbRiddles = [
+    { q: "У чего есть дырка, но оно не иголка и не бублик Василича?", a: "пончик" },
+    { q: "Если у Бобнита 5 пончиков, а ты забрал 2, что у тебя будет?", a: "синяк" },
+    { q: "Круглый, сладкий, в глазури и делает Бобнита добрым на 5 секунд?", a: "пончик" },
+    { q: "Как Бобнит называет пончик без дырки?", a: "ошибка" },
+    { q: "Сколько пончиков нужно Бобниту для счастья?", a: "еще один" }
+];
+
+// 1. ИНИЦИАЛИЗАЦИЯ И СЛЕДЕНИЕ ЗА ГОЛОДОМ
+function initMgbTerror() {
+    if (!localStorage.getItem('mgb_last_play')) {
+        localStorage.setItem('mgb_last_play', Date.now().toString());
+    }
+    
+    // Каждые 30 секунд проверяем, не пора ли Бобниту поплакать из угла
+    setInterval(checkBobnitHungerStalker, 30000);
+}
+
+// Проверка: если в МГБ не играли больше 2 часов — Бобнит вылезает с плачем
+function checkBobnitHungerStalker() {
+    const lastPlay = parseInt(localStorage.getItem('mgb_last_play') || '0');
+    const hoursPassed = (Date.now() - lastPlay) / (1000 * 60 * 60);
+
+    if (hoursPassed >= 2 && !document.getElementById('bobnit-stalker')) {
+        createStalkerPopup('bobnit_begging.webp', 'ПОКОРМИ МЕНЯ! 😭', true);
+    }
+}
+
+// Выскакивающий Бобнит в правом нижнем углу
+function createStalkerPopup(imgSrc, text, isBegging = false) {
+    const old = document.getElementById('bobnit-stalker');
+    if (old) old.remove();
+
+    const stalker = document.createElement('div');
+    stalker.id = 'bobnit-stalker';
+    stalker.style = `position:fixed; bottom:-160px; right:40px; width:160px; height:160px; z-index:10000; transition:bottom 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor:pointer; pointer-events:auto;`;
+    
+    stalker.innerHTML = `
+        <div style="position:relative; width:100%; height:100%;">
+            <img src="${imgSrc}" style="width:100%; height:100%; object-fit:contain;">
+            ${text ? `<div class="stalker-speech-bubble">${text}</div>` : ''}
+        </div>
+    `;
+
+    document.body.appendChild(stalker);
+    setTimeout(() => { stalker.style.bottom = '20px'; }, 100);
+
+    stalker.onclick = () => {
+        stalker.style.bottom = '-200px';
+        setTimeout(() => stalker.remove(), 600);
+    };
+
+    // Безумный Бобнит при проигрыше уходит сам через 3 секунды
+    if (!isBegging) {
+        setTimeout(() => { 
+            if(stalker) {
+                stalker.style.bottom = '-200px';
+                setTimeout(() => stalker.remove(), 600);
+            }
+        }, 3000);
+    }
+}
+
+// 2. ИНТЕГРАЦИЯ С ФИЛЬТРОМ ИГР
+const originalFilterGames = window.filterGames;
+window.filterGames = function(cat, btn) {
+    const mgbBlock = document.getElementById('game-block-mgb');
+    if (mgbBlock) mgbBlock.style.display = 'none';
+
+    if (cat === 'mgb') {
+        document.querySelectorAll('.game-section-block').forEach(el => el.style.display = 'none');
+        if (mgbBlock) mgbBlock.style.display = 'block';
+        
+        document.querySelectorAll('.game-cat-btn').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        
+        const title = document.querySelector('.section-title.title-gold');
+        if (title) title.style.display = 'none';
+    } else {
+        if (typeof originalFilterGames === 'function') {
+            originalFilterGames(cat, btn);
+        }
+        const title = document.querySelector('.section-title.title-gold');
+        if (title) title.style.display = 'block';
+    }
+};
+
+// 3. ЗАПУСК ИГРЫ МГБ
+window.startMgbGame = function() {
+    if (mgbIsPlaying) return;
+
+    if (typeof casinoChips === 'undefined') window.casinoChips = 0;
+    if (casinoChips < 1) { 
+        triggerBobnitRage(); 
+        return; 
+    }
+
+    // Списываем 1 фишку за вход
+    casinoChips -= 1;
+    localStorage.setItem('leycore_chips', casinoChips.toString());
+    localStorage.setItem('mgb_last_play', Date.now().toString()); // Запоминаем время кормления!
+    if (typeof updateCasinoUI === 'function') updateCasinoUI();
+
+    mgbIsPlaying = true;
+    mgbProgress = 0;
+    mgbEscaped = 0;
+    mgbActiveElements = [];
+    
+    document.getElementById('mgb-start-overlay').style.display = 'none';
+    document.getElementById('mgb-progress-bar-container').style.display = 'block';
+
+    // КАРТИНКА: БОБНИТ ЗАМЫШЛЯЕТ (КО ВАРНЫЙ)
+    const pic = document.getElementById('mgb-bobnit-pic');
+    pic.src = 'bobnit_scheming.webp'; // Твоя прозрачная картинка замышляющего Бобнита
+    document.getElementById('mgb-sleep-cloud').style.display = 'none';
+    document.getElementById('mgb-bobnit-text').innerText = "«Хе-хе... Посмотрим, как ты справишься с Котлетой Смерти...» 😈";
+
+    mgbGameInterval = setInterval(updateMgbArena, 30);
+    mgbSpawnInterval = setInterval(spawnIngredient, 1500);
+};
+
+// 4. СПАВН ИНГРЕДИЕНТОВ
+function spawnIngredient() {
+    if (!mgbIsPlaying) return;
+
+    const arena = document.getElementById('mgb-game-arena');
+    if (!arena) return;
+
+    const types = [
+        { emoji: '🥩', type: 'patty' },
+        { emoji: '🥬', type: 'cabbage' },
+        { emoji: '🥫', type: 'sauce' }
+    ];
+    const item = types[Math.floor(Math.random() * types.length)];
+
+    const el = document.createElement('div');
+    el.className = 'mgb-ingredient';
+    el.innerHTML = item.emoji;
+    el.dataset.type = item.type;
+    
+    const startX = arena.offsetWidth / 2 - 25;
+    const startY = arena.offsetHeight / 2 - 25;
+    
+    el.style.left = startX + 'px';
+    el.style.top = startY + 'px';
+    
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 1.5 + Math.random() * 2;
+    
+    el.dataset.vx = Math.cos(angle) * speed;
+    el.dataset.vy = Math.sin(angle) * speed;
+    el.dataset.x = startX;
+    el.dataset.y = startY;
+
+    // ЖЕСТЫ:
+    // А) Котлета - Drag & Drop (перетаскивание)
+    if (item.type === 'patty') {
+        let isDragging = false;
+        el.addEventListener('mousedown', () => { isDragging = true; el.style.transform = 'scale(1.2)'; });
+        
+        arena.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const rect = arena.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left - 25;
+            const mouseY = e.clientY - rect.top - 25;
+            
+            el.style.left = mouseX + 'px';
+            el.style.top = mouseY + 'px';
+            el.dataset.x = mouseX;
+            el.dataset.y = mouseY;
+
+            const dist = Math.hypot(mouseX - (arena.offsetWidth / 2 - 25), mouseY - (arena.offsetHeight / 2 - 25));
+            if (dist < 40) {
+                isDragging = false;
+                catchIngredient(el);
+            }
+        });
+
+        arena.addEventListener('mouseup', () => { isDragging = false; el.style.transform = 'scale(1)'; });
+    }
+
+    // Б) Капуста - Свайп (разрезание мышкой)
+    if (item.type === 'cabbage') {
+        el.addEventListener('mouseover', () => {
+            el.innerHTML = '✂️';
+            setTimeout(() => catchIngredient(el), 120);
+        });
+    }
+
+    // В) Соус - Двойной клик
+    if (item.type === 'sauce') {
+        el.addEventListener('dblclick', () => { catchIngredient(el); });
+    }
+
+    document.getElementById('mgb-game-elements').appendChild(el);
+    mgbActiveElements.push(el);
+}
+
+// 5. ДВИЖЕНИЕ ИНГРЕДИЕНТОВ
+function updateMgbArena() {
+    const arena = document.getElementById('mgb-game-arena');
+    if (!arena) return;
+
+    for (let i = mgbActiveElements.length - 1; i >= 0; i--) {
+        const el = mgbActiveElements[i];
+        let x = parseFloat(el.dataset.x);
+        let y = parseFloat(el.dataset.y);
+        const vx = parseFloat(el.dataset.vx);
+        const vy = parseFloat(el.dataset.vy);
+
+        if (el.style.transform !== 'scale(1.2)') {
+            x += vx;
+            y += vy;
+            el.dataset.x = x;
+            el.dataset.y = y;
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
+        }
+
+        if (x < -10 || x > arena.offsetWidth || y < -10 || y > arena.offsetHeight) {
+            el.remove();
+            mgbActiveElements.splice(i, 1);
+            mgbEscaped++;
+            
+            if (mgbEscaped >= 2) {
+                mgbLoseGame();
+                break;
+            }
+        }
+    }
+}
+
+// 6. ОТЛОВ ИНГРЕДИЕНТА
+function catchIngredient(el) {
+    el.style.transform = 'scale(0)';
+    setTimeout(() => el.remove(), 100);
+    
+    const index = mgbActiveElements.indexOf(el);
+    if (index > -1) mgbActiveElements.splice(index, 1);
+
+    mgbProgress += 10;
+    if (mgbProgress > 100) mgbProgress = 100;
+
+    document.getElementById('mgb-progress-fill').style.width = mgbProgress + '%';
+    document.getElementById('mgb-pct').innerText = mgbProgress;
+
+    if (mgbProgress >= 100) {
+        mgbWinGame();
+    }
+}
+
+// 7. ПОБЕДА (СПЯЩИЙ БОБНИТ)
+function mgbWinGame() {
+    stopMgbIntervals();
+    casinoChips += 3;
+    localStorage.setItem('leycore_chips', casinoChips.toString());
+    if (typeof updateCasinoUI === 'function') updateCasinoUI();
+
+    // КАРТИНКА: СПЯЩИЙ БОБНИТ
+    document.getElementById('mgb-bobnit-pic').src = 'bobnit_sleep.webp';
+    document.getElementById('mgb-sleep-cloud').style.display = 'block';
+    document.getElementById('mgb-bobnit-text').innerText = "«Z-Zzz... Полный бак... Спим...» 😴";
+
+    alert("🏆 БОБНИТ ОБОЖРАЛСЯ И УСНУЛ!\nТы по-тихому крадешь +3 🪙 и сваливаешь!");
+    setTimeout(resetToSadState, 8000); // Через 8 секунд снова станет грустным
+}
+
+// 8. ПРОИГРЫШ (ЗЛОЙ БОБНИТ + ВЫСКАКИВАЮЩИЙ БЕЗУМНЫЙ)
+function mgbLoseGame() {
+    stopMgbIntervals();
+    casinoChips = Math.max(0, casinoChips - 3);
+    localStorage.setItem('leycore_chips', casinoChips.toString());
+    if (typeof updateCasinoUI === 'function') updateCasinoUI();
+
+    // КАРТИНКА: ЗЛОЙ БОБНИТ В ПОЛНЫЙ РОСТ
+    document.getElementById('mgb-bobnit-pic').src = 'bobnit_angry_full.webp';
+    document.getElementById('mgb-bobnit-text').innerText = "«ГДЕ ЕДА, ЖИВОТНОЕ?! МИНУС 3 ФИШКИ!» 🤬";
+
+    // ВЫСКАКИВАЕТ БЕЗУМНЫЙ БОБНИТ (ПОЛУРОСТ) БЕЗ НАДПИСИ НА 3 СЕК
+    createStalkerPopup('bobnit_crazy.webp', null, false);
+
+    alert("💀 ПРОИГРЫШ!\nБобнит в ярости украл ещё -3 🪙!");
+    
+    if (casinoChips === 0) {
+        triggerBobnitRage();
+    } else {
+        setTimeout(resetToSadState, 5000);
+    }
+}
+
+function stopMgbIntervals() {
+    mgbIsPlaying = false;
+    clearInterval(mgbGameInterval);
+    clearInterval(mgbSpawnInterval);
+}
+
+// Возвращаем Бобнита в состояние "А кушать будет?.."
+function resetToSadState() {
+    if (mgbIsPlaying) return;
+    document.getElementById('mgb-bobnit-pic').src = 'bobnit_sad_full.webp';
+    document.getElementById('mgb-bobnit-text').innerText = "«А кушать будет?..» 🥺";
+    document.getElementById('mgb-sleep-cloud').style.display = 'none';
+    document.getElementById('mgb-start-overlay').style.display = 'flex';
+    document.getElementById('mgb-progress-bar-container').style.display = 'none';
+}
+
+// 9. БЛОКИРОВКА ВКЛАДОК И БОБНИТ-ПОНЧИК
+function triggerBobnitRage() {
+    mgbLockedTabs = ['page-games', 'page-shop'];
+    showRiddleOverlay('page-games');
+}
+
+// ХУК НА ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ
+const originalSwitchPage = window.switchPage;
+window.switchPage = function(pageId) {
+    if (mgbLockedTabs.includes(pageId) && casinoChips === 0) {
+        showRiddleOverlay(pageId);
+        return;
+    }
+    if (typeof originalSwitchPage === 'function') {
+        originalSwitchPage(pageId);
+    }
+};
+
+// ОВЕРЛЕЙ БЛОКИРОВКИ С ПОНЧИКОВЫМ БОБНИТОМ
+function showRiddleOverlay(pageId) {
+    const old = document.getElementById('riddle-overlay');
+    if (old) old.remove();
+
+    const riddle = mgbRiddles[Math.floor(Math.random() * mgbRiddles.length)];
+
+    const div = document.createElement('div');
+    div.id = 'riddle-overlay';
+    div.style = "position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(10,5,20,0.96); z-index:100000; display:flex; flex-direction:column; align-items:center; justify-content:center; color:white; font-family:'Unbounded', sans-serif; padding:20px;";
+    
+    div.innerHTML = `
+        <div style="position:relative; text-align:center;">
+            <img src="bobnit_donuts.webp" style="width:220px; filter:drop-shadow(0 0 20px #ff0055); margin-bottom:15px;">
+            <h2 style="color:#ff0055; font-size:1.2rem; margin-bottom:10px;">ВХОД ЗАБЛОКИРОВАН БОБНИТОМ!</h2>
+            <p style="color:#ccc; font-size:0.85rem; margin-bottom:20px; max-width:450px;">«5 пончиков (или правильный ответ на загадку) и я открою доступ! 😒»</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.05); padding:25px; border-radius:16px; border:2px solid var(--accent-gold); text-align:center; width:100%; max-width:420px; box-shadow:0 10px 30px rgba(0,0,0,0.8);">
+            <p style="font-weight:bold; margin-bottom:15px; font-size:0.85rem; color:#fff;">${riddle.q}</p>
+            <input type="text" id="riddle-inp" placeholder="Твой ответ..." style="padding:12px; margin-bottom:15px; width:100%; color:#fff; background:#111; border:1px solid #444; border-radius:8px; text-align:center; font-family:Unbounded; box-sizing:border-box; outline:none;">
+            <button onclick="checkMgbRiddle('${riddle.a}', '${pageId}')" style="background:linear-gradient(135deg, var(--accent-gold), #ff8c00); color:#000; padding:12px 20px; border:none; border-radius:8px; font-weight:900; cursor:pointer; width:100%;">ОТДАТЬ ПОНЧИК</button>
+        </div>
+    `;
+    document.body.appendChild(div);
+}
+
+// ПРОВЕРКА ОТВЕТА НА ПОНЧИКОВУЮ ЗАГАДКУ
+window.checkMgbRiddle = function(correct, pageId) {
+    const val = document.getElementById('riddle-inp').value.toLowerCase().trim();
+    if (val === correct) {
+        alert("Бобнит довольно чавкает пончиком и пропускает тебя... 🍩");
+        mgbLockedTabs = [];
+        document.getElementById('riddle-overlay').remove();
+        
+        casinoChips += 2; // Выдаем 2 спасительные фишки
+        localStorage.setItem('leycore_chips', casinoChips.toString());
+        if (typeof updateCasinoUI === 'function') updateCasinoUI();
+        
+        resetToSadState();
+
+        if (typeof originalSwitchPage === 'function') {
+            originalSwitchPage(pageId);
+        }
+    } else {
+        alert("НЕПРАВИЛЬНО!\nБобнит обиженно кусает тебя за палец! 👺🍩");
+    }
+};
+
+// Автозапуск слежки за голодом Бобнита
+initMgbTerror();
 
 
         </script>
