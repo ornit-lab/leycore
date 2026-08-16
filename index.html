@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 
 <head>
@@ -16,246 +16,269 @@
 
 
     <style>
-
-
-/* ==========================================
+        /* ==========================================
    1. РЕЖИМ СВЕТА И СЕРОСТИ (ТЕМНЫЙ БУНКЕР)
    ========================================== */
 
-/* Когда свет ВЫКЛЮЧЕН — весь сайт серый, мрачный и обесцвеченный */
-body.leycore-dark {
-  background-color: #08080a !important;
-  /* Обесцвечиваем абсолютно ВСЁ на странице */
-  filter: grayscale(100%) brightness(40%) contrast(120%);
-  transition: filter 0.6s ease, background-color 0.6s ease;
-}
+        /* Когда свет ВЫКЛЮЧЕН — весь сайт серый, мрачный и обесцвеченный */
+        body.leycore-dark {
+            background-color: #08080a !important;
+            /* Обесцвечиваем абсолютно ВСЁ на странице */
+            filter: grayscale(100%) brightness(40%) contrast(120%);
+            transition: filter 0.6s ease, background-color 0.6s ease;
+        }
 
-/* Исключение: САМА ЛАМПА остается цветной и яркой даже в серости */
-body.leycore-dark #leycore-lamp-container {
-  filter: grayscale(0%) brightness(250%) !important;
-}
+        /* Исключение: САМА ЛАМПА остается цветной и яркой даже в серости */
+        body.leycore-dark #leycore-lamp-container {
+            filter: grayscale(0%) brightness(250%) !important;
+        }
 
-/* Когда свет ВКЛЮЧЕН — полный возврат оригинальных цветов */
-body.leycore-light {
-  filter: none !important;
-  transition: filter 0.6s ease, background-color 0.6s ease;
-}
+        /* Когда свет ВКЛЮЧЕН — полный возврат оригинальных цветов */
+        body.leycore-light {
+            filter: none !important;
+            transition: filter 0.6s ease, background-color 0.6s ease;
+        }
 
 
-/* ==========================================
+        /* ==========================================
    2. КОНСТРУКЦИЯ И АНИМАЦИЯ ПОКАЧИВАНИЯ ЛАМПЫ
    ========================================== */
 
-#leycore-lamp-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  margin: 0 auto 15px auto;
-  width: 80px;
-  cursor: pointer;
-  z-index: 10000;
-  
-  /* Анимация раскачивания */
-  transform-origin: top center;
-  animation: lampSway 3.5s ease-in-out infinite alternate;
-  user-select: none;
-}
+        #leycore-lamp-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            margin: 0 auto 15px auto;
+            width: 80px;
+            cursor: pointer;
+            z-index: 10000;
 
-/* Провод лампы */
-.lamp-wire {
-  width: 2px;
-  height: 40px;
-  background: linear-gradient(to bottom, #555, #222);
-}
+            /* Анимация раскачивания */
+            transform-origin: top center;
+            animation: lampSway 3.5s ease-in-out infinite alternate;
+            user-select: none;
+        }
 
-/* Цоколь и лампочка */
-.lamp-head {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+        /* Провод лампы */
+        .lamp-wire {
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(to bottom, #555, #222);
+        }
 
-.lamp-bulb {
-  font-size: 38px;
-  line-height: 1;
-  transition: transform 0.2s ease, filter 0.3s ease;
-}
+        /* Цоколь и лампочка */
+        .lamp-head {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-#leycore-lamp-container:hover .lamp-bulb {
-  transform: scale(1.15);
-}
+        .lamp-bulb {
+            font-size: 38px;
+            line-height: 1;
+            transition: transform 0.2s ease, filter 0.3s ease;
+        }
 
-/* Желтое свечение вокруг лампы */
-.lamp-glow {
-  position: absolute;
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 204, 0, 0.6) 0%, rgba(255, 150, 0, 0.2) 40%, rgba(0,0,0,0) 70%);
-  pointer-events: none;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
+        #leycore-lamp-container:hover .lamp-bulb {
+            transform: scale(1.15);
+        }
 
-/* КАДРЫ АНИМАЦИИ ПОКАЧИВАНИЯ */
-@keyframes lampSway {
-  0% {
-    transform: rotate(-6deg);
-  }
-  100% {
-    transform: rotate(6deg);
-  }
-}
+        /* Желтое свечение вокруг лампы */
+        .lamp-glow {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 204, 0, 0.6) 0%, rgba(255, 150, 0, 0.2) 40%, rgba(0, 0, 0, 0) 70%);
+            pointer-events: none;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
 
+        /* КАДРЫ АНИМАЦИИ ПОКАЧИВАНИЯ */
+        @keyframes lampSway {
+            0% {
+                transform: rotate(-6deg);
+            }
 
-/* Старый класс для достижений и титулов (оставляем как было) */
-.dish-card {
-    background: rgba(20, 20, 25, 0.8);
-    border: 2px solid var(--accent-gold);
-    border-radius: 12px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-}
-
-/* НОВЫЙ КЛАСС специально для магазина (с картинками) */
-.shop-dish-card {
-    min-height: 410px; /* Фиксируем высоту ТОЛЬКО для магазина */
-    background: rgba(20, 20, 25, 0.8);
-    border: 2px solid var(--accent-gold);
-    border-radius: 12px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-/* Картинка теперь тоже привязана только к магазину */
-.shop-dish-card .recipe-card-img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 12px;
-    border: 1px solid rgba(255, 215, 0, 0.2);
-}
+            100% {
+                transform: rotate(6deg);
+            }
+        }
 
 
-/* Стили для победной карточки Бобнита */
-.bobnit-win-card {
-    background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(74, 222, 128, 0.15)); /* Мягкий зеленый градиент */
-    border: 1px solid rgba(34, 197, 94, 0.5); /* Зеленая рамка */
-    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2); /* Зеленое свечение */
-}
+        /* Старый класс для достижений и титулов (оставляем как было) */
+        .dish-card {
+            background: rgba(20, 20, 25, 0.8);
+            border: 2px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
 
-/* Базовый стиль карточки Бобнита (по умолчанию пусть будет красным для проигрыша) */
-#bobnit-humiliation-card {
-    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(185, 28, 28, 0.15)) !important;
-    border: 1px solid rgba(239, 68, 68, 0.5) !important;
-    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2) !important;
-    display: none; /* Скрыта по умолчанию */
-}
+        /* НОВЫЙ КЛАСС специально для магазина (с картинками) */
+        .shop-dish-card {
+            min-height: 410px;
+            /* Фиксируем высоту ТОЛЬКО для магазина */
+            background: rgba(20, 20, 25, 0.8);
+            border: 2px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-/* Зеленый стиль для ПОБЕДЫ с !important, чтобы перебить базовый красный */
-#bobnit-humiliation-card.bobnit-win-card {
-    background: linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(21, 128, 61, 0.25)) !important;
-    border: 1px solid rgba(34, 197, 94, 0.8) !important;
-    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4) !important;
-}
+        /* Картинка теперь тоже привязана только к магазину */
+        .shop-dish-card .recipe-card-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+
+        /* Стили для победной карточки Бобнита */
+        .bobnit-win-card {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(74, 222, 128, 0.15));
+            /* Мягкий зеленый градиент */
+            border: 1px solid rgba(34, 197, 94, 0.5);
+            /* Зеленая рамка */
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2);
+            /* Зеленое свечение */
+        }
+
+        /* Базовый стиль карточки Бобнита (по умолчанию пусть будет красным для проигрыша) */
+        #bobnit-humiliation-card {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(185, 28, 28, 0.15)) !important;
+            border: 1px solid rgba(239, 68, 68, 0.5) !important;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2) !important;
+            display: none;
+            /* Скрыта по умолчанию */
+        }
+
+        /* Зеленый стиль для ПОБЕДЫ с !important, чтобы перебить базовый красный */
+        #bobnit-humiliation-card.bobnit-win-card {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(21, 128, 61, 0.25)) !important;
+            border: 1px solid rgba(34, 197, 94, 0.8) !important;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4) !important;
+        }
 
 
 
         .clicker-boosters {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin: 15px 0;
-    flex-wrap: wrap;
-}
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
 
-.booster-card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 215, 0, 0.3);
-    border-radius: 10px;
-    padding: 12px 18px;
-    text-align: center;
-    min-width: 140px;
-}
+        .booster-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            padding: 12px 18px;
+            text-align: center;
+            min-width: 140px;
+        }
 
-.booster-title { color: #ffd700; font-weight: bold; font-size: 0.95rem; }
-.booster-desc { color: #aaa; font-size: 0.75rem; margin: 4px 0 8px; }
+        .booster-title {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
 
-.booster-btn {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 6px 12px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 0.8rem;
-    transition: transform 0.2s;
-}
-.booster-btn:hover { transform: scale(1.05); }
+        .booster-desc {
+            color: #aaa;
+            font-size: 0.75rem;
+            margin: 4px 0 8px;
+        }
 
-.booster-active-status {
-    color: #4ade80;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 10px;
-    font-size: 0.9rem;
-    animation: blink 1s infinite alternate;
-}
+        .booster-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+        }
 
+        .booster-btn:hover {
+            transform: scale(1.05);
+        }
 
-       .thanos-warning-banner {
-    background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(79, 70, 229, 0.2));
-    border: 1px solid rgba(168, 85, 247, 0.5);
-    border-radius: 12px;
-    padding: 12px 16px;
-    margin: 15px auto;
-    max-width: 600px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    box-shadow: 0 4px 15px rgba(147, 51, 234, 0.15);
-}
-
-.thanos-avatar-container {
-    width: 50px;
-    height: 50px;
-    flex-shrink: 0;
-    border-radius: 50%;
-    border: 2px solid #c084fc;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(192, 132, 252, 0.4);
-}
-
-.thanos-avatar-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.thanos-text {
-    color: #e9d5ff;
-    font-size: 0.9rem;
-    line-height: 1.4;
-}
-
-.thanos-text strong {
-    color: #c084fc;
-    display: block;
-    margin-bottom: 2px;
-}
+        .booster-active-status {
+            color: #4ade80;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            animation: blink 1s infinite alternate;
+        }
 
 
-@keyframes pulseThanos {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.15); }
-}
+        .thanos-warning-banner {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(79, 70, 229, 0.2));
+            border: 1px solid rgba(168, 85, 247, 0.5);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin: 15px auto;
+            max-width: 600px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(147, 51, 234, 0.15);
+        }
+
+        .thanos-avatar-container {
+            width: 50px;
+            height: 50px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            border: 2px solid #c084fc;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(192, 132, 252, 0.4);
+        }
+
+        .thanos-avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thanos-text {
+            color: #e9d5ff;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .thanos-text strong {
+            color: #c084fc;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+
+        @keyframes pulseThanos {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.15);
+            }
+        }
 
         /* НЕОНОВЫЕ ПРЕСЕТЫ И ЧЕТКИЕ ШРИФТЫ ДЛЯ КАТЕГОРИЙ */
         .glow-heavy {
@@ -322,23 +345,25 @@ body.leycore-light {
         }
 
         /* SIDEBAR NAVIGATION (LEFT) */
-.sidebar-nav {
-    position: fixed;
-    left: 0;
-    top: 160px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    z-index: 1000;
-    
-    /* === НАШ ХАКЕРСКИЙ ФИКС === */
-    pointer-events: none; /* Клик проходит СКВОЗЬ весь невидимый контейнер меню! */
-}
+        .sidebar-nav {
+            position: fixed;
+            left: 0;
+            top: 160px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            z-index: 1000;
 
-/* Возвращаем кликабельность самим кнопкам внутри меню */
-.sidebar-nav * {
-    pointer-events: auto; /* Сами кнопки, иконки и ссылки внутри меню СНОВА кликабельные! */
-}
+            /* === НАШ ХАКЕРСКИЙ ФИКС === */
+            pointer-events: none;
+            /* Клик проходит СКВОЗЬ весь невидимый контейнер меню! */
+        }
+
+        /* Возвращаем кликабельность самим кнопкам внутри меню */
+        .sidebar-nav * {
+            pointer-events: auto;
+            /* Сами кнопки, иконки и ссылки внутри меню СНОВА кликабельные! */
+        }
 
 
         .sidebar-link {
@@ -540,19 +565,21 @@ body.leycore-light {
             padding: 3rem 2rem;
         }
 
-       /* Строка ~293 */
-.page-view {
-    display: none !important; /* Жестко скрывает неактивные страницы */
-    opacity: 0;
-    transform: translateY(15px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
+        /* Строка ~293 */
+        .page-view {
+            display: none !important;
+            /* Жестко скрывает неактивные страницы */
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
 
-.page-view.active-page {
-    display: block !important; /* Показывает ТОЛЬКО активную страницу */
-    opacity: 1;
-    transform: translateY(0);
-}
+        .page-view.active-page {
+            display: block !important;
+            /* Показывает ТОЛЬКО активную страницу */
+            opacity: 1;
+            transform: translateY(0);
+        }
 
 
 
@@ -1610,7 +1637,7 @@ body.leycore-light {
         }
 
 
-               /* Контейнер игры — ОБЯЗАТЕЛЬНО position: relative */
+        /* Контейнер игры — ОБЯЗАТЕЛЬНО position: relative */
         .flappy-arcade-container {
             position: relative;
             width: 420px;
@@ -1628,7 +1655,8 @@ body.leycore-light {
         .arcade-screen-box {
             position: relative;
             width: 100%;
-            height: 400px; /* Фиксируем рабочую высоту для экрана */
+            height: 400px;
+            /* Фиксируем рабочую высоту для экрана */
             margin-top: 10px;
             overflow: hidden;
             border-radius: 8px;
@@ -1649,12 +1677,14 @@ body.leycore-light {
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 10, 15, 0.95); /* Плотный темный фон */
+            background: rgba(10, 10, 15, 0.95);
+            /* Плотный темный фон */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 20; /* Поверх канваса */
+            z-index: 20;
+            /* Поверх канваса */
             padding: 20px;
             box-sizing: border-box;
         }
@@ -2510,118 +2540,134 @@ body.leycore-light {
             }
         }
 
-       /* АДАПТАЦИЯ ДЛЯ СМАРТФОНОВ */
-@media (max-width: 600px) {
-    /* Фиксим контейнер игры */
-    .flappy-arcade-container {
-        width: 100% !important;
-        margin: 10px 0 !important;
-        padding: 12px !important;
-    }
+        /* АДАПТАЦИЯ ДЛЯ СМАРТФОНОВ */
+        @media (max-width: 600px) {
 
-    /* Адаптивный Canvas без искажения пропорций */
-    #flappyCanvas {
-        width: 100% !important;
-        height: auto !important;
-        max-height: 380px !important;
-        object-fit: contain;
-    }
+            /* Фиксим контейнер игры */
+            .flappy-arcade-container {
+                width: 100% !important;
+                margin: 10px 0 !important;
+                padding: 12px !important;
+            }
 
-    /* Фиксим картинку кликера */
-    #bobnit-clicker-img {
-        width: 100% !important;
-        height: auto !important;
-        max-height: 250px !important;
-    }
+            /* Адаптивный Canvas без искажения пропорций */
+            #flappyCanvas {
+                width: 100% !important;
+                height: auto !important;
+                max-height: 380px !important;
+                object-fit: contain;
+            }
 
-    /* Все элементы кликера выстраиваем в колонку */
-    .bobnit-clicker-wrapper {
-        flex-direction: column !important;
-        gap: 15px !important;
-    }
+            /* Фиксим картинку кликера */
+            #bobnit-clicker-img {
+                width: 100% !important;
+                height: auto !important;
+                max-height: 250px !important;
+            }
 
-    .leycore-hero h3 { font-size: 1.1rem !important; }
-    #clicker-counter { font-size: 1.3rem !important; }
-    #bobnit-stage-side { min-width: 100% !important; }
-    .leaderboard-widget { width: 100% !important; margin-left: 0 !important; }
-}
+            /* Все элементы кликера выстраиваем в колонку */
+            .bobnit-clicker-wrapper {
+                flex-direction: column !important;
+                gap: 15px !important;
+            }
 
-/* АДАПТАЦИЯ СКАЗОК И СЕЙФА ДЛЯ СМАРТФОНОВ */
-@media (max-width: 850px) {
-    /* 1. Баннер в Хранилище (чтобы аватар и цитата встали вертикально) */
-    .tales-banner {
-        flex-direction: column !important;
-        text-align: center !important;
-        gap: 15px !important;
-        padding: 1.5rem !important;
-    }
+            .leycore-hero h3 {
+                font-size: 1.1rem !important;
+            }
 
-    .tales-avatar-box {
-        width: 100px !important;
-        height: 100px !important;
-        margin: 0 auto !important;
-    }
+            #clicker-counter {
+                font-size: 1.3rem !important;
+            }
 
-    .tales-quote {
-        font-size: 1rem !important;
-    }
+            #bobnit-stage-side {
+                min-width: 100% !important;
+            }
 
-    /* 2. Сетка карточек сказок (в одну колонку на весь экран) */
-    .grid-tales {
-        grid-template-columns: 1fr !important;
-        gap: 1.2rem !important;
-        margin-top: 1rem !important;
-    }
+            .leaderboard-widget {
+                width: 100% !important;
+                margin-left: 0 !important;
+            }
+        }
 
-    .tale-list-card {
-        padding: 1.2rem !important;
-    }
+        /* АДАПТАЦИЯ СКАЗОК И СЕЙФА ДЛЯ СМАРТФОНОВ */
+        @media (max-width: 850px) {
 
-    .tale-list-title {
-        font-size: 1.15rem !important;
-    }
+            /* 1. Баннер в Хранилище (чтобы аватар и цитата встали вертикально) */
+            .tales-banner {
+                flex-direction: column !important;
+                text-align: center !important;
+                gap: 15px !important;
+                padding: 1.5rem !important;
+            }
 
-    /* 3. Окно чтения сказки */
-    .tale-detail-view {
-        padding: 1.2rem !important;
-    }
+            .tales-avatar-box {
+                width: 100px !important;
+                height: 100px !important;
+                margin: 0 auto !important;
+            }
 
-    .tale-full-text {
-        font-size: 0.95rem !important;
-    }
+            .tales-quote {
+                font-size: 1rem !important;
+            }
 
-    /* 4. МОДАЛЬНОЕ ОКНО ПАРОЛЯ (СЕЙФ) — ЧТОБЫ НЕ ВЫЛЕЗАЛО ЗА КРАЯ */
-    .lock-modal-card {
-        padding: 1.5rem !important;
-        max-width: 92% !important; /* На весь экран смартфона с отступами */
-        margin: 0 auto;
-    }
+            /* 2. Сетка карточек сказок (в одну колонку на весь экран) */
+            .grid-tales {
+                grid-template-columns: 1fr !important;
+                gap: 1.2rem !important;
+                margin-top: 1rem !important;
+            }
 
-    .lock-title {
-        font-size: 1.4rem !important;
-    }
+            .tale-list-card {
+                padding: 1.2rem !important;
+            }
 
-    .lock-riddle-box {
-        font-size: 1rem !important;
-        padding: 12px !important;
-    }
+            .tale-list-title {
+                font-size: 1.15rem !important;
+            }
 
-    .lock-input-group {
-        flex-direction: column !important; /* Инпут сверху, кнопка снизу на мобилках */
-        gap: 10px !important;
-    }
+            /* 3. Окно чтения сказки */
+            .tale-detail-view {
+                padding: 1.2rem !important;
+            }
 
-    .lock-input {
-        width: 100% !important;
-        font-size: 1rem !important;
-        padding: 10px !important;
-    }
+            .tale-full-text {
+                font-size: 0.95rem !important;
+            }
 
-    .lock-btn {
-        width: 100% !important;
-        padding: 12px !important;
-    }
-}
+            /* 4. МОДАЛЬНОЕ ОКНО ПАРОЛЯ (СЕЙФ) — ЧТОБЫ НЕ ВЫЛЕЗАЛО ЗА КРАЯ */
+            .lock-modal-card {
+                padding: 1.5rem !important;
+                max-width: 92% !important;
+                /* На весь экран смартфона с отступами */
+                margin: 0 auto;
+            }
+
+            .lock-title {
+                font-size: 1.4rem !important;
+            }
+
+            .lock-riddle-box {
+                font-size: 1rem !important;
+                padding: 12px !important;
+            }
+
+            .lock-input-group {
+                flex-direction: column !important;
+                /* Инпут сверху, кнопка снизу на мобилках */
+                gap: 10px !important;
+            }
+
+            .lock-input {
+                width: 100% !important;
+                font-size: 1rem !important;
+                padding: 10px !important;
+            }
+
+            .lock-btn {
+                width: 100% !important;
+                padding: 12px !important;
+            }
+        }
 
         /* ====================================================
            🎰 КАЗИНО ВАСИЛИЧА 2.0 — ПОЛНЫЙ СТИЛЕВОЙ ПАКЕТ
@@ -2687,7 +2733,7 @@ body.leycore-light {
             border: 2px solid var(--accent-purple);
             border-radius: 12px;
             font-size: 3rem;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.9), 0 0 15px rgba(176, 38, 255, 0.3);
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9), 0 0 15px rgba(176, 38, 255, 0.3);
             transition: transform 0.1s ease;
         }
 
@@ -2751,11 +2797,42 @@ body.leycore-light {
             text-transform: uppercase;
             margin-bottom: 8px;
         }
-        .rarity-artefact { background: rgba(255, 140, 0, 0.2); border: 1px solid #ff8c00; color: #ff8c00; box-shadow: 0 0 10px #ff8c00; }
-        .rarity-relic { background: rgba(255, 0, 127, 0.2); border: 1px solid #ff007f; color: #ff007f; box-shadow: 0 0 10px #ff007f; }
-        .rarity-theme { background: linear-gradient(90deg, #ff0000, #00ff00, #00f0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; border: 1px solid #00f0ff; padding: 4px 10px; }
-        .rarity-emenit { background: rgba(0, 255, 102, 0.2); border: 1px solid #00ff66; color: #00ff66; box-shadow: 0 0 10px #00ff66; }
-        .rarity-junk { background: rgba(120, 120, 120, 0.2); border: 1px solid #777; color: #aaa; }
+
+        .rarity-artefact {
+            background: rgba(255, 140, 0, 0.2);
+            border: 1px solid #ff8c00;
+            color: #ff8c00;
+            box-shadow: 0 0 10px #ff8c00;
+        }
+
+        .rarity-relic {
+            background: rgba(255, 0, 127, 0.2);
+            border: 1px solid #ff007f;
+            color: #ff007f;
+            box-shadow: 0 0 10px #ff007f;
+        }
+
+        .rarity-theme {
+            background: linear-gradient(90deg, #ff0000, #00ff00, #00f0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            border: 1px solid #00f0ff;
+            padding: 4px 10px;
+        }
+
+        .rarity-emenit {
+            background: rgba(0, 255, 102, 0.2);
+            border: 1px solid #00ff66;
+            color: #00ff66;
+            box-shadow: 0 0 10px #00ff66;
+        }
+
+        .rarity-junk {
+            background: rgba(120, 120, 120, 0.2);
+            border: 1px solid #777;
+            color: #aaa;
+        }
 
         /* Таблица подсказки шансов */
         .rarity-info-box {
@@ -2774,12 +2851,15 @@ body.leycore-light {
             --accent-cyan: #ffaa00 !important;
             --bg-base: #120a02 !important;
         }
+
         body.theme-crimson {
             --accent-purple: #ff2a5f !important;
             --accent-cyan: #ff5500 !important;
             --bg-base: #140307 !important;
         }
-        body.theme-rainbow h1, body.theme-rainbow .section-title {
+
+        body.theme-rainbow h1,
+        body.theme-rainbow .section-title {
             background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #8b00ff) !important;
             -webkit-background-clip: text !important;
             -webkit-text-fill-color: transparent !important;
@@ -2787,27 +2867,43 @@ body.leycore-light {
 
         /* 👑 АНИМИРОВАННЫЕ ВЕЛИЧЕСТВЕННЫЕ ТИТУЛЫ */
         .user-title-badge {
-    display: inline-block;
-    color: #ffffff !important;                     /* Четкий белый цвет текста */
-    background: rgba(0, 242, 254, 0.12) !important;/* Тонкий красивый бирюзовый фон */
-    border: 1px solid rgba(0, 242, 254, 0.5) !important; /* Аккуратная светящаяся рамка */
-    border-radius: 6px;                            /* Скругление углов */
-    padding: 2px 8px;                              /* Отступы вокруг текста */
-    font-size: 0.75rem;                            /* Компактный размер */
-    font-weight: 600;                              /* Жирный читаемый шрифт */
-    margin-bottom: 4px;                            /* Небольшой отступ до ника */
-    box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);   /* Легкое неоновое свечение */
-    text-shadow: none !important;                  /* Убираем старые тени */
-    -webkit-text-fill-color: initial !important;   /* Отменяем прозрачность текста */
-}
+            display: inline-block;
+            color: #ffffff !important;
+            /* Четкий белый цвет текста */
+            background: rgba(0, 242, 254, 0.12) !important;
+            /* Тонкий красивый бирюзовый фон */
+            border: 1px solid rgba(0, 242, 254, 0.5) !important;
+            /* Аккуратная светящаяся рамка */
+            border-radius: 6px;
+            /* Скругление углов */
+            padding: 2px 8px;
+            /* Отступы вокруг текста */
+            font-size: 0.75rem;
+            /* Компактный размер */
+            font-weight: 600;
+            /* Жирный читаемый шрифт */
+            margin-bottom: 4px;
+            /* Небольшой отступ до ника */
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+            /* Легкое неоновое свечение */
+            text-shadow: none !important;
+            /* Убираем старые тени */
+            -webkit-text-fill-color: initial !important;
+            /* Отменяем прозрачность текста */
+        }
 
 
         @keyframes titleShimmer {
-            0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
+            0% {
+                background-position: 0% center;
+            }
+
+            100% {
+                background-position: 200% center;
+            }
         }
 
-                /* ====================================================
+        /* ====================================================
            🎮 КАТЕГОРИИ И ФИЛЬТРЫ В ИГРАХ
            ==================================================== */
         .games-category-nav {
@@ -2830,7 +2926,7 @@ body.leycore-light {
             font-weight: 800;
             cursor: pointer;
             transition: all 0.25s ease;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         .game-cat-btn:hover {
@@ -2855,256 +2951,277 @@ body.leycore-light {
         /* ====================================================
    🔥 ЛАВОВЫЙ НЕОН ДЛЯ ЭЛИТНЫХ ТИТУЛОВ И ТАБЫ ПРОФИЛЯ
    ==================================================== */
-.lava-title-badge {
-    background: linear-gradient(45deg, #ff2200, #ff8c00, #ff0055, #ffaa00);
-    background-size: 300% 300%;
-    animation: lavaGlowAnimation 3s ease infinite;
-    color: #ffffff !important;
-    font-weight: 900;
-    padding: 3px 8px;
-    border-radius: 5px;
-    box-shadow: 0 0 12px rgba(255, 34, 0, 0.9), 0 0 25px rgba(255, 140, 0, 0.6);
-    border: 1px solid #ffe600;
-    text-shadow: 0 0 4px #000;
-    display: inline-block;
-    font-size: 0.75rem;
-}
+        .lava-title-badge {
+            background: linear-gradient(45deg, #ff2200, #ff8c00, #ff0055, #ffaa00);
+            background-size: 300% 300%;
+            animation: lavaGlowAnimation 3s ease infinite;
+            color: #ffffff !important;
+            font-weight: 900;
+            padding: 3px 8px;
+            border-radius: 5px;
+            box-shadow: 0 0 12px rgba(255, 34, 0, 0.9), 0 0 25px rgba(255, 140, 0, 0.6);
+            border: 1px solid #ffe600;
+            text-shadow: 0 0 4px #000;
+            display: inline-block;
+            font-size: 0.75rem;
+        }
 
-@keyframes lavaGlowAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+        @keyframes lavaGlowAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
 
-/* Стандартный неон для обычных титулов */
-.user-title-badge {
-    background: rgba(255, 255, 255, 0.1);
-    color: #00ffcc;
-    border: 1px solid #00ffcc;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 0.7rem;
-    box-shadow: 0 0 8px rgba(0, 255, 204, 0.3);
-    display: inline-block;
-}
+            50% {
+                background-position: 100% 50%;
+            }
 
-/* Переключатель вкладок внутри Профиля */
-.profile-nav-tabs {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 25px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
+            100% {
+                background-position: 0% 50%;
+            }
+        }
 
-.profile-tab-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: var(--text-muted);
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: var(--font-code);
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
+        /* Стандартный неон для обычных титулов */
+        .user-title-badge {
+            background: rgba(255, 255, 255, 0.1);
+            color: #00ffcc;
+            border: 1px solid #00ffcc;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            box-shadow: 0 0 8px rgba(0, 255, 204, 0.3);
+            display: inline-block;
+        }
 
-.profile-tab-btn:hover {
-    border-color: var(--accent-gold);
-    color: #fff;
-}
+        /* Переключатель вкладок внутри Профиля */
+        .profile-nav-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
 
-.profile-tab-btn.active-profile-tab {
-    background: var(--accent-gold);
-    color: #000;
-    border-color: var(--accent-gold);
-    box-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
-}
+        .profile-tab-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-muted);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: var(--font-code);
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
 
-/* Контейнер сетки магазина */
-.shop-products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 18px;
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto 30px;
-    box-sizing: border-box;
-}
+        .profile-tab-btn:hover {
+            border-color: var(--accent-gold);
+            color: #fff;
+        }
 
-/* Исправляем селектор: теперь он нацелен на твой новый класс */
-.shop-dish-card {
-    min-height: 410px; /* Теперь это сработает! */
-    min-width: 0;
-    width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    
-    /* Добавь сюда свои визуальные стили, если они не подхватываются */
-    background: rgba(20, 20, 25, 0.8);
-    border: 2px solid var(--accent-gold);
-    border-radius: 12px;
-    padding: 15px;
-}
+        .profile-tab-btn.active-profile-tab {
+            background: var(--accent-gold);
+            color: #000;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
+        }
 
+        /* Контейнер сетки магазина */
+        .shop-products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto 30px;
+            box-sizing: border-box;
+        }
 
-/* Стиль самой картинки блюда */
-.recipe-card-img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;     /* Картинка красиво заполняет блок без искажений */
-    border-radius: 8px;    /* Скругление углов */
-    margin-bottom: 12px;   /* Отступ до названия */
-    border: 1px solid rgba(255, 215, 0, 0.2); /* Тонкая золотая рамочка */
-}
+        /* Исправляем селектор: теперь он нацелен на твой новый класс */
+        .shop-dish-card {
+            min-height: 410px;
+            /* Теперь это сработает! */
+            min-width: 0;
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            /* Добавь сюда свои визуальные стили, если они не подхватываются */
+            background: rgba(20, 20, 25, 0.8);
+            border: 2px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 15px;
+        }
 
 
-/* ====================================================
+        /* Стиль самой картинки блюда */
+        .recipe-card-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            /* Картинка красиво заполняет блок без искажений */
+            border-radius: 8px;
+            /* Скругление углов */
+            margin-bottom: 12px;
+            /* Отступ до названия */
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            /* Тонкая золотая рамочка */
+        }
+
+
+        /* ====================================================
    🏆 СТРАНИЦА ДОСТИЖЕНИЙ И МАГАЗИНА
    ==================================================== */
-#page-achievements {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    margin: 0 auto;
-    padding: 0 20px 50px;
-    box-sizing: border-box;
-    overflow-x: hidden;
-}
+        #page-achievements {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            margin: 0 auto;
+            padding: 0 20px 50px;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
 
 
-#page-achievements #achievements-list {
-    display: block !important;
-    width: 100% !important;
-    max-width: 1200px !important;
-    min-width: 0 !important;
-    margin: 0 auto !important;
-    box-sizing: border-box !important;
-    overflow-x: hidden !important;
-}
+        #page-achievements #achievements-list {
+            display: block !important;
+            width: 100% !important;
+            max-width: 1200px !important;
+            min-width: 0 !important;
+            margin: 0 auto !important;
+            box-sizing: border-box !important;
+            overflow-x: hidden !important;
+        }
 
 
-/* ====================================================
+        /* ====================================================
    🔝 ЕДИНЫЙ ВЕРХНИЙ БАР ВКАДОК ДЛЯ ПРОФИЛЯ
    ==================================================== */
-.profile-tabs-header {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 12px !important;
-    width: 100% !important;
-    max-width: 900px !important;
-    min-width: 0 !important;
-    margin: 0 auto 30px !important;
-    padding: 0 10px 15px !important;
-    box-sizing: border-box !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-    flex-wrap: wrap !important;
-}
+        .profile-tabs-header {
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 12px !important;
+            width: 100% !important;
+            max-width: 900px !important;
+            min-width: 0 !important;
+            margin: 0 auto 30px !important;
+            padding: 0 10px 15px !important;
+            box-sizing: border-box !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+            flex-wrap: wrap !important;
+        }
 
 
-.profile-tab-btn {
-    flex: 0 1 auto !important;
-    width: auto !important;
-    min-width: 130px !important;
-    white-space: nowrap !important;
-}
+        .profile-tab-btn {
+            flex: 0 1 auto !important;
+            width: auto !important;
+            min-width: 130px !important;
+            white-space: nowrap !important;
+        }
 
 
-.profile-tab-btn:hover {
-    border-color: #ffcc00 !important;
-    color: #fff !important;
-}
+        .profile-tab-btn:hover {
+            border-color: #ffcc00 !important;
+            color: #fff !important;
+        }
 
-.profile-tab-btn.active-profile-tab {
-    background: #ffcc00 !important;
-    color: #000 !important;
-    border-color: #ffcc00 !important;
-    box-shadow: 0 0 15px rgba(255, 204, 0, 0.4) !important;
-}
+        .profile-tab-btn.active-profile-tab {
+            background: #ffcc00 !important;
+            color: #000 !important;
+            border-color: #ffcc00 !important;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.4) !important;
+        }
 
-/* ====================================================
+        /* ====================================================
    🛒 СЕТКА МАГАЗИНА
    ==================================================== */
-.shop-products-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 18px !important;
-    width: 100% !important;
-    max-width: 1100px !important;
-    min-width: 0 !important;
-    margin: 0 auto 30px !important;
-    padding: 0 !important;
-    box-sizing: border-box !important;
-}
+        .shop-products-grid {
+            display: grid !important;
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            gap: 18px !important;
+            width: 100% !important;
+            max-width: 1100px !important;
+            min-width: 0 !important;
+            margin: 0 auto 30px !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+        }
 
-.shop-products-grid > .dish-card {
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-    overflow: hidden !important;
-}
+        .shop-products-grid>.dish-card {
+            width: 100% !important;
+            min-width: 0 !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+        }
 
-@media (max-width: 1100px) {
-    .shop-products-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    }
-}
+        @media (max-width: 1100px) {
+            .shop-products-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            }
+        }
 
-@media (max-width: 700px) {
-    #page-achievements {
-        padding-left: 10px !important;
-        padding-right: 10px !important;
-    }
+        @media (max-width: 700px) {
+            #page-achievements {
+                padding-left: 10px !important;
+                padding-right: 10px !important;
+            }
 
-    #page-achievements #achievements-list {
-        max-width: 100% !important;
-    }
+            #page-achievements #achievements-list {
+                max-width: 100% !important;
+            }
 
-    .shop-products-grid {
-        grid-template-columns: 1fr !important;
-        gap: 14px !important;
-    }
+            .shop-products-grid {
+                grid-template-columns: 1fr !important;
+                gap: 14px !important;
+            }
 
-    .profile-tabs-header {
-        flex-wrap: wrap !important;
-        gap: 8px !important;
-    }
+            .profile-tabs-header {
+                flex-wrap: wrap !important;
+                gap: 8px !important;
+            }
 
-    .profile-tab-btn {
-        flex: 1 1 auto !important;
-        min-width: 0 !important;
-        padding: 9px 12px !important;
-        font-size: 0.78rem !important;
-    }
-}
+            .profile-tab-btn {
+                flex: 1 1 auto !important;
+                min-width: 0 !important;
+                padding: 9px 12px !important;
+                font-size: 0.78rem !important;
+            }
+        }
 
 
-/* Лавовый титул */
-.lava-title-badge {
-    background: linear-gradient(45deg, #ff2200, #ff8c00, #ff0055, #ffaa00);
-    background-size: 300% 300%;
-    animation: lavaGlowAnimation 3s ease infinite;
-    color: #ffffff !important;
-    font-weight: 900;
-    padding: 3px 8px;
-    border-radius: 5px;
-    box-shadow: 0 0 12px rgba(255, 34, 0, 0.9);
-    border: 1px solid #ffe600;
-    text-shadow: 0 0 4px #000;
-    display: inline-block;
-    font-size: 0.8rem;
-}
+        /* Лавовый титул */
+        .lava-title-badge {
+            background: linear-gradient(45deg, #ff2200, #ff8c00, #ff0055, #ffaa00);
+            background-size: 300% 300%;
+            animation: lavaGlowAnimation 3s ease infinite;
+            color: #ffffff !important;
+            font-weight: 900;
+            padding: 3px 8px;
+            border-radius: 5px;
+            box-shadow: 0 0 12px rgba(255, 34, 0, 0.9);
+            border: 1px solid #ffe600;
+            text-shadow: 0 0 4px #000;
+            display: inline-block;
+            font-size: 0.8rem;
+        }
 
-@keyframes lavaGlowAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+        @keyframes lavaGlowAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
 
 
 
@@ -3143,82 +3260,94 @@ body.leycore-light {
             position: relative;
         }
 
-       /* Базовые стили для обновленной вкладки музыки */
-.symphony-container {
-    padding: 20px;
-    padding-left: 110px; /* Отступ для десктопа, чтобы не заезжать под сайдбар */
-    font-family: 'Unbounded', sans-serif;
-    color: #fff;
-    width: 100%;
-    box-sizing: border-box;
-}
+        /* Базовые стили для обновленной вкладки музыки */
+        .symphony-container {
+            padding: 20px;
+            padding-left: 110px;
+            /* Отступ для десктопа, чтобы не заезжать под сайдбар */
+            font-family: 'Unbounded', sans-serif;
+            color: #fff;
+            width: 100%;
+            box-sizing: border-box;
+        }
 
-/* Основной пульт плеера и аккордеон категорий */
-.music-main-layout {
-    display: grid;
-    grid-template-columns: 220px 1fr; /* Слева плеер 220px, справа категории */
-    gap: 25px;
-    align-items: start;
-    width: 100%;
-    box-sizing: border-box;
-}
+        /* Основной пульт плеера и аккордеон категорий */
+        .music-main-layout {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            /* Слева плеер 220px, справа категории */
+            gap: 25px;
+            align-items: start;
+            width: 100%;
+            box-sizing: border-box;
+        }
 
-/* Стили для бокового плеера */
-.side-player-panel {
-    background: rgba(15, 15, 20, 0.9);
-    border: 1px solid rgba(255, 215, 0, 0.3);
-    border-radius: 14px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    justify-self: center; /* Центрируем в колонке сетки */
-    width: 220px;         /* Фиксируем ширину для центрирования */
-}
+        /* Стили для бокового плеера */
+        .side-player-panel {
+            background: rgba(15, 15, 20, 0.9);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            justify-self: center;
+            /* Центрируем в колонке сетки */
+            width: 220px;
+            /* Фиксируем ширину для центрирования */
+        }
 
-.side-player-btn {
-    width: 70px;
-    height: 70px;
-    font-size: 28px;
-    background: linear-gradient(135deg, #ff8c00, #f59e0b); /* Оранжевый градиент */
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(255, 140, 0, 0.4);
-    transition: transform 0.2s, box-shadow 0.2s, background 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 15px;
-}
+        .side-player-btn {
+            width: 70px;
+            height: 70px;
+            font-size: 28px;
+            background: linear-gradient(135deg, #ff8c00, #f59e0b);
+            /* Оранжевый градиент */
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 140, 0, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s, background 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
 
-/* Мобильная версия */
-@media (max-width: 850px) {
-    .symphony-container {
-        padding-left: 20px !important; /* Убираем большой отступ слева на мобилке */
-        padding-right: 20px !important;
-    }
-    
-    .music-main-layout {
-        grid-template-columns: 1fr; /* Плеер и категории друг под другом */
-        justify-items: center;      /* Центрируем всё по горизонтали */
-    }
-}
+        /* Мобильная версия */
+        @media (max-width: 850px) {
+            .symphony-container {
+                padding-left: 20px !important;
+                /* Убираем большой отступ слева на мобилке */
+                padding-right: 20px !important;
+            }
+
+            .music-main-layout {
+                grid-template-columns: 1fr;
+                /* Плеер и категории друг под другом */
+                justify-items: center;
+                /* Центрируем всё по горизонтали */
+            }
+        }
 
 
-.side-player-btn:hover {
-    transform: scale(1.08);
-    box-shadow: 0 0 25px rgba(255, 140, 0, 0.7); /* Оранжевое свечение при наведении */
-}
+        .side-player-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 25px rgba(255, 140, 0, 0.7);
+            /* Оранжевое свечение при наведении */
+        }
 
-/* === НОВЫЙ КЛАСС: КНОПКА АКТИВНОГО ПРОИГРЫВАНИЯ (ЗЕЛЕНАЯ ЛАЗУРЬ) === */
-.side-player-btn.playing {
-    background: linear-gradient(135deg, #20c997, #17a2b8); /* Зелено-бирюзовый градиент */
-    box-shadow: 0 0 15px rgba(32, 201, 151, 0.5); /* Зеленое свечение */
-}
+        /* === НОВЫЙ КЛАСС: КНОПКА АКТИВНОГО ПРОИГРЫВАНИЯ (ЗЕЛЕНАЯ ЛАЗУРЬ) === */
+        .side-player-btn.playing {
+            background: linear-gradient(135deg, #20c997, #17a2b8);
+            /* Зелено-бирюзовый градиент */
+            box-shadow: 0 0 15px rgba(32, 201, 151, 0.5);
+            /* Зеленое свечение */
+        }
 
-.side-player-btn.playing:hover {
-    box-shadow: 0 0 25px rgba(32, 201, 151, 0.8); /* Более яркое зеленое свечение при наведении */
-}
+        .side-player-btn.playing:hover {
+            box-shadow: 0 0 25px rgba(32, 201, 151, 0.8);
+            /* Более яркое зеленое свечение при наведении */
+        }
 
 
         .now-playing-info h4 {
@@ -3283,7 +3412,8 @@ body.leycore-light {
         }
 
         .accordion-item.open .accordion-content {
-            max-height: 500px; /* Достаточно для 5 треков */
+            max-height: 500px;
+            /* Достаточно для 5 треков */
             transition: max-height 0.4s ease-in;
         }
 
@@ -3318,16 +3448,20 @@ body.leycore-light {
             font-weight: bold;
         }
 
+/* ==========================================
+   УЛЬТИМАТИВНЫЕ СТИЛИ ИГРЫ "МГБ" (ВЕРСИЯ V2)
+   ========================================== */
 
-        /* --- СТИЛИ ИГРЫ МОЙ ГОЛОДНЫЙ БОБНИТ (МГБ) --- */
 .mgb-game-container {
-    background: linear-gradient(135deg, rgba(25, 15, 40, 0.9), rgba(15, 10, 25, 0.95));
+    background: linear-gradient(135deg, rgba(25, 15, 40, 0.95), rgba(15, 10, 25, 0.98));
     border: 2px solid var(--accent-gold);
     border-radius: 16px;
-    padding: 20px;
+    padding: 15px;
     box-shadow: 0 0 25px rgba(168, 85, 247, 0.2);
     max-width: 800px;
     margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .mgb-title {
@@ -3337,18 +3471,13 @@ body.leycore-light {
     margin-bottom: 5px;
 }
 
+/* Сетка: Бобнит слева, кухня справа */
 .mgb-play-zone {
     display: grid;
     grid-template-columns: 240px 1fr;
     gap: 20px;
     align-items: center;
-}
-
-@media (max-width: 768px) {
-    .mgb-play-zone {
-        grid-template-columns: 1fr;
-        justify-items: center;
-    }
+    width: 100%;
 }
 
 /* Блок Бобнита слева */
@@ -3356,64 +3485,113 @@ body.leycore-light {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
 }
 
+/* Рамка для прозрачного Бобнита */
 .mgb-bobnit-avatar-wrapper {
     position: relative;
-    width: 140px;
-    height: 140px;
+    width: 180px;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #mgb-bobnit-pic {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 3px solid var(--accent-gold);
-    object-fit: cover;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.35)); /* Красивый неоновый ореол */
 }
 
 /* Спящее облако над Бобнитом */
 .mgb-sleep-cloud {
     position: absolute;
-    top: -20px;
-    right: -25px;
-    background: #fff;
-    color: #000;
+    top: -15px;
+    right: -15px;
+    background: #ffffff;
+    color: #000000;
     padding: 6px 12px;
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: bold;
     box-shadow: 0 4px 10px rgba(255,255,255,0.4);
     animation: bounceSleep 2s infinite ease-in-out;
+    z-index: 10;
 }
 
-@keyframes bounceSleep {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-}
-
+/* Динамическое белое комиксное облачко с текстом */
 .mgb-bubble {
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(255, 215, 0, 0.3);
-    border-radius: 12px;
-    padding: 10px 15px;
+    background: #ffffff;
+    color: #000000;
+    border: 3px solid var(--accent-gold);
+    border-radius: 16px;
+    padding: 10px 14px;
     font-size: 0.8rem;
+    font-weight: bold;
     text-align: center;
-    line-height: 1.4;
-    color: #e2e8f0;
+    line-height: 1.3;
+    position: relative;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+    max-width: 220px;
+    margin-top: 10px;
+    animation: floatBubble 3s infinite ease-in-out;
+}
+
+/* Хвостик облачка */
+.mgb-bubble::after {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 10px 12px 10px;
+    border-style: solid;
+    border-color: transparent transparent #ffffff transparent;
+}
+
+/* Облачко для выскакивающего Бобнита-вымогателя в углу экрана */
+.stalker-speech-bubble {
+    position: absolute;
+    top: -45px;
+    left: -110px;
+    width: 130px;
+    background: #ffffff;
+    color: #000000;
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 900;
+    border: 2px solid #ff0055;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 /* Игровая арена */
 .mgb-arena {
     position: relative;
     width: 100%;
-    height: 320px;
-    background: rgba(10, 10, 15, 0.9);
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    height: 340px;
+    background: rgba(10, 10, 15, 0.95);
+    border: 2px solid rgba(255, 215, 0, 0.2);
     border-radius: 12px;
     overflow: hidden;
+    user-select: none;
+    touch-action: none; /* Блокирует скролл экрана пальцем на мобилках */
+}
+
+/* Центральный Бургер, куда тащим котлеты */
+.mgb-center-burger {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 55px;
+    z-index: 1;
+    pointer-events: none;
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4));
+    transition: transform 0.1s ease;
 }
 
 .mgb-start-overlay {
@@ -3422,7 +3600,7 @@ body.leycore-light {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(10, 10, 15, 0.95);
+    background: rgba(10, 10, 15, 0.97);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -3452,15 +3630,31 @@ body.leycore-light {
 /* Ингредиенты на арене */
 .mgb-ingredient {
     position: absolute;
-    width: 50px;
-    height: 50px;
-    font-size: 32px;
+    width: 48px;
+    height: 48px;
+    font-size: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     user-select: none;
-    cursor: pointer;
+    cursor: grab;
+    z-index: 5;
     transition: transform 0.1s ease;
+}
+
+.mgb-ingredient:active {
+    cursor: grabbing;
+}
+
+/* Анимированная Рука-Вор */
+.mgb-hand-enemy {
+    font-size: 38px;
+    animation: handWiggle 0.3s infinite alternate;
+}
+
+@keyframes handWiggle {
+    0% { transform: scale(1) rotate(-5deg); }
+    100% { transform: scale(1.1) rotate(5deg); }
 }
 
 /* Прогресс-бар */
@@ -3492,50 +3686,10 @@ body.leycore-light {
     transition: width 0.1s ease;
 }
 
-/* --- СТИЛИ ДЛЯ ОБЛАЧЕК И ПРОЗРАЧНОГО БОБНИТА --- */
-.mgb-bobnit-avatar-wrapper {
-    position: relative;
-    width: 180px;
-    height: 180px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#mgb-bobnit-pic {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3)); /* Легкое неоновое свечение вокруг прозрачного Бобнита */
-}
-
-/* Динамическое комиксное облачко с текстом */
-.mgb-bubble {
-    background: #ffffff;
-    color: #000000;
-    border: 3px solid var(--accent-gold);
-    border-radius: 16px;
-    padding: 10px 14px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    text-align: center;
-    line-height: 1.3;
-    position: relative;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
-    max-width: 220px;
-    margin-top: 10px;
-    animation: floatBubble 3s infinite ease-in-out;
-}
-
-.mgb-bubble::after {
-    content: '';
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 0 10px 12px 10px;
-    border-style: solid;
-    border-color: transparent transparent #ffffff transparent;
+/* АНИМАЦИИ */
+@keyframes bounceSleep {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
 }
 
 @keyframes floatBubble {
@@ -3543,48 +3697,43 @@ body.leycore-light {
     50% { transform: translateY(-5px); }
 }
 
-/* Облачко для выскакивающего Бобнита в углу экрана */
-.stalker-speech-bubble {
-    position: absolute;
-    top: -45px;
-    left: -110px;
-    width: 130px;
-    background: #ffffff;
-    color: #000000;
-    padding: 6px 10px;
-    border-radius: 10px;
-    font-size: 0.75rem;
-    font-weight: 900;
-    border: 2px solid #ff0055;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+/* АДАПТИВНОСТЬ ПОД МОБИЛКИ (Чтобы ничего не уползало!) */
+@media (max-width: 768px) {
+    .mgb-play-zone {
+        grid-template-columns: 1fr !important;
+        justify-items: center;
+    }
+    .mgb-kitchen-aside {
+        width: 100%;
+    }
+    .mgb-arena {
+        height: 300px !important;
+    }
 }
-
-
-
+        
     </style>
 </head>
 
 <body>
 
-    
 
 
-        <!-- ВЕРХНИЙ ЗНАЧОК ФИШЕК (ВИДЕН ТОЛЬКО В ИГРАХ) -->
+
+    <!-- ВЕРХНИЙ ЗНАЧОК ФИШЕК (ВИДЕН ТОЛЬКО В ИГРАХ) -->
     <div id="games-top-badge" class="games-top-badge">
         🪙 ФИШКИ: <span id="top-chip-count">10</span>
     </div>
 
 
     <!-- ВЕРТИКАЛЬНЫЙ ВИДДЖЕТ ШКАЛЫ ПРОГРЕССА (СПРАВА) -->
-     <!-- ИНТЕРАКТИВНАЯ ЛАМПА ЛЭЙКОРА -->
-<div id="leycore-lamp-container" onclick="toggleLeycoreLight()">
-  <div class="lamp-wire"></div>
-  <div class="lamp-head">
-    <div class="lamp-bulb" id="lamp-bulb">💡</div>
-    <div class="lamp-glow"></div>
-  </div>
-</div>
+    <!-- ИНТЕРАКТИВНАЯ ЛАМПА ЛЭЙКОРА -->
+    <div id="leycore-lamp-container" onclick="toggleLeycoreLight()">
+        <div class="lamp-wire"></div>
+        <div class="lamp-head">
+            <div class="lamp-bulb" id="lamp-bulb">💡</div>
+            <div class="lamp-glow"></div>
+        </div>
+    </div>
 
     <div class="leycore-progress-widget">
         <div class="leycore-progress-head">
@@ -3604,16 +3753,24 @@ body.leycore-light {
 
     <!-- SIDEBAR NAVIGATION -->
     <nav class="sidebar-nav">
-        <a href="javascript:void(0)" onclick="switchPage('leycore')" id="nav-leycore" class="sidebar-link link-cyan active"><span>LEYCORE (ГЛАВНАЯ)</span><span class="icon">⚡</span></a>
-         <a onclick="switchPage('symphonies')" id="nav-symphonies" class="sidebar-link link-purple"><span>ЛЭЙКОСТАЗ</span><span class="icon">🎧</span></a>
-          <a href="javascript:void(0)" onclick="switchPage('achievements')" id="nav-achievements" class="sidebar-link link-purple"><span>ПРОФИЛЬ</span><span class="icon">🏆</span></a>
-          <a onclick="switchPage('games')" id="nav-games" class="sidebar-link link-gold"><span>ИГРЫ</span><span class="icon">🎮</span></a>
-          <a onclick="switchPage('global-chat')" id="nav-chat" class="sidebar-link link-cyan"><span>ЧАТ</span><span class="icon">💬</span></a>
-        <a href="javascript:void(0)" onclick="switchPage('menu')" id="nav-menu" class="sidebar-link link-green"><span>МЕНЮ ВАСИЛИЧА</span><span class="icon">🍖</span></a>
-        <a href="javascript:void(0)" onclick="switchPage('metaphors')" id="nav-metaphors" class="sidebar-link link-purple"><span>ХРАНИЛИЩЕ</span><span class="icon">🔮</span></a>
-        <a href="javascript:void(0)" onclick="switchPage('dictionary')" id="nav-dictionary" class="sidebar-link link-gold"><span>СЛОВАРЬ</span><span class="icon">📖</span></a>
-        
-       
+        <a href="javascript:void(0)" onclick="switchPage('leycore')" id="nav-leycore"
+            class="sidebar-link link-cyan active"><span>LEYCORE (ГЛАВНАЯ)</span><span class="icon">⚡</span></a>
+        <a onclick="switchPage('symphonies')" id="nav-symphonies"
+            class="sidebar-link link-purple"><span>ЛЭЙКОСТАЗ</span><span class="icon">🎧</span></a>
+        <a href="javascript:void(0)" onclick="switchPage('achievements')" id="nav-achievements"
+            class="sidebar-link link-purple"><span>ПРОФИЛЬ</span><span class="icon">🏆</span></a>
+        <a onclick="switchPage('games')" id="nav-games" class="sidebar-link link-gold"><span>ИГРЫ</span><span
+                class="icon">🎮</span></a>
+        <a onclick="switchPage('global-chat')" id="nav-chat" class="sidebar-link link-cyan"><span>ЧАТ</span><span
+                class="icon">💬</span></a>
+        <a href="javascript:void(0)" onclick="switchPage('menu')" id="nav-menu"
+            class="sidebar-link link-green"><span>МЕНЮ ВАСИЛИЧА</span><span class="icon">🍖</span></a>
+        <a href="javascript:void(0)" onclick="switchPage('metaphors')" id="nav-metaphors"
+            class="sidebar-link link-purple"><span>ХРАНИЛИЩЕ</span><span class="icon">🔮</span></a>
+        <a href="javascript:void(0)" onclick="switchPage('dictionary')" id="nav-dictionary"
+            class="sidebar-link link-gold"><span>СЛОВАРЬ</span><span class="icon">📖</span></a>
+
+
 
 
 
@@ -3896,73 +4053,74 @@ body.leycore-light {
         </div>
 
         <!-- PAGE: SYMPHONIES -->
-<div id="page-symphonies" class="page-view">
+        <div id="page-symphonies" class="page-view">
 
-    
-    <!-- АВАТАРКА БОБНИТА И ФРАЗА -->
-    <div class="bobnit-music-header">
-        <img src="strannik.jpg" alt="Бобнит Странник" class="bobnit-music-avatar">
-        <div class="bobnit-music-speech">
-            <strong>Бобнит шепчет:</strong> 
-            «Выкручивай колонки на максимум, путник! Этот лоу-фай бас лечит геморрой и заряжает бургеры чистой энергией космоса 🎧✨»
-        </div>
-    </div>
 
-    <!-- МАКЕТ: ПЛЕЕР СБОКУ + АККОРДЕОН СПРАВА -->
-    <div class="music-main-layout">
-        
-        <!-- БОКОВОЙ ПЛЕЕР -->
-        <div class="side-player-panel">
-            <button id="main-play-btn" class="side-player-btn" onclick="togglePlayPause()">▶</button>
-            <div class="now-playing-info">
-                <p>ТЕКУЩИЙ ТРЕК:</p>
-                <h4 id="current-track-title">Выбери трек</h4>
-                <p id="current-track-cat">Жанр: —</p>
-            </div>
-        </div>
-
-        <!-- ЛЕНТА-АККОРДЕОН (FAQ С КАТЕГОРИЯМИ) -->
-        <div class="music-accordion">
-            
-            <!-- Категория 1: Грусть -->
-            <div class="accordion-item" id="acc-sad">
-                <div class="accordion-header" onclick="toggleAccordion('acc-sad')">
-                    💧 Грусть (Lo-Fi / Melancholy)
+            <!-- АВАТАРКА БОБНИТА И ФРАЗА -->
+            <div class="bobnit-music-header">
+                <img src="strannik.jpg" alt="Бобнит Странник" class="bobnit-music-avatar">
+                <div class="bobnit-music-speech">
+                    <strong>Бобнит шепчет:</strong>
+                    «Выкручивай колонки на максимум, путник! Этот лоу-фай бас лечит геморрой и заряжает бургеры чистой
+                    энергией космоса 🎧✨»
                 </div>
-                <div class="accordion-content">
-                    <div class="track-list-inner" id="list-sad">
-                        <!-- Скрипт сам подставит треки сюда -->
+            </div>
+
+            <!-- МАКЕТ: ПЛЕЕР СБОКУ + АККОРДЕОН СПРАВА -->
+            <div class="music-main-layout">
+
+                <!-- БОКОВОЙ ПЛЕЕР -->
+                <div class="side-player-panel">
+                    <button id="main-play-btn" class="side-player-btn" onclick="togglePlayPause()">▶</button>
+                    <div class="now-playing-info">
+                        <p>ТЕКУЩИЙ ТРЕК:</p>
+                        <h4 id="current-track-title">Выбери трек</h4>
+                        <p id="current-track-cat">Жанр: —</p>
                     </div>
                 </div>
-            </div>
 
-            <!-- Категория 2: Спокойствие -->
-            <div class="accordion-item" id="acc-calm">
-                <div class="accordion-header" onclick="toggleAccordion('acc-calm')">
-                    🍃 Спокойствие (Ambient / Chill)
-                </div>
-                <div class="accordion-content">
-                    <div class="track-list-inner" id="list-calm">
-                        <!-- Скрипт сам подставит треки сюда -->
+                <!-- ЛЕНТА-АККОРДЕОН (FAQ С КАТЕГОРИЯМИ) -->
+                <div class="music-accordion">
+
+                    <!-- Категория 1: Грусть -->
+                    <div class="accordion-item" id="acc-sad">
+                        <div class="accordion-header" onclick="toggleAccordion('acc-sad')">
+                            💧 Грусть (Lo-Fi / Melancholy)
+                        </div>
+                        <div class="accordion-content">
+                            <div class="track-list-inner" id="list-sad">
+                                <!-- Скрипт сам подставит треки сюда -->
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Категория 3: Эйфория -->
-            <div class="accordion-item" id="acc-cheerful">
-                <div class="accordion-header" onclick="toggleAccordion('acc-cheerful')">
-                    🔥 Эйфория (Upbeat / Cyber)
-                </div>
-                <div class="accordion-content">
-                    <div class="track-list-inner" id="list-cheerful">
-                        
+                    <!-- Категория 2: Спокойствие -->
+                    <div class="accordion-item" id="acc-calm">
+                        <div class="accordion-header" onclick="toggleAccordion('acc-calm')">
+                            🍃 Спокойствие (Ambient / Chill)
+                        </div>
+                        <div class="accordion-content">
+                            <div class="track-list-inner" id="list-calm">
+                                <!-- Скрипт сам подставит треки сюда -->
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Категория 3: Эйфория -->
+                    <div class="accordion-item" id="acc-cheerful">
+                        <div class="accordion-header" onclick="toggleAccordion('acc-cheerful')">
+                            🔥 Эйфория (Upbeat / Cyber)
+                        </div>
+                        <div class="accordion-content">
+                            <div class="track-list-inner" id="list-cheerful">
+
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-
-        </div>
-    </div>
-</div> <!-- конец  -->
+        </div> <!-- конец  -->
 
 
         <!-- ЭТОТ ТЕГ АУДИО ДОЛЖЕН БЫТЬ ОБЯЗАТЕЛЬНО -->
@@ -3988,17 +4146,17 @@ body.leycore-light {
 
 
     </div>
-<div id="page-achievements" class="page-view">
-    <h2 class="section-title title-gold">ТВОЙ ПРОФИЛЬ</h2>
-    <div id="achievements-list" class="grid-3" style="text-align: center;"></div>
-    
-</div>
+    <div id="page-achievements" class="page-view">
+        <h2 class="section-title title-gold">ТВОЙ ПРОФИЛЬ</h2>
+        <div id="achievements-list" class="grid-3" style="text-align: center;"></div>
+
+    </div>
 
 
 
-        <!-- PAGE: GAMES -->
+    <!-- PAGE: GAMES -->
     <div id="page-games" class="page-view">
-                <!-- КНОПКИ ФИЛЬТРАЦИИ ИГР -->
+        <!-- КНОПКИ ФИЛЬТРАЦИИ ИГР -->
         <div class="games-category-nav">
             <button class="game-cat-btn active" onclick="filterGames('all', this)">ВСЕ ИГРЫ</button>
             <button class="game-cat-btn" onclick="filterGames('casino', this)">🎰 КАЗИНО ВАСИЛИЧА</button>
@@ -4014,19 +4172,22 @@ body.leycore-light {
         <div id="game-block-flappy" class="game-section-block">
             <div class="flappy-arcade-container">
                 <h3>💨 ПОЛЕТ ЦАРЕВНЫ</h3>
-                <p style="font-size: 0.85rem; margin-bottom: 5px;">Жми ПРОБЕЛ или КЛИКАЙ, чтобы Царевна пукала и набирала высоту!</p>
-                
+                <p style="font-size: 0.85rem; margin-bottom: 5px;">Жми ПРОБЕЛ или КЛИКАЙ, чтобы Царевна пукала и
+                    набирала высоту!</p>
+
                 <div class="arcade-screen-box">
                     <canvas id="flappyCanvas" width="400" height="500"></canvas>
-                    
+
                     <div id="arcade-overlay" class="arcade-overlay">
                         <h2 id="arcade-title" style="font-size: 1.4rem; color: #fff;">ИГРА ГОТОВА!</h2>
-                        <p id="arcade-sub" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Нажми СТАРТ, чтобы запустить реактивный пердеж</p>
+                        <p id="arcade-sub" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Нажми
+                            СТАРТ, чтобы запустить реактивный пердеж</p>
                         <button onclick="startFlappyGame()" class="arcade-start-btn">▶️ СТАРТ</button>
                     </div>
                 </div>
 
-                <div id="arcade-achievement" class="arcade-achievement" style="display: none; font-size: 0.8rem; margin-top: 10px;">
+                <div id="arcade-achievement" class="arcade-achievement"
+                    style="display: none; font-size: 0.8rem; margin-top: 10px;">
                     🏆 АЧИВКА: <span style="color: var(--accent-green);">«Попукивания освоены!»</span> ✨
                 </div>
 
@@ -4062,20 +4223,25 @@ body.leycore-light {
                 <button class="casino-secondary-btn" onclick="claimFreeChips()" style="margin-top: 15px;">
                     🎁 ЗАБРАТЬ 10 ФИШЕК (КАЖДЫЕ 3 ЧАСА)
                 </button>
-                <div id="casino-timer-text" style="font-family: var(--font-code); font-size: 0.8rem; color: var(--accent-cyan); margin-top: 8px;"></div>
+                <div id="casino-timer-text"
+                    style="font-family: var(--font-code); font-size: 0.8rem; color: var(--accent-cyan); margin-top: 8px;">
+                </div>
 
                 <!-- Карточка унижения от Бобнита при проигрыше -->
                 <div id="bobnit-humiliation-card" class="bobnit-humiliation-card">
                     <img src="bobnit_thanos.jpg" alt="Бобнит">
                     <div>
-                        <div style="font-family: var(--font-code); font-size: 0.7rem; color: var(--accent-crimson); font-weight: 900;">БОБНИТ ГОВОРИТ:</div>
+                        <div
+                            style="font-family: var(--font-code); font-size: 0.7rem; color: var(--accent-crimson); font-weight: 900;">
+                            БОБНИТ ГОВОРИТ:</div>
                         <div id="bobnit-humiliation-text" class="bobnit-humiliation-text"></div>
                     </div>
                 </div>
 
                 <!-- Таблица шансов и редкостей -->
                 <div class="rarity-info-box">
-                    <b style="color: var(--accent-gold); display: block; margin-bottom: 6px;">🔮 ВЕРОЯТНОСТИ ВЫПАДЕНИЯ:</b>
+                    <b style="color: var(--accent-gold); display: block; margin-bottom: 6px;">🔮 ВЕРОЯТНОСТИ
+                        ВЫПАДЕНИЯ:</b>
                     <span class="rarity-tag rarity-artefact">Артефакт (3%)</span> — Рецепты для меню<br>
                     <span class="rarity-tag rarity-relic">Реликт (6%)</span> — Титулы (видны всем)<br>
                     <span class="rarity-tag rarity-theme">Лаурс (10%)</span> — Темы оформления<br>
@@ -4090,37 +4256,43 @@ body.leycore-light {
             <div class="leycore-hero" style="text-align: center;">
                 <h3>🍔 НАКАЧАЙ БОБНИТА БУРГЕРАМИ</h3>
                 <p>Цель: 5,000 бургеров = Секретный рецепт</p>
-                  <!-- ПЛАШКА ПРЕДУПРЕЖДЕНИЯ БОБНИТА-ТАНОСА -->
-<div class="thanos-warning-banner">
-    <div class="thanos-avatar-container">
-        <img src="bobnit_thanos.jpg" alt="Бобнит" class="thanos-avatar-img">
-    </div>
-    <div class="thanos-text">
-        <strong>Бобнит предупреждает:</strong> 
-        «Если ты используешь кликер, то я щёлкаю перчаткой продуктов и ты исчезаешь с лидерборда! 😉»
-    </div>
-</div>
+                <!-- ПЛАШКА ПРЕДУПРЕЖДЕНИЯ БОБНИТА-ТАНОСА -->
+                <div class="thanos-warning-banner">
+                    <div class="thanos-avatar-container">
+                        <img src="bobnit_thanos.jpg" alt="Бобнит" class="thanos-avatar-img">
+                    </div>
+                    <div class="thanos-text">
+                        <strong>Бобнит предупреждает:</strong>
+                        «Если ты используешь кликер, то я щёлкаю перчаткой продуктов и ты исчезаешь с лидерборда! 😉»
+                    </div>
+                </div>
 
                 <!-- БЛОК БУСТЕРОВ КЛИКЕРА -->
-<div class="clicker-boosters">
-    <div class="booster-card">
-        <div class="booster-title">⚡️ Множитель x2</div>
-        <div class="booster-desc">Длится 2 минуты</div>
-        <button class="booster-btn" onclick="buyClickerBooster(2, 120, 5)">Купить за 5 🪙</button>
-    </div>
-    <div class="booster-card">
-        <div class="booster-title">🔥 Множитель x3</div>
-        <div class="booster-desc">Длится 1 минуту</div>
-        <button class="booster-btn" onclick="buyClickerBooster(3, 60, 7)">Купить за 7 🪙</button>
-    </div>
-</div>
-<div id="booster-timer-display" style="display: none;" class="booster-active-status"></div>
+                <div class="clicker-boosters">
+                    <div class="booster-card">
+                        <div class="booster-title">⚡️ Множитель x2</div>
+                        <div class="booster-desc">Длится 2 минуты</div>
+                        <button class="booster-btn" onclick="buyClickerBooster(2, 120, 5)">Купить за 5 🪙</button>
+                    </div>
+                    <div class="booster-card">
+                        <div class="booster-title">🔥 Множитель x3</div>
+                        <div class="booster-desc">Длится 1 минуту</div>
+                        <button class="booster-btn" onclick="buyClickerBooster(3, 60, 7)">Купить за 7 🪙</button>
+                    </div>
+                </div>
+                <div id="booster-timer-display" style="display: none;" class="booster-active-status"></div>
 
-                
-                <div class="bobnit-clicker-wrapper" style="display: flex; align-items: center; justify-content: center; gap: 25px; flex-wrap: wrap; margin: 30px auto; max-width: 1100px;">
-                    <div id="bobnit-stage-side" style="background: rgba(17, 14, 23, 0.95); border: 2px solid var(--accent-gold); padding: 20px; border-radius: 12px; box-shadow: 0 0 25px rgba(255, 215, 0, 0.35); font-family: 'Unbounded', sans-serif; min-width: 220px; text-align: center;">
-                        <span style="font-size: 0.75rem; letter-spacing: 2px; color: var(--text-muted); display: block; margin-bottom: 8px;">ТЕКУЩИЙ СТАТУС:</span>
-                        <span id="bobnit-stage-title" style="color: var(--accent-gold); font-weight: 900; font-size: 1.15rem; text-shadow: 0 0 10px var(--accent-gold);">💀 СКЕЛЕТ</span>
+
+                <div class="bobnit-clicker-wrapper"
+                    style="display: flex; align-items: center; justify-content: center; gap: 25px; flex-wrap: wrap; margin: 30px auto; max-width: 1100px;">
+                    <div id="bobnit-stage-side"
+                        style="background: rgba(17, 14, 23, 0.95); border: 2px solid var(--accent-gold); padding: 20px; border-radius: 12px; box-shadow: 0 0 25px rgba(255, 215, 0, 0.35); font-family: 'Unbounded', sans-serif; min-width: 220px; text-align: center;">
+                        <span
+                            style="font-size: 0.75rem; letter-spacing: 2px; color: var(--text-muted); display: block; margin-bottom: 8px;">ТЕКУЩИЙ
+                            СТАТУС:</span>
+                        <span id="bobnit-stage-title"
+                            style="color: var(--accent-gold); font-weight: 900; font-size: 1.15rem; text-shadow: 0 0 10px var(--accent-gold);">💀
+                            СКЕЛЕТ</span>
                     </div>
 
                     <div class="leaderboard-widget">
@@ -4130,19 +4302,22 @@ body.leycore-light {
                         </ul>
                     </div>
 
-                    <div id="bobnit-clicker-area" onclick="clickBobnit(event)" style="cursor: pointer; position: relative; overflow: hidden; display: inline-block;">
-                        <img id="bobnit-clicker-img" src="bobnit_stage0_skeleton.jpg" style="width: 100%; max-width: 800px; height: auto; border-radius: 12px; border: 2px solid var(--accent-gold); box-shadow: 0 0 45px rgba(255, 215, 0, 0.4);">
+                    <div id="bobnit-clicker-area" onclick="clickBobnit(event)"
+                        style="cursor: pointer; position: relative; overflow: hidden; display: inline-block;">
+                        <img id="bobnit-clicker-img" src="bobnit_stage0_skeleton.jpg"
+                            style="width: 100%; max-width: 800px; height: auto; border-radius: 12px; border: 2px solid var(--accent-gold); box-shadow: 0 0 45px rgba(255, 215, 0, 0.4);">
                     </div>
                 </div>
-                
+
                 <h2 id="clicker-counter" style="margin-top: 15px;">Бургеров: 0</h2>
-                
-                <p id="bobnit-stage-story" style="color: var(--accent-gold); font-family: var(--font-code); font-size: 1.15rem; max-width: 800px; margin: 20px auto 0 auto; text-shadow: 0 0 8px rgba(255, 215, 0, 0.5); line-height: 1.6; font-weight: 700;">
+
+                <p id="bobnit-stage-story"
+                    style="color: var(--accent-gold); font-family: var(--font-code); font-size: 1.15rem; max-width: 800px; margin: 20px auto 0 auto; text-shadow: 0 0 8px rgba(255, 215, 0, 0.5); line-height: 1.6; font-weight: 700;">
                     Он не знает, что такое еда... Помоги ему набрать вес.
                 </p>
             </div>
         </div>
-                <!-- 4. ИГРА: МОЙ ГОЛОДНЫЙ БОБНИТ (МГБ) -->
+        <!-- 4. ИГРА: МОЙ ГОЛОДНЫЙ БОБНИТ (МГБ) -->
         <div id="game-block-mgb" class="game-section-block" style="display: none;">
             <div class="mgb-game-container">
                 <h3 class="mgb-title">👾 МОЙ ГОЛОДНЫЙ БОБНИТ (МГБ)</h3>
@@ -4156,32 +4331,47 @@ body.leycore-light {
                         <div class="mgb-bobnit-avatar-wrapper">
                             <img id="mgb-bobnit-pic" src="bobnit_hungry.jpg" alt="Бобнит">
                             <!-- Спящее облако (изначально скрыто) -->
-                            <div id="mgb-sleep-cloud" class="mgb-sleep-cloud" style="display: none;">Z-Zzz-ZZ-zz...</div>
+                            <div id="mgb-sleep-cloud" class="mgb-sleep-cloud" style="display: none;">Z-Zzz-ZZ-zz...
+                            </div>
                         </div>
-                        <div class="mgb-bubble" id="mgb-bobnit-text">«ЖРАТЬ! Накорми меня честно, или я высосу твои фишки! 😈»</div>
+                        <div class="mgb-bubble" id="mgb-bobnit-text">«ЖРАТЬ! Накорми меня честно, или я высосу твои
+                            фишки! 😈»</div>
                     </div>
 
                     <!-- Справа: Кухонный блок -->
                     <div class="mgb-kitchen-aside">
                         <div class="mgb-screen-box">
-                            <!-- Интерактивная игровая арена -->
+                            <!-- Игровая арена МГБ -->
                             <div id="mgb-game-arena" class="mgb-arena">
+                                <!-- ЦЕНТРАЛЬНЫЙ БУРГЕР-ЦЕЛЬ -->
+                                <div id="mgb-center-burger" class="mgb-center-burger">🍔</div>
+
                                 <div id="mgb-start-overlay" class="mgb-start-overlay">
-                                    <h4>КУХНЯ ВАСИЛИЧА ГОТОВА</h4>
-                                    <p>Разбегающиеся продукты нужно возвращать на базу:</p>
-                                    <ul style="font-size: 0.75rem; text-align: left; display: inline-block; color: #ccc; margin: 10px 0;">
-                                        <li>🥩 <b>Котлета:</b> зажми и перетащи её в центр!</li>
-                                        <li>🥬 <b>Капуста:</b> свайпни (быстро проведи мышкой), чтобы разрезать!</li>
-                                        <li>🥫 <b>Соус:</b> кликни дважды (Double Click), чтобы собрать!</li>
+                                    <h4>КУХНЯ ВАСИЛИЧА</h4>
+                                    <p style="font-size:0.75rem; color:#aaa; margin: 5px 0;">Спаси бургер от хаоса:</p>
+                                    <ul
+                                        style="font-size: 0.7rem; text-align: left; color: #ccc; margin: 5px 0; padding-left: 15px;">
+                                        <li>🥩 <b>Котлета:</b> зажми и притащи в бургер 🍔!</li>
+                                        <li>🥬 <b>Капуста:</b> зажми ЛКМ и разрежь (1 свайп)!</li>
+                                        <li>🥒 <b>Огурец:</b> зажми ЛКМ и разрежь <b>2 раза</b>!</li>
+                                        <li>🥫 <b>Соус:</b> кликни дважды (Double Click)!</li>
+                                        <li>🗑️🧦👞 <b>Мусор:</b> выброси ЗА КРАЙ арены!</li>
+                                        <li>🤚 <b>Рука-Вор:</b> кликни <b>3 раза</b>, пока не украла бургер!</li>
                                     </ul>
-                                    <button onclick="startMgbGame()" class="mgb-start-btn">ПОДАТЬ 1 🪙 И ИГРАТЬ</button>
+                                    <button id="mgb-main-start-btn" onclick="startMgbGame()" class="mgb-start-btn"
+                                        style="margin-top: 10px;">ПОДАТЬ 1 🪙 И ИГРАТЬ</button>
                                 </div>
-                                <div id="mgb-game-elements"></div> <!-- Сюда будут спавниться убегающие продукты -->
+
+                                <div id="mgb-game-elements"></div>
+
                                 <div id="mgb-progress-bar-container" style="display: none;">
                                     <div class="mgb-progress-text">Сборка бургера: <span id="mgb-pct">0</span>%</div>
-                                    <div class="mgb-progress-track"><div id="mgb-progress-fill"></div></div>
+                                    <div class="mgb-progress-track">
+                                        <div id="mgb-progress-fill"></div>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -4276,101 +4466,101 @@ body.leycore-light {
 
 
     <script>
- 
- const bobnitWinPhrases = [
-    "Ладно-ладно, в этот раз тебе повезло, шельма... Но мои фишки я всё равно отработаю!",
-    "ЧЁ?! Казино сломалось?! Василич, пересчитай бургеры, нас обчистили!",
-    "Ты забрал мои фишки?! Да я за них на складе три смены без обеда пахал!",
-    "Фортуна улыбнулась тебе... или просто чихнула в твою сторону. Посмотрим в следующий раз!",
-    "Наслаждайся выигрышем, сударь! Но помни: бургеры сгорают, а Бобнит остаётся!"
-];
+
+        const bobnitWinPhrases = [
+            "Ладно-ладно, в этот раз тебе повезло, шельма... Но мои фишки я всё равно отработаю!",
+            "ЧЁ?! Казино сломалось?! Василич, пересчитай бургеры, нас обчистили!",
+            "Ты забрал мои фишки?! Да я за них на складе три смены без обеда пахал!",
+            "Фортуна улыбнулась тебе... или просто чихнула в твою сторону. Посмотрим в следующий раз!",
+            "Наслаждайся выигрышем, сударь! Но помни: бургеры сгорают, а Бобнит остаётся!"
+        ];
 
 
- let clickMultiplier = 1;
-let boosterTimer = null;
+        let clickMultiplier = 1;
+        let boosterTimer = null;
 
-function buyClickerBooster(factor, durationSec, cost) {
-    // Используем getChipBalance() для проверки текущего количества фишек
-    if (getChipBalance() < cost) {
-        alert('Не хватает фишек! Нужно: ' + cost + ' 🪙');
-        return;
-    }
+        function buyClickerBooster(factor, durationSec, cost) {
+            // Используем getChipBalance() для проверки текущего количества фишек
+            if (getChipBalance() < cost) {
+                alert('Не хватает фишек! Нужно: ' + cost + ' 🪙');
+                return;
+            }
 
-    // Списываем фишки через setChipBalance()
-    setChipBalance(getChipBalance() - cost);
-    // setChipBalance() должен сам обновить отображение и сохранить данные, 
-    // поэтому отдельные вызовы updateChipsDisplay() и saveUserData() здесь не нужны.
+            // Списываем фишки через setChipBalance()
+            setChipBalance(getChipBalance() - cost);
+            // setChipBalance() должен сам обновить отображение и сохранить данные, 
+            // поэтому отдельные вызовы updateChipsDisplay() и saveUserData() здесь не нужны.
 
-    // Активируем множитель
-    clickMultiplier = factor;
-    let secondsLeft = durationSec;
-    
-    const display = document.getElementById('booster-timer-display');
-    if (display) display.style.display = 'block';
+            // Активируем множитель
+            clickMultiplier = factor;
+            let secondsLeft = durationSec;
 
-    if (boosterTimer) clearInterval(boosterTimer);
+            const display = document.getElementById('booster-timer-display');
+            if (display) display.style.display = 'block';
 
-    boosterTimer = setInterval(() => {
-        secondsLeft--;
-        const mins = Math.floor(secondsLeft / 60);
-        const secs = secondsLeft % 60;
-        
-        if (display) {
-            display.innerHTML = `🚀 Активен бустер x${factor}! Осталось: ${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            if (boosterTimer) clearInterval(boosterTimer);
+
+            boosterTimer = setInterval(() => {
+                secondsLeft--;
+                const mins = Math.floor(secondsLeft / 60);
+                const secs = secondsLeft % 60;
+
+                if (display) {
+                    display.innerHTML = `🚀 Активен бустер x${factor}! Осталось: ${mins}:${secs < 10 ? '0' : ''}${secs}`;
+                }
+
+                if (secondsLeft <= 0) {
+                    clearInterval(boosterTimer);
+                    clickMultiplier = 1;
+                    if (display) display.style.display = 'none';
+                    alert('Срок действия бустера истек!');
+                }
+            }, 1000);
+
+            alert(`Бустер x${factor} куплен!`);
         }
 
-        if (secondsLeft <= 0) {
-            clearInterval(boosterTimer);
-            clickMultiplier = 1;
-            if (display) display.style.display = 'none';
-            alert('Срок действия бустера истек!');
-        }
-    }, 1000);
 
-    alert(`Бустер x${factor} куплен!`);
-}
+        function showBobnitWinReaction() {
+            const randomPhrase = bobnitWinPhrases[Math.floor(Math.random() * bobnitWinPhrases.length)];
 
-
-function showBobnitWinReaction() {
-    const randomPhrase = bobnitWinPhrases[Math.floor(Math.random() * bobnitWinPhrases.length)];
-    
-    // Вызываем функцию отправки сообщения от Бобнита (у тебя она называется sendBobnitMessage)
-    if (typeof sendBobnitMessage === 'function') {
-        sendBobnitMessage(randomPhrase);
-    }
-}
-
-
- 
- let myAchievements = JSON.parse(localStorage.getItem('leycore_achievements')) || [];
-
-// Словарь наград: за какую ачивку сколько фишек давать
-const achievementRewards = {
-    "Опытный пердежист": 20,
-    "50.000 кликов в кликере": 50,
-    // Можешь сюда дописывать и другие ачивки в будущем, например:
-    // "Секретный рецепт": 15
-};
-
-function addAchievement(name) {
-    if (!myAchievements.includes(name)) {
-        myAchievements.push(name);
-        localStorage.setItem('leycore_achievements', JSON.stringify(myAchievements));
-        
-        // Проверяем, есть ли награда за эту ачивку
-        let rewardText = "";
-        if (achievementRewards[name]) {
-            const reward = achievementRewards[name];
-            if (typeof addChips === 'function') {
-                addChips(reward); // Начисляем фишки
-                rewardText = `\n🎁 Награда: +${reward} 🪙`;
+            // Вызываем функцию отправки сообщения от Бобнита (у тебя она называется sendBobnitMessage)
+            if (typeof sendBobnitMessage === 'function') {
+                sendBobnitMessage(randomPhrase);
             }
         }
 
-        alert("🏆 НОВАЯ АЧИВКА: " + name + rewardText);
-        renderAchievements(); // Обновляем список, если мы в профиле
-    }
-}
+
+
+        let myAchievements = JSON.parse(localStorage.getItem('leycore_achievements')) || [];
+
+        // Словарь наград: за какую ачивку сколько фишек давать
+        const achievementRewards = {
+            "Опытный пердежист": 20,
+            "50.000 кликов в кликере": 50,
+            // Можешь сюда дописывать и другие ачивки в будущем, например:
+            // "Секретный рецепт": 15
+        };
+
+        function addAchievement(name) {
+            if (!myAchievements.includes(name)) {
+                myAchievements.push(name);
+                localStorage.setItem('leycore_achievements', JSON.stringify(myAchievements));
+
+                // Проверяем, есть ли награда за эту ачивку
+                let rewardText = "";
+                if (achievementRewards[name]) {
+                    const reward = achievementRewards[name];
+                    if (typeof addChips === 'function') {
+                        addChips(reward); // Начисляем фишки
+                        rewardText = `\n🎁 Награда: +${reward} 🪙`;
+                    }
+                }
+
+                alert("🏆 НОВАЯ АЧИВКА: " + name + rewardText);
+                renderAchievements(); // Обновляем список, если мы в профиле
+            }
+        }
 
 
         // ----------------------------------------------------
@@ -4392,36 +4582,36 @@ function addAchievement(name) {
             updateLeycoreProgress();
         }
 
-       function updateLeycoreProgress() {
-    const allCards = document.querySelectorAll('.leycore-def-card');
-    const openedCards = document.querySelectorAll('.leycore-def-card.opened');
+        function updateLeycoreProgress() {
+            const allCards = document.querySelectorAll('.leycore-def-card');
+            const openedCards = document.querySelectorAll('.leycore-def-card.opened');
 
-    if (allCards.length === 0) return;
+            if (allCards.length === 0) return;
 
-    const percent = Math.round((openedCards.length / allCards.length) * 100);
+            const percent = Math.round((openedCards.length / allCards.length) * 100);
 
-    const fill = document.getElementById('leycore-bar-fill');
-    const text = document.getElementById('leycore-percent-text');
-    const badge = document.getElementById('leycore-achievement');
+            const fill = document.getElementById('leycore-bar-fill');
+            const text = document.getElementById('leycore-percent-text');
+            const badge = document.getElementById('leycore-achievement');
 
-    if (fill) fill.style.setProperty('--progress', percent + '%');
-    if (text) text.innerText = percent + '%';
+            if (fill) fill.style.setProperty('--progress', percent + '%');
+            if (text) text.innerText = percent + '%';
 
-   if (badge) {
-    if (percent === 100) {
-        badge.style.display = 'block';
+            if (badge) {
+                if (percent === 100) {
+                    badge.style.display = 'block';
 
-        // Записываем достижение один раз
-        addAchievement("Познание Лэйкора");
+                    // Записываем достижение один раз
+                    addAchievement("Познание Лэйкора");
 
-        setTimeout(() => {
-            badge.style.display = 'none';
-        }, 5000);
-    } else {
-        badge.style.display = 'none';
-    }
-    }
-}
+                    setTimeout(() => {
+                        badge.style.display = 'none';
+                    }, 5000);
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        }
 
 
         function toggleComp(id) {
@@ -4469,7 +4659,7 @@ function addAchievement(name) {
                 return;
             }
 
-                       // 6. СВЯЗЬ С ЧАТОМ
+            // 6. СВЯЗЬ С ЧАТОМ
             if (id === 'global-chat') {
                 loadChatHistory();
             }
@@ -4478,14 +4668,14 @@ function addAchievement(name) {
                 renderAchievements();
             }
 
-                        // Гарантированный показ плашки фишек только во вкладке "Игры"
+            // Гарантированный показ плашки фишек только во вкладке "Игры"
             const gamesBadge = document.getElementById('games-top-badge');
             if (gamesBadge) {
                 gamesBadge.style.display = (id === 'games') ? 'flex' : 'none';
             }
             if (id === 'games' && typeof filterGames === 'function') {
-    filterGames('all');
-}
+                filterGames('all');
+            }
 
 
         } // <-- Эта скобка закрывает switchPage
@@ -4857,26 +5047,26 @@ function addAchievement(name) {
                     { user: 'Гость Царства', text: 'Игра детства, бобнит жирдяй', rating: 4 }
                 ]
             }
-        
+
         ];
 
         // Загружаем сохранённые секретные рецепты после закрытия массива dishes
-const savedCustomDishes = localStorage.getItem('leycore_custom_dishes');
+        const savedCustomDishes = localStorage.getItem('leycore_custom_dishes');
 
-if (savedCustomDishes) {
-    try {
-        const parsedDishes = JSON.parse(savedCustomDishes);
+        if (savedCustomDishes) {
+            try {
+                const parsedDishes = JSON.parse(savedCustomDishes);
 
-        parsedDishes.forEach(savedDish => {
-            if (!dishes.some(d => d.title === savedDish.title)) {
-                dishes.push(savedDish);
+                parsedDishes.forEach(savedDish => {
+                    if (!dishes.some(d => d.title === savedDish.title)) {
+                        dishes.push(savedDish);
+                    }
+                });
+            } catch (e) {
+                console.error('Ошибка загрузки кастомных блюд:', e);
             }
-        });
-    } catch (e) {
-        console.error('Ошибка загрузки кастомных блюд:', e);
-    }
-}
-                // 🟢 МИГРАЦИЯ СТАРОГО РЕЦЕПТА: Если флаг разблокировки был, но рецепт потерялся (старая версия кода)
+        }
+        // 🟢 МИГРАЦИЯ СТАРОГО РЕЦЕПТА: Если флаг разблокировки был, но рецепт потерялся (старая версия кода)
         const dinoSnotUnlockedFlag = localStorage.getItem('dinoSnotUnlocked');
         const dinoSnotRecipeExists = dishes.some(d => d.title.includes("Сопли динозавра"));
 
@@ -4899,7 +5089,7 @@ if (savedCustomDishes) {
             localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
             // Если сейчас открыто меню, перерисовываем его, чтобы рецепт появился сразу
             if (document.getElementById('page-menu').classList.contains('active-page')) {
-                 renderDishes('all');
+                renderDishes('all');
             }
         }
 
@@ -5379,7 +5569,7 @@ if (savedCustomDishes) {
             }
         }
 
-                window.onload = () => {
+        window.onload = () => {
             // 🪙 Обновляем баланс фишек и тему сразу при загрузке страницы
             if (typeof updateCasinoUI === 'function') updateCasinoUI();
 
@@ -5391,38 +5581,38 @@ if (savedCustomDishes) {
             updateBobnitStageUI();
 
             // Восстанавливаем достижения по уже имеющемуся прогрессу
-if (burgerCount >= 10000) {
-    addAchievement("10.000 кликов в кликере");
-}
+            if (burgerCount >= 10000) {
+                addAchievement("10.000 кликов в кликере");
+            }
 
-// Восстанавливаем ачивку Царевны по сохранённому рекорду
-if (bestFlappyScore >= 30) {
-    addAchievement("Попукивания разблокированы");
-}
-// Восстанавливаем достижение "Опытный пердежист"
-if (bestFlappyScore >= 100) {
-    addAchievement("Опытный пердежист");
-    // ДОПОЛНИТЕЛЬНАЯ ПРОВЕРКА ДЛЯ СТАРЫХ ИГРОКОВ:
-    // Проверяем, забирал ли он уже бонусные 20 фишек за эту ачивку
-    if (!localStorage.getItem('flappy_reward_claimed')) {
-        if (typeof addChips === 'function') {
-            addChips(20); // Начисляем 20 фишек
-            localStorage.setItem('flappy_reward_claimed', 'true'); // Ставим метку, что бонус забран
-            alert("🎁 Бобнит выписал компенсацию! Начислено +20 🪙 за прошлые заслуги в Полёте Царевны!");
-        }
-    }
-}
+            // Восстанавливаем ачивку Царевны по сохранённому рекорду
+            if (bestFlappyScore >= 30) {
+                addAchievement("Попукивания разблокированы");
+            }
+            // Восстанавливаем достижение "Опытный пердежист"
+            if (bestFlappyScore >= 100) {
+                addAchievement("Опытный пердежист");
+                // ДОПОЛНИТЕЛЬНАЯ ПРОВЕРКА ДЛЯ СТАРЫХ ИГРОКОВ:
+                // Проверяем, забирал ли он уже бонусные 20 фишек за эту ачивку
+                if (!localStorage.getItem('flappy_reward_claimed')) {
+                    if (typeof addChips === 'function') {
+                        addChips(20); // Начисляем 20 фишек
+                        localStorage.setItem('flappy_reward_claimed', 'true'); // Ставим метку, что бонус забран
+                        alert("🎁 Бобнит выписал компенсацию! Начислено +20 🪙 за прошлые заслуги в Полёте Царевны!");
+                    }
+                }
+            }
 
 
 
-if (
-    localStorage.getItem('dinoSnotUnlocked') === 'true' ||
-    dishes.some(d => d.title.includes("Сопли динозавра"))
-) {
-    addAchievement("Секретный рецепт");
-}
+            if (
+                localStorage.getItem('dinoSnotUnlocked') === 'true' ||
+                dishes.some(d => d.title.includes("Сопли динозавра"))
+            ) {
+                addAchievement("Секретный рецепт");
+            }
 
-    
+
 
 
             // Рендер остальных элементов сайта
@@ -5462,20 +5652,20 @@ if (
         let pipes = [];
         let score = 0;
         let bestFlappyScore = parseInt(
-    localStorage.getItem('flappyBestScore') || '0',
-    10
-);
-let flappyPlayerId = localStorage.getItem('flappyPlayerId');
+            localStorage.getItem('flappyBestScore') || '0',
+            10
+        );
+        let flappyPlayerId = localStorage.getItem('flappyPlayerId');
 
-if (!flappyPlayerId) {
-    flappyPlayerId = crypto.randomUUID
-        ? crypto.randomUUID()
-        : 'flappy-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+        if (!flappyPlayerId) {
+            flappyPlayerId = crypto.randomUUID
+                ? crypto.randomUUID()
+                : 'flappy-' + Date.now() + '-' + Math.random().toString(36).slice(2);
 
-    localStorage.setItem('flappyPlayerId', flappyPlayerId);
-}
+            localStorage.setItem('flappyPlayerId', flappyPlayerId);
+        }
 
-let flappySaveTimer = null;
+        let flappySaveTimer = null;
 
         let gameInterval = null;
         let isPlaying = false;
@@ -5495,56 +5685,56 @@ let flappySaveTimer = null;
         }
 
         async function saveFlappyScore() {
-    const nameKey = 'flappyPlayerName';
-    let playerName = localStorage.getItem(nameKey);
+            const nameKey = 'flappyPlayerName';
+            let playerName = localStorage.getItem(nameKey);
 
-    if (!playerName) {
-        playerName = prompt(
-            '👑 Ты установил рекорд Царевны! Введи имя для таблицы лидеров:'
-        );
+            if (!playerName) {
+                playerName = prompt(
+                    '👑 Ты установил рекорд Царевны! Введи имя для таблицы лидеров:'
+                );
 
-        if (!playerName) return;
+                if (!playerName) return;
 
-        playerName = playerName
-            .trim()
-            .replace(/[<>]/g, '')
-            .slice(0, 20);
+                playerName = playerName
+                    .trim()
+                    .replace(/[<>]/g, '')
+                    .slice(0, 20);
 
-        if (!playerName) return;
+                if (!playerName) return;
 
-        localStorage.setItem(nameKey, playerName);
-    }
-
-    const { error } = await _supabase
-        .from('flappy_leaderboard')
-        .upsert(
-            [{
-                player_id: flappyPlayerId,
-                player_name: playerName,
-                score: bestFlappyScore,
-                updated_at: new Date().toISOString()
-            }],
-            {
-                onConflict: 'player_id'
+                localStorage.setItem(nameKey, playerName);
             }
-        );
 
-    if (error) {
-    console.error('Ошибка сохранения рекорда Царевны:', error);
-} else {
-    console.log('Рекорд Царевны сохранён:', bestFlappyScore);
-    loadFlappyLeaderboard();
-}
+            const { error } = await _supabase
+                .from('flappy_leaderboard')
+                .upsert(
+                    [{
+                        player_id: flappyPlayerId,
+                        player_name: playerName,
+                        score: bestFlappyScore,
+                        updated_at: new Date().toISOString()
+                    }],
+                    {
+                        onConflict: 'player_id'
+                    }
+                );
 
-}
+            if (error) {
+                console.error('Ошибка сохранения рекорда Царевны:', error);
+            } else {
+                console.log('Рекорд Царевны сохранён:', bestFlappyScore);
+                loadFlappyLeaderboard();
+            }
 
-function scheduleFlappyScoreSave() {
-    clearTimeout(flappySaveTimer);
+        }
 
-    flappySaveTimer = setTimeout(() => {
-        saveFlappyScore();
-    }, 700);
-}
+        function scheduleFlappyScoreSave() {
+            clearTimeout(flappySaveTimer);
+
+            flappySaveTimer = setTimeout(() => {
+                saveFlappyScore();
+            }, 700);
+        }
 
 
 
@@ -5578,39 +5768,39 @@ function scheduleFlappyScoreSave() {
 
             for (let i = pipes.length - 1; i >= 0; i--) {
                 pipes[i].x -= 2; // Замедлили скорость движения
-                if (bird.x + bird.radius > pipes[i].x && bird.x - bird.radius < pipes[i].x + 60&&
+                if (bird.x + bird.radius > pipes[i].x && bird.x - bird.radius < pipes[i].x + 60 &&
                     (bird.y - bird.radius < pipes[i].top || bird.y + bird.radius > canvas.height - pipes[i].bottom)) {
                     gameOverFlappy();
                 }
                 if (!pipes[i].passed && pipes[i].x < bird.x) {
-    pipes[i].passed = true;
-    score++;
-    // Проверка на достижение "Опытный пердежист" (срабатывает при достижении 100 и больше)
-if (score >= 100) {
-    if (typeof unlockAchievement === 'function') {
-        console.log("Попытка разблокировать ачивку Опытный пердежист...");
-        unlockAchievement("Опытный пердежист", 20);
-    } else {
-        console.warn("Функция unlockAchievement не найдена!");
-    }
-}
+                    pipes[i].passed = true;
+                    score++;
+                    // Проверка на достижение "Опытный пердежист" (срабатывает при достижении 100 и больше)
+                    if (score >= 100) {
+                        if (typeof unlockAchievement === 'function') {
+                            console.log("Попытка разблокировать ачивку Опытный пердежист...");
+                            unlockAchievement("Опытный пердежист", 20);
+                        } else {
+                            console.warn("Функция unlockAchievement не найдена!");
+                        }
+                    }
 
 
 
-    if (score > bestFlappyScore) {
-    bestFlappyScore = score;
+                    if (score > bestFlappyScore) {
+                        bestFlappyScore = score;
 
-    localStorage.setItem(
-        'flappyBestScore',
-        bestFlappyScore.toString()
-    );
+                        localStorage.setItem(
+                            'flappyBestScore',
+                            bestFlappyScore.toString()
+                        );
 
-    scheduleFlappyScoreSave();
-}
-}
+                        scheduleFlappyScoreSave();
+                    }
+                }
 
 
-               if (bird.y + bird.radius > canvas.height || bird.y - bird.radius < 0);
+                if (bird.y + bird.radius > canvas.height || bird.y - bird.radius < 0);
             }
 
             if (bird.y + bird.radius > canvas.height || bird.y - bird.radius < 0) gameOverFlappy();
@@ -5644,17 +5834,17 @@ if (score >= 100) {
             // Деталь короны
             ctx.fillStyle = "#ffcc00"; ctx.fillRect(bird.x - 6, bird.y - 22, 12, 6);
 
-           ctx.fillStyle = "#ffffff";
-ctx.font = "bold 20px monospace";
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 20px monospace";
 
-ctx.fillText("КОЛОННЫ: " + score, 20, 40);
-ctx.fillText("РЕКОРД: " + bestFlappyScore, 20, 68);
+            ctx.fillText("КОЛОННЫ: " + score, 20, 40);
+            ctx.fillText("РЕКОРД: " + bestFlappyScore, 20, 68);
 
 
-// Ачивка за 30 успешно пролетённых колонн
-if (score >= 30) {
-    addAchievement("Попукивания разблокированы");
-}
+            // Ачивка за 30 успешно пролетённых колонн
+            if (score >= 30) {
+                addAchievement("Попукивания разблокированы");
+            }
 
         }
 
@@ -6005,44 +6195,44 @@ if (score >= 30) {
         // ----------------------------------------------------
         let burgerCount = parseInt(localStorage.getItem('bobnitBurgerCount') || '0', 10);
         let bobnitCurrentStage = parseInt(localStorage.getItem('bobnitCurrentStage') || '0', 10);
-            let leaderboardSaveTimer = null; // Должна быть объявлена глобально
+        let leaderboardSaveTimer = null; // Должна быть объявлена глобально
 
-    function scheduleLeaderboardSave() {
-        if (burgerCount < 100) return;
+        function scheduleLeaderboardSave() {
+            if (burgerCount < 100) return;
 
-        clearTimeout(leaderboardSaveTimer);
+            clearTimeout(leaderboardSaveTimer);
 
-        leaderboardSaveTimer = setTimeout(async () => {
-            const playerName =
-                localStorage.getItem('leaderboardPlayerName');
+            leaderboardSaveTimer = setTimeout(async () => {
+                const playerName =
+                    localStorage.getItem('leaderboardPlayerName');
 
-            if (!playerName) { // Если имени нет, запрашиваем его
-                await promptForLeaderboardSubmission();
-            } else { // Если имя уже есть, просто отправляем/обновляем счет
-                await sendScoreToLeaderboard(playerName, burgerCount);
-            }
-        }, 500); // Отправляем результат раз в 0.5 секунды
-    }
-    
+                if (!playerName) { // Если имени нет, запрашиваем его
+                    await promptForLeaderboardSubmission();
+                } else { // Если имя уже есть, просто отправляем/обновляем счет
+                    await sendScoreToLeaderboard(playerName, burgerCount);
+                }
+            }, 500); // Отправляем результат раз в 0.5 секунды
+        }
 
 
-        
-// ID текущего игрока для обновления одной записи в лидерборде
-    let leaderboardPlayerId =
-        localStorage.getItem('leaderboardPlayerId');
 
-    if (!leaderboardPlayerId) {
-        leaderboardPlayerId =
-            crypto.randomUUID
-                ? crypto.randomUUID()
-                : 'player-' + Date.now() + '-' + Math.random().toString(36).slice(2);
 
-        localStorage.setItem(
-            'leaderboardPlayerId',
-            leaderboardPlayerId
-        );
-    }
-    
+        // ID текущего игрока для обновления одной записи в лидерборде
+        let leaderboardPlayerId =
+            localStorage.getItem('leaderboardPlayerId');
+
+        if (!leaderboardPlayerId) {
+            leaderboardPlayerId =
+                crypto.randomUUID
+                    ? crypto.randomUUID()
+                    : 'player-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+
+            localStorage.setItem(
+                'leaderboardPlayerId',
+                leaderboardPlayerId
+            );
+        }
+
 
         let lastClickTime = Date.now(); // Для античита
         const minTimeBetweenClicks = 50; // Минимальное время между кликами в мс (20 кликов в секунду)
@@ -6056,7 +6246,7 @@ if (score >= 30) {
             'bobnit_stage4_thanos.jpg',     // 5000 - 9999 кликов
             'bobnit_stage5_galaxy.jpg',    // 10000+ кликов
             'poglotitel.jpg'   // 30000+ кликов
-   
+
         ];
 
         // Названия стадий и их золотые истории
@@ -6092,37 +6282,37 @@ if (score >= 30) {
         ];
 
 
-            // УНИВЕРСАЛЬНАЯ ФУНКЦИЯ ВЫДАЧИ ДОСТИЖЕНИЙ
-    function unlockAchievement(title, rewardChips) {
-        // Проверяем, есть ли уже этот массив у пользователя (если нет - создаем)
-        if (typeof unlockedAchievements === 'undefined') {
-            window.unlockedAchievements = [];
-        }
-
-        // Если ачивка ЕЩЕ НЕ получена:
-        if (!unlockedAchievements.includes(title)) {
-            unlockedAchievements.push(title);
-            
-            // Сохраняем в localStorage
-            localStorage.setItem('leycore_unlocked_achievements', JSON.stringify(unlockedAchievements));
-
-            // Начисляем фишки награды
-            if (typeof addChips === 'function') {
-                addChips(rewardChips);
+        // УНИВЕРСАЛЬНАЯ ФУНКЦИЯ ВЫДАЧИ ДОСТИЖЕНИЙ
+        function unlockAchievement(title, rewardChips) {
+            // Проверяем, есть ли уже этот массив у пользователя (если нет - создаем)
+            if (typeof unlockedAchievements === 'undefined') {
+                window.unlockedAchievements = [];
             }
 
-            // Показываем красивое уведомление игроку
-            alert(`🏆 ДОСТИЖЕНИЕ РАЗБЛОКИРОВАНО!\n«${title}»\nНаграда: +${rewardChips} 🪙`);
-            
-            // Обновляем список на странице достижений, если функция существует
-            if (typeof renderAchievements === 'function') {
-                renderAchievements();
+            // Если ачивка ЕЩЕ НЕ получена:
+            if (!unlockedAchievements.includes(title)) {
+                unlockedAchievements.push(title);
+
+                // Сохраняем в localStorage
+                localStorage.setItem('leycore_unlocked_achievements', JSON.stringify(unlockedAchievements));
+
+                // Начисляем фишки награды
+                if (typeof addChips === 'function') {
+                    addChips(rewardChips);
+                }
+
+                // Показываем красивое уведомление игроку
+                alert(`🏆 ДОСТИЖЕНИЕ РАЗБЛОКИРОВАНО!\n«${title}»\nНаграда: +${rewardChips} 🪙`);
+
+                // Обновляем список на странице достижений, если функция существует
+                if (typeof renderAchievements === 'function') {
+                    renderAchievements();
+                }
+
+                console.log("Успешно выдана ачивка:", title);
             }
-            
-            console.log("Успешно выдана ачивка:", title);
         }
-    }
-    
+
 
         // Функция обновления внешнего вида кликера (картинка, название, история)
         function updateBobnitStageUI() {
@@ -6141,98 +6331,98 @@ if (score >= 30) {
             }
         }
 
-       // === ГЛАВНАЯ И ЕДИНСТВЕННАЯ ФУНКЦИЯ КЛИКА БОБНИТА ===
-function clickBobnit(event) {
-    const now = Date.now(); // Текущее время для античита
-    
-    // ИНИЦИАЛИЗАЦИЯ ГЛОБАЛЬНЫХ ПЕРЕМЕННЫХ АНТИЧИТА (через window, чтобы не было ошибок!)
-    if (typeof window.lastClickTime === 'undefined') window.lastClickTime = 0;
-    if (typeof window.clickWarnings === 'undefined') window.clickWarnings = 0;
-    // minTimeBetweenClicks берем из того, что уже работало (80мс)
-    const minTimeBetweenClicks = 80; 
+        // === ГЛАВНАЯ И ЕДИНСТВЕННАЯ ФУНКЦИЯ КЛИКА БОБНИТА ===
+        function clickBobnit(event) {
+            const now = Date.now(); // Текущее время для античита
 
-    // 1. АНТИЧИТ: Защита от слишком быстрых кликов (автокликеров)
-    if (now - window.lastClickTime < minTimeBetweenClicks) {
-        window.clickWarnings++;
-        if (window.clickWarnings > 10) { // После 10 предупреждений, перестаем считать
-            console.warn("Бобнит: Эй, ты слишком быстрый! Перчатка Таноса уже наготове... 🫰");
-            return; // Игнорируем этот клик
+            // ИНИЦИАЛИЗАЦИЯ ГЛОБАЛЬНЫХ ПЕРЕМЕННЫХ АНТИЧИТА (через window, чтобы не было ошибок!)
+            if (typeof window.lastClickTime === 'undefined') window.lastClickTime = 0;
+            if (typeof window.clickWarnings === 'undefined') window.clickWarnings = 0;
+            // minTimeBetweenClicks берем из того, что уже работало (80мс)
+            const minTimeBetweenClicks = 80;
+
+            // 1. АНТИЧИТ: Защита от слишком быстрых кликов (автокликеров)
+            if (now - window.lastClickTime < minTimeBetweenClicks) {
+                window.clickWarnings++;
+                if (window.clickWarnings > 10) { // После 10 предупреждений, перестаем считать
+                    console.warn("Бобнит: Эй, ты слишком быстрый! Перчатка Таноса уже наготове... 🫰");
+                    return; // Игнорируем этот клик
+                }
+            } else {
+                window.clickWarnings = 0; // Сбрасываем предупреждения, если темп нормальный
+            }
+            window.lastClickTime = now; // Запоминаем время последнего успешного клика
+
+            // 2. НАЧИСЛЕНИЕ БУРГЕРОВ (с учетом множителей х2/х3)
+            // burgerCount и clickMultiplier должны быть глобальными переменными
+            burgerCount += clickMultiplier;
+
+            // 3. ВИЗУАЛЬНЫЙ ЭФФЕКТ +1 (Всплывающая цифра)
+            if (typeof createClickEffect === 'function') {
+                createClickEffect(event); // Требует 'event' для правильного позиционирования
+            }
+
+            // 4. ОБНОВЛЕНИЕ ТЕКСТА СЧЕТЧИКА НА ЭКРАНЕ
+            const counterEl = document.getElementById('clicker-counter');
+            if (counterEl) {
+                counterEl.innerText = "Бургеров: " + burgerCount;
+            }
+
+            // 5. ОБНОВЛЕНИЕ КАРТИНКИ И ЭВОЛЮЦИИ БОБНИТА (Расчет стадии и обновление UI)
+            let newStage = bobnitCurrentStage; // Предполагаем, что bobnitCurrentStage - глобальная переменная
+
+            // ЛОГИКА РАСЧЕТА СТАДИЙ (0 до 6)
+            if (burgerCount < 300) { newStage = 0; }
+            else if (burgerCount < 1000) { newStage = 1; }
+            else if (burgerCount < 3000) { newStage = 2; }
+            else if (burgerCount < 5000) { newStage = 3; }
+            else if (burgerCount < 10000) { newStage = 4; }
+            else if (burgerCount < 30000) { newStage = 5; } // Стадия "galaxy.jpg"
+            else { newStage = 6; } // Новая стадия "poglotitel.jpg"
+
+            if (newStage !== bobnitCurrentStage) {
+                bobnitCurrentStage = newStage;
+                if (typeof updateBobnitStageUI === 'function') {
+                    updateBobnitStageUI(); // Эта функция должна обновить img.src и текст статуса Бобнита
+                }
+            }
+
+            // 6. СОХРАНЕНИЕ ДАННЫХ В LOCALSTORAGE (конкретно для кликера)
+            localStorage.setItem('bobnitBurgerCount', burgerCount.toString());
+            localStorage.setItem('bobnitCurrentStage', bobnitCurrentStage.toString());
+
+            // Также вызываем твою общую функцию сохранения данных (включая Supabase)
+            if (typeof saveUserData === 'function') {
+                saveUserData();
+            }
+
+            // 7. ПРОВЕРКИ НА ДОСТИЖЕНИЯ
+            if (burgerCount === 10000) { // Ачивка "10.000 кликов"
+                if (typeof addAchievement === 'function') {
+                    addAchievement("10.000 кликов в кликере");
+                }
+            }
+            if (burgerCount >= 50000) { // Ачивка "50.000 кликов"
+                if (typeof addAchievement === 'function') {
+                    addAchievement("50.000 кликов в кликере");
+                }
+            }
+
+            // 8. СОХРАНЕНИЕ ЛИДЕРБОРДА В SUPABASE (если burgerCount достаточно большой)
+            if (burgerCount >= 100) {
+                if (typeof scheduleLeaderboardSave === 'function') {
+                    scheduleLeaderboardSave(); // Эта функция должна отправлять данные в Supabase
+                }
+            }
+
+            // 9. РАЗБЛОКИРОВКА СЕКРЕТНОГО РЕЦЕПТА (Dino Snot)
+            if (burgerCount >= 5000 && !localStorage.getItem('dinoSnotUnlocked')) {
+                localStorage.setItem('dinoSnotUnlocked', 'true');
+                if (typeof unlockSecretRecipe === 'function') {
+                    unlockSecretRecipe();
+                }
+            }
         }
-    } else {
-        window.clickWarnings = 0; // Сбрасываем предупреждения, если темп нормальный
-    }
-    window.lastClickTime = now; // Запоминаем время последнего успешного клика
-
-    // 2. НАЧИСЛЕНИЕ БУРГЕРОВ (с учетом множителей х2/х3)
-    // burgerCount и clickMultiplier должны быть глобальными переменными
-    burgerCount += clickMultiplier; 
-
-    // 3. ВИЗУАЛЬНЫЙ ЭФФЕКТ +1 (Всплывающая цифра)
-    if (typeof createClickEffect === 'function') {
-        createClickEffect(event); // Требует 'event' для правильного позиционирования
-    }
-
-    // 4. ОБНОВЛЕНИЕ ТЕКСТА СЧЕТЧИКА НА ЭКРАНЕ
-    const counterEl = document.getElementById('clicker-counter');
-    if (counterEl) {
-        counterEl.innerText = "Бургеров: " + burgerCount;
-    }
-
-    // 5. ОБНОВЛЕНИЕ КАРТИНКИ И ЭВОЛЮЦИИ БОБНИТА (Расчет стадии и обновление UI)
-    let newStage = bobnitCurrentStage; // Предполагаем, что bobnitCurrentStage - глобальная переменная
-
-    // ЛОГИКА РАСЧЕТА СТАДИЙ (0 до 6)
-    if (burgerCount < 300) { newStage = 0; }
-    else if (burgerCount < 1000) { newStage = 1; }
-    else if (burgerCount < 3000) { newStage = 2; }
-    else if (burgerCount < 5000) { newStage = 3; }
-    else if (burgerCount < 10000) { newStage = 4; }
-    else if (burgerCount < 30000) { newStage = 5; } // Стадия "galaxy.jpg"
-    else { newStage = 6; } // Новая стадия "poglotitel.jpg"
-
-    if (newStage !== bobnitCurrentStage) {
-        bobnitCurrentStage = newStage;
-        if (typeof updateBobnitStageUI === 'function') {
-            updateBobnitStageUI(); // Эта функция должна обновить img.src и текст статуса Бобнита
-        }
-    }
-
-    // 6. СОХРАНЕНИЕ ДАННЫХ В LOCALSTORAGE (конкретно для кликера)
-    localStorage.setItem('bobnitBurgerCount', burgerCount.toString());
-    localStorage.setItem('bobnitCurrentStage', bobnitCurrentStage.toString());
-    
-    // Также вызываем твою общую функцию сохранения данных (включая Supabase)
-    if (typeof saveUserData === 'function') {
-        saveUserData(); 
-    }
-
-    // 7. ПРОВЕРКИ НА ДОСТИЖЕНИЯ
-    if (burgerCount === 10000) { // Ачивка "10.000 кликов"
-        if (typeof addAchievement === 'function') {
-            addAchievement("10.000 кликов в кликере");
-        }
-    }
-    if (burgerCount >= 50000) { // Ачивка "50.000 кликов"
-        if (typeof addAchievement === 'function') {
-            addAchievement("50.000 кликов в кликере");
-        }
-    }
-
-    // 8. СОХРАНЕНИЕ ЛИДЕРБОРДА В SUPABASE (если burgerCount достаточно большой)
-    if (burgerCount >= 100) { 
-        if (typeof scheduleLeaderboardSave === 'function') {
-            scheduleLeaderboardSave(); // Эта функция должна отправлять данные в Supabase
-        }
-    }
-
-    // 9. РАЗБЛОКИРОВКА СЕКРЕТНОГО РЕЦЕПТА (Dino Snot)
-    if (burgerCount >= 5000 && !localStorage.getItem('dinoSnotUnlocked')) {
-        localStorage.setItem('dinoSnotUnlocked', 'true');
-        if (typeof unlockSecretRecipe === 'function') {
-            unlockSecretRecipe();
-        }
-    }
-}
 
 
 
@@ -6257,18 +6447,18 @@ function clickBobnit(event) {
             });
         }
 
-                // Разблокировка секретного рецепта
-       function unlockSecretRecipe() {
-    const exists = dishes.some(d => d.title.includes("Сопли динозавра"));
+        // Разблокировка секретного рецепта
+        function unlockSecretRecipe() {
+            const exists = dishes.some(d => d.title.includes("Сопли динозавра"));
 
-    if (exists) {
-        addAchievement("Секретный рецепт");
-        return;
-    }
+            if (exists) {
+                addAchievement("Секретный рецепт");
+                return;
+            }
 
 
             alert("👑 ТРИУМФ! СЕКРЕТНЫЙ РЕЦЕПТ 'СОПЛИ ДИНОЗАВРА' НАВСЕГДА ДОБАВЛЕН В МЕНЮ (КАТЕГОРИЯ: ОБЛАЧНЫЕ)!");
-            
+
             const dinoSnotRecipe = {
                 category: "cloud", // Отправляем в облачные (как ты и хотел!)
                 title: "● Сопли динозавра (Секрет Демиурга)",
@@ -6283,13 +6473,13 @@ function clickBobnit(event) {
             };
 
             // Добавляем в общий массив блюд
-           dishes.push(dinoSnotRecipe);
-addAchievement("Секретный рецепт");
+            dishes.push(dinoSnotRecipe);
+            addAchievement("Секретный рецепт");
 
-localStorage.setItem(
-    'leycore_custom_dishes',
-    JSON.stringify(dishes)
-);
+            localStorage.setItem(
+                'leycore_custom_dishes',
+                JSON.stringify(dishes)
+            );
 
 
             // Сохраняем весь массив блюд в localStorage, включая секретный рецепт!
@@ -6298,7 +6488,7 @@ localStorage.setItem(
             // Перенаправляем игрока на страницу нового рецепта
             const secretIndex = dishes.length - 1;
             openDishPage(secretIndex);
-            
+
             // Если игрок сейчас в меню, обновляем сетку
             if (typeof renderDishes === 'function') {
                 renderDishes('all');
@@ -6310,72 +6500,72 @@ localStorage.setItem(
         // 🏆 ЛИДЕРБОРД: ЗАЛ СЛАВЫ КРОНТАРА
         // ----------------------------------------------------
 
-            async function promptForLeaderboardSubmission() {
-        let playerName = localStorage.getItem('leaderboardPlayerName');
+        async function promptForLeaderboardSubmission() {
+            let playerName = localStorage.getItem('leaderboardPlayerName');
 
-        if (!playerName) { // Если имя не сохранено, запрашиваем
-            playerName = prompt(
-                '🏆 Ты набрал 100 кликов! Введи имя для лидерборда:'
-            );
+            if (!playerName) { // Если имя не сохранено, запрашиваем
+                playerName = prompt(
+                    '🏆 Ты набрал 100 кликов! Введи имя для лидерборда:'
+                );
 
-            if (!playerName) return false; // Если отменил, не продолжаем
+                if (!playerName) return false; // Если отменил, не продолжаем
 
-            playerName = playerName
-                .trim()
-                .replace(/[<>]/g, '') // Защита от XSS-инъекций
-                .slice(0, 15); // Ограничение длины
+                playerName = playerName
+                    .trim()
+                    .replace(/[<>]/g, '') // Защита от XSS-инъекций
+                    .slice(0, 15); // Ограничение длины
 
-            if (!playerName) return false; // Если после обрезки стало пустым
+                if (!playerName) return false; // Если после обрезки стало пустым
+            }
+
+            // Отправляем счет
+            const success = await sendScoreToLeaderboard(playerName, burgerCount);
+
+            // Сохраняем имя только после успешной отправки в Supabase
+            if (success) {
+                localStorage.setItem('leaderboardPlayerName', playerName);
+                return true;
+            }
+
+            return false;
         }
 
-        // Отправляем счет
-        const success = await sendScoreToLeaderboard(playerName, burgerCount);
-
-        // Сохраняем имя только после успешной отправки в Supabase
-        if (success) {
-            localStorage.setItem('leaderboardPlayerName', playerName);
-            return true;
-        }
-
-        return false;
-    }
-    
 
 
 
-                   // Загрузка топа Кликера с титулами
+        // Загрузка топа Кликера с титулами
         async function loadLeaderboard() {
             const leaderboardList = document.getElementById('leaderboard-list');
             if (!leaderboardList) return;
 
-                  try {
-        const { data, error } = await _supabase
-            .from('leaderboard')
-            .select('player_name, score, submitted_at') // Заменили на правильное имя колонки
-            .order('score', { ascending: false })
-            .limit(20);
+            try {
+                const { data, error } = await _supabase
+                    .from('leaderboard')
+                    .select('player_name, score, submitted_at') // Заменили на правильное имя колонки
+                    .order('score', { ascending: false })
+                    .limit(20);
 
-        if (error || !data) return;
+                if (error || !data) return;
 
-        // УМНЫЙ ФИЛЬТР БОБНИТА:
-        const honestPlayers = data.filter(entry => {
-            // Используем submitted_at
-            const startDate = entry.submitted_at ? new Date(entry.submitted_at) : new Date();
-            const now = new Date();
-            const daysPlaying = Math.max(1, Math.ceil((now - startDate) / (1000 * 60 * 60 * 24)));
-            
-            // ЛИМИТ: 100 000 кликов в день.
-            const maxAllowed = daysPlaying * 100000; 
+                // УМНЫЙ ФИЛЬТР БОБНИТА:
+                const honestPlayers = data.filter(entry => {
+                    // Используем submitted_at
+                    const startDate = entry.submitted_at ? new Date(entry.submitted_at) : new Date();
+                    const now = new Date();
+                    const daysPlaying = Math.max(1, Math.ceil((now - startDate) / (1000 * 60 * 60 * 24)));
 
-            return entry.score <= maxAllowed;
-        });
+                    // ЛИМИТ: 100 000 кликов в день.
+                    const maxAllowed = daysPlaying * 100000;
+
+                    return entry.score <= maxAllowed;
+                });
 
 
-        // ОТРИСОВКА: берем только первые 10 ЧЕСТНЫХ игроков
-        leaderboardList.innerHTML = honestPlayers.slice(0, 10).map((entry, index) => {
-            let rawName = entry.player_name || 'Герой';
-            let title = '';
-            let name = rawName;
+                // ОТРИСОВКА: берем только первые 10 ЧЕСТНЫХ игроков
+                leaderboardList.innerHTML = honestPlayers.slice(0, 10).map((entry, index) => {
+                    let rawName = entry.player_name || 'Герой';
+                    let title = '';
+                    let name = rawName;
                     if (rawName.includes('|')) {
                         const parts = rawName.split('|');
                         title = parts[0];
@@ -6393,7 +6583,7 @@ localStorage.setItem(
                         </li>
                     `;
                 }).join('');
-            } catch (err) {}
+            } catch (err) { }
         }
 
         // Отправка счета в лидерборд кликера с титулом
@@ -6453,125 +6643,125 @@ localStorage.setItem(
             }).join('');
         }
 
-        
+
 
 
 
         const tracks = [
-    // 💧 ГРУСТЬ
-    { cat: 'sad', title: 'Midnight Rain', url: 'saD.mp3' },
-    { cat: 'dark', title: 'Dark Echoes', url: 'sad2.mp3' },
-    { cat: 'sad', title: 'Lonely Vibes', url: 'sad3.mp3' },
-    { cat: 'sad', title: 'Lost Script', url: 'sad4.mp3' },
-    { cat: 'sad', title: 'Cold Memory', url: 'sad5.mp3' },
+            // 💧 ГРУСТЬ
+            { cat: 'sad', title: 'Midnight Rain', url: 'saD.mp3' },
+            { cat: 'dark', title: 'Dark Echoes', url: 'sad2.mp3' },
+            { cat: 'sad', title: 'Lonely Vibes', url: 'sad3.mp3' },
+            { cat: 'sad', title: 'Lost Script', url: 'sad4.mp3' },
+            { cat: 'sad', title: 'Cold Memory', url: 'sad5.mp3' },
 
-    // 🍃 СПОКОЙСТВИЕ
-    { cat: 'calm', title: 'Distant Galaxy', url: 'relax5.mp3' },
-    { cat: 'calm', title: 'Soft Fog', url: 'relax4.mp3' },
-    { cat: 'calm', title: 'Night Ether', url: 'relax3.mp3' },
-    { cat: 'calm', title: 'Ocean Whisper', url: 'relax2.mp3' },
-    { cat: 'calm', title: 'Dreaming', url: 'relax.mp3' },
+            // 🍃 СПОКОЙСТВИЕ
+            { cat: 'calm', title: 'Distant Galaxy', url: 'relax5.mp3' },
+            { cat: 'calm', title: 'Soft Fog', url: 'relax4.mp3' },
+            { cat: 'calm', title: 'Night Ether', url: 'relax3.mp3' },
+            { cat: 'calm', title: 'Ocean Whisper', url: 'relax2.mp3' },
+            { cat: 'calm', title: 'Dreaming', url: 'relax.mp3' },
 
-    // 🔥 ЭЙФОРИЯ
-    { cat: 'cheerful', title: 'Cyber Pulse', url: 'happy.mp3' },
-    { cat: 'cheerful', title: 'Kronthar Rhythm', url: 'happy2.mp3' },
-    { cat: 'cheerful', title: 'Neon Sunset', url: 'Happy3.mp3' },
-    { cat: 'cheerful', title: 'Exudate Energy', url: 'happ4.mp3' },
-    { cat: 'cheerful', title: 'Matrix Breach', url: 'happy5.mp3' }
-];
+            // 🔥 ЭЙФОРИЯ
+            { cat: 'cheerful', title: 'Cyber Pulse', url: 'happy.mp3' },
+            { cat: 'cheerful', title: 'Kronthar Rhythm', url: 'happy2.mp3' },
+            { cat: 'cheerful', title: 'Neon Sunset', url: 'Happy3.mp3' },
+            { cat: 'cheerful', title: 'Exudate Energy', url: 'happ4.mp3' },
+            { cat: 'cheerful', title: 'Matrix Breach', url: 'happy5.mp3' }
+        ];
 
-// Используем глобальный аудио-элемент или создаем новый, если его нет
-const audio = document.getElementById('global-audio-element') || new Audio();
+        // Используем глобальный аудио-элемент или создаем новый, если его нет
+        const audio = document.getElementById('global-audio-element') || new Audio();
 
-// Рендер треков по категориям в наш новый аккордеон
-function renderSymphonies() {
-    ['sad', 'calm', 'cheerful'].forEach(cat => {
-        const container = document.getElementById(`list-${cat}`); // ИСПРАВЛЕНО (добавлены кавычки)
-        if (!container) return;
-        
-        container.innerHTML = tracks
-            .filter(t => t.cat === cat)
-            .map(t => `<div class="track-item" onclick="loadTrack('${t.title}')">
+        // Рендер треков по категориям в наш новый аккордеон
+        function renderSymphonies() {
+            ['sad', 'calm', 'cheerful'].forEach(cat => {
+                const container = document.getElementById(`list-${cat}`); // ИСПРАВЛЕНО (добавлены кавычки)
+                if (!container) return;
+
+                container.innerHTML = tracks
+                    .filter(t => t.cat === cat)
+                    .map(t => `<div class="track-item" onclick="loadTrack('${t.title}')">
                         <span>🎵 ${t.title}</span>
                         <span style="font-size: 0.7rem; color: #888;">Слушать ▶</span>
                        </div>`) // ИСПРАВЛЕНО (добавлены обратные кавычки бэктэки)
-            .join('');
-    });
-}
-
-// Твоя надежная функция загрузки трека
-function loadTrack(title) {
-    const track = tracks.find(t => t.title === title);
-    if (!track) return;
-    
-    audio.src = track.url;
-    document.getElementById('current-track-title').innerText = track.title;
-    document.getElementById('current-track-cat').innerText = "Жанр: " + track.cat.toUpperCase();
-    
-    document.querySelectorAll('.track-item').forEach(el => {
-        el.classList.toggle('active-track', el.innerText.includes(title));
-    });
-
-    const playPromise = audio.play();
-
-    if (playPromise !== undefined) {
-        playPromise
-            .then(() => {
-                document.getElementById('main-play-btn').innerText = "❚❚";
-                console.log("Музыка успешно играет:", track.title);
-            })
-            .catch(error => {
-                console.warn("Браузер придержал автовоспроизведение. Ждем клика пользователя...", error);
-                document.getElementById('main-play-btn').innerText = "▶";
-                
-                document.body.addEventListener('click', () => {
-                    audio.play()
-                        .then(() => {
-                            document.getElementById('main-play-btn').innerText = "❚❚";
-                        })
-                        .catch(e => console.error("Не удалось запустить даже после клика:", e));
-                }, { once: true });
+                    .join('');
             });
-    }
-}
-
-// Управление аккордеоном (FAQ-лента)
-function toggleAccordion(accId) {
-    const item = document.getElementById(accId);
-    const isOpen = item.classList.contains('open');
-    
-    // Закрываем остальные категории (оставляем открытой только одну)
-    document.querySelectorAll('.accordion-item').forEach(el => el.classList.remove('open'));
-    
-    if (!isOpen) {
-        item.classList.add('open');
-    }
-}
-
-// Кнопка Плей/Пауза сбоку
-function togglePlayPause() {
-    const playBtn = document.getElementById('main-play-btn');
-
-    if (audio.paused) {
-        if (!audio.src) {
-            loadTrack(tracks[0].title);
-        } else {
-            audio.play();
         }
-        playBtn.innerText = "❚❚";
-        playBtn.classList.add('playing'); // <--- ДОБАВЛЯЕМ ЗЕЛЕНЫЙ ЦВЕТ
-    } else {
-        audio.pause();
-        playBtn.innerText = "▶";
-        playBtn.classList.remove('playing'); // <--- УБИРАЕМ ЗЕЛЕНЫЙ ЦВЕТ (становится оранжевым)
-    }
-}
+
+        // Твоя надежная функция загрузки трека
+        function loadTrack(title) {
+            const track = tracks.find(t => t.title === title);
+            if (!track) return;
+
+            audio.src = track.url;
+            document.getElementById('current-track-title').innerText = track.title;
+            document.getElementById('current-track-cat').innerText = "Жанр: " + track.cat.toUpperCase();
+
+            document.querySelectorAll('.track-item').forEach(el => {
+                el.classList.toggle('active-track', el.innerText.includes(title));
+            });
+
+            const playPromise = audio.play();
+
+            if (playPromise !== undefined) {
+                playPromise
+                    .then(() => {
+                        document.getElementById('main-play-btn').innerText = "❚❚";
+                        console.log("Музыка успешно играет:", track.title);
+                    })
+                    .catch(error => {
+                        console.warn("Браузер придержал автовоспроизведение. Ждем клика пользователя...", error);
+                        document.getElementById('main-play-btn').innerText = "▶";
+
+                        document.body.addEventListener('click', () => {
+                            audio.play()
+                                .then(() => {
+                                    document.getElementById('main-play-btn').innerText = "❚❚";
+                                })
+                                .catch(e => console.error("Не удалось запустить даже после клика:", e));
+                        }, { once: true });
+                    });
+            }
+        }
+
+        // Управление аккордеоном (FAQ-лента)
+        function toggleAccordion(accId) {
+            const item = document.getElementById(accId);
+            const isOpen = item.classList.contains('open');
+
+            // Закрываем остальные категории (оставляем открытой только одну)
+            document.querySelectorAll('.accordion-item').forEach(el => el.classList.remove('open'));
+
+            if (!isOpen) {
+                item.classList.add('open');
+            }
+        }
+
+        // Кнопка Плей/Пауза сбоку
+        function togglePlayPause() {
+            const playBtn = document.getElementById('main-play-btn');
+
+            if (audio.paused) {
+                if (!audio.src) {
+                    loadTrack(tracks[0].title);
+                } else {
+                    audio.play();
+                }
+                playBtn.innerText = "❚❚";
+                playBtn.classList.add('playing'); // <--- ДОБАВЛЯЕМ ЗЕЛЕНЫЙ ЦВЕТ
+            } else {
+                audio.pause();
+                playBtn.innerText = "▶";
+                playBtn.classList.remove('playing'); // <--- УБИРАЕМ ЗЕЛЕНЫЙ ЦВЕТ (становится оранжевым)
+            }
+        }
 
 
-// Автоматический запуск рендера при загрузке страницы
-window.addEventListener('DOMContentLoaded', () => {
-    renderSymphonies();
-});
+        // Автоматический запуск рендера при загрузке страницы
+        window.addEventListener('DOMContentLoaded', () => {
+            renderSymphonies();
+        });
 
 
         // ----------------------------------------------------
@@ -6797,7 +6987,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-                // 1. Отрисовка сообщения с Титулом над ником
+        // 1. Отрисовка сообщения с Титулом над ником
         function renderChatMessage(msg) {
             const box = document.getElementById('chat-messages-box');
             if (!box) return;
@@ -6888,7 +7078,7 @@ window.addEventListener('DOMContentLoaded', () => {
             sendBobnitMessage(); // Автоматически отправляем в чат!
         }
 
-         // ====================================================
+        // ====================================================
         // 🏆 ВИТРИНА ПРОФИЛЯ: ДОСТИЖЕНИЯ | ИНВЕНТАРЬ | МАГАЗИН
         // ====================================================
         let currentProfileSubTab = 'achievements';
@@ -6925,14 +7115,14 @@ window.addEventListener('DOMContentLoaded', () => {
             // ----------------------------------------------------
             if (currentProfileSubTab === 'achievements') {
                 const allPossible = [
-                 "Познание Лэйкора",
-                 "10.000 кликов в кликере",
-                 "50.000 кликов в кликере",        // <-- Новое достижение!
-                 "Секретный рецепт",
-                 "Попукивания разблокированы",
-                 "Опытный пердежист",  // <-- Новое достижение!
-                 "Лудоман"
-                 ];
+                    "Познание Лэйкора",
+                    "10.000 кликов в кликере",
+                    "50.000 кликов в кликере",        // <-- Новое достижение!
+                    "Секретный рецепт",
+                    "Попукивания разблокированы",
+                    "Опытный пердежист",  // <-- Новое достижение!
+                    "Лудоман"
+                ];
 
 
                 html += `<div class="shop-products-grid">`;
@@ -6991,9 +7181,9 @@ window.addEventListener('DOMContentLoaded', () => {
             else if (currentProfileSubTab === 'shop') {
                 html += `<h3 style="color: var(--accent-gold); margin-bottom: 20px; text-align: center;">📜 РЕЦЕПТЫ ВАСИЛИЧА (50 🪙 КАЖДЫЙ)</h3>`;
                 html += `<div class="shop-products-grid">`;
-        html += shopRecipes.map((r, i) => {
-            const isBought = dishes.some(d => d.title === r.title);
-            return `
+                html += shopRecipes.map((r, i) => {
+                    const isBought = dishes.some(d => d.title === r.title);
+                    return `
                 <div class="shop-dish-card" style="border-color: ${isBought ? 'var(--accent-green)' : 'var(--accent-gold)'}; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
                         <!-- КАРТИНКА БЛЮДА -->
@@ -7005,12 +7195,12 @@ window.addEventListener('DOMContentLoaded', () => {
                     </div>
                     
                     ${isBought
-                        ? `<button class="open-dish-btn" style="background: #222; color: #666; cursor: default;">✓ В МЕНЮ</button>`
-                        : `<button class="open-dish-btn" onclick="buyShopRecipe(${i})">КУПИТЬ ЗА 50 🪙</button>`
-                    }
+                            ? `<button class="open-dish-btn" style="background: #222; color: #666; cursor: default;">✓ В МЕНЮ</button>`
+                            : `<button class="open-dish-btn" onclick="buyShopRecipe(${i})">КУПИТЬ ЗА 50 🪙</button>`
+                        }
                 </div>
             `;
-        }).join('');
+                }).join('');
 
 
                 html += `</div>`;
@@ -7023,10 +7213,10 @@ window.addEventListener('DOMContentLoaded', () => {
                     return `
                         <div class="dish-card" style="border-color: ${isBought ? 'var(--accent-green)' : '#ff4500'}; text-align: center; display: flex; flex-direction: column; justify-content: space-between; padding: 20px 15px;">
                             <div style="margin-bottom: 15px;"><span class="lava-title-badge">${title}</span></div>
-                            ${isBought 
-                                ? `<button class="open-dish-btn" style="background: #222; color: #666; cursor: default;">✓ КУПЛЕНО</button>`
-                                : `<button class="open-dish-btn" style="background: linear-gradient(45deg, #ff2200, #ff8c00); color: #fff;" onclick="buyLavaTitle(${i})">КУПИТЬ ЗА 100 🪙</button>`
-                            }
+                            ${isBought
+                            ? `<button class="open-dish-btn" style="background: #222; color: #666; cursor: default;">✓ КУПЛЕНО</button>`
+                            : `<button class="open-dish-btn" style="background: linear-gradient(45deg, #ff2200, #ff8c00); color: #fff;" onclick="buyLavaTitle(${i})">КУПИТЬ ЗА 100 🪙</button>`
+                        }
                         </div>
                     `;
                 }).join('');
@@ -7091,7 +7281,7 @@ window.addEventListener('DOMContentLoaded', () => {
         let activeTitle = localStorage.getItem('leycore_active_title') || "Гость Царства";
         let unlockedThemes = JSON.parse(localStorage.getItem('leycore_themes')) || [];
 
-         // ====================================================
+        // ====================================================
         // 🛒 ТОВАРЫ МАГАЗИНА (РЕЦЕПТЫ ВАСИЛИЧА ПО 50 🪙 И ЛАВОВЫЕ ТИТУЛЫ ПО 100 🪙)
         // ====================================================
         const shopRecipes = [
@@ -7156,7 +7346,7 @@ window.addEventListener('DOMContentLoaded', () => {
             "💎 Рассекатель нубов"
         ];
 
-                // 10 УНИЗИТЕЛЬНЫХ ФРАЗ БОБНИТА (В косых кавычках можно писать любые кавычки и символы!)
+        // 10 УНИЗИТЕЛЬНЫХ ФРАЗ БОБНИТА (В косых кавычках можно писать любые кавычки и символы!)
         const bobnitHumiliations = [
             `Ты выиграл абсолютное ничего. Иди поплачь у куста с сельдереем`,
             `Василич лично забирает твои фишки на покупку очередного бургера. Спасибо за спонсорство, слабоумный!`,
@@ -7182,7 +7372,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
         // 5 СЕКРЕТНЫХ РЕЦЕПТОВ КАЗИНО
-       const casinoRecipes = [
+        const casinoRecipes = [
             { category: "heavy", title: "● Пряный титаник", image: "tektonik.jpg", macros: "~1650 ККАЛ // ~95г БЕЛКА", composition: "Фарш говяжий (350г), картофельное пюре, сливки 20%, сыр, жареный лук.", cooking: "Жарим фарш с луком, смешиваем с пюре и сливками, засыпаем сыром.", laykor: "Тягучая горячая лава из фарша и сыра. Желудок испытывает тектонический сдвиг плит.", likes: 0, dislikes: 0, comments: [] },
             { category: "heavy", title: "● Взрыв Нефтепровода", image: "oil.jpg", macros: "~1480 ККАЛ // ~88г БЕЛКА", composition: "Спагетти (250г), бекон (100г), печень (200г), терияки, Гауда.", cooking: "Жарим печень и бекон в терияки, смешиваем со спагетти и засыпаем сыром.", laykor: "Смолистый, чернеющий соус, заливающий пищевод вязким нефтяным соком.", likes: 0, dislikes: 0, comments: [] },
             { category: "cloud", title: "● Туман поноса", image: "fog.jpg", macros: "~510 ККАЛ // ~48г БЕЛКА", composition: "Индейка (200г), кабачок, цветная капуста, греческий йогурт.", cooking: "Тушим индейку с овощами в йогурте 15 минут.", laykor: "Легчайший диетический мусс, восстанавливающий клетки печени.", likes: 0, dislikes: 0, comments: [] },
@@ -7190,7 +7380,7 @@ window.addEventListener('DOMContentLoaded', () => {
             { category: "dessert", title: "● Смех шоколадки", image: "choco.jpg", macros: "~1120 ККАЛ // ~65г БЕЛКА", composition: "Творог 5% (250г), какао, банан (2 шт), паста арахисовая, мёд.", cooking: "Взбиваем всё в блендере в однородный шоколадный крем.", laykor: "Густая нуга, наглухо склеивающая зубы и отправляющая рецепторы в космос.", likes: 0, dislikes: 0, comments: [] }
         ];
 
-                // 5 ВЕЛИЧЕСТВЕННЫХ ТИТУЛОВ (Тоже в косых кавычках)
+        // 5 ВЕЛИЧЕСТВЕННЫХ ТИТУЛОВ (Тоже в косых кавычках)
         const casinoTitles = [
             `⚡️ Повелитель соусов`,
             `👑 Сквозящий пердун`,
@@ -7200,7 +7390,7 @@ window.addEventListener('DOMContentLoaded', () => {
         ];
 
 
-                // ====================================================
+        // ====================================================
         // 🎨 УПРАВЛЕНИЕ ТЕМАМИ И БАЛАНСОМ ФИШЕК
         // ====================================================
         let activeTheme = localStorage.getItem('leycore_active_theme') || '';
@@ -7225,7 +7415,7 @@ window.addEventListener('DOMContentLoaded', () => {
             renderTitlesList();
             renderThemesList();
             updateTimerUI();
-            
+
             // Применяем текущую выбранную тему
             applyTheme(activeTheme);
         }
@@ -7270,7 +7460,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
 
-                // ====================================================
+        // ====================================================
         // 🔊 ЗВУКОВОЙ СИНТЕЗАТОР КАЗИНО (БЕЗ ВНЕШНИХ MP3)
         // ====================================================
         function playCasinoClickSound() {
@@ -7293,7 +7483,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
                 osc.start();
                 osc.stop(ctx.currentTime + 0.05);
-            } catch (e) {}
+            } catch (e) { }
         }
 
         function playReelStopSound() {
@@ -7316,34 +7506,34 @@ window.addEventListener('DOMContentLoaded', () => {
 
                 osc.start();
                 osc.stop(ctx.currentTime + 0.08);
-            } catch (e) {}
+            } catch (e) { }
         }
 
         // ====================================================
-// 🪙 1. ЕДИНОЕ УПРАВЛЕНИЕ БАЛАНСОМ ФИШЕК (БЕЗ БАГОВ)
-// ====================================================
-let currentCasinoRand = 0;
+        // 🪙 1. ЕДИНОЕ УПРАВЛЕНИЕ БАЛАНСОМ ФИШЕК (БЕЗ БАГОВ)
+        // ====================================================
+        let currentCasinoRand = 0;
 
-function getChipBalance() {
-    return parseInt(localStorage.getItem('leycore_chips') || '10', 10);
-}
+        function getChipBalance() {
+            return parseInt(localStorage.getItem('leycore_chips') || '10', 10);
+        }
 
-function setChipBalance(newAmount) {
-    casinoChips = Math.max(0, Math.floor(newAmount));
-    localStorage.setItem('leycore_chips', casinoChips.toString());
-    updateCasinoUI(); // Мгновенно обновляем интерфейс везде
-}
+        function setChipBalance(newAmount) {
+            casinoChips = Math.max(0, Math.floor(newAmount));
+            localStorage.setItem('leycore_chips', casinoChips.toString());
+            updateCasinoUI(); // Мгновенно обновляем интерфейс везде
+        }
 
-function addChips(amount) {
-    setChipBalance(getChipBalance() + amount);
-}
+        function addChips(amount) {
+            setChipBalance(getChipBalance() + amount);
+        }
 
-function spendChips(amount) {
-    let current = getChipBalance();
-    if (current < amount) return false;
-    setChipBalance(current - amount);
-    return true;
-}
+        function spendChips(amount) {
+            let current = getChipBalance();
+            if (current < amount) return false;
+            setChipBalance(current - amount);
+            return true;
+        }
 
         // ====================================================
         // 🎰 ЛОГИКА ВРАЩЕНИЯ КАЗИНО (FIXED: NO LAGS + REAL DELAY)
@@ -7410,7 +7600,7 @@ function spendChips(amount) {
             let spinTime = 0;
 
             const soundInterval = setInterval(playCasinoClickSound, 120);
-            
+
             const animInterval = setInterval(() => {
                 spinTime += 80;
 
@@ -7453,133 +7643,133 @@ function spendChips(amount) {
         // 🎁 ОБРАБОТКА ВЫИГРЫША В КАЗИНО
         // ====================================================
         function processCasinoOutcome(winType) {
-    if (winType === 'artefact') {
-        const unowned = casinoRecipes.filter(r => !dishes.some(d => d.title === r.title));
-        if (unowned.length > 0) {
-            const winRecipe = unowned[Math.floor(Math.random() * unowned.length)];
-            dishes.push(winRecipe);
-            localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
-            showBobnitWinReaction(); // <--- СЮДА!
-            alert(`🏆 ТРИ СОВПАДЕНИЯ (🍖🍖🍖)! Выбит секретный рецепт: "${winRecipe.title}"!`);
-            if (typeof renderDishes === 'function') renderDishes('all');
-        } else {
-            addChips(5);
-            showBobnitWinReaction(); // <--- И СЮДА! (если все рецепты открыты, но есть победа)
-            alert("🏆 Все секретные рецепты уже открыты! Начислено +5 🪙!");
-        }
-    } else if (winType === 'relic') {
-        const unowned = casinoTitles.filter(t => !unlockedTitles.includes(t));
-        if (unowned.length > 0) {
-            const winTitle = unowned[Math.floor(Math.random() * unowned.length)];
-            unlockedTitles.push(winTitle);
-            localStorage.setItem('leycore_titles', JSON.stringify(unlockedTitles));
-            showBobnitWinReaction(); // <--- СЮДА!
-            alert(`🔮 ТРИ СОВПАДЕНИЯ (🔮🔮🔮)! Выбит редкий титул: "${winTitle}"!`);
-            if (typeof renderTitlesList === 'function') renderTitlesList();
-        } else {
-            addChips(3);
-            showBobnitWinReaction(); // <--- И СЮДА! (если все титулы собраны, но есть победа)
-            alert("🔮 Все титулы уже собраны! Начислено +3 🪙!");
-        }
-    } else if (winType === 'theme') {
-        const themes = ['theme-orange', 'theme-crimson', 'theme-rainbow'];
-        const unowned = themes.filter(t => !unlockedThemes.includes(t));
-        if (unowned.length > 0) {
-            const winTheme = unowned[0];
-            unlockedThemes.push(winTheme);
-            localStorage.setItem('leycore_themes', JSON.stringify(unlockedThemes));
-            applyTheme(winTheme);
-            showBobnitWinReaction(); // <--- СЮДА!
-            alert("🌈 ТРИ СОВПАДЕНИЯ (🌈🌈🌈)! Разблокирована новая тема!");
-            if (typeof renderThemesList === 'function') renderThemesList();
-        } else {
-            addChips(2);
-            showBobnitWinReaction(); // <--- СЮДА!
-            alert("🌈 Все темы открыты! Начислено +2 🪙!");
-        }
-    } else if (winType === 'emenit') {
-        addChips(5);
-        alert("⚡️ ТРИ СОВПАДЕНИЯ (⚡️⚡️⚡️)! Вы выиграли +5 Бонусных Фишек!");
-        showBobnitWinReaction(); // <--- СЮДА!
-        // ЭТО БЛОК ПРОИГРЫША, ТУТ НЕ НАДО ДОБАВЛЯТЬ showBobnitWinReaction()
+            if (winType === 'artefact') {
+                const unowned = casinoRecipes.filter(r => !dishes.some(d => d.title === r.title));
+                if (unowned.length > 0) {
+                    const winRecipe = unowned[Math.floor(Math.random() * unowned.length)];
+                    dishes.push(winRecipe);
+                    localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
+                    showBobnitWinReaction(); // <--- СЮДА!
+                    alert(`🏆 ТРИ СОВПАДЕНИЯ (🍖🍖🍖)! Выбит секретный рецепт: "${winRecipe.title}"!`);
+                    if (typeof renderDishes === 'function') renderDishes('all');
                 } else {
-        junkCount++;
-        const humCard = document.getElementById('bobnit-humiliation-card');
-        const humText = document.getElementById('bobnit-humiliation-text');
-        if (humCard && humText) {
-            // --- ВОЗВРАЩАЕМ РОДНОЙ КРАСНЫЙ ЦВЕТ ПРИ ПРОИГРЫШЕ ---
-            humCard.style.setProperty('background', 'linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(185, 28, 28, 0.15))', 'important');
-            humCard.style.setProperty('border', '1px solid rgba(239, 68, 68, 0.5)', 'important');
-            humCard.style.setProperty('box-shadow', '0 4px 15px rgba(239, 68, 68, 0.2)', 'important');
-            
-            // --- Возвращаем надпись "БОБНИТ ГОВОРИТ:" в красный ---
-            const bobnitSaysDiv = humCard.querySelector('div[style*="font-family: var(--font-code)"]');
-            if (bobnitSaysDiv) {
-                bobnitSaysDiv.style.setProperty('color', '#ef4444', 'important'); // Красный цвет
+                    addChips(5);
+                    showBobnitWinReaction(); // <--- И СЮДА! (если все рецепты открыты, но есть победа)
+                    alert("🏆 Все секретные рецепты уже открыты! Начислено +5 🪙!");
+                }
+            } else if (winType === 'relic') {
+                const unowned = casinoTitles.filter(t => !unlockedTitles.includes(t));
+                if (unowned.length > 0) {
+                    const winTitle = unowned[Math.floor(Math.random() * unowned.length)];
+                    unlockedTitles.push(winTitle);
+                    localStorage.setItem('leycore_titles', JSON.stringify(unlockedTitles));
+                    showBobnitWinReaction(); // <--- СЮДА!
+                    alert(`🔮 ТРИ СОВПАДЕНИЯ (🔮🔮🔮)! Выбит редкий титул: "${winTitle}"!`);
+                    if (typeof renderTitlesList === 'function') renderTitlesList();
+                } else {
+                    addChips(3);
+                    showBobnitWinReaction(); // <--- И СЮДА! (если все титулы собраны, но есть победа)
+                    alert("🔮 Все титулы уже собраны! Начислено +3 🪙!");
+                }
+            } else if (winType === 'theme') {
+                const themes = ['theme-orange', 'theme-crimson', 'theme-rainbow'];
+                const unowned = themes.filter(t => !unlockedThemes.includes(t));
+                if (unowned.length > 0) {
+                    const winTheme = unowned[0];
+                    unlockedThemes.push(winTheme);
+                    localStorage.setItem('leycore_themes', JSON.stringify(unlockedThemes));
+                    applyTheme(winTheme);
+                    showBobnitWinReaction(); // <--- СЮДА!
+                    alert("🌈 ТРИ СОВПАДЕНИЯ (🌈🌈🌈)! Разблокирована новая тема!");
+                    if (typeof renderThemesList === 'function') renderThemesList();
+                } else {
+                    addChips(2);
+                    showBobnitWinReaction(); // <--- СЮДА!
+                    alert("🌈 Все темы открыты! Начислено +2 🪙!");
+                }
+            } else if (winType === 'emenit') {
+                addChips(5);
+                alert("⚡️ ТРИ СОВПАДЕНИЯ (⚡️⚡️⚡️)! Вы выиграли +5 Бонусных Фишек!");
+                showBobnitWinReaction(); // <--- СЮДА!
+                // ЭТО БЛОК ПРОИГРЫША, ТУТ НЕ НАДО ДОБАВЛЯТЬ showBobnitWinReaction()
+            } else {
+                junkCount++;
+                const humCard = document.getElementById('bobnit-humiliation-card');
+                const humText = document.getElementById('bobnit-humiliation-text');
+                if (humCard && humText) {
+                    // --- ВОЗВРАЩАЕМ РОДНОЙ КРАСНЫЙ ЦВЕТ ПРИ ПРОИГРЫШЕ ---
+                    humCard.style.setProperty('background', 'linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(185, 28, 28, 0.15))', 'important');
+                    humCard.style.setProperty('border', '1px solid rgba(239, 68, 68, 0.5)', 'important');
+                    humCard.style.setProperty('box-shadow', '0 4px 15px rgba(239, 68, 68, 0.2)', 'important');
+
+                    // --- Возвращаем надпись "БОБНИТ ГОВОРИТ:" в красный ---
+                    const bobnitSaysDiv = humCard.querySelector('div[style*="font-family: var(--font-code)"]');
+                    if (bobnitSaysDiv) {
+                        bobnitSaysDiv.style.setProperty('color', '#ef4444', 'important'); // Красный цвет
+                    }
+
+                    // --- Возвращаем ободок аватарки в красный ---
+                    const avatarWrapper = humCard.querySelector('div[style*="border-radius"]');
+                    if (avatarWrapper) {
+                        avatarWrapper.style.setProperty('border-color', '#ef4444', 'important'); // Красный ободок
+                    }
+                    // --- КОНЕЦ ИЗМЕНЕНИЙ ---
+
+                    humText.innerText = bobnitHumiliations[Math.floor(Math.random() * bobnitHumiliations.length)];
+                    humCard.style.display = 'flex';
+                }
+            }
+            updateCasinoUI();
+
+
+        }
+
+        window.showBobnitWinReaction = function () {
+            console.log("Бобнит пытается заговорить при победе...");
+
+            if (typeof bobnitWinPhrases === 'undefined') {
+                console.error("Массив bobnitWinPhrases не найден!");
+                return;
             }
 
-            // --- Возвращаем ободок аватарки в красный ---
-            const avatarWrapper = humCard.querySelector('div[style*="border-radius"]');
-            if (avatarWrapper) {
-                avatarWrapper.style.setProperty('border-color', '#ef4444', 'important'); // Красный ободок
+            const randomPhrase = bobnitWinPhrases[Math.floor(Math.random() * bobnitWinPhrases.length)];
+
+            const humCard = document.getElementById('bobnit-humiliation-card');
+            const humText = document.getElementById('bobnit-humiliation-text');
+
+            if (humCard && humText) {
+                humText.innerText = randomPhrase;
+
+                // --- ГАРАНТИРОВАННЫЙ ЗЕЛЕНЫЙ ЦВЕТ ДЛЯ ПОБЕДЫ ---
+                humCard.style.setProperty('background', 'linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(21, 128, 61, 0.25))', 'important');
+                humCard.style.setProperty('border', '1px solid rgba(34, 197, 94, 0.8)', 'important');
+                humCard.style.setProperty('box-shadow', '0 4px 15px rgba(34, 197, 94, 0.4)', 'important');
+
+                // --- Перекрашиваем надпись "БОБНИТ ГОВОРИТ:" в зеленый ---
+                const bobnitSaysDiv = humCard.querySelector('div[style*="font-family: var(--font-code)"]');
+                if (bobnitSaysDiv) {
+                    bobnitSaysDiv.style.setProperty('color', '#4ade80', 'important'); // Зеленый цвет
+                }
+
+                // --- Перекрашиваем ободок аватарки в зеленый ---
+                // Находим div, который является контейнером для аватарки и имени "Бобнит"
+                const bobnitAvatarContainer = humCard.querySelector('.bobnit-avatar-container'); // Если есть такой класс
+                // Если нет отдельного контейнера, то сам div bobnit-humiliation-card имеет ободок
+                // На твоем скрине видно, что это border-radius и outline у самой плашки, 
+                // но также может быть border у контейнера аватара.
+                // Давай попробуем найти именно ободок:
+                const avatarWrapper = humCard.querySelector('div[style*="border-radius"]'); // Ищем div с border-radius
+                if (avatarWrapper) {
+                    avatarWrapper.style.setProperty('border-color', '#4ade80', 'important'); // Делаем ободок зеленым
+                }
+                // --- КОНЕЦ ИЗМЕНЕНИЙ ---
+
+                humCard.style.display = 'flex';
+                console.log("Бобнит успешно высказался в карточке: " + randomPhrase);
+            } else {
+                alert("Бобнит: " + randomPhrase);
             }
-            // --- КОНЕЦ ИЗМЕНЕНИЙ ---
-
-            humText.innerText = bobnitHumiliations[Math.floor(Math.random() * bobnitHumiliations.length)];
-            humCard.style.display = 'flex';
-        }
-    }
-    updateCasinoUI();
-
-
-}
-
-window.showBobnitWinReaction = function() {
-    console.log("Бобнит пытается заговорить при победе...");
-    
-    if (typeof bobnitWinPhrases === 'undefined') {
-        console.error("Массив bobnitWinPhrases не найден!");
-        return;
-    }
-    
-    const randomPhrase = bobnitWinPhrases[Math.floor(Math.random() * bobnitWinPhrases.length)];
-    
-    const humCard = document.getElementById('bobnit-humiliation-card');
-    const humText = document.getElementById('bobnit-humiliation-text');
-    
-    if (humCard && humText) {
-        humText.innerText = randomPhrase;
-        
-        // --- ГАРАНТИРОВАННЫЙ ЗЕЛЕНЫЙ ЦВЕТ ДЛЯ ПОБЕДЫ ---
-        humCard.style.setProperty('background', 'linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(21, 128, 61, 0.25))', 'important');
-        humCard.style.setProperty('border', '1px solid rgba(34, 197, 94, 0.8)', 'important');
-        humCard.style.setProperty('box-shadow', '0 4px 15px rgba(34, 197, 94, 0.4)', 'important');
-        
-        // --- Перекрашиваем надпись "БОБНИТ ГОВОРИТ:" в зеленый ---
-        const bobnitSaysDiv = humCard.querySelector('div[style*="font-family: var(--font-code)"]');
-        if (bobnitSaysDiv) {
-            bobnitSaysDiv.style.setProperty('color', '#4ade80', 'important'); // Зеленый цвет
-        }
-
-        // --- Перекрашиваем ободок аватарки в зеленый ---
-        // Находим div, который является контейнером для аватарки и имени "Бобнит"
-        const bobnitAvatarContainer = humCard.querySelector('.bobnit-avatar-container'); // Если есть такой класс
-        // Если нет отдельного контейнера, то сам div bobnit-humiliation-card имеет ободок
-        // На твоем скрине видно, что это border-radius и outline у самой плашки, 
-        // но также может быть border у контейнера аватара.
-        // Давай попробуем найти именно ободок:
-        const avatarWrapper = humCard.querySelector('div[style*="border-radius"]'); // Ищем div с border-radius
-        if (avatarWrapper) {
-            avatarWrapper.style.setProperty('border-color', '#4ade80', 'important'); // Делаем ободок зеленым
-        }
-        // --- КОНЕЦ ИЗМЕНЕНИЙ ---
-
-        humCard.style.display = 'flex';
-        console.log("Бобнит успешно высказался в карточке: " + randomPhrase);
-    } else {
-        alert("Бобнит: " + randomPhrase);
-    }
-};
+        };
 
 
 
@@ -7587,7 +7777,7 @@ window.showBobnitWinReaction = function() {
 
 
 
-        
+
 
         // ТАЙМЕР И БОНУС 10 ФИШЕК КАЖДЫЕ 3 ЧАСА (НЕ СТАКАЕТСЯ)
         function claimFreeChips() {
@@ -7665,7 +7855,7 @@ window.showBobnitWinReaction = function() {
         }
 
 
-                        // ====================================================
+                // ====================================================
         // 🎮 ФИЛЬТРАЦИЯ ИГР ПО КАТЕГОРИЯМ
         // ====================================================
         function filterGames(category, btnEl) {
@@ -7676,73 +7866,84 @@ window.showBobnitWinReaction = function() {
             const casinoBlock = document.getElementById('game-block-casino');
             const flappyBlock = document.getElementById('game-block-flappy');
             const clickerBlock = document.getElementById('game-block-clicker');
+            const mgbBlock = document.getElementById('game-block-mgb'); // Добавили наш МГБ!
 
             if (category === 'all') {
                 if (casinoBlock) casinoBlock.style.display = 'block';
                 if (flappyBlock) flappyBlock.style.display = 'block';
                 if (clickerBlock) clickerBlock.style.display = 'block';
+                if (mgbBlock) mgbBlock.style.display = 'block'; // Показываем МГБ во "всех играх"
             } else if (category === 'casino') {
                 if (casinoBlock) casinoBlock.style.display = 'block';
                 if (flappyBlock) flappyBlock.style.display = 'none';
                 if (clickerBlock) clickerBlock.style.display = 'none';
+                if (mgbBlock) mgbBlock.style.display = 'none';
             } else if (category === 'flappy') {
                 if (casinoBlock) casinoBlock.style.display = 'none';
                 if (flappyBlock) flappyBlock.style.display = 'block';
                 if (clickerBlock) clickerBlock.style.display = 'none';
+                if (mgbBlock) mgbBlock.style.display = 'none';
             } else if (category === 'clicker') {
                 if (casinoBlock) casinoBlock.style.display = 'none';
                 if (flappyBlock) flappyBlock.style.display = 'none';
                 if (clickerBlock) clickerBlock.style.display = 'block';
+                if (mgbBlock) mgbBlock.style.display = 'none';
+            } else if (category === 'mgb') { // ДОБАВИЛИ КАТЕГОРИЮ МГБ!
+                if (casinoBlock) casinoBlock.style.display = 'none';
+                if (flappyBlock) flappyBlock.style.display = 'none';
+                if (clickerBlock) clickerBlock.style.display = 'none';
+                if (mgbBlock) mgbBlock.style.display = 'block'; // Показываем ТОЛЬКО МГБ
             }
         }
 
 
+
         // Функция переключения света
-function toggleLeycoreLight() {
-  const body = document.body;
-  const glow = document.querySelector('.lamp-glow');
-  
-  if (body.classList.contains('leycore-dark')) {
-    // Включаем сочный цветной режим!
-    body.classList.remove('leycore-dark');
-    body.classList.add('leycore-light');
-    
-    if (glow) {
-      glow.style.opacity = '1';
-      glow.style.transform = 'scale(1.3)';
-    }
-    
-    localStorage.setItem('leycore_light_state', 'on');
-  } else {
-    // Возвращаем серый монохромный бункер!
-    body.classList.remove('leycore-light');
-    body.classList.add('leycore-dark');
-    
-    if (glow) {
-      glow.style.opacity = '0.5';
-      glow.style.transform = 'scale(1)';
-    }
-    
-    localStorage.setItem('leycore_light_state', 'off');
-  }
-}
+        function toggleLeycoreLight() {
+            const body = document.body;
+            const glow = document.querySelector('.lamp-glow');
 
-// Авто-проверка при загрузке страницы
-document.addEventListener('DOMContentLoaded', () => {
-  const savedState = localStorage.getItem('leycore_light_state');
-  
-  // По умолчанию ставим СЕРЫЙ РЕЖИМ (OFF), если пользователь еще не нажимал
-  if (savedState === 'on') {
-    document.body.classList.add('leycore-light');
-  } else {
-    document.body.classList.add('leycore-dark');
-  }
-});
+            if (body.classList.contains('leycore-dark')) {
+                // Включаем сочный цветной режим!
+                body.classList.remove('leycore-dark');
+                body.classList.add('leycore-light');
+
+                if (glow) {
+                    glow.style.opacity = '1';
+                    glow.style.transform = 'scale(1.3)';
+                }
+
+                localStorage.setItem('leycore_light_state', 'on');
+            } else {
+                // Возвращаем серый монохромный бункер!
+                body.classList.remove('leycore-light');
+                body.classList.add('leycore-dark');
+
+                if (glow) {
+                    glow.style.opacity = '0.5';
+                    glow.style.transform = 'scale(1)';
+                }
+
+                localStorage.setItem('leycore_light_state', 'off');
+            }
+        }
+
+        // Авто-проверка при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedState = localStorage.getItem('leycore_light_state');
+
+            // По умолчанию ставим СЕРЫЙ РЕЖИМ (OFF), если пользователь еще не нажимал
+            if (savedState === 'on') {
+                document.body.classList.add('leycore-light');
+            } else {
+                document.body.classList.add('leycore-dark');
+            }
+        });
 
 
 
-// ==========================================
-// ИГРА: МОЙ ГОЛОДНЫЙ БОБНИТ (МГБ) - ВЕРСИЯ "ПОЛНЫЙ ТЕРРОР"
+        // ==========================================
+// ИГРА: МОЙ ГОЛОДНЫЙ БОБНИТ (МГБ) - HARDCORE V2
 // ==========================================
 
 let mgbIsPlaying = false;
@@ -7752,8 +7953,13 @@ let mgbActiveElements = [];
 let mgbGameInterval = null;
 let mgbSpawnInterval = null;
 let mgbLockedTabs = [];
+let mgbIsMouseDown = false; // Отслеживание зажатой кнопки мыши на ПК
 
-// ПОНЧИКОВЫЕ ЗАГАДКИ ДЛЯ РАЗБЛОКИРОВКИ
+// Глобальное отслеживание зажатия мыши
+window.addEventListener('mousedown', () => mgbIsMouseDown = true);
+window.addEventListener('mouseup', () => mgbIsMouseDown = false);
+
+// ПОНЧИКОВЫЕ ЗАГАДКИ
 const mgbRiddles = [
     { q: "У чего есть дырка, но оно не иголка и не бублик Василича?", a: "пончик" },
     { q: "Если у Бобнита 5 пончиков, а ты забрал 2, что у тебя будет?", a: "синяк" },
@@ -7762,17 +7968,49 @@ const mgbRiddles = [
     { q: "Сколько пончиков нужно Бобниту для счастья?", a: "еще один" }
 ];
 
-// 1. ИНИЦИАЛИЗАЦИЯ И СЛЕДЕНИЕ ЗА ГОЛОДОМ
+// ИНИЦИАЛИЗАЦИЯ И ПРОВЕРКА КУЛДАУНА (10 МИНУТ СНА)
 function initMgbTerror() {
-    if (!localStorage.getItem('mgb_last_play')) {
-        localStorage.setItem('mgb_last_play', Date.now().toString());
-    }
-    
-    // Каждые 30 секунд проверяем, не пора ли Бобниту поплакать из угла
-    setInterval(checkBobnitHungerStalker, 30000);
+    checkMgbCooldown();
+    setInterval(checkMgbCooldown, 1000); // Таймер кулдауна
+    setInterval(checkBobnitHungerStalker, 30000); // Слежка за голодом (2 часа)
 }
 
-// Проверка: если в МГБ не играли больше 2 часов — Бобнит вылезает с плачем
+// Проверка 10-минутного сна Бобнита
+function checkMgbCooldown() {
+    const cdUntil = parseInt(localStorage.getItem('mgb_cooldown_until') || '0');
+    const now = Date.now();
+    const btn = document.getElementById('mgb-main-start-btn');
+
+    if (now < cdUntil && !mgbIsPlaying) {
+        const diffSec = Math.ceil((cdUntil - now) / 1000);
+        const mins = Math.floor(diffSec / 60);
+        const secs = diffSec % 60;
+        const timeStr = `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+        if (btn) {
+            btn.disabled = true;
+            btn.innerText = `😴 БОБНИТ СПИТ (${timeStr})`;
+            btn.style.opacity = '0.6';
+        }
+
+        // Бобнит спит во время КД
+        const pic = document.getElementById('mgb-bobnit-pic');
+        if (pic && !pic.src.includes('bobnit_sleep.webp')) {
+            pic.src = 'bobnit_sleep.webp';
+            document.getElementById('mgb-sleep-cloud').style.display = 'block';
+            document.getElementById('mgb-bobnit-text').innerText = "«Z-Zzz... Полный бак... Не буди 10 минут...» 😴";
+        }
+    } else if (!mgbIsPlaying) {
+        if (btn && btn.disabled) {
+            btn.disabled = false;
+            btn.innerText = "ПОДАТЬ 1 🪙 И ИГРАТЬ";
+            btn.style.opacity = '1';
+            resetToSadState();
+        }
+    }
+}
+
+// Проверка 2 часов неактивности
 function checkBobnitHungerStalker() {
     const lastPlay = parseInt(localStorage.getItem('mgb_last_play') || '0');
     const hoursPassed = (Date.now() - lastPlay) / (1000 * 60 * 60);
@@ -7782,7 +8020,6 @@ function checkBobnitHungerStalker() {
     }
 }
 
-// Выскакивающий Бобнит в правом нижнем углу
 function createStalkerPopup(imgSrc, text, isBegging = false) {
     const old = document.getElementById('bobnit-stalker');
     if (old) old.remove();
@@ -7806,7 +8043,6 @@ function createStalkerPopup(imgSrc, text, isBegging = false) {
         setTimeout(() => stalker.remove(), 600);
     };
 
-    // Безумный Бобнит при проигрыше уходит сам через 3 секунды
     if (!isBegging) {
         setTimeout(() => { 
             if(stalker) {
@@ -7817,33 +8053,16 @@ function createStalkerPopup(imgSrc, text, isBegging = false) {
     }
 }
 
-// 2. ИНТЕГРАЦИЯ С ФИЛЬТРОМ ИГР
-const originalFilterGames = window.filterGames;
-window.filterGames = function(cat, btn) {
-    const mgbBlock = document.getElementById('game-block-mgb');
-    if (mgbBlock) mgbBlock.style.display = 'none';
-
-    if (cat === 'mgb') {
-        document.querySelectorAll('.game-section-block').forEach(el => el.style.display = 'none');
-        if (mgbBlock) mgbBlock.style.display = 'block';
-        
-        document.querySelectorAll('.game-cat-btn').forEach(b => b.classList.remove('active'));
-        if (btn) btn.classList.add('active');
-        
-        const title = document.querySelector('.section-title.title-gold');
-        if (title) title.style.display = 'none';
-    } else {
-        if (typeof originalFilterGames === 'function') {
-            originalFilterGames(cat, btn);
-        }
-        const title = document.querySelector('.section-title.title-gold');
-        if (title) title.style.display = 'block';
-    }
-};
-
-// 3. ЗАПУСК ИГРЫ МГБ
+// 2. ЗАПУСК ИГРЫ
 window.startMgbGame = function() {
     if (mgbIsPlaying) return;
+
+    // Проверка КД
+    const cdUntil = parseInt(localStorage.getItem('mgb_cooldown_until') || '0');
+    if (Date.now() < cdUntil) {
+        alert("Бобнит ещё спит! Дай ему переварить бургеры!");
+        return;
+    }
 
     if (typeof casinoChips === 'undefined') window.casinoChips = 0;
     if (casinoChips < 1) { 
@@ -7851,10 +8070,9 @@ window.startMgbGame = function() {
         return; 
     }
 
-    // Списываем 1 фишку за вход
     casinoChips -= 1;
     localStorage.setItem('leycore_chips', casinoChips.toString());
-    localStorage.setItem('mgb_last_play', Date.now().toString()); // Запоминаем время кормления!
+    localStorage.setItem('mgb_last_play', Date.now().toString());
     if (typeof updateCasinoUI === 'function') updateCasinoUI();
 
     mgbIsPlaying = true;
@@ -7865,97 +8083,184 @@ window.startMgbGame = function() {
     document.getElementById('mgb-start-overlay').style.display = 'none';
     document.getElementById('mgb-progress-bar-container').style.display = 'block';
 
-    // КАРТИНКА: БОБНИТ ЗАМЫШЛЯЕТ (КО ВАРНЫЙ)
+    // КАРТИНКА: БОБНИТ ЗАМЫШЛЯЕТ
     const pic = document.getElementById('mgb-bobnit-pic');
-    pic.src = 'bobnit_scheming.webp'; // Твоя прозрачная картинка замышляющего Бобнита
+    pic.src = 'bobnit_scheming.webp';
     document.getElementById('mgb-sleep-cloud').style.display = 'none';
-    document.getElementById('mgb-bobnit-text').innerText = "«Хе-хе... Посмотрим, как ты справишься с Котлетой Смерти...» 😈";
+    document.getElementById('mgb-bobnit-text').innerText = "«Хе-хе... Посмотрим, как ты справишься с хаосом...» 😈";
 
     mgbGameInterval = setInterval(updateMgbArena, 30);
-    mgbSpawnInterval = setInterval(spawnIngredient, 1500);
+    mgbSpawnInterval = setInterval(spawnIngredient, 1200); // Быстрый спавн!
 };
 
-// 4. СПАВН ИНГРЕДИЕНТОВ
+// 3. СПАВН ИНГРЕДИЕНТОВ, МУСОРА И РУКИ-ВОРА
 function spawnIngredient() {
     if (!mgbIsPlaying) return;
 
     const arena = document.getElementById('mgb-game-arena');
     if (!arena) return;
 
+    // Список всех возможных объектов
     const types = [
         { emoji: '🥩', type: 'patty' },
         { emoji: '🥬', type: 'cabbage' },
-        { emoji: '🥫', type: 'sauce' }
+        { emoji: '🥒', type: 'cucumber' },
+        { emoji: '🥫', type: 'sauce' },
+        { emoji: '🗑️', type: 'trash' },
+        { emoji: '🧦', type: 'trash' },
+        { emoji: '👞', type: 'trash' },
+        { emoji: '🤚', type: 'hand' }
     ];
+
     const item = types[Math.floor(Math.random() * types.length)];
 
     const el = document.createElement('div');
-    el.className = 'mgb-ingredient';
+    el.className = 'mgb-ingredient' + (item.type === 'hand' ? ' mgb-hand-enemy' : '');
     el.innerHTML = item.emoji;
     el.dataset.type = item.type;
     
-    const startX = arena.offsetWidth / 2 - 25;
-    const startY = arena.offsetHeight / 2 - 25;
-    
+    // Спавн с края арены
+    const side = Math.floor(Math.random() * 4);
+    let startX, startY;
+    if (side === 0) { startX = Math.random() * arena.offsetWidth; startY = 0; }
+    else if (side === 1) { startX = arena.offsetWidth - 50; startY = Math.random() * arena.offsetHeight; }
+    else if (side === 2) { startX = Math.random() * arena.offsetWidth; startY = arena.offsetHeight - 50; }
+    else { startX = 0; startY = Math.random() * arena.offsetHeight; }
+
     el.style.left = startX + 'px';
     el.style.top = startY + 'px';
     
-    const angle = Math.random() * Math.PI * 2;
-    const speed = 1.5 + Math.random() * 2;
+    // Вектор скорости к центру или случайный
+    const centerX = arena.offsetWidth / 2 - 25;
+    const centerY = arena.offsetHeight / 2 - 25;
+    const angle = Math.atan2(centerY - startY, centerX - startX) + (Math.random() * 0.6 - 0.3);
+    const speed = item.type === 'hand' ? 1.0 : (1.8 + Math.random() * 2); // Рука ползет медленно
     
     el.dataset.vx = Math.cos(angle) * speed;
     el.dataset.vy = Math.sin(angle) * speed;
     el.dataset.x = startX;
     el.dataset.y = startY;
 
-    // ЖЕСТЫ:
-    // А) Котлета - Drag & Drop (перетаскивание)
-    if (item.type === 'patty') {
+    // ИНТЕРАКТИВНЫЕ ЖЕСТЫ:
+
+    // А) Котлета & Мусор - Drag & Drop (Перетаскивание)
+    if (item.type === 'patty' || item.type === 'trash') {
         let isDragging = false;
-        el.addEventListener('mousedown', () => { isDragging = true; el.style.transform = 'scale(1.2)'; });
         
-        arena.addEventListener('mousemove', (e) => {
+        const startDrag = () => { isDragging = true; el.style.transform = 'scale(1.2)'; };
+        const stopDrag = () => { isDragging = false; el.style.transform = 'scale(1)'; };
+
+        el.addEventListener('mousedown', startDrag);
+        el.addEventListener('touchstart', startDrag);
+
+        const onMove = (clientX, clientY) => {
             if (!isDragging) return;
             const rect = arena.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left - 25;
-            const mouseY = e.clientY - rect.top - 25;
+            const mouseX = clientX - rect.left - 25;
+            const mouseY = clientY - rect.top - 25;
             
             el.style.left = mouseX + 'px';
             el.style.top = mouseY + 'px';
             el.dataset.x = mouseX;
             el.dataset.y = mouseY;
 
-            const dist = Math.hypot(mouseX - (arena.offsetWidth / 2 - 25), mouseY - (arena.offsetHeight / 2 - 25));
-            if (dist < 40) {
-                isDragging = false;
-                catchIngredient(el);
+            // Котлета -> в Центр!
+            if (item.type === 'patty') {
+                const dist = Math.hypot(mouseX - centerX, mouseY - centerY);
+                if (dist < 45) {
+                    stopDrag();
+                    catchIngredient(el);
+                }
             }
+
+            // Мусор -> ЗА КРАЙ арены!
+            if (item.type === 'trash') {
+                if (mouseX < 5 || mouseX > arena.offsetWidth - 45 || mouseY < 5 || mouseY > arena.offsetHeight - 45) {
+                    stopDrag();
+                    // Выбросил мусор успешно!
+                    el.style.transform = 'scale(0)';
+                    setTimeout(() => el.remove(), 100);
+                    const index = mgbActiveElements.indexOf(el);
+                    if (index > -1) mgbActiveElements.splice(index, 1);
+                }
+            }
+        };
+
+        arena.addEventListener('mousemove', (e) => onMove(e.clientX, e.clientY));
+        arena.addEventListener('touchmove', (e) => {
+            if (e.touches[0]) onMove(e.touches[0].clientX, e.touches[0].clientY);
         });
 
-        arena.addEventListener('mouseup', () => { isDragging = false; el.style.transform = 'scale(1)'; });
+        window.addEventListener('mouseup', stopDrag);
+        window.addEventListener('touchend', stopDrag);
     }
 
-    // Б) Капуста - Свайп (разрезание мышкой)
+    // Б) Капуста - Разрезать 1 раз (Только при зажатой мышке/пальце!)
     if (item.type === 'cabbage') {
-        el.addEventListener('mouseover', () => {
-            el.innerHTML = '✂️';
-            setTimeout(() => catchIngredient(el), 120);
-        });
+        const slice = () => {
+            if (mgbIsMouseDown || true) { // Для тачскрина или свайпа
+                el.innerHTML = '✂️';
+                setTimeout(() => catchIngredient(el), 100);
+            }
+        };
+        el.addEventListener('mouseenter', () => { if (mgbIsMouseDown) slice(); });
+        el.addEventListener('touchmove', slice);
     }
 
-    // В) Соус - Двойной клик
+    // В) Огурец - Разрезать 2 РАЗА!
+    if (item.type === 'cucumber') {
+        el.dataset.cuts = '0';
+        const sliceCuke = () => {
+            if (mgbIsMouseDown || true) {
+                let cuts = parseInt(el.dataset.cuts) + 1;
+                el.dataset.cuts = cuts.toString();
+                if (cuts === 1) {
+                    el.style.filter = 'hue-rotate(90deg)'; // Менять цвет при первом разрезе
+                    el.style.transform = 'scale(0.8)';
+                } else if (cuts >= 2) {
+                    el.innerHTML = '✂️';
+                    setTimeout(() => catchIngredient(el), 100);
+                }
+            }
+        };
+        el.addEventListener('mouseenter', () => { if (mgbIsMouseDown) sliceCuke(); });
+        el.addEventListener('touchmove', sliceCuke);
+    }
+
+    // Г) Соус - Двойной клик
     if (item.type === 'sauce') {
-        el.addEventListener('dblclick', () => { catchIngredient(el); });
+        el.addEventListener('dblclick', () => catchIngredient(el));
+    }
+
+    // Д) Рука-Вор - Кликнуть 3 РАЗА!
+    if (item.type === 'hand') {
+        el.dataset.hp = '3';
+        const hitHand = () => {
+            let hp = parseInt(el.dataset.hp) - 1;
+            el.dataset.hp = hp.toString();
+            el.style.transform = `scale(${0.7 + hp * 0.2})`;
+            
+            if (hp <= 0) {
+                el.remove();
+                const index = mgbActiveElements.indexOf(el);
+                if (index > -1) mgbActiveElements.splice(index, 1);
+            }
+        };
+        el.addEventListener('click', hitHand);
+        el.addEventListener('touchstart', hitHand);
     }
 
     document.getElementById('mgb-game-elements').appendChild(el);
     mgbActiveElements.push(el);
 }
 
-// 5. ДВИЖЕНИЕ ИНГРЕДИЕНТОВ
+// 4. ДВИЖЕНИЕ И СТОЛКНОВЕНИЯ С ЦЕНТРАЛЬНЫМ БУРГЕРОМ
 function updateMgbArena() {
     const arena = document.getElementById('mgb-game-arena');
     if (!arena) return;
+
+    const centerX = arena.offsetWidth / 2 - 25;
+    const centerY = arena.offsetHeight / 2 - 25;
 
     for (let i = mgbActiveElements.length - 1; i >= 0; i--) {
         const el = mgbActiveElements[i];
@@ -7963,7 +8268,9 @@ function updateMgbArena() {
         let y = parseFloat(el.dataset.y);
         const vx = parseFloat(el.dataset.vx);
         const vy = parseFloat(el.dataset.vy);
+        const type = el.dataset.type;
 
+        // Движение
         if (el.style.transform !== 'scale(1.2)') {
             x += vx;
             y += vy;
@@ -7973,7 +8280,17 @@ function updateMgbArena() {
             el.style.top = y + 'px';
         }
 
-        if (x < -10 || x > arena.offsetWidth || y < -10 || y > arena.offsetHeight) {
+        // ВЗАИМОДЕЙСТВИЕ С ЦЕНТРАЛЬНЫМ БУРГЕРОМ:
+        const distToCenter = Math.hypot(x - centerX, y - centerY);
+
+        // Рука или Мусор дошли до центра бургера -> ПОРАЖЕНИЕ!
+        if (distToCenter < 35 && (type === 'trash' || type === 'hand')) {
+            mgbLoseGame();
+            break;
+        }
+
+        // Побег ингредиентов за края арены
+        if ((x < -20 || x > arena.offsetWidth || y < -20 || y > arena.offsetHeight) && type !== 'trash') {
             el.remove();
             mgbActiveElements.splice(i, 1);
             mgbEscaped++;
@@ -7986,7 +8303,7 @@ function updateMgbArena() {
     }
 }
 
-// 6. ОТЛОВ ИНГРЕДИЕНТА
+// 5. ОТЛОВ ИНГРЕДИЕНТА
 function catchIngredient(el) {
     el.style.transform = 'scale(0)';
     setTimeout(() => el.remove(), 100);
@@ -7994,7 +8311,14 @@ function catchIngredient(el) {
     const index = mgbActiveElements.indexOf(el);
     if (index > -1) mgbActiveElements.splice(index, 1);
 
-    mgbProgress += 10;
+    // Вспышка центрального бургера
+    const burger = document.getElementById('mgb-center-burger');
+    if (burger) {
+        burger.style.transform = 'translate(-50%, -50%) scale(1.3)';
+        setTimeout(() => burger.style.transform = 'translate(-50%, -50%) scale(1)', 150);
+    }
+
+    mgbProgress += 7; // Повысили сложность! Нужно ~15 предметов для 100%
     if (mgbProgress > 100) mgbProgress = 100;
 
     document.getElementById('mgb-progress-fill').style.width = mgbProgress + '%';
@@ -8005,37 +8329,40 @@ function catchIngredient(el) {
     }
 }
 
-// 7. ПОБЕДА (СПЯЩИЙ БОБНИТ)
+// 6. ПОБЕДА (ВКЛЮЧАЕТ КУЛДАУН 10 МИНУТ)
 function mgbWinGame() {
     stopMgbIntervals();
     casinoChips += 3;
     localStorage.setItem('leycore_chips', casinoChips.toString());
+    
+    // Включаем 10 минут кулдауна (10 * 60 * 1000 мс)
+    const cdUntil = Date.now() + (10 * 60 * 1000);
+    localStorage.setItem('mgb_cooldown_until', cdUntil.toString());
+
     if (typeof updateCasinoUI === 'function') updateCasinoUI();
 
-    // КАРТИНКА: СПЯЩИЙ БОБНИТ
     document.getElementById('mgb-bobnit-pic').src = 'bobnit_sleep.webp';
     document.getElementById('mgb-sleep-cloud').style.display = 'block';
-    document.getElementById('mgb-bobnit-text').innerText = "«Z-Zzz... Полный бак... Спим...» 😴";
+    document.getElementById('mgb-bobnit-text').innerText = "«Z-Zzz... Обожрался... Ушел в спячку на 10 минут...» 😴";
 
-    alert("🏆 БОБНИТ ОБОЖРАЛСЯ И УСНУЛ!\nТы по-тихому крадешь +3 🪙 и сваливаешь!");
-    setTimeout(resetToSadState, 8000); // Через 8 секунд снова станет грустным
+    alert("🏆 БУРГЕР СОБРАН!\nБобнит обожрался и уснул на 10 минут!\nТы по-тихому крадешь +3 🪙 и сваливаешь!");
+    
+    checkMgbCooldown();
 }
 
-// 8. ПРОИГРЫШ (ЗЛОЙ БОБНИТ + ВЫСКАКИВАЮЩИЙ БЕЗУМНЫЙ)
+// 7. ПРОИГРЫШ
 function mgbLoseGame() {
     stopMgbIntervals();
     casinoChips = Math.max(0, casinoChips - 3);
     localStorage.setItem('leycore_chips', casinoChips.toString());
     if (typeof updateCasinoUI === 'function') updateCasinoUI();
 
-    // КАРТИНКА: ЗЛОЙ БОБНИТ В ПОЛНЫЙ РОСТ
     document.getElementById('mgb-bobnit-pic').src = 'bobnit_angry_full.webp';
     document.getElementById('mgb-bobnit-text').innerText = "«ГДЕ ЕДА, ЖИВОТНОЕ?! МИНУС 3 ФИШКИ!» 🤬";
 
-    // ВЫСКАКИВАЕТ БЕЗУМНЫЙ БОБНИТ (ПОЛУРОСТ) БЕЗ НАДПИСИ НА 3 СЕК
     createStalkerPopup('bobnit_crazy.webp', null, false);
 
-    alert("💀 ПРОИГРЫШ!\nБобнит в ярости украл ещё -3 🪙!");
+    alert("💀 ПРОИГРЫШ!\nКухня уничтожена, Бобнит украл ещё -3 🪙!");
     
     if (casinoChips === 0) {
         triggerBobnitRage();
@@ -8050,23 +8377,27 @@ function stopMgbIntervals() {
     clearInterval(mgbSpawnInterval);
 }
 
-// Возвращаем Бобнита в состояние "А кушать будет?.."
 function resetToSadState() {
     if (mgbIsPlaying) return;
-    document.getElementById('mgb-bobnit-pic').src = 'bobnit_sad_full.webp';
+    
+    const cdUntil = parseInt(localStorage.getItem('mgb_cooldown_until') || '0');
+    if (Date.now() < cdUntil) return; // Если ещё спит, не сбрасываем
+
+    const pic = document.getElementById('mgb-bobnit-pic');
+    if (pic) pic.src = 'bobnit_sad_full.webp';
+    
     document.getElementById('mgb-bobnit-text').innerText = "«А кушать будет?..» 🥺";
     document.getElementById('mgb-sleep-cloud').style.display = 'none';
     document.getElementById('mgb-start-overlay').style.display = 'flex';
     document.getElementById('mgb-progress-bar-container').style.display = 'none';
 }
 
-// 9. БЛОКИРОВКА ВКЛАДОК И БОБНИТ-ПОНЧИК
+// 8. БЛОКИРОВКА ВКЛАДОК
 function triggerBobnitRage() {
     mgbLockedTabs = ['page-games', 'page-shop'];
     showRiddleOverlay('page-games');
 }
 
-// ХУК НА ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ
 const originalSwitchPage = window.switchPage;
 window.switchPage = function(pageId) {
     if (mgbLockedTabs.includes(pageId) && casinoChips === 0) {
@@ -8078,7 +8409,6 @@ window.switchPage = function(pageId) {
     }
 };
 
-// ОВЕРЛЕЙ БЛОКИРОВКИ С ПОНЧИКОВЫМ БОБНИТОМ
 function showRiddleOverlay(pageId) {
     const old = document.getElementById('riddle-overlay');
     if (old) old.remove();
@@ -8104,7 +8434,6 @@ function showRiddleOverlay(pageId) {
     document.body.appendChild(div);
 }
 
-// ПРОВЕРКА ОТВЕТА НА ПОНЧИКОВУЮ ЗАГАДКУ
 window.checkMgbRiddle = function(correct, pageId) {
     const val = document.getElementById('riddle-inp').value.toLowerCase().trim();
     if (val === correct) {
@@ -8112,7 +8441,7 @@ window.checkMgbRiddle = function(correct, pageId) {
         mgbLockedTabs = [];
         document.getElementById('riddle-overlay').remove();
         
-        casinoChips += 2; // Выдаем 2 спасительные фишки
+        casinoChips += 2;
         localStorage.setItem('leycore_chips', casinoChips.toString());
         if (typeof updateCasinoUI === 'function') updateCasinoUI();
         
@@ -8126,14 +8455,14 @@ window.checkMgbRiddle = function(correct, pageId) {
     }
 };
 
-// Автозапуск слежки за голодом Бобнита
+// Запуск при старте сайта
 initMgbTerror();
 
 
-        </script>
+    </script>
 
-        
-         <!-- МОДАЛЬНОЕ ОКНО БЛОКИРОВКИ 18+ ДЛЯ ХРАНИЛИЩА -->
+
+    <!-- МОДАЛЬНОЕ ОКНО БЛОКИРОВКИ 18+ ДЛЯ ХРАНИЛИЩА -->
     <div id="tales-lock-modal" class="lock-modal-overlay" style="display: none;">
         <div class="lock-modal-card">
             <div class="lock-icon">🍩</div>
