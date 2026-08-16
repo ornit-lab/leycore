@@ -4168,11 +4168,25 @@
 
 
     </div>
-    <div id="page-achievements" class="page-view">
+        <div id="page-achievements" class="page-view">
         <h2 class="section-title title-gold">ТВОЙ ПРОФИЛЬ</h2>
+        
+        <!-- БЛОК СМЕНЫ НИКНЕЙМА -->
+        <div class="profile-card" style="background: rgba(20, 20, 30, 0.8); border: 2px solid var(--accent-gold); border-radius: 14px; padding: 20px; max-width: 450px; margin: 0 auto 25px; text-align: center; box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);">
+            <h3 style="color: var(--accent-gold); font-size: 1.1rem; margin-bottom: 10px;">🏷️ ИМЯ В ЗАЛЕ СЛАВЫ</h3>
+            <p style="color: #aaa; font-size: 0.8rem; margin-bottom: 15px;">Измени свой никнейм, и он сразу обновится во всех онлайн-лидербордах!</p>
+            
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <input type="text" id="profile-username-input" placeholder="Введи новый ник..." maxlength="16" style="padding: 10px 14px; border-radius: 8px; border: 1px solid #444; background: #111; color: #fff; font-family: 'Unbounded', sans-serif; font-size: 0.85rem; outline: none; flex: 1;">
+                <button onclick="changeGlobalUsername()" style="background: linear-gradient(135deg, var(--accent-gold), #ff8c00); color: #000; border: none; border-radius: 8px; padding: 10px 18px; font-weight: 900; font-family: 'Unbounded', sans-serif; cursor: pointer; transition: transform 0.2s;">СОХРАНИТЬ</button>
+            </div>
+        </div>
+
+        <!-- Существующий список ачивок/профиля -->
         <div id="achievements-list" class="grid-3" style="text-align: center;"></div>
 
     </div>
+
 
 
 
@@ -4442,7 +4456,6 @@
             </div>
         </div>
 
-        <!-- Шапка чата -->
         <!-- Шапка чата -->
         <div id="bobnit-chat-header" onclick="toggleBobnitChat()">
             <img src="bobnit_thanos.jpg" alt="Бобнит">
