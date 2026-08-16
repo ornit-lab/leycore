@@ -322,15 +322,24 @@ body.leycore-light {
         }
 
         /* SIDEBAR NAVIGATION (LEFT) */
-        .sidebar-nav {
-            position: fixed;
-            left: 0;
-            top: 160px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            z-index: 1000;
-        }
+.sidebar-nav {
+    position: fixed;
+    left: 0;
+    top: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 1000;
+    
+    /* === НАШ ХАКЕРСКИЙ ФИКС === */
+    pointer-events: none; /* Клик проходит СКВОЗЬ весь невидимый контейнер меню! */
+}
+
+/* Возвращаем кликабельность самим кнопкам внутри меню */
+.sidebar-nav * {
+    pointer-events: auto; /* Сами кнопки, иконки и ссылки внутри меню СНОВА кликабельные! */
+}
+
 
         .sidebar-link {
             width: 270px;
