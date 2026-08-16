@@ -4168,19 +4168,31 @@
 
 
     </div>
-        <div id="page-achievements" class="page-view">
+    <div id="page-achievements" class="page-view">
         <h2 class="section-title title-gold">ТВОЙ ПРОФИЛЬ</h2>
-        
-        <!-- БЛОК СМЕНЫ НИКНЕЙМА -->
-        <div class="profile-card" style="background: rgba(20, 20, 30, 0.8); border: 2px solid var(--accent-gold); border-radius: 14px; padding: 20px; max-width: 450px; margin: 0 auto 25px; text-align: center; box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);">
+
+        <!-- БЛОК СМЕНЫ НИКНЕЙМА В ПРОФИЛЕ -->
+        <div class="profile-card"
+            style="background: rgba(20, 20, 30, 0.85); border: 2px solid var(--accent-gold); border-radius: 14px; padding: 20px; max-width: 450px; margin: 0 auto 25px; text-align: center; box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);">
             <h3 style="color: var(--accent-gold); font-size: 1.1rem; margin-bottom: 10px;">🏷️ ИМЯ В ЗАЛЕ СЛАВЫ</h3>
-            <p style="color: #aaa; font-size: 0.8rem; margin-bottom: 15px;">Измени свой никнейм, и он сразу обновится во всех онлайн-лидербордах!</p>
-            
-            <div style="display: flex; gap: 10px; justify-content: center;">
-                <input type="text" id="profile-username-input" placeholder="Введи новый ник..." maxlength="16" style="padding: 10px 14px; border-radius: 8px; border: 1px solid #444; background: #111; color: #fff; font-family: 'Unbounded', sans-serif; font-size: 0.85rem; outline: none; flex: 1;">
-                <button onclick="changeGlobalUsername()" style="background: linear-gradient(135deg, var(--accent-gold), #ff8c00); color: #000; border: none; border-radius: 8px; padding: 10px 18px; font-weight: 900; font-family: 'Unbounded', sans-serif; cursor: pointer; transition: transform 0.2s;">СОХРАНИТЬ</button>
+            <p style="color: #aaa; font-size: 0.8rem; margin-bottom: 15px;">Измени свой никнейм, и он сразу обновится во
+                всех онлайн-лидербордах!</p>
+
+            <div style="display: flex; gap: 10px; justify-content: center; align-items: center;">
+                <input type="text" id="profile-username-input" placeholder="Введи новый ник..." maxlength="16"
+                    style="padding: 10px 14px; border-radius: 8px; border: 1px solid #444; background: #111; color: #fff; font-family: 'Unbounded', sans-serif; font-size: 0.85rem; outline: none; flex: 1; transition: border-color 0.3s;">
+                <button id="save-username-btn" onclick="changeGlobalUsername()"
+                    style="background: linear-gradient(135deg, var(--accent-gold), #ff8c00); color: #000; border: none; border-radius: 8px; padding: 10px 18px; font-weight: 900; font-family: 'Unbounded', sans-serif; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;">СОХРАНИТЬ</button>
+            </div>
+
+            <!-- Кнопка "Изменить снова" (изначально скрыта) -->
+            <div id="edit-again-container" style="margin-top: 12px; display: none;">
+                <button onclick="enableUsernameEditing()"
+                    style="background: transparent; border: none; color: var(--accent-gold); text-decoration: underline; cursor: pointer; font-size: 0.75rem; font-family: 'Unbounded', sans-serif; opacity: 0.8; transition: opacity 0.2s;">✏️
+                    Изменить никнейм снова</button>
             </div>
         </div>
+
 
         <!-- Существующий список ачивок/профиля -->
         <div id="achievements-list" class="grid-3" style="text-align: center;"></div>
@@ -8621,6 +8633,113 @@
             }
         }
 
+        // ==========================================
+// ГЛОБАЛЬНАЯ МГНОВЕННАЯ СМЕНА НИКНЕЙМА
+// ==========================================
+
+async function changeGlobalUsername() {
+    const input = document.getElementById('profile-username-input');
+    const saveBtn = document.getElementById('save-username-btn');
+    const editContainer = document.getElementById('edit-again-container');
+    if (!input || !saveBtn) return;
+
+    const newName = input.value.trim();
+    const oldName = localStorage.getItem('leycore_username') || '';
+
+    if (!newName) {
+        alert("Введи хотя бы один символ!");
+        return;
+    }
+
+    if (newName.length < 2) {
+        alert("Никнейм слишком короткий! Минимум 2 символа.");
+        return;
+    }
+
+    // Анимация процесса сохранения
+    saveBtn.innerText = "⏳ СОХРАНЕНИЕ...";
+    saveBtn.disabled = true;
+
+    // 1. МГНОВЕННОЕ ОБНОВЛЕНИЕ В SUPABASE (Замена старого ника на новый)
+    if (typeof supabase !== 'undefined' && supabase) {
+        try {
+            if (oldName && oldName !== newName) {
+                // Заменяем имя в существующей строчке базы Supabase
+                const { error } = await supabase
+                    .from('leaderboard')
+                    .update({ username: newName })
+                    .eq('username', oldName);
+
+                if (error) {
+                    // Если старой строчки не было, создаем новую с текущим счетом
+                    await supabase
+                        .from('leaderboard')
+                        .upsert({ 
+                            username: newName, 
+                            mgb_score: typeof mgbCookedCount !== 'undefined' ? mgbCookedCount : 0 
+                        }, { onConflict: 'username' });
+                }
+            } else {
+                await supabase
+                    .from('leaderboard')
+                    .upsert({ 
+                        username: newName, 
+                        mgb_score: typeof mgbCookedCount !== 'undefined' ? mgbCookedCount : 0 
+                    }, { onConflict: 'username' });
+            }
+        } catch (e) {
+            console.warn("Ошибка обновления ника в Supabase:", e);
+        }
+    }
+
+    // 2. Обновляем в LocalStorage
+    localStorage.setItem('leycore_username', newName);
+
+    // 3. КРАСИВЫЙ ВИЗУАЛЬНЫЙ ЭФФЕКТ: Кнопка становится зеленой, инпут блокируется
+    saveBtn.innerText = "✓ СОХРАНЕНО";
+    saveBtn.style.background = "#22c55e"; // Зеленый цвет успеха
+    saveBtn.style.color = "#ffffff";
+    saveBtn.disabled = true;
+
+    input.disabled = true;
+    input.style.borderColor = "#22c55e";
+
+    // Показываем снизу кнопку "Изменить снова"
+    if (editContainer) editContainer.style.display = "block";
+
+    // 4. МГНОВЕННО ПЕРЕРИСОВЫВАЕМ ВСЕ ЛИДЕРБОРДЫ НА САЙТЕ!
+    if (typeof updateMgbLeaderboardUI === 'function') updateMgbLeaderboardUI();
+    if (typeof renderLeaderboard === 'function') renderLeaderboard();
+    if (typeof renderFlappyLeaderboard === 'function') renderFlappyLeaderboard();
+}
+
+// Повторное включение редактирования
+function enableUsernameEditing() {
+    const input = document.getElementById('profile-username-input');
+    const saveBtn = document.getElementById('save-username-btn');
+    const editContainer = document.getElementById('edit-again-container');
+
+    if (input && saveBtn) {
+        input.disabled = false;
+        input.style.borderColor = "#444";
+        input.focus();
+
+        saveBtn.disabled = false;
+        saveBtn.innerText = "СОХРАНИТЬ";
+        saveBtn.style.background = "linear-gradient(135deg, var(--accent-gold), #ff8c00)";
+        saveBtn.style.color = "#000";
+
+        if (editContainer) editContainer.style.display = "none";
+    }
+}
+
+// При загрузке страницы проверяем ник
+document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('profile-username-input');
+    if (input) {
+        input.value = localStorage.getItem('leycore_username') || '';
+    }
+});
 
 
 
