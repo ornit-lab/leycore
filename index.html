@@ -8560,21 +8560,21 @@
         // ЧЕСТНЫЙ ГЛОБАЛЬНЫЙ ОНЛАЙН-ЛИДЕРБОРД МГБ (SUPABASE)
         // ==========================================
 
-        async function updateMgbLeaderboardUI() {
+       async function updateMgbLeaderboardUI() {
     const myScoreEl = document.getElementById('mgb-my-score');
     if (myScoreEl) myScoreEl.innerText = mgbCookedCount + " 🍔";
 
     const myName = localStorage.getItem('leycore_username') || 'Анонимный Повар';
 
     // 2. ОТПРАВЛЯЕМ СВЕЖИЙ РЕКОРД В SUPABASE
-    if (typeof _supabase !== 'undefined' && _supabase) { // ЗДЕСЬ ИЗМЕНИЛИ
+    if (typeof _supabase !== 'undefined' && _supabase) {
         try {
-            const { data, error } = await _supabase // ЗДЕСЬ ИЗМЕНИЛИ
+            const { data, error } = await _supabase
                 .from('leaderboard')
                 .upsert({ 
-                    username: myName, 
+                    player_name: myName,     // ИСПРАВИЛИ: было username
                     mgb_score: mgbCookedCount 
-                }, { onConflict: 'username' });
+                }, { onConflict: 'player_name' }); // ИСПРАВИЛИ: было username
 
             if (error) console.warn("Ошибка сохранения МГБ в Supabase:", error.message);
         } catch (e) {
@@ -8584,24 +8584,24 @@
 
     // 3. СКАЧИВАЕМ ГЛОБАЛЬНЫЙ ТОП-5 НАСТОЯЩИХ ИГРОКОВ ИЗ SUPABASE
     let leaders = [];
-    if (typeof _supabase !== 'undefined' && _supabase) { // ЗДЕСЬ ИЗМЕНИЛИ
+    if (typeof _supabase !== 'undefined' && _supabase) {
         try {
-            const { data, error } = await _supabase // ЗДЕСЬ ИЗМЕНИЛИ
+            const { data, error } = await _supabase
                 .from('leaderboard')
-                .select('username, mgb_score')
+                .select('player_name, mgb_score') // ИСПРАВИЛИ: было username
                 .gt('mgb_score', 0)
                 .order('mgb_score', { ascending: false })
                 .limit(5);
 
             if (!error && data) {
-                leaders = data.map(row => ({ name: row.username, score: row.mgb_score || 0 }));
+                // ИСПРАВИЛИ: было row.username, теперь row.player_name
+                leaders = data.map(row => ({ name: row.player_name, score: row.mgb_score || 0 }));
             }
         } catch (e) {
             console.warn("Не удалось загрузить онлайн-лидерборд МГБ", e);
         }
     }
     
-    // ... остальная часть функции без изменений ...
     // Если базы нет, а локально игрок уже готовил — показываем хотя бы его реальный рекорд
     if (leaders.length === 0 && mgbCookedCount > 0) {
         leaders = [{ name: myName, score: mgbCookedCount }];
@@ -8633,6 +8633,7 @@
 }
 
 
+
         // ==========================================
 // ГЛОБАЛЬНАЯ МГНОВЕННАЯ СМЕНА НИКНЕЙМА
 // ==========================================
@@ -8641,42 +8642,54 @@ async function changeGlobalUsername() {
     const input = document.getElementById('profile-username-input');
     const saveBtn = document.getElementById('save-username-btn');
     const editContainer = document.getElementById('edit-again-container');
-    if (!input || !saveBtn) return;
+    if (!input || !saveBtn) return; // Убрал лишние пробелы из !input  !saveBtn
 
     const newName = input.value.trim();
-    const oldName = localStorage.getItem('leycore_username') || '';
+    const oldName = localStorage.getItem('leycore_username') || ''; // Убрал лишние пробелы из localStorage.getItem('leycore_username')  ''
 
-    if (!newName) { alert("Введи хотя бы один символ!"); return; }
-    if (newName.length < 2) { alert("Никнейм слишком короткий! Минимум 2 символа."); return; }
-    if (newName === oldName) { alert("У тебя уже стоит этот никнейм!"); return; }
+    if (!newName) {
+        alert("Введи хотя бы один символ!");
+        return;
+    }
+    if (newName.length < 2) {
+        alert("Никнейм слишком короткий! Минимум 2 символа.");
+        return;
+    }
+    if (newName === oldName) {
+        alert("У тебя уже стоит этот никнейм!");
+        return;
+    }
 
     saveBtn.innerText = "⏳ СОХРАНЕНИЕ...";
     saveBtn.disabled = true;
 
     // 1. МГНОВЕННОЕ ОБНОВЛЕНИЕ В SUPABASE
-    if (typeof _supabase !== 'undefined' && _supabase) { // ЗДЕСЬ ИЗМЕНИЛИ supabase НА _supabase
+    if (typeof _supabase !== 'undefined' && _supabase) {
         try {
             if (oldName && oldName !== newName) {
-                const { error } = await _supabase // ЗДЕСЬ ИЗМЕНИЛИ
+                // ОБНОВЛЯЕМ СУЩЕСТВУЮЩУЮ ЗАПИСЬ
+                const { error } = await _supabase
                     .from('leaderboard')
-                    .update({ username: newName })
-                    .eq('username', oldName);
+                    .update({ player_name: newName }) // ВОТ ЗДЕСЬ БЫЛО username -> СТАЛО player_name
+                    .eq('player_name', oldName);      // ВОТ ЗДЕСЬ БЫЛО username -> СТАЛО player_name
 
                 if (error) {
-                    await _supabase // ЗДЕСЬ ИЗМЕНИЛИ
+                    // ЕСЛИ СТАРОЙ ЗАПИСИ НЕ БЫЛО (редкий случай), ТО СОЗДАЕМ НОВУЮ
+                    await _supabase
                         .from('leaderboard')
                         .upsert({ 
-                            username: newName, 
+                            player_name: newName,     // ВОТ ЗДЕСЬ БЫЛО username -> СТАЛО player_name
                             mgb_score: typeof mgbCookedCount !== 'undefined' ? mgbCookedCount : 0 
-                        }, { onConflict: 'username' });
+                        }, { onConflict: 'player_name' }); // ВОТ ЗДЕСЬ БЫЛО username -> СТАЛО player_name
                 }
             } else {
-                await _supabase // ЗДЕСЬ ИЗМЕНИЛИ
+                // ЕСЛИ ИГРОК ВООБЩЕ В ПЕРВЫЙ РАЗ СОХРАНЯЕТ НИК (или ник был пустой)
+                await _supabase
                     .from('leaderboard')
                     .upsert({ 
-                        username: newName, 
+                        player_name: newName,         // ВОТ ЗДЕСЬ БЫЛО username -> СТАЛО player_name
                         mgb_score: typeof mgbCookedCount !== 'undefined' ? mgbCookedCount : 0 
-                    }, { onConflict: 'username' });
+                    }, { onConflict: 'player_name' }); // ВОТ ЗДЕСЬ БЫЛО username -> СТАЛО player_name
             }
         } catch (e) {
             console.warn("Ошибка обновления ника в Supabase:", e);
@@ -8700,6 +8713,7 @@ async function changeGlobalUsername() {
     if (typeof renderLeaderboard === 'function') renderLeaderboard();
     if (typeof renderFlappyLeaderboard === 'function') renderFlappyLeaderboard();
 }
+
 
 
 // Повторное включение редактирования
