@@ -31,6 +31,7 @@
         /* Исключение: САМА ЛАМПА остается цветной и яркой даже в серости */
         body.leycore-dark #leycore-lamp-container {
             filter: grayscale(0%) brightness(250%) !important;
+            z-index: 999999 !important;
         }
 
         /* Когда свет ВКЛЮЧЕН — полный возврат оригинальных цветов */
@@ -46,6 +47,7 @@
 
         #leycore-lamp-container {
             position: relative;
+            /* или position: fixed, если лампа привязана к экрану */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -53,12 +55,17 @@
             margin: 0 auto 15px auto;
             width: 80px;
             cursor: pointer;
-            z-index: 10000;
 
-            /* Анимация раскачивания */
+            /* САМЫЙ ВЫСОКИЙ СЛОЙ — поверх плашки авторизации и всех модалок! */
+            z-index: 999999 !important;
+
             transform-origin: top center;
             animation: lampSway 3.5s ease-in-out infinite alternate;
             user-select: none;
+
+            #leycore-lamp-container * {
+                pointer-events: auto !important;
+            }
         }
 
         /* Провод лампы */
@@ -3733,10 +3740,226 @@
                 height: 300px !important;
             }
         }
+
+        /* --- СТИЛИ Пончиковой Авторизации --- */
+        #auth-overlay input::placeholder {
+            color: #555;
+        }
+
+        #auth-overlay button:hover {
+            transform: scale(1.05);
+        }
+
+        .stalker-speech-bubble {
+            position: absolute;
+            top: -45px;
+            left: -110px;
+            width: 130px;
+            background: #ffffff;
+            color: #000000;
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            border: 2px solid #ff0055;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            z-index: 250001;
+        }
+
+
+        /* Стабильный блок профиля */
+        .profile-card {
+            background: rgba(20, 20, 30, 0.85);
+            border: 2px solid var(--accent-gold);
+            border-radius: 14px;
+            padding: 20px;
+            max-width: 450px;
+            margin: 0 auto 25px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+            box-sizing: border-box;
+            /* Это самое важное, чтобы паддинги не ломали ширину */
+        }
+
+        /* Стабильная обертка для инпута и кнопки */
+        .profile-input-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: stretch;
+            /* Растягивает кнопку по высоте инпута */
+        }
+
+        /* Стиль кнопки, чтобы она не прыгала */
+        #save-username-btn {
+            min-width: 120px;
+            /* Фиксируем минимальную ширину, чтобы она не схлопывалась */
+            padding: 10px 18px;
+            font-weight: 900;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            /* Запрещает перенос текста внутри кнопки */
+        }
+
+        /* --- МОБИЛЬНАЯ АДАПТАЦИЯ ДЛЯ ПРОФИЛЯ --- */
+@media (max-width: 480px) {
+    .profile-input-group {
+        flex-direction: column !important; /* На телефонах складываем вертикально */
+        gap: 12px !important;
+        align-items: stretch !important;
+    }
+    
+    #profile-username-input {
+        width: 100% !important;
+        height: 44px !important; /* Сделали инпут повыше для удобства пальцев */
+        text-align: center !important; /* По центру на мобилках смотрится в 100 раз круче */
+        font-size: 0.9rem !important;
+    }
+    
+    #save-username-btn {
+        width: 100% !important;
+        min-width: unset !important;
+        height: 44px !important; /* Кнопка такой же высоты, как и инпут */
+        font-size: 0.85rem !important;
+    }
+}
+
+
+/* ==========================================
+   НЕОНОВЫЙ КИБЕРПАНК ИНДИКАТОР СЕССИИ (V2)
+   ========================================== */
+
+/* Главный плавающий виджет */
+.session-indicator-widget {
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    z-index: 150000;
+    display: none;
+    align-items: center;
+    gap: 12px;
+    background: rgba(10, 5, 20, 0.85);
+    border: 2px solid #ff0055; /* Розовый неоновый бордер */
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.4), inset 0 0 10px rgba(255, 0, 85, 0.2); /* Розовое свечение */
+    padding: 8px 16px;
+    border-radius: 30px;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+
+/* Контейнер с текстом статуса и ником */
+.session-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Выравнивание по правому краю, чтобы текст не прыгал */
+    line-height: 1.2;
+}
+
+/* Розовый неоновый разделитель */
+.session-divider {
+    width: 2px;
+    height: 22px;
+    background: rgba(255, 0, 85, 0.4);
+    box-shadow: 0 0 5px rgba(255, 0, 85, 0.6);
+}
+
+/* Зеленый неоновый статус "ВХОД ВЫПОЛНЕН" (БЕЗ галочки) */
+.session-status-active {
+    font-size: 0.58rem;
+    color: #4ade80;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    font-family: 'Unbounded', sans-serif;
+    text-shadow: 0 0 8px rgba(74, 222, 128, 0.8); /* Зеленое неоновое свечение */
+}
+
+/* Никнейм игрока */
+.session-username-text {
+    font-size: 0.8rem;
+    color: #ffffff;
+    font-weight: 700;
+    font-family: 'Unbounded', sans-serif;
+    margin-top: 2px;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+/* Кнопка выхода (Красный лазерный неон) */
+.session-logout-btn {
+    background: transparent;
+    border: none;
+    color: #ff4d4d;
+    font-size: 0.58rem;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    font-family: 'Unbounded', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 4px 8px;
+    border-radius: 12px;
+    text-shadow: 0 0 8px rgba(255, 77, 77, 0.6); /* Красное неоновое свечение */
+}
+
+/* Эффект наведения на кнопку выхода */
+.session-logout-btn:hover {
+    color: #ffffff;
+    background: #ff4d4d;
+    box-shadow: 0 0 10px #ff4d4d;
+    text-shadow: none;
+    transform: scale(1.05);
+}
+
+
     </style>
 </head>
 
 <body>
+
+    <!-- ИНДИКАТОР ВХОДА (СВЕРХУ СПРАВА) -->
+<div id="user-session-indicator" class="session-indicator-widget">
+    <div class="session-info">
+        <span class="session-status-active">ВХОД ВЫПОЛНЕН</span>
+        <span id="session-username" class="session-username-text">...</span>
+    </div>
+    <div class="session-divider"></div>
+    <button onclick="logoutGlobalAccount()" class="session-logout-btn">ВЫЙТИ</button>
+</div>
+
+
+
+    <!-- ОВЕРЛЕЙ ПОНЧИКОВОЙ АВТОРИЗАЦИИ (ЛЕЙКОР-АККАУНТ) -->
+    <div id="auth-overlay"
+        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(10, 5, 20, 0.98); z-index: 250000; display: none; flex-direction: column; align-items: center; justify-content: center; color: white; font-family: 'Unbounded', sans-serif; padding: 20px; text-align: center; box-sizing: border-box;">
+        <img src="bobnit_donutss.webp"
+            style="width: 170px; margin-bottom: 20px; filter: drop-shadow(0 0 15px var(--accent-gold));">
+        <h2
+            style="color: var(--accent-gold); font-size: 1.3rem; margin-bottom: 10px; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);">
+            ПОНЧИКОВАЯ СИНХРОНИЗАЦИЯ</h2>
+        <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 25px; max-width: 420px; line-height: 1.4;">
+            Введи свой никнейм и секретный пончиковый код, чтобы играть с любого устройства и сохранять фишки и рекорды!
+        </p>
+
+        <div
+            style="background: rgba(255, 255, 255, 0.04); padding: 25px; border-radius: 16px; border: 2px solid var(--accent-gold); width: 100%; max-width: 380px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); box-sizing: border-box;">
+            <input type="text" id="auth-username" placeholder="Твой никнейм..." maxlength="16"
+                style="width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 8px; border: 1px solid #444; background: #111; color: #fff; text-align: center; font-family: 'Unbounded'; outline: none; box-sizing: border-box;">
+            <input type="password" id="auth-password" placeholder="Пончиковый код (пароль)..." maxlength="16"
+                style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #444; background: #111; color: #fff; text-align: center; font-family: 'Unbounded'; outline: none; box-sizing: border-box;">
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <button onclick="handleAuth('login')"
+                    style="background: linear-gradient(135deg, #4ade80, #22c55e); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 900; font-family: 'Unbounded'; cursor: pointer; transition: transform 0.2s;">ВОЙТИ</button>
+                <button onclick="handleAuth('register')"
+                    style="background: linear-gradient(135deg, var(--accent-gold), #ff8c00); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 900; font-family: 'Unbounded'; cursor: pointer; transition: transform 0.2s;">СОЗДАТЬ</button>
+            </div>
+            <p style="font-size: 0.65rem; color: #555; margin-top: 15px; line-height: 1.3;">
+                Забыл код? Василич качает головой и соболезнует утере твоего баланса... 😔🍩
+            </p>
+        </div>
+    </div>
 
 
 
@@ -4172,26 +4395,25 @@
         <h2 class="section-title title-gold">ТВОЙ ПРОФИЛЬ</h2>
 
         <!-- БЛОК СМЕНЫ НИКНЕЙМА В ПРОФИЛЕ -->
-        <div class="profile-card"
-            style="background: rgba(20, 20, 30, 0.85); border: 2px solid var(--accent-gold); border-radius: 14px; padding: 20px; max-width: 450px; margin: 0 auto 25px; text-align: center; box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);">
+        <div class="profile-card">
             <h3 style="color: var(--accent-gold); font-size: 1.1rem; margin-bottom: 10px;">🏷️ ИМЯ В ЗАЛЕ СЛАВЫ</h3>
             <p style="color: #aaa; font-size: 0.8rem; margin-bottom: 15px;">Измени свой никнейм, и он сразу обновится во
                 всех онлайн-лидербордах!</p>
 
-            <div style="display: flex; gap: 10px; justify-content: center; align-items: center;">
-                <input type="text" id="profile-username-input" placeholder="Введи новый ник..." maxlength="16"
-                    style="padding: 10px 14px; border-radius: 8px; border: 1px solid #444; background: #111; color: #fff; font-family: 'Unbounded', sans-serif; font-size: 0.85rem; outline: none; flex: 1; transition: border-color 0.3s;">
+            <div class="profile-input-group">
+                <input type="text" id="profile-username-input" maxlength="16"
+                    style="padding: 10px 14px; border-radius: 8px; border: 1px solid #444; background: #111; color: #fff; font-family: 'Unbounded', sans-serif; font-size: 0.85rem; outline: none; flex: 1; box-sizing: border-box;">
                 <button id="save-username-btn" onclick="changeGlobalUsername()"
-                    style="background: linear-gradient(135deg, var(--accent-gold), #ff8c00); color: #000; border: none; border-radius: 8px; padding: 10px 18px; font-weight: 900; font-family: 'Unbounded', sans-serif; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;">СОХРАНИТЬ</button>
+                    style="background: linear-gradient(135deg, var(--accent-gold), #ff8c00); color: #000;">СОХРАНИТЬ</button>
             </div>
 
-            <!-- Кнопка "Изменить снова" (изначально скрыта) -->
             <div id="edit-again-container" style="margin-top: 12px; display: none;">
                 <button onclick="enableUsernameEditing()"
-                    style="background: transparent; border: none; color: var(--accent-gold); text-decoration: underline; cursor: pointer; font-size: 0.75rem; font-family: 'Unbounded', sans-serif; opacity: 0.8; transition: opacity 0.2s;">✏️
+                    style="background: transparent; border: none; color: var(--accent-gold); text-decoration: underline; cursor: pointer; font-size: 0.75rem; font-family: 'Unbounded', sans-serif; opacity: 0.8;">✏️
                     Изменить никнейм снова</button>
             </div>
         </div>
+
 
 
         <!-- Существующий список ачивок/профиля -->
@@ -5718,10 +5940,8 @@
         let bird = { x: 50, y: 250, radius: 18, gravity: 0.35, lift: -6.5, velocity: 0 };
         let pipes = [];
         let score = 0;
-        let bestFlappyScore = parseInt(
-            localStorage.getItem('flappyBestScore') || '0',
-            10
-        );
+        let bestFlappyScore = parseInt(localStorage.getItem('flappyHighScore') || '0', 10);
+
         let flappyPlayerId = localStorage.getItem('flappyPlayerId');
 
         if (!flappyPlayerId) {
@@ -5751,57 +5971,53 @@
             gameInterval = setInterval(updateFlappyGame, 1000 / 60);
         }
 
+        // ==========================================
+        // ИСПРАВЛЕННОЕ СОХРАНЕНИЕ РЕКОРДА ЦАРЕВНЫ
+        // ==========================================
         async function saveFlappyScore() {
-            const nameKey = 'flappyPlayerName';
-            let playerName = localStorage.getItem(nameKey);
+            const myName = localStorage.getItem('leycore_username');
 
-            if (!playerName) {
-                playerName = prompt(
-                    '👑 Ты установил рекорд Царевны! Введи имя для таблицы лидеров:'
-                );
-
-                if (!playerName) return;
-
-                playerName = playerName
-                    .trim()
-                    .replace(/[<>]/g, '')
-                    .slice(0, 20);
-
-                if (!playerName) return;
-
-                localStorage.setItem(nameKey, playerName);
+            if (!myName || typeof _supabase === 'undefined' || !_supabase) {
+                console.warn("Невозможно сохранить рекорд Царевны: игрок не авторизован.");
+                const authOverlay = document.getElementById('auth-overlay');
+                if (authOverlay) authOverlay.style.display = 'flex';
+                return;
             }
 
-            const { error } = await _supabase
-                .from('flappy_leaderboard')
-                .upsert(
-                    [{
-                        player_id: flappyPlayerId,
-                        player_name: playerName,
-                        score: bestFlappyScore,
-                        updated_at: new Date().toISOString()
-                    }],
-                    {
-                        onConflict: 'player_id'
-                    }
-                );
+            // Берем текущий счет из переменной игры
+            const currentFlappyScore = typeof bestFlappyScore !== 'undefined' ? bestFlappyScore : 0;
 
-            if (error) {
-                console.error('Ошибка сохранения рекорда Царевны:', error);
-            } else {
-                console.log('Рекорд Царевны сохранён:', bestFlappyScore);
-                loadFlappyLeaderboard();
+            if (currentFlappyScore <= 0) {
+                console.log("Рекорд Царевны слишком мал для сохранения:", currentFlappyScore);
+                return;
             }
 
+            try {
+                const { error } = await _supabase
+                    .from('leaderboard')
+                    .upsert(
+                        {
+                            player_name: myName,
+                            flappy_score: currentFlappyScore,
+                            submitted_at: new Date().toISOString()
+                        },
+                        {
+                            onConflict: 'player_name'
+                        }
+                    );
+
+                if (error) {
+                    console.error('Ошибка сохранения рекорда Царевны:', error.message);
+                } else {
+                    console.log('Рекорд Царевны успешно сохранён:', currentFlappyScore);
+                    loadFlappyLeaderboard(); // Сразу обновляем таблицу на экране
+                }
+
+            } catch (e) {
+                console.error("Критический сбой при сохранении рекорда Царевны:", e);
+            }
         }
 
-        function scheduleFlappyScoreSave() {
-            clearTimeout(flappySaveTimer);
-
-            flappySaveTimer = setTimeout(() => {
-                saveFlappyScore();
-            }, 700);
-        }
 
 
 
@@ -5916,10 +6132,24 @@
         }
 
         function gameOverFlappy() {
-            isPlaying = false; clearInterval(gameInterval);
+            isPlaying = false;
+            clearInterval(gameInterval);
+
+            // Если текущий счет выше лучшего
+            if (score > bestFlappyScore) {
+                bestFlappyScore = score;
+                // Сохраняем под новым правильным именем flappyHighScore!
+                localStorage.setItem('flappyHighScore', bestFlappyScore.toString());
+            }
+
+            // Вызываем нашу функцию сохранения в Supabase!
+            saveFlappyScore();
+
             document.getElementById("arcade-title").innerText = "💥 МЕТАБОЛИЧЕСКИЙ КРАХ";
             document.getElementById("arcade-overlay").style.display = "flex";
         }
+
+
 
         function winFlappyGame() {
             isPlaying = false; clearInterval(gameInterval);
@@ -6265,21 +6495,25 @@
         let leaderboardSaveTimer = null; // Должна быть объявлена глобально
 
         function scheduleLeaderboardSave() {
-            if (burgerCount < 100) return;
+            if (burgerCount < 100) return; // Сохраняем только если накликал больше 100
 
             clearTimeout(leaderboardSaveTimer);
 
             leaderboardSaveTimer = setTimeout(async () => {
-                const playerName =
-                    localStorage.getItem('leaderboardPlayerName');
+                // ВСЕГДА берем имя из нашей новой Глобальной Авторизации!
+                const playerName = localStorage.getItem('leycore_username');
 
-                if (!playerName) { // Если имени нет, запрашиваем его
-                    await promptForLeaderboardSubmission();
-                } else { // Если имя уже есть, просто отправляем/обновляем счет
-                    await sendScoreToLeaderboard(playerName, burgerCount);
+                if (!playerName) {
+                    // Если вдруг игрок умудрился кликать без авторизации — выкатываем Пончиковое Окно!
+                    const authOverlay = document.getElementById('auth-overlay');
+                    if (authOverlay) authOverlay.style.display = 'flex';
+                } else {
+                    // Если вошел — отправляем результат (передаем только СЧЕТ!)
+                    await sendScoreToLeaderboard(burgerCount);
                 }
-            }, 500); // Отправляем результат раз в 0.5 секунды
+            }, 500); // Отправляем результат через 0.5 секунды после того, как игрок перестал кликать
         }
+
 
 
 
@@ -6563,41 +6797,6 @@
         }
 
 
-        // ----------------------------------------------------
-        // 🏆 ЛИДЕРБОРД: ЗАЛ СЛАВЫ КРОНТАРА
-        // ----------------------------------------------------
-
-        async function promptForLeaderboardSubmission() {
-            let playerName = localStorage.getItem('leaderboardPlayerName');
-
-            if (!playerName) { // Если имя не сохранено, запрашиваем
-                playerName = prompt(
-                    '🏆 Ты набрал 100 кликов! Введи имя для лидерборда:'
-                );
-
-                if (!playerName) return false; // Если отменил, не продолжаем
-
-                playerName = playerName
-                    .trim()
-                    .replace(/[<>]/g, '') // Защита от XSS-инъекций
-                    .slice(0, 15); // Ограничение длины
-
-                if (!playerName) return false; // Если после обрезки стало пустым
-            }
-
-            // Отправляем счет
-            const success = await sendScoreToLeaderboard(playerName, burgerCount);
-
-            // Сохраняем имя только после успешной отправки в Supabase
-            if (success) {
-                localStorage.setItem('leaderboardPlayerName', playerName);
-                return true;
-            }
-
-            return false;
-        }
-
-
 
 
         // Загрузка топа Кликера с титулами
@@ -6653,61 +6852,128 @@
             } catch (err) { }
         }
 
-        // Отправка счета в лидерборд кликера с титулом
-        async function sendScoreToLeaderboard(playerName, score) {
+        // ==========================================
+        // ОБНОВЛЕННАЯ ОТПРАВКА СЧЕТА КЛИКЕРА С ТИТУЛОМ
+        // ==========================================
+        async function sendScoreToLeaderboard(score) {
+            // 1. Берем актуальный ник из глобальной Пончиковой Авторизации
+            const rawName = localStorage.getItem('leycore_username');
+
+            if (!rawName || typeof _supabase === 'undefined' || !_supabase) {
+                console.warn("Кликер: игрок не авторизован или Supabase недоступен.");
+                const authOverlay = document.getElementById('auth-overlay');
+                if (authOverlay) authOverlay.style.display = 'flex';
+                return false;
+            }
+
             try {
-                const cleanName = playerName.replace(/\|/g, '').trim();
+                // 2. Очищаем имя и добавляем активный титул игрока (если он есть)
+                const cleanName = rawName.replace(/\|/g, '').trim();
                 const activeTitle = localStorage.getItem('leycore_active_title') || '';
                 const fullName = activeTitle ? `${activeTitle}|${cleanName}` : cleanName;
 
-                await _supabase
+                // 3. Отправляем рекорд в ОБЩУЮ таблицу 'leaderboard'
+                // Важно: onConflict ставим по 'player_name', так как теперь ник — это наш уникальный ключ!
+                const { error } = await _supabase
                     .from('leaderboard')
-                    .upsert([{
-                        player_id: leaderboardPlayerId,
-                        player_name: fullName,
-                        score: score
-                    }], { onConflict: 'player_id' });
+                    .upsert(
+                        {
+                            player_name: fullName, // Полное имя с титулом
+                            score: score           // Обновляем очки кликера
+                        },
+                        {
+                            onConflict: 'player_name' // Главное правило: конфликт решаем по уникальному нику!
+                        }
+                    );
 
-                await loadLeaderboard();
-                return true;
-            } catch (err) { return false; }
-        }
-
-        // Загрузка топа Царевны с титулами
-        async function loadFlappyLeaderboard() {
-            const list = document.getElementById('flappy-leaderboard-list');
-            if (!list) return;
-
-            const { data, error } = await _supabase
-                .from('flappy_leaderboard')
-                .select('player_name, score')
-                .order('score', { ascending: false })
-                .limit(10);
-
-            if (error || !data) return;
-
-            list.innerHTML = data.map((player, index) => {
-                let rawName = player.player_name || 'Герой';
-                let title = '';
-                let name = rawName;
-
-                if (rawName.includes('|')) {
-                    const parts = rawName.split('|');
-                    title = parts[0];
-                    name = parts[1];
+                if (error) {
+                    console.error('Ошибка отправки счета кликера в базу:', error.message);
+                    return false;
                 }
 
-                return `
-                    <li style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px;">
-                        <div style="display: flex; flex-direction: column; text-align: left;">
-                            ${title ? `<span class="${shopLavaTitles.includes(title) ? 'lava-title-badge' : 'user-title-badge'}">${title}</span>` : ''}
+                // 4. Сразу перерисовываем лидерборд кликера на экране
+                if (typeof loadLeaderboard === 'function') {
+                    await loadLeaderboard();
+                }
 
-                            <span>${index + 1}. ${name}</span>
-                        </div>
-                        <span>${player.score} колонн</span>
-                    </li>
-                `;
-            }).join('');
+                return true;
+            } catch (err) {
+                console.error('Критический сбой в sendScoreToLeaderboard:', err);
+                return false;
+            }
+        }
+
+
+        // ==========================================
+        // ОБНОВЛЕННАЯ ЗАГРУЗКА ТОПА ЦАРЕВНЫ ИЗ ОБЩЕЙ ТАБЛИЦЫ
+        // ==========================================
+        async function loadFlappyLeaderboard() {
+            const listEl = document.getElementById('flappy-leaderboard-list');
+            if (!listEl) return;
+
+            // Показываем, что идет загрузка, пока данные не пришли
+            listEl.innerHTML = `<li><span>⏳ Загрузка лидеров Царевны...</span><span></span></li>`;
+
+            if (typeof _supabase === 'undefined' || !_supabase) {
+                listEl.innerHTML = `<li><span>Ошибка базы данных</span><span></span></li>`;
+                return;
+            }
+
+            try {
+                // Качаем топ из ОБЩЕЙ таблицы leaderboard, фильтруя тех, у кого flappy_score > 0
+                const { data, error } = await _supabase
+                    .from('leaderboard')
+                    .select('player_name, flappy_score') // ИЗМЕНЕНО: теперь выбираем flappy_score
+                    .gt('flappy_score', 0) // Только те, кто набрал больше 0 очков
+                    .order('flappy_score', { ascending: false })
+                    .limit(10);
+
+                if (error) {
+                    console.error("Ошибка загрузки Царевны:", error.message);
+                    listEl.innerHTML = `<li><span>Ошибка загрузки</span><span></span></li>`;
+                    return;
+                }
+
+                if (!data || data.length === 0) {
+                    listEl.innerHTML = `
+                <li style="text-align: center; color: #888; padding: 12px; list-style: none;">
+                    👑 Топ Царевны пока пуст.<br><span style="color: var(--accent-green);">Стань первым, кто пропердит выше всех!</span>
+                </li>
+            `;
+                    return;
+                }
+
+                // Отрисовываем настоящих игроков с их титулами
+                listEl.innerHTML = data.map((entry, index) => {
+                    let rawName = entry.player_name || 'Герой'; // ИЗМЕНЕНО: берем player_name из общей таблицы
+                    let title = '';
+                    let name = rawName;
+
+                    // Логика извлечения титула из ника (как у тебя было)
+                    if (rawName.includes('|')) {
+                        const parts = rawName.split('|');
+                        title = parts[0];
+                        name = parts[1];
+                    }
+
+                    // Проверяем, существует ли shopLavaTitles (если нет, то не применяем его)
+                    const titleClass = (typeof shopLavaTitles !== 'undefined' && shopLavaTitles.includes(title)) ? 'lava-title-badge' : 'user-title-badge';
+
+                    return `
+                <li style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px;">
+                    <div style="display: flex; flex-direction: column; text-align: left;">
+                        ${title ? `<span class="${titleClass}">${title}</span>` : ''}
+                        <span>${index + 1}. ${name}</span>
+                    </div>
+                    <span style="color: var(--accent-green); font-weight: bold;">${entry.flappy_score} колонн</span>
+                </li>
+            `;
+                }).join('');
+
+            } catch (e) {
+                console.error("Критический сбой Царевны:", e);
+                listEl.innerHTML = `<li><span>Сбой синхронизации</span><span></span></li>`;
+            }
         }
 
 
@@ -8560,191 +8826,406 @@
         // ЧЕСТНЫЙ ГЛОБАЛЬНЫЙ ОНЛАЙН-ЛИДЕРБОРД МГБ (SUPABASE)
         // ==========================================
 
-       async function updateMgbLeaderboardUI() {
-    const myScoreEl = document.getElementById('mgb-my-score');
-    if (myScoreEl) myScoreEl.innerText = mgbCookedCount + " 🍔";
+        async function updateMgbLeaderboardUI() {
+            const myScoreEl = document.getElementById('mgb-my-score');
+            if (myScoreEl) myScoreEl.innerText = mgbCookedCount + " 🍔";
 
-    const myName = localStorage.getItem('leycore_username') || 'Анонимный Повар';
+            const myName = localStorage.getItem('leycore_username') || 'Анонимный Повар';
 
-    // 2. ОТПРАВЛЯЕМ СВЕЖИЙ РЕКОРД В SUPABASE
-    if (typeof _supabase !== 'undefined' && _supabase) {
-        try {
-            const { data, error } = await _supabase
-                .from('leaderboard')
-                .upsert({ 
-                    player_name: myName,     // ИСПРАВИЛИ: было username
-                    mgb_score: mgbCookedCount 
-                }, { onConflict: 'player_name' }); // ИСПРАВИЛИ: было username
+            // 2. ОТПРАВЛЯЕМ СВЕЖИЙ РЕКОРД В SUPABASE
+            if (typeof _supabase !== 'undefined' && _supabase) {
+                try {
+                    const { data, error } = await _supabase
+                        .from('leaderboard')
+                        .upsert({
+                            player_name: myName,     // ИСПРАВИЛИ: было username
+                            mgb_score: mgbCookedCount
+                        }, { onConflict: 'player_name' }); // ИСПРАВИЛИ: было username
 
-            if (error) console.warn("Ошибка сохранения МГБ в Supabase:", error.message);
-        } catch (e) {
-            console.warn("Supabase недоступен, работаем через локальный режим", e);
-        }
-    }
-
-    // 3. СКАЧИВАЕМ ГЛОБАЛЬНЫЙ ТОП-5 НАСТОЯЩИХ ИГРОКОВ ИЗ SUPABASE
-    let leaders = [];
-    if (typeof _supabase !== 'undefined' && _supabase) {
-        try {
-            const { data, error } = await _supabase
-                .from('leaderboard')
-                .select('player_name, mgb_score') // ИСПРАВИЛИ: было username
-                .gt('mgb_score', 0)
-                .order('mgb_score', { ascending: false })
-                .limit(5);
-
-            if (!error && data) {
-                // ИСПРАВИЛИ: было row.username, теперь row.player_name
-                leaders = data.map(row => ({ name: row.player_name, score: row.mgb_score || 0 }));
+                    if (error) console.warn("Ошибка сохранения МГБ в Supabase:", error.message);
+                } catch (e) {
+                    console.warn("Supabase недоступен, работаем через локальный режим", e);
+                }
             }
-        } catch (e) {
-            console.warn("Не удалось загрузить онлайн-лидерборд МГБ", e);
-        }
-    }
-    
-    // Если базы нет, а локально игрок уже готовил — показываем хотя бы его реальный рекорд
-    if (leaders.length === 0 && mgbCookedCount > 0) {
-        leaders = [{ name: myName, score: mgbCookedCount }];
-    }
 
-    // 4. ОТРИСОВЫВАЕМ ОНЛАЙН-СПИСОК В HTML
-    const listEl = document.getElementById('mgb-leaderboard-list');
-    if (listEl) {
-        if (leaders.length === 0) {
-            listEl.innerHTML = `
+            // 3. СКАЧИВАЕМ ГЛОБАЛЬНЫЙ ТОП-5 НАСТОЯЩИХ ИГРОКОВ ИЗ SUPABASE
+            let leaders = [];
+            if (typeof _supabase !== 'undefined' && _supabase) {
+                try {
+                    const { data, error } = await _supabase
+                        .from('leaderboard')
+                        .select('player_name, mgb_score') // ИСПРАВИЛИ: было username
+                        .gt('mgb_score', 0)
+                        .order('mgb_score', { ascending: false })
+                        .limit(5);
+
+                    if (!error && data) {
+                        // ИСПРАВИЛИ: было row.username, теперь row.player_name
+                        leaders = data.map(row => ({ name: row.player_name, score: row.mgb_score || 0 }));
+                    }
+                } catch (e) {
+                    console.warn("Не удалось загрузить онлайн-лидерборд МГБ", e);
+                }
+            }
+
+            // Если базы нет, а локально игрок уже готовил — показываем хотя бы его реальный рекорд
+            if (leaders.length === 0 && mgbCookedCount > 0) {
+                leaders = [{ name: myName, score: mgbCookedCount }];
+            }
+
+            // 4. ОТРИСОВЫВАЕМ ОНЛАЙН-СПИСОК В HTML
+            const listEl = document.getElementById('mgb-leaderboard-list');
+            if (listEl) {
+                if (leaders.length === 0) {
+                    listEl.innerHTML = `
                 <li style="text-align: center; color: #888; padding: 12px; list-style: none;">
                     🍔 В Зале Славы пока пусто.<br><span style="color: var(--accent-gold);">Приготовь первый бургер и возглавь ТОП!</span>
                 </li>
             `;
-        } else {
-            listEl.innerHTML = leaders.map((player, index) => {
-                const medal = index === 0 ? '👑 ' : index === 1 ? '🥈 ' : index === 2 ? '🥉 ' : `${index + 1}. `;
-                const isMe = player.name === myName ? 'style="color: #4ade80; font-weight: bold;"' : '';
-                
-                return `
+                } else {
+                    listEl.innerHTML = leaders.map((player, index) => {
+                        const medal = index === 0 ? '👑 ' : index === 1 ? '🥈 ' : index === 2 ? '🥉 ' : `${index + 1}. `;
+                        const isMe = player.name === myName ? 'style="color: #4ade80; font-weight: bold;"' : '';
+
+                        return `
                     <li style="display: flex; justify-content: space-between; padding: 6px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.8rem;">
                         <span ${isMe}>${medal}${player.name}</span>
                         <span style="color: var(--accent-gold); font-weight: bold;">${player.score} 🍔</span>
                     </li>
                 `;
-            }).join('');
+                    }).join('');
+                }
+            }
         }
-    }
-}
 
 
 
         // ==========================================
-// ГЛОБАЛЬНАЯ МГНОВЕННАЯ СМЕНА НИКНЕЙМА
+        // ГЛОБАЛЬНАЯ МГНОВЕННАЯ СМЕНА НИКНЕЙМА
+        // ==========================================
+
+        async function changeGlobalUsername() {
+            const input = document.getElementById('profile-username-input');
+            const saveBtn = document.getElementById('save-username-btn');
+            const editContainer = document.getElementById('edit-again-container');
+            if (!input || !saveBtn) return; // Убрал лишние пробелы из !input  !saveBtn
+
+            const newName = input.value.trim();
+            const oldName = localStorage.getItem('leycore_username') || ''; // Убрал лишние пробелы из localStorage.getItem('leycore_username')  ''
+
+            if (!newName) {
+                alert("Введи хотя бы один символ!");
+                return;
+            }
+            if (newName.length < 2) {
+                alert("Никнейм слишком короткий! Минимум 2 символа.");
+                return;
+            }
+            if (newName === oldName) {
+                alert("У тебя уже стоит этот никнейм!");
+                return;
+            }
+
+            saveBtn.innerText = "⏳ СОХРАНЕНИЕ...";
+            saveBtn.disabled = true;
+
+            // 1. МГНОВЕННОЕ ОБНОВЛЕНИЕ В SUPABASE
+            if (typeof _supabase !== 'undefined' && _supabase) {
+                try {
+                    if (oldName && oldName !== newName) {
+                        // ОБНОВЛЯЕМ СУЩЕСТВУЮЩУЮ ЗАПИСЬ
+                        const { error } = await _supabase
+                            .from('leaderboard')
+                            .update({ player_name: newName }) // ВОТ ЗДЕСЬ БЫЛО username -> СТАЛО player_name
+                            .eq('player_name', oldName);      // ВОТ ЗДЕСЬ БЫЛО username -> СТАЛО player_name
+
+                        if (error) {
+                            // ЕСЛИ СТАРОЙ ЗАПИСИ НЕ БЫЛО (редкий случай), ТО СОЗДАЕМ НОВУЮ
+                            await _supabase
+                                .from('leaderboard')
+                                .upsert({
+                                    player_name: newName,     // ВОТ ЗДЕСЬ БЫЛО username -> СТАЛО player_name
+                                    mgb_score: typeof mgbCookedCount !== 'undefined' ? mgbCookedCount : 0
+                                }, { onConflict: 'player_name' }); // ВОТ ЗДЕСЬ БЫЛО username -> СТАЛО player_name
+                        }
+                    } else {
+                        // ЕСЛИ ИГРОК ВООБЩЕ В ПЕРВЫЙ РАЗ СОХРАНЯЕТ НИК (или ник был пустой)
+                        await _supabase
+                            .from('leaderboard')
+                            .upsert({
+                                player_name: newName,         // ВОТ ЗДЕСЬ БЫЛО username -> СТАЛО player_name
+                                mgb_score: typeof mgbCookedCount !== 'undefined' ? mgbCookedCount : 0
+                            }, { onConflict: 'player_name' }); // ВОТ ЗДЕСЬ БЫЛО username -> СТАЛО player_name
+                    }
+                } catch (e) {
+                    console.warn("Ошибка обновления ника в Supabase:", e);
+                }
+            }
+
+            localStorage.setItem('leycore_username', newName);
+
+            saveBtn.innerText = "✓ СОХРАНЕНО";
+            saveBtn.style.background = "#22c55e";
+            saveBtn.style.color = "#ffffff";
+            saveBtn.disabled = true;
+
+            input.disabled = true;
+            input.style.borderColor = "#22c55e";
+
+            if (editContainer) editContainer.style.display = "block";
+
+            // 4. МГНОВЕННО ПЕРЕРИСОВЫВАЕМ ВСЕ ЛИДЕРБОРДЫ!
+            if (typeof updateMgbLeaderboardUI === 'function') updateMgbLeaderboardUI();
+            if (typeof renderLeaderboard === 'function') renderLeaderboard();
+            if (typeof renderFlappyLeaderboard === 'function') renderFlappyLeaderboard();
+        }
+
+
+
+        // Повторное включение редактирования
+        function enableUsernameEditing() {
+            const input = document.getElementById('profile-username-input');
+            const saveBtn = document.getElementById('save-username-btn');
+            const editContainer = document.getElementById('edit-again-container');
+
+            if (input && saveBtn) {
+                input.disabled = false;
+                input.style.borderColor = "#444";
+                input.focus();
+
+                saveBtn.disabled = false;
+                saveBtn.innerText = "СОХРАНИТЬ";
+                saveBtn.style.background = "linear-gradient(135deg, var(--accent-gold), #ff8c00)";
+                saveBtn.style.color = "#000";
+
+                if (editContainer) editContainer.style.display = "none";
+            }
+        }
+
+        // При загрузке страницы проверяем ник
+        document.addEventListener('DOMContentLoaded', () => {
+            const input = document.getElementById('profile-username-input');
+            if (input) {
+                input.value = localStorage.getItem('leycore_username') || '';
+            }
+        });
+
+
+
+        // ==========================================
+        // ГЛОБАЛЬНАЯ СИСТЕМА ПОНЧИКОВОЙ АВТОРИЗАЦИИ (AUTH)
+        // ==========================================
+
+        // 1. Проверяем, авторизован ли игрок при загрузке сайта
+        function checkGlobalAuth() {
+            const savedUser = localStorage.getItem('leycore_username');
+            const authOverlay = document.getElementById('auth-overlay');
+
+            // Если в локальной памяти нет имени, показываем пончиковый вход
+            if (!savedUser && authOverlay) {
+                authOverlay.style.display = 'flex';
+            } else {
+                // Если пользователь уже вошел, синхронизируем его данные при каждом запуске!
+                syncUserDataFromSupabase();
+            }
+        }
+
+        // 2. Обработка Входа и Регистрации
+        async function handleAuth(type) {
+            const user = document.getElementById('auth-username').value.trim();
+            const pass = document.getElementById('auth-password').value.trim();
+            const authOverlay = document.getElementById('auth-overlay');
+
+            if (user.length < 2 || pass.length < 3) {
+                alert("Ник должен быть от 2 символов, а пончиковый код — от 3!");
+                return;
+            }
+
+            if (typeof _supabase === 'undefined' || !_supabase) {
+                alert("Ошибка подключения к базе Supabase! Попробуй обновить страницу.");
+                return;
+            }
+
+            if (type === 'register') {
+                // РЕГИСТРАЦИЯ (Создание или Приватизация аккаунта)
+
+                // Проверяем, существует ли уже такой ник в базе
+                const { data, error } = await _supabase
+                    .from('leaderboard')
+                    .select('*')
+                    .eq('player_name', user);
+
+                if (data && data.length > 0) {
+                    const existingUser = data[0];
+
+                    // Если аккаунт уже защищен паролем
+                    if (existingUser.password) {
+                        alert("Этот никнейм уже запаролен кем-то другим! Выбери другое имя или попробуй 'Войти'.");
+                        return;
+                    } else {
+                        // ПРИВАТИЗАЦИЯ СТАРОГО АККАУНТА (Был рекорд, но не было пароля)
+                        const confirmClaim = confirm(`О! Я нашел твои старые рекорды в базе!\nХочешь привязать к нику "${user}" этот пончиковый код, чтобы никто его не украл?`);
+                        if (!confirmClaim) return;
+
+                        const { error: claimError } = await _supabase
+                            .from('leaderboard')
+                            .update({ password: pass })
+                            .eq('player_name', user);
+
+                        if (claimError) {
+                            alert("Ошибка приватизации: " + claimError.message);
+                        } else {
+                            alert("Ура! Твой старый аккаунт теперь защищен пончиковым паролем! 🍩🔐");
+                            loginUser(user, existingUser);
+                        }
+                        return;
+                    }
+                }
+
+                // СОЗДАНИЕ СОВЕРШЕННО НОВОГО АККАУНТА
+                const { error: regError } = await _supabase
+                    .from('leaderboard')
+                    .insert([{
+                        player_name: user,
+                        password: pass,
+                        mgb_score: 0,
+                        chips: 10, // Дарим 10 фишек на старт!
+                        score: 0,   // Рекорд кликера
+                        flappy_score: 0 // Рекорд царевны
+                    }]);
+
+                if (regError) {
+                    alert("Ошибка создания аккаунта: " + regError.message);
+                } else {
+                    alert("Аккаунт успешно создан!\nЛови +10 🪙 на баланс от Василича! 🍩🎉");
+                    loginUser(user, { player_name: user, mgb_score: 0, chips: 10, score: 0, flappy_score: 0 });
+                }
+
+            } else {
+                // ВХОД В АККАУНТ
+                const { data, error } = await _supabase
+                    .from('leaderboard')
+                    .select('*')
+                    .eq('player_name', user)
+                    .eq('password', pass)
+                    .single();
+
+                if (error || !data) {
+                    alert("Неверный никнейм или Пончиковый код! 👺🍩\n(Убедись, что правильно ввел регистр букв!)");
+                } else {
+                    alert(`С возвращением в Лэйкор, ${user}!\nТвои фишки и рекорды успешно синхронизированы! 🤝🚀`);
+                    loginUser(user, data);
+                }
+            }
+        }
+
+        // 3. Сохранение данных в localStorage и перезапуск UI
+        function loginUser(username, userData) {
+            localStorage.setItem('leycore_username', username);
+            localStorage.setItem('leycore_chips', (userData.chips !== undefined ? userData.chips : 10).toString());
+            localStorage.setItem('mgb_cooked_count', (userData.mgb_score || 0).toString());
+            localStorage.setItem('bobnitBurgerCount', (userData.score || 0).toString()); // Имя колонки для Кликера
+            localStorage.setItem('flappyHighScore', (userData.flappy_score || 0).toString()); // Имя колонки для Царевны
+
+            // Прячем оверлей
+            const authOverlay = document.getElementById('auth-overlay');
+            if (authOverlay) authOverlay.style.display = 'none';
+
+            // Жестко перезапускаем страницу, чтобы все скрипты заново прочитали новые данные!
+            location.reload();
+        }
+
+        // 4. Синхронизация данных из Supabase в localStorage при каждом запуске
+        async function syncUserDataFromSupabase() {
+            const myName = localStorage.getItem('leycore_username');
+            if (!myName || typeof _supabase === 'undefined' || !_supabase) return;
+
+            try {
+                const { data, error } = await _supabase
+                    .from('leaderboard')
+                    .select('*')
+                    .eq('player_name', myName)
+                    .single();
+
+                if (!error && data) {
+                    // Обновляем все локальные хранилища данными из базы
+                    localStorage.setItem('leycore_chips', (data.chips !== undefined ? data.chips : 10).toString());
+                    localStorage.setItem('mgb_cooked_count', (data.mgb_score || 0).toString());
+                    localStorage.setItem('bobnitBurgerCount', (data.score || 0).toString()); // Кликер
+                    localStorage.setItem('flappyHighScore', (data.flappy_score || 0).toString()); // Царевна
+
+                    // Здесь же можно обновить UI, чтобы сразу показать актуальные фишки и ник
+                    if (typeof updateCasinoUI === 'function') updateCasinoUI();
+                    if (typeof updateMgbLeaderboardUI === 'function') updateMgbLeaderboardUI();
+                    // ... и другие функции обновления UI
+                } else if (error && error.code === 'PGRST116') { // Если пользователя не нашли (вдруг удалили из базы)
+                    console.warn("Пользователь не найден в базе, сбрасываем локальные данные.");
+                    localStorage.clear(); // Сбрасываем все локальные данные
+                    location.reload();    // Перезагружаем, чтобы запросило авторизацию
+                }
+            } catch (e) {
+                console.error("Ошибка синхронизации данных при старте:", e);
+            }
+        }
+
+        // Запускаем проверку авторизации при старте сайта
+        checkGlobalAuth();
+
+
+        // ==========================================
+// ЛОГИКА СЕССИИ: ИНДИКАТОР И ВЫХОД
 // ==========================================
 
-async function changeGlobalUsername() {
-    const input = document.getElementById('profile-username-input');
-    const saveBtn = document.getElementById('save-username-btn');
-    const editContainer = document.getElementById('edit-again-container');
-    if (!input || !saveBtn) return; // Убрал лишние пробелы из !input  !saveBtn
+// Функция обновления индикатора сессии
+function updateSessionIndicator() {
+    const indicator = document.getElementById('user-session-indicator');
+    const nameEl = document.getElementById('session-username');
+    const myName = localStorage.getItem('leycore_username');
 
-    const newName = input.value.trim();
-    const oldName = localStorage.getItem('leycore_username') || ''; // Убрал лишние пробелы из localStorage.getItem('leycore_username')  ''
-
-    if (!newName) {
-        alert("Введи хотя бы один символ!");
-        return;
-    }
-    if (newName.length < 2) {
-        alert("Никнейм слишком короткий! Минимум 2 символа.");
-        return;
-    }
-    if (newName === oldName) {
-        alert("У тебя уже стоит этот никнейм!");
-        return;
-    }
-
-    saveBtn.innerText = "⏳ СОХРАНЕНИЕ...";
-    saveBtn.disabled = true;
-
-    // 1. МГНОВЕННОЕ ОБНОВЛЕНИЕ В SUPABASE
-    if (typeof _supabase !== 'undefined' && _supabase) {
-        try {
-            if (oldName && oldName !== newName) {
-                // ОБНОВЛЯЕМ СУЩЕСТВУЮЩУЮ ЗАПИСЬ
-                const { error } = await _supabase
-                    .from('leaderboard')
-                    .update({ player_name: newName }) // ВОТ ЗДЕСЬ БЫЛО username -> СТАЛО player_name
-                    .eq('player_name', oldName);      // ВОТ ЗДЕСЬ БЫЛО username -> СТАЛО player_name
-
-                if (error) {
-                    // ЕСЛИ СТАРОЙ ЗАПИСИ НЕ БЫЛО (редкий случай), ТО СОЗДАЕМ НОВУЮ
-                    await _supabase
-                        .from('leaderboard')
-                        .upsert({ 
-                            player_name: newName,     // ВОТ ЗДЕСЬ БЫЛО username -> СТАЛО player_name
-                            mgb_score: typeof mgbCookedCount !== 'undefined' ? mgbCookedCount : 0 
-                        }, { onConflict: 'player_name' }); // ВОТ ЗДЕСЬ БЫЛО username -> СТАЛО player_name
-                }
-            } else {
-                // ЕСЛИ ИГРОК ВООБЩЕ В ПЕРВЫЙ РАЗ СОХРАНЯЕТ НИК (или ник был пустой)
-                await _supabase
-                    .from('leaderboard')
-                    .upsert({ 
-                        player_name: newName,         // ВОТ ЗДЕСЬ БЫЛО username -> СТАЛО player_name
-                        mgb_score: typeof mgbCookedCount !== 'undefined' ? mgbCookedCount : 0 
-                    }, { onConflict: 'player_name' }); // ВОТ ЗДЕСЬ БЫЛО username -> СТАЛО player_name
-            }
-        } catch (e) {
-            console.warn("Ошибка обновления ника в Supabase:", e);
-        }
-    }
-
-    localStorage.setItem('leycore_username', newName);
-
-    saveBtn.innerText = "✓ СОХРАНЕНО";
-    saveBtn.style.background = "#22c55e";
-    saveBtn.style.color = "#ffffff";
-    saveBtn.disabled = true;
-
-    input.disabled = true;
-    input.style.borderColor = "#22c55e";
-
-    if (editContainer) editContainer.style.display = "block";
-
-    // 4. МГНОВЕННО ПЕРЕРИСОВЫВАЕМ ВСЕ ЛИДЕРБОРДЫ!
-    if (typeof updateMgbLeaderboardUI === 'function') updateMgbLeaderboardUI();
-    if (typeof renderLeaderboard === 'function') renderLeaderboard();
-    if (typeof renderFlappyLeaderboard === 'function') renderFlappyLeaderboard();
-}
-
-
-
-// Повторное включение редактирования
-function enableUsernameEditing() {
-    const input = document.getElementById('profile-username-input');
-    const saveBtn = document.getElementById('save-username-btn');
-    const editContainer = document.getElementById('edit-again-container');
-
-    if (input && saveBtn) {
-        input.disabled = false;
-        input.style.borderColor = "#444";
-        input.focus();
-
-        saveBtn.disabled = false;
-        saveBtn.innerText = "СОХРАНИТЬ";
-        saveBtn.style.background = "linear-gradient(135deg, var(--accent-gold), #ff8c00)";
-        saveBtn.style.color = "#000";
-
-        if (editContainer) editContainer.style.display = "none";
+    if (myName && indicator && nameEl) {
+        nameEl.innerText = myName;
+        indicator.style.display = 'flex'; // Показываем плашку
+    } else if (indicator) {
+        indicator.style.display = 'none'; // Прячем, если ника нет
     }
 }
 
-// При загрузке страницы проверяем ник
-document.addEventListener('DOMContentLoaded', () => {
-    const input = document.getElementById('profile-username-input');
-    if (input) {
-        input.value = localStorage.getItem('leycore_username') || '';
+// Функция Глобального Выхода из Аккаунта
+function logoutGlobalAccount() {
+    const confirmLogout = confirm("Бобнит расстроится, если ты уйдешь... 😭\nТы точно хочешь выйти из аккаунта?");
+    
+    if (confirmLogout) {
+        // Очищаем все ключевые данные из localStorage
+        localStorage.removeItem('leycore_username');
+        localStorage.removeItem('leycore_chips');
+        localStorage.removeItem('mgb_cooked_count');
+        localStorage.setItem('bobnitBurgerCount', '0');
+        localStorage.setItem('flappyHighScore', '0');
+        
+        // Перезагружаем страницу, чтобы выскочил оверлей авторизации
+        location.reload();
     }
-});
+}
 
+// Добавляем вызов обновления индикатора в функцию checkGlobalAuth
+// (Найди свою функцию checkGlobalAuth и допиши там вызов updateSessionIndicator)
+const originalCheckAuth = window.checkGlobalAuth;
+window.checkGlobalAuth = function() {
+    // Вызываем старую логику
+    const savedUser = localStorage.getItem('leycore_username');
+    const authOverlay = document.getElementById('auth-overlay');
+    if (!savedUser && authOverlay) {
+        authOverlay.style.display = 'flex';
+    } else {
+        syncUserDataFromSupabase();
+    }
+    
+    // ДОБАВЛЯЕМ ПОКАЗ ПЛАШКИ
+    updateSessionIndicator();
+};
 
+// Запускаем принудительно при старте, на случай если функция выше не переопределилась
+document.addEventListener('DOMContentLoaded', updateSessionIndicator);
 
     </script>
 
