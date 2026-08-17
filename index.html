@@ -3912,6 +3912,236 @@
 }
 
 
+/* ==========================================
+   🎨 ТЕМЫ КЛИКЕР-ПАССА И АНИМИРОВАННЫЕ СТИЛИ
+   ========================================== */
+
+/* 1. Стильный Ч/Б Стиль (Черно-Белый Кибер) */
+body.theme-bw {
+    background-color: #080808 !important;
+    color: #ffffff !important;
+    --bg-main: #080808;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --accent-gold: #ffffff;
+    --accent-green: #d1d5db;
+    --border-color: #333333;
+}
+body.theme-bw .leycore-hero,
+body.theme-bw .booster-card,
+body.theme-bw .leaderboard-widget,
+body.theme-bw .profile-card,
+body.theme-bw .clicker-pass-container {
+    border-color: #ffffff !important;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 2. Тема Бирюза Лазурь (Neon Turquoise) */
+body.theme-azure {
+    background-color: #03131a !important;
+    color: #ecfeff !important;
+    --bg-main: #03131a;
+    --card-bg: rgba(6, 182, 212, 0.08);
+    --accent-gold: #06b6d4;
+    --accent-green: #22d3ee;
+    --border-color: #0891b2;
+}
+body.theme-azure .leycore-hero,
+body.theme-azure .booster-card,
+body.theme-azure .leaderboard-widget,
+body.theme-azure .profile-card,
+body.theme-azure .clicker-pass-container {
+    border-color: #06b6d4 !important;
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.3) !important;
+}
+
+/* 3. Анимированный Огненный Титул "Унизил кликер 🔥" */
+.title-flame-wiggle {
+    background: linear-gradient(135deg, #ff0055, #ff8c00, #ff0055);
+    background-size: 200% 200%;
+    color: #fff !important;
+    font-weight: 900;
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-block;
+    box-shadow: 0 0 12px rgba(255, 140, 0, 0.8), 0 0 20px rgba(255, 0, 85, 0.5);
+    animation: flameBg 2s infinite linear, wiggleTilt 3s infinite ease-in-out;
+}
+@keyframes flameBg {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+@keyframes wiggleTilt {
+    0%, 100% { transform: rotate(-3deg) scale(1); }
+    50% { transform: rotate(3deg) scale(1.05); }
+}
+
+/* 4. Розовая неоновая шкала прогресса кликера */
+.clicker-pass-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background: rgba(15, 10, 20, 0.85);
+    border: 2px solid #ff0055;
+    border-radius: 14px;
+    padding: 14px;
+    width: 85px;
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
+    box-sizing: border-box;
+}
+.clicker-liquid-track {
+    position: relative;
+    width: 32px;
+    height: 220px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid #ff0055;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+}
+.clicker-liquid-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(0deg, #ff0055, #ff66a3, #ffb3d9);
+    box-shadow: 0 0 15px #ff0055, inset 0 0 8px #ffffff;
+    transition: height 0.3s ease;
+    border-radius: 0 0 18px 18px;
+}
+.clicker-liquid-fill::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: #ffb3d9;
+    border-radius: 50%;
+    animation: waveLiquid 1.5s infinite ease-in-out alternate;
+}
+@keyframes waveLiquid {
+    0% { transform: translateY(0) scaleY(1); }
+    100% { transform: translateY(-3px) scaleY(1.3); }
+}
+
+/* ==========================================
+   🎨 ТЕМЫ КЛИКЕР-ПАССА И АНИМИРОВАННЫЕ СТИЛИ
+   ========================================== */
+
+/* 1. Стильный Ч/Б Стиль (Черно-Белый Кибер) */
+body.theme-bw {
+    background-color: #080808 !important;
+    color: #ffffff !important;
+    --bg-main: #080808;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --accent-gold: #ffffff;
+    --accent-green: #d1d5db;
+    --border-color: #333333;
+}
+body.theme-bw .leycore-hero,
+body.theme-bw .booster-card,
+body.theme-bw .leaderboard-widget,
+body.theme-bw .profile-card,
+body.theme-bw .clicker-pass-container {
+    border-color: #ffffff !important;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 2. Тема Бирюза Лазурь (Neon Turquoise) */
+body.theme-azure {
+    background-color: #03131a !important;
+    color: #ecfeff !important;
+    --bg-main: #03131a;
+    --card-bg: rgba(6, 182, 212, 0.08);
+    --accent-gold: #06b6d4;
+    --accent-green: #22d3ee;
+    --border-color: #0891b2;
+}
+body.theme-azure .leycore-hero,
+body.theme-azure .booster-card,
+body.theme-azure .leaderboard-widget,
+body.theme-azure .profile-card,
+body.theme-azure .clicker-pass-container {
+    border-color: #06b6d4 !important;
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.3) !important;
+}
+
+/* 3. Анимированный Огненный Титул "Унизил кликер 🔥" */
+.title-flame-wiggle {
+    background: linear-gradient(135deg, #ff0055, #ff8c00, #ff0055);
+    background-size: 200% 200%;
+    color: #fff !important;
+    font-weight: 900;
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-block;
+    box-shadow: 0 0 12px rgba(255, 140, 0, 0.8), 0 0 20px rgba(255, 0, 85, 0.5);
+    animation: flameBg 2s infinite linear, wiggleTilt 3s infinite ease-in-out;
+}
+@keyframes flameBg {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+@keyframes wiggleTilt {
+    0%, 100% { transform: rotate(-3deg) scale(1); }
+    50% { transform: rotate(3deg) scale(1.05); }
+}
+
+/* 4. Розовая неоновая шкала прогресса кликера */
+.clicker-pass-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background: rgba(15, 10, 20, 0.85);
+    border: 2px solid #ff0055;
+    border-radius: 14px;
+    padding: 14px;
+    width: 85px;
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
+    box-sizing: border-box;
+}
+.clicker-liquid-track {
+    position: relative;
+    width: 32px;
+    height: 220px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid #ff0055;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+}
+.clicker-liquid-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(0deg, #ff0055, #ff66a3, #ffb3d9);
+    box-shadow: 0 0 15px #ff0055, inset 0 0 8px #ffffff;
+    transition: height 0.3s ease;
+    border-radius: 0 0 18px 18px;
+}
+.clicker-liquid-fill::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: #ffb3d9;
+    border-radius: 50%;
+    animation: waveLiquid 1.5s infinite ease-in-out alternate;
+}
+@keyframes waveLiquid {
+    0% { transform: translateY(0) scaleY(1); }
+    100% { transform: translateY(-3px) scaleY(1.3); }
+}
+
     </style>
 </head>
 
@@ -4520,11 +4750,12 @@
             </div>
         </div>
 
-        <!-- 3. КЛИКЕР БОБНИТА -->
+                <!-- 3. КЛИКЕР БОБНИТА -->
         <div id="game-block-clicker" class="game-section-block">
             <div class="leycore-hero" style="text-align: center;">
                 <h3>🍔 НАКАЧАЙ БОБНИТА БУРГЕРАМИ</h3>
-                <p>Цель: 5,000 бургеров = Секретный рецепт</p>
+                <p>Прокачивай Кликер-Пасс до 200,000 кликов и забирай призы!</p>
+
                 <!-- ПЛАШКА ПРЕДУПРЕЖДЕНИЯ БОБНИТА-ТАНОСА -->
                 <div class="thanos-warning-banner">
                     <div class="thanos-avatar-container">
@@ -4551,9 +4782,9 @@
                 </div>
                 <div id="booster-timer-display" style="display: none;" class="booster-active-status"></div>
 
-
                 <div class="bobnit-clicker-wrapper"
                     style="display: flex; align-items: center; justify-content: center; gap: 25px; flex-wrap: wrap; margin: 30px auto; max-width: 1100px;">
+                    
                     <div id="bobnit-stage-side"
                         style="background: rgba(17, 14, 23, 0.95); border: 2px solid var(--accent-gold); padding: 20px; border-radius: 12px; box-shadow: 0 0 25px rgba(255, 215, 0, 0.35); font-family: 'Unbounded', sans-serif; min-width: 220px; text-align: center;">
                         <span
@@ -4574,8 +4805,22 @@
                     <div id="bobnit-clicker-area" onclick="clickBobnit(event)"
                         style="cursor: pointer; position: relative; overflow: hidden; display: inline-block;">
                         <img id="bobnit-clicker-img" src="bobnit_stage0_skeleton.jpg"
-                            style="width: 100%; max-width: 800px; height: auto; border-radius: 12px; border: 2px solid var(--accent-gold); box-shadow: 0 0 45px rgba(255, 215, 0, 0.4);">
+                            style="width: 100%; max-width: 600px; height: auto; border-radius: 12px; border: 2px solid var(--accent-gold); box-shadow: 0 0 45px rgba(255, 215, 0, 0.4);">
                     </div>
+
+                    <!-- ВОТ ОНА — РОЗОВАЯ ШКАЛА ПАССА (ВСТАЛА СПРАВА ОТ БУРГЕРА!) -->
+                    <div class="clicker-pass-container">
+                        <span id="clicker-pass-target-label" style="font-size: 0.65rem; color: #ff0055; font-weight: 900; letter-spacing: 1px; font-family: 'Unbounded'; text-shadow: 0 0 8px #ff0055;">ДО 1k</span>
+                        
+                        <div class="clicker-liquid-track">
+                            <div id="clicker-liquid-fill" class="clicker-liquid-fill"></div>
+                        </div>
+
+                        <button onclick="openClickerPassModal()" style="background: linear-gradient(135deg, #ff0055, #ff66a3); color: #fff; border: none; border-radius: 8px; padding: 6px 8px; font-size: 0.65rem; font-weight: 900; font-family: 'Unbounded'; cursor: pointer; box-shadow: 0 0 10px rgba(255, 0, 85, 0.5);">
+                            🏆 ПРИЗЫ
+                        </button>
+                    </div>
+
                 </div>
 
                 <h2 id="clicker-counter" style="margin-top: 15px;">Бургеров: 0</h2>
@@ -6669,6 +6914,11 @@
             const counterEl = document.getElementById('clicker-counter');
             if (counterEl) {
                 counterEl.innerText = "Бургеров: " + burgerCount;
+            }
+
+            // === [НОВОЕ] ОБНОВЛЕНИЕ РОЗОВОЙ ЖИЖИ КЛИКЕР-ПАССА ===
+            if (typeof updateClickerLiquidFill === 'function') {
+                updateClickerLiquidFill();
             }
 
             // 5. ОБНОВЛЕНИЕ КАРТИНКИ И ЭВОЛЮЦИИ БОБНИТА (Расчет стадии и обновление UI)
@@ -9280,6 +9530,200 @@ window.checkGlobalAuth = function() {
 // Запускаем принудительно при старте, на случай если функция выше не переопределилась
 document.addEventListener('DOMContentLoaded', updateSessionIndicator);
 
+
+// ==========================================
+// 🍔 КЛИКЕР-ПАСС: ПАССИВНЫЕ НАГРАДЫ И РЕЦЕПТЫ
+// ==========================================
+
+const clickerPassRecipes = {
+    rec20k: {
+        category: "heavy",
+        title: "● Опухоль Василича (Супер-Мелт 2.0)",
+        image: "vasilich_tumor.jpg",
+        macros: "~2100 ККАЛ // ~130г БЕЛКА",
+        composition: "Свиная рулька (500г), 4 вида сыра (Моцарелла, Гауда, Сулугуни, Дор Блю), домашний майонез с чесноком, кусок сливочного масла (100г), гигантский брецель.",
+        cooking: "Развариваем рульку в бульоне из специй до состояния нитей. Заталкиваем мясо в надрезанный брецель, засыпаем килограммом сырного микса и заливаем вытопленным чесночным маслом. Запекаем при 220°C до дымящейся пузырящейся корки.",
+        laykor: "Коллагеново-жировая инъекция прямо в синапсы мозга. Взрыв вкусовых рецепторов, после которого реальность кажется слишком пресной, а тело требует 4 часа лежачего покоя.",
+        likes: 0, dislikes: 0, comments: []
+    },
+    rec100k: {
+        category: "heavy",
+        title: "● Левиафан Забойный (Бургер-Армагеддон)",
+        image: "armageddon_burger.jpg",
+        macros: "~2650 ККАЛ // ~165г БЕЛКА",
+        composition: "Тройная котлета из мраморной говядины (600г), хрустящий бекон (12 полосок), карамелизованный лук в темном пиве, двойной арахисовый соус, плавленый чеддер.",
+        cooking: "Жарим котлеты на шкворчащем жире до сочной средней прожарки. Обжариваем бекон до хруста. Собираем монолит: булка, арахисовое масло, котлета, сыр, бекон, лук — повторить 3 раза. Протыкаем штыком и поливаем сверху горячим сырным лавовым соусом.",
+        laykor: "Плотность белкового заряда превышает все допустимые нормы экосистемы. Вызывает мгновенное заземление нервной системы и погружает в сладкий анабиоз.",
+        likes: 0, dislikes: 0, comments: []
+    }
+};
+
+const clickerMilestones = [
+    { target: 1000, name: "10 фишек", type: "chips", val: 10 },
+    { target: 3000, name: "Ч/Б Тема", type: "theme", val: "theme-bw" },
+    { target: 6000, name: "Тема Бирюза", type: "theme", val: "theme-azure" },
+    { target: 10000, name: "40 фишек", type: "chips", val: 40 },
+    { target: 20000, name: "Рецепт: Опухоль Василича", type: "recipe", val: "rec20k" },
+    { target: 40000, name: "100 фишек", type: "chips", val: 100 },
+    { target: 100000, name: "500 фишек + Рецепт: Левиафан", type: "mega", val: { chips: 500, recipe: "rec100k" } },
+    { target: 200000, name: "Титул: Унизил кликер 🔥", type: "title", val: "Унизил кликер 🔥" }
+];
+
+// УМНАЯ ШКАЛА: ЗАПОЛНЕНИЕ НА 100% НА КАЖДОМ ШАГЕ
+function updateClickerLiquidFill() {
+    const fillEl = document.getElementById('clicker-liquid-fill');
+    if (!fillEl) return;
+
+    let currentClicks = 0;
+    if (typeof burgerCount !== 'undefined') {
+        currentClicks = burgerCount;
+    } else {
+        currentClicks = parseInt(localStorage.getItem('bobnitBurgerCount') || '0', 10);
+    }
+
+    const stages = [
+        { prev: 0, target: 1000 },
+        { prev: 1000, target: 3000 },
+        { prev: 3000, target: 6000 },
+        { prev: 6000, target: 10000 },
+        { prev: 10000, target: 20000 },
+        { prev: 20000, target: 40000 },
+        { prev: 40000, target: 100000 },
+        { prev: 100000, target: 200000 }
+    ];
+
+    let pct = 0;
+    let targetText = "1k";
+
+    if (currentClicks >= 200000) {
+        pct = 100;
+        targetText = "MAX";
+    } else {
+        for (let i = 0; i < stages.length; i++) {
+            const s = stages[i];
+            if (currentClicks >= s.prev && currentClicks < s.target) {
+                pct = ((currentClicks - s.prev) / (s.target - s.prev)) * 100;
+                targetText = s.target >= 1000 ? (s.target / 1000) + 'k' : s.target;
+                break;
+            }
+        }
+    }
+
+    if (pct < 0) pct = 0;
+    if (pct > 100) pct = 100;
+
+    fillEl.style.height = pct + '%';
+
+    const labelEl = document.getElementById('clicker-pass-target-label');
+    if (labelEl) {
+        labelEl.innerText = targetText === "MAX" ? "МАКС" : `ДО ${targetText}`;
+    }
+
+    checkClickerRewards(currentClicks);
+}
+
+// АВТОМАТИЧЕСКАЯ ВЫДАЧА НАГРАД
+function checkClickerRewards(clicks) {
+    let claimed = JSON.parse(localStorage.getItem('leycore_claimed_rewards') || '[]');
+
+    clickerMilestones.forEach(m => {
+        if (clicks >= m.target && !claimed.includes(m.target)) {
+            claimed.push(m.target);
+            localStorage.setItem('leycore_claimed_rewards', JSON.stringify(claimed));
+
+            if (m.type === 'chips') {
+                if (typeof casinoChips !== 'undefined') {
+                    casinoChips += m.val;
+                    localStorage.setItem('leycore_chips', casinoChips.toString());
+                    if (typeof updateCasinoUI === 'function') updateCasinoUI();
+                }
+                alert(`🎉 КЛИКЕР-ПАСС: За ${m.target} кликов получено +${m.val} 🪙 фишек!`);
+            } 
+            else if (m.type === 'theme') {
+                let unlockedThemes = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
+                if (!unlockedThemes.includes(m.val)) unlockedThemes.push(m.val);
+                localStorage.setItem('unlockedThemes', JSON.stringify(unlockedThemes));
+                if (typeof renderThemesList === 'function') renderThemesList();
+                alert(`🎉 КЛИКЕР-ПАСС: За ${m.target} кликов разблокирована тема: "${m.name}"!`);
+            }
+            else if (m.type === 'recipe') {
+                addRecipeToProfile(clickerPassRecipes[m.val]);
+                alert(`🎉 КЛИКЕР-ПАСС: За ${m.target} кликов разблокирован секретный рецепт: "${clickerPassRecipes[m.val].title}"!`);
+            }
+            else if (m.type === 'mega') {
+                if (typeof casinoChips !== 'undefined') {
+                    casinoChips += m.val.chips;
+                    localStorage.setItem('leycore_chips', casinoChips.toString());
+                    if (typeof updateCasinoUI === 'function') updateCasinoUI();
+                }
+                addRecipeToProfile(clickerPassRecipes[m.val.recipe]);
+                alert(`🔥 КЛИКЕР-ПАСС: Эпический трофей за 100,000 кликов!\n+500 🪙 фишек и Рецепт Левиафана добавлены!`);
+            }
+            else if (m.type === 'title') {
+                let unlockedTitles = JSON.parse(localStorage.getItem('unlockedTitles') || '[]');
+                if (!unlockedTitles.includes(m.val)) unlockedTitles.push(m.val);
+                localStorage.setItem('unlockedTitles', JSON.stringify(unlockedTitles));
+                alert(`👑 КЛИКЕР-ПАСС: 200,000 КЛИКОВ!\nПолучен анимированный огонь-титул: "Унизил кликер 🔥"!`);
+            }
+        }
+    });
+}
+
+function addRecipeToProfile(recipeObj) {
+    let myRecipes = JSON.parse(localStorage.getItem('leycore_unlocked_recipes') || '[]');
+    myRecipes.push(recipeObj);
+    localStorage.setItem('leycore_unlocked_recipes', JSON.stringify(myRecipes));
+}
+
+function openClickerPassModal() {
+    const modal = document.getElementById('clicker-pass-modal');
+    if (modal) modal.style.display = 'flex';
+}
+
+function closeClickerPassModal() {
+    const modal = document.getElementById('clicker-pass-modal');
+    if (modal) modal.style.display = 'none';
+}
+
+// ТИХАЯ КОМПЕНСАЦИЯ ПРИ ВХОДЕ НА САЙТ
+function syncClickerPassRewards() {
+    let currentClicks = 0;
+    if (typeof burgerCount !== 'undefined') {
+        currentClicks = burgerCount;
+    } else {
+        currentClicks = parseInt(localStorage.getItem('bobnitBurgerCount') || '0', 10);
+    }
+
+    let unlocked = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
+    let claimed = JSON.parse(localStorage.getItem('leycore_claimed_rewards') || '[]');
+    let changed = false;
+
+    if (currentClicks >= 3000 && !unlocked.includes('theme-bw')) {
+        unlocked.push('theme-bw');
+        if (!claimed.includes(3000)) claimed.push(3000);
+        changed = true;
+    }
+    if (currentClicks >= 6000 && !unlocked.includes('theme-azure')) {
+        unlocked.push('theme-azure');
+        if (!claimed.includes(6000)) claimed.push(6000);
+        changed = true;
+    }
+
+    if (changed) {
+        localStorage.setItem('unlockedThemes', JSON.stringify(unlocked));
+        localStorage.setItem('leycore_claimed_rewards', JSON.stringify(claimed));
+        if (typeof renderThemesList === 'function') renderThemesList();
+    }
+}
+
+// Запуск при старте страницы
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        updateClickerLiquidFill();
+        syncClickerPassRewards();
+    }, 1200);
+});
+
     </script>
 
 
@@ -9307,7 +9751,26 @@ document.addEventListener('DOMContentLoaded', updateSessionIndicator);
 
 
 
+<!-- МОДАЛЬНОЕ ОКНО ПРИЗОВ КЛИКЕР-ПАССА -->
+<div id="clicker-pass-modal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 5, 15, 0.94); z-index: 260000; display: none; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; backdrop-filter: blur(8px);">
+    <div style="background: rgba(15, 23, 42, 0.95); border: 2px solid #ff0055; border-radius: 16px; padding: 25px; max-width: 500px; width: 100%; box-shadow: 0 0 35px rgba(255, 0, 85, 0.4); text-align: center; color: white; font-family: 'Unbounded', sans-serif;">
+        <h3 style="color: #ff66a3; margin-bottom: 5px; font-size: 1.2rem; text-shadow: 0 0 10px #ff0055;">🏆 НАГРАДЫ КЛИКЕР-ПАССА</h3>
+        <p style="font-size: 0.75rem; color: #aaa; margin-bottom: 20px;">Кликай бургерами, заполняй шкалу и забирай трофеи!</p>
 
+        <div style="max-height: 320px; overflow-y: auto; text-align: left; padding-right: 10px; font-size: 0.8rem;" id="clicker-pass-milestone-list">
+            <div style="padding: 8px; border-bottom: 1px solid #334155;">🔒 <b>1,000 кликов</b> — +10 🪙 фишек</div>
+            <div style="padding: 8px; border-bottom: 1px solid #334155;">🔒 <b>3,000 кликов</b> — Ч/Б Стиль оформления ⬛️⬜️</div>
+            <div style="padding: 8px; border-bottom: 1px solid #334155;">🔒 <b>6,000 кликов</b> — Тема «Бирюза Лазурь» 💎</div>
+            <div style="padding: 8px; border-bottom: 1px solid #334155;">🔒 <b>10,000 кликов</b> — +40 🪙 фишек</div>
+            <div style="padding: 8px; border-bottom: 1px solid #334155;">🔒 <b>20,000 кликов</b> — Рецепт «Опухоль Василича» 📜</div>
+            <div style="padding: 8px; border-bottom: 1px solid #334155;">🔒 <b>40,000 кликов</b> — +100 🪙 фишек</div>
+            <div style="padding: 8px; border-bottom: 1px solid #334155;">🔒 <b>100,000 кликов</b> — +500 🪙 + Рецепт «Левиафан» 🍔🔥</div>
+            <div style="padding: 8px;">🔒 <b>200,000 кликов</b> — Анимированный Огонь-Титул «Унизил кликер 🔥»</div>
+        </div>
+
+        <button onclick="closeClickerPassModal()" style="margin-top: 20px; background: #ff0055; color: white; border: none; padding: 10px 20px; font-weight: 900; font-family: 'Unbounded'; border-radius: 8px; cursor: pointer; width: 100%;">ЗАКРЫТЬ</button>
+    </div>
+</div>
 
 
 
