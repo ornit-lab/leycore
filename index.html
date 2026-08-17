@@ -5973,49 +5973,50 @@
         // ==========================================
         // ИСПРАВЛЕННОЕ СОХРАНЕНИЕ РЕКОРДА ЦАРЕВНЫ
         // ==========================================
-        async function saveFlappyScore() {
-            const myName = localStorage.getItem('leycore_username');
+       async function saveFlappyScore() {
+    const myName = localStorage.getItem('leycore_username');
 
-            if (!myName || typeof _supabase === 'undefined' || !_supabase) {
-                console.warn("Невозможно сохранить рекорд Царевны: игрок не авторизован.");
-                const authOverlay = document.getElementById('auth-overlay');
-                if (authOverlay) authOverlay.style.display = 'flex';
-                return;
-            }
+    if (!myName || typeof _supabase === 'undefined' || !_supabase) {
+        console.warn("Невозможно сохранить рекорд Царевны: игрок не авторизован.");
+        const authOverlay = document.getElementById('auth-overlay');
+        if (authOverlay) authOverlay.style.display = 'flex';
+        return;
+    }
 
-            // Берем текущий счет из переменной игры
-            const currentFlappyScore = typeof bestFlappyScore !== 'undefined' ? bestFlappyScore : 0;
+    const currentFlappyScore = typeof bestFlappyScore !== 'undefined' ? bestFlappyScore : 0; 
 
-            if (currentFlappyScore <= 0) {
-                console.log("Рекорд Царевны слишком мал для сохранения:", currentFlappyScore);
-                return;
-            }
+    if (currentFlappyScore <= 0) {
+        console.log("Рекорд Царевны слишком мал для сохранения:", currentFlappyScore);
+        return;
+    }
 
-            try {
-                const { error } = await _supabase
-                    .from('leaderboard')
-                    .upsert(
-                        {
-                            player_name: myName,
-                            flappy_score: currentFlappyScore,
-                            submitted_at: new Date().toISOString()
-                        },
-                        {
-                            onConflict: 'player_name'
-                        }
-                    );
-
-                if (error) {
-                    console.error('Ошибка сохранения рекорда Царевны:', error.message);
-                } else {
-                    console.log('Рекорд Царевны успешно сохранён:', currentFlappyScore);
-                    loadFlappyLeaderboard(); // Сразу обновляем таблицу на экране
+    try {
+        const { error } = await _supabase
+            .from('leaderboard')
+            .upsert(
+                {
+                    // НЕ ОТПРАВЛЯЕМ player_id ЗДЕСЬ! Он больше не нужен!
+                    player_name: myName, 
+                    flappy_score: currentFlappyScore,
+                    submitted_at: new Date().toISOString()
+                },
+                {
+                    onConflict: 'player_name' // Конфликт ТОЛЬКО по имени!
                 }
+            );
 
-            } catch (e) {
-                console.error("Критический сбой при сохранении рекорда Царевны:", e);
-            }
+        if (error) {
+            console.error('Ошибка сохранения рекорда Царевны:', error.message);
+        } else {
+            console.log('Рекорд Царевны успешно сохранён:', currentFlappyScore);
+            loadFlappyLeaderboard(); 
         }
+
+    } catch (e) {
+        console.error("Критический сбой при сохранении рекорда Царевны:", e);
+    }
+}
+
 
 
 
@@ -6855,52 +6856,49 @@
         // ОБНОВЛЕННАЯ ОТПРАВКА СЧЕТА КЛИКЕРА С ТИТУЛОМ
         // ==========================================
         async function sendScoreToLeaderboard(score) {
-            // 1. Берем актуальный ник из глобальной Пончиковой Авторизации
-            const rawName = localStorage.getItem('leycore_username');
+    const rawName = localStorage.getItem('leycore_username');
 
-            if (!rawName || typeof _supabase === 'undefined' || !_supabase) {
-                console.warn("Кликер: игрок не авторизован или Supabase недоступен.");
-                const authOverlay = document.getElementById('auth-overlay');
-                if (authOverlay) authOverlay.style.display = 'flex';
-                return false;
-            }
+    if (!rawName || typeof _supabase === 'undefined' || !_supabase) {
+        console.warn("Кликер: игрок не авторизован или Supabase недоступен.");
+        const authOverlay = document.getElementById('auth-overlay');
+        if (authOverlay) authOverlay.style.display = 'flex';
+        return false;
+    }
 
-            try {
-                // 2. Очищаем имя и добавляем активный титул игрока (если он есть)
-                const cleanName = rawName.replace(/\|/g, '').trim();
-                const activeTitle = localStorage.getItem('leycore_active_title') || '';
-                const fullName = activeTitle ? `${activeTitle}|${cleanName}` : cleanName;
+    try {
+        const cleanName = rawName.replace(/\|/g, '').trim();
+        const activeTitle = localStorage.getItem('leycore_active_title') || '';
+        const fullName = activeTitle ? `${activeTitle}|${cleanName}` : cleanName;
 
-                // 3. Отправляем рекорд в ОБЩУЮ таблицу 'leaderboard'
-                // Важно: onConflict ставим по 'player_name', так как теперь ник — это наш уникальный ключ!
-                const { error } = await _supabase
-                    .from('leaderboard')
-                    .upsert(
-                        {
-                            player_name: fullName, // Полное имя с титулом
-                            score: score           // Обновляем очки кликера
-                        },
-                        {
-                            onConflict: 'player_name' // Главное правило: конфликт решаем по уникальному нику!
-                        }
-                    );
-
-                if (error) {
-                    console.error('Ошибка отправки счета кликера в базу:', error.message);
-                    return false;
+        const { error } = await _supabase
+            .from('leaderboard')
+            .upsert(
+                {
+                    // НЕ ОТПРАВЛЯЕМ player_id ЗДЕСЬ!
+                    player_name: fullName, 
+                    score: score           // Обновляем очки кликера
+                }, 
+                { 
+                    onConflict: 'player_name' // Конфликт ТОЛЬКО по имени!
                 }
+            );
 
-                // 4. Сразу перерисовываем лидерборд кликера на экране
-                if (typeof loadLeaderboard === 'function') {
-                    await loadLeaderboard();
-                }
-
-                return true;
-            } catch (err) {
-                console.error('Критический сбой в sendScoreToLeaderboard:', err);
-                return false;
-            }
+        if (error) {
+            console.error('Ошибка отправки счета кликера в базу:', error.message);
+            return false;
         }
+
+        if (typeof loadLeaderboard === 'function') {
+            await loadLeaderboard();
+        }
+        
+        return true;
+    } catch (err) {
+        console.error('Критический сбой в sendScoreToLeaderboard:', err);
+        return false;
+    }
+}
+
 
 
         // ==========================================
