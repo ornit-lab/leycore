@@ -8016,37 +8016,75 @@ async function loadFlappyLeaderboard() {
             applyTheme(activeTheme);
         }
 
-        // ОТРИСОВКА И ВЫБОР ТЕМ САЙТА
-        function renderThemesList() {
-            const box = document.getElementById('unlocked-themes-list');
-            if (!box) return;
+// ==========================================
+// 🎨 РОДНАЯ СИСТЕМА ТЕМ С ТИХОЙ ПРОВЕРКОЙ
+// ==========================================
 
-            const themeNames = {
-                '': '⚡️ Стандарт (Лэйкор)',
-                'theme-orange': '🍊 Оранжевый Кибер',
-                'theme-crimson': '🌅 Красный Закат',
-                'theme-rainbow': '🌈 Радужный Неон'
-            };
+function renderThemesList() {
+    const box = document.getElementById('unlocked-themes-list');
+    if (!box) return;
 
-            // Стандартная тема доступна всегда
-            let available = [''];
-            unlockedThemes.forEach(t => {
-                if (!available.includes(t)) available.push(t);
-            });
+    const themeNames = {
+        '': '⚡️ Стандарт (Лэйкор)',
+        'theme-bw': '⬛️⬜️ Ч/Б Стиль (Кликер)',
+        'theme-azure': '💎 Бирюза Лазурь (Кликер)',
+        'theme-orange': '🍊 Оранжевый Кибер',
+        'theme-crimson': '🌅 Красный Закат',
+        'theme-rainbow': '🌈 Радужный Неон'
+    };
 
-            box.innerHTML = available.map(t => `
-                <button onclick="selectTheme('${t}')" style="background: ${activeTheme === t ? 'var(--accent-cyan)' : 'rgba(255,255,255,0.1)'}; color: ${activeTheme === t ? '#000' : '#fff'}; border: 1px solid var(--accent-cyan); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-family: var(--font-code); font-size: 0.8rem;">
-                    ${themeNames[t] || t} ${activeTheme === t ? '✓ (АКТИВНО)' : ''}
-                </button>
-            `).join('');
-        }
+    // 1. Проверяем клики и принудительно открываем темы, если порог пройден
+    let currentClicks = typeof burgerCount !== 'undefined' ? burgerCount : parseInt(localStorage.getItem('bobnitBurgerCount') || '0', 10);
+    let unlocked = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
 
-        function selectTheme(t) {
-            activeTheme = t;
-            localStorage.setItem('leycore_active_theme', activeTheme);
-            applyTheme(activeTheme);
-            renderThemesList();
-        }
+    if (currentClicks >= 3000 && !unlocked.includes('theme-bw')) {
+        unlocked.push('theme-bw');
+    }
+    if (currentClicks >= 6000 && !unlocked.includes('theme-azure')) {
+        unlocked.push('theme-azure');
+    }
+    localStorage.setItem('unlockedThemes', JSON.stringify(unlocked));
+
+    // 2. Определяем активную тему
+    const currentActive = localStorage.getItem('leycore_active_theme') || '';
+    if (typeof activeTheme !== 'undefined') activeTheme = currentActive;
+
+    // 3. Доступные темы (Стандартная + Разблокированные)
+    let available = [''];
+    unlocked.forEach(t => {
+        if (!available.includes(t)) available.push(t);
+    });
+
+    // 4. Отрисовка кнопок (вызываем selectTheme, как в оригинале!)
+    box.innerHTML = available.map(t => {
+        const isCurrentActive = currentActive === t;
+        return `
+            <button onclick="selectTheme('${t}')" style="background: ${isCurrentActive ? 'var(--accent-gold)' : 'rgba(255,255,255,0.1)'}; color: ${isCurrentActive ? '#000' : '#fff'}; border: 1px solid var(--accent-gold); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-family: 'Unbounded', sans-serif; font-size: 0.8rem; margin: 4px; transition: all 0.2s;">
+                ${themeNames[t] || t} ${isCurrentActive ? '✓ (АКТИВНО)' : ''}
+            </button>
+        `;
+    }).join('');
+}
+
+// Глобальный выбор темы (без зависаний!)
+function selectTheme(t) {
+    let unlocked = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
+    
+    // Проверка доступа
+    if (t !== '' && !unlocked.includes(t)) {
+        alert("🔒 Эта тема ещё закрыта! Достигни нужного уровня в Кликер-Пассе, чтобы открыть её.");
+        return;
+    }
+
+    // Применяем
+    document.body.className = t;
+    localStorage.setItem('leycore_active_theme', t);
+    if (typeof activeTheme !== 'undefined') activeTheme = t;
+
+    // Перерисовываем список, чтобы обновить надписи "(АКТИВНО)"
+    renderThemesList();
+}
+
 
         function applyTheme(themeClass) {
             document.body.classList.remove('theme-orange', 'theme-crimson', 'theme-rainbow');
@@ -8524,17 +8562,40 @@ async function loadFlappyLeaderboard() {
             }
         }
 
-        // Авто-проверка при загрузке страницы
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedState = localStorage.getItem('leycore_light_state');
+        // ==========================================
+// ГЛОБАЛЬНЫЙ ЗАПУСК ПРИ ЗАГРУЗКЕ САЙТА (ОБЪЕДИНЕННЫЙ)
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. СРАЗУ: Ставим режим лампы (Светлый/Темный)
+    const savedState = localStorage.getItem('leycore_light_state');
+    if (savedState === 'on') {
+        document.body.classList.add('leycore-light');
+    } else {
+        document.body.classList.add('leycore-dark');
+    }
 
-            // По умолчанию ставим СЕРЫЙ РЕЖИМ (OFF), если пользователь еще не нажимал
-            if (savedState === 'on') {
-                document.body.classList.add('leycore-light');
-            } else {
-                document.body.classList.add('leycore-dark');
-            }
-        });
+    // 2. ЧЕРЕЗ 1.5 СЕКУНДЫ: Синхронизируем награды и жижу
+    // (Даем время Supabase подгрузить твои рекорды из облака)
+    setTimeout(() => {
+        console.log("🚀 Запуск фоновой синхронизации LeyCore...");
+        
+        // Тихо гасим старые ачивки и награды (защита от дюпа)
+        if (typeof syncClickerPassRewards === 'function') {
+            syncClickerPassRewards(); 
+        }
+
+        // Наполняем розовую жижу до актуального уровня
+        if (typeof updateClickerLiquidFill === 'function') {
+            updateClickerLiquidFill(); 
+        }
+        
+        // Если есть функция отрисовки тем, вызываем и её
+        if (typeof renderThemesList === 'function') {
+            renderThemesList();
+        }
+    }, 1500);
+});
+
 
 
 
@@ -9627,48 +9688,70 @@ function updateClickerLiquidFill() {
     checkClickerRewards(currentClicks);
 }
 
-// АВТОМАТИЧЕСКАЯ ВЫДАЧА НАГРАД
+// ==========================================
+// СТРОГАЯ ВЫДАЧА НАГРАД (БЕЗ ДЮПА)
+// ==========================================
 function checkClickerRewards(clicks) {
     let claimed = JSON.parse(localStorage.getItem('leycore_claimed_rewards') || '[]');
 
     clickerMilestones.forEach(m => {
+        // Если порог достигнут, но в памяти ЭТОГО устройства награда еще НЕ забиралась
         if (clicks >= m.target && !claimed.includes(m.target)) {
+            
+            // ВАЖНО: Проверяем, не «старый» ли это запуск. Если кликов уже много, 
+            // а награда за 1000 только что всплыла — значит, это первый вход с нового браузера. 
+            // Мы просто молча зачисляем ее В ПАМЯТЬ без всплывающего алерта и дюпа фишек!
+            const isInitialSync = (clicks - m.target > 500); // Если игрок уже далеко ушел
+
             claimed.push(m.target);
             localStorage.setItem('leycore_claimed_rewards', JSON.stringify(claimed));
 
             if (m.type === 'chips') {
-                if (typeof casinoChips !== 'undefined') {
-                    casinoChips += m.val;
-                    localStorage.setItem('leycore_chips', casinoChips.toString());
-                    if (typeof updateCasinoUI === 'function') updateCasinoUI();
+                if (!isInitialSync) { // Выдаем фишки только в реальном времени!
+                    if (typeof casinoChips !== 'undefined') {
+                        casinoChips += m.val;
+                        localStorage.setItem('leycore_chips', casinoChips.toString());
+                        if (typeof updateCasinoUI === 'function') updateCasinoUI();
+                    }
+                    alert(`🎉 КЛИКЕР-ПАСС: За ${m.target} кликов получено +${m.val} 🪙 фишек!`);
+                } else {
+                    console.log(`🎁 [ТИХИЙ СИНХРОН] Награда ${m.target} кликов учтена без повторного начисления фишек.`);
                 }
-                alert(`🎉 КЛИКЕР-ПАСС: За ${m.target} кликов получено +${m.val} 🪙 фишек!`);
             } 
             else if (m.type === 'theme') {
                 let unlockedThemes = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
                 if (!unlockedThemes.includes(m.val)) unlockedThemes.push(m.val);
                 localStorage.setItem('unlockedThemes', JSON.stringify(unlockedThemes));
                 if (typeof renderThemesList === 'function') renderThemesList();
-                alert(`🎉 КЛИКЕР-ПАСС: За ${m.target} кликов разблокирована тема: "${m.name}"!`);
+                
+                if (!isInitialSync) {
+                    alert(`🎉 КЛИКЕР-ПАСС: Разблокирована тема: "${m.name}"!`);
+                }
             }
             else if (m.type === 'recipe') {
                 addRecipeToProfile(clickerPassRecipes[m.val]);
-                alert(`🎉 КЛИКЕР-ПАСС: За ${m.target} кликов разблокирован секретный рецепт: "${clickerPassRecipes[m.val].title}"!`);
+                if (!isInitialSync) {
+                    alert(`🎉 КЛИКЕР-ПАСС: Разблокирован секретный рецепт: "${clickerPassRecipes[m.val].title}"!`);
+                }
             }
             else if (m.type === 'mega') {
-                if (typeof casinoChips !== 'undefined') {
-                    casinoChips += m.val.chips;
-                    localStorage.setItem('leycore_chips', casinoChips.toString());
-                    if (typeof updateCasinoUI === 'function') updateCasinoUI();
+                if (!isInitialSync) {
+                    if (typeof casinoChips !== 'undefined') {
+                        casinoChips += m.val.chips;
+                        localStorage.setItem('leycore_chips', casinoChips.toString());
+                        if (typeof updateCasinoUI === 'function') updateCasinoUI();
+                    }
+                    alert(`🔥 КЛИКЕР-ПАСС: Эпический трофей за 100,000 кликов! +500 фишек и Рецепт Левиафана!`);
                 }
                 addRecipeToProfile(clickerPassRecipes[m.val.recipe]);
-                alert(`🔥 КЛИКЕР-ПАСС: Эпический трофей за 100,000 кликов!\n+500 🪙 фишек и Рецепт Левиафана добавлены!`);
             }
             else if (m.type === 'title') {
                 let unlockedTitles = JSON.parse(localStorage.getItem('unlockedTitles') || '[]');
                 if (!unlockedTitles.includes(m.val)) unlockedTitles.push(m.val);
                 localStorage.setItem('unlockedTitles', JSON.stringify(unlockedTitles));
-                alert(`👑 КЛИКЕР-ПАСС: 200,000 КЛИКОВ!\nПолучен анимированный огонь-титул: "Унизил кликер 🔥"!`);
+                if (!isInitialSync) {
+                    alert(`👑 КЛИКЕР-ПАСС: Получен анимированный титул: "Унизил кликер 🔥"!`);
+                }
             }
         }
     });
@@ -9693,76 +9776,86 @@ function closeClickerPassModal() {
 // ==========================================
 // ТИХАЯ СИНХРОНИЗАЦИЯ НАГРАД И АЧИВОК (ЗАЩИТА ОТ ДЮПА)
 // ==========================================
+// ==========================================
+// ГЛОБАЛЬНАЯ ТИХАЯ СИНХРОНИЗАЦИЯ (ЗАЩИТА ОТ ДЮПА)
+// ==========================================
 function syncClickerPassRewards() {
-    let currentClicks = 0;
-    if (typeof burgerCount !== 'undefined') {
-        currentClicks = burgerCount;
-    } else {
-        currentClicks = parseInt(localStorage.getItem('bobnitBurgerCount') || '0', 10);
-    }
+    // 1. Берем актуальные данные из памяти
+    let currentClicks = typeof burgerCount !== 'undefined' ? burgerCount : parseInt(localStorage.getItem('bobnitBurgerCount') || '0', 10);
+    let currentFlappyRecord = parseInt(localStorage.getItem('flappyHighScore') || '0', 10);
 
     let unlockedThemes = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
     let claimed = JSON.parse(localStorage.getItem('leycore_claimed_rewards') || '[]');
     let myAchievementsList = JSON.parse(localStorage.getItem('leycore_achievements') || '[]');
     let changed = false;
 
-    // 1. ТИХОЕ ЗАКРЫТИЕ НАГРАД (Без начисления фишек и алертов!)
+    // 2. ТИХОЕ ЗАКРЫТИЕ НАГРАД КЛИКЕР-ПАССА (Без алертов!)
     clickerMilestones.forEach(m => {
         if (currentClicks >= m.target && !claimed.includes(m.target)) {
             claimed.push(m.target);
             changed = true;
 
-            // Если это темы или титулы, просто разблокируем их в инвентаре
             if (m.type === 'theme' && !unlockedThemes.includes(m.val)) {
                 unlockedThemes.push(m.val);
             }
             if (m.type === 'title') {
-                let unlockedTitles = JSON.parse(localStorage.getItem('unlockedTitles') || '[]');
-                if (!unlockedTitles.includes(m.val)) {
-                    unlockedTitles.push(m.val);
-                    localStorage.setItem('unlockedTitles', JSON.stringify(unlockedTitles));
+                let ut = JSON.parse(localStorage.getItem('unlockedTitles') || '[]');
+                if (!ut.includes(m.val)) {
+                    ut.push(m.val);
+                    localStorage.setItem('unlockedTitles', JSON.stringify(ut));
                 }
             }
-            if (m.type === 'mega') {
-                let unlockedTitles = JSON.parse(localStorage.getItem('unlockedTitles') || '[]');
-                if (!unlockedTitles.includes(m.val.recipe)) {
-                    // разблокируем рецепт левиафана тихо
-                    addRecipeToProfileSilent(clickerPassRecipes[m.val.recipe]);
-                }
-            }
-            if (m.type === 'recipe') {
-                addRecipeToProfileSilent(clickerPassRecipes[m.val]);
-            }
+            if (m.type === 'recipe') addRecipeToProfileSilent(clickerPassRecipes[m.val]);
+            if (m.type === 'mega') addRecipeToProfileSilent(clickerPassRecipes[m.val.recipe]);
         }
     });
 
-    // 2. ТИХОЕ ЗАКРЫТИЕ АЧИВОК (Чтобы не спамили при входе)
+    // 3. ТИХОЕ ЗАКРЫТИЕ АЧИВОК ЦАРЕВНЫ (Блокируем дюп фишек!)
+    const flappyMilestones = [
+        { score: 10, name: "Пролетел 10 колонн" },
+        { score: 50, name: "Пролетел 50 колонн" },
+        { score: 100, name: "Пролетел 100 колонн" },
+        { score: 300, name: "Пролетел 300 колонн" },
+        { score: 500, name: "Пролетел 500 колонн" }
+    ];
+
+    flappyMilestones.forEach(m => {
+        if (currentFlappyRecord >= m.score && !myAchievementsList.includes(m.name)) {
+            myAchievementsList.push(m.name);
+            changed = true;
+        }
+    });
+
+    // Тихо гасим ачивки кликера
     if (currentClicks >= 10000 && !myAchievementsList.includes("10.000 кликов в кликере")) {
         myAchievementsList.push("10.000 кликов в кликере");
         changed = true;
     }
-    if (currentClicks >= 50000 && !myAchievementsList.includes("50.000 кликов в кликере")) {
-        myAchievementsList.push("50.000 кликов в кликере");
-        changed = true;
-    }
 
-    // Сохраняем тихо
+    // 4. СОХРАНЯЕМ ВСЁ ТИХО
     if (changed) {
         localStorage.setItem('unlockedThemes', JSON.stringify(unlockedThemes));
         localStorage.setItem('leycore_claimed_rewards', JSON.stringify(claimed));
         localStorage.setItem('leycore_achievements', JSON.stringify(myAchievementsList));
         
-        // Синхронизируем глобальную переменную ачивок, чтобы JS знал о них
-        if (typeof myAchievements !== 'undefined') {
-            myAchievements = myAchievementsList;
-        }
+        if (typeof myAchievements !== 'undefined') myAchievements = myAchievementsList;
 
         if (typeof renderThemesList === 'function') renderThemesList();
         if (typeof renderAchievements === 'function') renderAchievements();
         
-        console.log("🤫 [КЛИКЕР-ПАСС] Пройденные этапы синхронизированы тихо. Дюп предотвращен.");
+        console.log("🤫 [СИСТЕМА БЕЗОПАСНОСТИ] Синхронизация прошла тихо. Дюп наград заблокирован!");
     }
 }
+
+// Вспомогательная тихая функция для рецептов
+function addRecipeToProfileSilent(recipeObj) {
+    let myRecipes = JSON.parse(localStorage.getItem('leycore_unlocked_recipes') || '[]');
+    if (!myRecipes.some(r => r.title === recipeObj.title)) {
+        myRecipes.push(recipeObj);
+        localStorage.setItem('leycore_unlocked_recipes', JSON.stringify(myRecipes));
+    }
+}
+
 
 // Тихая разблокировка рецепта в профиль
 function addRecipeToProfileSilent(recipeObj) {
@@ -9773,6 +9866,53 @@ function addRecipeToProfileSilent(recipeObj) {
         localStorage.setItem('leycore_unlocked_recipes', JSON.stringify(myRecipes));
     }
 }
+
+
+// ==========================================
+// 🤫 ТИХАЯ СИНХРОНИЗАЦИЯ АЧИВОК (БЛОКИРОВКА ДЮПА)
+// ==========================================
+function syncAchievementsSilently() {
+    let myAchievementsList = JSON.parse(localStorage.getItem('leycore_achievements') || '[]');
+    let currentFlappyRecord = parseInt(localStorage.getItem('flappyHighScore') || '0', 10);
+    let currentClicks = parseInt(localStorage.getItem('bobnitBurgerCount') || '0', 10);
+    let changed = false;
+
+    // 1. Тихо блокируем старые ачивки Царевны (без выдачи фишек!)
+    const flappyMilestones = [
+        { score: 10, name: "Пролетел 10 колонн" },
+        { score: 50, name: "Пролетел 50 колонн" },
+        { score: 100, name: "Пролетел 100 колонн" },
+        { score: 300, name: "Пролетел 300 колонн" },
+        { score: 500, name: "Пролетел 500 колонн" }
+    ];
+
+    flappyMilestones.forEach(m => {
+        if (currentFlappyRecord >= m.score && !myAchievementsList.includes(m.name)) {
+            myAchievementsList.push(m.name);
+            changed = true;
+        }
+    });
+
+    // 2. Тихо блокируем старые ачивки Кликера
+    if (currentClicks >= 10000 && !myAchievementsList.includes("10.000 кликов в кликере")) {
+        myAchievementsList.push("10.000 кликов в кликере");
+        changed = true;
+    }
+    if (currentClicks >= 50000 && !myAchievementsList.includes("50.000 кликов в кликере")) {
+        myAchievementsList.push("50.000 кликов в кликере");
+        changed = true;
+    }
+
+    if (changed) {
+        localStorage.setItem('leycore_achievements', JSON.stringify(myAchievementsList));
+        if (typeof myAchievements !== 'undefined') {
+            myAchievements = myAchievementsList;
+        }
+        if (typeof renderAchievements === 'function') renderAchievements();
+        console.log("🤫 [БЕЗОПАСНОСТЬ] Все старые достижения синхронизированы тихо. Дюп заблокирован!");
+    }
+}
+
 
     </script>
 
