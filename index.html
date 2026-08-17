@@ -3833,23 +3833,22 @@
    НЕОНОВЫЙ КИБЕРПАНК ИНДИКАТОР СЕССИИ (V2)
    ========================================== */
 
-/* Главный плавающий виджет */
+/* --- ИСПРАВЛЕННЫЙ ИНДИКАТОР --- */
 .session-indicator-widget {
-    position: fixed;
+    position: absolute; /* Было fixed, меняем на absolute */
     top: 15px;
     right: 20px;
-    z-index: 150000;
+    z-index: 100; /* Ставим ниже, чем оверлеи игр (у них обычно 1000+) */
     display: none;
     align-items: center;
     gap: 12px;
     background: rgba(10, 5, 20, 0.85);
-    border: 2px solid #ff0055; /* Розовый неоновый бордер */
-    box-shadow: 0 0 15px rgba(255, 0, 85, 0.4), inset 0 0 10px rgba(255, 0, 85, 0.2); /* Розовое свечение */
+    border: 2px solid #ff0055;
     padding: 8px 16px;
     border-radius: 30px;
     backdrop-filter: blur(8px);
-    transition: all 0.3s ease;
 }
+
 
 /* Контейнер с текстом статуса и ником */
 .session-info {
@@ -9182,13 +9181,18 @@ function updateSessionIndicator() {
     const nameEl = document.getElementById('session-username');
     const myName = localStorage.getItem('leycore_username');
 
-    if (myName && indicator && nameEl) {
+    // Прячем, если мы НЕ на главной странице (предположим, твоя главная имеет ID 'page-home')
+    // Или просто прячем, если открыта игра:
+    const isGameOpen = document.getElementById('page-games')?.style.display === 'block';
+
+    if (myName && indicator && nameEl && !isGameOpen) {
         nameEl.innerText = myName;
-        indicator.style.display = 'flex'; // Показываем плашку
-    } else if (indicator) {
-        indicator.style.display = 'none'; // Прячем, если ника нет
+        indicator.style.display = 'flex';
+    } else {
+        indicator.style.display = 'none';
     }
 }
+
 
 // Функция Глобального Выхода из Аккаунта
 function logoutGlobalAccount() {
