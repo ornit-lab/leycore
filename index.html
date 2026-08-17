@@ -5076,24 +5076,29 @@ body.theme-azure .clicker-pass-container {
         };
 
         function addAchievement(name) {
-            if (!myAchievements.includes(name)) {
-                myAchievements.push(name);
-                localStorage.setItem('leycore_achievements', JSON.stringify(myAchievements));
+    // Подтягиваем актуальный список перед проверкой
+    if (typeof myAchievements === 'undefined') window.myAchievements = [];
+    myAchievements = JSON.parse(localStorage.getItem('leycore_achievements') || '[]');
 
-                // Проверяем, есть ли награда за эту ачивку
-                let rewardText = "";
-                if (achievementRewards[name]) {
-                    const reward = achievementRewards[name];
-                    if (typeof addChips === 'function') {
-                        addChips(reward); // Начисляем фишки
-                        rewardText = `\n🎁 Награда: +${reward} 🪙`;
-                    }
-                }
+    if (!myAchievements.includes(name)) {
+        myAchievements.push(name);
+        localStorage.setItem('leycore_achievements', JSON.stringify(myAchievements));
 
-                alert("🏆 НОВАЯ АЧИВКА: " + name + rewardText);
-                renderAchievements(); // Обновляем список, если мы в профиле
+        // Проверяем, есть ли награда за эту ачивку
+        let rewardText = "";
+        if (typeof achievementRewards !== 'undefined' && achievementRewards[name]) {
+            const reward = achievementRewards[name];
+            if (typeof addChips === 'function') {
+                addChips(reward); // Начисляем фишки
+                rewardText = `\n🎁 Награда: +${reward} 🪙`;
             }
         }
+
+        alert("🏆 НОВАЯ АЧИВКА: " + name + rewardText);
+        if (typeof renderAchievements === 'function') renderAchievements(); // Обновляем список
+    }
+}
+
 
 
         // ----------------------------------------------------
@@ -9538,7 +9543,7 @@ document.addEventListener('DOMContentLoaded', updateSessionIndicator);
 const clickerPassRecipes = {
     rec20k: {
         category: "heavy",
-        title: "● Опухоль деда (Супер-Мелт 2.0)",
+        title: "● Опухоль Василича (Супер-Мелт 2.0)",
         image: "vasilich_tumor.jpg",
         macros: "~2100 ККАЛ // ~130г БЕЛКА",
         composition: "Свиная рулька (500г), 4 вида сыра (Моцарелла, Гауда, Сулугуни, Дор Блю), домашний майонез с чесноком, кусок сливочного масла (100г), гигантский брецель.",
@@ -9548,7 +9553,7 @@ const clickerPassRecipes = {
     },
     rec100k: {
         category: "heavy",
-        title: "● Толстый колдун (Бургер-Армагеддон)",
+        title: "● Левиафан Забойный (Бургер-Армагеддон)",
         image: "armageddon_burger.jpg",
         macros: "~2650 ККАЛ // ~165г БЕЛКА",
         composition: "Тройная котлета из мраморной говядины (600г), хрустящий бекон (12 полосок), карамелизованный лук в темном пиве, двойной арахисовый соус, плавленый чеддер.",
@@ -9563,9 +9568,9 @@ const clickerMilestones = [
     { target: 3000, name: "Ч/Б Тема", type: "theme", val: "theme-bw" },
     { target: 6000, name: "Тема Бирюза", type: "theme", val: "theme-azure" },
     { target: 10000, name: "40 фишек", type: "chips", val: 40 },
-    { target: 20000, name: "Рецепт: Опухоль деда", type: "recipe", val: "rec20k" },
+    { target: 20000, name: "Рецепт: Опухоль Василича", type: "recipe", val: "rec20k" },
     { target: 40000, name: "100 фишек", type: "chips", val: 100 },
-    { target: 100000, name: "500 фишек + Рецепт: Толстый колдун", type: "mega", val: { chips: 500, recipe: "rec100k" } },
+    { target: 100000, name: "500 фишек + Рецепт: Левиафан", type: "mega", val: { chips: 500, recipe: "rec100k" } },
     { target: 200000, name: "Титул: Унизил кликер 🔥", type: "title", val: "Унизил кликер 🔥" }
 ];
 
@@ -9685,7 +9690,9 @@ function closeClickerPassModal() {
     if (modal) modal.style.display = 'none';
 }
 
-// ТИХАЯ КОМПЕНСАЦИЯ ПРИ ВХОДЕ НА САЙТ
+// ==========================================
+// ТИХАЯ СИНХРОНИЗАЦИЯ НАГРАД И АЧИВОК (ЗАЩИТА ОТ ДЮПА)
+// ==========================================
 function syncClickerPassRewards() {
     let currentClicks = 0;
     if (typeof burgerCount !== 'undefined') {
@@ -9694,35 +9701,78 @@ function syncClickerPassRewards() {
         currentClicks = parseInt(localStorage.getItem('bobnitBurgerCount') || '0', 10);
     }
 
-    let unlocked = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
+    let unlockedThemes = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
     let claimed = JSON.parse(localStorage.getItem('leycore_claimed_rewards') || '[]');
+    let myAchievementsList = JSON.parse(localStorage.getItem('leycore_achievements') || '[]');
     let changed = false;
 
-    if (currentClicks >= 3000 && !unlocked.includes('theme-bw')) {
-        unlocked.push('theme-bw');
-        if (!claimed.includes(3000)) claimed.push(3000);
+    // 1. ТИХОЕ ЗАКРЫТИЕ НАГРАД (Без начисления фишек и алертов!)
+    clickerMilestones.forEach(m => {
+        if (currentClicks >= m.target && !claimed.includes(m.target)) {
+            claimed.push(m.target);
+            changed = true;
+
+            // Если это темы или титулы, просто разблокируем их в инвентаре
+            if (m.type === 'theme' && !unlockedThemes.includes(m.val)) {
+                unlockedThemes.push(m.val);
+            }
+            if (m.type === 'title') {
+                let unlockedTitles = JSON.parse(localStorage.getItem('unlockedTitles') || '[]');
+                if (!unlockedTitles.includes(m.val)) {
+                    unlockedTitles.push(m.val);
+                    localStorage.setItem('unlockedTitles', JSON.stringify(unlockedTitles));
+                }
+            }
+            if (m.type === 'mega') {
+                let unlockedTitles = JSON.parse(localStorage.getItem('unlockedTitles') || '[]');
+                if (!unlockedTitles.includes(m.val.recipe)) {
+                    // разблокируем рецепт левиафана тихо
+                    addRecipeToProfileSilent(clickerPassRecipes[m.val.recipe]);
+                }
+            }
+            if (m.type === 'recipe') {
+                addRecipeToProfileSilent(clickerPassRecipes[m.val]);
+            }
+        }
+    });
+
+    // 2. ТИХОЕ ЗАКРЫТИЕ АЧИВОК (Чтобы не спамили при входе)
+    if (currentClicks >= 10000 && !myAchievementsList.includes("10.000 кликов в кликере")) {
+        myAchievementsList.push("10.000 кликов в кликере");
         changed = true;
     }
-    if (currentClicks >= 6000 && !unlocked.includes('theme-azure')) {
-        unlocked.push('theme-azure');
-        if (!claimed.includes(6000)) claimed.push(6000);
+    if (currentClicks >= 50000 && !myAchievementsList.includes("50.000 кликов в кликере")) {
+        myAchievementsList.push("50.000 кликов в кликере");
         changed = true;
     }
 
+    // Сохраняем тихо
     if (changed) {
-        localStorage.setItem('unlockedThemes', JSON.stringify(unlocked));
+        localStorage.setItem('unlockedThemes', JSON.stringify(unlockedThemes));
         localStorage.setItem('leycore_claimed_rewards', JSON.stringify(claimed));
+        localStorage.setItem('leycore_achievements', JSON.stringify(myAchievementsList));
+        
+        // Синхронизируем глобальную переменную ачивок, чтобы JS знал о них
+        if (typeof myAchievements !== 'undefined') {
+            myAchievements = myAchievementsList;
+        }
+
         if (typeof renderThemesList === 'function') renderThemesList();
+        if (typeof renderAchievements === 'function') renderAchievements();
+        
+        console.log("🤫 [КЛИКЕР-ПАСС] Пройденные этапы синхронизированы тихо. Дюп предотвращен.");
     }
 }
 
-// Запуск при старте страницы
-document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        updateClickerLiquidFill();
-        syncClickerPassRewards();
-    }, 1200);
-});
+// Тихая разблокировка рецепта в профиль
+function addRecipeToProfileSilent(recipeObj) {
+    let myRecipes = JSON.parse(localStorage.getItem('leycore_unlocked_recipes') || '[]');
+    // Проверяем, чтобы не дублировать рецепт
+    if (!myRecipes.some(r => r.title === recipeObj.title)) {
+        myRecipes.push(recipeObj);
+        localStorage.setItem('leycore_unlocked_recipes', JSON.stringify(myRecipes));
+    }
+}
 
     </script>
 
