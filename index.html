@@ -5075,7 +5075,7 @@ body.theme-azure .clicker-pass-container {
             // "Секретный рецепт": 15
         };
 
-        function addAchievement(name) {
+       function addAchievement(name) {
     // Подтягиваем актуальный список перед проверкой
     if (typeof myAchievements === 'undefined') window.myAchievements = [];
     myAchievements = JSON.parse(localStorage.getItem('leycore_achievements') || '[]');
@@ -5083,6 +5083,11 @@ body.theme-azure .clicker-pass-container {
     if (!myAchievements.includes(name)) {
         myAchievements.push(name);
         localStorage.setItem('leycore_achievements', JSON.stringify(myAchievements));
+        
+        // Сохраняем новую ачивку в облако, чтобы она не дюпалась на других устройствах!
+        if (typeof saveUserProfileToCloud === 'function') {
+            saveUserProfileToCloud();
+        }
 
         // Проверяем, есть ли награда за эту ачивку
         let rewardText = "";
@@ -5090,14 +5095,23 @@ body.theme-azure .clicker-pass-container {
             const reward = achievementRewards[name];
             if (typeof addChips === 'function') {
                 addChips(reward); // Начисляем фишки
+                
+                // ИСПРАВИЛИ: Вернули обратные кавычки ` ` вокруг строки с переменной!
                 rewardText = `\n🎁 Награда: +${reward} 🪙`;
             }
         }
 
         alert("🏆 НОВАЯ АЧИВКА: " + name + rewardText);
+        
+        // Сразу обновляем облако еще раз, чтобы выданные фишки за ачивку тоже залетели в базу!
+        if (typeof saveUserProfileToCloud === 'function') {
+            saveUserProfileToCloud();
+        }
+
         if (typeof renderAchievements === 'function') renderAchievements(); // Обновляем список
     }
 }
+
 
 
 
@@ -7823,45 +7837,63 @@ async function loadFlappyLeaderboard() {
             list.innerHTML = html;
         }
 
-        // ====================================================
-        // 🛒 ФУНКЦИИ ПОКУПКИ В МАГАЗИНЕ
-        // ====================================================
-        function buyShopRecipe(index) {
-            const recipe = shopRecipes[index];
-            if (dishes.some(d => d.title === recipe.title)) {
-                alert("Этот рецепт уже куплен и находится в Меню!");
-                return;
-            }
+       // ====================================================
+// 🛒 ОБНОВЛЕННЫЕ ФУНКЦИИ ПОКУПКИ В МАГАЗИНЕ С ОБЛАКОМ
+// ====================================================
 
-            if (!spendChips(50)) {
-                alert("У тебя недостаточно фишек! Покрути казино или кликай Бобнита.");
-                return;
-            }
+function buyShopRecipe(index) {
+    const recipe = shopRecipes[index];
+    if (dishes.some(d => d.title === recipe.title)) {
+        alert("Этот рецепт уже куплен и находится в Меню!");
+        return;
+    }
 
-            dishes.push(recipe);
-            localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
-            alert(`🎉 ПОЗДРАВЛЯЕМ! Рецепт "${recipe.title}" успешно куплен за 50 🪙 и добавлен в Меню!`);
-            renderAchievements();
-            if (typeof renderDishes === 'function') renderDishes('all');
-        }
+    if (!spendChips(50)) {
+        alert("У тебя недостаточно фишек! Покрути казино или кликай Бобнита.");
+        return;
+    }
 
-        function buyLavaTitle(index) {
-            const title = shopLavaTitles[index];
-            if (unlockedTitles.includes(title)) {
-                alert("Этот титул уже в твоем Инвентаре!");
-                return;
-            }
+    dishes.push(recipe);
+    localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
+    
+    // ИСПРАВИЛИ: Вернули кавычки вокруг алерта
+    alert(`🎉 ПОЗДРАВЛЯЕМ! Рецепт "${recipe.title}" успешно куплен за 50 🪙 и добавлен в Меню!`);
+    
+    // !!! НОВОЕ: Сразу отправляем обновленный инвентарь в облако Supabase!
+    if (typeof saveUserProfileToCloud === 'function') {
+        saveUserProfileToCloud();
+    }
 
-            if (!spendChips(100)) {
-                alert("У тебя недостаточно фишек! Нужно 100 🪙.");
-                return;
-            }
+    if (typeof renderAchievements === 'function') renderAchievements();
+    if (typeof renderDishes === 'function') renderDishes('all');
+}
 
-            unlockedTitles.push(title);
-            localStorage.setItem('leycore_titles', JSON.stringify(unlockedTitles));
-            alert(`🌋 ВЕЛИЧЕСТВЕННО! Лавовый титул "${title}" куплен и доступен в Инвентаре!`);
-            renderAchievements();
-        }
+function buyLavaTitle(index) {
+    const title = shopLavaTitles[index];
+    if (unlockedTitles.includes(title)) {
+        alert("Этот титул уже в твоем Инвентаре!");
+        return;
+    }
+
+    if (!spendChips(100)) {
+        alert("У тебя недостаточно фишек! Нужно 100 🪙.");
+        return;
+    }
+
+    unlockedTitles.push(title);
+    localStorage.setItem('leycore_titles', JSON.stringify(unlockedTitles));
+    
+    // ИСПРАВИЛИ: Вернули кавычки вокруг алерта
+    alert(`🌋 ВЕЛИЧЕСТВЕННО! Лавовый титул "${title}" куплен и доступен в Инвентаре!`);
+    
+    // !!! НОВОЕ: Отправляем купленный титул и новый баланс в Supabase!
+    if (typeof saveUserProfileToCloud === 'function') {
+        saveUserProfileToCloud();
+    }
+
+    if (typeof renderAchievements === 'function') renderAchievements();
+}
+
 
 
         // ====================================================
@@ -8274,103 +8306,95 @@ function selectTheme(t) {
         }
 
         // ====================================================
-        // 🎁 ОБРАБОТКА ВЫИГРЫША В КАЗИНО
-        // ====================================================
-        function processCasinoOutcome(winType) {
-            if (winType === 'artefact') {
-                const unowned = casinoRecipes.filter(r => !dishes.some(d => d.title === r.title));
-                if (unowned.length > 0) {
-                    const winRecipe = unowned[Math.floor(Math.random() * unowned.length)];
-                    dishes.push(winRecipe);
-                    localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
-                    showBobnitWinReaction(); // <--- СЮДА!
-                    alert(`🏆 ТРИ СОВПАДЕНИЯ (🍖🍖🍖)! Выбит секретный рецепт: "${winRecipe.title}"!`);
-                    if (typeof renderDishes === 'function') renderDishes('all');
-                } else {
-                    addChips(5);
-                    showBobnitWinReaction(); // <--- И СЮДА! (если все рецепты открыты, но есть победа)
-                    alert("🏆 Все секретные рецепты уже открыты! Начислено +5 🪙!");
-                }
-            } else if (winType === 'relic') {
-                const unowned = casinoTitles.filter(t => !unlockedTitles.includes(t));
-                if (unowned.length > 0) {
-                    const winTitle = unowned[Math.floor(Math.random() * unowned.length)];
-                    unlockedTitles.push(winTitle);
-                    localStorage.setItem('leycore_titles', JSON.stringify(unlockedTitles));
-                    showBobnitWinReaction(); // <--- СЮДА!
-                    alert(`🔮 ТРИ СОВПАДЕНИЯ (🔮🔮🔮)! Выбит редкий титул: "${winTitle}"!`);
-                    if (typeof renderTitlesList === 'function') renderTitlesList();
-                } else {
-                    addChips(3);
-                    showBobnitWinReaction(); // <--- И СЮДА! (если все титулы собраны, но есть победа)
-                    alert("🔮 Все титулы уже собраны! Начислено +3 🪙!");
-                }
-                       } else if (winType === 'theme') {
-                // Список всех доступных тем
-                const themes = ['theme-orange', 'theme-crimson', 'theme-rainbow', 'theme-bw', 'theme-azure'];
-                
-                // Берем актуальный список из localStorage (наша единая база)
-                let unlocked = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
-                
-                const unowned = themes.filter(t => !unlocked.includes(t));
-                
-                if (unowned.length > 0) {
-                    const winTheme = unowned[Math.floor(Math.random() * unowned.length)];
-                    unlocked.push(winTheme);
-                    
-                    // СОХРАНЯЕМ В ЕДИНОЕ МЕСТО
-                    localStorage.setItem('unlockedThemes', JSON.stringify(unlocked));
-                    
-                    // ПРИМЕНЯЕМ И ОБНОВЛЯЕМ UI
-                    applyTheme(winTheme); // Используем нашу идеальную функцию смены темы
-                    showBobnitWinReaction();
-                    
-                    alert("🌈 ТРИ СОВПАДЕНИЯ (🌈🌈🌈)! Разблокирована новая тема!");
-                    
-                    // Эта функция теперь сама перерисует список с галочкой "АКТИВНО"
-                    if (typeof renderThemesList === 'function') renderThemesList();
-                } else {
-                    addChips(2);
-                    showBobnitWinReaction();
-                    alert("🌈 Все темы открыты! Начислено +2 🪙!");
-                }
-
-            } else if (winType === 'emenit') {
-                addChips(5);
-                alert("⚡️ ТРИ СОВПАДЕНИЯ (⚡️⚡️⚡️)! Вы выиграли +5 Бонусных Фишек!");
-                showBobnitWinReaction(); // <--- СЮДА!
-                // ЭТО БЛОК ПРОИГРЫША, ТУТ НЕ НАДО ДОБАВЛЯТЬ showBobnitWinReaction()
-            } else {
-                junkCount++;
-                const humCard = document.getElementById('bobnit-humiliation-card');
-                const humText = document.getElementById('bobnit-humiliation-text');
-                if (humCard && humText) {
-                    // --- ВОЗВРАЩАЕМ РОДНОЙ КРАСНЫЙ ЦВЕТ ПРИ ПРОИГРЫШЕ ---
-                    humCard.style.setProperty('background', 'linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(185, 28, 28, 0.15))', 'important');
-                    humCard.style.setProperty('border', '1px solid rgba(239, 68, 68, 0.5)', 'important');
-                    humCard.style.setProperty('box-shadow', '0 4px 15px rgba(239, 68, 68, 0.2)', 'important');
-
-                    // --- Возвращаем надпись "БОБНИТ ГОВОРИТ:" в красный ---
-                    const bobnitSaysDiv = humCard.querySelector('div[style*="font-family: var(--font-code)"]');
-                    if (bobnitSaysDiv) {
-                        bobnitSaysDiv.style.setProperty('color', '#ef4444', 'important'); // Красный цвет
-                    }
-
-                    // --- Возвращаем ободок аватарки в красный ---
-                    const avatarWrapper = humCard.querySelector('div[style*="border-radius"]');
-                    if (avatarWrapper) {
-                        avatarWrapper.style.setProperty('border-color', '#ef4444', 'important'); // Красный ободок
-                    }
-                    // --- КОНЕЦ ИЗМЕНЕНИЙ ---
-
-                    humText.innerText = bobnitHumiliations[Math.floor(Math.random() * bobnitHumiliations.length)];
-                    humCard.style.display = 'flex';
-                }
-            }
-            updateCasinoUI();
-
-
+// 🎁 ОБРАБОТКА ВЫИГРЫША В КАЗИНО (СИНХРОНИЗИРОВАНО С ОБЛАКОМ)
+// ====================================================
+function processCasinoOutcome(winType) {
+    if (winType === 'artefact') {
+        const unowned = casinoRecipes.filter(r => !dishes.some(d => d.title === r.title));
+        if (unowned.length > 0) {
+            const winRecipe = unowned[Math.floor(Math.random() * unowned.length)];
+            dishes.push(winRecipe);
+            localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
+            showBobnitWinReaction(); 
+            // ИСПРАВИЛИ: Добавили обратные кавычки ` ` вокруг текста с переменной
+            alert(`🏆 ТРИ СОВПАДЕНИЯ (🍖🍖🍖)! Выбит секретный рецепт: "${winRecipe.title}"!`);
+            if (typeof renderDishes === 'function') renderDishes('all');
+        } else {
+            addChips(5);
+            showBobnitWinReaction(); 
+            alert("🏆 Все секретные рецепты уже открыты! Начислено +5 🪙!");
         }
+    } else if (winType === 'relic') {
+        const unowned = casinoTitles.filter(t => !unlockedTitles.includes(t));
+        if (unowned.length > 0) {
+            const winTitle = unowned[Math.floor(Math.random() * unowned.length)];
+            unlockedTitles.push(winTitle);
+            localStorage.setItem('leycore_titles', JSON.stringify(unlockedTitles));
+            showBobnitWinReaction(); 
+            // ИСПРАВИЛИ: Добавили обратные кавычки ` `
+            alert(`🔮 ТРИ СОВПАДЕНИЯ (🔮🔮🔮)! Выбит редкий титул: "${winTitle}"!`);
+            if (typeof renderTitlesList === 'function') renderTitlesList();
+        } else {
+            addChips(3);
+            showBobnitWinReaction(); 
+            alert("🔮 Все титулы уже собраны! Начислено +3 🪙!");
+        }
+    } else if (winType === 'theme') {
+        const themes = ['theme-orange', 'theme-crimson', 'theme-rainbow', 'theme-bw', 'theme-azure'];
+        let unlocked = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
+        const unowned = themes.filter(t => !unlocked.includes(t));
+        
+        if (unowned.length > 0) {
+            const winTheme = unowned[Math.floor(Math.random() * unowned.length)];
+            unlocked.push(winTheme);
+            localStorage.setItem('unlockedThemes', JSON.stringify(unlocked));
+            
+            applyTheme(winTheme); 
+            showBobnitWinReaction();
+            alert("🌈 ТРИ СОВПАДЕНИЯ (🌈🌈🌈)! Разблокирована новая тема!");
+            
+            if (typeof renderThemesList === 'function') renderThemesList();
+        } else {
+            addChips(2);
+            showBobnitWinReaction();
+            alert("🌈 Все темы открыты! Начислено +2 🪙!");
+        }
+    } else if (winType === 'emenit') {
+        addChips(5);
+        alert("⚡️ ТРИ СОВПАДЕНИЯ (⚡️⚡️⚡️)! Вы выиграли +5 Бонусных Фишек!");
+        showBobnitWinReaction(); 
+    } else {
+        junkCount++;
+        const humCard = document.getElementById('bobnit-humiliation-card');
+        const humText = document.getElementById('bobnit-humiliation-text');
+        if (humCard && humText) {
+            humCard.style.setProperty('background', 'linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(185, 28, 28, 0.15))', 'important');
+            humCard.style.setProperty('border', '1px solid rgba(239, 68, 68, 0.5)', 'important');
+            humCard.style.setProperty('box-shadow', '0 4px 15px rgba(239, 68, 68, 0.2)', 'important');
+
+            const bobnitSaysDiv = humCard.querySelector('div[style*="font-family: var(--font-code)"]');
+            if (bobnitSaysDiv) {
+                bobnitSaysDiv.style.setProperty('color', '#ef4444', 'important'); 
+            }
+
+            const avatarWrapper = humCard.querySelector('div[style*="border-radius"]');
+            if (avatarWrapper) {
+                avatarWrapper.style.setProperty('border-color', '#ef4444', 'important'); 
+            }
+
+            humText.innerText = bobnitHumiliations[Math.floor(Math.random() * bobnitHumiliations.length)];
+            humCard.style.display = 'flex';
+        }
+    }
+    
+    // Обновляем визуальный интерфейс казика (фишки и т.д.)
+    updateCasinoUI();
+
+    // !!! И ВОТ СЮДА СТАВИМ СОХРАНЕНИЕ В ОБЛАКО (В САМЫЙ КОНЕЦ ФУНКЦИИ) !!!
+    if (typeof saveUserProfileToCloud === 'function') {
+        saveUserProfileToCloud();
+    }
+}
 
         window.showBobnitWinReaction = function () {
             console.log("Бобнит пытается заговорить при победе...");
@@ -9618,7 +9642,7 @@ document.addEventListener('DOMContentLoaded', updateSessionIndicator);
 const clickerPassRecipes = {
     rec20k: {
         category: "heavy",
-        title: "● Опухоль Василича (Супер-Мелт 2.0)",
+        title: "● Опухоль деда (Супер-Мелт 2.0)",
         image: "vasilich_tumor.jpg",
         macros: "~2100 ККАЛ // ~130г БЕЛКА",
         composition: "Свиная рулька (500г), 4 вида сыра (Моцарелла, Гауда, Сулугуни, Дор Блю), домашний майонез с чесноком, кусок сливочного масла (100г), гигантский брецель.",
@@ -9628,7 +9652,7 @@ const clickerPassRecipes = {
     },
     rec100k: {
         category: "heavy",
-        title: "● Левиафан Забойный (Бургер-Армагеддон)",
+        title: "● Толстый колдун (Бургер-Армагеддон)",
         image: "armageddon_burger.jpg",
         macros: "~2650 ККАЛ // ~165г БЕЛКА",
         composition: "Тройная котлета из мраморной говядины (600г), хрустящий бекон (12 полосок), карамелизованный лук в темном пиве, двойной арахисовый соус, плавленый чеддер.",
@@ -9643,9 +9667,9 @@ const clickerMilestones = [
     { target: 3000, name: "Ч/Б Тема", type: "theme", val: "theme-bw" },
     { target: 6000, name: "Тема Бирюза", type: "theme", val: "theme-azure" },
     { target: 10000, name: "40 фишек", type: "chips", val: 40 },
-    { target: 20000, name: "Рецепт: Опухоль Василича", type: "recipe", val: "rec20k" },
+    { target: 20000, name: "Рецепт: Опухоль деда", type: "recipe", val: "rec20k" },
     { target: 40000, name: "100 фишек", type: "chips", val: 100 },
-    { target: 100000, name: "500 фишек + Рецепт: Левиафан", type: "mega", val: { chips: 500, recipe: "rec100k" } },
+    { target: 100000, name: "500 фишек + Рецепт: Толстый колдун", type: "mega", val: { chips: 500, recipe: "rec100k" } },
     { target: 200000, name: "Титул: Унизил кликер 🔥", type: "title", val: "Унизил кликер 🔥" }
 ];
 
@@ -9703,29 +9727,33 @@ function updateClickerLiquidFill() {
 }
 
 // ==========================================
-// СТРОГАЯ ВЫДАЧА НАГРАД (БЕЗ ДЮПА)
+// СТРОГАЯ ВЫДАЧА НАГРАД (С ОБЛАЧНЫМ СОХРАНЕНИЕМ)
 // ==========================================
 function checkClickerRewards(clicks) {
+    // ИСПРАВИЛИ: Вернули операторы ||
     let claimed = JSON.parse(localStorage.getItem('leycore_claimed_rewards') || '[]');
 
     clickerMilestones.forEach(m => {
-        // Если порог достигнут, но в памяти ЭТОГО устройства награда еще НЕ забиралась
         if (clicks >= m.target && !claimed.includes(m.target)) {
-            
-            // ВАЖНО: Проверяем, не «старый» ли это запуск. Если кликов уже много, 
-            // а награда за 1000 только что всплыла — значит, это первый вход с нового браузера. 
-            // Мы просто молча зачисляем ее В ПАМЯТЬ без всплывающего алерта и дюпа фишек!
-            const isInitialSync = (clicks - m.target > 500); // Если игрок уже далеко ушел
+            const isInitialSync = (clicks - m.target > 500); 
 
             claimed.push(m.target);
             localStorage.setItem('leycore_claimed_rewards', JSON.stringify(claimed));
+            
+            // !!! ВАЖНО: При получении любой награды сразу пишем в базу Supabase !!!
+            if (typeof saveUserProfileToCloud === 'function') {
+                saveUserProfileToCloud();
+            }
 
             if (m.type === 'chips') {
-                if (!isInitialSync) { // Выдаем фишки только в реальном времени!
+                if (!isInitialSync) { 
                     if (typeof casinoChips !== 'undefined') {
                         casinoChips += m.val;
                         localStorage.setItem('leycore_chips', casinoChips.toString());
                         if (typeof updateCasinoUI === 'function') updateCasinoUI();
+                        
+                        // Сохраняем облако еще раз, чтобы новый баланс фишек улетел в базу
+                        if (typeof saveUserProfileToCloud === 'function') saveUserProfileToCloud();
                     }
                     alert(`🎉 КЛИКЕР-ПАСС: За ${m.target} кликов получено +${m.val} 🪙 фишек!`);
                 } else {
@@ -9733,19 +9761,24 @@ function checkClickerRewards(clicks) {
                 }
             } 
             else if (m.type === 'theme') {
+                // ИСПРАВИЛИ: Вернули операторы ||
                 let unlockedThemes = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
                 if (!unlockedThemes.includes(m.val)) unlockedThemes.push(m.val);
                 localStorage.setItem('unlockedThemes', JSON.stringify(unlockedThemes));
                 if (typeof renderThemesList === 'function') renderThemesList();
                 
                 if (!isInitialSync) {
+                    // ИСПРАВИЛИ: Вернули обратные кавычки ` `
                     alert(`🎉 КЛИКЕР-ПАСС: Разблокирована тема: "${m.name}"!`);
+                    if (typeof saveUserProfileToCloud === 'function') saveUserProfileToCloud();
                 }
             }
             else if (m.type === 'recipe') {
                 addRecipeToProfile(clickerPassRecipes[m.val]);
                 if (!isInitialSync) {
+                    // ИСПРАВИЛИ: Вернули обратные кавычки ` `
                     alert(`🎉 КЛИКЕР-ПАСС: Разблокирован секретный рецепт: "${clickerPassRecipes[m.val].title}"!`);
+                    if (typeof saveUserProfileToCloud === 'function') saveUserProfileToCloud();
                 }
             }
             else if (m.type === 'mega') {
@@ -9755,7 +9788,9 @@ function checkClickerRewards(clicks) {
                         localStorage.setItem('leycore_chips', casinoChips.toString());
                         if (typeof updateCasinoUI === 'function') updateCasinoUI();
                     }
+                    // ИСПРАВИЛИ: Вернули обратные кавычки ` `
                     alert(`🔥 КЛИКЕР-ПАСС: Эпический трофей за 100,000 кликов! +500 фишек и Рецепт Левиафана!`);
+                    if (typeof saveUserProfileToCloud === 'function') saveUserProfileToCloud();
                 }
                 addRecipeToProfile(clickerPassRecipes[m.val.recipe]);
             }
@@ -9764,7 +9799,9 @@ function checkClickerRewards(clicks) {
                 if (!unlockedTitles.includes(m.val)) unlockedTitles.push(m.val);
                 localStorage.setItem('unlockedTitles', JSON.stringify(unlockedTitles));
                 if (!isInitialSync) {
+                    // ИСПРАВИЛИ: Вернули обратные кавычки ` `
                     alert(`👑 КЛИКЕР-ПАСС: Получен анимированный титул: "Унизил кликер 🔥"!`);
+                    if (typeof saveUserProfileToCloud === 'function') saveUserProfileToCloud();
                 }
             }
         }
@@ -9912,6 +9949,122 @@ function syncAchievementsSilently() {
         console.log("🤫 [БЕЗОПАСНОСТЬ] Все старые достижения синхронизированы тихо. Дюп заблокирован!");
     }
 }
+
+// ==========================================
+// ☁️ МОНОЛИТНАЯ СИСТЕМНАЯ СИНХРОНИЗАЦИЯ LEYCORE
+// ==========================================
+
+// ==========================================
+// 1. ОТПРАВКА ВСЕГО ИНВЕНТАРЯ И ПРОГРЕССА В ОБЛАКО SUPABASE (ИСПРАВЛЕНО)
+// ==========================================
+async function saveUserProfileToCloud() {
+    const myName = localStorage.getItem('leycore_username');
+    
+    // ИСПРАВЛЕНО: Вернули операторы ||
+    if (!myName || typeof _supabase === 'undefined' || !_supabase) return;
+
+    try {
+        // Собираем абсолютно ВСЕ локальные данные в один пакет
+        const payload = {
+            player_name: myName,
+            chips: parseInt(localStorage.getItem('leycore_chips') || '10', 10), // ИСПРАВЛЕНО: || '10'
+            score: parseInt(localStorage.getItem('bobnitBurgerCount') || '0', 10),
+            flappy_score: parseInt(localStorage.getItem('flappyHighScore') || '0', 10),
+            mgb_score: parseInt(localStorage.getItem('mgb_cooked_count') || '0', 10),
+            active_title: localStorage.getItem('leycore_active_title') || '',
+            
+            // Наш инвентарь (сохраняем как JSON-строки)
+            unlocked_themes: localStorage.getItem('unlockedThemes') || '[]',
+            unlocked_titles: localStorage.getItem('leycore_titles') || '[]', // ИСПРАВЛЕНО: используем 'leycore_titles'
+            unlocked_recipes: localStorage.getItem('leycore_custom_dishes') || '[]',
+            claimed_rewards: localStorage.getItem('leycore_claimed_rewards') || '[]',
+            achievements: localStorage.getItem('leycore_achievements') || '[]'
+        };
+
+        // Записываем пакет в Supabase
+        const { error } = await _supabase
+            .from('leaderboard')
+            .upsert(payload, { onConflict: 'player_name' });
+
+        if (error) {
+            console.error("❌ Ошибка сохранения профиля в облако:", error.message);
+        } else {
+            console.log("☁️ [ОБЛАКО] Профиль игрока успешно сохранен в Supabase!");
+        }
+    } catch (e) {
+        console.error("Критическая ошибка сохранения профиля:", e);
+    }
+}
+
+
+// ==========================================
+// 2. ЗАГРУЗКА ВСЕГО ИНВЕНТАРЯ ИЗ ОБЛАКА ПРИ ВХОДЕ (ФИНАЛЬНАЯ ВЕРСИЯ)
+// ==========================================
+async function syncUserDataFromSupabase() {
+    const myName = localStorage.getItem('leycore_username');
+    // ИСПРАВЛЕНО: Вернули операторы ||
+    if (!myName || typeof _supabase === 'undefined' || !_supabase) return;
+
+    try {
+        const { data, error } = await _supabase
+            .from('leaderboard')
+            .select('*')
+            .eq('player_name', myName)
+            .single();
+
+        if (!error && data) {
+            // Записываем базовые показатели в localStorage
+            localStorage.setItem('leycore_chips', (data.chips !== undefined ? data.chips : 10).toString());
+            // ИСПРАВЛЕНО: Вернули операторы ||
+            localStorage.setItem('mgb_cooked_count', (data.mgb_score || 0).toString());
+            localStorage.setItem('bobnitBurgerCount', (data.score || 0).toString());
+            localStorage.setItem('flappyHighScore', (data.flappy_score || 0).toString());
+            localStorage.setItem('leycore_active_title', (data.active_title || ''));
+
+            // Записываем JSON-массивы инвентаря в localStorage
+            localStorage.setItem('unlockedThemes', data.unlocked_themes || '[]');
+            // ИСПРАВЛЕНО: Используем 'leycore_titles' как ключ для localStorage
+            localStorage.setItem('leycore_titles', data.unlocked_titles || '[]');
+            localStorage.setItem('leycore_custom_dishes', data.unlocked_recipes || '[]');
+            localStorage.setItem('leycore_claimed_rewards', data.claimed_rewards || '[]');
+            localStorage.setItem('leycore_achievements', data.achievements || '[]');
+
+            // СИНХРОНИЗИРУЕМ ЖИВЫЕ ПЕРЕМЕННЫЕ В ОПЕРАТИВНОЙ ПАМЯТИ JS
+            // ИСПРАВЛЕНО: Вернули операторы ||
+            if (typeof burgerCount !== 'undefined') burgerCount = parseInt(data.score || 0, 10);
+            if (typeof bestFlappyScore !== 'undefined') bestFlappyScore = parseInt(data.flappy_score || 0, 10);
+            if (typeof casinoChips !== 'undefined') casinoChips = parseInt(data.chips !== undefined ? data.chips : 10, 10);
+            if (typeof mgbCookedCount !== 'undefined') mgbCookedCount = parseInt(data.mgb_score || 0, 10);
+            
+            // ИСПРАВЛЕНО: Правильно парсим JSON из localStorage
+            if (typeof unlockedThemes !== 'undefined') unlockedThemes = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
+            if (typeof unlockedTitles !== 'undefined') unlockedTitles = JSON.parse(localStorage.getItem('leycore_titles') || '[]'); // Используем leycore_titles
+            if (typeof dishes !== 'undefined') dishes = JSON.parse(localStorage.getItem('leycore_custom_dishes') || '[]');
+            if (typeof myAchievements !== 'undefined') myAchievements = JSON.parse(localStorage.getItem('leycore_achievements') || '[]');
+
+            // МГНОВЕННО ПЕРЕРИСОВЫВАЕМ ВЕСЬ ИНТЕРФЕЙС ИГРЫ
+            if (typeof updateCasinoUI === 'function') updateCasinoUI();
+            if (typeof updateMgbLeaderboardUI === 'function') updateMgbLeaderboardUI();
+            if (typeof loadLeaderboard === 'function') loadLeaderboard();
+            if (typeof loadFlappyLeaderboard === 'function') loadFlappyLeaderboard();
+            if (typeof renderThemesList === 'function') renderThemesList();
+            if (typeof renderAchievements === 'function') renderAchievements();
+            
+            if (typeof renderDishes === 'function') renderDishes('all');
+            if (typeof renderTitlesList === 'function') renderTitlesList();
+
+            console.log("☁️ [ОБЛАКО] Профиль успешно синхронизирован! Все покупки и ачивки на месте.");
+        } else if (error && error.code === 'PGRST116') {
+            console.warn("Пользователь не найден в базе, сбрасываем локальные данные.");
+            localStorage.clear();
+            location.reload();
+        }
+    } catch (e) {
+        console.error("Критическая ошибка синхронизации данных при старте:", e);
+    }
+}
+
+
 
 
     </script>
