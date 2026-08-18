@@ -9951,50 +9951,39 @@ function syncAchievementsSilently() {
 }
 
 // ==========================================
-// ☁️ МОНОЛИТНАЯ СИСТЕМНАЯ СИНХРОНИЗАЦИЯ LEYCORE
-// ==========================================
-
-// ==========================================
-// 1. ОТПРАВКА ВСЕГО ИНВЕНТАРЯ И ПРОГРЕССА В ОБЛАКО SUPABASE (ИСПРАВЛЕНО)
+// УЛЬТИМАТИВНОЕ СОХРАНЕНИЕ В ОБЛАКО (С ПРИНУДИТЕЛЬНЫМ ЧТЕНИЕМ)
 // ==========================================
 async function saveUserProfileToCloud() {
     const myName = localStorage.getItem('leycore_username');
-    
-    // ИСПРАВЛЕНО: Вернули операторы ||
     if (!myName || typeof _supabase === 'undefined' || !_supabase) return;
 
     try {
-        // Собираем абсолютно ВСЕ локальные данные в один пакет
+        // ПРЯМО ПЕРЕД СОХРАНЕНИЕМ берем данные из текущего localStorage
+        // Это гарантирует, что мы отправим в облако то, что только что купили!
         const payload = {
             player_name: myName,
-            chips: parseInt(localStorage.getItem('leycore_chips') || '10', 10), // ИСПРАВЛЕНО: || '10'
+            chips: parseInt(localStorage.getItem('leycore_chips') || '10', 10),
             score: parseInt(localStorage.getItem('bobnitBurgerCount') || '0', 10),
             flappy_score: parseInt(localStorage.getItem('flappyHighScore') || '0', 10),
             mgb_score: parseInt(localStorage.getItem('mgb_cooked_count') || '0', 10),
             active_title: localStorage.getItem('leycore_active_title') || '',
             
-            // Наш инвентарь (сохраняем как JSON-строки)
+            // ВОТ ТУТ МЫ БЕРЕМ ИНВЕНТАРЬ ИЗ ЛОКАЛКИ И ПИХАЕМ В БАЗУ
             unlocked_themes: localStorage.getItem('unlockedThemes') || '[]',
-            unlocked_titles: localStorage.getItem('leycore_titles') || '[]', // ИСПРАВЛЕНО: используем 'leycore_titles'
+            unlocked_titles: localStorage.getItem('leycore_titles') || '[]',
             unlocked_recipes: localStorage.getItem('leycore_custom_dishes') || '[]',
             claimed_rewards: localStorage.getItem('leycore_claimed_rewards') || '[]',
             achievements: localStorage.getItem('leycore_achievements') || '[]'
         };
 
-        // Записываем пакет в Supabase
         const { error } = await _supabase
             .from('leaderboard')
             .upsert(payload, { onConflict: 'player_name' });
 
-        if (error) {
-            console.error("❌ Ошибка сохранения профиля в облако:", error.message);
-        } else {
-            console.log("☁️ [ОБЛАКО] Профиль игрока успешно сохранен в Supabase!");
-        }
-    } catch (e) {
-        console.error("Критическая ошибка сохранения профиля:", e);
-    }
+        if (error) console.error("❌ Ошибка облака:", error.message);
+    } catch (e) { console.error(e); }
 }
+
 
 
 // ==========================================
