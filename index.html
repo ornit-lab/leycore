@@ -9998,11 +9998,10 @@ async function saveUserProfileToCloud() {
 
 
 // ==========================================
-// 2. ЗАГРУЗКА ВСЕГО ИНВЕНТАРЯ ИЗ ОБЛАКА ПРИ ВХОДЕ (ФИНАЛЬНАЯ ВЕРСИЯ)
+// БЕЗОПАСНАЯ ЗАГРУЗКА ИНВЕНТАРЯ ИЗ ОБЛАКА (БЕЗ КОНФЛИКТА CONST)
 // ==========================================
 async function syncUserDataFromSupabase() {
     const myName = localStorage.getItem('leycore_username');
-    // ИСПРАВЛЕНО: Вернули операторы ||
     if (!myName || typeof _supabase === 'undefined' || !_supabase) return;
 
     try {
@@ -10015,7 +10014,6 @@ async function syncUserDataFromSupabase() {
         if (!error && data) {
             // Записываем базовые показатели в localStorage
             localStorage.setItem('leycore_chips', (data.chips !== undefined ? data.chips : 10).toString());
-            // ИСПРАВЛЕНО: Вернули операторы ||
             localStorage.setItem('mgb_cooked_count', (data.mgb_score || 0).toString());
             localStorage.setItem('bobnitBurgerCount', (data.score || 0).toString());
             localStorage.setItem('flappyHighScore', (data.flappy_score || 0).toString());
@@ -10023,44 +10021,57 @@ async function syncUserDataFromSupabase() {
 
             // Записываем JSON-массивы инвентаря в localStorage
             localStorage.setItem('unlockedThemes', data.unlocked_themes || '[]');
-            // ИСПРАВЛЕНО: Используем 'leycore_titles' как ключ для localStorage
-            localStorage.setItem('leycore_titles', data.unlocked_titles || '[]');
+            localStorage.setItem('leycore_titles', data.unlocked_titles || '[]'); // Используем leycore_titles
             localStorage.setItem('leycore_custom_dishes', data.unlocked_recipes || '[]');
             localStorage.setItem('leycore_claimed_rewards', data.claimed_rewards || '[]');
             localStorage.setItem('leycore_achievements', data.achievements || '[]');
 
-            // СИНХРОНИЗИРУЕМ ЖИВЫЕ ПЕРЕМЕННЫЕ В ОПЕРАТИВНОЙ ПАМЯТИ JS
-            // ИСПРАВЛЕНО: Вернули операторы ||
+            // СИНХРОНИЗИРУЕМ ЧИСЛОВЫЕ ПЕРЕМЕННЫЕ
             if (typeof burgerCount !== 'undefined') burgerCount = parseInt(data.score || 0, 10);
             if (typeof bestFlappyScore !== 'undefined') bestFlappyScore = parseInt(data.flappy_score || 0, 10);
             if (typeof casinoChips !== 'undefined') casinoChips = parseInt(data.chips !== undefined ? data.chips : 10, 10);
             if (typeof mgbCookedCount !== 'undefined') mgbCookedCount = parseInt(data.mgb_score || 0, 10);
             
-            // ИСПРАВЛЕНО: Правильно парсим JSON из localStorage
-            if (typeof unlockedThemes !== 'undefined') unlockedThemes = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
-            if (typeof unlockedTitles !== 'undefined') unlockedTitles = JSON.parse(localStorage.getItem('leycore_titles') || '[]'); // Используем leycore_titles
-            if (typeof dishes !== 'undefined') dishes = JSON.parse(localStorage.getItem('leycore_custom_dishes') || '[]');
-            if (typeof myAchievements !== 'undefined') myAchievements = JSON.parse(localStorage.getItem('leycore_achievements') || '[]');
+            // !!! БЕЗОПАСНОЕ ОБНОВЛЕНИЕ CONST-МАССИВОВ (ЧЕРЕЗ МУТАЦИЮ) !!!
+            if (typeof unlockedThemes !== 'undefined' && Array.isArray(unlockedThemes)) {
+                unlockedThemes.length = 0; // Очищаем
+                const parsed = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
+                unlockedThemes.push(...parsed); // Наполняем
+            }
+            if (typeof unlockedTitles !== 'undefined' && Array.isArray(unlockedTitles)) {
+                unlockedTitles.length = 0;
+                const parsed = JSON.parse(localStorage.getItem('leycore_titles') || '[]');
+                unlockedTitles.push(...parsed);
+            }
+            if (typeof dishes !== 'undefined' && Array.isArray(dishes)) {
+                dishes.length = 0;
+                const parsed = JSON.parse(localStorage.getItem('leycore_custom_dishes') || '[]');
+                dishes.push(...parsed);
+            }
+            if (typeof myAchievements !== 'undefined' && Array.isArray(myAchievements)) {
+                myAchievements.length = 0;
+                const parsed = JSON.parse(localStorage.getItem('leycore_achievements') || '[]');
+                myAchievements.push(...parsed);
+            }
 
-            // МГНОВЕННО ПЕРЕРИСОВЫВАЕМ ВЕСЬ ИНТЕРФЕЙС ИГРЫ
+            // ПЕРЕРИСОВЫВАЕМ ИНТЕРФЕЙС
             if (typeof updateCasinoUI === 'function') updateCasinoUI();
             if (typeof updateMgbLeaderboardUI === 'function') updateMgbLeaderboardUI();
             if (typeof loadLeaderboard === 'function') loadLeaderboard();
             if (typeof loadFlappyLeaderboard === 'function') loadFlappyLeaderboard();
             if (typeof renderThemesList === 'function') renderThemesList();
             if (typeof renderAchievements === 'function') renderAchievements();
-            
             if (typeof renderDishes === 'function') renderDishes('all');
             if (typeof renderTitlesList === 'function') renderTitlesList();
 
-            console.log("☁️ [ОБЛАКО] Профиль успешно синхронизирован! Все покупки и ачивки на месте.");
+            console.log("☁️ [ОБЛАКО] Профиль успешно синхронизирован без конфликтов!");
         } else if (error && error.code === 'PGRST116') {
             console.warn("Пользователь не найден в базе, сбрасываем локальные данные.");
             localStorage.clear();
             location.reload();
         }
     } catch (e) {
-        console.error("Критическая ошибка синхронизации данных при старте:", e);
+        console.error("Критическая ошибка в syncUserDataFromSupabase:", e);
     }
 }
 
