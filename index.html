@@ -4470,6 +4470,437 @@ body.arcade-off .arcade-only {
     box-shadow: 0 0 12px #ff4500 !important;
 }
 
+/* ==========================================
+   🌋 ЕБАНУТЫЙ ЛАВОВЫЙ САЙДБАР С НАКАПЫВАНИЕМ
+   ========================================== */
+
+/* Контейнер скола стены и истока лавы вверху сайдбара */
+.lava-source-corner {
+    position: relative;
+    width: 100%;
+    height: 70px;
+    margin-bottom: 10px;
+    overflow: visible;
+}
+
+/* Эффект сколотой каменной стены */
+.lava-wall-crack {
+    position: absolute;
+    top: 0; left: 10px;
+    width: 60px; height: 35px;
+    background: radial-gradient(circle at 30% 30%, #ff8c00, #ff0055 60%, transparent 80%);
+    clip-path: polygon(0% 0%, 100% 0%, 85% 60%, 100% 100%, 40% 80%, 15% 100%, 0% 40%);
+    filter: drop-shadow(0 0 15px #ff4500) drop-shadow(0 0 25px #ff0055);
+}
+
+/* Живая капающая капля лавы */
+.lava-drop-element {
+    position: absolute;
+    top: 25px; left: 32px;
+    width: 16px; height: 22px;
+    background: linear-gradient(180deg, #ff8c00, #ff0055, #ff0000);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    box-shadow: 0 0 15px #ff4500, 0 0 25px #ff0055;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Анимация падения капли вниз */
+.lava-drop-element.animating {
+    animation: lavaDropFall 0.8s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+}
+
+@keyframes lavaDropFall {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1, 1.3);
+    }
+    70% {
+        opacity: 1;
+        transform: translateY(180px) scale(0.8, 1.4);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(220px) scale(1.6, 0.4);
+    }
+}
+
+/* КОНТЕЙНЕР ДЛЯ НАКАПЫВАЮЩИХ ВКЛАДОК */
+.sidebar-nav-lava-container {
+    display: flex;
+    flex-direction: column-reverse; /* Новые вкладки спавнятся снизу и толкают старые НАВЕРХ! */
+    gap: 12px;
+    position: relative;
+    padding-top: 10px;
+}
+
+/* 🌊 ЖИВАЯ ЛАВОВАЯ ВКЛАДКА (ЖИДКОЕ ПОКАЧИВАНИЕ) */
+.sidebar-link.lava-tab-spawned {
+    background: linear-gradient(135deg, rgba(255, 69, 0, 0.25), rgba(255, 0, 85, 0.2)) !important;
+    border: 2px solid #ff4500 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 0 15px rgba(255, 69, 0, 0.4), inset 0 0 10px rgba(255, 0, 85, 0.3) !important;
+    animation: lavaWobble 3.5s ease-in-out infinite, lavaSpawnPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    transition: all 0.4s ease !important;
+}
+
+/* Анимация вылупления из капли */
+@keyframes lavaSpawnPop {
+    0% {
+        transform: scale(0.2) translateY(30px);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+/* 🌊 АНИМАЦИЯ ПОКАЧИВАНИЯ ЖИДКОСТИ ИЗ СТОРОНЫ В СТОРОНУ */
+@keyframes lavaWobble {
+    0%, 100% {
+        transform: rotate(0deg) scale(1);
+        border-radius: 16px 12px 16px 14px;
+    }
+    25% {
+        transform: rotate(1.2deg) scale(1.02, 0.98);
+        border-radius: 12px 18px 14px 16px;
+    }
+    50% {
+        transform: rotate(-1.5deg) scale(0.98, 1.02);
+        border-radius: 18px 14px 16px 12px;
+    }
+    75% {
+        transform: rotate(1deg) scale(1.01, 0.99);
+        border-radius: 14px 16px 12px 18px;
+    }
+}
+
+.sidebar-link.lava-tab-spawned:hover {
+    background: linear-gradient(135deg, #ff4500, #ff0055) !important;
+    box-shadow: 0 0 25px #ff4500, 0 0 35px #ff0055 !important;
+    color: #fff !important;
+}
+
+
+/* ==========================================
+   🌋 НАСТОЯЩИЙ РВАНЫЙ СКОЛ СТЕНЫ В УГЛУ
+   ========================================== */
+
+/* 1. Сам скол (теперь position: absolute) */
+.lava-rift-container {
+    position: absolute; /* Намертво привязан к верху страницы, не едет за экраном! */
+    top: 0;
+    left: 0;
+    width: 310px;
+    height: 155px;
+    z-index: 10001;
+    pointer-events: none;
+}
+
+.lava-rift-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 15px #ff0055) drop-shadow(0 0 35px #ff4500);
+}
+
+/* 2. Капля (тоже position: absolute) */
+.lava-drip-emitter {
+    position: absolute; /* Капает строго под сколом на верху страницы! */
+    top: 115px;
+    left: 42px;
+    width: 14px;
+    height: 22px;
+    background: linear-gradient(180deg, #ffd700, #ff4500, #ff0055);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    box-shadow: 0 0 15px #ff4500, 0 0 25px #ff0055;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10002;
+}
+
+.lava-drip-emitter.animating {
+    animation: riftDripFall 0.75s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards;
+}
+
+@keyframes riftDripFall {
+    0% { opacity: 1; transform: translateY(0) scale(1, 1.4); }
+    70% { opacity: 1; transform: translateY(115px) scale(0.8, 1.5); }
+    100% { opacity: 0; transform: translateY(150px) scale(1.8, 0.3); }
+}
+
+
+/* 3. КОНТЕЙНЕР САЙДБАРА */
+.sidebar-lava-nav-stack {
+    position: fixed !important;
+    top: 150px !important;
+    left: 0 !important;
+    width: 230px !important;
+    z-index: 9999 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none; /* Пропускает клики мимо пустых зон */
+}
+
+/* 💧 НЕАКТИВНЫЕ ОВАЛЬНЫЕ ВКЛАДКИ (ВДВИНУТЫ В ЛЕВЫЙ КРАЙ) */
+.sidebar-link.lava-blob-tab {
+    pointer-events: auto; /* Включает кликабельность самой плашки */
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px !important;
+    background: linear-gradient(135deg, rgba(255, 69, 0, 0.25), rgba(255, 0, 85, 0.2)) !important;
+    border: 2px solid rgba(255, 69, 0, 0.7) !important;
+    border-radius: 40px 20px 35px 18px / 20px 35px 18px 40px !important;
+    box-shadow: 0 0 15px rgba(255, 69, 0, 0.3), inset 0 0 10px rgba(255, 0, 85, 0.2) !important;
+    backdrop-filter: blur(8px);
+    color: #fff !important;
+    font-family: 'Unbounded', sans-serif !important;
+    font-size: 0.8rem !important;
+    text-decoration: none !important;
+    
+    /* 👈 ПО УМОЛЧАНИЮ ВДВИНУТА В КРАЙ (видны только иконка и неоновое ребро) */
+    transform: translateX(-155px);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s, box-shadow 0.3s !important;
+    animation: blobFluidWobble 4s ease-in-out infinite, blobSpawnPop 0.5s ease-out !important;
+}
+
+/* 🔥 АКТИВНАЯ ВКЛАДКА (ВСЕГДА ВЫДВИНУТА И ПЫЛАЕТ!) */
+.sidebar-link.lava-blob-tab.active {
+    transform: translateX(10px) !important; /* Выдвигается вперед */
+    background: linear-gradient(135deg, rgba(255, 69, 0, 0.85), rgba(255, 0, 85, 0.8)) !important;
+    border-color: #ffd700 !important;
+    box-shadow: 0 0 25px #ff4500, 0 0 35px #ff0055, inset 0 0 15px #ffd700 !important;
+    color: #fff !important;
+}
+
+/* 🖱️ ВЫДВИЖЕНИЕ НЕАКТИВНОЙ ВКЛАДКИ ПРИ НАВЕДЕНИИ КУРСОРА */
+.sidebar-link.lava-blob-tab:hover {
+    transform: translateX(10px) scale(1.03) !important;
+    background: linear-gradient(135deg, #ff4500, #ff0055) !important;
+    border-color: #ffd700 !important;
+    box-shadow: 0 0 25px #ff4500, 0 0 35px #ff0055 !important;
+}
+
+/* Жидкое покачивание овалов */
+@keyframes blobFluidWobble {
+    0%, 100% {
+        border-radius: 40px 20px 35px 18px / 20px 35px 18px 40px;
+    }
+    33% {
+        border-radius: 20px 40px 20px 35px / 35px 20px 40px 18px;
+    }
+    66% {
+        border-radius: 35px 18px 40px 20px / 18px 40px 20px 35px;
+    }
+}
+
+@keyframes blobSpawnPop {
+    0% { transform: translateX(-155px) scale(0.2); opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* =====================================================
+   📱 ФИНАЛЬНЫЙ СУПЕР-ФИКС МОБИЛКИ ПО ТВОЕМУ ЧЕРТЕЖУ
+   (ПК СТАБИЛЕН НА 100% И НЕ ЗАТРАГИВАЕТСЯ)
+   ===================================================== */
+
+@media (max-width: 768px) {
+    /* Блокируем горизонтальный сдвиг экрана */
+    html, body {
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+    }
+
+    /* -------------------------------------------------
+       1. МИКРО-СКОЛ СТЕНЫ В САМОМ УГЛУ (90px)
+       ------------------------------------------------- */
+    .lava-rift-container {
+        width: 90px !important;
+        height: 48px !important;
+        top: 0 !important;
+        left: 0 !important;
+        position: absolute !important;
+        z-index: 10 !important;
+        pointer-events: none !important;
+    }
+
+    .lava-rift-svg {
+        width: 90px !important;
+        height: 48px !important;
+    }
+
+    .lava-drip-emitter {
+        position: absolute !important;
+        top: 40px !important;
+        left: 16px !important;
+        width: 6px !important;
+        height: 10px !important;
+        z-index: 11 !important;
+    }
+
+    /* -------------------------------------------------
+       2. ЛАМПА (Свисает строго сверху по центру экрана)
+       ------------------------------------------------- */
+    #lamp-container,
+    .lamp,
+    .light-bulb,
+    div[class*="lamp-container"],
+    div[class*="light-bulb"] {
+        position: absolute !important;
+        top: 0 !important;
+        left: 44% !important; /* Центрируем с небольшим сдвигом от плашки */
+        transform: translateX(-50%) scale(0.7) !important;
+        transform-origin: top center !important;
+        margin: 0 !important;
+        z-index: 100 !important;
+    }
+
+    /* -------------------------------------------------
+       3. ПЛАШКА ВХОДА (Компактная, строго в верхнем правом углу)
+       ------------------------------------------------- */
+    #user-session-indicator {
+        position: absolute !important;
+        top: 8px !important;
+        right: 8px !important;
+        width: 145px !important; /* Компактный размер, чтобы не мешать лампе */
+        min-height: auto !important;
+        height: 70px !important;
+        padding: 5px !important;
+        margin: 0 !important;
+        background: rgba(15, 10, 25, 0.95) !important;
+        border: 1px solid rgba(255, 69, 0, 0.35) !important;
+        border-radius: 8px !important;
+        z-index: 50 !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-end !important;
+        justify-content: center !important;
+    }
+
+    #user-session-indicator .session-info {
+        font-size: 0.58rem !important;
+        line-height: 1.1 !important;
+        margin-bottom: 2px !important;
+    }
+
+    #user-session-indicator .session-logout-btn {
+        padding: 3px 6px !important;
+        font-size: 0.55rem !important;
+    }
+
+    #user-session-indicator .arcade-toggle-wrapper {
+        margin-top: 1px !important;
+        transform: scale(0.65) !important;
+        transform-origin: center right !important;
+    }
+
+    /* -------------------------------------------------
+       4. ШКАЛА ЛЭЙКОРА (Опускается ниже на 95px, освобождая верх!)
+       ------------------------------------------------- */
+    #leycore-progress-container,
+    #leycore-bar-container,
+    #leycore-progress-widget,
+    .leycore-progress-bar,
+    .leycore-mini-gauge,
+    div[id*="progress"] {
+        position: relative !important;
+        width: calc(100% - 24px) !important;
+        max-width: 320px !important;
+        /* ПУШ-ЭФФЕКТ: Сдвигает всё содержимое страницы ниже "первого этажа" */
+        margin: 95px auto 12px auto !important; 
+        padding: 4px 8px !important;
+        box-sizing: border-box !important;
+        transform: none !important;
+        z-index: 5 !important;
+        border-radius: 8px !important;
+        background: rgba(15, 10, 25, 0.85) !important;
+        border: 1px solid rgba(255, 69, 0, 0.3) !important;
+    }
+
+    /* -------------------------------------------------
+       5. СЕТКА КНОПОК ПО ТВОЕМУ ЧЕРТЕЖУ (Без наложений!)
+       ------------------------------------------------- */
+    #lavaSidebarNav {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        width: calc(100% - 24px) !important;
+        max-width: 360px !important;
+        height: auto !important;
+        margin: 15px auto !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important; /* Строго 2 колонки */
+        gap: 8px !important; /* Аккуратный зазор */
+
+        transform: none !important;
+        background: none !important;
+        border: none !important;
+        z-index: 10 !important;
+        overflow: visible !important;
+    }
+
+    /* Кнопки-плиточки (Текст переносится, ничего не обрезается!) */
+    #lavaSidebarNav .sidebar-link,
+    #lavaSidebarNav .sidebar-link.lava-blob-tab {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        gap: 5px !important;
+        padding: 10px 8px !important; /* Удобный размер под палец */
+        margin: 0 !important;
+        
+        width: 100% !important;
+        box-sizing: border-box !important;
+        border-radius: 12px !important;
+
+        /* ПРЕДОТВРАЩАЕМ НАПОЛЗАНИЕ И КЛИППИНГ: */
+        white-space: normal !important; /* Разрешаем перенос длинного текста! */
+        word-break: break-word !important; /* Мягкий перенос слов */
+        line-height: 1.2 !important;
+        
+        font-size: 0.7rem !important;
+        font-family: 'Unbounded', sans-serif !important;
+        color: rgba(255, 255, 255, 0.8) !important;
+        
+        background: rgba(25, 15, 40, 0.95) !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.1) !important;
+        box-shadow: none !important;
+        
+        /* Сброс ПК-уползаний */
+        transform: none !important;
+        animation: none !important;
+        position: relative !important;
+        left: auto !important;
+        opacity: 1 !important;
+    }
+
+    #lavaSidebarNav .sidebar-link .icon {
+        font-size: 0.95rem !important;
+    }
+
+    /* Активная кнопка (Желтый неон из чертежа) */
+    #lavaSidebarNav .sidebar-link.active {
+        transform: scale(1.03) !important;
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(255, 140, 0, 0.08)) !important;
+        border-color: #ffd700 !important;
+        color: #ffd700 !important;
+        box-shadow: 0 0 15px #ffd700, 0 0 25px rgba(255, 215, 0, 0.4) !important;
+    }
+
+    /* Сброс старых ховеров */
+    #lavaSidebarNav .sidebar-link:hover,
+    #lavaSidebarNav .sidebar-link:active {
+        transform: scale(1.02) !important;
+    }
+}
 
 
     </style>
@@ -4575,28 +5006,60 @@ body.arcade-off .arcade-only {
     </div>
 
 
-        <!-- SIDEBAR NAVIGATION -->
-    <nav class="sidebar-nav">
+              <!-- 🌋 НАСТОЯЩИЙ РВАНЫЙ СКОЛ СКАЛЫ В УГЛУ -->
+    <div class="lava-rift-container">
+        <svg class="lava-rift-svg" viewBox="0 0 310 155" fill="none">
+            <defs>
+                <linearGradient id="realLavaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ff0055" />
+                    <stop offset="40%" stop-color="#ff4500" />
+                    <stop offset="100%" stop-color="#ffd700" />
+                </linearGradient>
+            </defs>
+            
+            <!-- Лавовая бегущая плазма внутри разрыва -->
+            <path d="M 0,0 L 290,0 L 230,40 L 130,80 L 45,130 L 0,155 Z" fill="url(#realLavaGrad)" />
+            
+            <!-- Рваные скалистые обломки камня поверх лавы -->
+            <path d="M -5,-5 L 315,-5 L 255,20 L 165,55 L 75,95 L 30,135 L -5,160 Z" fill="#0b0813" />
+            
+            <!-- Внутренние зубья разлома -->
+            <path d="M -5,-5 L 75,40 L 155,70 L 250,15 L 315,-5" stroke="#ff4500" stroke-width="3" fill="none" filter="drop-shadow(0 0 6px #ff4500)"/>
+            <path d="M 20,120 L 65,85 L 140,55 L 230,18" stroke="#ffd700" stroke-width="2" fill="none"/>
+        </svg>
+    </div>
+
+    <!-- Капли капают из острия скалы -->
+    <div id="lavaDripParticle" class="lava-drip-emitter"></div>
+
+
+    <!-- 🚪 САЙДБАР (ВКЛАДКИ НАКАПЫВАЮТ И СРАЗУ ВДВИГАЮТСЯ) -->
+    <nav class="sidebar-nav sidebar-lava-nav-stack" id="lavaSidebarNav">
         <a href="javascript:void(0)" onclick="switchPage('leycore')" id="nav-leycore"
             class="sidebar-link link-cyan active"><span>LEYCORE (ГЛАВНАЯ)</span><span class="icon">⚡️</span></a>
+            
         <a onclick="switchPage('symphonies')" id="nav-symphonies"
             class="sidebar-link link-purple"><span>ЛЭЙКОСТАЗ</span><span class="icon">🎧</span></a>
             
-        <!-- АРКАДНЫЕ ВКЛАДКИ (СКРЫВАЮТСЯ ПРИ ВЫКЛЮЧЕНИИ РЕЖИМА) -->
         <a href="javascript:void(0)" onclick="switchPage('achievements')" id="nav-achievements"
             class="sidebar-link link-purple arcade-only"><span>ПРОФИЛЬ</span><span class="icon">🏆</span></a>
+            
         <a onclick="switchPage('games')" id="nav-games" class="sidebar-link link-gold arcade-only"><span>ИГРЫ</span><span
                 class="icon">🎮</span></a>
+            
         <a onclick="switchPage('global-chat')" id="nav-chat" class="sidebar-link link-cyan arcade-only"><span>ЧАТ</span><span
                 class="icon">💬</span></a>
                 
         <a href="javascript:void(0)" onclick="switchPage('menu')" id="nav-menu"
             class="sidebar-link link-green"><span>МЕНЮ ВАСИЛИЧА</span><span class="icon">🍖</span></a>
+            
         <a href="javascript:void(0)" onclick="switchPage('metaphors')" id="nav-metaphors"
             class="sidebar-link link-purple"><span>ХРАНИЛИЩЕ</span><span class="icon">🔮</span></a>
+            
         <a href="javascript:void(0)" onclick="switchPage('dictionary')" id="nav-dictionary"
             class="sidebar-link link-gold"><span>СЛОВАРЬ</span><span class="icon">📖</span></a>
     </nav>
+
 
 
 
@@ -10591,6 +11054,83 @@ document.addEventListener('click', function startAmbientOnClick() {
         checkGrimoireAmbientState('leycore');
     }
 }, { once: true });
+
+
+
+// ==========================================
+// 🌋 УМНЫЙ СЦЕНАРИЙ НАКАПЫВАНИЯ ВКЛАДОК
+// ==========================================
+function initRiftDripSidebar() {
+    const navContainer = document.getElementById('lavaSidebarNav');
+    const dropElem = document.getElementById('lavaDripParticle');
+    if (!navContainer) return;
+
+    const links = Array.from(navContainer.querySelectorAll('.sidebar-link'));
+
+    // БЕЗОПАСНЫЙ ОБХОД ДЛЯ МОБИЛОК (Экран <= 768px)
+    if (window.innerWidth <= 768) {
+        // На мобилках просто делаем все кнопки видимыми сразу без лавы и капания!
+        links.forEach(link => {
+            link.style.display = 'inline-flex';
+            link.classList.remove('lava-blob-tab'); // убираем жидкую анимацию
+        });
+        if (dropElem) dropElem.style.display = 'none'; // прячем каплю
+        return; // выходим из скрипта
+    }
+
+    // --- ЛОГИКА ДЛЯ ПК (ОСТАЕТСЯ КРАСИВОЙ И С ЛАВОЙ) ---
+    links.forEach(link => {
+        link.style.display = 'none';
+        link.classList.remove('lava-blob-tab');
+    });
+
+    let index = 0;
+
+    function dripNextTab() {
+        if (index >= links.length) return;
+        const currentLink = links[index];
+
+        if (document.body.classList.contains('arcade-off') && currentLink.classList.contains('arcade-only')) {
+            index++;
+            dripNextTab();
+            return;
+        }
+
+        if (dropElem) {
+            dropElem.classList.remove('animating');
+            void dropElem.offsetWidth;
+            dropElem.classList.add('animating');
+        }
+
+        setTimeout(() => {
+            currentLink.style.display = 'flex';
+            currentLink.classList.add('lava-blob-tab');
+            
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(160, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.22);
+                gain.gain.setValueAtTime(0.08, ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.01, ctx.currentTime + 0.22);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(); osc.stop(ctx.currentTime + 0.22);
+            } catch(e) {}
+
+            index++;
+            setTimeout(dripNextTab, 1800);
+        }, 650);
+    }
+
+    setTimeout(dripNextTab, 500);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initRiftDripSidebar();
+});
+
 
 
 
