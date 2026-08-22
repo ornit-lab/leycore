@@ -4281,6 +4281,197 @@ body.arcade-off .arcade-only {
 }
 
 
+/* ==========================================
+   🔮 ГРИМУАР ЛЭЙКОРА: 3D ОРБИТА И КНИГА
+   ========================================== */
+
+/* Контейнер тумблера под заголовком */
+.grimoire-trigger-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 30px auto 15px auto;
+    cursor: pointer;
+    user-select: none;
+    width: fit-content;
+    perspective: 800px;
+}
+
+/* 3D Обитель вращения */
+.grimoire-orbit-box {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+}
+
+/* 3D Фиолетовое гиро-кольцо (Вращение по оси X/Y) */
+.grimoire-3d-ring {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid rgba(186, 85, 211, 0.8);
+    box-shadow: 0 0 20px #ba55d3, inset 0 0 15px rgba(186, 85, 211, 0.5);
+    animation: rotate3dRing 6s linear infinite;
+    pointer-events: none;
+}
+
+/* Второе внутреннее кольцо для эффекта глубинного космоса */
+.grimoire-3d-ring-inner {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 69, 0, 0.6);
+    box-shadow: 0 0 15px #ff4500;
+    animation: rotate3dRingReverse 4s linear infinite;
+    pointer-events: none;
+}
+
+/* 3D Иконка лежащей лавовой книги */
+.grimoire-3d-book-svg {
+    width: 65px;
+    height: 65px;
+    filter: drop-shadow(0 0 15px #ff4500) drop-shadow(0 0 25px rgba(255, 0, 85, 0.8));
+    animation: float3dBook 3.5s ease-in-out infinite;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 2;
+}
+
+.grimoire-trigger-wrapper:hover .grimoire-3d-book-svg {
+    transform: scale(1.15) translateY(-5px) rotate(4deg);
+}
+
+/* ЗАГАДОЧНЫЙ ЗАВИТКОВЫЙ ШРИФТ ПОДПИСИ */
+.grimoire-magical-label {
+    margin-top: 14px;
+    font-family: 'Matura MT Script Capitals', 'Matura Script Capitals', cursive, fantasy !important;
+    font-size: 1.1rem;
+    color: #ff8c00;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px #ff4500, 0 0 20px rgba(186, 85, 211, 0.8);
+    transition: all 0.3s ease;
+}
+
+.grimoire-trigger-wrapper:hover .grimoire-magical-label {
+    color: #ffd700;
+    letter-spacing: 4px;
+    text-shadow: 0 0 15px #ffd700, 0 0 30px #ff0055;
+}
+
+/* 3D Анимации вращения и парения */
+@keyframes rotate3dRing {
+    0% { transform: rotateX(70deg) rotateY(0deg) rotateZ(0deg); }
+    100% { transform: rotateX(70deg) rotateY(360deg) rotateZ(360deg); }
+}
+
+@keyframes rotate3dRingReverse {
+    0% { transform: rotateX(60deg) rotateY(360deg) rotateZ(0deg); }
+    100% { transform: rotateX(60deg) rotateY(0deg) rotateZ(-360deg); }
+}
+
+@keyframes float3dBook {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+/* ==========================================
+   📜 ОБОЖЖЕННЫЙ ПЕРГАМЕНТ ГРИМУАРА (ДРЕВНИЙ СТИЛЬ)
+   ========================================== */
+.grimoire-overlay-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(8, 4, 2, 0.95);
+    backdrop-filter: blur(12px);
+    z-index: 999999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Настоящий древний обожженный пергамент */
+.grimoire-ancient-tome {
+    position: relative;
+    width: 100%;
+    max-width: 660px;
+    min-height: 480px;
+    /* Выжженная желтая бумага с обугленными краями */
+    background: radial-gradient(ellipse at center, #f3d69b 0%, #d8ae62 55%, #8c5820 85%, #2c1202 100%);
+    border: 3px solid #633c0f;
+    border-radius: 12px;
+    /* Тень обугливания по периметру */
+    box-shadow: inset 0 0 60px #1e0901, inset 0 0 120px rgba(0,0,0,0.8), 0 0 50px rgba(255, 69, 0, 0.4);
+    padding: 40px 35px 30px 35px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Внутренняя выжженная рамка */
+.grimoire-ancient-tome::before {
+    content: '';
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    border: 1px dashed rgba(74, 39, 9, 0.4);
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+/* Заголовок страницы пергамента */
+#grimoirePageTitle {
+    font-family: 'Unbounded', sans-serif !important;
+    color: #4a1d00 !important;
+    font-size: 1.15rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    margin-bottom: 18px !important;
+    border-bottom: 2px solid rgba(82, 42, 10, 0.3) !important;
+    padding-bottom: 10px !important;
+    text-align: center !important;
+    text-shadow: 0 1px 1px rgba(255, 235, 180, 0.6) !important;
+}
+
+/* Древний темно-каштановый текст */
+#grimoirePageText {
+    color: #2b1404 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    line-height: 1.8 !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Кнопки перелистывания в древнем стиле */
+.grimoire-tome-btn {
+    background: rgba(61, 31, 7, 0.85) !important;
+    border: 1px solid #8c5118 !important;
+    color: #fce8b8 !important;
+    padding: 8px 18px !important;
+    border-radius: 8px !important;
+    font-family: 'Unbounded', sans-serif !important;
+    cursor: pointer !important;
+    font-size: 0.8rem !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4) !important;
+    transition: all 0.2s !important;
+}
+
+.grimoire-tome-btn:hover {
+    background: #ff4500 !important;
+    color: #fff !important;
+    box-shadow: 0 0 12px #ff4500 !important;
+}
+
+
+
     </style>
 
 
@@ -4420,6 +4611,40 @@ body.arcade-off .arcade-only {
         <h1 id="main-title">LEYCORE</h1>
         <!-- КНОПКА СТЁБА -->
         <p class="subtitle">Карта восприятия, творчества и скрытых связей между человеком и миром</p>
+        <!-- 🔮 3D ЛЕТАЮЩИЙ ГРИМУАР ЛЭЙКОРА -->
+<div class="grimoire-trigger-wrapper" onclick="LEYCORE_GRIMOIRE.open()" title="Открыть истории Гримуара">
+    <div class="grimoire-orbit-box">
+        <!-- 3D Неоновое фиолетовое гиро-кольцо -->
+        <div class="grimoire-3d-ring"></div>
+        <div class="grimoire-3d-ring-inner"></div>
+
+        <!-- 3D Лавовая лежачая книга (SVG Isometric) -->
+        <svg class="grimoire-3d-book-svg" viewBox="0 0 64 64" fill="none">
+            <path d="M8 24L32 14L56 24L32 34L8 24Z" fill="url(#lavaCoverGrad)" stroke="#ffd700" stroke-width="1.5"/>
+            <path d="M8 24V40L32 50V34L8 24Z" fill="url(#lavaSideGrad1)" stroke="#d4af37" stroke-width="1"/>
+            <path d="M56 24V40L32 50V34L56 24Z" fill="url(#lavaSideGrad2)" stroke="#d4af37" stroke-width="1"/>
+            <path d="M12 28.5L32 20L52 28.5" stroke="#ffffff" stroke-width="1" stroke-dasharray="2 2" opacity="0.8"/>
+            <defs>
+                <linearGradient id="lavaCoverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ff0055" />
+                    <stop offset="50%" stop-color="#ff4500" />
+                    <stop offset="100%" stop-color="#ff8c00" />
+                </linearGradient>
+                <linearGradient id="lavaSideGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#8b0000" />
+                    <stop offset="100%" stop-color="#3a0000" />
+                </linearGradient>
+                <linearGradient id="lavaSideGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#cc3300" />
+                    <stop offset="100%" stop-color="#4a1000" />
+                </linearGradient>
+            </defs>
+        </svg>
+    </div>
+    <!-- Загадочная надпись с завитковым шрифтом -->
+    <div class="grimoire-magical-label">Гримуар Лэйкора</div>
+</div>
+
     </header>
 
     <div class="container">
@@ -9100,7 +9325,7 @@ function createStalkerPopup(imgSrc, text, isBegging = false) {
             }
         }
 
-        // 2. БРОНЕБОЙНАЯ ПОБЕДА (ЗАЩИТА ОТ МНОГОКРАТНОГО НАЧИСЛЕНИЯ ФИШЕК)
+               // 2. БРОНЕБОЙНАЯ ПОБЕДА (ЗАЩИТА ОТ МНОГОКРАТНОГО НАЧИСЛЕНИЯ ФИШЕК)
         function mgbWinGame() {
             // ЕСЛИ ИГРА УЖЕ ОСТАНОВЛЕНА - ВЫХОДИМ (Защита от бага 50 фишек!)
             if (!mgbIsPlaying) return;
@@ -9108,8 +9333,8 @@ function createStalkerPopup(imgSrc, text, isBegging = false) {
             mgbIsPlaying = false; // МГНОВЕННО выключаем флаг игры!
             stopMgbIntervals();
 
-            // Начисляем +3 фишки СТРОГО 1 РАЗ!
-            casinoChips += 3;
+            // Начисляем +5 фишек СТРОГО 1 РАЗ!
+            casinoChips += 5;
             localStorage.setItem('leycore_chips', casinoChips.toString());
             // НАЧИСЛЯЕМ +1 ПРИГОТОВЛЕННЫЙ БУРГЕР В СТАТИСТИКУ
             mgbCookedCount++;
@@ -9131,10 +9356,11 @@ function createStalkerPopup(imgSrc, text, isBegging = false) {
             document.getElementById('mgb-progress-bar-container').style.display = 'none';
             document.getElementById('mgb-start-overlay').style.display = 'flex';
 
-            alert("🏆 БУРГЕР СОБРАН!\nБобнит обожрался и уснул на 10 минут!\nТы по-тихому крадешь +3 🪙 и сваливаешь!");
+            alert("🏆 БУРГЕР СОБРАН!\nБобнит обожрался и уснул на 10 минут!\nТы по-тихому крадешь +5 🪙 и сваливаешь!");
 
             checkMgbCooldown();
         }
+
 
         // 3. БРОНЕБОЙНЫЙ ПРОИГРЫШ
         function mgbLoseGame() {
@@ -10236,6 +10462,138 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+// ==========================================
+// 📜 ИЗОЛИРОВАННЫЙ МОДУЛЬ ГРИМУАРА LEYCORE
+// ==========================================
+const LEYCORE_GRIMOIRE = {
+    pageIndex: 0,
+    pages: [
+        {
+            title: "ГЛАВА I: ИСТОК И РУСЛО",
+            text: "Вначале был лишь серый информационный шум — хаос бессмысленных кликов и пустых интерфейсов. LEYCORE зародился как попытка создать суверенную обитель. Пространство, где эстетика неонового заката переплетается с искренним кулинарным абсурдом, а музыка подстраивается под пульс твоих мыслей."
+        },
+        {
+            title: "ГЛАВА II: АЛХИМИЯ ВАСИЛИЧА",
+            text: "Когда фундамент был заложен, потребовался источник чистейшей энергии. Так на кулинарную арену вышел Демиург Василич со своей легендарной тяжелой поварешкой. Его кулинарный сарай стал местом рождения 'Запора бабули' и 'Соплей Динозавра' — блюд, восстанавливающих нейронные фильтры."
+        },
+        {
+            title: "ГЛАВА III: ФЕНОМЕН БОБНИТА",
+            text: "Из глубин кода возник Бобнит — Галактический Шеф с Перчаткой Овощей. Поначалу голодный скелет, он превратился в ЧСВ-Титана, охраняющего лидерборд от автокликеров. Его присутствие напоминает: здесь прощают ошибки, но не терпят заскриптованности."
+        },
+        {
+            title: "ГЛАВА IV: МАНИФЕСТ СУВЕРЕННОСТИ",
+            text: "Сегодня LEYCORE — это твой личный Гримуар. Здесь ты можешь соревноваться за фишки в Казино, чиллить под звуки Лэйкостаза или просто выключать Аркадный режим, оставляя лишь чистое вдохновение. Добро пожаловать в Русло!"
+        }
+    ],
+
+    playPaperSound: function() {
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+            const ctx = new AudioContext();
+            const bufferSize = ctx.sampleRate * 0.1;
+            const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.3));
+            }
+            const noise = ctx.createBufferSource();
+            noise.buffer = buffer;
+            const filter = ctx.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.frequency.value = 1100;
+            const gain = ctx.createGain();
+            gain.gain.setValueAtTime(0.2, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(ctx.destination);
+            noise.start();
+        } catch(e) {}
+    },
+
+    render: function() {
+        const item = this.pages[this.pageIndex];
+        const tEl = document.getElementById('grimoirePageTitle');
+        const cEl = document.getElementById('grimoirePageText');
+        const nEl = document.getElementById('grimoirePageCounter');
+
+        if (tEl) tEl.innerText = item.title;
+        if (cEl) cEl.innerText = item.text;
+        if (nEl) nEl.innerText = `Страница ${this.pageIndex + 1} из ${this.pages.length}`;
+    },
+
+    open: function() {
+        this.pageIndex = 0;
+        this.render();
+        const m = document.getElementById('grimoireModalView');
+        if (m) m.style.display = 'flex';
+        this.playPaperSound();
+    },
+
+    close: function() {
+        const m = document.getElementById('grimoireModalView');
+        if (m) m.style.display = 'none';
+    },
+
+    next: function() {
+        if (this.pageIndex < this.pages.length - 1) {
+            this.pageIndex++;
+            this.playPaperSound();
+            this.render();
+        }
+    },
+
+    prev: function() {
+        if (this.pageIndex > 0) {
+            this.pageIndex--;
+            this.playPaperSound();
+            this.render();
+        }
+    }
+};
+
+// ==========================================
+// 🎧 ПЛАВНОЕ УПРАВЛЕНИЕ АМБИЕНТ-ТРЕКОМ
+// ==========================================
+
+function checkGrimoireAmbientState(pageId) {
+    const audio = document.getElementById('leycore-ambient-audio');
+    if (!audio) return;
+
+    if (pageId === 'leycore') {
+        // На главной странице: выставляем приятную негромкую громкость (25%) и включаем
+        audio.volume = 0.25; 
+        audio.play().catch(e => {
+            console.log("Ждем первого клика пользователя для старта музыки...");
+        });
+    } else {
+        // При уходе на другие вкладки — плавно ставим на паузу
+        audio.pause();
+    }
+}
+
+// Авто-перехватчик переключения вкладок
+(function attachAmbientToPages() {
+    const originalSwitch = window.switchPage;
+    if (typeof originalSwitch === 'function') {
+        window.switchPage = function(id) {
+            originalSwitch.apply(this, arguments);
+            checkGrimoireAmbientState(id);
+        };
+    }
+})();
+
+// Включаем при первом же клике на главной (обход автоплея браузеров)
+document.addEventListener('click', function startAmbientOnClick() {
+    const activePage = document.querySelector('.page-view.active')?.id || 'page-leycore';
+    if (activePage.includes('leycore')) {
+        checkGrimoireAmbientState('leycore');
+    }
+}, { once: true });
+
+
+
     </script>
 
 
@@ -10274,9 +10632,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <div style="padding: 8px; border-bottom: 1px solid #334155;">🔒 <b>3,000 кликов</b> — Ч/Б Стиль оформления ⬛️⬜️</div>
             <div style="padding: 8px; border-bottom: 1px solid #334155;">🔒 <b>6,000 кликов</b> — Тема «Бирюза Лазурь» 💎</div>
             <div style="padding: 8px; border-bottom: 1px solid #334155;">🔒 <b>10,000 кликов</b> — +40 🪙 фишек</div>
-            <div style="padding: 8px; border-bottom: 1px solid #334155;">🔒 <b>20,000 кликов</b> — Рецепт «Опухоль Василича» 📜</div>
+            <div style="padding: 8px; border-bottom: 1px solid #334155;">🔒 <b>20,000 кликов</b> — Рецепт «Опухоль деда» 📜</div>
             <div style="padding: 8px; border-bottom: 1px solid #334155;">🔒 <b>40,000 кликов</b> — +100 🪙 фишек</div>
-            <div style="padding: 8px; border-bottom: 1px solid #334155;">🔒 <b>100,000 кликов</b> — +500 🪙 + Рецепт «Левиафан» 🍔🔥</div>
+            <div style="padding: 8px; border-bottom: 1px solid #334155;">🔒 <b>100,000 кликов</b> — +500 🪙 + Рецепт «Толстый колдун» 🍔🔥</div>
             <div style="padding: 8px;">🔒 <b>200,000 кликов</b> — Анимированный Огонь-Титул «Унизил кликер 🔥»</div>
         </div>
 
@@ -10309,6 +10667,32 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     </div>
 </div>
+
+
+
+<!-- 📜 ДРЕВНЕЕ ОКНО ГРИМУАРА (ОБОЖЖЕННЫЙ ПЕРГАМЕНТ) -->
+<div id="grimoireModalView" class="grimoire-overlay-bg">
+    <div class="grimoire-ancient-tome">
+        
+        <div>
+            <div id="grimoirePageTitle"></div>
+            <div id="grimoirePageText"></div>
+        </div>
+
+        <!-- КНОПКИ ПЕРЕЛИСТЫВАНИЯ -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 25px; border-top: 1px solid rgba(74, 39, 9, 0.3); padding-top: 15px;">
+            <button class="grimoire-tome-btn" onclick="LEYCORE_GRIMOIRE.prev()">◄ НАЗАД</button>
+            <span id="grimoirePageCounter" style="color: #4a2709; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 700;"></span>
+            <button class="grimoire-tome-btn" onclick="LEYCORE_GRIMOIRE.next()">ВПЕРЕД ►</button>
+        </div>
+
+        <button onclick="LEYCORE_GRIMOIRE.close()" style="position: absolute; top: -12px; right: -12px; background: #8c1d00; color: #fff; border: 2px solid #ffaa00; border-radius: 50%; width: 34px; height: 34px; font-weight: bold; cursor: pointer; box-shadow: 0 0 15px rgba(255, 69, 0, 0.6);">✕</button>
+    </div>
+</div>
+
+
+<!-- ТВОЙ АМБИЕНТ-ТРЕК ДЛЯ ГЛАВНОЙ СТРАНИЦЫ -->
+<audio id="leycore-ambient-audio" src="ambient.mp3" loop preload="auto"></audio>
 
 
 
