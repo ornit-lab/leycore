@@ -11229,7 +11229,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ==========================================
-// 🙈 ПЕРЕКЛЮЧАТЕЛЬ ПРЯТАНИЯ САЙДБАРА
+// 🙈 ПЕРЕКЛЮЧАТЕЛЬ СВОРAЧИВАНИЯ МЕНЮ СО ЗВУКОМ СВИТКА
 // ==========================================
 function toggleLavaSidebar() {
     const nav = document.getElementById('lavaSidebarNav');
@@ -11238,8 +11238,12 @@ function toggleLavaSidebar() {
     if (!nav) return;
 
     nav.classList.toggle('lava-sidebar-collapsed');
+    const isHiding = nav.classList.contains('lava-sidebar-collapsed');
 
-    if (nav.classList.contains('lava-sidebar-collapsed')) {
+    // 📜 ВСПЛЕСК ЗВУКА СВОРАЧИВАНИЯ / РАЗВОРАЧИВАНИЯ СВИТКА:
+    playScrollFoldSound(isHiding);
+
+    if (isHiding) {
         if (icon) icon.innerText = '▶️';
         if (text) text.innerText = 'Показать';
     } else {
@@ -11247,6 +11251,7 @@ function toggleLavaSidebar() {
         if (text) text.innerText = 'Спрятать';
     }
 }
+
 
 
 // ==========================================
@@ -11350,6 +11355,81 @@ function playSoftWhooshSound() {
 
         osc.start(now);
         osc.stop(now + 0.18);
+
+        setTimeout(() => { ctx.close(); }, 220);
+    } catch(e) {}
+}
+
+
+
+// ==========================================
+// 📜 ЗВУК СВОРАЧИВАНИЯ И РАЗВОРАЧИВАНИЯ СВИТКА
+// ==========================================
+function playScrollFoldSound(isHiding) {
+    try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const now = ctx.currentTime;
+
+        // 1. ШУМ ШЕЛЕСТА ДРЕВНЕГО ПЕРГАМЕНТА (Noise Texture)
+        const bufferSize = ctx.sampleRate * 0.18; // 180ms
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+            data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.35));
+        }
+
+        const noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const noiseFilter = ctx.createBiquadFilter();
+        noiseFilter.type = 'bandpass';
+        noiseFilter.Q.value = 2.2;
+
+        // Динамика свитка: Вверх при сворачивании, вниз при раскатывании
+        if (isHiding) {
+            noiseFilter.frequency.setValueAtTime(320, now);
+            noiseFilter.frequency.exponentialRampToValueAtTime(1700, now + 0.15); // Затягивание рулона
+        } else {
+            noiseFilter.frequency.setValueAtTime(1700, now);
+            noiseFilter.frequency.exponentialRampToValueAtTime(350, now + 0.16); // Раскатывание
+        }
+
+        const noiseGain = ctx.createGain();
+        noiseGain.gain.setValueAtTime(0.28, now);
+        noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.17);
+
+        noise.connect(noiseFilter);
+        noiseFilter.connect(noiseGain);
+        noiseGain.connect(ctx.destination);
+
+        // 2. МЯГКИЙ БАРХАТНЫЙ ТОН НАТЯЖЕНИЯ БУМАГИ
+        const osc = ctx.createOscillator();
+        const oscGain = ctx.createGain();
+        const oscFilter = ctx.createBiquadFilter();
+
+        osc.type = 'triangle';
+        oscFilter.type = 'lowpass';
+        oscFilter.frequency.value = 750;
+
+        if (isHiding) {
+            osc.frequency.setValueAtTime(170, now);
+            osc.frequency.exponentialRampToValueAtTime(440, now + 0.15);
+        } else {
+            osc.frequency.setValueAtTime(440, now);
+            osc.frequency.exponentialRampToValueAtTime(150, now + 0.16);
+        }
+
+        oscGain.gain.setValueAtTime(0.22, now);
+        oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+
+        osc.connect(oscFilter);
+        oscFilter.connect(oscGain);
+        oscGain.connect(ctx.destination);
+
+        noise.start(now);
+        osc.start(now);
 
         setTimeout(() => { ctx.close(); }, 220);
     } catch(e) {}
