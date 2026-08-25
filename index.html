@@ -6035,6 +6035,8 @@ body.arcade-off .arcade-only {
         let isTalesUnlocked = false; // Статус разблокировки (по умолчанию закрыто)
 
         function switchPage(id) {
+             // 💨 ВКЛЮЧАЕМ МЯГКИЙ ЗВУК "ФЫЫУУ" ПРИ ПЕРЕХОДЕ:
+              playSoftWhooshSound();
             // 1. СКРЫВАЕМ ВСЕ СТРАНИЦЫ И ДЕЛАЕМ ИХ ПРОЗРАЧНЫМИ
             document.querySelectorAll('.page-view').forEach(p => {
                 p.style.display = 'none';
@@ -11305,6 +11307,53 @@ function playJuicyLavaDropSound() {
     } catch(e) {}
 }
 
+
+
+// ==========================================
+// 💨 МЯГКИЙ БАРХАТНЫЙ ЗВУК "ФЫЫУУ" ПРИ ПЕРЕХОДЕ ПО ВКЛАДКАМ
+// ==========================================
+function playSoftWhooshSound() {
+    try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        
+        // Разблокировка контекста для телефонов
+        if (ctx.state === 'suspended') {
+            ctx.resume();
+        }
+
+        const now = ctx.currentTime;
+
+        // 1. МЯГКИЙ СИНУСОИДАЛЬНЫЙ СВИП (Плавно скользит вниз)
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
+
+        osc.type = 'sine'; // Чистый, мягкий без резких граней тон
+        osc.frequency.setValueAtTime(320, now); // Старт с мягкого средняка
+        osc.frequency.exponentialRampToValueAtTime(110, now + 0.16); // "Фыы-уу..."
+
+        // 2. СРЕЗАЕМ ВСЕ ОСТРЫЕ ВЕРХИ (Фильтр низких частот)
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(500, now);
+        filter.frequency.exponentialRampToValueAtTime(150, now + 0.16);
+
+        // 3. НЕЖНАЯ ОГИБАЮЩАЯ ГРОМКОСТИ (Без щелчков на старте)
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.16, now + 0.03); // Плавное мягкое появление
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16); // Затухание
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.18);
+
+        setTimeout(() => { ctx.close(); }, 220);
+    } catch(e) {}
+}
 
     </script>
 
