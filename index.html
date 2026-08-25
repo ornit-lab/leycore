@@ -4890,6 +4890,8 @@ body.arcade-off .arcade-only {
 }
 
 
+
+
     </style>
 
 
@@ -11167,10 +11169,10 @@ document.addEventListener('click', function startAmbientOnClick() {
 
 
 // ==========================================
-// 🌋 СЦЕНАРИЙ НАКАПЫВАНИЯ ВКЛАДОК (ТОЛЬКО ДЛЯ ПК)
+// 🌋 УМНЫЙ СЦЕНАРИЙ НАКАПЫВАНИЯ ВКЛАДОК С СОЧНЫМ ЗВУКОМ (ТОЛЬКО ПК)
 // ==========================================
 function initRiftDripSidebar() {
-    // 🛡 ЗАЩИТА: Если экран <= 768px (мобилка) — ВООБЩЕ НИЧЕГО НЕ ДЕЛАЕМ!
+    // 🛡 Защита от мобилок (на смартфонах звук и капли не запускаем)
     if (window.innerWidth <= 768) return;
 
     const navContainer = document.getElementById('lavaSidebarNav');
@@ -11196,26 +11198,18 @@ function initRiftDripSidebar() {
             return;
         }
 
+        // Анимация полета капли
         dropElem.classList.remove('animating');
         void dropElem.offsetWidth;
         dropElem.classList.add('animating');
 
+        // В момент шлепка капли спавним вкладку и ВКЛЮЧАЕМ СОЧНЫЙ ЗВУК!
         setTimeout(() => {
             currentLink.style.display = 'flex';
             currentLink.classList.add('lava-blob-tab');
 
-            try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(160, ctx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.22);
-                gain.gain.setValueAtTime(0.08, ctx.currentTime);
-                gain.gain.linearRampToValueAtTime(0.01, ctx.currentTime + 0.22);
-                osc.connect(gain); gain.connect(ctx.destination);
-                osc.start(); osc.stop(ctx.currentTime + 0.22);
-            } catch(e) {}
+            // 🔊 ЗДЕСЬ ВЫЗЫВАЕТСЯ НАШ НОВЫЙ ГРОМКИЙ СОЧНЫЙ ЗВУК:
+            playJuicyLavaDropSound();
 
             index++;
             setTimeout(dripNextTab, 1800);
@@ -11225,9 +11219,11 @@ function initRiftDripSidebar() {
     setTimeout(dripNextTab, 500);
 }
 
+// Автозапуск при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     initRiftDripSidebar();
 });
+
 
 
 // ==========================================
@@ -11248,6 +11244,65 @@ function toggleLavaSidebar() {
         if (icon) icon.innerText = '◀️';
         if (text) text.innerText = 'Спрятать';
     }
+}
+
+
+// ==========================================
+// 🔊 СОЧНЫЙ И ГРОМКИЙ ЗВУК ПАДЕНИЯ ЛАВОВОЙ КАПЛИ
+// ==========================================
+function playJuicyLavaDropSound() {
+    try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const now = ctx.currentTime;
+
+        // 1. ОСНОВНОЙ ЖИДКИЙ "БЛЮП" (Резонансный плотный всплеск)
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
+
+        osc.type = 'triangle'; // Плотный насыщенный тон
+        osc.frequency.setValueAtTime(520, now);
+        osc.frequency.exponentialRampToValueAtTime(65, now + 0.22); // Сочный срыв частоты
+
+        // Высокий резонанс фильтра создает эффект мокрого желе
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(1400, now);
+        filter.frequency.exponentialRampToValueAtTime(180, now + 0.22);
+        filter.Q.value = 6; // Жидкий "бульк"
+
+        // СОЧНАЯ ГРОМКОСТЬ (0.4)
+        gain.gain.setValueAtTime(0.42, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+
+        // 2. БАСОВЫЙ ШЛЕПОК (Плотный капельный "ПАК")
+        const subOsc = ctx.createOscillator();
+        const subGain = ctx.createGain();
+        subOsc.type = 'sine';
+        subOsc.frequency.setValueAtTime(160, now);
+        subOsc.frequency.exponentialRampToValueAtTime(30, now + 0.18);
+
+        subGain.gain.setValueAtTime(0.35, now);
+        subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+
+        // Соединяем цепочку
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+
+        subOsc.connect(subGain);
+        subGain.connect(ctx.destination);
+
+        // Старт звука
+        osc.start(now);
+        osc.stop(now + 0.25);
+        subOsc.start(now);
+        subOsc.stop(now + 0.18);
+
+        // Закрываем контекст памяти
+        setTimeout(() => { ctx.close(); }, 300);
+    } catch(e) {}
 }
 
 
