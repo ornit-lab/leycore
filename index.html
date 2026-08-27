@@ -9888,11 +9888,19 @@ function renderAchievements() {
             return parseInt(localStorage.getItem('leycore_chips') || '10', 10);
         }
 
-        function setChipBalance(newAmount) {
+                function setChipBalance(newAmount) {
             casinoChips = Math.max(0, Math.floor(newAmount));
             localStorage.setItem('leycore_chips', casinoChips.toString());
-            updateCasinoUI(); // Мгновенно обновляем интерфейс везде
+            
+            // 1. Мгновенно обновляем UI у игрока
+            updateCasinoUI();
+
+            // 2. 🚀 МГНОВЕННО отправляем новый баланс в облако Supabase!
+            if (typeof saveUserProfileToCloud === 'function') {
+                saveUserProfileToCloud();
+            }
         }
+
 
         function addChips(amount) {
             setChipBalance(getChipBalance() + amount);
@@ -12447,6 +12455,42 @@ document.addEventListener('DOMContentLoaded', () => {
     renderShopUI();
 });
 
+
+
+        // ==========================================
+        // 🔄 АВТО-СИНХРОНИЗАЦИЯ БАЛАНСА И ИНВЕНТАРЯ ПРИ СМЕНЕ ВКЛАДКИ / ФОКУСА
+        // ==========================================
+        window.addEventListener('focus', () => {
+            console.log("📱 [СИНХРОНИЗАЦИЯ] Экран активен, подтягиваем свежие фишки из облака...");
+            if (typeof syncUserDataFromSupabase === 'function') {
+                syncUserDataFromSupabase();
+            }
+        });
+
+        // ⚡️ REALTIME-ПОДПИСКА НА ИЗМЕНЕНИЕ ФИШЕК В БАЗЕ (В реальном времени)
+        try {
+            const myName = localStorage.getItem('leycore_username');
+            if (myName && typeof _supabase !== 'undefined' && _supabase) {
+                _supabase
+                    .channel('public:leaderboard:chips_sync')
+                    .on('postgres_changes', {
+                        event: 'UPDATE',
+                        schema: 'public',
+                        table: 'leaderboard',
+                        filter: `player_name=eq.${myName}`
+                    }, payload => {
+                        if (payload.new && payload.new.chips !== undefined) {
+                            console.log("⚡️ [REALTIME] Фишки обновлены в облаке:", payload.new.chips);
+                            casinoChips = payload.new.chips;
+                            localStorage.setItem('leycore_chips', casinoChips.toString());
+                            if (typeof updateCasinoUI === 'function') updateCasinoUI();
+                        }
+                    })
+                    .subscribe();
+            }
+        } catch (e) {
+            console.warn("Realtime подписка фишек пропущена:", e);
+        }
 
 
 
