@@ -5759,6 +5759,142 @@
     100% { transform: translateY(-7px); } /* Чуть уменьшили подъем */
 }
 
+
+
+/* ====================================================
+   🎨 CSS СТИЛИ ДЛЯ КИБЕР-КАПСУЛ ТЕМ С МОРФИНГ-АНИМАЦИЕЙ
+   (Вставь это в свой файл стилей или внутри тега <style>)
+   ==================================================== */
+
+/* Разрешаем элементам выходить за пределы без обрезки */
+.themes-oval-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    overflow: visible !important; /* 🔥 Разрешаем вылезать за рамки */
+    padding: 10px 0; /* Добавили запас пространства сверху и снизу */
+}
+
+/* Вытаскиваем плашки НАПЕРЕД по слоям */
+.theme-capsule-button {
+    position: relative;
+    z-index: 10; /* 🔥 Поднимаем плашку ВЫШЕ всех рамок и бэкграундов */
+    width: 240px; /* 🤏 Сделали ширину 240px (вместо 270px), чтобы она дышала свободно внутри любой рамки */
+    min-height: 48px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    /* 🌊 АНИМАЦИЯ МОРФИНГА ФОРМЫ */
+    animation: themeMorphing 7s ease-in-out infinite alternate;
+}
+
+.theme-capsule-button:hover {
+    transform: scale(1.05) translateY(-2px);
+}
+
+.theme-capsule-button.active-capsule {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+}
+
+/* Иконка-контур внутри капсулы */
+.theme-icon-contour {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.6));
+}
+
+/* 🔥 КИБЕР-АНИМАЦИЯ МОРФИНГА ФОРМЫ (Кривые, срезы, овалы и квадраты) */
+@keyframes themeMorphing {
+    0% {
+        border-radius: 40px 12px 40px 12px; /* Изогнутый овал */
+    }
+    25% {
+        border-radius: 6px 35px 8px 35px; /* Резаный кибер-стиль */
+    }
+    50% {
+        border-radius: 30px 30px 30px 30px; /* Идеальная гладкая капсула */
+    }
+    75% {
+        border-radius: 12px 6px 35px 6px; /* Асимметричный клинок */
+    }
+    100% {
+        border-radius: 40px 40px 12px 12px; /* Полукруглый купол */
+    }
+}
+
+/* 🎨 УНИКАЛЬНЫЕ ЦВЕТА И ГРАДИЕНТЫ ДЛЯ КАЖДОЙ ТЕМЫ */
+
+/* 1. Стандарт (Лэйкор) — Фиолетово-Неоновый */
+.theme-capsule-default {
+    background: linear-gradient(135deg, #3b0764, #7e22ce, #06b6d4);
+    color: #ffffff;
+    border: 2px solid #c084fc;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+}
+
+/* 2. Ч/Б Стиль — Монохромный контраст */
+.theme-capsule-bw {
+    background: linear-gradient(135deg, #09090b, #27272a, #f4f4f5);
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* 3. Бирюза Лазурь — Кристальный океан */
+.theme-capsule-azure {
+    background: linear-gradient(135deg, #0284c7, #06b6d4, #10b981);
+    color: #ffffff;
+    border: 2px solid #38bdf8;
+    box-shadow: 0 0 18px rgba(56, 189, 248, 0.5);
+}
+
+/* 4. Оранжевый Кибер — Огненная плазма */
+.theme-capsule-orange {
+    background: linear-gradient(135deg, #ea580c, #f97316, #eab308);
+    color: #ffffff;
+    border: 2px solid #ffaa00;
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.6);
+}
+
+/* 5. Красный Закат — Багровый сансет */
+.theme-capsule-crimson {
+    background: linear-gradient(135deg, #991b1b, #dc2626, #f43f5e, #fb923c);
+    color: #ffffff;
+    border: 2px solid #f43f5e;
+    box-shadow: 0 0 20px rgba(244, 63, 94, 0.6);
+}
+
+/* 6. Радужный Неон — Кибернетическая радуга */
+.theme-capsule-rainbow {
+    background: linear-gradient(135deg, #ff0055, #ff9900, #10b981, #06b6d4, #8b5cf6);
+    background-size: 200% 200%;
+    animation: themeMorphing 7s ease-in-out infinite alternate, rainbowFlow 4s linear infinite;
+    color: #ffffff;
+    border: 2px solid #00ffff;
+    box-shadow: 0 0 22px rgba(6, 182, 212, 0.7);
+}
+
+@keyframes rainbowFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
     </style>
 
 
@@ -9399,7 +9535,7 @@ function renderAchievements() {
         `;
     }
 
-    // 2. ИНВЕНТАРЬ (ВОЗВРАТИЛИ ТИТУЛЫ, ТЕМЫ И МУСОРКУ!)
+       // 2. ИНВЕНТАРЬ (С КИБЕР-КАПСУЛАМИ ТЕМ, ТИТУЛАМИ И МУСОРКОЙ)
     else if (currentProfileSubTab === 'inventory') {
         const titles = JSON.parse(localStorage.getItem('leycore_titles') || '["Гость Царства"]');
         const activeT = localStorage.getItem('leycore_active_title') || 'Гость Царства';
@@ -9408,17 +9544,17 @@ function renderAchievements() {
         const currentJunk = parseInt(localStorage.getItem('leycore_junk_count') || '0', 10);
 
         const themeList = [
-            { id: '', name: 'Стандарт (Лэйкор)', icon: '⚡️', cls: 'theme-default' },
-            { id: 'theme-bw', name: 'Ч/Б Стиль', icon: '☯️', cls: 'theme-bw' },
-            { id: 'theme-azure', name: 'Бирюза Лазурь', icon: '💎', cls: 'theme-azure' },
-            { id: 'theme-orange', name: 'Оранжевый Кибер', icon: '🔥', cls: 'theme-orange' },
-            { id: 'theme-crimson', name: 'Красный Закат', icon: '🌅', cls: 'theme-crimson' },
-            { id: 'theme-rainbow', name: 'Радужный Неон', icon: '🌈', cls: 'theme-rainbow' }
+            { id: '', name: 'Стандарт (Лэйкор)' },
+            { id: 'theme-bw', name: 'Ч/Б Стиль' },
+            { id: 'theme-azure', name: 'Бирюза Лазурь' },
+            { id: 'theme-orange', name: 'Оранжевый Кибер' },
+            { id: 'theme-crimson', name: 'Красный Закат' },
+            { id: 'theme-rainbow', name: 'Радужный Неон' }
         ];
 
         list.innerHTML = `
             <div class="inventory-two-columns">
-                <!-- КОЛОНКА 1: ТИТУЛЫ С КЛИКАБЕЛЬНЫМ ВЫБОРОМ -->
+                <!-- КОЛОНКА 1: ТИТУЛЫ И МУСОР -->
                 <div>
                     <div class="floating-aura-icon">🏅</div>
                     <h3 style="font-family:'Unbounded'; color:#9333ea; text-align:center; margin-bottom:15px;">Т И Т У Л Ы</h3>
@@ -9434,7 +9570,7 @@ function renderAchievements() {
                         }).join('')}
                     </div>
 
-                    <!-- БЛОК ПЕРЕРАБОТКИ МУСОРА (Вернули на место!) -->
+                    <!-- БЛОК ПЕРЕРАБОТКИ МУСОРА -->
                     <div style="margin-top: 25px; background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.2); padding: 15px; border-radius: 12px; text-align: center;">
                         <div style="font-size: 0.85rem; color: #aaa; margin-bottom: 8px;" id="junk-counter-display">🗑️ Мусор на складе: ${currentJunk} шт.</div>
                         <p style="font-size: 0.7rem; color: #777; margin-bottom: 10px;">10 единиц мусора можно переработать в 5 фишек!</p>
@@ -9442,16 +9578,13 @@ function renderAchievements() {
                     </div>
                 </div>
 
-                <!-- КОЛОНКА 2: ТЕМЫ ОФОРМЛЕНИЯ -->
+                <!-- КОЛОНКА 2: АНИМИРОВАННЫЕ КИБЕР-КАПСУЛЫ ТЕМ -->
                 <div>
                     <div class="floating-aura-icon" style="filter: drop-shadow(0 0 10px #ffd700);">👔</div>
                     <h3 style="font-family:'Unbounded'; color:#ffd700; text-align:center; margin-bottom:15px;">Т Е М Ы</h3>
-                    <div class="themes-oval-stack" style="display:flex; flex-direction:column; gap:8px;">
+                    <div class="themes-oval-stack" style="display:flex; flex-direction:column; align-items:center; gap:12px;">
                         ${themeList.map(t => {
-                            // Открыты либо дефолтная, либо ЧБ (3к кликов), Бирюза (6к кликов), либо выбитые в казино
                             let isUnlocked = (t.id === '' || t.id === 'theme-bw' || t.id === 'theme-azure' || unlockedT.includes(t.id));
-                            
-                            // Авторазблокировка ЧБ и Бирюзы по кликам для подстраховки
                             const clicks = typeof burgerCount !== 'undefined' ? burgerCount : parseInt(localStorage.getItem('bobnitBurgerCount') || '0', 10);
                             if (t.id === 'theme-bw' && clicks >= 3000) isUnlocked = true;
                             if (t.id === 'theme-azure' && clicks >= 6000) isUnlocked = true;
@@ -9459,10 +9592,38 @@ function renderAchievements() {
                             if (!isUnlocked) return '';
                             
                             const isActive = activeTheme === t.id;
+
+                            // ВЕКТОРНЫЕ КОНТУРНЫЕ SVG ИКОНКИ (БЕЗ ЭМОДЗИ!)
+                            let svgIcon = '';
+                            if (t.id === '') { // Молния
+                                svgIcon = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`;
+                            } else if (t.id === 'theme-bw') { // Инь-Янь
+                                svgIcon = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a4.5 4.5 0 0 0 0 9 4.5 4.5 0 0 1 0 9"/><circle cx="12" cy="7.5" r="1.5" fill="currentColor"/><circle cx="12" cy="16.5" r="1.5" fill="none"/></svg>`;
+                            } else if (t.id === 'theme-azure') { // Алмаз
+                                svgIcon = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 18 3 22 9 12 21 2 9 6 3"/><line x1="11" y1="3" x2="8" y2="9"/><line x1="13" y1="3" x2="16" y2="9"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="21" x2="8" y2="9"/><line x1="12" y1="21" x2="16" y2="9"/></svg>`;
+                            } else if (t.id === 'theme-orange') { // Огонь
+                                svgIcon = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c0 3.2-2.5 5.5-2.5 8.5 0 2.5 2 4.5 4.5 4.5s4.5-2 4.5-4.5c0-5.5-6.5-6.5-6.5-8.5z"/><path d="M12 22c-4.4 0-8-3.6-8-8 0-4.4 3.5-8 7.5-11.8 1.1 2.5.5 4.8-.5 7 2.5-1 4.5 1 4.5 3.8 0 2.2-1.8 4-4 4z"/></svg>`;
+                            } else if (t.id === 'theme-crimson') { // Закат
+                                svgIcon = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="9" x2="12" y2="2"/><line x1="4.22" y1="10.22" x2="5.64" y2="11.66"/><line x1="1" y1="18" x2="23" y2="18"/><line x1="19.78" y1="10.22" x2="18.36" y2="11.66"/></svg>`;
+                            } else if (t.id === 'theme-rainbow') { // Радуга
+                                svgIcon = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17a10 10 0 0 0-20 0"/><path d="M18 17a6 6 0 0 0-12 0"/><path d="M14 17a2 2 0 0 0-4 0"/></svg>`;
+                            }
+
+                            // Градиентные классы
+                            let clsName = 'theme-capsule-default';
+                            if (t.id === 'theme-bw') clsName = 'theme-capsule-bw';
+                            if (t.id === 'theme-azure') clsName = 'theme-capsule-azure';
+                            if (t.id === 'theme-orange') clsName = 'theme-capsule-orange';
+                            if (t.id === 'theme-crimson') clsName = 'theme-capsule-crimson';
+                            if (t.id === 'theme-rainbow') clsName = 'theme-capsule-rainbow';
+
                             return `
-                                <div class="theme-oval-button ${t.cls}" onclick="selectTheme('${t.id}')" style="cursor:pointer; border: 1px solid ${isActive ? 'var(--accent-gold)' : 'rgba(255,255,255,0.1)'}; background: ${isActive ? 'rgba(255,215,0,0.15)' : 'rgba(255,255,255,0.03)'}; padding: 10px 14px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
-                                    <span>${t.icon} ${t.name}</span>
-                                    <span style="font-size:0.75rem; color:${isActive ? 'var(--accent-gold)' : '#aaa'}">${isActive ? '✓ АКТИВНО' : 'ВЫБРАТЬ'}</span>
+                                <div class="theme-capsule-button ${clsName} ${isActive ? 'active-capsule' : ''}" onclick="selectTheme('${t.id}')">
+                                    <div style="display:flex; align-items:center; gap:10px;">
+                                        <span class="theme-icon-contour">${svgIcon}</span>
+                                        <span>${t.name}</span>
+                                    </div>
+                                    <span style="font-size:0.7rem; letter-spacing:1px;">${isActive ? '✓ АКТИВНО' : 'ВЫБРАТЬ'}</span>
                                 </div>
                             `;
                         }).join('')}
