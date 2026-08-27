@@ -5895,6 +5895,635 @@
     100% { background-position: 0% 50%; }
 }
 
+
+
+/* ==========================================================================
+   🌌 УЛЬТИМАТИВНЫЙ ПАКЕТ ТЕМ ДЛЯ ЛЭЙКОРА (АТМОСФЕРНЫЙ ПЕРЕКРАС ВСЕГО САЙТА)
+   Вставьте этот CSS в конец вашего основного CSS-файла стилей или внутрь тега <style>.
+   ========================================================================== */
+
+/* 
+   👉 Как это работает:
+   Мы переопределяем базовые CSS-переменные сайта и точечно стилизуем ключевые элементы 
+   (фоны, панели, кнопки, логотип, скроллбары, свечения) при переключении класса на body.
+   Даже если у вас не везде используются переменные, мы принудительно перекрашиваем 
+   основные блоки сайта, создавая монотонную глубокую атмосферу!
+*/
+
+/* ==========================================
+   ☯️ 1. ЧЕРНО-БЕЛЫЙ СТИЛЬ (theme-bw)
+   Атмосфера: Минималистичный стильный нуар, жидкий хром, холодное серебро.
+   ========================================== */
+body.theme-bw {
+    /* Меняем глобальный фон: от угольно-черного к матовому цинковому */
+    background: radial-gradient(circle, #18181b 0%, #09090b 100%) !important;
+    background-attachment: fixed !important;
+    color: #f4f4f5 !important;
+
+    /* Цветовая палитра */
+    --accent-color: #ffffff;
+    --accent-gold: #e4e4e7;
+    --accent-glow: rgba(255, 255, 255, 0.25);
+    --panel-bg: rgba(20, 20, 23, 0.85);
+    --border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Перекрашиваем логотип в нуар (хромированный монохром с белым свечением) */
+body.theme-bw img[src*="logo"], 
+body.theme-bw .logo, 
+body.theme-bw .site-logo, 
+body.theme-bw #site-logo {
+    filter: grayscale(100%) brightness(1.4) drop-shadow(0 0 10px rgba(255, 255, 255, 0.3)) !important;
+}
+
+
+/* ==========================================
+   💎 2. БИРЮЗА ЛАЗУРЬ (theme-azure)
+   Атмосфера: Глубокий футуристичный неоновый океан, холодный кристальный лёд.
+   ========================================== */
+body.theme-azure {
+    /* Меняем глобальный фон: глубокая бездна */
+    background: radial-gradient(circle, #021a24 0%, #010a0e 100%) !important;
+    background-attachment: fixed !important;
+    color: #e0f2fe !important;
+
+    /* Цветовая палитра */
+    --accent-color: #06b6d4;
+    --accent-gold: #00ffcc;
+    --accent-glow: rgba(6, 182, 212, 0.45);
+    --panel-bg: rgba(2, 22, 31, 0.85);
+    --border-color: rgba(6, 182, 212, 0.25);
+}
+
+/* Перекрашиваем логотип в сочный кристально-бирюзовый */
+body.theme-azure img[src*="logo"], 
+body.theme-azure .logo, 
+body.theme-azure .site-logo, 
+body.theme-azure #site-logo {
+    filter: hue-rotate(90deg) saturate(2.5) brightness(1.1) drop-shadow(0 0 12px rgba(0, 255, 204, 0.5)) !important;
+}
+
+
+/* ==========================================
+   🔥 3. ОРАНЖЕВЫЙ КИБЕР (theme-orange)
+   Атмосфера: Раскалённое ядро вулкана, высокотехнологичная жидкая лава.
+   ========================================== */
+body.theme-orange {
+    /* Меняем глобальный фон: угольная шахта с отблесками магмы */
+    background: radial-gradient(circle, #250f03 0%, #0c0401 100%) !important;
+    background-attachment: fixed !important;
+    color: #ffedd5 !important;
+
+    /* Цветовая палитра */
+    --accent-color: #ea580c;
+    --accent-gold: #f97316;
+    --accent-glow: rgba(249, 115, 22, 0.5);
+    --panel-bg: rgba(20, 9, 3, 0.88);
+    --border-color: rgba(249, 115, 22, 0.3);
+}
+
+/* Перекрашиваем логотип в огненно-оранжевый */
+body.theme-orange img[src*="logo"], 
+body.theme-orange .logo, 
+body.theme-orange .site-logo, 
+body.theme-orange #site-logo {
+    filter: hue-rotate(295deg) saturate(3) brightness(1.2) drop-shadow(0 0 12px rgba(249, 115, 22, 0.6)) !important;
+}
+
+
+/* ==========================================
+   🌅 4. КРАСНЫЙ ЗАКАТ (theme-crimson)
+   Атмосфера: Багровые сумерки, вечерний готический киберпанк, густое вино.
+   ========================================== */
+body.theme-crimson {
+    /* Меняем глобальный фон: глубокий багровый закат */
+    background: radial-gradient(circle, #27030c 0%, #0d0104 100%) !important;
+    background-attachment: fixed !important;
+    color: #ffe4e6 !important;
+
+    /* Цветовая палитра */
+    --accent-color: #e11d48;
+    --accent-gold: #f43f5e;
+    --accent-glow: rgba(244, 63, 94, 0.5);
+    --panel-bg: rgba(24, 2, 7, 0.88);
+    --border-color: rgba(244, 63, 94, 0.3);
+}
+
+/* Перекрашиваем логотип в благородный алый закат */
+body.theme-crimson img[src*="logo"], 
+body.theme-crimson .logo, 
+body.theme-crimson .site-logo, 
+body.theme-crimson #site-logo {
+    filter: hue-rotate(245deg) saturate(2.5) brightness(1) drop-shadow(0 0 12px rgba(244, 63, 94, 0.6)) !important;
+}
+
+
+/* ==========================================
+   🌈 5. РАДУЖНЫЙ НЕОН (theme-rainbow)
+   Атмосфера: Психоделический рейв, плавно переливающиеся неоновые волны.
+   ========================================== */
+body.theme-rainbow {
+    /* Динамический живой перелив на бэкграунде */
+    background: radial-gradient(circle, #090514 0%, #020105 100%) !important;
+    background-attachment: fixed !important;
+    color: #fdf4ff !important;
+
+    /* Базовые цвета для подстраховки */
+    --accent-color: #a855f7;
+    --accent-gold: #06b6d4;
+    --accent-glow: rgba(168, 85, 247, 0.4);
+    --panel-bg: rgba(10, 5, 18, 0.88);
+    --border-color: rgba(6, 182, 212, 0.25);
+}
+
+/* Радужный перелив логотипа */
+body.theme-rainbow img[src*="logo"], 
+body.theme-rainbow .logo, 
+body.theme-rainbow .site-logo, 
+body.theme-rainbow #site-logo {
+    animation: rainbowLogoShift 8s linear infinite !important;
+}
+
+@keyframes rainbowLogoShift {
+    0% { filter: hue-rotate(0deg) saturate(2) drop-shadow(0 0 8px rgba(255,0,85,0.5)); }
+    33% { filter: hue-rotate(120deg) saturate(2) drop-shadow(0 0 8px rgba(0,255,150,0.5)); }
+    66% { filter: hue-rotate(240deg) saturate(2) drop-shadow(0 0 8px rgba(0,150,255,0.5)); }
+    100% { filter: hue-rotate(360deg) saturate(2) drop-shadow(0 0 8px rgba(255,0,85,0.5)); }
+}
+
+
+/* ==========================================================================
+   🎯 ГЛОБАЛЬНЫЕ КЛАССЫ СИСТЕМЫ ПЕРЕКРАСА (ПРИНУДИТЕЛЬНЫЕ СТИЛИ НА ВСЕ СЛОИ)
+   ========================================================================== */
+
+/* 1. ПРИНУДИТЕЛЬНОЕ КРАСИВОЕ СВЕЧЕНИЕ КНОПОК И ТЕКСТА ПОД АКТИВНЫЙ АКЦЕНТ */
+body.theme-bw, body.theme-azure, body.theme-orange, body.theme-crimson, body.theme-rainbow {
+    /* Скроллбары под стиль темы */
+    ::-webkit-scrollbar-thumb {
+        background: var(--accent-color) !important;
+        border-radius: 6px;
+    }
+
+    /* Все основные кнопки с рамками */
+    button, .btn, .main-button, .menu-btn {
+        border-color: var(--accent-color) !important;
+        box-shadow: 0 0 10px var(--accent-glow) !important;
+        background: rgba(255, 255, 255, 0.02) !important;
+        transition: all 0.3s ease !important;
+    }
+
+    button:hover, .btn:hover, .main-button:hover {
+        background: var(--accent-color) !important;
+        color: #000000 !important;
+        font-weight: 900 !important;
+        box-shadow: 0 0 20px var(--accent-color) !important;
+        transform: translateY(-2px);
+    }
+
+    /* Ссылки и Хэдеры на главной */
+    h1, h2, h3, .accent-text, .neon-text {
+        color: var(--accent-gold) !important;
+        text-shadow: 0 0 8px var(--accent-glow) !important;
+    }
+
+    /* Панели, карточки, модальные окна */
+    .card, .panel, .container, .game-box, .auth-modal, .story-modal-content, .casino-panel {
+        background: var(--panel-bg) !important;
+        border: 1px solid var(--border-color) !important;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.7), inset 0 0 15px var(--accent-glow) !important;
+    }
+
+    /* Подсветка полей ввода (Input) */
+    input, select, textarea {
+        background: rgba(0, 0, 0, 0.4) !important;
+        border: 1px solid var(--border-color) !important;
+        color: #ffffff !important;
+    }
+
+    input:focus, select:focus {
+        border-color: var(--accent-color) !important;
+        box-shadow: 0 0 12px var(--accent-glow) !important;
+        outline: none;
+    }
+
+    /* Активные вкладки навигации */
+    .active-tab, .active-profile-tab, .selected-nav {
+        background: var(--accent-color) !important;
+        color: #000000 !important;
+        font-weight: bold !important;
+        box-shadow: 0 0 15px var(--accent-color) !important;
+    }
+
+    /* Шкалы прогресса, индикаторы, заполнители */
+    .progress-bar-fill, .bar-fill, .loader-fill, .flask-liquid-fill {
+        background: linear-gradient(90deg, var(--accent-color), var(--accent-gold)) !important;
+        box-shadow: 0 0 10px var(--accent-color) !important;
+    }
+
+    /* Названия лидербордов */
+    .leaderboard-item, li.leader-row {
+        border-bottom: 1px dashed var(--border-color) !important;
+    }
+}
+
+
+/* ==========================================================================
+   💥 ТОТАЛЬНЫЙ ПЕРЕКРАС ТЕКСТОВОГО ЛОГОТИПА LEYCORE И ПЛАШКИ ВЕРСИИ
+   ========================================================================== */
+
+/* --- ☯️ 1. ЧЕРНО-БЕЛЫЙ СТИЛЬ (Матовый хром и белая сталь) --- */
+body.theme-bw h1, 
+body.theme-bw .logo-text, 
+body.theme-bw [class*="logo"] {
+    background: linear-gradient(to right, #ffffff 30%, #a1a1aa 70%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.4) !important;
+}
+body.theme-bw [class*="version"], 
+body.theme-bw .version-badge {
+    border-color: #ffffff !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3) !important;
+}
+
+/* --- 💎 2. БИРЮЗА ЛАЗУРЬ (Кристальный неоновый океан) --- */
+body.theme-azure h1, 
+body.theme-azure .logo-text, 
+body.theme-azure [class*="logo"] {
+    background: linear-gradient(to right, #00ffcc 20%, #06b6d4 80%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    text-shadow: 0 0 18px rgba(6, 182, 212, 0.6) !important;
+}
+body.theme-azure [class*="version"], 
+body.theme-azure .version-badge {
+    border-color: #06b6d4 !important;
+    color: #00ffcc !important;
+    box-shadow: 0 0 12px rgba(6, 182, 212, 0.5) !important;
+}
+
+/* --- 🔥 3. ОРАНЖЕВЫЙ КИБЕР (Огненная лава и магма) --- */
+body.theme-orange h1, 
+body.theme-orange .logo-text, 
+body.theme-orange [class*="logo"] {
+    background: linear-gradient(to right, #ffaa00 20%, #ea580c 80%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    text-shadow: 0 0 18px rgba(249, 115, 22, 0.6) !important;
+}
+body.theme-orange [class*="version"], 
+body.theme-orange .version-badge {
+    border-color: #ea580c !important;
+    color: #ffaa00 !important;
+    box-shadow: 0 0 12px rgba(249, 115, 22, 0.5) !important;
+}
+
+/* --- 🌅 4. КРАСНЫЙ ЗАКАТ (Багровый закатный горизонт) --- */
+body.theme-crimson h1, 
+body.theme-crimson .logo-text, 
+body.theme-crimson [class*="logo"] {
+    background: linear-gradient(to right, #f43f5e 20%, #991b1b 80%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    text-shadow: 0 0 18px rgba(244, 63, 94, 0.6) !important;
+}
+body.theme-crimson [class*="version"], 
+body.theme-crimson .version-badge {
+    border-color: #e11d48 !important;
+    color: #f43f5e !important;
+    box-shadow: 0 0 12px rgba(244, 63, 94, 0.5) !important;
+}
+
+/* --- 🌈 5. РАДУЖНЫЙ НЕОН (Живой переливающийся текст) --- */
+body.theme-rainbow h1, 
+body.theme-rainbow .logo-text, 
+body.theme-rainbow [class*="logo"] {
+    background: linear-gradient(to right, #ff0055, #ff9900, #10b981, #06b6d4, #8b5cf6) !important;
+    background-size: 200% auto !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    animation: rainbowTextShift 6s linear infinite !important;
+    text-shadow: 0 0 15px rgba(168, 85, 247, 0.5) !important;
+}
+@keyframes rainbowTextShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+body.theme-rainbow [class*="version"], 
+body.theme-rainbow .version-badge {
+    border-color: #a855f7 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.5) !important;
+}
+
+
+/* ==========================================================================
+   ⚡️ ТОТАЛЬНЫЙ ПЕРЕКРАС КНОПОК: ПЛОТНЫЙ ТЕМНЫЙ ФОН + КИБЕР-ЗОЛОТЫЕ CTA ⚡️
+   ========================================================================== */
+
+/* 1. Возвращаем плотность и видимость ОБЫЧНЫМ кнопкам на всех темах */
+body.theme-bw button, .btn, .menu-btn,
+body.theme-azure button,
+body.theme-orange button,
+body.theme-crimson button,
+body.theme-rainbow button {
+    background: rgba(12, 12, 14, 0.88) !important; /* Плотная темная подложка, кнопка больше не прозрачная! */
+    color: #ffffff !important;
+    border: 2px solid var(--accent-color) !important;
+    box-shadow: 0 0 12px var(--accent-glow) !important;
+    opacity: 1 !important;
+    font-weight: 700 !important;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5) !important;
+}
+
+/* Эффект наведения для обычных кнопок */
+body.theme-bw button:hover,
+body.theme-azure button:hover,
+body.theme-orange button:hover,
+body.theme-crimson button:hover,
+body.theme-rainbow button:hover {
+    background: var(--accent-color) !important;
+    color: #000000 !important;
+    box-shadow: 0 0 20px var(--accent-color) !important;
+    text-shadow: none !important;
+}
+
+
+/* 2. 🌟 ЖЕЛЕЗОБЕТОННЫЙ ЗОЛОТОЙ КИБЕР-СТИЛЬ ДЛЯ ВСЕХ ГЛАВНЫХ ДЕЙСТВИЙ 🌟 */
+/* Авто-наведение на кнопки: Старт, Играть, Вращать, Купить, Забрать, Переработать */
+button.primary-action,
+button.main-button,
+.play-btn, .spin-btn, .claim-btn, .buy-btn,
+button[onclick*="exchange"],
+button[onclick*="buy"],
+button[onclick*="spin"],
+button[onclick*="start"],
+button[onclick*="Play"],
+button[onclick*="Casino"],
+button[onclick*="claim"],
+button[onclick*="feed"] {
+    background: linear-gradient(135deg, #ffe53b 0%, #ff2525 100%) !important; /* Ультра-сочный огненно-желтый градиент */
+    background-size: 100% 100% !important;
+    color: #000000 !important; /* Черный, максимально читаемый текст */
+    font-family: 'Unbounded', sans-serif !important;
+    font-size: 0.85rem !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.5px !important;
+    border: 2px solid #ffffff !important; /* Белая контрастная кибер-рамка */
+    border-radius: 8px !important;
+    box-shadow: 0 0 18px rgba(255, 110, 0, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.5) !important;
+    text-shadow: none !important;
+    opacity: 1 !important;
+    transform: scale(1) !important;
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+/* 🔥 Эффект сочного наведения и пульсации для главных кнопок */
+button.primary-action:hover,
+button.main-button:hover,
+.play-btn:hover, .spin-btn:hover, .claim-btn:hover, .buy-btn:hover,
+button[onclick*="exchange"]:hover,
+button[onclick*="buy"]:hover,
+button[onclick*="spin"]:hover,
+button[onclick*="start"]:hover,
+button[onclick*="Play"]:hover,
+button[onclick*="Casino"]:hover,
+button[onclick*="claim"]:hover,
+button[onclick*="feed"]:hover {
+    background: linear-gradient(135deg, #fff200 0%, #ff8c00 100%) !important; /* Еще более яркий взрывной желтый при наведении */
+    color: #000000 !important;
+    transform: scale(1.06) translateY(-2px) !important; /* Кнопка приятно пружинит и приподнимается */
+    box-shadow: 0 0 30px #ff6a00, inset 0 0 15px rgba(255, 255, 255, 0.8) !important;
+    cursor: pointer !important;
+}
+
+/* Если кнопка отключена (например, уже куплено) */
+button:disabled, button[disabled] {
+    background: #222225 !important;
+    color: #66666a !important;
+    border-color: #333335 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    cursor: not-allowed !important;
+    text-shadow: none !important;
+}
+
+/* ==========================================================================
+   🌌 ПОЛНАЯ СИНХРОНИЗАЦИЯ ФОНОВОЙ АУРЫ (СВЕЧЕНИЯ ПОД ЛОГОТИПОМ) С ТЕМАМИ
+   ========================================================================== */
+
+/* --- ☯️ 1. ЧЕРНО-БЕЛЫЙ СТИЛЬ (Бело-серебряный туман) --- */
+body.theme-bw .logo-container::before,
+body.theme-bw .logo-container::after,
+body.theme-bw .logo-glow,
+body.theme-bw [class*="logo-glow"],
+body.theme-bw [class*="logo-bg"],
+body.theme-bw .header-glow,
+body.theme-bw [class*="header-glow"] {
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.05) 40%, transparent 70%) !important;
+    filter: grayscale(100%) !important;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1) !important;
+}
+
+/* --- 💎 2. БИРЮЗА ЛАЗУРЬ (Глубокий циановый туман) --- */
+body.theme-azure .logo-container::before,
+body.theme-azure .logo-container::after,
+body.theme-azure .logo-glow,
+body.theme-azure [class*="logo-glow"],
+body.theme-azure [class*="logo-bg"],
+body.theme-azure .header-glow,
+body.theme-azure [class*="header-glow"] {
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.35) 0%, rgba(2, 132, 199, 0.1) 45%, transparent 70%) !important;
+    box-shadow: 0 0 40px rgba(6, 182, 212, 0.2) !important;
+}
+
+/* --- 🔥 3. ОРАНЖЕВЫЙ КИБЕР (Вулканическое лавовое свечение) --- */
+body.theme-orange .logo-container::before,
+body.theme-orange .logo-container::after,
+body.theme-orange .logo-glow,
+body.theme-orange [class*="logo-glow"],
+body.theme-orange [class*="logo-bg"],
+body.theme-orange .header-glow,
+body.theme-orange [class*="header-glow"] {
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.35) 0%, rgba(234, 88, 12, 0.1) 45%, transparent 70%) !important;
+    box-shadow: 0 0 40px rgba(249, 115, 22, 0.2) !important;
+}
+
+/* --- 🌅 4. КРАСНЫЙ ЗАКАТ (Багрово-алое вечернее свечение) --- */
+body.theme-crimson .logo-container::before,
+body.theme-crimson .logo-container::after,
+body.theme-crimson .logo-glow,
+body.theme-crimson [class*="logo-glow"],
+body.theme-crimson [class*="logo-bg"],
+body.theme-crimson .header-glow,
+body.theme-crimson [class*="header-glow"] {
+    background: radial-gradient(circle, rgba(244, 63, 94, 0.35) 0%, rgba(153, 27, 27, 0.1) 45%, transparent 70%) !important;
+    box-shadow: 0 0 40px rgba(244, 63, 94, 0.2) !important;
+}
+
+/* --- 🌈 5. РАДУЖНЫЙ НЕОН (Переливающееся всеми цветами облако) --- */
+body.theme-rainbow .logo-container::before,
+body.theme-rainbow .logo-container::after,
+body.theme-rainbow .logo-glow,
+body.theme-rainbow [class*="logo-glow"],
+body.theme-rainbow [class*="logo-bg"],
+body.theme-rainbow .header-glow,
+body.theme-rainbow [class*="header-glow"] {
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, rgba(6, 182, 212, 0.1) 45%, transparent 70%) !important;
+    animation: rainbowGlowShift 8s linear infinite !important;
+}
+
+@keyframes rainbowGlowShift {
+    0% { filter: hue-rotate(0deg) saturate(1.5); }
+    50% { filter: hue-rotate(180deg) saturate(1.5); }
+    100% { filter: hue-rotate(360deg) saturate(1.5); }
+}
+
+
+/* ==========================================================================
+   🎯 АВТО-ПЕРЕКРАС ВЕРХНЕЙ ПЛАШКИ И СВЕЧЕНИЯ ЛОГОТИПА ПОД ВСЕ ТЕМЫ
+   ========================================================================== */
+
+/* 1. ⚔️ ТОТАЛЬНОЕ УНИЧТОЖЕНИЕ ФИОЛЕТОВОЙ АУРЫ ВОКРУГ БУКВ LEYCORE */
+body.theme-bw h1, body.theme-bw .logo-text, body.theme-bw [class*="logo"],
+body.theme-azure h1, body.theme-azure .logo-text, body.theme-azure [class*="logo"],
+body.theme-orange h1, body.theme-orange .logo-text, body.theme-orange [class*="logo"],
+body.theme-crimson h1, body.theme-crimson .logo-text, body.theme-crimson [class*="logo"] {
+    /* Меняем фиолетовый drop-shadow на сочный цвет текущей темы! */
+    filter: drop-shadow(0 0 15px var(--accent-color)) !important;
+    text-shadow: none !important; /* Отключаем старые тени, чтобы не двоилось */
+}
+
+/* 2. 🛡 ПОЛНЫЙ ПЕРЕКРАС ПЛАШКИ ВЕРСИИ (Рамка, Текст и Свечение) */
+body.theme-bw [class*="version"], body.theme-bw [class*="badge"], body.theme-bw [class*="pill"], body.theme-bw [class*="local"],
+body.theme-azure [class*="version"], body.theme-azure [class*="badge"], body.theme-azure [class*="pill"], body.theme-azure [class*="local"],
+body.theme-orange [class*="version"], body.theme-orange [class*="badge"], body.theme-orange [class*="pill"], body.theme-orange [class*="local"],
+body.theme-crimson [class*="version"], body.theme-crimson [class*="badge"], body.theme-crimson [class*="pill"], body.theme-crimson [class*="local"] {
+    border-color: var(--accent-color) !important; /* Рамка в цвет темы */
+    color: var(--accent-gold) !important; /* Текст в золотой/акцентный цвет темы */
+    box-shadow: 0 0 15px var(--accent-glow) !important; /* Свечение рамки наружу */
+    text-shadow: 0 0 5px var(--accent-glow) !important; /* Свечение букв внутри */
+    background: rgba(10, 10, 12, 0.85) !important; /* Плотная подложка, чтобы не просвечивало */
+}
+
+/* 3. 🌈 ДИНАМИКА ДЛЯ РАДУЖНОЙ ТЕМЫ (Плавный перелив плашки всеми цветами) */
+body.theme-rainbow [class*="version"], 
+body.theme-rainbow [class*="badge"], 
+body.theme-rainbow [class*="pill"], 
+body.theme-rainbow [class*="local"] {
+    animation: rainbowLogoShift 8s linear infinite !important;
+    background: rgba(10, 10, 12, 0.85) !important;
+}
+
+
+/* ==========================================================================
+   🔒 ЗАМОК НА СТИЛЬ ВАСИЛИЧА (Оставляем стандарт вопреки всем темам)
+   ========================================================================== */
+
+/* Этот селектор принудительно возвращает стандартный градиент и свечение */
+/* Вставь сюда ID или КЛАСС своего заголовка, если знаешь его (например .dishes-title) */
+[class*="menu-title"], [class*="vasilich-title"], [class*="dishes-title"], .vasilich-menu-header {
+    background: linear-gradient(to right, #00ff00 20%, #ff8c00 80%) !important; /* Родной зелено-оранжевый */
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    filter: drop-shadow(0 0 12px rgba(0, 255, 0, 0.6)) !important; /* Родное зеленое свечение */
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Возвращаем оранжевую полоску в стандарт */
+hr.menu-separator, [class*="menu-separator"], [class*="vasilich-line"] {
+    border-bottom: 2px solid #ff8c00 !important;
+    box-shadow: 0 0 10px rgba(255, 140, 0, 0.5) !important;
+}
+
+/* Возвращаем фиолетовую нижнюю плашку (Демиург Василич) */
+[class*="menu-footer"], [class*="demiurg-container"] {
+    background: #1a0b2e !important; /* Родной темно-фиолетовый фон */
+    border-top: 1px solid #4a148c !important;
+    box-shadow: 0 -5px 15px rgba(138, 43, 226, 0.3) !important;
+}
+
+/* Текст Демиурга возвращаем в стандарт */
+[class*="demiurg-text"] {
+    color: #ff8c00 !important;
+    text-shadow: 0 0 8px rgba(255, 140, 0, 0.6) !important;
+    filter: none !important;
+}
+
+/* ==========================================================================
+   🔒 БЕЗОПАСНЫЙ ЗАМОК НА "МЕНЮ ВАСИЛИЧА" (ПО РОДНОМУ КЛАССУ .title-green)
+   ========================================================================== */
+
+/* Перебиваем правила перекраса для класса .title-green на всех темах */
+.title-green,
+body.theme-bw .title-green,
+body.theme-azure .title-green,
+body.theme-orange .title-green,
+body.theme-crimson .title-green,
+body.theme-rainbow .title-green {
+    background: linear-gradient(to right, #00ff00 0%, #ffcc00 50%, #ff8c00 100%) !important; /* Наш легендарный градиент */
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    color: transparent !important;
+    
+    /* Сочное неоново-зелёное свечение вокруг букв */
+    filter: drop-shadow(0 0 12px rgba(0, 255, 0, 0.65)) !important;
+    text-shadow: none !important; /* Убираем дублирующие тени */
+}
+
+/* ==========================================================================
+   🧪 ИДЕАЛЬНЫЙ ПЕРЕКРАС КОЛБЫ И ВОЛНЫ ПОД АКТИВНУЮ ТЕМУ
+   ========================================================================= */
+
+/* --- ☯️ 1. ЧЕРНО-БЕЛЫЙ СТИЛЬ (theme-bw) --- */
+body.theme-bw .flask-liquid-fill {
+    background: linear-gradient(180deg, #e4e4e7 0%, #71717a 100%) !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4) !important;
+}
+body.theme-bw .flask-liquid-fill::before {
+    background: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* --- 💎 2. БИРЮЗА ЛАЗУРЬ (theme-azure) --- */
+body.theme-azure .flask-liquid-fill {
+    background: linear-gradient(180deg, #22d3ee 0%, #0284c7 100%) !important;
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.5) !important;
+}
+body.theme-azure .flask-liquid-fill::before {
+    background: rgba(34, 211, 238, 0.8) !important;
+}
+
+/* --- 🔥 3. ОРАНЖЕВЫЙ КИБЕР (theme-orange) --- */
+body.theme-orange .flask-liquid-fill {
+    background: linear-gradient(180deg, #fb923c 0%, #c2410c 100%) !important;
+    box-shadow: 0 0 20px rgba(251, 146, 60, 0.5) !important;
+}
+body.theme-orange .flask-liquid-fill::before {
+    background: rgba(251, 146, 60, 0.8) !important;
+}
+
+/* --- 🌅 4. КРАСНЫЙ ЗАКАТ (theme-crimson) --- */
+body.theme-crimson .flask-liquid-fill {
+    background: linear-gradient(180deg, #f43f5e 0%, #9f1239 100%) !important;
+    box-shadow: 0 0 20px rgba(244, 63, 94, 0.5) !important;
+}
+body.theme-crimson .flask-liquid-fill::before {
+    background: rgba(244, 63, 94, 0.8) !important;
+}
+
+/* --- 🌈 5. РАДУЖНЫЙ НЕОН (theme-rainbow) --- */
+body.theme-rainbow .flask-liquid-fill {
+    background: linear-gradient(180deg, #c084fc 0%, #7e22ce 100%) !important;
+    box-shadow: 0 0 20px rgba(192, 132, 252, 0.6) !important;
+}
+body.theme-rainbow .flask-liquid-fill::before {
+    background: rgba(192, 132, 252, 0.8) !important;
+}
+
+
     </style>
 
 
@@ -6334,7 +6963,7 @@
                     <img src="bobnit_thanos.jpg" alt="Бобнит Танос" class="thanos-img">
                 </div>
                 <div class="thanos-quote-box">
-                    <div class="thanos-badge">⚡️ ДЕМИУРГ ВАСИЛИЧ ⚡️</div>
+                    <div class="thanos-badge">ВАСИЛИЧ</div>
                     <p class="thanos-quote">«Мстители, общий сбор на обед! Один щелчок Перчаткой Продуктов — и половина
                         серого голода во вселенной растворяется в сухом анаболизме.»</p>
                 </div>
