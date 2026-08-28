@@ -9446,13 +9446,21 @@ body.theme-rainbow h1, body.theme-rainbow .logo-text {
                 }
             }
 
-            // 9. РАЗБЛОКИРОВКА СЕКРЕТНОГО РЕЦЕПТА (Dino Snot)
+                        // 9. РАЗБЛОКИРОВКА СЕКРЕТНОГО РЕЦЕПТА (Dino Snot)
             if (burgerCount >= 5000 && !localStorage.getItem('dinoSnotUnlocked')) {
                 localStorage.setItem('dinoSnotUnlocked', 'true');
+                
+                // Выдаем ачивку "Секретный рецепт" (+50 фишек)
+                if (typeof unlockAchievement === 'function') {
+                    unlockAchievement("Секретный рецепт", 50);
+                }
+
+                // Вызываем разблокировку рецепта
                 if (typeof unlockSecretRecipe === 'function') {
                     unlockSecretRecipe();
                 }
             }
+
         }
 
 
@@ -12234,39 +12242,48 @@ if (document.readyState === 'loading') {
 }
 
 
-// 🚪 ГЛОБАЛЬНЫЙ ВЫХОД (С ЗАЧИСТКОЙ ВИРУСНЫХ ТЕМ)
-function logoutGlobalAccount() {
-    const confirmLogout = confirm("Бобнит расстроится, если ты уйдешь... 😭\nТы точно хочешь выйти из аккаунта?");
+               // 🚪 ГЛОБАЛЬНЫЙ ВЫХОД ИЗ АККАУНТА (С ПОЛНОЙ ЗАЧИСТКОЙ)
+        function logoutGlobalAccount() {
+            const confirmLogout = confirm("Бобнит расстроится, если ты уйдешь... 😭\nТы точно хочешь выйти из аккаунта?");
 
-    if (confirmLogout) {
-        console.log("🚪 [ВЫХОД] Зачищаем все локальные данные и темы...");
-        
-        // 1. Очищаем все данные сессии
-        localStorage.removeItem('leycore_username');
-        localStorage.removeItem('leycore_chips');
-        localStorage.removeItem('mgb_cooked_count');
-        localStorage.setItem('bobnitBurgerCount', '0');
-        localStorage.setItem('flappyHighScore', '0');
+            if (confirmLogout) {
+                console.log("🚪 [ВЫХОД] Полная зачистка всех сессий, флагов и тем...");
 
-        // 2. 🛡 ОЧИЩАЕМ ТЕМЫ И ТИТУЛЫ (Карантин от перетекания на другие аккаунты!)
-        localStorage.setItem('unlockedThemes', '[]');
-        localStorage.setItem('leycore_themes', '[]');
-        localStorage.setItem('leycore_active_theme', '');
-        localStorage.setItem('leycore_titles', '["Гость Царства"]');
-        localStorage.setItem('leycore_active_title', 'Гость Царства');
+                // 1. ОЧИЩАЕМ ВСЕ КЛЮЧИ СЕССИИ И ОЧЕРЕДЕЙ В LOCALSTORAGE
+                localStorage.removeItem('leycore_username');
+                localStorage.removeItem('leycore_chips');
+                localStorage.removeItem('mgb_cooked_count');
+                localStorage.setItem('bobnitBurgerCount', '0');
+                localStorage.setItem('flappyHighScore', '0');
+                localStorage.setItem('unlockedThemes', '[]');
+                localStorage.setItem('leycore_themes', '[]');
+                localStorage.setItem('leycore_active_theme', '');
+                localStorage.setItem('leycore_titles', '["Гость Царства"]');
+                localStorage.setItem('leycore_custom_dishes', '[]');
 
-        // 3. Сбрасываем темы в JS-памяти
-        if (typeof unlockedThemes !== 'undefined' && Array.isArray(unlockedThemes)) {
-            unlockedThemes.length = 0;
+                // 🎯 ВОТ СЮДА ВСТАВИЛИ ОЧИСТКУ ФЛАГА "СОПЛЕЙ ДИНОЗАВРА"!
+                localStorage.removeItem('dinoSnotUnlocked');
+
+                // 2. СБРАСЫВАЕМ ВЕСЬ ИНВЕНТАРЬ И ПЕРЕМЕННЫЕ В ОПЕРАТИВКЕ (JS)
+                if (typeof burgerCount !== 'undefined') burgerCount = 0;
+                if (typeof casinoChips !== 'undefined') casinoChips = 10;
+                if (typeof bestFlappyScore !== 'undefined') bestFlappyScore = 0;
+                if (typeof mgbCookedCount !== 'undefined') mgbCookedCount = 0;
+
+                if (typeof unlockedThemes !== 'undefined' && Array.isArray(unlockedThemes)) unlockedThemes.length = 0;
+                if (typeof unlockedTitles !== 'undefined' && Array.isArray(unlockedTitles)) unlockedTitles.length = 0;
+                if (typeof myAchievements !== 'undefined' && Array.isArray(myAchievements)) myAchievements.length = 0;
+                if (typeof dishes !== 'undefined' && Array.isArray(dishes)) dishes.length = 0;
+
+                // 3. Сбрасываем стили оформления
+                document.body.className = '';
+
+                // Перезагружаем страницу — новый игрок заходит с чистого листа!
+                location.reload();
+            }
         }
 
-        // 4. Снимаем все визуальные классы тем с body
-        document.body.className = '';
 
-        // Перезагружаем страницу — теперь заходишь на чистый аккаунт!
-        location.reload();
-    }
-}
 
 
         // Добавляем вызов обновления индикатора в функцию checkGlobalAuth
