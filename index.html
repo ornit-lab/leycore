@@ -12099,24 +12099,40 @@ if (document.readyState === 'loading') {
 }
 
 
-        // 🚪 Глобальная функция Выхода из аккаунта
+// 🚪 ГЛОБАЛЬНЫЙ ВЫХОД (С ЗАЧИСТКОЙ ВИРУСНЫХ ТЕМ)
 function logoutGlobalAccount() {
     const confirmLogout = confirm("Бобнит расстроится, если ты уйдешь... 😭\nТы точно хочешь выйти из аккаунта?");
 
     if (confirmLogout) {
-        console.log("🚪 [ВЫХОД] Очищаем имя пользователя и сбрасываем сессию...");
+        console.log("🚪 [ВЫХОД] Зачищаем все локальные данные и темы...");
         
-        // Удаляем никнейм из памяти
+        // 1. Очищаем все данные сессии
         localStorage.removeItem('leycore_username');
         localStorage.removeItem('leycore_chips');
         localStorage.removeItem('mgb_cooked_count');
         localStorage.setItem('bobnitBurgerCount', '0');
         localStorage.setItem('flappyHighScore', '0');
 
-        // Перезагружаем страницу — теперь железно выскочит окно входа!
+        // 2. 🛡 ОЧИЩАЕМ ТЕМЫ И ТИТУЛЫ (Карантин от перетекания на другие аккаунты!)
+        localStorage.setItem('unlockedThemes', '[]');
+        localStorage.setItem('leycore_themes', '[]');
+        localStorage.setItem('leycore_active_theme', '');
+        localStorage.setItem('leycore_titles', '["Гость Царства"]');
+        localStorage.setItem('leycore_active_title', 'Гость Царства');
+
+        // 3. Сбрасываем темы в JS-памяти
+        if (typeof unlockedThemes !== 'undefined' && Array.isArray(unlockedThemes)) {
+            unlockedThemes.length = 0;
+        }
+
+        // 4. Снимаем все визуальные классы тем с body
+        document.body.className = '';
+
+        // Перезагружаем страницу — теперь заходишь на чистый аккаунт!
         location.reload();
     }
 }
+
 
         // Добавляем вызов обновления индикатора в функцию checkGlobalAuth
         // (Найди свою функцию checkGlobalAuth и допиши там вызов updateSessionIndicator)
@@ -12493,8 +12509,8 @@ function logoutGlobalAccount() {
 
 
 
-        // ==========================================
-        // ☁️ УЛЬТИМАТИВНАЯ ЗАГРУЗКА ИНВЕНТАРЯ ИЗ ОБЛАКА
+               // ==========================================
+        // ☁️ УЛЬТИМАТИВНАЯ ЗАГРУЗКА ИНВЕНТАРЯ ИЗ ОБЛАКА (С КАРАНТИНОМ ТЕМ)
         // ==========================================
         async function syncUserDataFromSupabase() {
             const myName = localStorage.getItem('leycore_username');
@@ -12516,6 +12532,8 @@ function logoutGlobalAccount() {
                         if (typeof val === 'string') return val;
                         return JSON.stringify(val);
                     };
+
+                    const parseSafe = (str) => { try { return JSON.parse(str); } catch (e) { return []; } };
 
                     // 1. Сохраняем показатели
                     localStorage.setItem('leycore_chips', (data.chips !== undefined ? data.chips : 10).toString());
@@ -12540,25 +12558,39 @@ function logoutGlobalAccount() {
                     localStorage.setItem('leycore_claimed_rewards', claimedStr);
                     localStorage.setItem('leycore_achievements', achStr);
 
-                    // 3. ОБНОВЛЯЕМ ПЕРЕМЕННЫЕ В JS (Память браузера)
+                    // 🛡 3. ПРОВЕРКА ЛЕГАЛЬНОСТИ АКТИВНОЙ ТЕМЫ (Карантин от переноса чужих тем!)
+                    const activeTheme = localStorage.getItem('leycore_active_theme') || '';
+                    const downloadedThemes = parseSafe(themesStr);
+                    const userClicks = parseInt(data.score || 0, 10);
+
+                    let isThemeLegal = (activeTheme === ''); // Стандартная тема всегда легальна
+                    if (activeTheme === 'theme-bw' && userClicks >= 3000) isThemeLegal = true;
+                    if (activeTheme === 'theme-azure' && userClicks >= 6000) isThemeLegal = true;
+                    if (downloadedThemes.includes(activeTheme)) isThemeLegal = true;
+
+                    if (!isThemeLegal && activeTheme !== '') {
+                        console.warn("⚠️ [КАРАНТИН] Обнаружена неразблокированная тема '" + activeTheme + "'! Сбрасываем на стандарт.");
+                        localStorage.setItem('leycore_active_theme', '');
+                        document.body.className = '';
+                    } else if (activeTheme !== '') {
+                        document.body.className = activeTheme;
+                    }
+
+                    // 4. ОБНОВЛЯЕМ ПЕРЕМЕННЫЕ В JS (Память браузера)
                     if (typeof burgerCount !== 'undefined') burgerCount = parseInt(data.score || 0, 10);
                     if (typeof bestFlappyScore !== 'undefined') bestFlappyScore = parseInt(data.flappy_score || 0, 10);
                     if (typeof casinoChips !== 'undefined') casinoChips = parseInt(data.chips !== undefined ? data.chips : 10, 10);
                     if (typeof mgbCookedCount !== 'undefined') mgbCookedCount = parseInt(data.mgb_score || 0, 10);
 
-                    // Безопасно наполняем JS-массивы
-                    const parseSafe = (str) => {try {return JSON.parse(str);} catch (e) {return [];} };
-
                     if (typeof unlockedThemes !== 'undefined' && Array.isArray(unlockedThemes)) {
                         unlockedThemes.length = 0;
-                        unlockedThemes.push(...parseSafe(themesStr));
+                        unlockedThemes.push(...downloadedThemes);
                     }
                     if (typeof unlockedTitles !== 'undefined' && Array.isArray(unlockedTitles)) {
                         unlockedTitles.length = 0;
                         unlockedTitles.push(...parseSafe(titlesStr));
                     }
                     if (typeof dishes !== 'undefined' && Array.isArray(dishes)) {
-                        // Если у нас в базе есть купленные рецепты, объединяем с дефолтными
                         const downloadedDishes = parseSafe(recipesStr);
                         downloadedDishes.forEach(d => {
                             if (d && d.title && !dishes.some(orig => orig.title === d.title)) {
@@ -12571,7 +12603,7 @@ function logoutGlobalAccount() {
                         myAchievements.push(...parseSafe(achStr));
                     }
 
-                    // 4. ПЕРЕРИСОВЫВАЕМ ИНТЕРФЕЙС
+                    // 5. ПЕРЕРИСОВЫВАЕМ ИНТЕРФЕЙС
                     if (typeof updateCasinoUI === 'function') updateCasinoUI();
                     if (typeof updateMgbLeaderboardUI === 'function') updateMgbLeaderboardUI();
                     if (typeof renderThemesList === 'function') renderThemesList();
