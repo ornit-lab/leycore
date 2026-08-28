@@ -10975,16 +10975,35 @@ function renderAchievements() {
 
 
 
-        // ТАЙМЕР И БОНУС 10 ФИШЕК КАЖДЫЕ 3 ЧАСА (НЕ СТАКАЕТСЯ)
-        function claimFreeChips() {
+               // ТАЙМЕР И БОНУС 10 ФИШЕК КАЖДЫЕ 3 ЧАСА (ИСПРАВЛЕНО И СИНХРОНИЗИРОВАНО)
+        async function claimFreeChips() {
             const now = Date.now();
             const threeHours = 3 * 60 * 60 * 1000;
 
+            // Если время последнего забратия отсутствует, считаем его 0
+            if (typeof lastChipClaimTime === 'undefined') {
+                lastChipClaimTime = parseInt(localStorage.getItem('leycore_last_claim') || '0', 10);
+            }
+
             if (now - lastChipClaimTime >= threeHours) {
+                // 1. Добавляем +10 фишек
                 casinoChips += 10;
                 lastChipClaimTime = now;
-                localStorage.setItem('leycore_last_claim', lastChipClaimTime);
-                updateCasinoUI();
+
+                // 2. 🚀 ВАЖНО: Мгновенно сохраняем фишки в localStorage!
+                localStorage.setItem('leycore_chips', casinoChips.toString());
+                localStorage.setItem('leycore_last_claim', lastChipClaimTime.toString());
+
+                // 3. Обновляем UI
+                if (typeof updateCasinoUI === 'function') {
+                    updateCasinoUI();
+                }
+
+                // 4. ☁️ Мгновенно отправляем свежие фишки в облако Supabase!
+                if (typeof saveUserProfileToCloud === 'function') {
+                    await saveUserProfileToCloud();
+                }
+
                 alert("🎁 Вы получили 10 свободных фишек! Следующий бонус доступен через 3 часа.");
             } else {
                 alert("⏳ Бонус ещё не готов! Дождитесь окончания таймера.");
@@ -10997,6 +11016,11 @@ function renderAchievements() {
 
             const now = Date.now();
             const threeHours = 3 * 60 * 60 * 1000;
+
+            if (typeof lastChipClaimTime === 'undefined') {
+                lastChipClaimTime = parseInt(localStorage.getItem('leycore_last_claim') || '0', 10);
+            }
+
             const diff = threeHours - (now - lastChipClaimTime);
 
             if (diff <= 0) {
@@ -11006,11 +11030,13 @@ function renderAchievements() {
                 const hours = Math.floor(diff / (1000 * 60 * 60));
                 const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 const secs = Math.floor((diff % (1000 * 60)) / 1000);
+                // ИСПРАВЛЕНО: Вернули обратные кавычки ` `
                 timerEl.innerText = `⏳ Следующий бонус через: ${hours}ч ${mins}м ${secs}с`;
                 timerEl.style.color = "var(--accent-cyan)";
             }
         }
         setInterval(updateTimerUI, 1000);
+
 
         // ОБМЕН МУСОРА (10 МУСОРА = 5 ФИШЕК)
         function exchangeJunkForChips() {
