@@ -7512,7 +7512,7 @@ body.theme-rainbow h1, body.theme-rainbow .logo-text {
                 <div class="profile-stat-box">
                     <div><b>200кг</b><br><span>жира в запасе</span></div>
                     <div><b>67</b><br><span>гамбургеров в день</span></div>
-                    <div><b>150</b><br><span>дней аскезы</span></div>
+                    <div><b>138</b><br><span>дней аскезы</span></div>
                 </div>
             </div>
 
@@ -11610,42 +11610,61 @@ function renderAchievements() {
                 mgbWinGame();
             }
         }
-
-        // 2. БРОНЕБОЙНАЯ ПОБЕДА (ЗАЩИТА ОТ МНОГОКРАТНОГО НАЧИСЛЕНИЯ ФИШЕК)
-        function mgbWinGame() {
+        // 2. БРОНЕБОЙНАЯ ПОБЕДА (ЗАЩИТА ОТ МНОГОКРАТНОГО НАЧИСЛЕНИЯ ФИШЕК + ОБЛАКО)
+        async function mgbWinGame() {
             // ЕСЛИ ИГРА УЖЕ ОСТАНОВЛЕНА - ВЫХОДИМ (Защита от бага 50 фишек!)
             if (!mgbIsPlaying) return;
 
             mgbIsPlaying = false; // МГНОВЕННО выключаем флаг игры!
             stopMgbIntervals();
 
-            // Начисляем +5 фишек СТРОГО 1 РАЗ!
+            // 1. Начисляем +5 фишек СТРОГО 1 РАЗ!
             casinoChips += 5;
             localStorage.setItem('leycore_chips', casinoChips.toString());
-            // НАЧИСЛЯЕМ +1 ПРИГОТОВЛЕННЫЙ БУРГЕР В СТАТИСТИКУ
+
+            // 2. НАЧИСЛЯЕМ +1 ПРИГОТОВЛЕННЫЙ БУРГЕР В СТАТИСТИКУ
             mgbCookedCount++;
             localStorage.setItem('mgb_cooked_count', mgbCookedCount.toString());
-            updateMgbLeaderboardUI(); // Обновляем Лидерборд на экране!
+            
+            if (typeof updateMgbLeaderboardUI === 'function') updateMgbLeaderboardUI();
 
-
-            // Включаем 10 минут кулдауна
+            // 3. Включаем 10 минут кулдауна
             const cdUntil = Date.now() + (10 * 60 * 1000);
             localStorage.setItem('mgb_cooldown_until', cdUntil.toString());
 
             if (typeof updateCasinoUI === 'function') updateCasinoUI();
 
-            document.getElementById('mgb-bobnit-pic').src = 'bobnit_sleep.webp';
-            document.getElementById('mgb-sleep-cloud').style.display = 'block';
-            document.getElementById('mgb-bobnit-text').innerText = "«Z-Zzz... Обожрался... Не буди 10 минут...» 😴";
+            // 🚀 4. ВАЖНО: Мгновенно отправляем новые фишки в облако Supabase и ЖДЁМ ответа!
+            if (typeof saveUserProfileToCloud === 'function') {
+                try {
+                    await saveUserProfileToCloud();
+                    console.log("☁️ [ОБЛАКО] +5 фишек за победу в МГБ успешно зафиксированы в базе!");
+                } catch (e) {
+                    console.error("❌ Ошибка сохранения победы МГБ в облако:", e);
+                }
+            }
+
+            // UI Бобнита (Сон)
+            const bobnitPic = document.getElementById('mgb-bobnit-pic');
+            const sleepCloud = document.getElementById('mgb-sleep-cloud');
+            const bobnitText = document.getElementById('mgb-bobnit-text');
+
+            if (bobnitPic) bobnitPic.src = 'bobnit_sleep.webp';
+            if (sleepCloud) sleepCloud.style.display = 'block';
+            if (bobnitText) bobnitText.innerText = "«Z-Zzz... Обожрался... Не буди 10 минут...» 😴";
 
             // Скрываем 100% сборку и возвращаем оверлей с таймером
-            document.getElementById('mgb-progress-bar-container').style.display = 'none';
-            document.getElementById('mgb-start-overlay').style.display = 'flex';
+            const progressContainer = document.getElementById('mgb-progress-bar-container');
+            const startOverlay = document.getElementById('mgb-start-overlay');
+
+            if (progressContainer) progressContainer.style.display = 'none';
+            if (startOverlay) startOverlay.style.display = 'flex';
 
             alert("🏆 БУРГЕР СОБРАН!\nБобнит обожрался и уснул на 10 минут!\nТы по-тихому крадешь +5 🪙 и сваливаешь!");
 
-            checkMgbCooldown();
+            if (typeof checkMgbCooldown === 'function') checkMgbCooldown();
         }
+
 
 
         // 3. БРОНЕБОЙНЫЙ ПРОИГРЫШ
