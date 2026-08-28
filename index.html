@@ -9297,36 +9297,47 @@ body.theme-rainbow h1, body.theme-rainbow .logo-text {
         ];
 
 
-        // УНИВЕРСАЛЬНАЯ ФУНКЦИЯ ВЫДАЧИ ДОСТИЖЕНИЙ
-        function unlockAchievement(title, rewardChips) {
-            // Проверяем, есть ли уже этот массив у пользователя (если нет - создаем)
-            if (typeof unlockedAchievements === 'undefined') {
-                window.unlockedAchievements = [];
+                // 🏆 БЕЗОПАСНАЯ ВЫДАЧА ДОСТИЖЕНИЙ (БЕЗ СПАМА)
+                function unlockAchievement(achName, rewardChips = 0) {
+            // Загружаем текущие ачивки игрока
+            let currentAch = JSON.parse(localStorage.getItem('leycore_achievements') || '[]');
+            
+            if (typeof myAchievements !== 'undefined' && Array.isArray(myAchievements)) {
+                currentAch = myAchievements;
             }
 
-            // Если ачивка ЕЩЕ НЕ получена:
-            if (!unlockedAchievements.includes(title)) {
-                unlockedAchievements.push(title);
-
-                // Сохраняем в localStorage
-                localStorage.setItem('leycore_unlocked_achievements', JSON.stringify(unlockedAchievements));
-
-                // Начисляем фишки награды
-                if (typeof addChips === 'function') {
-                    addChips(rewardChips);
-                }
-
-                // Показываем красивое уведомление игроку
-                alert(`🏆 ДОСТИЖЕНИЕ РАЗБЛОКИРОВАНО!\n«${title}»\nНаграда: +${rewardChips} 🪙`);
-
-                // Обновляем список на странице достижений, если функция существует
-                if (typeof renderAchievements === 'function') {
-                    renderAchievements();
-                }
-
-                console.log("Успешно выдана ачивка:", title);
+            // 🛡 ЗАЩИТА: Если ачивка УЖЕ ЕСТЬ у игрока — СРАЗУ ВЫХОДИМ!
+            if (currentAch.includes(achName)) {
+                return; 
             }
+
+            // Добавляем ачивку
+            currentAch.push(achName);
+            localStorage.setItem('leycore_achievements', JSON.stringify(currentAch));
+
+            if (typeof myAchievements !== 'undefined' && Array.isArray(myAchievements)) {
+                myAchievements.length = 0;
+                myAchievements.push(...currentAch);
+            }
+
+            // Выдаем фишки за ачивку (если положено)
+            if (rewardChips > 0) {
+                let currentChips = parseInt(localStorage.getItem('leycore_chips') || '0', 10);
+                currentChips += rewardChips;
+                localStorage.setItem('leycore_chips', currentChips.toString());
+                if (typeof casinoChips !== 'undefined') casinoChips = currentChips;
+            }
+
+            // Перерисовываем UI и сохраняем в облако
+            if (typeof updateCasinoUI === 'function') updateCasinoUI();
+            if (typeof renderAchievements === 'function') renderAchievements();
+            if (typeof saveUserProfileToCloud === 'function') saveUserProfileToCloud();
+
+            // Сочное уведомление выдается РОВНО 1 РАЗ!
+            alert(`🏆 ДОСТИЖЕНИЕ ПОЛУЧЕНО!\n«${achName}»\nНаграда: +${rewardChips} 🪙`);
         }
+
+
 
 
         // Функция обновления внешнего вида кликера (картинка, название, история)
@@ -10872,6 +10883,13 @@ function renderAchievements() {
         // 🎁 ОБРАБОТКА ВЫИГРЫША В КАЗИНО (СИНХРОНИЗИРОВАНО С ОБЛАКОМ)
         // ====================================================
         function processCasinoOutcome(winType) {
+              // 🎯 СЧЁТЧИК КРУТОК КАЗИНО И АЧИВКА "ЛУДОМАН" (СТРОГО 1 РАЗ НА 30-Й КРУТКЕ!)
+            let totalSpins = parseInt(localStorage.getItem('leycore_casino_spins') || '0', 10) + 1;
+            localStorage.setItem('leycore_casino_spins', totalSpins.toString());
+
+            if (totalSpins >= 30 && typeof unlockAchievement === 'function') {
+                unlockAchievement("Лудоман", 30); // Выдаем 1 раз на 30-й крутке!
+            }
             if (winType === 'artefact') {
                 const unowned = casinoRecipes.filter(r => !dishes.some(d => d.title === r.title));
                 if (unowned.length > 0) {
