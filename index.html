@@ -11893,22 +11893,49 @@ function renderAchievements() {
 
 
         // ==========================================
-        // ГЛОБАЛЬНАЯ СИСТЕМА ПОНЧИКОВОЙ АВТОРИЗАЦИИ (AUTH)
-        // ==========================================
+// 🔐 ЕДИНАЯ СИСТЕМА АВТОРИЗА И ВЫХОДА ИЗ АККАУНТА
+// ==========================================
 
-        // 1. Проверяем, авторизован ли игрок при загрузке сайта
-        function checkGlobalAuth() {
-            const savedUser = localStorage.getItem('leycore_username');
-            const authOverlay = document.getElementById('auth-overlay');
+function checkGlobalAuth() {
+    const savedUser = localStorage.getItem('leycore_username');
+    const authOverlay = document.getElementById('auth-overlay');
 
-            // Если в локальной памяти нет имени, показываем пончиковый вход
-            if (!savedUser && authOverlay) {
-                authOverlay.style.display = 'flex';
-            } else {
-                // Если пользователь уже вошел, синхронизируем его данные при каждом запуске!
-                syncUserDataFromSupabase();
-            }
+    console.log("🔍 [АВТОРИЗ] Проверка текущего пользователя:", savedUser);
+
+    if (!savedUser || savedUser.trim() === '') {
+        console.warn("⚠️ [АВТОРИЗ] Имя пользователя не найдено! Открываем окно входа...");
+        
+        // Показываем оверлей авторизации с максимальным приоритетом
+        if (authOverlay) {
+            authOverlay.style.setProperty('display', 'flex', 'important');
+            authOverlay.style.setProperty('z-index', '999999', 'important');
+            authOverlay.style.setProperty('visibility', 'visible', 'important');
+            authOverlay.style.setProperty('opacity', '1', 'important');
+        } else {
+            console.error("❌ [ОШИБКА] Элемент #auth-overlay не найден в HTML!");
         }
+
+        // Скрываем индикатор сессии в шапке
+        const sessionIndicator = document.getElementById('user-session-indicator');
+        if (sessionIndicator) {
+            sessionIndicator.style.setProperty('display', 'none', 'important');
+        }
+
+    } else {
+        console.log("✅ [АВТОРИЗ] Авторизован пользователь:", savedUser);
+        
+        // Прячем оверлей авторизации
+        if (authOverlay) {
+            authOverlay.style.setProperty('display', 'none', 'important');
+        }
+
+        // Обновляем плашку сверху и подтягиваем инвентарь из Supabase
+        updateSessionIndicator();
+        if (typeof syncUserDataFromSupabase === 'function') {
+            syncUserDataFromSupabase();
+        }
+    }
+}
 
         // 2. Обработка Входа и Регистрации
         async function handleAuth(type) {
@@ -12024,45 +12051,46 @@ function renderAchievements() {
 
 
 
-        // ==========================================
-        // ЛОГИКА СЕССИИ: ИНДИКАТОР И ВЫХОД
-        // ==========================================
+       // 📱 Обновление индикатора верхнего меню (Вход выполнен: ИМЯ | ВЫЙТИ)
+function updateSessionIndicator() {
+    const indicator = document.getElementById('user-session-indicator');
+    const nameEl = document.getElementById('session-username');
+    const myName = localStorage.getItem('leycore_username');
 
-        // Функция обновления индикатора сессии
-        function updateSessionIndicator() {
-            const indicator = document.getElementById('user-session-indicator');
-            const nameEl = document.getElementById('session-username');
-            const myName = localStorage.getItem('leycore_username');
+    if (myName && nameEl && indicator) {
+        nameEl.innerText = myName;
+        indicator.style.setProperty('display', 'flex', 'important');
+    } else if (indicator) {
+        indicator.style.setProperty('display', 'none', 'important');
+    }
+}
 
-            // Прячем, если мы НЕ на главной странице (предположим, твоя главная имеет ID 'page-home')
-            // Или просто прячем, если открыта игра:
-            const isGameOpen = document.getElementById('page-games')?.style.display === 'block';
-
-            if (myName && indicator && nameEl && !isGameOpen) {
-                nameEl.innerText = myName;
-                indicator.style.display = 'flex';
-            } else {
-                indicator.style.display = 'none';
-            }
-        }
+// 🚀 ВАЖНО: Запускаем проверку ТОЛЬКО при полной загрузке страницы!
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', checkGlobalAuth);
+} else {
+    checkGlobalAuth();
+}
 
 
-        // Функция Глобального Выхода из Аккаунта
-        function logoutGlobalAccount() {
-            const confirmLogout = confirm("Бобнит расстроится, если ты уйдешь... 😭\nТы точно хочешь выйти из аккаунта?");
+        // 🚪 Глобальная функция Выхода из аккаунта
+function logoutGlobalAccount() {
+    const confirmLogout = confirm("Бобнит расстроится, если ты уйдешь... 😭\nТы точно хочешь выйти из аккаунта?");
 
-            if (confirmLogout) {
-                // Очищаем все ключевые данные из localStorage
-                localStorage.removeItem('leycore_username');
-                localStorage.removeItem('leycore_chips');
-                localStorage.removeItem('mgb_cooked_count');
-                localStorage.setItem('bobnitBurgerCount', '0');
-                localStorage.setItem('flappyHighScore', '0');
+    if (confirmLogout) {
+        console.log("🚪 [ВЫХОД] Очищаем имя пользователя и сбрасываем сессию...");
+        
+        // Удаляем никнейм из памяти
+        localStorage.removeItem('leycore_username');
+        localStorage.removeItem('leycore_chips');
+        localStorage.removeItem('mgb_cooked_count');
+        localStorage.setItem('bobnitBurgerCount', '0');
+        localStorage.setItem('flappyHighScore', '0');
 
-                // Перезагружаем страницу, чтобы выскочил оверлей авторизации
-                location.reload();
-            }
-        }
+        // Перезагружаем страницу — теперь железно выскочит окно входа!
+        location.reload();
+    }
+}
 
         // Добавляем вызов обновления индикатора в функцию checkGlobalAuth
         // (Найди свою функцию checkGlobalAuth и допиши там вызов updateSessionIndicator)
