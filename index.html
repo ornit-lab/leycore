@@ -10262,17 +10262,28 @@ function renderAchievements() {
                     <div class="floating-aura-icon" style="filter: drop-shadow(0 0 10px #ffd700);">👔</div>
                     <h3 style="font-family:'Unbounded'; color:#ffd700; text-align:center; margin-bottom:15px;">Т Е М Ы</h3>
                     <div class="themes-oval-stack" style="display:flex; flex-direction:column; align-items:center; gap:12px;">
-                        ${themeList.map(t => {
-                            let isUnlocked = (t.id === '' || t.id === 'theme-bw' || t.id === 'theme-azure' || unlockedT.includes(t.id));
+                                              ${themeList.map(t => {
                             const clicks = typeof burgerCount !== 'undefined' ? burgerCount : parseInt(localStorage.getItem('bobnitBurgerCount') || '0', 10);
-                            if (t.id === 'theme-bw' && clicks >= 3000) isUnlocked = true;
-                            if (t.id === 'theme-azure' && clicks >= 6000) isUnlocked = true;
 
+                            // 🎯 СТРОГАЯ ПРОВЕРКА РАЗБЛОКИРОВКИ:
+                            let isUnlocked = false;
+
+                            if (t.id === '') {
+                                isUnlocked = true; // Стандарт открыт всегда
+                            } else if (t.id === 'theme-bw' && clicks >= 3000) {
+                                isUnlocked = true; // ЧБ только от 3000 кликов
+                            } else if (t.id === 'theme-azure' && clicks >= 6000) {
+                                isUnlocked = true; // Бирюза только от 6000 кликов
+                            } else if (unlockedT.includes(t.id)) {
+                                isUnlocked = true; // Или если выбита в казино/загружена из облака
+                            }
+
+                            // 🚫 ЕСЛИ ТЕМА ЕЩЁ НЕ ПОЛУЧЕНА — ВООБЩЕ НЕ ПОКАЗЫВАЕМ ЕЁ В ПРОФИЛЕ!
                             if (!isUnlocked) return '';
                             
                             const isActive = activeTheme === t.id;
 
-                            // ВЕКТОРНЫЕ КОНТУРНЫЕ SVG ИКОНКИ (БЕЗ ЭМОДЗИ!)
+                            // ВЕКТОРНЫЕ КОНТУРНЫЕ SVG ИКОНКИ (ВЕРНУЛИ ОБРАТНЫЕ КАВЫЧКИ ` `)
                             let svgIcon = '';
                             if (t.id === '') { // Молния
                                 svgIcon = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`;
