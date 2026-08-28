@@ -11099,17 +11099,54 @@ function renderAchievements() {
         setInterval(updateTimerUI, 1000);
 
 
-        // ОБМЕН МУСОРА (10 МУСОРА = 5 ФИШЕК)
-        function exchangeJunkForChips() {
-            if (junkCount < 10) {
+                // ОБМЕН МУСОРА (10 МУСОРА = 5 ФИШЕК + ИСПРАВЛЕНИЕ И СИНХРОНИЗАЦИЯ)
+        async function exchangeJunkForChips() {
+            // 1. Считываем актуальный мусор из памяти или переменной
+            let currentJunk = parseInt(localStorage.getItem('leycore_junk_count') || '0', 10);
+            if (typeof junkCount !== 'undefined' && !isNaN(junkCount)) {
+                currentJunk = Math.max(currentJunk, junkCount);
+            }
+
+            if (currentJunk < 10) {
                 alert("У вас недостаточно мусора! Нужно минимум 10 шт.");
                 return;
             }
-            junkCount -= 10;
-            casinoChips += 5;
-            updateCasinoUI();
+
+            // 2. Считываем актуальные фишки
+            let currentChips = parseInt(localStorage.getItem('leycore_chips') || '0', 10);
+            if (typeof casinoChips !== 'undefined' && !isNaN(casinoChips)) {
+                currentChips = Math.max(currentChips, casinoChips);
+            }
+
+            // 3. Выполняем обмен (-10 мусора, +5 фишек)
+            const newJunk = currentJunk - 10;
+            const newChips = currentChips + 5;
+
+            // Обновляем JS-переменные
+            if (typeof junkCount !== 'undefined') junkCount = newJunk;
+            if (typeof casinoChips !== 'undefined') casinoChips = newChips;
+
+            // 🚀 4. ВАЖНО: Мгновенно обновляем localStorage под ВСЕМИ возможными ключами!
+            localStorage.setItem('leycore_junk_count', newJunk.toString());
+            localStorage.setItem('leycore_chips', newChips.toString());
+
+            // 5. Обновляем интерфейс профиля и казино
+            if (typeof updateCasinoUI === 'function') updateCasinoUI();
+            if (typeof renderAchievements === 'function') renderAchievements();
+
+            // ☁️ 6. Асинхронно отправляем обновленный баланс в Supabase и ЖДЁМ ответа!
+            if (typeof saveUserProfileToCloud === 'function') {
+                try {
+                    await saveUserProfileToCloud();
+                    console.log("☁️ [ОБЛАКО] Обмен мусора успешно зафиксирован в базе (+5 фишек)!");
+                } catch (e) {
+                    console.error("❌ Ошибка сохранения обмена мусора в облако:", e);
+                }
+            }
+
             alert("♻️ Успешный обмен! 10 шт. мусора переработаны в 5 фишек.");
         }
+
 
         // ОТРИСОВКА И ВЫБОР ТИТУЛА
         function renderTitlesList() {
