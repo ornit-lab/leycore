@@ -7031,6 +7031,31 @@ body.theme-cosmic [id="main-title"] {
     100% { transform: translate(calc(100vw + 150px), 15vh) scale(0.9); }
 }
 
+/* ==========================================================================
+   🪐 СТИЛИ И АНИМАЦИЯ ПЛЫВУЩИХ ПЛАНЕТ (САТУРН И НЕПТУН)
+   ========================================================================== */
+
+/* Общий стиль для дрейфующих планет */
+.drifting-planet {
+    position: fixed !important;
+    pointer-events: none !important;
+    z-index: -1 !important; /* Лежат строго на фоне */
+    opacity: 0.15 !important; /* Очень мягкие, чтобы не мешать читать текст */
+    filter: drop-shadow(0 0 15px rgba(255, 0, 170, 0.4)) !important;
+}
+
+/* 🚀 Плавный космический дрейф по диагонали экрана с вращением */
+@keyframes spaceDrift {
+    0% {
+        transform: translate(-150px, 20vh) rotate(0deg) scale(0.9);
+    }
+    50% {
+        transform: translate(50vw, 45vh) rotate(180deg) scale(1.1);
+    }
+    100% {
+        transform: translate(calc(100vw + 150px), 15vh) rotate(360deg) scale(0.9);
+    }
+}
 
 
 
@@ -14185,16 +14210,16 @@ document.addEventListener('click', (e) => {
 });
 
 // ==========================================================================
-// 🌌 КОСМИЧЕСКИЕ ЭФФЕКТЫ: ЗВЕЗДЫ, КОМЕТЫ И МЕТЕОРИТЫ
+// 🌌 КОСМИЧЕСКИЕ ЭФФЕКТЫ: СВЯЗКА ЗВЁЗД, КОМЕТ, МЕТЕОРОВ И ПЛАНЕТ
 // ==========================================================================
 
 let cosmicCanvas = null;
 let cosmicCtx = null;
 let cosmicAnimationId = null;
 let cosmicObjectsArray = [];
-let planetsCreated = false;
+let planetsCreated = false; // Глобальный флаг объявлен СТРОГО 1 РАЗ!
 
-// 1. Желтая звездочка (из прошлого патча)
+// 1. Класс жёлтой звезды
 class FallingStar {
     constructor(w, h) {
         this.x = Math.random() * w;
@@ -14203,7 +14228,6 @@ class FallingStar {
         this.speed = Math.random() * 1.2 + 0.6;
         this.alpha = 1;
         this.decay = Math.random() * 0.002 + 0.001;
-        this.type = 'star';
     }
     update(w, h) {
         this.y += this.speed;
@@ -14221,21 +14245,20 @@ class FallingStar {
     }
 }
 
-// 2. Блестящая комета с длинным хвостом
+// 2. Класс кометы
 class ShootingComet {
     constructor(w, h) {
         this.x = Math.random() * w;
         this.y = -20;
-        this.speedX = Math.random() * 3 + 2; // Летит по диагонали
+        this.speedX = Math.random() * 3 + 2;
         this.speedY = Math.random() * 4 + 3;
-        this.length = Math.random() * 40 + 30; // Длина хвоста
+        this.length = Math.random() * 40 + 30;
         this.alpha = 1;
-        this.type = 'comet';
     }
     update(w, h) {
         this.x += this.speedX;
         this.y += this.speedY;
-        this.alpha -= 0.015; // Быстро сгорает в атмосфере
+        this.alpha -= 0.015;
     }
     draw(ctx) {
         ctx.save();
@@ -14243,7 +14266,6 @@ class ShootingComet {
         ctx.lineWidth = 2;
         ctx.shadowBlur = 10;
         ctx.shadowColor = "#00f0ff";
-        
         ctx.beginPath();
         ctx.moveTo(this.x, this.y);
         ctx.lineTo(this.x - this.length * 0.7, this.y - this.length);
@@ -14252,17 +14274,16 @@ class ShootingComet {
     }
 }
 
-// 3. Настоящий круглый метеорит с кратерами
+// 3. Класс метеорита
 class BrownMeteorite {
     constructor(w, h) {
         this.x = Math.random() * w;
         this.y = -60;
         this.speedX = (Math.random() - 0.5) * 1.5;
-        this.speedY = Math.random() * 1.2 + 0.6; // Тяжелый, летит плавно
-        this.radius = Math.random() * 14 + 10; // Размер камня
+        this.speedY = Math.random() * 1.2 + 0.6;
+        this.radius = Math.random() * 14 + 10;
         this.rotation = Math.random() * Math.PI;
         this.rotSpeed = (Math.random() - 0.5) * 0.02;
-        this.type = 'meteor';
     }
     update(w, h) {
         this.x += this.speedX;
@@ -14273,33 +14294,53 @@ class BrownMeteorite {
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.rotation);
-        
-        // Тело астероида (круглое с легкой неровностью)
         ctx.fillStyle = "#4a3525"; 
         ctx.strokeStyle = "#271a11";
         ctx.lineWidth = 2;
         ctx.shadowBlur = 10;
         ctx.shadowColor = "#ff550055";
-
         ctx.beginPath();
-        // Рисуем бугристый круг (красивый астероид)
         ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
         ctx.fill();
         ctx.stroke();
-
-        // Рисуем кратеры на астероиде
         ctx.fillStyle = "#271a11";
         ctx.beginPath();
         ctx.arc(-this.radius * 0.3, -this.radius * 0.2, this.radius * 0.25, 0, Math.PI * 2);
         ctx.arc(this.radius * 0.3, this.radius * 0.3, this.radius * 0.18, 0, Math.PI * 2);
         ctx.fill();
-        
         ctx.restore();
     }
 }
 
+// 4. Генерация планет (без дублирования переменных)
+function createFloatingPlanets() {
+    if (planetsCreated) return; 
+    
+    console.log("🪐 [КОСМОС] Создаем Сатурн и Нептун...");
 
-// Запуск общего космического потока
+    // Сатурн
+    const saturn = document.createElement('div');
+    saturn.className = 'drifting-planet';
+    saturn.style.width = '120px';
+    saturn.style.height = '120px';
+    saturn.style.animation = 'spaceDrift 55s linear infinite';
+    saturn.innerHTML = '<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="#ff00a0" /><ellipse cx="50" cy="50" rx="45" ry="10" stroke="#00f0ff" stroke-width="4" transform="rotate(-15 50 50)" /></svg>';
+
+    // Нептун
+    const neptune = document.createElement('div');
+    neptune.className = 'drifting-planet';
+    neptune.style.width = '80px';
+    neptune.style.height = '80px';
+    neptune.style.animation = 'spaceDrift 45s linear infinite';
+    neptune.style.animationDelay = '20s';
+    neptune.innerHTML = '<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="25" fill="#701a75" /><circle cx="50" cy="50" r="24" stroke="#ff007f" stroke-width="2" stroke-dasharray="8 4" /></svg>';
+
+    document.body.appendChild(saturn);
+    document.body.appendChild(neptune);
+    planetsCreated = true;
+}
+
+// 5. Запуск
 function initCosmicStars() {
     cosmicCanvas = document.getElementById('cosmic-canvas');
     if (!cosmicCanvas) {
@@ -14307,7 +14348,6 @@ function initCosmicStars() {
         cosmicCanvas.id = 'cosmic-canvas';
         document.body.appendChild(cosmicCanvas);
     }
-    
     cosmicCanvas.style.position = 'fixed';
     cosmicCanvas.style.top = '0';
     cosmicCanvas.style.left = '0';
@@ -14323,7 +14363,7 @@ function initCosmicStars() {
 
     cosmicObjectsArray = [];
     animateCosmicSpace();
-    createFloatingPlanets();
+    createFloatingPlanets(); // Запуск планет
 }
 
 function resizeCosmicCanvas() {
@@ -14337,7 +14377,6 @@ function animateCosmicSpace() {
     if (!cosmicCtx || !cosmicCanvas) return;
     cosmicCtx.clearRect(0, 0, cosmicCanvas.width, cosmicCanvas.height);
 
-    // Спавн элементов с разной частотой
     if (Math.random() < 0.06) cosmicObjectsArray.push(new FallingStar(cosmicCanvas.width, cosmicCanvas.height));
     if (Math.random() < 0.012) cosmicObjectsArray.push(new ShootingComet(cosmicCanvas.width, cosmicCanvas.height));
     if (Math.random() < 0.008) cosmicObjectsArray.push(new BrownMeteorite(cosmicCanvas.width, cosmicCanvas.height));
@@ -14346,12 +14385,10 @@ function animateCosmicSpace() {
         cosmicObjectsArray[i].update(cosmicCanvas.width, cosmicCanvas.height);
         cosmicObjectsArray[i].draw(cosmicCtx);
 
-        // Удаляем объекты, вышедшие за пределы экрана или прозрачные
-        if (cosmicObjectsArray[i].y > cosmicCanvas.height + 50 || cosmicObjectsArray[i].alpha <= 0) {
+        if (cosmicObjectsArray[i].y > cosmicCanvas.height + 50) {
             cosmicObjectsArray.splice(i, 1);
         }
     }
-
     cosmicAnimationId = requestAnimationFrame(animateCosmicSpace);
 }
 
@@ -14363,6 +14400,7 @@ function stopCosmicEffects() {
     if (cosmicCanvas) {
         cosmicCanvas.style.display = 'none';
     }
+    // Полностью стираем плывущие планеты при уходе с темы
     document.querySelectorAll('.drifting-planet').forEach(p => p.remove());
     planetsCreated = false;
 }
