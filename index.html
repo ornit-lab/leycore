@@ -11137,7 +11137,7 @@ function renderAchievements() {
             }).join('');
         }
 
-                // Глобальный выбор темы (без зависаний!)
+                    // Глобальный выбор темы (с переключением космического эмбиента!)
         function selectTheme(t) {
             let unlocked = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
 
@@ -11147,21 +11147,40 @@ function renderAchievements() {
                 return;
             }
 
-            // Применяем
+            // Применяем тему
             document.body.className = t;
             localStorage.setItem('leycore_active_theme', t);
             if (typeof activeTheme !== 'undefined') activeTheme = t;
 
-            // 🚀 ИНТЕГРАЦИЯ КОСМИЧЕСКОГО СЕАНСА:
+            // 🪐 ЭФФЕКТЫ ТЕМЫ "КОСМИЧЕСКИЙ СЕАНС"
+            const cosmicAudio = document.getElementById('cosmic-ambient-audio');
+            
             if (t === 'theme-cosmic') {
-                initCosmicStars(); // Включаем звездопад и планеты!
+                initCosmicStars(); // Включаем звездопад, кометы и метеориты!
+                
+                // 🚀 ВКЛЮЧАЕМ КОСМИЧЕСКИЙ ЭМБИЕНТ
+                if (cosmicAudio) {
+                    // Опционально: можно приглушить твой основной эмбиент, если он играет
+                    // const mainAudio = document.getElementById('main-ambient-id');
+                    // if (mainAudio) mainAudio.pause();
+
+                    cosmicAudio.volume = 0.5; // Громкость 50% (можно настроить)
+                    cosmicAudio.play().catch(e => console.log("Автозапуск аудио заблокирован браузером:", e));
+                }
             } else {
-                stopCosmicEffects(); // Выключаем космические эффекты на других темах
+                stopCosmicEffects(); // Выключаем космо-эффекты
+                
+                // 🛑 ВЫКЛЮЧАЕМ КОСМИЧЕСКИЙ ЭМБИЕНТ ПРИ СМЕНЕ ТЕМЫ
+                if (cosmicAudio) {
+                    cosmicAudio.pause();
+                    cosmicAudio.currentTime = 0; // Сбрасываем в начало
+                }
             }
 
             // Перерисовываем список, чтобы обновить надписи "(АКТИВНО)"
             renderThemesList();
         }
+
 
 
 
@@ -14521,6 +14540,11 @@ forceFixCulinaryAchievement();
 
     <!-- ТВОЙ АМБИЕНТ-ТРЕК ДЛЯ ГЛАВНОЙ СТРАНИЦЫ -->
     <audio id="leycore-ambient-audio" src="ambient.mp3" loop preload="auto"></audio>
+    <!-- Секретный плеер для Космического сеанса -->
+<audio id="cosmic-ambient-audio" loop preload="auto">
+    <source src="cosmic_ambient.mp3" type="audio/mp3"> <!-- Замени "cosmic_ambient.mp3" на имя твоего файла в папке -->
+</audio>
+
 
 
 
