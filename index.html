@@ -7073,27 +7073,14 @@ body.theme-cosmic .menu-vasilich-grid {
     z-index: -2 !important;
     opacity: 0.2 !important;
     filter: drop-shadow(0 0 20px rgba(255, 0, 160, 0.3));
+    
+    /* 🔥 ИСПРАВЛЕНО: УБРАЛИ animation: ... !important;
+       Теперь всю анимацию рулит JS-строчка img.style.animation */
 }
 
 @keyframes spaceDrift {
-    0% {
-        transform: translateX(0); /* Начинают с left: -600px */
-    }
-    100% {
-        transform: translateX(calc(100vw + 1000px)); /* Улетают далеко за правый край */
-    }
-}
-
-
-
-@keyframes spaceDrift {
-    0% {
-        transform: translateX(0) rotate(0deg);
-    }
-    100% {
-        /* Пролетают весь экран вправо с запасом */
-        transform: translateX(calc(100vw + 400px)) rotate(360deg);
-    }
+    0% { transform: translateX(0) rotate(0deg); }
+    100% { transform: translateX(calc(100vw + 400px)) rotate(360deg); }
 }
 
 
@@ -14428,21 +14415,29 @@ function createFloatingPlanets() {
         }
     ];
 
-        planetsData.forEach((p, index) => {
+           planetsData.forEach((p, index) => {
         const img = document.createElement('img');
         img.className = 'drifting-planet';
         img.src = p.src;
+        img.alt = 'Planet';
+
         img.style.position = 'absolute';
         img.style.pointerEvents = 'none';
         img.style.zIndex = -10 + index;
-        img.style.width = p.size + 'px';
-        img.style.top = p.top;
-        img.style.left = '-600px'; // СТАРТУЮТ ДАЛЕКО СЛЕВА
-        img.style.animation = `spaceDrift ${p.duration} linear infinite`;
-        img.style.animationDelay = p.delay;
+        
+        // 🔥 ИСПРАВЛЕНО: используем p.initialSize, а не p.size!
+        img.style.width = p.initialSize + 'px'; 
+        img.style.height = 'auto'; // Сохраняем пропорции картинки
+        
+        img.style.top = p.top; 
+        img.style.left = (-300 - (index * 400)) + 'px'; 
+        
+        // 🚀 ИСПРАВЛЕНО: ВСЯ АНИМАЦИЯ теперь задается ОДНОЙ строкой из JS!
+        img.style.animation = `spaceDrift ${p.duration} linear infinite ${p.delay}`; 
         
         document.body.appendChild(img);
     });
+
 
     planetsCreated = true;
 }
