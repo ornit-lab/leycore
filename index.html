@@ -6898,15 +6898,6 @@ body.theme-cosmic .flask-liquid-fill::before {
     display: none; /* Включается только при активной теме */
 }
 
-/* Анимированные плывущие планеты (Slow Space Drift) */
-.drifting-planet {
-    position: fixed;
-    pointer-events: none;
-    z-index: -1;
-    opacity: 0.15; /* Мягкие, ненавязчивые планетки */
-    filter: drop-shadow(0 0 10px rgba(255, 0, 127, 0.3));
-    animation: spaceDrift 45s linear infinite;
-}
 
 @keyframes spaceDrift {
     0% {
@@ -7012,16 +7003,6 @@ body.theme-cosmic [id="main-title"] {
     will-change: transform, opacity;
 }
 
-/* 4. ПЛАНЕТЫ — ТОЖЕ ФИКСИРУЕМ НА МЕСТЕ! */
-.drifting-planet {
-    position: fixed !important;
-    pointer-events: none !important;
-    z-index: -1 !important;
-    /* УБИРАЕМ ЛЮБЫЕ АНИМАЦИИ, КОТОРЫЕ МОГУТ ПЕРЕДВИГАТЬ ИХ ПРИ СКРОЛЛЕ */
-    animation: none !important; 
-    /* НОВАЯ АНИМАЦИЯ (если нужна) должна использовать только CSS transforms/opacity, 
-       не влияющие на позицию */
-}
 
 /* 5. Обновляем анимацию планет, чтобы она не конфликтовала с position: fixed */
 /* ЭТОТ КУСОК CSS НУЖНО ДОБАВИТЬ В CSS, А НЕ В JS! */
@@ -7032,16 +7013,6 @@ body.theme-cosmic [id="main-title"] {
 }
 
 
-/* ==========================================================================
-   🪐 ОТЛАДКА И ВИДИМОСТЬ ПЛАНЕТ
-   ========================================================================== */
-.drifting-planet {
-    position: fixed !important;
-    pointer-events: none !important;
-    z-index: 1 !important; /* Временно подняли наверх, чтобы точно увидеть их глазами! */
-    opacity: 0.8 !important; /* Сделали поярче для проверки */
-    filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.8)) !important;
-}
 
 
 /* 🚀 Плавный космический дрейф по диагонали экрана с вращением */
@@ -7056,6 +7027,63 @@ body.theme-cosmic [id="main-title"] {
         transform: translate(calc(100vw + 150px), 15vh) rotate(360deg) scale(0.9);
     }
 }
+
+/* ==========================================================================
+   🪐 НОВЫЕ СТИЛИ И АНИМАЦИЯ ПЛАНЕТ: ГЛУБОКИЙ ФОН И ДЕТАЛИЗАЦИЯ
+   ========================================================================== */
+
+/* 🚀 Медленный, масштабный дрейф по всему документу */
+@keyframes spaceDrift {
+    0% {
+        transform: translate(-20vw, 10vh) rotate(0deg) scale(0.7); /* Начинаем за экраном */
+    }
+    25% {
+        transform: translate(20vw, 60vh) rotate(90deg) scale(0.9);
+    }
+    50% {
+        transform: translate(70vw, 20vh) rotate(180deg) scale(0.8);
+    }
+    75% {
+        transform: translate(30vw, 80vh) rotate(270deg) scale(1.0);
+    }
+    100% {
+        transform: translate(calc(100vw + 20vw), 40vh) rotate(360deg) scale(0.7); /* Уходим за экран */
+    }
+}
+
+/* ⚠️ ВАЖНО: Все основные блоки с текстом должны иметь фон!
+   Иначе планеты будут просвечивать сквозь текст. */
+body.theme-cosmic .page-view,
+body.theme-cosmic .main-content,
+body.theme-cosmic .leycore-hero,
+body.theme-cosmic .achievements-layout-grid,
+body.theme-cosmic .profile-content-box,
+body.theme-cosmic .dish-detail-container,
+body.theme-cosmic .menu-vasilich-grid {
+    background-color: var(--panel-bg, rgba(24, 7, 36, 0.88)) !important; /* Пример, используй свой класс фона */
+}
+
+
+/* ==========================================================================
+   🪐 СТИЛИ ДЛЯ ФОТОРЕАЛИСТИЧНЫХ ПЛАНЕТ (ЧЕРЕЗ .WEBP)
+   ========================================================================== */
+
+/* Общий стиль для дрейфующих планет */
+.drifting-planet {
+    position: absolute !important;       /* Абсолютное позиционирование, чтобы они скроллились! */
+    pointer-events: none !important;      /* Пропускают клики */
+    z-index: -2 !important;              /* Строго ПОД контентом сайта */
+    opacity: 0.15 !important;            /* Полупрозрачные, чтобы не мешать */
+    filter: drop-shadow(0 0 25px rgba(255, 0, 160, 0.2)) !important; /* Деликатное свечение */
+}
+
+/* 🚀 Анимация дрейфа (как и раньше) */
+@keyframes spaceDrift {
+    0% { transform: translate(0, 0) rotate(0deg); left: -350px; }
+    100% { transform: translate(140vw, 20vh) rotate(360deg); left: 100vw; }
+}
+
+
 
 
 
@@ -14312,38 +14340,60 @@ class BrownMeteorite {
     }
 }
 
-// ==========================================
-// 🪐 УСКОРЕННАЯ ГЕНЕРАЦИЯ ПЛАНЕТ
-// ==========================================
+// ==========================================================================
+// 🪐 ЗАПУСК ФОТОРЕАЛИСТИЧНЫХ ПЛАНЕТ (ЧЕРЕЗ .WEBP КАРТИНКИ)
+// ==========================================================================
 function createFloatingPlanets() {
     if (planetsCreated) return; 
     
-    console.log("🪐 [КОСМОС] Создаем Сатурн и Нептун прямо перед глазами...");
+    console.log("🪐 [КОСМОС] Запуск фотореалистичных планет (webp)...");
 
-    // Сатурн (спавним ближе к левому центру)
-    const saturn = document.createElement('div');
-    saturn.className = 'drifting-planet';
-    saturn.style.width = '140px';
-    saturn.style.height = '140px';
-    saturn.style.top = '30vh';
-    saturn.style.left = '10vw';
-    saturn.style.animation = 'spaceDrift 30s linear infinite'; // Ускорили до 30 секунд
-    saturn.innerHTML = '<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="25" fill="#ff00a0" /><ellipse cx="50" cy="50" rx="48" ry="12" stroke="#00f0ff" stroke-width="4" transform="rotate(-15 50 50)" /></svg>';
+    const planetsData = [
+        {
+            id: 'saturn',
+            src: 'planet_saturn.webp', // Твой файл Сатурна
+            initialSize: 260,          // Изначальный размер на странице
+            top: '15vh', left: '-350px',
+            duration: '140s', delay: '0s'
+        },
+        {
+            id: 'neptune',
+            src: 'planet_neptune.webp', // Твой файл Нептуна
+            initialSize: 190,
+            top: '45vh', left: '-450px',
+            duration: '110s', delay: '20s'
+        },
+        {
+            id: 'earth',
+            src: 'planet_earth.webp',   // Твой файл Земли
+            initialSize: 210,
+            top: '70vh', left: '-550px',
+            duration: '180s', delay: '40s'
+        }
+    ];
 
-    // Нептун (спавним ближе к правому центру)
-    const neptune = document.createElement('div');
-    neptune.className = 'drifting-planet';
-    neptune.style.width = '100px';
-    neptune.style.height = '100px';
-    neptune.style.top = '50vh';
-    neptune.style.left = '70vw';
-    neptune.style.animation = 'spaceDrift 25s linear infinite'; // Ускорили до 25 секунд
-    neptune.innerHTML = '<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="28" fill="#701a75" /><circle cx="50" cy="50" r="26" stroke="#ff007f" stroke-width="3" stroke-dasharray="8 4" /></svg>';
+    planetsData.forEach(p => {
+        const img = document.createElement('img'); // Создаем IMG-тег
+        img.className = 'drifting-planet';
+        img.id = 'planet-' + p.id;
+        img.src = p.src; // Путь к твоей WEBP картинке
+        img.alt = 'Планета ' + p.id;
 
-    document.body.appendChild(saturn);
-    document.body.appendChild(neptune);
+        img.style.width = p.initialSize + 'px';
+        img.style.height = 'auto'; // Сохраняем пропорции
+        img.style.top = p.top; 
+        img.style.left = p.left; 
+        img.style.animation = `spaceDrift ${p.duration} linear infinite`;
+        img.style.animationDelay = p.delay; 
+
+        document.body.appendChild(img);
+    });
+
     planetsCreated = true;
 }
+
+
+
 
 
 // 5. Запуск
