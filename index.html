@@ -14415,35 +14415,35 @@ function createFloatingPlanets() {
         }
     ];
 
-              planetsData.forEach((p, index) => {
-        const img = document.createElement('img');
-        img.className = 'drifting-planet';
-        img.src = p.src;
-        img.alt = 'Planet';
+             // 5. Запуск
+function initCosmicStars() {
+    cosmicCanvas = document.getElementById('cosmic-canvas');
+    if (!cosmicCanvas) {
+        cosmicCanvas = document.createElement('canvas');
+        cosmicCanvas.id = 'cosmic-canvas';
+        document.body.appendChild(cosmicCanvas);
+    }
+    
+    cosmicCanvas.style.position = 'fixed';
+    cosmicCanvas.style.top = '0';
+    cosmicCanvas.style.left = '0';
+    cosmicCanvas.style.width = '100vw';
+    cosmicCanvas.style.height = '100vh';
+    cosmicCanvas.style.pointerEvents = 'none';
+    cosmicCanvas.style.zIndex = '-1';
+    cosmicCanvas.style.display = 'block';
+    
+    cosmicCtx = cosmicCanvas.getContext('2d');
+    resizeCosmicCanvas();
+    window.addEventListener('resize', resizeCosmicCanvas);
 
-        // 🛡 ВАЖНО: Принудительно отключаем клики для каждой планеты!
-        // Именно из-за этого у тебя "сайт встал" — планеты перекрыли все кнопки
-        img.style.pointerEvents = 'none'; 
-        
-        // 🛠 СТИЛИ
-        img.style.width = p.initialSize + 'px';
-        img.style.height = 'auto';
-        img.style.position = 'absolute'; // Чтобы они могли летать по всему сайту
-        img.style.top = p.top; 
-        img.style.left = (-300 - (index * 400)) + 'px'; 
-        
-        // 🚀 АНИМАЦИЯ (передаем duration)
-        img.style.animationName = 'spaceDrift';
-        img.style.animationDuration = p.duration;
-        img.style.animationTimingFunction = 'linear';
-        img.style.animationIterationCount = 'infinite';
-        img.style.animationDelay = p.delay; 
-        
-        // Порядок наложения
-        img.style.zIndex = -10 + index; 
+    cosmicObjectsArray = [];
+    animateCosmicSpace();
+    
+    // 🚀 ВОТ ЭТУ СТРОЧКУ ТЫ СЛУЧАЙНО СТЕР — ВОЗВРАЩАЕМ ЕЁ НА МЕСТО!
+    createFloatingPlanets(); 
+}
 
-        document.body.appendChild(img);
-    });
 
 
 
