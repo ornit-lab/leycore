@@ -14415,27 +14415,36 @@ function createFloatingPlanets() {
         }
     ];
 
-            planetsData.forEach((p, index) => {
+              planetsData.forEach((p, index) => {
         const img = document.createElement('img');
         img.className = 'drifting-planet';
         img.src = p.src;
+        img.alt = 'Planet';
+
+        // 🛡 ВАЖНО: Принудительно отключаем клики для каждой планеты!
+        // Именно из-за этого у тебя "сайт встал" — планеты перекрыли все кнопки
+        img.style.pointerEvents = 'none'; 
         
-        // РАЗНОСИМ ИХ В ПРОСТРАНСТВЕ
+        // 🛠 СТИЛИ
         img.style.width = p.initialSize + 'px';
-        img.style.top = p.top; // Уникальная высота для каждой
-        
-        // Уникальный старт по горизонтали, чтобы они не летели друг за другом
-        // index * -400 делает так, что каждая следующая планета стартует на 400px дальше
+        img.style.height = 'auto';
+        img.style.position = 'absolute'; // Чтобы они могли летать по всему сайту
+        img.style.top = p.top; 
         img.style.left = (-300 - (index * 400)) + 'px'; 
         
-        // Разная скорость для каждой планеты
-        img.style.animationDuration = p.duration; 
+        // 🚀 АНИМАЦИЯ (передаем duration)
+        img.style.animationName = 'spaceDrift';
+        img.style.animationDuration = p.duration;
+        img.style.animationTimingFunction = 'linear';
+        img.style.animationIterationCount = 'infinite';
+        img.style.animationDelay = p.delay; 
         
-        // Уникальный индекс наложения
+        // Порядок наложения
         img.style.zIndex = -10 + index; 
 
         document.body.appendChild(img);
     });
+
 
 
 
