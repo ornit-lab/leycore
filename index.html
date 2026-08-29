@@ -7065,23 +7065,27 @@ body.theme-cosmic .menu-vasilich-grid {
 
 
 /* ==========================================================================
-   🪐 СТИЛИ ДЛЯ ФОТОРЕАЛИСТИЧНЫХ ПЛАНЕТ (ЧЕРЕЗ .WEBP)
+   🪐 КОСМИЧЕСКИЙ ДРЕЙФ ПЛАНЕТ
    ========================================================================== */
-
-/* Общий стиль для дрейфующих планет */
 .drifting-planet {
-    position: absolute !important;       /* Абсолютное позиционирование, чтобы они скроллились! */
-    pointer-events: none !important;      /* Пропускают клики */
-    z-index: -2 !important;              /* Строго ПОД контентом сайта */
-    opacity: 0.15 !important;            /* Полупрозрачные, чтобы не мешать */
-    filter: drop-shadow(0 0 25px rgba(255, 0, 160, 0.2)) !important; /* Деликатное свечение */
+    position: absolute !important;
+    pointer-events: none !important;
+    z-index: -2 !important;
+    opacity: 0.15 !important;
+    filter: drop-shadow(0 0 20px rgba(255, 0, 160, 0.3));
+    left: -200px !important; /* Стартуют чуть-чуть за левым краем, ждать не придется */
 }
 
-/* 🚀 Анимация дрейфа (как и раньше) */
 @keyframes spaceDrift {
-    0% { transform: translate(0, 0) rotate(0deg); left: -350px; }
-    100% { transform: translate(140vw, 20vh) rotate(360deg); left: 100vw; }
+    0% {
+        transform: translateX(0) rotate(0deg);
+    }
+    100% {
+        /* Пролетают весь экран вправо с запасом */
+        transform: translateX(calc(100vw + 400px)) rotate(360deg);
+    }
 }
+
 
 
 
@@ -14353,63 +14357,63 @@ function createFloatingPlanets() {
             id: 'saturn',
             src: 'planet_saturn.webp', // Твой файл Сатурна
             initialSize: 210,          // Изначальный размер на странице
-            top: '15vh', left: '-350px',
+            top: '15vh', 
             duration: '140s', delay: '0s'
         },
         {
             id: 'neptune',
             src: 'planet_neptune.webp', // Твой файл Нептуна
             initialSize: 140,
-            top: '45vh', left: '-450px',
+            top: '45vh', 
             duration: '70s', delay: '20s'
         },
         {
             id: 'earth',
             src: 'planet_earth.webp',   // Твой файл Земли
             initialSize: 250,
-            top: '29vh', left: '-550px',
+            top: '29vh', 
             duration: '150s', delay: '40s'
         },
          {
             id: 'jupiter', // Новая планета 1
             src: 'planet_jupiter.webp', 
             initialSize: 360,
-            top: '20vh', left: '-700px', // Смещаем их подальше друг от друга
+            top: '20vh', 
             duration: '100s', delay: '120s'
         },
          {
             id: 'mars', // Новая планета 2
             src: 'planet_mars.webp', 
             initialSize: 70,
-            top: '55vh', left: '-990px',
+            top: '55vh', 
             duration: '20s', delay: '100s'
         },
         {
             id: 'krontar', // Новая планета 2
             src: 'krontar.webp', 
             initialSize: 200,
-            top: '20vh', left: '-970px',
+            top: '20vh',
             duration: '100s', delay: '200s'
         },
          {
             id: 'fructi', // Новая планета 2
             src: 'fructi.webp', 
-            initialSize: 550,
-            top: '10vh', left: '-550x',
-            duration: '110s', delay: '120s'
+            initialSize: 600,
+            top: '10vh', 
+            duration: '140s', delay: '150s'
         },
          {
             id: 'stolaktit', // Новая планета 2
             src: 'stolaktit.webp', 
             initialSize: 200,
-            top: '50vh', left: '-850px',
+            top: '50vh', 
             duration: '200s', delay: '200s'
         },
          {
             id: 'honey', // Новая планета 2
             src: 'honey.webp', 
             initialSize: 200,
-            top: '60vh', left: '-400px',
+            top: '60vh', 
             duration: '200s', delay: '270s'
         }
     ];
@@ -14424,7 +14428,6 @@ function createFloatingPlanets() {
         img.style.width = p.initialSize + 'px';
         img.style.height = 'auto'; // Сохраняем пропорции
         img.style.top = p.top; 
-        img.style.left = p.left; 
         img.style.animation = `spaceDrift ${p.duration} linear infinite`;
         img.style.animationDelay = p.delay; 
 
