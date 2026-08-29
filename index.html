@@ -7067,30 +7067,21 @@ body.theme-cosmic .menu-vasilich-grid {
 /* ==========================================================================
    🪐 КОСМИЧЕСКИЙ ДРЕЙФ ПЛАНЕТ
    ========================================================================== */
+/* Убираем left из CSS, чтобы JS мог рулить позицией каждой планеты сам */
 .drifting-planet {
     position: absolute !important;
     pointer-events: none !important;
-    /* Убираем прозрачность, делаем их 100% твердыми */
-    opacity: 1 !important; 
-    
-    /* Добавляем режим смешивания, чтобы они выглядели естественнее на фоне */
-    mix-blend-mode: screen; 
-    
-    /* Деликатная тень, чтобы планета не выглядела как плоская наклейка */
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
     z-index: -2 !important;
+    opacity: 0.2 !important; /* Прозрачность 0.2 для всех */
+    filter: drop-shadow(0 0 20px rgba(255, 0, 160, 0.3)) !important;
+    animation: spaceDrift linear infinite !important;
 }
-
 
 @keyframes spaceDrift {
-    0% {
-        transform: translateX(0) rotate(0deg);
-    }
-    100% {
-        /* Пролетают весь экран вправо с запасом */
-        transform: translateX(calc(100vw + 400px)) rotate(360deg);
-    }
+    0% { transform: translateX(-500px) rotate(0deg); }
+    100% { transform: translateX(120vw) rotate(360deg); }
 }
+
 
 
 
@@ -14424,27 +14415,28 @@ function createFloatingPlanets() {
         }
     ];
 
-        planetsData.forEach((p, index) => {
-        const img = document.createElement('img'); 
+            planetsData.forEach((p, index) => {
+        const img = document.createElement('img');
         img.className = 'drifting-planet';
-        img.id = 'planet-' + p.id;
-        img.src = p.src; 
-        img.alt = 'Планета ' + p.id;
-
-        // Назначаем z-index на основе порядка в массиве (чем дальше в массиве, тем "ближе" к нам)
-        img.style.zIndex = -10 + index; 
-
+        img.src = p.src;
+        
+        // РАЗНОСИМ ИХ В ПРОСТРАНСТВЕ
         img.style.width = p.initialSize + 'px';
-        img.style.height = 'auto'; 
-        img.style.top = p.top; 
-        img.style.animation = `spaceDrift ${p.duration} linear infinite`;
-        img.style.animationDelay = p.delay; 
+        img.style.top = p.top; // Уникальная высота для каждой
+        
+        // Уникальный старт по горизонтали, чтобы они не летели друг за другом
+        // index * -400 делает так, что каждая следующая планета стартует на 400px дальше
+        img.style.left = (-300 - (index * 400)) + 'px'; 
+        
+        // Разная скорость для каждой планеты
+        img.style.animationDuration = p.duration; 
+        
+        // Уникальный индекс наложения
+        img.style.zIndex = -10 + index; 
 
         document.body.appendChild(img);
     });
 
-    planetsCreated = true;
-}
 
 
 
