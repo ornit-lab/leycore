@@ -7070,11 +7070,17 @@ body.theme-cosmic .menu-vasilich-grid {
 .drifting-planet {
     position: absolute !important;
     pointer-events: none !important;
+    /* Убираем прозрачность, делаем их 100% твердыми */
+    opacity: 1 !important; 
+    
+    /* Добавляем режим смешивания, чтобы они выглядели естественнее на фоне */
+    mix-blend-mode: screen; 
+    
+    /* Деликатная тень, чтобы планета не выглядела как плоская наклейка */
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
     z-index: -2 !important;
-    opacity: 0.15 !important;
-    filter: drop-shadow(0 0 20px rgba(255, 0, 160, 0.3));
-    left: -200px !important; /* Стартуют чуть-чуть за левым краем, ждать не придется */
 }
+
 
 @keyframes spaceDrift {
     0% {
@@ -14418,21 +14424,26 @@ function createFloatingPlanets() {
         }
     ];
 
-    planetsData.forEach(p => {
-        const img = document.createElement('img'); // Создаем IMG-тег
+        planets.forEach((p, index) => {
+        const img = document.createElement('img');
         img.className = 'drifting-planet';
         img.id = 'planet-' + p.id;
-        img.src = p.src; // Путь к твоей WEBP картинке
+        img.src = p.src;
         img.alt = 'Планета ' + p.id;
 
+        // ВАЖНО: z-index задаем на основе их размера. 
+        // Чем больше планета, тем она "ближе" к нам (больше z-index)
+        img.style.zIndex = -10 + index; 
+        
         img.style.width = p.initialSize + 'px';
-        img.style.height = 'auto'; // Сохраняем пропорции
-        img.style.top = p.top; 
+        img.style.height = 'auto';
+        img.style.top = p.top;
         img.style.animation = `spaceDrift ${p.duration} linear infinite`;
-        img.style.animationDelay = p.delay; 
+        img.style.animationDelay = p.delay;
 
         document.body.appendChild(img);
     });
+
 
     planetsCreated = true;
 }
