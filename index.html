@@ -14424,26 +14424,24 @@ function createFloatingPlanets() {
         }
     ];
 
-        planets.forEach((p, index) => {
-        const img = document.createElement('img');
+        planetsData.forEach((p, index) => {
+        const img = document.createElement('img'); 
         img.className = 'drifting-planet';
         img.id = 'planet-' + p.id;
-        img.src = p.src;
+        img.src = p.src; 
         img.alt = 'Планета ' + p.id;
 
-        // ВАЖНО: z-index задаем на основе их размера. 
-        // Чем больше планета, тем она "ближе" к нам (больше z-index)
+        // Назначаем z-index на основе порядка в массиве (чем дальше в массиве, тем "ближе" к нам)
         img.style.zIndex = -10 + index; 
-        
+
         img.style.width = p.initialSize + 'px';
-        img.style.height = 'auto';
-        img.style.top = p.top;
+        img.style.height = 'auto'; 
+        img.style.top = p.top; 
         img.style.animation = `spaceDrift ${p.duration} linear infinite`;
-        img.style.animationDelay = p.delay;
+        img.style.animationDelay = p.delay; 
 
         document.body.appendChild(img);
     });
-
 
     planetsCreated = true;
 }
