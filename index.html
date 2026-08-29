@@ -10639,6 +10639,7 @@ function switchProfileSubTab(tabName) {
 }
 
 function renderAchievements() {
+    const currentChips = typeof getChipBalance === 'function' ? getChipBalance() : parseInt(localStorage.getItem('leycore_chips') || '0', 10);
     const list = document.getElementById('achievements-list');
     if (!list) return;
 
