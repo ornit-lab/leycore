@@ -7070,16 +7070,20 @@ body.theme-cosmic .menu-vasilich-grid {
 .drifting-planet {
     position: absolute !important;
     pointer-events: none !important;
-    /* Убираем прозрачность, делаем их 100% твердыми */
-    opacity: 1 !important; 
-    
-    /* Добавляем режим смешивания, чтобы они выглядели естественнее на фоне */
-    mix-blend-mode: screen; 
-    
-    /* Деликатная тень, чтобы планета не выглядела как плоская наклейка */
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
     z-index: -2 !important;
+    opacity: 0.2 !important;
+    filter: drop-shadow(0 0 20px rgba(255, 0, 160, 0.3));
 }
+
+@keyframes spaceDrift {
+    0% {
+        transform: translateX(0); /* Начинают с left: -600px */
+    }
+    100% {
+        transform: translateX(calc(100vw + 1000px)); /* Улетают далеко за правый край */
+    }
+}
+
 
 
 @keyframes spaceDrift {
@@ -14385,61 +14389,58 @@ function createFloatingPlanets() {
             src: 'planet_jupiter.webp', 
             initialSize: 360,
             top: '20vh', 
-            duration: '100s', delay: '120s'
+            duration: '100s', delay: '60s'
         },
          {
             id: 'mars', // Новая планета 2
             src: 'planet_mars.webp', 
             initialSize: 70,
             top: '55vh', 
-            duration: '20s', delay: '100s'
+            duration: '20s', delay: '80s'
         },
         {
             id: 'krontar', // Новая планета 2
             src: 'krontar.webp', 
             initialSize: 200,
             top: '20vh',
-            duration: '100s', delay: '200s'
+            duration: '100s', delay: '100s'
         },
          {
             id: 'fructi', // Новая планета 2
             src: 'fructi.webp', 
             initialSize: 600,
             top: '10vh', 
-            duration: '140s', delay: '150s'
+            duration: '140s', delay: '120'
         },
          {
             id: 'stolaktit', // Новая планета 2
             src: 'stolaktit.webp', 
             initialSize: 200,
             top: '50vh', 
-            duration: '200s', delay: '200s'
+            duration: '200s', delay: '140s'
         },
          {
             id: 'honey', // Новая планета 2
             src: 'honey.webp', 
             initialSize: 200,
             top: '60vh', 
-            duration: '200s', delay: '270s'
+            duration: '200s', delay: '160s'
         }
     ];
 
         planetsData.forEach((p, index) => {
-        const img = document.createElement('img'); 
+        const img = document.createElement('img');
         img.className = 'drifting-planet';
-        img.id = 'planet-' + p.id;
-        img.src = p.src; 
-        img.alt = 'Планета ' + p.id;
-
-        // Назначаем z-index на основе порядка в массиве (чем дальше в массиве, тем "ближе" к нам)
-        img.style.zIndex = -10 + index; 
-
-        img.style.width = p.initialSize + 'px';
-        img.style.height = 'auto'; 
-        img.style.top = p.top; 
+        img.src = p.src;
+        img.style.position = 'absolute';
+        img.style.pointerEvents = 'none';
+        img.style.zIndex = -10 + index;
+        img.style.width = p.size + 'px';
+        img.style.top = p.top;
+        img.style.left = '-600px'; // СТАРТУЮТ ДАЛЕКО СЛЕВА
         img.style.animation = `spaceDrift ${p.duration} linear infinite`;
-        img.style.animationDelay = p.delay; 
-
+        img.style.animationDelay = p.delay;
+        
         document.body.appendChild(img);
     });
 
