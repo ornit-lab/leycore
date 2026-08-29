@@ -7067,21 +7067,30 @@ body.theme-cosmic .menu-vasilich-grid {
 /* ==========================================================================
    🪐 КОСМИЧЕСКИЙ ДРЕЙФ ПЛАНЕТ
    ========================================================================== */
-/* Убираем left из CSS, чтобы JS мог рулить позицией каждой планеты сам */
 .drifting-planet {
     position: absolute !important;
     pointer-events: none !important;
+    /* Убираем прозрачность, делаем их 100% твердыми */
+    opacity: 1 !important; 
+    
+    /* Добавляем режим смешивания, чтобы они выглядели естественнее на фоне */
+    mix-blend-mode: screen; 
+    
+    /* Деликатная тень, чтобы планета не выглядела как плоская наклейка */
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
     z-index: -2 !important;
-    opacity: 0.13 !important; /* Прозрачность 0.2 для всех */
-    filter: drop-shadow(0 0 20px rgba(255, 0, 160, 0.3)) !important;
-    animation: spaceDrift linear infinite !important;
 }
+
 
 @keyframes spaceDrift {
-    0% { transform: translateX(-500px) rotate(0deg); }
-    100% { transform: translateX(120vw) rotate(360deg); }
+    0% {
+        transform: translateX(0) rotate(0deg);
+    }
+    100% {
+        /* Пролетают весь экран вправо с запасом */
+        transform: translateX(calc(100vw + 400px)) rotate(360deg);
+    }
 }
-
 
 
 
@@ -14415,37 +14424,27 @@ function createFloatingPlanets() {
         }
     ];
 
-             // 5. Запуск
-function initCosmicStars() {
-    cosmicCanvas = document.getElementById('cosmic-canvas');
-    if (!cosmicCanvas) {
-        cosmicCanvas = document.createElement('canvas');
-        cosmicCanvas.id = 'cosmic-canvas';
-        document.body.appendChild(cosmicCanvas);
-    }
-    
-    cosmicCanvas.style.position = 'fixed';
-    cosmicCanvas.style.top = '0';
-    cosmicCanvas.style.left = '0';
-    cosmicCanvas.style.width = '100vw';
-    cosmicCanvas.style.height = '100vh';
-    cosmicCanvas.style.pointerEvents = 'none';
-    cosmicCanvas.style.zIndex = '-1';
-    cosmicCanvas.style.display = 'block';
-    
-    cosmicCtx = cosmicCanvas.getContext('2d');
-    resizeCosmicCanvas();
-    window.addEventListener('resize', resizeCosmicCanvas);
+        planetsData.forEach((p, index) => {
+        const img = document.createElement('img'); 
+        img.className = 'drifting-planet';
+        img.id = 'planet-' + p.id;
+        img.src = p.src; 
+        img.alt = 'Планета ' + p.id;
 
-    cosmicObjectsArray = [];
-    animateCosmicSpace();
-    
-    // 🚀 ВОТ ЭТУ СТРОЧКУ ТЫ СЛУЧАЙНО СТЕР — ВОЗВРАЩАЕМ ЕЁ НА МЕСТО!
-    createFloatingPlanets(); 
+        // Назначаем z-index на основе порядка в массиве (чем дальше в массиве, тем "ближе" к нам)
+        img.style.zIndex = -10 + index; 
+
+        img.style.width = p.initialSize + 'px';
+        img.style.height = 'auto'; 
+        img.style.top = p.top; 
+        img.style.animation = `spaceDrift ${p.duration} linear infinite`;
+        img.style.animationDelay = p.delay; 
+
+        document.body.appendChild(img);
+    });
+
+    planetsCreated = true;
 }
-
-
-
 
 
 
@@ -14565,9 +14564,6 @@ function forceFixCulinaryAchievement() {
 
 // Запускаем
 forceFixCulinaryAchievement();
-}
-}
-}
 
 
     </script>
