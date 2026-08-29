@@ -6819,6 +6819,220 @@ body.theme-rainbow h1, body.theme-rainbow .logo-text {
 }
 
 
+/* --- 🪐 КИБЕР-КАПСУЛА ТЕМЫ В ПРОФИЛЕ --- */
+.theme-capsule-cosmic {
+    background: linear-gradient(135deg, #1e0b36, #701a75, #ff007f);
+    color: #ffffff;
+    border: 2px solid #ff00aa;
+    box-shadow: 0 0 20px rgba(255, 0, 170, 0.6);
+}
+
+/* --- 🪐 ГЛУБОКАЯ РОЗОВО-ФИОЛЕТОВАЯ АТМОСФЕРА САЙТА (theme-cosmic) --- */
+body.theme-cosmic {
+    /* Насыщенный космический фиолетово-малиновый космос */
+    background: radial-gradient(circle, #2d0b3d 0%, #0d011a 100%) !important;
+    background-attachment: fixed !important;
+    color: #fdf4ff !important;
+
+    /* Космическая неоновая палитра */
+    --accent-color: #ff007f; /* Яркий малиновый неон */
+    --accent-gold: #00f0ff; /* Неоново-бирюзовые звезды */
+    --accent-glow: rgba(255, 0, 127, 0.5);
+    --panel-bg: rgba(24, 7, 36, 0.88); /* Плотный темный фиолет */
+    --border-color: rgba(255, 0, 127, 0.35);
+}
+
+/* Перекрас текстового логотипа LEYCORE в малиново-космический с супер-неоном */
+body.theme-cosmic h1, 
+body.theme-cosmic .logo-text, 
+body.theme-cosmic [class*="logo"] {
+    background: linear-gradient(to right, #ff00a0 20%, #7e22ce 80%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    filter: drop-shadow(0 0 8px rgba(255, 0, 160, 0.8)) !important;
+}
+
+/* Подсветка плашки версии */
+body.theme-cosmic [class*="version"], 
+body.theme-cosmic .version-badge {
+    border-color: #ff007f !important;
+    color: #00f0ff !important;
+    box-shadow: 0 0 15px rgba(255, 0, 127, 0.6) !important;
+}
+
+/* Скроллбары для Космического сеанса */
+body.theme-cosmic ::-webkit-scrollbar-thumb {
+    background: #ff007f !important;
+    border-radius: 6px;
+    box-shadow: 0 0 8px #ff007f !important;
+}
+
+/* Фоновое свечение под логотипом */
+body.theme-cosmic .logo-container::before,
+body.theme-cosmic .logo-container::after,
+body.theme-cosmic .logo-glow,
+body.theme-cosmic [class*="logo-glow"],
+body.theme-cosmic .header-glow {
+    background: radial-gradient(circle, rgba(255, 0, 127, 0.35) 0%, rgba(126, 34, 206, 0.1) 50%, transparent 70%) !important;
+    box-shadow: 0 0 45px rgba(255, 0, 127, 0.25) !important;
+}
+
+/* Перекрас жидкости колбы достижений в сочный фиолетовый */
+body.theme-cosmic .flask-liquid-fill {
+    background: linear-gradient(180deg, #ff007f 0%, #701a75 100%) !important;
+    box-shadow: 0 0 20px rgba(255, 0, 127, 0.6) !important;
+}
+body.theme-cosmic .flask-liquid-fill::before {
+    background: rgba(255, 0, 127, 0.8) !important;
+}
+
+/* Стили для холста космических эффектов */
+#cosmic-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* Пропускает клики сквозь себя */
+    z-index: -1; /* Лежит строго за контентом, перед фоном */
+    display: none; /* Включается только при активной теме */
+}
+
+/* Анимированные плывущие планеты (Slow Space Drift) */
+.drifting-planet {
+    position: fixed;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.15; /* Мягкие, ненавязчивые планетки */
+    filter: drop-shadow(0 0 10px rgba(255, 0, 127, 0.3));
+    animation: spaceDrift 45s linear infinite;
+}
+
+@keyframes spaceDrift {
+    0% {
+        transform: translate(-150px, 20vh) rotate(0deg);
+    }
+    50% {
+        transform: translate(50vw, 40vh) rotate(180deg);
+    }
+    100% {
+        transform: translate(calc(100vw + 150px), 15vh) rotate(360deg);
+    }
+}
+
+
+/* ==========================================================================
+   ☀️ АВТОНОМНОЕ СОЛНЦЕ (БЕЗ ПРОВОДА И КЛИКОВ) + ЗОЛОТОЙ ЗАГОЛОВОК
+   ========================================================================== */
+
+@media (min-width: 769px) {
+    /* 1. ПОЛНОСТЬЮ УБИРАЕМ ЛАМПУ, ПРОВОД И КЛИК В ТЕМЕ КОСМОС */
+    body.theme-cosmic #leycore-lamp-container {
+        pointer-events: none !important; /* Запрещаем кликать и выключать солнце */
+        cursor: default !important;
+    }
+    
+    body.theme-cosmic #leycore-lamp-container * {
+        display: none !important; /* Убираем провод, эмодзи лампы и любые петли */
+    }
+
+    /* 2. РИСУЕМ НАСТОЯЩЕЕ, СТАТИЧНОЕ СОЛНЦЕ БЕЗ ПРООВОДА */
+    body.theme-cosmic #leycore-lamp-container::after {
+        content: '' !important;
+        display: block !important;
+        width: 75px !important;
+        height: 75px !important;
+        background: radial-gradient(circle, #fff700 0%, #ffb700 70%, #ff8c00 100%) !important;
+        border-radius: 50% !important;
+        filter: blur(4px) !important; /* То самое легкое размытие */
+        box-shadow: 0 0 35px rgba(255, 200, 0, 0.7), 0 0 60px rgba(255, 140, 0, 0.4) !important;
+        
+        /* Смещаем вниз, чтобы было на месте бывшей лампы */
+        margin: 25px auto 0 auto !important; 
+        position: relative !important;
+        z-index: 5 !important;
+        animation: none !important; /* Жестко запрещаем любые покачивания! */
+    }
+}
+
+
+/* ==========================================================================
+   🌌 КОСМОС: ФИКСАЦИЯ НА ФОНЕ И ЧЁТКИЙ ЗАГОЛОВОК
+   ========================================================================== */
+
+/* 1. Заголовок: Уменьшаем на 7% от текущего размера */
+body.theme-cosmic h1#main-title,
+body.theme-cosmic [id="main-title"] {
+    /* Новый размер: ~130px для ПК */
+    font-size: 100px !important; 
+    
+    background: linear-gradient(to bottom, #ff9100, #ff3c00) !important; /* Лавовый градиент */
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    
+    text-shadow: none !important; /* Убираем черную тень */
+    filter: drop_shadow(0 0 12px rgba(255, 60, 0, 0.6)) 
+            drop_shadow(0 0 25px rgba(255, 145, 0, 0.3)) !important; /* Огненное свечение */
+    
+    font-weight: 900 !important;
+    letter-spacing: 4px !important;
+    line-height: 1 !important;
+    margin: 30px auto !important;
+}
+
+@media (max-width: 768px) {
+    body.theme-cosmic h1#main-title,
+    body.theme-cosmic [id="main-title"] {
+        /* Увеличил размер, чтобы на мобилках заголовок не выглядел мелким */
+        font-size: 70px !important; 
+        
+        /* Убираем "мыло" и фиксируем свечение */
+        text-shadow: none !important;
+        
+        /* ИСПРАВЛЕНО: drop-shadow (с дефисом, а не подчеркиванием!) */
+        filter: drop-shadow(0 0 10px rgba(255, 140, 0, 0.6)) !important;
+        
+        line-height: 1.1 !important;
+        margin: 20px auto !important;
+    }
+}
+
+/* 3. ХОЛСТ С КОСМИЧЕСКИМИ ЭФФЕКТАМИ — ФИКСИРУЕМ НА МЕСТЕ! */
+#cosmic-canvas {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    pointer-events: none !important;
+    z-index: -1 !important; /* Строго за контентом */
+    /* Добавляем эти свойства, чтобы браузер гарантированно держал его на фоне */
+    background-attachment: fixed !important; 
+    transform: translateZ(0) !important;
+    will-change: transform, opacity;
+}
+
+/* 4. ПЛАНЕТЫ — ТОЖЕ ФИКСИРУЕМ НА МЕСТЕ! */
+.drifting-planet {
+    position: fixed !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+    /* УБИРАЕМ ЛЮБЫЕ АНИМАЦИИ, КОТОРЫЕ МОГУТ ПЕРЕДВИГАТЬ ИХ ПРИ СКРОЛЛЕ */
+    animation: none !important; 
+    /* НОВАЯ АНИМАЦИЯ (если нужна) должна использовать только CSS transforms/opacity, 
+       не влияющие на позицию */
+}
+
+/* 5. Обновляем анимацию планет, чтобы она не конфликтовала с position: fixed */
+/* ЭТОТ КУСОК CSS НУЖНО ДОБАВИТЬ В CSS, А НЕ В JS! */
+@keyframes spaceDrift {
+    0%   { transform: translate(-150px, 20vh) scale(0.9); }
+    50%  { transform: translate(50vw, 40vh) scale(1.1); }
+    100% { transform: translate(calc(100vw + 150px), 15vh) scale(0.9); }
+}
+
+
+
 
     </style>
 
@@ -7435,13 +7649,6 @@ body.theme-rainbow h1, body.theme-rainbow .logo-text {
     </div>
 </div>
 
-
-
-
-
-
-    <!-- Существующий список ачивок/профиля -->
-    <div id="achievements-list" class="grid-3" style="text-align: center;"></div>
 
     </div>
 
@@ -8519,12 +8726,20 @@ body.theme-rainbow h1, body.theme-rainbow .logo-text {
             renderDishes(category);
         }
 
-        // Добавили async в самое начало!
+               // Добавили async в самое начало! (ИСПРАВЛЕНО: С авто-засчетом прочтения!)
         async function openDishPage(i) {
             // Сначала ждем данные из облачной базы Кронтара
             await loadDishDataFromCloud(i);
 
             const d = dishes[i];
+            
+            // 🎯 СТРОГИЙ АВТО-ЗАЧЕТ ПРОЧТЕНИЯ ДЛЯ АЧИВКИ "КУЛИНАР"
+            if (d && d.title && typeof trackRecipeRead === 'function') {
+                // Если название рецепта содержит точку/эмодзи, мы убираем их, чтобы текст совпал со списком
+                const cleanTitle = d.title.replace(/[●•✨🍕🍖🥚🥗🍜🍟🧪☣️🧼🧼]/g, '').trim();
+                trackRecipeRead(cleanTitle);
+            }
+
             document.getElementById('dish-detail-content').innerHTML = `
         <div class="dish-detail-container">
             <h2 class="section-title title-green">${d.title}</h2>
@@ -10427,50 +10642,47 @@ function renderAchievements() {
     const list = document.getElementById('achievements-list');
     if (!list) return;
 
-    const currentChips = typeof getChipBalance === 'function' ? getChipBalance() : parseInt(localStorage.getItem('leycore_chips') || '10', 10);
+    // Считываем то, что реально лежит в памяти
+    const myAchievements = JSON.parse(localStorage.getItem('leycore_achievements') || '[]');
 
-    // 1. НАСТОЯЩИЕ ДОСТИЖЕНИЯ ЛЭЙКОРА
     if (currentProfileSubTab === 'achievements') {
         const allPossible = [
-            { id: "Попукивания разблокированы", desc: "Наберите 30 очков в Flappy Царевне" },
-            { id: "Опытный пердежист", desc: "Достигните 100 очков в Flappy Царевне" },
-            { id: "Секретный рецепт", desc: "Соберите 5,000 кликов в кликере Бобнита" },
-            { id: "10.000 кликов в кликере", desc: "Наберите 10,000 кликов в кликере" },
-            { id: "50.000 кликов в кликере", desc: "Элитный кликер — 50,000 кликов" },
-            { id: "Лудоман", desc: "Сыграйте в казино Василича 30 раз" },
-            { id: "Познание Лэйкора", desc: "Изучите все карточки Лэйкора на 100%" }
+            { id: "flappy_30", title: "Попукивания разблокированы", desc: "Наберите 30 очков в Flappy Царевне" },
+            { id: "flappy_100", title: "Опытный пердежист", desc: "Достигните 100 очков в Flappy Царевне" },
+            { id: "recipe_5000", title: "Секретный рецепт", desc: "Соберите 5,000 кликов в кликере Бобнита" },
+            { id: "click_10000", title: "10.000 кликов в кликере", desc: "Наберите 10,000 кликов в кликере" },
+            { id: "click_50000", title: "50.000 кликов в кликере", desc: "Элитный кликер — 50,000 кликов" },
+            { id: "Лудоман", title: "Лудоман", desc: "Сыграйте в казино Василича 30 раз" },
+            { id: "Познание Лэйкора", title: "Познание Лэйкора", desc: "Изучите все карточки Лэйкора на 100%" },
+            { id: 'culinary_master', title: 'Кулинар', desc: 'Открыть все базовые рецепты Меню Василича' }
         ];
 
         let unlockedCount = 0;
-        allPossible.forEach(a => {
-            if (typeof myAchievements !== 'undefined' && myAchievements.includes(a.id)) {
-                unlockedCount++;
-            }
-        });
-
-        const percent = Math.round((unlockedCount / allPossible.length) * 100);
-
+        
+        // РЕНДЕР
         list.innerHTML = `
             <div class="achievements-layout-grid">
                 <div class="flask-progress-container">
                     <div class="glass-liquid-flask">
-                        <div class="flask-liquid-fill" style="height: ${percent}%;"></div>
+                        <div class="flask-liquid-fill" style="height: ${Math.round((myAchievements.length / allPossible.length) * 100)}%;"></div>
                     </div>
-                    <div class="flask-percent-text">${percent}%</div>
+                    <div class="flask-percent-text">${Math.round((myAchievements.length / allPossible.length) * 100)}%</div>
                 </div>
 
                 <div class="achievements-list-column">
                     ${allPossible.map(a => {
-                        const isUnlocked = typeof myAchievements !== 'undefined' && myAchievements.includes(a.id);
+                        // СТАЛЬНАЯ ПРОВЕРКА: ищем и по ID, и по Title, и по прямой строке
+                        const isUnlocked = myAchievements.includes(a.id) || 
+                                           myAchievements.includes(a.title) || 
+                                           myAchievements.includes(a.id.replace('culinary_master', 'Кулинар'));
+                        
                         return `
                             <div class="achievement-card-row ${isUnlocked ? 'unlocked' : ''}">
                                 <div>
-                                    <h4 style="margin:0; font-family:'Unbounded', sans-serif; font-size:0.95rem; color:${isUnlocked ? '#ffd700' : '#fff'}">${a.id}</h4>
+                                    <h4 style="margin:0; font-family:'Unbounded', sans-serif; font-size:0.95rem; color:${isUnlocked ? '#ffd700' : '#fff'}">${a.title}</h4>
                                     <p style="margin:4px 0 0 0; font-size:0.78rem; color:#aaa">${a.desc}</p>
                                 </div>
-                                <div style="font-size:1.5rem;">
-                                    ${isUnlocked ? '⭐' : '🔒'}
-                                </div>
+                                <div style="font-size:1.5rem;">${isUnlocked ? '⭐️' : '🔒'}</div>
                             </div>
                         `;
                     }).join('')}
@@ -10478,6 +10690,8 @@ function renderAchievements() {
             </div>
         `;
     }
+
+
 
        // 2. ИНВЕНТАРЬ (С КИБЕР-КАПСУЛАМИ ТЕМ, ТИТУЛАМИ И МУСОРКОЙ)
     else if (currentProfileSubTab === 'inventory') {
@@ -10493,7 +10707,8 @@ function renderAchievements() {
             { id: 'theme-azure', name: 'Бирюза Лазурь' },
             { id: 'theme-orange', name: 'Оранжевый Кибер' },
             { id: 'theme-crimson', name: 'Красный Закат' },
-            { id: 'theme-rainbow', name: 'Радужный Неон' }
+            { id: 'theme-rainbow', name: 'Радужный Неон' },
+            { id: 'theme-cosmic', name: 'Космический сеанс' }
         ];
 
         list.innerHTML = `
@@ -10562,7 +10777,11 @@ function renderAchievements() {
                                 svgIcon = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="9" x2="12" y2="2"/><line x1="4.22" y1="10.22" x2="5.64" y2="11.66"/><line x1="1" y1="18" x2="23" y2="18"/><line x1="19.78" y1="10.22" x2="18.36" y2="11.66"/></svg>`;
                             } else if (t.id === 'theme-rainbow') { // Радуга
                                 svgIcon = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17a10 10 0 0 0-20 0"/><path d="M18 17a6 6 0 0 0-12 0"/><path d="M14 17a2 2 0 0 0-4 0"/></svg>`;
+                            } else if (t.id === 'theme-cosmic') {
+                                svgIcon = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"/><path d="M2 12h20"/><path d="M5 16s4-4 7-4 7 4 7 4"/></svg>`;
                             }
+   
+
 
                             // Градиентные классы
                             let clsName = 'theme-capsule-default';
@@ -10918,7 +11137,7 @@ function renderAchievements() {
             }).join('');
         }
 
-        // Глобальный выбор темы (без зависаний!)
+                // Глобальный выбор темы (без зависаний!)
         function selectTheme(t) {
             let unlocked = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
 
@@ -10933,9 +11152,17 @@ function renderAchievements() {
             localStorage.setItem('leycore_active_theme', t);
             if (typeof activeTheme !== 'undefined') activeTheme = t;
 
+            // 🚀 ИНТЕГРАЦИЯ КОСМИЧЕСКОГО СЕАНСА:
+            if (t === 'theme-cosmic') {
+                initCosmicStars(); // Включаем звездопад и планеты!
+            } else {
+                stopCosmicEffects(); // Выключаем космические эффекты на других темах
+            }
+
             // Перерисовываем список, чтобы обновить надписи "(АКТИВНО)"
             renderThemesList();
         }
+
 
 
         function applyTheme(themeClass) {
@@ -13615,30 +13842,34 @@ if (document.readyState === 'loading') {
         }
 
 
-        // ==========================================
-// 👑 ЛОГИКА ОТРИСОВКИ НОВОГО ИНТЕРФЕЙСА ПО ЧЕРТЕЖАМ
-// ==========================================
-
-// 1. Отрисовка Достижений и наполнение колбы
 function renderAchievementsUI() {
-    const container = document.getElementById('achievementsContainer');
+    const container = document.getElementById('achievements-list');
     const fill = document.getElementById('flaskLiquidFill');
     const text = document.getElementById('flaskPercentText');
     if (!container) return;
 
-    // Список всех достижений
     const achievementsList = [
-        { id: 'click_100', title: 'Первый Клик', desc: 'Нажмите на Бобнита 100 раз' },
-        { id: 'click_3000', title: 'Познание Лэйкора', desc: 'Наберите 3,000 бургеров' },
-        { id: 'casino_win', title: 'Лудоман', desc: 'Выиграйте джекпот в Казино' },
-        { id: 'flappy_10', title: 'Пролетел 10 колонн', desc: 'Наберите 10 очков в Flappy' }
+        { id: 'flappy_30', title: 'Попукивания разблокированы', desc: 'Пролететь 30 колонн в Flappy' },
+        { id: 'flappy_100', title: 'Опытный пердежист', desc: 'Пролететь 100 колонн в Flappy' },
+        { id: 'recipe_5000', title: 'Секретный рецепт', desc: 'Соберите 5,000 кликов в кликере' },
+        { id: 'click_10000', title: 'Раскалённый палец', desc: 'Наберите 10,000 кликов' },
+        { id: 'click_50000', title: 'Элитный кликер', desc: 'Наберите 50,000 кликов' },
+        { id: 'casino_30', title: 'Лудоман', desc: 'Сыграйте в казино 30 раз' },
+        { id: 'leycore_cognition', title: 'Познание Лэйкора', desc: 'Изучите все карточки Лэйкора' },
+        { id: 'culinary_master', title: 'Кулинар', desc: 'Открыть все базовые рецепты Меню Василича' }
     ];
 
     const unlockedList = JSON.parse(localStorage.getItem('leycore_achievements') || '[]');
     let unlockedCount = 0;
 
-    container.innerHTML = achievementsList.map(item => {
-        const isUnlocked = unlockedList.includes(item.id) || unlockedList.includes(item.title);
+       container.innerHTML = achievementsList.map(item => {
+        // РЕЖИМ БОГА: ищем ачивку по любому совпадению текста
+        const isUnlocked = unlockedList.some(unlocked => 
+            unlocked.includes(item.title) || 
+            item.title.includes(unlocked) || 
+            unlocked === item.id
+        );
+        
         if (isUnlocked) unlockedCount++;
 
         return `
@@ -13648,59 +13879,102 @@ function renderAchievementsUI() {
                     <p>${item.desc}</p>
                 </div>
                 <div class="achievement-badge-icon">
-                    ${isUnlocked ? '⭐' : '🔒'}
+                    ${isUnlocked ? '⭐️' : '🔒'}
                 </div>
             </div>
         `;
     }).join('');
 
-    // Расчет процента для жидкой колбы
+
+    // Обновляем колбу
     const percent = Math.round((unlockedCount / achievementsList.length) * 100);
     if (fill) fill.style.height = `${percent}%`;
     if (text) text.innerText = `${percent}%`;
 }
+
+
 
 // 2. Отрисовка Инвентаря (Башня + Овалы тем)
 function renderInventoryUI() {
     const titlesBox = document.getElementById('inventoryTitlesTower');
     const themesBox = document.getElementById('inventoryThemesStack');
 
-    // Башня из титулов
     if (titlesBox) {
-        const titles = JSON.parse(localStorage.getItem('leycore_titles') || '["Новичок"]');
-        titlesBox.innerHTML = titles.map(t => `
-            <div class="title-parallelogram-item">✨ ${t}</div>
-        `).join('');
+        const titles = readJsonArray('leycore_titles', ['Гость Царства']);
+        const activeTitle = localStorage.getItem('leycore_active_title') || 'Гость Царства';
+
+        titlesBox.innerHTML = titles.map(title => {
+            const safeTitle = String(title).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+            const isActive = activeTitle === title;
+
+            return `
+                <div class="title-parallelogram-item ${isActive ? 'active-title-item' : ''}"
+                     onclick="selectTitle('${safeTitle}')"
+                     style="cursor:pointer;">
+                    <span>✨ ${title}</span>
+                    <span>${isActive ? '✓ АКТИВЕН' : 'ВЫБРАТЬ'}</span>
+                </div>
+            `;
+        }).join('');
     }
 
-    // Овалы тем с иконками по чертежу
     if (themesBox) {
-        const unlocked = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
+        const unlocked = readJsonArray('unlockedThemes');
         const activeTheme = localStorage.getItem('leycore_active_theme') || '';
+        const clicks = parseInt(localStorage.getItem('bobnitBurgerCount') || '0', 10);
 
         const themeData = [
-            { id: '', name: 'Стандарт', icon: '⚡️', class: 'theme-default' },
-            { id: 'theme-bw', name: 'Ч/Б Стиль', icon: '☯️', class: 'theme-bw' },
-            { id: 'theme-azure', name: 'Бирюза Лазурь', icon: '💎', class: 'theme-azure' },
-            { id: 'theme-orange', name: 'Оранжевый Кибер', icon: '🔥', class: 'theme-orange' },
-            { id: 'theme-crimson', name: 'Красный Закат', icon: '🌅', class: 'theme-crimson' },
-            { id: 'theme-rainbow', name: 'Радужный Неон', icon: '🌈', class: 'theme-rainbow' }
+            { id: '', name: 'Стандарт', className: 'theme-capsule-default' },
+            { id: 'theme-bw', name: 'Ч/Б Стиль', className: 'theme-capsule-bw' },
+            { id: 'theme-azure', name: 'Бирюза Лазурь', className: 'theme-capsule-azure' },
+            { id: 'theme-orange', name: 'Оранжевый Кибер', className: 'theme-capsule-orange' },
+            { id: 'theme-crimson', name: 'Красный Закат', className: 'theme-capsule-crimson' },
+            { id: 'theme-rainbow', name: 'Радужный Неон', className: 'theme-capsule-rainbow' },
+            { id: 'theme-cosmic', name: 'Космический сеанс', className: 'theme-capsule-cosmic' }
         ];
 
-        themesBox.innerHTML = themeData.map(t => {
-            const isUnlocked = t.id === '' || unlocked.includes(t.id);
+        const icons = {
+            '': `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+            'theme-bw': `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a4.5 4.5 0 0 0 0 9 4.5 4.5 0 0 1 0 9"/><circle cx="12" cy="7.5" r="1.5" fill="currentColor"/><circle cx="12" cy="16.5" r="1.5"/></svg>`,
+            'theme-azure': `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 18 3 22 9 12 21 2 9 6 3"/><line x1="11" y1="3" x2="8" y2="9"/><line x1="13" y1="3" x2="16" y2="9"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="21" x2="8" y2="9"/><line x1="12" y1="21" x2="16" y2="9"/></svg>`,
+            'theme-orange': `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c0 3.2-2.5 5.5-2.5 8.5 0 2.5 2 4.5 4.5 4.5s4.5-2 4.5-4.5c0-5.5-6.5-6.5-6.5-8.5z"/><path d="M12 22c-4.4 0-8-3.6-8-8 0-4.4 3.5-8 7.5-11.8 1.1 2.5.5 4.8-.5 7 2.5-1 4.5 1 4.5 3.8 0 2.2-1.8 4-4 4z"/></svg>`,
+            'theme-crimson': `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="9" x2="12" y2="2"/><line x1="4.22" y1="10.22" x2="5.64" y2="11.66"/><line x1="1" y1="18" x2="23" y2="18"/><line x1="19.78" y1="10.22" x2="18.36" y2="11.66"/></svg>`,
+            'theme-rainbow': `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17a10 10 0 0 0-20 0"/><path d="M18 17a6 6 0 0 0-12 0"/><path d="M14 17a2 2 0 0 0-4 0"/></svg>`,
+            'theme-cosmic': `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"/><path d="M2 12h20"/><path d="M5 16s4-4 7-4 7 4 7 4"/></svg>`
+        };
+
+        themesBox.innerHTML = themeData.map(theme => {
+            let isUnlocked = false;
+
+            if (theme.id === '') {
+                isUnlocked = true;
+            } else if (theme.id === 'theme-bw') {
+                isUnlocked = clicks >= 3000 || unlocked.includes(theme.id);
+            } else if (theme.id === 'theme-azure') {
+                isUnlocked = clicks >= 6000 || unlocked.includes(theme.id);
+            } else {
+                isUnlocked = unlocked.includes(theme.id);
+            }
+
             if (!isUnlocked) return '';
 
-            const isActive = activeTheme === t.id;
+            const isActive = activeTheme === theme.id;
+            const safeId = theme.id.replace(/'/g, "\\'");
+
             return `
-                <div class="theme-oval-button ${t.class}" onclick="selectTheme('${t.id}')">
-                    <span>${t.icon} ${t.name}</span>
-                    <span>${isActive ? '✓ АКТИВНО' : 'ВЫБРАТЬ'}</span>
+                <div class="theme-capsule-button ${theme.className} ${isActive ? 'active-capsule' : ''}"
+                     onclick="selectTheme('${safeId}')">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span class="theme-icon-contour">${icons[theme.id]}</span>
+                        <span>${theme.name}</span>
+                    </div>
+                    <span style="font-size:0.7rem; letter-spacing:1px;">${isActive ? '✓ АКТИВНО' : 'ВЫБРАТЬ'}</span>
                 </div>
             `;
         }).join('');
     }
 }
+
 
 // 3. Отрисовка Магазина
 function renderShopUI() {
@@ -13795,6 +14069,333 @@ document.addEventListener('DOMContentLoaded', relocateLavaSidebarForMobile);
 window.addEventListener('resize', relocateLavaSidebarForMobile);
 
 
+
+
+
+// ==========================================
+// 🍳 СИСТЕМА ДЛЯ АЧИВКИ "КУЛИНАР" И ТЕМЫ "КОСМИЧЕСКИЙ СЕАНС"
+// ==========================================
+
+// Полный список всех 21 базового рецепта Василича
+const basicVasilichRecipes = [
+    "Куриный экссудат",
+    "Налоги фермера",
+    "Висцеральная желчь",
+    "Брюшной замес",
+    "Сырный коллапс",
+    "Блевота богача",
+    "Мясной Квазар",
+    "Грыжа хряка",
+    "Выкидыш Громовержца",
+    "Коктейль олимпа",
+    "Запор бабули",
+    "Заправка Василича",
+    "Медовый Склероз",
+    "Капсула гармонии",
+    "Почтальон Печкин",
+    "Кишка дракона",
+    "Азиатский Перехват",
+    "Негристая стесняшка",
+    "Попукивания Царевны",
+    "Коварный Чизкейк",
+    "Фруктовый ниндзя"
+];
+
+// Функция отслеживания прочитанных рецептов
+async function trackRecipeRead(recipeTitle) {
+    if (!recipeTitle) return;
+
+    // Считываем список уже прочитанных рецептов из памяти
+    let readList = JSON.parse(localStorage.getItem('leycore_read_recipes_list') || '[]');
+
+    // Если это рецепт из списка и мы его ещё не читали
+    if (basicVasilichRecipes.includes(recipeTitle) && !readList.includes(recipeTitle)) {
+        readList.push(recipeTitle);
+        localStorage.setItem('leycore_read_recipes_list', JSON.stringify(readList));
+        
+        console.log(`📖 [КУЛИНАР] Открыт рецепт: "${recipeTitle}". Прогресс: ${readList.length}/${basicVasilichRecipes.length}`);
+
+        // Проверяем: прочитаны ли ВСЕ 21 рецепт?
+        const allRead = basicVasilichRecipes.every(r => readList.includes(r));
+
+        if (allRead) {
+            console.log("🏆 [КУЛИНАР] Все 21 рецепт изучены! Выдаем награды...");
+
+            // 1. Выдаем ачивку "Кулинар" и 30 фишек!
+            if (typeof unlockAchievement === 'function') {
+                unlockAchievement("Кулинар", 30);
+            }
+
+            // 2. Разблокируем тему "Космический сеанс"
+            let unlocked = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
+            if (!unlocked.includes('theme-cosmic')) {
+                unlocked.push('theme-cosmic');
+                localStorage.setItem('unlockedThemes', JSON.stringify(unlocked));
+                localStorage.setItem('leycore_themes', JSON.stringify(unlocked));
+
+                alert("🌌 КОСМИЧЕСКИЙ СЕАНС РАЗБЛОКИРОВАН!\n\nТы изучил всю кулинарную шизу Демиурга Василича!\nТебе доступна новая тема 'Космический сеанс' в инвентаре профиля.");
+
+                // 3. Отправляем разблокированную тему в облако Supabase
+                if (typeof saveUserProfileToCloud === 'function') {
+                    await saveUserProfileToCloud();
+                }
+
+                // 4. Обновляем списки в профиле
+                if (typeof renderThemesList === 'function') renderThemesList();
+                if (typeof renderAchievements === 'function') renderAchievements();
+            }
+        }
+    }
+}
+
+// Автоматический перехватчик кликов по рецептам
+document.addEventListener('click', (e) => {
+    // Ищем клик по заголовку карточки рецепта или по кнопке открытия
+    const cardHeader = e.target.closest('.recipe-card-header, .dish-header, .recipe-header, [onclick*="toggle"]');
+    if (cardHeader) {
+        const text = cardHeader.innerText || cardHeader.textContent || '';
+        
+        // Проверяем, есть ли название рецепта в тексте кликнутого элемента
+        basicVasilichRecipes.forEach(recipeName => {
+            if (text.toLowerCase().includes(recipeName.toLowerCase())) {
+                trackRecipeRead(recipeName);
+            }
+        });
+    }
+});
+
+// ==========================================================================
+// 🌌 КОСМИЧЕСКИЕ ЭФФЕКТЫ: ЗВЕЗДЫ, КОМЕТЫ И МЕТЕОРИТЫ
+// ==========================================================================
+
+let cosmicCanvas = null;
+let cosmicCtx = null;
+let cosmicAnimationId = null;
+let cosmicObjectsArray = [];
+let planetsCreated = false;
+
+// 1. Желтая звездочка (из прошлого патча)
+class FallingStar {
+    constructor(w, h) {
+        this.x = Math.random() * w;
+        this.y = -10;
+        this.size = Math.random() * 2.5 + 1;
+        this.speed = Math.random() * 1.2 + 0.6;
+        this.alpha = 1;
+        this.decay = Math.random() * 0.002 + 0.001;
+        this.type = 'star';
+    }
+    update(w, h) {
+        this.y += this.speed;
+        if (this.y > h * 0.5) this.alpha -= this.decay;
+    }
+    draw(ctx) {
+        ctx.save();
+        ctx.fillStyle = `rgba(255, 235, 59, ${this.alpha})`;
+        ctx.shadowBlur = this.size * 2;
+        ctx.shadowColor = "#ffeb3b";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+    }
+}
+
+// 2. Блестящая комета с длинным хвостом
+class ShootingComet {
+    constructor(w, h) {
+        this.x = Math.random() * w;
+        this.y = -20;
+        this.speedX = Math.random() * 3 + 2; // Летит по диагонали
+        this.speedY = Math.random() * 4 + 3;
+        this.length = Math.random() * 40 + 30; // Длина хвоста
+        this.alpha = 1;
+        this.type = 'comet';
+    }
+    update(w, h) {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.alpha -= 0.015; // Быстро сгорает в атмосфере
+    }
+    draw(ctx) {
+        ctx.save();
+        ctx.strokeStyle = `rgba(255, 255, 255, ${this.alpha})`;
+        ctx.lineWidth = 2;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = "#00f0ff";
+        
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.x - this.length * 0.7, this.y - this.length);
+        ctx.stroke();
+        ctx.restore();
+    }
+}
+
+// 3. Настоящий круглый метеорит с кратерами
+class BrownMeteorite {
+    constructor(w, h) {
+        this.x = Math.random() * w;
+        this.y = -60;
+        this.speedX = (Math.random() - 0.5) * 1.5;
+        this.speedY = Math.random() * 1.2 + 0.6; // Тяжелый, летит плавно
+        this.radius = Math.random() * 14 + 10; // Размер камня
+        this.rotation = Math.random() * Math.PI;
+        this.rotSpeed = (Math.random() - 0.5) * 0.02;
+        this.type = 'meteor';
+    }
+    update(w, h) {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.rotation += this.rotSpeed;
+    }
+    draw(ctx) {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        
+        // Тело астероида (круглое с легкой неровностью)
+        ctx.fillStyle = "#4a3525"; 
+        ctx.strokeStyle = "#271a11";
+        ctx.lineWidth = 2;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = "#ff550055";
+
+        ctx.beginPath();
+        // Рисуем бугристый круг (красивый астероид)
+        ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        // Рисуем кратеры на астероиде
+        ctx.fillStyle = "#271a11";
+        ctx.beginPath();
+        ctx.arc(-this.radius * 0.3, -this.radius * 0.2, this.radius * 0.25, 0, Math.PI * 2);
+        ctx.arc(this.radius * 0.3, this.radius * 0.3, this.radius * 0.18, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.restore();
+    }
+}
+
+
+// Запуск общего космического потока
+function initCosmicStars() {
+    cosmicCanvas = document.getElementById('cosmic-canvas');
+    if (!cosmicCanvas) {
+        cosmicCanvas = document.createElement('canvas');
+        cosmicCanvas.id = 'cosmic-canvas';
+        document.body.appendChild(cosmicCanvas);
+    }
+    
+    cosmicCanvas.style.position = 'fixed';
+    cosmicCanvas.style.top = '0';
+    cosmicCanvas.style.left = '0';
+    cosmicCanvas.style.width = '100vw';
+    cosmicCanvas.style.height = '100vh';
+    cosmicCanvas.style.pointerEvents = 'none';
+    cosmicCanvas.style.zIndex = '-1';
+    cosmicCanvas.style.display = 'block';
+    
+    cosmicCtx = cosmicCanvas.getContext('2d');
+    resizeCosmicCanvas();
+    window.addEventListener('resize', resizeCosmicCanvas);
+
+    cosmicObjectsArray = [];
+    animateCosmicSpace();
+    createFloatingPlanets();
+}
+
+function resizeCosmicCanvas() {
+    if (cosmicCanvas) {
+        cosmicCanvas.width = window.innerWidth;
+        cosmicCanvas.height = window.innerHeight;
+    }
+}
+
+function animateCosmicSpace() {
+    if (!cosmicCtx || !cosmicCanvas) return;
+    cosmicCtx.clearRect(0, 0, cosmicCanvas.width, cosmicCanvas.height);
+
+    // Спавн элементов с разной частотой
+    if (Math.random() < 0.06) cosmicObjectsArray.push(new FallingStar(cosmicCanvas.width, cosmicCanvas.height));
+    if (Math.random() < 0.012) cosmicObjectsArray.push(new ShootingComet(cosmicCanvas.width, cosmicCanvas.height));
+    if (Math.random() < 0.008) cosmicObjectsArray.push(new BrownMeteorite(cosmicCanvas.width, cosmicCanvas.height));
+
+    for (let i = cosmicObjectsArray.length - 1; i >= 0; i--) {
+        cosmicObjectsArray[i].update(cosmicCanvas.width, cosmicCanvas.height);
+        cosmicObjectsArray[i].draw(cosmicCtx);
+
+        // Удаляем объекты, вышедшие за пределы экрана или прозрачные
+        if (cosmicObjectsArray[i].y > cosmicCanvas.height + 50 || cosmicObjectsArray[i].alpha <= 0) {
+            cosmicObjectsArray.splice(i, 1);
+        }
+    }
+
+    cosmicAnimationId = requestAnimationFrame(animateCosmicSpace);
+}
+
+function stopCosmicEffects() {
+    if (cosmicAnimationId) {
+        cancelAnimationFrame(cosmicAnimationId);
+        cosmicAnimationId = null;
+    }
+    if (cosmicCanvas) {
+        cosmicCanvas.style.display = 'none';
+    }
+    document.querySelectorAll('.drifting-planet').forEach(p => p.remove());
+    planetsCreated = false;
+}
+
+
+// ==========================================
+// 🔧 ФИНАЛЬНЫЙ ФИКС АЧИВОК (РАБОТАЕТ С ЛЮБЫМ ФОРМАТОМ)
+// ==========================================
+function forceFixCulinaryAchievement() {
+    setTimeout(() => {
+        let unlockedThemes = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
+        let rawAchievements = JSON.parse(localStorage.getItem('leycore_achievements') || '[]');
+        
+        // 🚀 НОРМАЛИЗАЦИЯ АЧИВОК: приводим к простому массиву строк
+        let normalizedAchievements = [];
+        if (Array.isArray(rawAchievements)) {
+            normalizedAchievements = rawAchievements.map(ach => {
+                if (typeof ach === 'string') return ach;
+                if (typeof ach === 'object' && ach.title) return ach.title; // Если это объект, берем title
+                if (typeof ach === 'object' && ach.id) return ach.id;     // Если это объект, берем id
+                return null;
+            }).filter(item => item !== null);
+        }
+
+        // Проверяем, есть ли тема и НЕТ ачивки в нормализованном списке
+        if (unlockedThemes.includes('theme-cosmic') && !normalizedAchievements.includes('Кулинар')) {
+            console.log("🛠 [FIX] Обнаружена рассинхронизация: ачивка 'Кулинар' будет добавлена.");
+            
+            normalizedAchievements.push("Кулинар");
+            localStorage.setItem('leycore_achievements', JSON.stringify(normalizedAchievements));
+            
+            // 1. Сохраняем в облако
+            if (typeof saveUserProfileToCloud === 'function') {
+                saveUserProfileToCloud();
+            }
+            
+            // 2. Принудительно перерисовываем профиль
+            if (typeof renderAchievementsUI === 'function') {
+                renderAchievementsUI();
+            }
+            if (typeof renderInventoryUI === 'function') {
+                renderInventoryUI();
+            }
+            
+            alert("🔧 Система: Ачивка 'Кулинар' успешно добавлена и синхронизирована!");
+        } else {
+            console.log("✅ [FIX] Ачивка 'Кулинар' уже в порядке.");
+        }
+    }, 2000); // 2 секунды задержки для полной прогрузки
+}
+
+// Запускаем
+forceFixCulinaryAchievement();
 
 
     </script>
