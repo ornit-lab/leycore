@@ -7031,18 +7031,18 @@ body.theme-cosmic [id="main-title"] {
     100% { transform: translate(calc(100vw + 150px), 15vh) scale(0.9); }
 }
 
-/* ==========================================================================
-   🪐 СТИЛИ И АНИМАЦИЯ ПЛЫВУЩИХ ПЛАНЕТ (САТУРН И НЕПТУН)
-   ========================================================================== */
 
-/* Общий стиль для дрейфующих планет */
+/* ==========================================================================
+   🪐 ОТЛАДКА И ВИДИМОСТЬ ПЛАНЕТ
+   ========================================================================== */
 .drifting-planet {
     position: fixed !important;
     pointer-events: none !important;
-    z-index: -1 !important; /* Лежат строго на фоне */
-    opacity: 0.15 !important; /* Очень мягкие, чтобы не мешать читать текст */
-    filter: drop-shadow(0 0 15px rgba(255, 0, 170, 0.4)) !important;
+    z-index: 1 !important; /* Временно подняли наверх, чтобы точно увидеть их глазами! */
+    opacity: 0.8 !important; /* Сделали поярче для проверки */
+    filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.8)) !important;
 }
+
 
 /* 🚀 Плавный космический дрейф по диагонали экрана с вращением */
 @keyframes spaceDrift {
@@ -14312,33 +14312,39 @@ class BrownMeteorite {
     }
 }
 
-// 4. Генерация планет (без дублирования переменных)
+// ==========================================
+// 🪐 УСКОРЕННАЯ ГЕНЕРАЦИЯ ПЛАНЕТ
+// ==========================================
 function createFloatingPlanets() {
     if (planetsCreated) return; 
     
-    console.log("🪐 [КОСМОС] Создаем Сатурн и Нептун...");
+    console.log("🪐 [КОСМОС] Создаем Сатурн и Нептун прямо перед глазами...");
 
-    // Сатурн
+    // Сатурн (спавним ближе к левому центру)
     const saturn = document.createElement('div');
     saturn.className = 'drifting-planet';
-    saturn.style.width = '120px';
-    saturn.style.height = '120px';
-    saturn.style.animation = 'spaceDrift 55s linear infinite';
-    saturn.innerHTML = '<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="#ff00a0" /><ellipse cx="50" cy="50" rx="45" ry="10" stroke="#00f0ff" stroke-width="4" transform="rotate(-15 50 50)" /></svg>';
+    saturn.style.width = '140px';
+    saturn.style.height = '140px';
+    saturn.style.top = '30vh';
+    saturn.style.left = '10vw';
+    saturn.style.animation = 'spaceDrift 30s linear infinite'; // Ускорили до 30 секунд
+    saturn.innerHTML = '<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="25" fill="#ff00a0" /><ellipse cx="50" cy="50" rx="48" ry="12" stroke="#00f0ff" stroke-width="4" transform="rotate(-15 50 50)" /></svg>';
 
-    // Нептун
+    // Нептун (спавним ближе к правому центру)
     const neptune = document.createElement('div');
     neptune.className = 'drifting-planet';
-    neptune.style.width = '80px';
-    neptune.style.height = '80px';
-    neptune.style.animation = 'spaceDrift 45s linear infinite';
-    neptune.style.animationDelay = '20s';
-    neptune.innerHTML = '<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="25" fill="#701a75" /><circle cx="50" cy="50" r="24" stroke="#ff007f" stroke-width="2" stroke-dasharray="8 4" /></svg>';
+    neptune.style.width = '100px';
+    neptune.style.height = '100px';
+    neptune.style.top = '50vh';
+    neptune.style.left = '70vw';
+    neptune.style.animation = 'spaceDrift 25s linear infinite'; // Ускорили до 25 секунд
+    neptune.innerHTML = '<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="28" fill="#701a75" /><circle cx="50" cy="50" r="26" stroke="#ff007f" stroke-width="3" stroke-dasharray="8 4" /></svg>';
 
     document.body.appendChild(saturn);
     document.body.appendChild(neptune);
     planetsCreated = true;
 }
+
 
 // 5. Запуск
 function initCosmicStars() {
