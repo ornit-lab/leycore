@@ -6899,18 +6899,6 @@ body.theme-cosmic .flask-liquid-fill::before {
 }
 
 
-@keyframes spaceDrift {
-    0% {
-        transform: translate(-150px, 20vh) rotate(0deg);
-    }
-    50% {
-        transform: translate(50vw, 40vh) rotate(180deg);
-    }
-    100% {
-        transform: translate(calc(100vw + 150px), 15vh) rotate(360deg);
-    }
-}
-
 
 /* ==========================================================================
    ☀️ АВТОНОМНОЕ СОЛНЦЕ (БЕЗ ПРОВОДА И КЛИКОВ) + ЗОЛОТОЙ ЗАГОЛОВОК
@@ -7004,52 +6992,8 @@ body.theme-cosmic [id="main-title"] {
 }
 
 
-/* 5. Обновляем анимацию планет, чтобы она не конфликтовала с position: fixed */
-/* ЭТОТ КУСОК CSS НУЖНО ДОБАВИТЬ В CSS, А НЕ В JS! */
-@keyframes spaceDrift {
-    0%   { transform: translate(-150px, 20vh) scale(0.9); }
-    50%  { transform: translate(50vw, 40vh) scale(1.1); }
-    100% { transform: translate(calc(100vw + 150px), 15vh) scale(0.9); }
-}
 
 
-
-
-/* 🚀 Плавный космический дрейф по диагонали экрана с вращением */
-@keyframes spaceDrift {
-    0% {
-        transform: translate(-150px, 20vh) rotate(0deg) scale(0.9);
-    }
-    50% {
-        transform: translate(50vw, 45vh) rotate(180deg) scale(1.1);
-    }
-    100% {
-        transform: translate(calc(100vw + 150px), 15vh) rotate(360deg) scale(0.9);
-    }
-}
-
-/* ==========================================================================
-   🪐 НОВЫЕ СТИЛИ И АНИМАЦИЯ ПЛАНЕТ: ГЛУБОКИЙ ФОН И ДЕТАЛИЗАЦИЯ
-   ========================================================================== */
-
-/* 🚀 Медленный, масштабный дрейф по всему документу */
-@keyframes spaceDrift {
-    0% {
-        transform: translate(-20vw, 10vh) rotate(0deg) scale(0.7); /* Начинаем за экраном */
-    }
-    25% {
-        transform: translate(20vw, 60vh) rotate(90deg) scale(0.9);
-    }
-    50% {
-        transform: translate(70vw, 20vh) rotate(180deg) scale(0.8);
-    }
-    75% {
-        transform: translate(30vw, 80vh) rotate(270deg) scale(1.0);
-    }
-    100% {
-        transform: translate(calc(100vw + 20vw), 40vh) rotate(360deg) scale(0.7); /* Уходим за экран */
-    }
-}
 
 /* ⚠️ ВАЖНО: Все основные блоки с текстом должны иметь фон!
    Иначе планеты будут просвечивать сквозь текст. */
@@ -7078,10 +7022,20 @@ body.theme-cosmic .menu-vasilich-grid {
        Теперь всю анимацию рулит JS-строчка img.style.animation */
 }
 
+/* ==========================================================================
+   🪐 ЕДИНСТВЕННЫЙ И ПРАВИЛЬНЫЙ КОСМИЧЕСКИЙ ДРЕЙФ
+   ========================================================================== */
 @keyframes spaceDrift {
-    0% { transform: translateX(0) rotate(0deg); }
-    100% { transform: translateX(calc(100vw + 400px)) rotate(360deg); }
+    0% {
+        transform: translateX(0) rotate(0deg) scale(1);
+    }
+    100% {
+        /* Планета плавно проходит от левого края за правый */
+        transform: translateX(calc(100vw + 600px)) rotate(360deg);
+    }
 }
+
+
 
 
 
@@ -14459,32 +14413,34 @@ function createFloatingPlanets() {
     ];
 
 
-           planetsData.forEach((p, index) => {
+             planetsData.forEach((p, index) => {
         const img = document.createElement('img');
         img.className = 'drifting-planet';
         img.src = p.src;
-        img.alt = 'Planet';
+        img.alt = p.id;
 
         img.style.position = 'absolute';
         img.style.pointerEvents = 'none';
         img.style.zIndex = -10 + index;
         
-        // 🔥 ИСПРАВЛЕНО: используем p.initialSize, а не p.size!
         img.style.width = p.initialSize + 'px'; 
-        img.style.height = 'auto'; // Сохраняем пропорции картинки
+        img.style.height = 'auto'; 
         
         img.style.top = p.top; 
-        img.style.left = (-300 - (index * 400)) + 'px'; 
         
-        // 🚀 ИСПРАВЛЕНО: ВСЯ АНИМАЦИЯ теперь задается ОДНОЙ строкой из JS!
+        // 🔥 ИСПРАВЛЕНО: ВСЕ планеты стартуют с одной точки за левым краем (-400px).
+        // Никаких смещений индексов, порядок появления регулируется только через delay в массиве!
+        img.style.left = '-400px'; 
+        
+        // 🚀 Четкая сборка анимации (обрати внимание на обратные кавычки ` `)
         img.style.animation = `spaceDrift ${p.duration} linear infinite ${p.delay}`; 
         
         document.body.appendChild(img);
     });
 
-
     planetsCreated = true;
 }
+
 
 
 
