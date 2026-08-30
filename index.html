@@ -14337,83 +14337,75 @@ function createFloatingPlanets() {
     
     console.log("🪐 [КОСМОС] Запуск фотореалистичных планет (webp)...");
 
-        const planetsData = [
+           const planetsData = [
         {
             id: 'fructi', 
             src: 'fructi.webp', 
-            initialSize: 450, // Сделали чуть компактнее 600px, чтобы не перекрывал весь экран
-            top: '5vh',       // Самый верх
-            duration: '220s', // Летит супер-медленно (гигант)
-            delay: '0s'
+            initialSize: 400, // Гигант
+            top: '-5vh',      // Самый верх (эшелон 1)
+            duration: '220s', delay: '0s'
         },
         {
             id: 'saturn',
             src: 'planet_saturn.webp', 
             initialSize: 220,         
-            top: '22vh', 
-            duration: '130s', 
-            delay: '15s'      // Вылетает вторым
+            top: '25vh',      // Эшелон 2
+            duration: '160s', delay: '25s'
         },
         {
             id: 'neptune',
             src: 'planet_neptune.webp', 
-            initialSize: 150,
-            top: '55vh',      // Нижний центр
-            duration: '110s', 
-            delay: '30s'      // Вылетает третьим
+            initialSize: 160,
+            top: '55vh',      // Эшелон 3
+            duration: '140s', delay: '50s'
         },
         {
             id: 'earth',
             src: 'planet_earth.webp',   
             initialSize: 230,
-            top: '72vh',      // Почти самый низ
-            duration: '145s', 
-            delay: '45s'
+            top: '80vh',      // Эшелон 4
+            duration: '180s', delay: '75s'
         },
         {
             id: 'jupiter',
             src: 'planet_jupiter.webp', 
-            initialSize: 320,
-            top: '12vh',      // Верхний центр
-            duration: '190s', // Медленный величественный гигант
-            delay: '65s'
+            initialSize: 340,
+            top: '10vh',      // Эшелон 5 (между 1 и 2)
+            duration: '200s', delay: '100s'
         },
         {
             id: 'mars', 
             src: 'planet_mars.webp', 
-            initialSize: 75,  // Маленький юркий Марс
-            top: '32vh', 
-            duration: '75s',  // Пролетит быстрее всех
-            delay: '80s'
+            initialSize: 80,
+            top: '40vh',      // Эшелон 6
+            duration: '90s',  delay: '120s'
         },
         {
             id: 'krontar', 
             src: 'krontar.webp', 
             initialSize: 190,
-            top: '44vh',
-            duration: '150s', 
-            delay: '100s'
+            top: '65vh',      // Эшелон 7
+            duration: '150s', delay: '145s'
         },
         {
             id: 'honey', 
             src: 'honey.webp', 
             initialSize: 210,
-            top: '62vh', 
-            duration: '160s', 
-            delay: '120s'     // ИСПРАВЛЕНО: Добавили "s"
+            top: '48vh',      // Эшелон 8
+            duration: '170s', delay: '170s'
         },
         {
             id: 'stolaktit', 
             src: 'stolaktit.webp', 
             initialSize: 180,
-            top: '80vh',      // Самый низ
-            duration: '95s',  // Быстрый осколок
-            delay: '140s'
+            top: '90vh',      // Самый низ (эшелон 9)
+            duration: '110s', delay: '195s'
         }
     ];
 
 
-             planetsData.forEach((p, index) => {
+
+               planetsData.forEach((p, index) => {
         const img = document.createElement('img');
         img.className = 'drifting-planet';
         img.src = p.src;
@@ -14421,18 +14413,17 @@ function createFloatingPlanets() {
 
         img.style.position = 'absolute';
         img.style.pointerEvents = 'none';
-        img.style.zIndex = -10 + index;
+        
+        // Чем позже вылетает планета, тем она "выше" по слоям, 
+        // но при такой разнице в top они почти не коснутся друг друга
+        img.style.zIndex = -10 + index; 
         
         img.style.width = p.initialSize + 'px'; 
         img.style.height = 'auto'; 
-        
         img.style.top = p.top; 
+        img.style.left = '-500px'; // Все стартуют из одной невидимой точки
         
-        // 🔥 ИСПРАВЛЕНО: ВСЕ планеты стартуют с одной точки за левым краем (-400px).
-        // Никаких смещений индексов, порядок появления регулируется только через delay в массиве!
-        img.style.left = '-400px'; 
-        
-        // 🚀 Четкая сборка анимации (обрати внимание на обратные кавычки ` `)
+        // Важно: передаем delay последним параметром в строку
         img.style.animation = `spaceDrift ${p.duration} linear infinite ${p.delay}`; 
         
         document.body.appendChild(img);
