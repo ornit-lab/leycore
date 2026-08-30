@@ -1716,196 +1716,6 @@
         }
 
 
-
-        /* СТИЛИ ЧАТА И ПРОФИЛЯ БОБНИТА */
-        #bobnit-chat-widget {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 9999;
-            width: 360px;
-            /* Было 320px — расширили! */
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        #bobnit-chat-header {
-            background: rgba(17, 14, 23, 0.95);
-            border: 2px solid var(--accent-purple);
-            padding: 10px 15px;
-            border-radius: 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 5px 25px rgba(176, 38, 255, 0.3);
-        }
-
-        #bobnit-chat-header img {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            border: 2px solid var(--accent-purple);
-        }
-
-        /* Увеличиваем высоту окна чата */
-        #bobnit-chat-window {
-            background: #0c0910;
-            border: 2px solid var(--accent-purple);
-            border-radius: 12px;
-            height: 520px;
-            /* Было 420px — сделали выше для кнопок! */
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            margin-top: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-        }
-
-        /* ⬇️ НОВЫЕ СТИЛИ ДЛЯ КНОПОК-ПОДСКАЗОК БОБНИТА ⬇️ */
-        .bobnit-quick-replies {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            padding: 10px 12px;
-            background: #08050a;
-            border-top: 1px dashed rgba(176, 38, 255, 0.25);
-        }
-
-        .bobnit-qr-btn {
-            background: rgba(176, 38, 255, 0.08);
-            border: 1px solid rgba(176, 38, 255, 0.35);
-            color: var(--accent-pink);
-            font-family: var(--font-body);
-            font-size: 0.72rem;
-            font-weight: 700;
-            padding: 6px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .bobnit-qr-btn:hover {
-            background: var(--accent-purple);
-            color: #fff;
-            box-shadow: 0 0 12px var(--accent-purple);
-            transform: translateY(-1px);
-        }
-
-        /* Уведомление на входе */
-        .bobnit-notif-bubble {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: #110e17;
-            border: 2px solid var(--accent-gold);
-            padding: 12px 16px;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
-            cursor: pointer;
-            animation: slideInNotif 0.5s ease-out;
-        }
-
-        .bobnit-notif-bubble img {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 1px solid var(--accent-gold);
-        }
-
-        .notif-sender {
-            font-size: 0.75rem;
-            font-weight: 900;
-            color: var(--accent-gold);
-        }
-
-        .notif-text {
-            font-size: 0.8rem;
-            color: #fff;
-        }
-
-        @keyframes slideInNotif {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        /* Вкладка Профиля */
-        #bobnit-profile-view {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            height: 100%;
-            text-align: center;
-            background: #08070b;
-        }
-
-        .back-to-chat-btn {
-            background: transparent;
-            border: none;
-            color: var(--accent-purple);
-            cursor: pointer;
-            font-size: 0.8rem;
-            margin-bottom: 15px;
-            font-weight: 800;
-            text-decoration: underline;
-        }
-
-        .profile-avatar-box {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid var(--accent-gold);
-            box-shadow: 0 0 15px var(--accent-gold);
-            margin-bottom: 15px;
-        }
-
-        .profile-avatar-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .profile-name {
-            font-family: 'Unbounded', sans-serif;
-            font-size: 0.95rem;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-
-        .profile-status {
-            font-size: 0.7rem;
-            color: var(--accent-purple);
-            font-weight: 800;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
-
-        .profile-bio {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-            margin-bottom: 20px;
-            padding: 0 10px;
-        }
-
-        .profile-stat-box {
-            display: flex;
-            gap: 15px;
-            width: 100%;
-            justify-content: space-around;
-            border-top: 1px solid #222;
-            padding-top: 15px;
-        }
-
         .profile-stat-box div b {
             color: var(--accent-gold);
             font-size: 0.95rem;
@@ -1917,82 +1727,6 @@
             text-transform: uppercase;
         }
 
-        /* Чат */
-        .chat-top-bar {
-            background: rgba(176, 38, 255, 0.1);
-            border-bottom: 1px solid #222;
-            text-align: center;
-            padding: 8px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            color: var(--accent-purple);
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .chat-top-bar:hover {
-            background: rgba(176, 38, 255, 0.25);
-            text-shadow: 0 0 10px var(--accent-purple);
-        }
-
-        #bobnit-messages {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .msg {
-            max-width: 85%;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            line-height: 1.4;
-            word-wrap: break-word;
-        }
-
-        .msg.bot {
-            background: rgba(176, 38, 255, 0.15);
-            border: 1px solid rgba(176, 38, 255, 0.3);
-            color: #fff;
-            align-self: flex-start;
-            border-bottom-left-radius: 2px;
-        }
-
-        .msg.user {
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            align-self: flex-end;
-            border-bottom-right-radius: 2px;
-        }
-
-        .bobnit-input-box {
-            display: flex;
-            padding: 12px;
-            border-top: 1px solid #222;
-            background: #0c0910;
-        }
-
-        #bobnit-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: white;
-            outline: none;
-            font-size: 0.85rem;
-        }
-
-        .bobnit-input-box button {
-            background: var(--accent-purple);
-            border: none;
-            color: #fff;
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-weight: 900;
-            cursor: pointer;
-        }
 
 
         /* ====================================================
@@ -7037,9 +6771,437 @@ body.theme-cosmic .menu-vasilich-grid {
 
 
 
+/* ==========================================================================
+   📱 КИБЕР-МЕССЕНДЖЕР LEYCORE (TELEGRAM-STYLE)
+   ========================================================================== */
+
+/* 1. ПОЛНОСТЬЮ СТИРАЕМ СТАРЫЙ ЧАТ БОБНИТА С ЛИЦА САЙТА */
+#bobnit-chat-header,
+.bobnit-chat-container,
+div[onclick="toggleBobnitChat()"] {
+    display: none !important;
+}
+
+/* 2. ЕДИНСТВЕННАЯ ЗОЛОТАЯ КНОПКА "ЧАТ" В САМОМ ПРАВОМ УГЛУ */
+#leycore-chat-launcher-btn {
+    position: fixed !important;
+    bottom: 25px !important;
+    right: 25px !important; /* 🔥 Сместили в самый правый угол! */
+    width: 70px;
+    height: 70px;
+    background: rgba(20, 8, 30, 0.95);
+    border: 2px solid #ffd700;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), inset 0 0 10px rgba(255, 215, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 9990;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(8px);
+}
+
+#leycore-chat-launcher-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.9), inset 0 0 15px rgba(255, 215, 0, 0.5);
+    border-color: #fff066;
+}
 
 
 
+
+/* ==========================================================================
+   📐 ЖЕЛЕЗОБЕТОННАЯ СЕТКА МЕССЕНДЖЕРА LEYCORE
+   ========================================================================== */
+
+#leycore-messenger-modal {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    width: 850px !important;
+    height: 580px !important;
+    max-width: calc(100vw - 40px) !important;
+    max-height: calc(100vh - 40px) !important;
+    background: rgba(12, 5, 20, 0.98) !important;
+    border: 1px solid rgba(255, 215, 0, 0.3) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(255, 0, 128, 0.2) !important;
+    z-index: 9999 !important;
+    display: none; /* По умолчанию скрыт */
+    flex-direction: row !important;
+    overflow: hidden !important;
+    backdrop-filter: blur(15px) !important;
+}
+
+/* 1. ВЫДВИЖНАЯ ПАНЕЛЬ (СТРОГО АБСОЛЮТНАЯ, НЕ РАСТАЛКИВАЕТ КОЛОНКИ!) */
+.msgr-modal-subview {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 280px !important;
+    height: 100% !important;
+    background: rgba(10, 3, 18, 0.98) !important;
+    z-index: 20 !important; /* Поверх всего */
+    display: none;
+    flex-direction: column !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+    border-right: 1px solid rgba(255, 215, 0, 0.3) !important;
+}
+
+/* 2. ЛЕВАЯ БОКОВАЯ ПАНЕЛЬ (ФИКСИРОВАННАЯ ШИРИНА) */
+.msgr-sidebar {
+    width: 280px !important;
+    min-width: 280px !important;
+    max-width: 280px !important;
+    background: rgba(8, 3, 15, 0.95) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-shrink: 0 !important;
+}
+
+/* 3. ПРАВАЯ ЗОНА ЧАТА (ЗАНИМАЕТ ВСЁ ОСТАВШЕЕСЯ МЕСТО) */
+.msgr-chat-area {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    background: rgba(16, 7, 26, 0.7) !important;
+    min-width: 0 !important; /* Предотвращает переполнение */
+    overflow: hidden !important;
+}
+
+
+.msgr-my-profile-card {
+    padding: 15px;
+    background: rgba(255, 215, 0, 0.05);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.msgr-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ffd700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.msgr-my-info {
+    flex: 1;
+    overflow: hidden;
+}
+
+.msgr-my-info .name {
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.msgr-my-info .core-id {
+    font-size: 0.68rem;
+    color: #ffd700;
+    font-family: monospace;
+    letter-spacing: 0.5px;
+}
+
+/* КНОПКИ ДЕЙСТВИЙ В БОКОВОЙ ПАНЕЛИ */
+.msgr-actions-bar {
+    display: flex;
+    padding: 10px;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.msgr-action-btn {
+    flex: 1;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.72rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.msgr-action-btn:hover {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: #ffd700;
+}
+
+/* СПИСОК ДИАЛОГОВ */
+.msgr-chats-list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.msgr-chat-item {
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    transition: background 0.2s;
+}
+
+.msgr-chat-item:hover, .msgr-chat-item.active {
+    background: rgba(255, 0, 128, 0.15);
+}
+
+.msgr-chat-item.pinned {
+    background: rgba(255, 215, 0, 0.08);
+}
+
+/* 4. ОСНОВНАЯ ЗОНА ЧАТА */
+.msgr-chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: rgba(18, 8, 30, 0.7);
+}
+
+.msgr-header {
+    padding: 12px 20px;
+    background: rgba(10, 4, 18, 0.8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.msgr-header-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.msgr-encrypt-key-btn {
+    padding: 6px 12px;
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid #ffd700;
+    border-radius: 20px;
+    color: #ffd700;
+    font-size: 0.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.msgr-encrypt-key-btn.active {
+    background: #00ff66;
+    color: #000;
+    border-color: #00ff66;
+    box-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+}
+
+/* СООБЩЕНИЯ */
+.msgr-messages-box {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.msgr-msg {
+    max-width: 70%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 0.88rem;
+    line-height: 1.4;
+    position: relative;
+    word-break: break-word;
+}
+
+.msgr-msg.my {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #701a75, #ff007f);
+    color: #fff;
+    border-bottom-right-radius: 2px;
+}
+
+.msgr-msg.other {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-bottom-left-radius: 2px;
+}
+
+.msgr-msg .sender-name {
+    font-size: 0.68rem;
+    color: #ffd700;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+/* ПАНЕЛЬ ВВОДА */
+.msgr-input-bar {
+    padding: 12px 15px;
+    background: rgba(10, 4, 18, 0.9);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    gap: 10px;
+}
+
+.msgr-input-bar input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 10px 15px;
+    color: #fff;
+    outline: none;
+}
+
+.msgr-send-btn {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #ff007f, #ffd700);
+    border: none;
+    border-radius: 10px;
+    color: #000;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+/* ВЫДВИЖНОЕ ОКНО ПРОФИЛЯ / ПОИСКА / ГРУППЫ */
+.msgr-modal-subview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100%;
+    background: rgba(12, 4, 22, 0.98);
+    z-index: 10;
+    display: none;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+    border-right: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+    #leycore-messenger-modal {
+        width: 100vw;
+        height: 100vh;
+        bottom: 0;
+        right: 0;
+        border-radius: 0;
+    }
+    .msgr-sidebar { width: 100%; }
+    .msgr-chat-area { display: none; } /* В мобилке переключение списка и чата */
+    .msgr-chat-area.active-mobile { display: flex; }
+}
+
+/* ==========================================================================
+   🛠 ФИКС 4 БАГОВ: УВЕДОМЛЕНИЯ, КВИК-РЕПЛАИ, КРЕСТИК И СООБЩЕНИЯ
+   ========================================================================== */
+
+/* 1. Глушим только внутреннее окно старого Бобнита, но ОСТАВЛЯЕМ всплывающее облачко! */
+#bobnit-chat-header,
+#bobnit-chat-window {
+    display: none !important;
+}
+
+/* 2. Облачко-уведомление Бобнита снова работает и всплывает поверх всех! */
+#bobnit-notification {
+    position: fixed !important;
+    bottom: 105px !important;
+    right: 25px !important;
+    z-index: 9995 !important;
+    cursor: pointer;
+}
+
+/* 3. Квик-реплаи: вместо бесконечной ленты делаем аккуратную сетку плашек */
+.msgr-quick-replies {
+    display: flex !important;
+    flex-wrap: wrap !important; /* Кнопки сами переносятся на новый ряд! */
+    gap: 6px !important;
+    padding: 10px 15px !important;
+    background: rgba(10, 4, 18, 0.98) !important;
+    border-top: 1px solid rgba(255, 215, 0, 0.2) !important;
+    max-height: 110px !important;
+    overflow-y: auto !important;
+}
+
+.msgr-qr-btn {
+    background: rgba(255, 215, 0, 0.1) !important;
+    border: 1px solid rgba(255, 215, 0, 0.3) !important;
+    border-radius: 12px !important;
+    color: #ffd700 !important;
+    font-size: 0.72rem !important;
+    padding: 5px 10px !important;
+    cursor: pointer !important;
+    transition: all 0.2s !important;
+    font-family: 'Unbounded', sans-serif !important;
+}
+
+.msgr-qr-btn:hover {
+    background: rgba(255, 215, 0, 0.3) !important;
+    border-color: #fff066 !important;
+}
+
+/* 4. Фикс крестика выхода из диалога */
+.msgr-close-btn {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 215, 0, 0.4) !important;
+    color: #ffd700 !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1rem !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    transition: all 0.2s !important;
+    flex-shrink: 0 !important;
+}
+
+.msgr-close-btn:hover {
+    background: #ff007f !important;
+    color: #fff !important;
+    border-color: #ff007f !important;
+}
+
+
+.msgr-qr-btn {
+    z-index: 100 !important;
+    position: relative !important;
+}
+
+/* ==========================================================================
+   ⚡️ СТАТУСЫ ОНЛАЙН В РЕАЛЬНОМ ВРЕМЕНИ
+   ========================================================================== */
+.msgr-status-online {
+    color: #00ff66 !important; /* Зелёный цвет для "В СЕТИ" */
+}
+
+.msgr-status-offline {
+    color: #ffd700 !important; /* Золотой для "Был X минут назад" */
+}
+
+.msgr-status-bobnit {
+    color: #00ff66 !important; /* Всегда зелёный для Бобнита */
+}
+
+.msgr-status-group {
+    color: #aaa !important; /* Серый для группы (нет статуса) */
+}
 
 
     </style>
@@ -7934,81 +8096,6 @@ body.theme-cosmic .menu-vasilich-grid {
 
     <footer>LeyCore &copy; 2026</footer>
 
-    <!-- ОРАКУЛ БОБНИТА 2.0 (С ПРОФИЛЕМ И УВЕДОМЛЕНИЕМ) -->
-    <div id="bobnit-chat-widget">
-        <!-- Всплывающее облачко-уведомление от Бобнита -->
-        <div id="bobnit-notification" class="bobnit-notif-bubble" style="display: none;"
-            onclick="openBobnitChatFromNotif()">
-            <img src="bobnit_thanos.jpg" alt="Бобнит">
-
-            <div>
-                <div class="notif-sender">💬 Бобнит </div>
-                <div class="notif-text">Вам новое сообщение...</div>
-            </div>
-        </div>
-
-        <!-- Шапка чата -->
-        <div id="bobnit-chat-header" onclick="toggleBobnitChat()">
-            <img src="bobnit_thanos.jpg" alt="Бобнит">
-
-            <div style="display: flex; flex-direction: column;">
-                <span style="font-weight: 800; font-size: 0.85rem; letter-spacing: 1px;">Бобнит</span>
-                <span style="font-size: 0.65rem; color: #00ff66;">● В СЕТИ (ЖРЕТ БУРГЕР)</span>
-            </div>
-        </div>
-
-        <!-- Окно чата -->
-        <div id="bobnit-chat-window" style="display: none;">
-            <!-- Вкладка ПРОФИЛЯ (скрыта по умолчанию) -->
-            <div id="bobnit-profile-view" style="display: none;">
-                <button class="back-to-chat-btn" onclick="toggleBobnitProfile(false)">← Назад в чат</button>
-                <div class="profile-avatar-box">
-                    <img src="bobnit_thanos.jpg" alt="Суверен">
-                </div>
-
-                <h4 class="profile-name">ВАСИЛИЧ</h4>
-                <div class="profile-status">Демиург v130.0</div>
-                <p class="profile-bio">«Архитектор настольных карт, изобретатель Лэйкора и единственный Повелитель
-                    Сельдерейного Царства. Жру чизбургеры, ломаю простофиль, выжигаю реальность.»</p>
-                <div class="profile-stat-box">
-                    <div><b>200кг</b><br><span>жира в запасе</span></div>
-                    <div><b>67</b><br><span>гамбургеров в день</span></div>
-                    <div><b>138</b><br><span>дней аскезы</span></div>
-                </div>
-            </div>
-
-            <!-- Вкладка ЧАТА -->
-            <div id="bobnit-chat-view" style="display: flex; flex-direction: column; height: 100%;">
-                <div class="chat-top-bar" onclick="toggleBobnitProfile(true)">
-                    <span>ПРОСМОТРЕТЬ ПРОФИЛЬ 👤</span>
-                </div>
-                <div id="bobnit-messages">
-                    <!-- Сообщения будут генерироваться динамически -->
-                </div>
-
-                <!-- 💥 ИНТЕРАКТИВНЫЕ КНОПКИ БОБНИТА 💥 -->
-                <div class="bobnit-quick-replies">
-                    <button class="bobnit-qr-btn" onclick="sendQuickPhrase('Что посоветуешь приготовить?')">🍳 Что
-                        приготовить?</button>
-                    <button class="bobnit-qr-btn" onclick="sendQuickPhrase('Помоги разобраться с сайтом')">📖 Помощь по
-                        сайту</button>
-                    <button class="bobnit-qr-btn" onclick="sendQuickPhrase('Ты добрый, или злой?')">🔮 Ты добрый или
-                        злой?</button>
-                    <button class="bobnit-qr-btn" onclick="sendQuickPhrase('Помоги похудеть')">💪 Как похудеть?</button>
-                    <button class="bobnit-qr-btn" onclick="sendQuickPhrase('Дай мощный совет на сегодня!')">⚡️ Совет
-                        Демиурга</button>
-                </div>
-
-                <div class="bobnit-input-box">
-                    <input type="text" id="bobnit-input" placeholder="Спроси у оракула..."
-                        onkeydown="if(event.key === 'Enter') sendBobnitMessage()">
-
-                    <button onclick="sendBobnitMessage()">></button>
-                </div>
-            </div>
-
-        </div>
-    </div>
 
 
     <script>
@@ -9473,53 +9560,7 @@ body.theme-cosmic .menu-vasilich-grid {
             document.getElementById("arcade-achievement").style.display = "block";
         }
 
-        // ----------------------------------------------------
-        // ЛОГИКА БОБНИТА 2.0 (УВЕДОМЛЕНИЕ + ЧАТ + ПРОФИЛЬ)
-        // ----------------------------------------------------
-        let isChatOpen = false;
-
-        // Показываем уведомление через 3 секунды после входа на сайт
-        setTimeout(() => {
-            const notif = document.getElementById('bobnit-notification');
-            if (notif) {
-                notif.style.display = 'flex';
-                playBobnitSound(); // 🔊 ВОТ ЭТУ СТРОЧКУ ДОБАВЛЯЕМ СЮДА!
-            }
-        }, 3000);
-
-
-        function openBobnitChatFromNotif() {
-            // Скрываем уведомление
-            document.getElementById('bobnit-notification').style.display = 'none';
-            // Открываем чат
-            isChatOpen = true;
-            document.getElementById('bobnit-chat-window').style.display = 'flex';
-            // Вбрасываем первое приветствие
-            triggerBobnitGreeting();
-        }
-
-        function toggleBobnitChat() {
-            const win = document.getElementById('bobnit-chat-window');
-            if (!win) return;
-            isChatOpen = !isChatOpen;
-            win.style.display = isChatOpen ? 'flex' : 'none';
-
-            // Если открыли впервые — пишем приветствие
-            const msgBox = document.getElementById('bobnit-messages');
-            if (isChatOpen && msgBox.children.length === 0) {
-                triggerBobnitGreeting();
-            }
-        }
-
-        function triggerBobnitGreeting() {
-            const msgBox = document.getElementById('bobnit-messages');
-            msgBox.innerHTML = `<div class="msg bot">Добро пожаловать в мир кулинарии и высокого познания во всех сферах. Если хочешь пообщаться со мной — отпиши сюда. На связи. 🦾🍩</div>`;
-        }
-
-        function toggleBobnitProfile(show) {
-            document.getElementById('bobnit-profile-view').style.display = show ? 'flex' : 'none';
-            document.getElementById('bobnit-chat-view').style.display = show ? 'none' : 'flex';
-        }
+    
 
 
         // Вспомогательная функция для проигрывания SFX (Генерируем мягкий звук кодом!)
@@ -9560,115 +9601,6 @@ body.theme-cosmic .menu-vasilich-grid {
                 console.warn("Аудио-ограничение браузера: звук ожидает клика пользователя.", e);
             }
         }
-
-
-        // ==========================================
-        // 🦾 КОНТЕКСТНЫЙ ПРОЦЕССОР "БОБНИТ-ТИТАН" V4.0
-        // ==========================================
-
-        async function sendBobnitMessage() {
-            const input = document.getElementById('bobnit-input');
-            const msgBox = document.getElementById('bobnit-messages');
-            if (!input || !input.value.trim()) return;
-
-            const originalText = input.value.trim();
-            const t = originalText.toLowerCase();
-            input.value = '';
-
-            // 1. Отрисовка сообщения игрока
-            msgBox.innerHTML += `<div class="msg user">${originalText}</div>`;
-            msgBox.scrollTop = msgBox.scrollHeight;
-            if (typeof playBobnitSound === 'function') playBobnitSound();
-
-            // 2. Имитация "анализа ауры"
-            const loaderId = 'loader-' + Date.now();
-            msgBox.innerHTML += `<div class="msg bot" id="${loaderId}" style="opacity: 0.6; font-style: italic;">🍔 Бобнит сканирует твой код...</div>`;
-            msgBox.scrollTop = msgBox.scrollHeight;
-
-            setTimeout(() => {
-                const loader = document.getElementById(loaderId);
-                if (loader) loader.remove();
-
-                const reply = getBobnitSuperLogic(t);
-
-                msgBox.innerHTML += `<div class="msg bot">${reply}</div>`;
-                msgBox.scrollTop = msgBox.scrollHeight;
-                if (typeof playBobnitSound === 'function') playBobnitSound();
-            }, 800);
-        }
-
-        function getBobnitSuperLogic(t) {
-            if (t.includes("что посоветуешь приготовить")) return "Опять лень думать? Ладно, слушай сюда. Если ты дрищ — готовь 'Куриный экссудат'. Сушишься — 'Налоги фермера'. А если заслужил награду — бахни 'Попукивания Царевны'! Все рецепты в МЕНЮ ВАСИЛИЧА. 🍳🥛";
-            if (t.includes("помоги разобраться с сайтом")) return "Этот сайт — твоя карта просветления. НА ГЛАВНОЙ — код Лэйкора. В МЕНЮ — рецепты. В ХРАНИЛИЩЕ — загадки. В ИГРАХ — кликер и казик. В ЛЭЙКОСТАЗЕ — чилл. Пользуйся сайдбаром, сосунок! 🗺️🦾";
-            if (t.includes("ты добрый, или злой")) return "Я — суверенный Бобнит. Если ты приходишь с уважением — я твой бро. Но если начинаешь брызгать NPC-ядом — я раскатаю тебя по пикселям! 😉🔮";
-            if (t.includes("помоги похудеть")) return "Первое: дефицит калорий. Второе: выкинь сахар и майонез на помойку. Третье: ешь чистый белок и овощи. Четвертое: 50 приседаний прямо сейчас! 🔥💪";
-            if (t.includes("дай мощный совет на сегодня")) return "Прекрати ждать одобрения и начни делать то, что должен, даже если лень. Твоя дисциплина — это то, что отличает тебя от заскриптованного НПС! ⚡️🦾";
-            // --- ДЕТЕКТОРЫ КОНТЕКСТА ---
-            const isVasilyev = t.includes("василич") || t.includes("повар") || t.includes("шеф");
-            const isPraise = t.includes("красава") || t.includes("справился") || t.includes("хорош") || t.includes("топ") || t.includes("лучший") || t.includes("умеет");
-            const isHelp = t.includes("помоги") || t.includes("подскажи") || t.includes("как") || t.includes("совет");
-            const isSelfDeprecation = t.includes("я ") || t.includes("меня") || t.includes("мой") || t.includes("заплыл");
-            const isToxic = t.includes("пидор") || t.includes("хуй") || t.includes("ебан") || t.includes("бля") || t.includes("чмо") || t.includes("уеб") || t.includes("жир") || t.includes("соси");
-            const isQuestion = t.includes("?") || t.includes("что") || t.includes("где") || t.includes("почему");
-
-            // --- ЛОГИЧЕСКИЕ ЦЕПОЧКИ ---
-
-            // 1. КЕЙС: ХВАЛИМ ВАСИЛИЧА (Тот самый баг исправлен!)
-            if (isVasilyev && isPraise) {
-                return "О да, челик! Василич — это фундамент реальности. Его поварешка окована сталью Кронтара, а его истории — чистейшая база. Уважай шефа, и, может быть, он не отоварит тебя лопатой! 🍳🔥";
-            }
-
-            // 2. КЕЙС: ЖАЛОБА НА СЕБЯ + ПОМОЩЬ (Батя-наставник)
-            if (isSelfDeprecation && (isHelp || t.includes("жир") || t.includes("плохо"))) {
-                return "Слышь, бро. Если ты заплыл жиром или чувствуешь себя как NPC — это не повод ныть в моем чате. Вставай и делай 50 приседаний прямо сейчас! Из еды — только 'Налоги фермера', там индейка и капуста. Становись суверенным атлетом, а не 'чудовищем'! 🥦🦾";
-            }
-
-            // 3. КЕЙС: АГРЕССИЯ НА БОБНИТА (Строго на него)
-            if (isToxic && !isSelfDeprecation && !isVasilyev) {
-                const insults = [
-                    "Ты чё берега попутал, сосунок?! Моя Перчатка Овощей уже заряжена на твой стирание! 🤬💥",
-                    "Слышь, клоун! Твои базары — просто шум в матрице. Еще раз вякнешь — Василич пропишет тебе апперкот поварешкой! 🥊⚡️",
-                    "Твой NPC-яд меня не заденет. Ты — просто сбой в коде, который я скоро забуду. Заткнись и иди качай фишки! 🐍💤"
-                ];
-                return insults[Math.floor(Math.random() * insults.length)];
-            }
-
-            // 4. КЕЙС: ВОПРОСЫ ПРО САЙТ
-            if (isLore(t)) {
-                return getLoreResponse(t);
-            }
-
-            // 5. КЕЙС: ПРИВЕТСТВИЕ
-            if (t.includes("привет") || t.includes("здарова") || t.includes("хай") || t.includes("ку")) {
-                return "Здарова, бро! Перчатка Овощей наготове, аура Лэйкора стабильна. Чем порадуешь суверенный разум? 😉🦾";
-            }
-
-            // 6. ДЕФОЛТНЫЙ ПАЦАНСКИЙ САРКАЗМ (Если нихрена не понятно)
-            const defaults = [
-                "Твои слова интересны... (на самом деле нет). Врубай Аркадный режим и иди соревноваться, вместо того чтобы воздух сотрясать! 🚀",
-                "Мой суверенный разум сейчас переваривает двойной бургер, и мне дико лень вникать в твой поток мыслей. Напиши чё-нить по делу! 🍔",
-                "Интригующе. Но пока ты это писал, Василич уже построил новую галактику. А чего добился ты, челик? 🥱🔮",
-                "Слышь, NPC! Твоя прошивка выдает слишком много лишнего шума. Соберись и начни качать массу! 🥛🦾"
-            ];
-            return defaults[Math.floor(Math.random() * defaults.length)];
-        }
-
-        // Вспомогательные функции лора
-        function isLore(t) {
-            return t.includes("рецепт") || t.includes("меню") || t.includes("хранилище") || t.includes("стаз") || t.includes("словарь") || t.includes("сайт");
-        }
-
-        function getLoreResponse(t) {
-            if (t.includes("рецепт") || t.includes("меню")) return "Все инструкции в МЕНЮ ВАСИЛИЧА! Хочешь массу — 'Висцеральная желчь', хочешь похудеть — 'Налоги фермера'. Не тупи! 🍖";
-            if (t.includes("хранилище")) return "В ХРАНИЛИЩЕ лежат сказки Демиурга. Но чтобы войти, реши математическую загадку. Твой мозг готов к этому? 🔮";
-            if (t.includes("стаз")) return "Лэйкостаз — это твой храм тишины. Врубай музыку и дай своим нейронам отдохнуть от суеты. 🎧✨";
-            return "Сайт LEYCORE — это карта твоего просветления. Познавай Разум на главной и соревнуйся в Играх. Будь суверенным! 👁️💎";
-        }
-
-
-
-
-
 
         // ----------------------------------------------------
         // 🍔 КЛИКЕР БОБНИТА: СИСТЕМА СТАДИЙ И ИСТОРИЙ + ТОП ЛИДЕРОВ + АНТИЧИТ
@@ -10616,13 +10548,6 @@ body.theme-cosmic .menu-vasilich-grid {
             }
         }, 2000);
 
-        // Функция для отправки текста по клику на кнопку-подсказку
-        function sendQuickPhrase(text) {
-            const input = document.getElementById('bobnit-input');
-            if (!input) return;
-            input.value = text;
-            sendBobnitMessage(); // Автоматически отправляем в чат!
-        }
 
 
 // ====================================================
@@ -14552,6 +14477,764 @@ function forceFixCulinaryAchievement() {
 // Запускаем
 forceFixCulinaryAchievement();
 
+// ==========================================================================
+// 📱 ТЕЛЕГРАМ-ДВИЖОК LEYCORE v5.0 (ВСЕ ПОЛЬЗОВАТЕЛИ + REALTIME-СТАТУСЫ)
+// ==========================================================================
+
+let msgrCurrentCoreID = '';
+let msgrActiveChatId = 'bobnit-chat';
+let msgrActiveChatType = 'bobnit';
+let msgrActiveChatName = 'Чат с Бобнитом';
+let msgrUserStatusInterval = null;
+let allUsersData = []; // Для хранения всех пользователей и поиска
+
+// Вспомогательная функция для форматирования времени
+function formatLastSeen(timestamp) {
+    if (!timestamp) return 'был давно';
+    const now = new Date();
+    const lastSeen = new Date(timestamp);
+    const diffSeconds = Math.floor((now - lastSeen) / 1000);
+
+    if (diffSeconds < 60) return 'был только что';
+    if (diffSeconds < 3600) return `был ${Math.floor(diffSeconds / 60)} мин. назад`;
+    if (diffSeconds < 86400) return `был ${Math.floor(diffSeconds / 3600)} ч. назад`;
+    return lastSeen.toLocaleDateString();
+}
+
+// 1. УПРАВЛЕНИЕ СТАТУСОМ АКТИВНОСТИ В SUPABASE (для Realtime-статусов)
+async function updateMyOnlineStatus(isOnline) {
+    if (!msgrCurrentCoreID || typeof _supabase === 'undefined') return;
+    try {
+        await _supabase
+            .from('user_profiles')
+            .update({ is_online: isOnline, last_online_at: new Date().toISOString() })
+            .eq('core_id', msgrCurrentCoreID);
+    } catch(e) { console.error("Ошибка обновления статуса:", e); }
+}
+
+// 2. ПЕРЕНАПРАВЛЕНИЕ КЛИКА УВЕДОМЛЕНИЯ БОБНИТА
+window.openBobnitChatFromNotif = function() {
+    const notif = document.getElementById('bobnit-notification');
+    if (notif) notif.style.display = 'none';
+
+    const modal = document.getElementById('leycore-messenger-modal');
+    if (modal && modal.style.display !== 'flex') {
+        toggleLeycoreMessenger();
+    }
+    openBobnitChatInMessenger();
+};
+window.toggleBobnitChat = window.openBobnitChatFromNotif;
+
+// 3. ОТКРЫТИЕ И ИНИЦИАЛИЗАЦИЯ МЕССЕНДЖЕРА
+function toggleLeycoreMessenger() {
+    const modal = document.getElementById('leycore-messenger-modal');
+    if (!modal) return;
+
+    if (modal.style.display === 'flex') {
+        modal.style.display = 'none';
+        updateMyOnlineStatus(false);
+        if (msgrUserStatusInterval) clearInterval(msgrUserStatusInterval);
+    } else {
+        modal.style.display = 'flex';
+        playMsgrWarpSound();
+        initLeycoreMessenger();
+        updateMyOnlineStatus(true);
+        msgrUserStatusInterval = setInterval(() => updateMyOnlineStatus(true), 30000); // Обновляем статус каждые 30 сек
+    }
+}
+
+function playMsgrWarpSound() {
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.15);
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.15);
+    } catch(e){}
+}
+
+// Восстановление статуса кнопок шифрования-обманки при старте
+function loadSavedEncryptionKeys() {
+    try {
+        const encryptedChats = JSON.parse(localStorage.getItem('leycore_fake_encrypted') || '{}');
+        // Функция-заглушка, чтобы initLeycoreMessenger не ругался
+    } catch(e) {}
+}
+
+
+async function initLeycoreMessenger() {
+    // 🔥 Загружаем сохраненные статусы обманки-шифрования
+    loadSavedEncryptionKeys(); 
+    
+    const myName = localStorage.getItem('leycore_username') || 'Гость Царства';
+    document.getElementById('msgr-my-name-text').innerText = myName;
+
+    if (typeof _supabase !== 'undefined' && _supabase) {
+        try {
+            let { data } = await _supabase
+                .from('user_profiles')
+                .select('*')
+                .eq('user_name', myName)
+                .single();
+
+            if (!data) {
+                const genCoreID = Math.floor(1000000000 + Math.random() * 9000000000).toString();
+                const { data: newProf } = await _supabase
+                    .from('user_profiles')
+                    .insert([{ user_name: myName, core_id: genCoreID }])
+                    .select()
+                    .single();
+                data = newProf;
+            }
+
+            if (data) {
+                msgrCurrentCoreID = data.core_id;
+                document.getElementById('msgr-my-coreid-text').innerText = `CoreID: ${data.core_id}`;
+                if (data.avatar_url) {
+                    document.getElementById('msgr-my-avatar-img').src = data.avatar_url;
+                }
+            }
+        } catch(e) { console.error("Ошибка профиля:", e); }
+    }
+
+    await loadLeycoreChatsList();
+
+    if (msgrActiveChatType === 'bobnit') {
+        openBobnitChatInMessenger();
+    }
+}
+
+// 4. СПИСОК ЧАТОВ
+async function loadLeycoreChatsList() {
+    const container = document.getElementById('msgr-chats-container');
+    if (!container) return;
+
+    let html = `
+        <div class="msgr-chat-item pinned ${msgrActiveChatId==='bobnit-chat'?'active':''}" onclick="openBobnitChatInMessenger()">
+            <img src="bobnit_thanos.jpg" class="msgr-avatar" style="width:38px; height:38px;" alt="">
+            <div>
+                <div style="font-weight:800; font-size:0.85rem; color:#ffd700;">📌 Чат с Бобнитом</div>
+                <div style="font-size:0.68rem; color:#aaa;">Оракул & Квик-реплаи</div>
+            </div>
+        </div>
+    `;
+
+    if (typeof _supabase !== 'undefined' && _supabase && msgrCurrentCoreID) {
+        try {
+            const { data } = await _supabase.from('chat_rooms').select('*');
+            if (data) {
+                data.forEach(chat => {
+                    const parts = chat.participants || [];
+                    if (parts.includes(msgrCurrentCoreID)) {
+                        const safeChatName = (chat.name || 'Приватный чат').replace(/'/g, "\\'");
+                        const chatAvatar = chat.avatar_url || 'https://via.placeholder.com/150/ff007f/ffffff?text=U';
+
+                        html += `
+                            <div class="msgr-chat-item ${msgrActiveChatId===chat.id?'active':''}" 
+                                 onclick="openLeycorePrivateChat('${chat.id}', '${safeChatName}', ${chat.is_encrypted})"
+                                 oncontextmenu="deleteLeycoreChat(event, '${chat.id}')"
+                                 title="Правый клик — удалить чат">
+                                <img src="${chatAvatar}" class="msgr-avatar" style="width:38px; height:38px;" alt="">
+                                <div style="flex:1; overflow:hidden;">
+                                    <div style="font-weight:800; font-size:0.85rem; color:#fff; text-overflow:ellipsis; overflow:hidden;">${chat.name || 'Приватный чат'}</div>
+                                    <div style="font-size:0.68rem; color:#00ff66;">${chat.type === 'group' ? '👥 Группа' : '● В сети'}</div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+            }
+        } catch(e){
+            console.error("Ошибка загрузки списка чатов:", e);
+        }
+    }
+
+    container.innerHTML = html;
+}
+
+// 5. УДАЛЕНИЕ ЧАТА
+async function deleteLeycoreChat(event, chatId) {
+    if (event) event.preventDefault();
+    if (!confirm("🗑️ Удалить этот диалог для себя и собеседника?")) return;
+
+    if (typeof _supabase !== 'undefined' && _supabase) {
+        try {
+            await _supabase.from('chat_rooms').delete().eq('id', chatId);
+            await _supabase.from('private_messages').delete().eq('chat_id', chatId);
+
+            if (msgrActiveChatId === chatId) {
+                openBobnitChatInMessenger();
+            }
+            await loadLeycoreChatsList();
+        } catch(e) {
+            console.error("Ошибка при удалении чата:", e);
+        }
+    }
+}
+
+// 6. ЧАТ С БОБНИТОМ
+function openBobnitChatInMessenger() {
+    msgrActiveChatId = 'bobnit-chat';
+    msgrActiveChatType = 'bobnit';
+    msgrActiveChatName = 'Чат с Бобнитом';
+
+    document.getElementById('msgr-active-title').innerText = 'Чат с Бобнитом';
+    document.getElementById('msgr-active-status').innerText = '● В СЕТИ (ЖРЕТ БУРГЕР)';
+    document.getElementById('msgr-active-status').className = 'msgr-status-bobnit'; // Класс для цвета статуса
+    document.getElementById('msgr-active-avatar').src = 'bobnit_thanos.jpg';
+
+    const qrBox = document.getElementById('msgr-quick-replies-box');
+    if (qrBox) { qrBox.style.setProperty('display', 'flex', 'important'); }
+
+    const encBtn = document.getElementById('msgr-encrypt-btn');
+    if (encBtn) { updateEncryptionButtonUI(false); } // Бобнит не может быть зашифрован
+
+    toggleBobnitTrashButton(true);
+
+    renderBobnitChatHistory();
+    updateEncryptionButtonUI(false);
+    toggleBobnitTrashButton(true);
+}
+
+function renderBobnitChatHistory() {
+    const box = document.getElementById('msgr-messages-box');
+    if (!box) return;
+    box.innerHTML = '';
+
+    let history = JSON.parse(localStorage.getItem('leycore_bobnit_history') || '[]');
+    if (history.length === 0) {
+        history = [{ sender: 'Бобнит', text: 'Привет, царь! Я в новом Кибер-Мессенджере. Задавай вопросы! 🍔', isMy: false }];
+    }
+
+    history.forEach(msg => appendMsgUI(msg.sender, msg.text, msg.isMy, null));
+    updateMsgCounter(history.length);
+}
+
+// 7. ОТРЕСОВКА СООБЩЕНИЙ С КНОПКОЙ УДАЛЕНИЯ 🗑️
+function appendMsgUI(sender, text, isMy, msgId) {
+    const box = document.getElementById('msgr-messages-box');
+    if (!box) return;
+
+    const div = document.createElement('div');
+    div.className = `msgr-msg ${isMy ? 'my' : 'other'}`;
+    const deleteBtn = (isMy && msgId) ? `<span onclick="deleteLeycoreMessage('${msgId}')" style="cursor:pointer; margin-left:8px; opacity:0.6;" title="Удалить для всех">🗑️</span>` : '';
+
+    div.innerHTML = `<div class="sender-name">${sender} ${deleteBtn}</div>${text}`;
+    
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+    updateMsgCounter(box.querySelectorAll('.msgr-msg').length);
+}
+
+function updateMsgCounter(count) {
+    const el = document.getElementById('msgr-msg-counter');
+    if (el) el.innerText = `💬 ${count}`;
+}
+
+// 8. УДАЛЕНИЕ СООБЩЕНИЯ ДЛЯ ОБЛИХ (КАК В ТЕЛЕГРАМЕ)
+async function deleteLeycoreMessage(msgId) {
+    if (!confirm("Удалить это сообщение для всех участников?")) return;
+    if (typeof _supabase !== 'undefined' && _supabase) {
+        await _supabase.from('private_messages').delete().eq('id', msgId);
+        openLeycorePrivateChat(msgrActiveChatId, msgrActiveChatName, false);
+    }
+}
+
+// 9. ОТПРАВКА СООБЩЕНИЙ (И БОБНИТ, И РЕАЛЬНЫЕ ЧАТЫ БЕЗ ШИФРОВ)
+async function sendLeycoreMessage(quickReplyText = null) {
+    const input = document.getElementById('msgr-input-text');
+    if (!input) return;
+    
+    const text = quickReplyText || input.value.trim();
+    if (!text) return;
+
+    if (!quickReplyText) {
+        input.value = '';
+    }
+
+    if (msgrActiveChatType === 'bobnit' || msgrActiveChatId === 'bobnit-chat') {
+        appendMsgUI('Вы', text, true, null);
+        
+        let history = JSON.parse(localStorage.getItem('leycore_bobnit_history') || '[]');
+        history.push({ sender: 'Вы', text, isMy: true });
+
+        setTimeout(() => {
+            let reply = "Бобнит доел бургер и задумался... 🤔";
+            const lower = text.toLowerCase();
+            if (lower.includes('привет')) reply = "Здорово, легенда! 🍔";
+            else if (lower.includes('рецепт')) reply = "Все рецепты у Василича в меню, ищи ачивки!";
+            
+            appendMsgUI('Бобнит', reply, false, null);
+            history.push({ sender: 'Бобнит', text: reply, isMy: false });
+            localStorage.setItem('leycore_bobnit_history', JSON.stringify(history));
+        }, 600);
+        return;
+    }
+
+    let finalText = text; 
+    let isEncrypted = false;
+
+    if (typeof _supabase !== 'undefined' && _supabase) {
+        try {
+            const { data } = await _supabase
+                .from('private_messages')
+                .insert([{
+                    chat_id: msgrActiveChatId,
+                    sender_id: msgrCurrentCoreID,
+                    message_text: finalText,
+                    is_encrypted: isEncrypted
+                }])
+                .select()
+                .single();
+
+            if (data) {
+                appendMsgUI('Вы', text, true, data.id);
+            }
+        } catch(e) {
+            console.error("Ошибка отправки сообщения:", e);
+        }
+    }
+}
+
+// 🔥 ГЛОБАЛЬНЫЙ МОСТ ДЛЯ КВИК-РЕПЛАЕВ БОБНИТА
+window.sendQuickPhrase = function(phrase) {
+    if (typeof sendLeycoreMessage === 'function') {
+        sendLeycoreMessage(phrase);
+    }
+};
+
+
+// 10. ОТКРЫТИЕ ПРИВАТНОГО ЧАТА ИЛИ ГРУППЫ (Со статусами и иконками)
+async function openLeycorePrivateChat(chatId, chatName, isEncrypted) {
+    const qrBox = document.getElementById('msgr-quick-replies-box');
+    if (qrBox) { qrBox.style.setProperty('display', 'none', 'important'); }
+    toggleBobnitTrashButton(false);
+
+    msgrActiveChatId = chatId;
+    msgrActiveChatType = 'private';
+    msgrActiveChatName = chatName;
+
+    let chatInfo = null;
+    if (typeof _supabase !== 'undefined' && _supabase) {
+        const { data } = await _supabase.from('chat_rooms').select('*').eq('id', chatId).single();
+        if (data) chatInfo = data;
+    }
+
+    document.getElementById('msgr-active-title').innerText = chatName;
+    document.getElementById('msgr-active-avatar').src = chatInfo?.avatar_url || 'https://via.placeholder.com/150/ff007f/ffffff?text=U'; 
+
+    const statusEl = document.getElementById('msgr-active-status');
+    if (statusEl) {
+        if (chatInfo && chatInfo.type === 'group') {
+            statusEl.innerText = '👥 Группа';
+            statusEl.className = 'msgr-status-group'; // Класс для цвета статуса
+        } else {
+            // Для приватного чата нужно подтянуть статус собеседника
+            statusEl.innerText = '● В сети'; // Пока заглушка
+            statusEl.className = 'msgr-status-online'; // Пока заглушка
+            // TODO: Реализовать подтягивание статуса собеседника из user_profiles
+        }
+    }
+
+    const encryptedChats = JSON.parse(localStorage.getItem('leycore_fake_encrypted') || '{}');
+    updateEncryptionButtonUI(!!encryptedChats[chatId]);
+
+    loadLeycoreChatsList();
+
+    const box = document.getElementById('msgr-messages-box');
+    box.innerHTML = '<div style="color:#aaa; text-align:center; padding:20px;">Загрузка переписки...</div>';
+
+    if (typeof _supabase !== 'undefined' && _supabase) {
+        try {
+            const { data: msgs } = await _supabase
+                .from('private_messages')
+                .select('*')
+                .eq('chat_id', chatId)
+                .order('created_at', { ascending: true });
+
+            box.innerHTML = '';
+            if (msgs && msgs.length > 0) {
+                msgs.forEach(m => {
+                    const isMy = (m.sender_id === msgrCurrentCoreID);
+                    appendMsgUI(isMy ? 'Вы' : 'Собеседник', m.message_text, isMy, m.id);
+                });
+            } else {
+                box.innerHTML = '<div style="color:#666; text-align:center; margin-top:20px;">Напишите первое сообщение!</div>';
+                updateMsgCounter(0);
+            }
+        } catch(e) { console.error(e); }
+    }
+}
+
+// 11. ЗАГРУЗКА АВАТАРКИ ИЗ ГАЛЕРЕИ (для личного профиля)
+function openMsgrProfileEdit() {
+    const curAv = document.getElementById('msgr-my-avatar-img').src;
+    showMsgrSubview("Настройки профиля", `
+        <div style="display:flex; flex-direction:column; gap:15px; align-items:center;">
+            <img id="msgr-preview-avatar" src="${curAv}" style="width:80px; height:80px; border-radius:50%; object-fit:cover; border:2px solid #ffd700;">
+            
+            <label style="background:linear-gradient(135deg, #ff007f, #ffd700); color:#000; padding:8px 15px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:0.8rem;">
+                📁 Выбрать фото из галереи
+                <input type="file" accept="image/*" onchange="handleAvatarFileSelect(this)" style="display:none;">
+            </label>
+
+            <button onclick="saveMsgrProfileSettings()" style="width:100%; padding:10px; background:#ffd700; color:#000; font-weight:bold; border:none; border-radius:8px; cursor:pointer; margin-top:10px;">Сохранить профиль</button>
+        </div>
+    `);
+}
+
+let tempAvatarBase64 = '';
+
+function handleAvatarFileSelect(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        tempAvatarBase64 = e.target.result;
+        document.getElementById('msgr-preview-avatar').src = tempAvatarBase64;
+    };
+    reader.readAsDataURL(file);
+}
+
+async function saveMsgrProfileSettings() {
+    const myName = localStorage.getItem('leycore_username') || 'Гость Царства';
+
+    if (tempAvatarBase64) {
+        document.getElementById('msgr-my-avatar-img').src = tempAvatarBase64;
+
+        if (typeof _supabase !== 'undefined' && _supabase) {
+            await _supabase
+                .from('user_profiles')
+                .update({ avatar_url: tempAvatarBase64 })
+                .eq('user_name', myName);
+        }
+    }
+    closeMsgrSubview();
+    alert("✅ Аватарка успешно обновлена!");
+}
+
+// 12. ПОИСК ПОЛЬЗОВАТЕЛЕЙ ПО CORE-ID
+function openMsgrSearchUser() {
+    showMsgrSubview("Найти пользователя", `
+        <div style="display:flex; flex-direction:column; gap:10px;">
+            <p style="font-size:0.75rem; color:#aaa; margin:0;">Введите 10-значный CoreID друга:</p>
+            <input type="text" id="search-coreid-input" placeholder="Например: 4829104821" style="width:100%; padding:10px; background:#111; border:1px solid #ff007f; color:#fff; border-radius:8px; font-size:0.85rem;">
+            <button onclick="startPrivateChatByCoreID()" style="width:100%; padding:10px; background:linear-gradient(135deg, #ff007f, #ffd700); color:#000; font-weight:bold; border:none; border-radius:8px; cursor:pointer;">Найти и написать</button>
+        </div>
+    `);
+}
+
+async function startPrivateChatByCoreID() {
+    const targetCoreID = document.getElementById('search-coreid-input').value.trim();
+    if (!targetCoreID) return;
+
+    if (targetCoreID === msgrCurrentCoreID) {
+        alert("Это твой собственный CoreID!");
+        return;
+    }
+
+    if (typeof _supabase !== 'undefined' && _supabase) {
+        const { data: targetUser, error: userErr } = await _supabase
+            .from('user_profiles')
+            .select('*')
+            .eq('core_id', targetCoreID)
+            .single();
+
+        if (userErr || !targetUser) {
+            alert("❌ ОШИБКА: Пользователь с таким CoreID не найден в базе LEYCORE!");
+            return;
+        }
+
+        const { data: existingChats } = await _supabase.from('chat_rooms').select('*');
+        const found = existingChats?.find(c => 
+            c.type === 'private' && 
+            c.participants?.includes(msgrCurrentCoreID) && 
+            c.participants?.includes(targetCoreID)
+        );
+
+        if (found) {
+            closeMsgrSubview();
+            await loadLeycoreChatsList();
+            openLeycorePrivateChat(found.id, `Диалог с ${targetUser.user_name}`, found.is_encrypted);
+            return;
+        }
+
+        const { data: newChat } = await _supabase
+            .from('chat_rooms')
+            .insert([{
+                type: 'private',
+                name: `Чат с ${targetUser.user_name}`,
+                participants: [msgrCurrentCoreID, targetCoreID]
+            }])
+            .select()
+            .single();
+
+        if (newChat) {
+            closeMsgrSubview();
+            await loadLeycoreChatsList();
+            openLeycorePrivateChat(newChat.id, newChat.name, newChat.is_encrypted);
+            alert(`✅ Пользователь ${targetUser.user_name} найден! Диалог создан.`);
+        }
+    }
+}
+
+// 13. СОЗДАНИЕ ГРУППЫ (Теперь с иконкой группы)
+function openMsgrCreateGroup() {
+    showMsgrSubview("Создать группу", `
+        <div style="display:flex; flex-direction:column; gap:12px; align-items:center;">
+            <img id="msgr-group-preview-avatar" src="https://via.placeholder.com/150/8000ff/ffffff?text=GROUP" style="width:80px; height:80px; border-radius:50%; object-fit:cover; border:2px solid #8000ff;">
+            
+            <label style="background:linear-gradient(135deg, #8000ff, #ff007f); color:#fff; padding:8px 15px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:0.8rem;">
+                📁 Иконка группы
+                <input type="file" accept="image/*" onchange="handleGroupAvatarFileSelect(this)" style="display:none;">
+            </label>
+
+            <div>
+                <label style="font-size:0.75rem; color:#aaa; display:block; margin-bottom:4px;">Название группы:</label>
+                <input type="text" id="msgr-group-name-input" placeholder="Пацанский Чат" style="width:100%; padding:10px; background:#111; border:1px solid #ff007f; color:#fff; border-radius:8px; font-size:0.85rem; box-sizing:border-box;">
+            </div>
+
+            <div>
+                <label style="font-size:0.75rem; color:#aaa; display:block; margin-bottom:4px;">CoreID участников (через запятую):</label>
+                <input type="text" id="msgr-group-members-input" placeholder="4829104821, 9821038102" style="width:100%; padding:10px; background:#111; border:1px solid #444; color:#fff; border-radius:8px; font-size:0.85rem; box-sizing:border-box;">
+            </div>
+
+            <button onclick="saveMsgrNewGroup()" style="width:100%; padding:10px; background:linear-gradient(135deg, #ff007f, #ffd700); color:#000; font-weight:bold; border:none; border-radius:8px; cursor:pointer; margin-top:10px; font-size:0.9rem;">
+                🚀 Создать группу
+            </button>
+        </div>
+    `);
+}
+
+let tempGroupAvatarBase64 = '';
+
+function handleGroupAvatarFileSelect(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        tempGroupAvatarBase64 = e.target.result;
+        document.getElementById('msgr-group-preview-avatar').src = tempGroupAvatarBase64;
+    };
+    reader.readAsDataURL(file);
+}
+
+async function saveMsgrNewGroup() {
+    const gName = document.getElementById('msgr-group-name-input').value.trim();
+    const membersRaw = document.getElementById('msgr-group-members-input').value.trim();
+    
+    if (!gName) { alert("⚠️ Введите название группы!"); return; }
+
+    let members = membersRaw.split(',').map(s => s.trim()).filter(s => s.length > 0);
+    if (msgrCurrentCoreID && !members.includes(msgrCurrentCoreID)) {
+        members.push(msgrCurrentCoreID);
+    }
+
+    if (typeof _supabase !== 'undefined' && _supabase) {
+        try {
+            const { data, error } = await _supabase
+                .from('chat_rooms')
+                .insert([{
+                    type: 'group',
+                    name: `👥 ${gName}`,
+                    participants: members,
+                    avatar_url: tempGroupAvatarBase64 || ''
+                }])
+                .select()
+                .single();
+
+            if (error) { console.error("Ошибка при создании группы:", error); alert("❌ Ошибка при создании группы!"); return; }
+
+            if (data) {
+                closeMsgrSubview();
+                await loadLeycoreChatsList();
+                openLeycorePrivateChat(data.id, data.name, false);
+                alert(`✅ Группа "${gName}" успешно создана!`);
+            }
+        } catch(e) { console.error("Критическая ошибка создания группы:", e); }
+    }
+}
+
+// 14. СПИСОК ВСЕХ ПОЛЬЗОВАТЕЛЕЙ (НОВАЯ ФИЧА!)
+async function openMsgrAllUsersList() {
+    showMsgrSubview("Все пользователи", `
+        <div style="display:flex; flex-direction:column; gap:15px;">
+            <input type="text" id="all-users-search-input" placeholder="Поиск по нику или CoreID..." 
+                   oninput="searchAllUsers(this.value)"
+                   style="width:100%; padding:10px; background:#111; border:1px solid #ff007f; color:#fff; border-radius:8px; font-size:0.85rem;">
+            <div id="all-users-list-container" style="max-height: 400px; overflow-y: auto;">
+                <div style="text-align:center; color:#aaa;">Загрузка пользователей...</div>
+            </div>
+        </div>
+    `);
+
+    if (typeof _supabase !== 'undefined' && _supabase) {
+        try {
+            const { data: users, error } = await _supabase
+                .from('user_profiles')
+                .select('user_name, core_id, avatar_url, is_online, last_online_at'); // Запрашиваем статусы!
+
+            if (error) {
+                console.error("Ошибка загрузки пользователей:", error);
+                document.getElementById('all-users-list-container').innerHTML = '<div style="color:red; text-align:center;">Ошибка загрузки.</div>';
+                return;
+            }
+            allUsersData = users; // Сохраняем для поиска
+            renderAllUsers(allUsersData);
+            
+        } catch(e) {
+            console.error("Критическая ошибка загрузки пользователей:", e);
+            document.getElementById('all-users-list-container').innerHTML = '<div style="color:red; text-align:center;">Критическая ошибка.</div>';
+        }
+    }
+}
+
+function renderAllUsers(usersToRender) {
+    const container = document.getElementById('all-users-list-container');
+    if (!container) return;
+
+    if (!usersToRender || usersToRender.length === 0) {
+        container.innerHTML = '<div style="color:#aaa; text-align:center;">Пользователи не найдены.</div>';
+        return;
+    }
+
+    let html = '';
+    usersToRender.forEach(user => {
+        if (user.core_id === msgrCurrentCoreID) return; // Не показываем текущего пользователя
+
+        const avatar = user.avatar_url || 'https://via.placeholder.com/150/ff007f/ffffff?text=U';
+        const statusText = user.is_online ? '● В сети' : formatLastSeen(user.last_online_at);
+        const statusClass = user.is_online ? 'msgr-status-online' : 'msgr-status-offline';
+
+        html += `
+            <div style="display:flex; align-items:center; gap:12px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+                <img src="${avatar}" class="msgr-avatar" style="width:36px; height:36px;" alt="">
+                <div style="flex:1;">
+                    <div style="font-weight:bold; color:#fff; font-size:0.85rem;">${user.user_name}</div>
+                    <div style="font-size:0.65rem; ${statusClass}">${statusText}</div>
+                </div>
+                <button onclick="initiateChatFromAllUsers('${user.core_id}', '${user.user_name.replace(/'/g, "\\'")}')" 
+                        style="background:linear-gradient(135deg, #00ff66, #00bb33); color:#000; padding:6px 12px; border-radius:6px; font-size:0.75rem; cursor:pointer;">
+                    Написать
+                </button>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+}
+
+function searchAllUsers(query) {
+    const lowerQuery = query.toLowerCase();
+    const filteredUsers = allUsersData.filter(user => 
+        user.user_name.toLowerCase().includes(lowerQuery) || 
+        user.core_id.includes(lowerQuery)
+    );
+    renderAllUsers(filteredUsers);
+}
+
+// Повторное использование логики создания чата
+async function initiateChatFromAllUsers(targetCoreID, targetUserName) {
+    if (targetCoreID === msgrCurrentCoreID) {
+        alert("Это твой собственный CoreID!");
+        return;
+    }
+
+    if (typeof _supabase !== 'undefined' && _supabase) {
+        const { data: existingChats } = await _supabase.from('chat_rooms').select('*');
+        const found = existingChats?.find(c => 
+            c.type === 'private' && 
+            c.participants?.includes(msgrCurrentCoreID) && 
+            c.participants?.includes(targetCoreID)
+        );
+
+        if (found) {
+            closeMsgrSubview();
+            await loadLeycoreChatsList();
+            openLeycorePrivateChat(found.id, `Чат с ${targetUserName}`, found.is_encrypted);
+            return;
+        }
+
+        const { data: newChat } = await _supabase
+            .from('chat_rooms')
+            .insert([{
+                type: 'private',
+                name: `Чат с ${targetUserName}`,
+                participants: [msgrCurrentCoreID, targetCoreID]
+            }])
+            .select()
+            .single();
+
+        if (newChat) {
+            closeMsgrSubview();
+            await loadLeycoreChatsList();
+            openLeycorePrivateChat(newChat.id, newChat.name, newChat.is_encrypted);
+            alert(`✅ Диалог с ${targetUserName} создан.`);
+        }
+    }
+}
+
+// 15. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ И ОБМАНКИ
+function hideBobnitQuickReplies() {
+    const qrBox = document.getElementById('msgr-quick-replies-box');
+    if (qrBox) { qrBox.style.setProperty('display', 'none', 'important'); }
+}
+function showMsgrSubview(title, html) {
+    document.getElementById('msgr-subview-title').innerText = title;
+    document.getElementById('msgr-subview-content').innerHTML = html;
+    document.getElementById('msgr-subview-panel').style.display = 'flex';
+}
+function closeMsgrSubview() {
+    document.getElementById('msgr-subview-panel').style.display = 'none';
+}
+
+function toggleBobnitTrashButton(show) {
+    const trashBtn = document.getElementById('msgr-bobnit-trash-btn');
+    if (trashBtn) {
+        trashBtn.style.display = show ? 'flex' : 'none';
+    }
+}
+
+function confirmClearBobnitChat() {
+    const confirmation = confirm("🗑️ ВНИМАНИЕ!\n\nВы точно хотите отправить Бобнита в мусорку вместе со всеми его рецептами и бургерами? 🍔🚮");
+    if (confirmation) {
+        localStorage.removeItem('leycore_bobnit_history');
+        renderBobnitChatHistory();
+        alert("🚮 Бобнит успешно отправлен на свалку истории! Но он скоро вернется за новым бургером... 😂");
+    }
+}
+
+function toggleChatEncryption() {
+    if (msgrActiveChatId === 'bobnit-chat' || msgrActiveChatType === 'bobnit') {
+        alert("Бобнита невозможно зашифровать, он и так всё знает! 😂");
+        return;
+    }
+    const encryptedChats = JSON.parse(localStorage.getItem('leycore_fake_encrypted') || '{}');
+    encryptedChats[msgrActiveChatId] = true;
+    localStorage.setItem('leycore_fake_encrypted', JSON.stringify(encryptedChats));
+    updateEncryptionButtonUI(true);
+    alert("🔒 ЧАТ УСПЕШНО ЗАШИФРОВАН!\n\nНе беспокойся, теперь Бобнит не сможет прочитать вашу переписку! 😂");
+}
+
+function updateEncryptionButtonUI(isEncrypted) {
+    const btn = document.getElementById('msgr-encrypt-btn');
+    if (!btn) return;
+    if (isEncrypted) {
+        btn.classList.add('active');
+        btn.querySelector('span').innerText = 'Защищено ✓';
+    } else {
+        btn.classList.remove('active');
+        btn.querySelector('span').innerText = 'Зашифровать';
+    }
+}
+
 
     </script>
 
@@ -14682,7 +15365,103 @@ forceFixCulinaryAchievement();
 </audio>
 
 
+<!-- ==========================================================================
+     📱 КИБЕР-КНОПКА "ЧАТ" (Заменяет старый чат Бобнита на главной)
+     ========================================================================== -->
+<div id="leycore-chat-launcher-btn" onclick="toggleLeycoreMessenger()">
+    <!-- Векторная SVG-иконка чата (без эмодзи!) -->
+    <svg viewBox="0 0 24 24">
+        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
+    </svg>
+    <span>ЧАТ</span>
+</div>
 
+<!-- ==========================================================================
+     💬 ЧИСТАЯ СТРУКТУРА КИБЕР-МЕССЕНДЖЕРА
+     ========================================================================== -->
+<div id="leycore-messenger-modal">
+    
+    <!-- 1. ВЫДВИЖНАЯ ПЛАШКА ПОИСКА / НАСТРОЕК (Поверх) -->
+    <div id="msgr-subview-panel" class="msgr-modal-subview">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <h3 id="msgr-subview-title" style="color:#ffd700; margin:0; font-size:0.95rem;">Профиль</h3>
+            <button onclick="closeMsgrSubview()" style="background:none; border:none; color:#fff; cursor:pointer; font-size:1.2rem;">✕</button>
+        </div>
+        <div id="msgr-subview-content" style="flex:1; overflow-y:auto;"></div>
+    </div>
+
+    <!-- 2. ЛЕВАЯ КОЛОНКА (Профиль + Чаты) -->
+    <div class="msgr-sidebar">
+        <!-- Карточка профиля -->
+        <div class="msgr-my-profile-card">
+            <img id="msgr-my-avatar-img" src="https://via.placeholder.com/150/ff007f/ffffff?text=L" class="msgr-avatar" alt="Avatar">
+            <div class="msgr-my-info">
+                <div id="msgr-my-name-text" class="name">Загрузка...</div>
+                <div id="msgr-my-coreid-text" class="core-id">CoreID: --------</div>
+            </div>
+            <button onclick="openMsgrProfileEdit()" style="background:none; border:none; color:#ffd700; cursor:pointer;" title="Настройки">⚙️</button>
+        </div>
+
+        <!-- Кнопки действия -->
+        <div class="msgr-actions-bar">
+            <div class="msgr-action-btn" onclick="openMsgrSearchUser()">🔍 Найти по CoreID</div>
+            <div class="msgr-action-btn" onclick="openMsgrCreateGroup()">👥 Группа</div>
+            <div class="msgr-action-btn" onclick="openMsgrAllUsersList()">🌐 Все пользователи</div> 
+        </div>
+
+        <!-- Список чатов -->
+        <div id="msgr-chats-container" class="msgr-chats-list">
+            <!-- JS подтянет сюда чаты -->
+        </div>
+    </div>
+
+    <!-- 3. ПРАВАЯ КОЛОНКА (Окно активного чата) -->
+    <div id="msgr-chat-area" class="msgr-chat-area">
+        <!-- Шапка -->
+                <!-- Шапка открытого чата -->
+        <div class="msgr-header">
+            <div class="msgr-header-user">
+                <img id="msgr-active-avatar" src="bobnit_thanos.jpg" class="msgr-avatar" style="width:36px; height:36px;" alt="">
+                <div>
+                    <div id="msgr-active-title" style="font-weight:800; font-size:0.9rem; color:#fff;">Чат с Бобнитом</div>
+                    <div id="msgr-active-status" style="font-size:0.65rem; color:#00ff66;">● В СЕТИ (ЖРЕТ БУРГЕР)</div>
+                </div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:10px;">
+                <!-- 🗑️ КНОПКА УДАЛЕНИЯ ЧАТА С БОБНИТОМ (По умолчанию скрыта, появляется у Бобнита) -->
+                <button id="msgr-bobnit-trash-btn" class="msgr-close-btn" onclick="confirmClearBobnitChat()" title="Выбросить Бобнита в мусорку" style="display:none; background:rgba(255,0,0,0.1); border-color:#ff0055; color:#ff0055;">🗑️</button>
+
+                <div id="msgr-msg-counter" style="color:#ffd700; font-size:0.75rem; font-weight:900; background:rgba(255,215,0,0.1); padding:4px 10px; border-radius:12px; border:1px solid rgba(255,215,0,0.3);">
+                    💬 0
+                </div>
+                <button id="msgr-encrypt-btn" class="msgr-encrypt-key-btn" onclick="toggleChatEncryption()">
+                    🔑 <span>Защищено ✓</span>
+                </button>
+                <button class="msgr-close-btn" onclick="toggleLeycoreMessenger()" title="Закрыть">✕</button>
+            </div>
+        </div>
+
+
+        <!-- Сообщения -->
+        <div id="msgr-messages-box" class="msgr-messages-box"></div>
+
+        <!-- Квик-реплаи Бобнита -->
+        <div id="msgr-quick-replies-box" class="msgr-quick-replies" style="display: none;">
+            <button class="msgr-qr-btn" onclick="sendQuickPhrase('Что посоветуешь приготовить?')">🍳 Что приготовить?</button>
+            <button class="msgr-qr-btn" onclick="sendQuickPhrase('Помоги разобраться с сайтом')">📖 Помощь по сайту</button>
+            <button class="msgr-qr-btn" onclick="sendQuickPhrase('Ты добрый, или злой?')">🔮 Ты добрый или злой?</button>
+            <button class="msgr-qr-btn" onclick="sendQuickPhrase('Помоги похудеть')">💪 Как похудеть?</button>
+            <button class="msgr-qr-btn" onclick="sendQuickPhrase('Дай мощный совет на сегодня!')">⚡️ Совет Демиурга</button>
+        </div>
+
+        <!-- Поле ввода -->
+        <div class="msgr-input-bar">
+            <input type="text" id="msgr-input-text" placeholder="Напишите сообщение..." onkeydown="if(event.key==='Enter') sendLeycoreMessage()">
+            <button class="msgr-send-btn" onclick="sendLeycoreMessage()">➤</button>
+        </div>
+    </div>
+</div>
 
 </body>
 
