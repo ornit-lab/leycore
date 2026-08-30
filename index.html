@@ -7204,6 +7204,69 @@ div[onclick="toggleBobnitChat()"] {
 }
 
 
+/* ==========================================================================
+   📱 АДАПТАЦИЯ МЕССЕНДЖЕРА ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ
+   ========================================================================== */
+@media (max-width: 768px) {
+    #leycore-messenger-modal {
+        width: 100vw !important;
+        height: 100vh !important;
+        bottom: 0 !important;
+        right: 0 !important;
+        border-radius: 0 !important;
+    }
+
+    /* Мобилка: скрываем левую панель по умолчанию */
+    /* Выдвижная панель */
+.msgr-sidebar {
+    position: absolute !important;
+    left: -100% !important; 
+    top: 0 !important;
+    height: 100% !important;
+    width: 280px !important;
+    z-index: 100 !important; /* Было 30, ставим выше всего */
+    transition: left 0.3s ease-out !important;
+    background: rgba(15, 6, 25, 0.98) !important;
+}
+.msgr-sidebar.active-mobile { left: 0 !important; }
+
+/* Суб-меню (профиль/группы) - должно быть ВЫШЕ всего */
+.msgr-modal-subview {
+    z-index: 200 !important; 
+}
+
+/* Квик-реплаи должны прятаться, когда открыто суб-меню или сайдбар */
+#msgr-quick-replies-box {
+    z-index: 10 !important;
+}
+
+
+    /* Мобилка: показываем только правый чат по умолчанию */
+    .msgr-chat-area {
+        flex: 1 !important;
+        display: flex !important; /* Всегда виден */
+        width: 100% !important; /* Занимает всю ширину */
+    }
+
+    /* Показываем кнопку-гамбургер только на мобилках */
+    #msgr-toggle-sidebar-btn {
+        display: block !important;
+    }
+}
+
+/* По умолчанию на ПК кнопка скрыта */
+.mobile-only-close-btn {
+    display: none !important;
+}
+
+/* На мобилах (экран до 768px) кнопка появляется */
+@media (max-width: 768px) {
+    .mobile-only-close-btn {
+        display: block !important;
+    }
+}
+
+
     </style>
 
 
@@ -14681,6 +14744,7 @@ async function deleteLeycoreChat(event, chatId) {
 
 // 6. ЧАТ С БОБНИТОМ
 function openBobnitChatInMessenger() {
+    
     msgrActiveChatId = 'bobnit-chat';
     msgrActiveChatType = 'bobnit';
     msgrActiveChatName = 'Чат с Бобнитом';
@@ -14701,6 +14765,9 @@ function openBobnitChatInMessenger() {
     renderBobnitChatHistory();
     updateEncryptionButtonUI(false);
     toggleBobnitTrashButton(true);
+    hideMsgrSidebarOnMobile(); 
+    
+
 }
 
 function renderBobnitChatHistory() {
@@ -14811,43 +14878,84 @@ window.sendQuickPhrase = function(phrase) {
 };
 
 
-// 10. ОТКРЫТИЕ ПРИВАТНОГО ЧАТА ИЛИ ГРУППЫ (Со статусами и иконками)
+// 10. ОТКРЫТИЕ ПРИВАТНОГО ЧАТА ИЛИ ГРУППЫ (Теперь с НИКАМИ и АВАТАРКАМИ собеседников)
 async function openLeycorePrivateChat(chatId, chatName, isEncrypted) {
     const qrBox = document.getElementById('msgr-quick-replies-box');
     if (qrBox) { qrBox.style.setProperty('display', 'none', 'important'); }
     toggleBobnitTrashButton(false);
-
+    hideMsgrSidebarOnMobile(); 
+    
     msgrActiveChatId = chatId;
-    msgrActiveChatType = 'private';
+    msgrActiveChatType = 'private'; // Пока что все, кроме Бобнита, считаем private
     msgrActiveChatName = chatName;
 
+    // 🔥 ПОДТЯГИВАЕМ ИНФОРМАЦИЮ О КОМНАТЕ ЧАТА (для участников и аватарок)
     let chatInfo = null;
     if (typeof _supabase !== 'undefined' && _supabase) {
         const { data } = await _supabase.from('chat_rooms').select('*').eq('id', chatId).single();
         if (data) chatInfo = data;
     }
 
-    document.getElementById('msgr-active-title').innerText = chatName;
-    document.getElementById('msgr-active-avatar').src = chatInfo?.avatar_url || 'https://via.placeholder.com/150/ff007f/ffffff?text=U'; 
+    let displayTitle = chatName;
+    let displayAvatar = 'https://via.placeholder.com/150/ff007f/ffffff?text=U'; // Дефолтная аватарка пользователя
 
     const statusEl = document.getElementById('msgr-active-status');
-    if (statusEl) {
-        if (chatInfo && chatInfo.type === 'group') {
-            statusEl.innerText = '👥 Группа';
-            statusEl.className = 'msgr-status-group'; // Класс для цвета статуса
+    if (statusEl) statusEl.className = ''; // Сбрасываем классы статуса
+
+    if (chatInfo && chatInfo.type === 'group') {
+        // Если это ГРУППА
+        displayTitle = chatInfo.name || 'Группа';
+        displayAvatar = chatInfo.avatar_url || 'https://via.placeholder.com/150/8000ff/ffffff?text=GROUP';
+        if (statusEl) {
+            statusEl.innerText = '👥 Группа'; // Для групп нет статуса "в сети"
+            statusEl.className = 'msgr-status-group';
+        }
+    } else {
+        // Если это ПРИВАТНЫЙ ЧАТ
+        let peerCoreID = null;
+        if (chatInfo && chatInfo.participants) {
+            peerCoreID = chatInfo.participants.find(id => id !== msgrCurrentCoreID);
+        }
+
+        if (peerCoreID && typeof _supabase !== 'undefined' && _supabase) {
+            const { data: peerProfile } = await _supabase.from('user_profiles').select('*').eq('core_id', peerCoreID).single();
+            if (peerProfile) {
+                displayTitle = peerProfile.user_name || 'Собеседник';
+                displayAvatar = peerProfile.avatar_url || 'https://via.placeholder.com/150/ff007f/ffffff?text=U';
+                
+                // 🔥 REALTIME-СТАТУС СОБЕСЕДНИКА
+                if (statusEl) {
+                    if (peerProfile.is_online) {
+                        statusEl.innerText = '● В сети';
+                        statusEl.className = 'msgr-status-online';
+                    } else {
+                        statusEl.innerText = formatLastSeen(peerProfile.last_online_at);
+                        statusEl.className = 'msgr-status-offline';
+                    }
+                }
+            }
         } else {
-            // Для приватного чата нужно подтянуть статус собеседника
-            statusEl.innerText = '● В сети'; // Пока заглушка
-            statusEl.className = 'msgr-status-online'; // Пока заглушка
-            // TODO: Реализовать подтягивание статуса собеседника из user_profiles
+            // Если собеседник не найден (ошибка или что-то пошло не так)
+            displayTitle = 'Неизвестный чат';
+            if (statusEl) {
+                statusEl.innerText = '● Оффлайн';
+                statusEl.className = 'msgr-status-offline';
+            }
         }
     }
 
+    // Обновляем UI шапки чата
+    document.getElementById('msgr-active-title').innerText = displayTitle;
+    document.getElementById('msgr-active-avatar').src = displayAvatar; 
+
+    // Обновляем кнопку шифрования
     const encryptedChats = JSON.parse(localStorage.getItem('leycore_fake_encrypted') || '{}');
     updateEncryptionButtonUI(!!encryptedChats[chatId]);
 
-    loadLeycoreChatsList();
+    // Обновляем список чатов (чтобы выделить активный)
+    loadLeycoreChatsList(); 
 
+    // Загрузка сообщений из Supabase
     const box = document.getElementById('msgr-messages-box');
     box.innerHTML = '<div style="color:#aaa; text-align:center; padding:20px;">Загрузка переписки...</div>';
 
@@ -14863,7 +14971,7 @@ async function openLeycorePrivateChat(chatId, chatName, isEncrypted) {
             if (msgs && msgs.length > 0) {
                 msgs.forEach(m => {
                     const isMy = (m.sender_id === msgrCurrentCoreID);
-                    appendMsgUI(isMy ? 'Вы' : 'Собеседник', m.message_text, isMy, m.id);
+                    appendMsgUI(isMy ? 'Вы' : displayTitle, m.message_text, isMy, m.id); // Используем displayTitle как имя отправителя
                 });
             } else {
                 box.innerHTML = '<div style="color:#666; text-align:center; margin-top:20px;">Напишите первое сообщение!</div>';
@@ -15235,6 +15343,25 @@ function updateEncryptionButtonUI(isEncrypted) {
     }
 }
 
+// ==========================================================================
+// 📱 ЛОГИКА АДАПТАЦИИ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ
+// ==========================================================================
+
+// 1. Открытие/закрытие левой панели на мобилке (кнопка ☰)
+function toggleMsgrSidebar() {
+    const sidebar = document.querySelector('.msgr-sidebar');
+    if (sidebar) {
+        sidebar.classList.toggle('active-mobile');
+    }
+}
+
+// 2. Автоматическое скрытие панели при выборе чата (для мобилок)
+function hideMsgrSidebarOnMobile() {
+    const sidebar = document.querySelector('.msgr-sidebar');
+    if (sidebar && sidebar.classList.contains('active-mobile') && window.innerWidth <= 768) {
+        sidebar.classList.remove('active-mobile');
+    }
+}
 
     </script>
 
@@ -15392,6 +15519,9 @@ function updateEncryptionButtonUI(isEncrypted) {
 
     <!-- 2. ЛЕВАЯ КОЛОНКА (Профиль + Чаты) -->
     <div class="msgr-sidebar">
+        <div class="msgr-sidebar">
+    <button onclick="toggleMsgrSidebar()" style="display:none; width:100%; padding:10px; background:#444; border:none; color:#fff;" class="mobile-only-close-btn">← Назад к чату</button></div>
+
         <!-- Карточка профиля -->
         <div class="msgr-my-profile-card">
             <img id="msgr-my-avatar-img" src="https://via.placeholder.com/150/ff007f/ffffff?text=L" class="msgr-avatar" alt="Avatar">
@@ -15417,10 +15547,12 @@ function updateEncryptionButtonUI(isEncrypted) {
 
     <!-- 3. ПРАВАЯ КОЛОНКА (Окно активного чата) -->
     <div id="msgr-chat-area" class="msgr-chat-area">
-        <!-- Шапка -->
                 <!-- Шапка открытого чата -->
         <div class="msgr-header">
             <div class="msgr-header-user">
+                <!-- Кнопка-гамбургер для мобилок -->
+                <button id="msgr-toggle-sidebar-btn" onclick="toggleMsgrSidebar()" style="display:none; background:none; border:none; color:#ffd700; font-size:1.5rem; cursor:pointer; margin-right:10px;">☰</button>
+                
                 <img id="msgr-active-avatar" src="bobnit_thanos.jpg" class="msgr-avatar" style="width:36px; height:36px;" alt="">
                 <div>
                     <div id="msgr-active-title" style="font-weight:800; font-size:0.9rem; color:#fff;">Чат с Бобнитом</div>
@@ -15429,18 +15561,18 @@ function updateEncryptionButtonUI(isEncrypted) {
             </div>
 
             <div style="display:flex; align-items:center; gap:10px;">
-                <!-- 🗑️ КНОПКА УДАЛЕНИЯ ЧАТА С БОБНИТОМ (По умолчанию скрыта, появляется у Бобнита) -->
                 <button id="msgr-bobnit-trash-btn" class="msgr-close-btn" onclick="confirmClearBobnitChat()" title="Выбросить Бобнита в мусорку" style="display:none; background:rgba(255,0,0,0.1); border-color:#ff0055; color:#ff0055;">🗑️</button>
 
                 <div id="msgr-msg-counter" style="color:#ffd700; font-size:0.75rem; font-weight:900; background:rgba(255,215,0,0.1); padding:4px 10px; border-radius:12px; border:1px solid rgba(255,215,0,0.3);">
                     💬 0
                 </div>
                 <button id="msgr-encrypt-btn" class="msgr-encrypt-key-btn" onclick="toggleChatEncryption()">
-                    🔑 <span>Защищено ✓</span>
+                    🔑 <span>Зашифровать</span>
                 </button>
                 <button class="msgr-close-btn" onclick="toggleLeycoreMessenger()" title="Закрыть">✕</button>
             </div>
         </div>
+
 
 
         <!-- Сообщения -->
