@@ -14383,71 +14383,81 @@ function createFloatingPlanets() {
     
     console.log("🪐 [КОСМОС] Запуск фотореалистичных планет (webp)...");
 
-    const planetsData = [
+        const planetsData = [
+        {
+            id: 'fructi', 
+            src: 'fructi.webp', 
+            initialSize: 450, // Сделали чуть компактнее 600px, чтобы не перекрывал весь экран
+            top: '5vh',       // Самый верх
+            duration: '220s', // Летит супер-медленно (гигант)
+            delay: '0s'
+        },
         {
             id: 'saturn',
             src: 'planet_saturn.webp', 
-            initialSize: 210,         
-            top: '15vh', 
-            duration: '40s', delay: '5s'
+            initialSize: 220,         
+            top: '22vh', 
+            duration: '130s', 
+            delay: '15s'      // Вылетает вторым
         },
         {
             id: 'neptune',
             src: 'planet_neptune.webp', 
-            initialSize: 140,
-            top: '45vh', 
-            duration: '50s', delay: '20s'
+            initialSize: 150,
+            top: '55vh',      // Нижний центр
+            duration: '110s', 
+            delay: '30s'      // Вылетает третьим
         },
         {
             id: 'earth',
             src: 'planet_earth.webp',   
-            initialSize: 250,
-            top: '29vh', 
-            duration: '38s', delay: '27s'
+            initialSize: 230,
+            top: '72vh',      // Почти самый низ
+            duration: '145s', 
+            delay: '45s'
         },
-         {
+        {
             id: 'jupiter',
             src: 'planet_jupiter.webp', 
-            initialSize: 360,
-            top: '20vh', 
-            duration: '70s', delay: '50s'
+            initialSize: 320,
+            top: '12vh',      // Верхний центр
+            duration: '190s', // Медленный величественный гигант
+            delay: '65s'
         },
-         {
+        {
             id: 'mars', 
             src: 'planet_mars.webp', 
-            initialSize: 50,
-            top: '55vh', 
-            duration: '27s', delay: '60s'
+            initialSize: 75,  // Маленький юркий Марс
+            top: '32vh', 
+            duration: '75s',  // Пролетит быстрее всех
+            delay: '80s'
         },
         {
             id: 'krontar', 
             src: 'krontar.webp', 
-            initialSize: 200,
-            top: '20vh',
-            duration: '61s', delay: '100s'
+            initialSize: 190,
+            top: '44vh',
+            duration: '150s', 
+            delay: '100s'
         },
-         {
-            id: 'fructi', 
-            src: 'fructi.webp', 
-            initialSize: 600,
-            top: '10vh', 
-            duration: '36s', delay: '120'
-        },
-         {
-            id: 'stolaktit', 
-            src: 'stolaktit.webp', 
-            initialSize: 200,
-            top: '50vh', 
-            duration: '20s', delay: '140s'
-        },
-         {
+        {
             id: 'honey', 
             src: 'honey.webp', 
-            initialSize: 200,
-            top: '60vh', 
-            duration: '60s', delay: '92s'
+            initialSize: 210,
+            top: '62vh', 
+            duration: '160s', 
+            delay: '120s'     // ИСПРАВЛЕНО: Добавили "s"
+        },
+        {
+            id: 'stolaktit', 
+            src: 'stolaktit.webp', 
+            initialSize: 180,
+            top: '80vh',      // Самый низ
+            duration: '95s',  // Быстрый осколок
+            delay: '140s'
         }
     ];
+
 
            planetsData.forEach((p, index) => {
         const img = document.createElement('img');
