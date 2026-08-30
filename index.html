@@ -10920,12 +10920,14 @@ function renderAchievements() {
 }
 
 
-        // ====================================================
-        // 🛒 ОБНОВЛЕННЫЕ ФУНКЦИИ ПОКУПКИ В МАГАЗИНЕ С ОБЛАКОМ
+               // ====================================================
+        // 🛒 ИСПРАВЛЕННЫЕ ФУНКЦИИ ПОКУПКИ (БЕЗ ОШИБОК)
         // ====================================================
 
         function buyShopRecipe(index) {
             const recipe = shopRecipes[index];
+            
+            // Проверяем, нет ли уже такого рецепта
             if (dishes.some(d => d.title === recipe.title)) {
                 alert("Этот рецепт уже куплен и находится в Меню!");
                 return;
@@ -10936,23 +10938,32 @@ function renderAchievements() {
                 return;
             }
 
+            // 1. Добавляем в массив в памяти
             dishes.push(recipe);
+            
+            // 2. Сохраняем ВЕСЬ массив в localStorage
             localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
 
-            // ИСПРАВИЛИ: Вернули кавычки вокруг алерта
+            // ✅ ИСПРАВЛЕНО: Теперь алерт в правильных кавычках
             alert(`🎉 ПОЗДРАВЛЯЕМ! Рецепт "${recipe.title}" успешно куплен за 50 🪙 и добавлен в Меню!`);
 
-            // !!! НОВОЕ: Сразу отправляем обновленный инвентарь в облако Supabase!
+            // 3. Сразу отправляем обновленный инвентарь в облако Supabase!
             if (typeof saveUserProfileToCloud === 'function') {
                 saveUserProfileToCloud();
             }
 
-            if (typeof renderAchievements === 'function') renderAchievements();
             if (typeof renderDishes === 'function') renderDishes('all');
+            if (typeof renderAchievements === 'function') renderAchievements();
         }
 
         function buyLavaTitle(index) {
             const title = shopLavaTitles[index];
+            
+            // Если переменная unlockedTitles не определена глобально, берем её из памяти
+            if (typeof unlockedTitles === 'undefined') {
+                window.unlockedTitles = JSON.parse(localStorage.getItem('leycore_titles') || '["Новичок"]');
+            }
+
             if (unlockedTitles.includes(title)) {
                 alert("Этот титул уже в твоем Инвентаре!");
                 return;
@@ -10963,19 +10974,24 @@ function renderAchievements() {
                 return;
             }
 
+            // 1. Добавляем в массив
             unlockedTitles.push(title);
+            
+            // 2. Сохраняем в память
             localStorage.setItem('leycore_titles', JSON.stringify(unlockedTitles));
 
-            // ИСПРАВИЛИ: Вернули кавычки вокруг алерта
+            // ✅ ИСПРАВЛЕНО: Теперь алерт в правильных кавычках
             alert(`🌋 ВЕЛИЧЕСТВЕННО! Лавовый титул "${title}" куплен и доступен в Инвентаре!`);
 
-            // !!! НОВОЕ: Отправляем купленный титул и новый баланс в Supabase!
+            // 3. Отправляем в облако
             if (typeof saveUserProfileToCloud === 'function') {
                 saveUserProfileToCloud();
             }
 
             if (typeof renderAchievements === 'function') renderAchievements();
+            if (typeof renderTitlesList === 'function') renderTitlesList();
         }
+
 
 
 
@@ -13274,7 +13290,6 @@ if (document.readyState === 'loading') {
                     } else if (activeTheme !== '') {
                         document.body.className = activeTheme;
                     }
-
                     // 4. ОБНОВЛЯЕМ ПЕРЕМЕННЫЕ В JS (Память браузера)
                     if (typeof burgerCount !== 'undefined') burgerCount = parseInt(data.score || 0, 10);
                     if (typeof bestFlappyScore !== 'undefined') bestFlappyScore = parseInt(data.flappy_score || 0, 10);
@@ -13289,18 +13304,30 @@ if (document.readyState === 'loading') {
                         unlockedTitles.length = 0;
                         unlockedTitles.push(...parseSafe(titlesStr));
                     }
+                    
+                    // --- ИДЕАЛЬНАЯ СИНХРОНИЗАЦИЯ РЕЦЕПТОВ ---
                     if (typeof dishes !== 'undefined' && Array.isArray(dishes)) {
                         const downloadedDishes = parseSafe(recipesStr);
-                        downloadedDishes.forEach(d => {
-                            if (d && d.title && !dishes.some(orig => orig.title === d.title)) {
-                                dishes.push(d);
-                            }
-                        });
+                        
+                        // Сохраняем только уникальные объекты, чтобы не было дублей
+                        const map = new Map();
+                        // 1. Сначала добавляем всё, что прилетело из облака
+                        downloadedDishes.forEach(d => d && d.title && map.set(d.title, d));
+                        // 2. Добавляем то, что уже было в dishes (базовые), если их нет в облаке
+                        dishes.forEach(d => d && d.title && !map.has(d.title) && map.set(d.title, d));
+                        
+                        // 3. Перезаписываем массив dishes актуальным списком
+                        dishes.length = 0;
+                        dishes.push(...Array.from(map.values()));
+                        
+                        console.log("✅ [ОБЛАКО] Массив dishes успешно синхронизирован. Всего рецептов:", dishes.length);
                     }
+                    
                     if (typeof myAchievements !== 'undefined' && Array.isArray(myAchievements)) {
                         myAchievements.length = 0;
                         myAchievements.push(...parseSafe(achStr));
                     }
+
 
                     // 5. ПЕРЕРИСОВЫВАЕМ ИНТЕРФЕЙС
                     if (typeof updateCasinoUI === 'function') updateCasinoUI();
