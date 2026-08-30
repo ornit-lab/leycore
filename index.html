@@ -10920,77 +10920,82 @@ function renderAchievements() {
 }
 
 
-               // ====================================================
-        // 🛒 ИСПРАВЛЕННЫЕ ФУНКЦИИ ПОКУПКИ (БЕЗ ОШИБОК)
         // ====================================================
+// 🛒 ИСПРАВЛЕННЫЕ И БРОНИРОВАННЫЕ ФУНКЦИИ ПОКУПКИ
+// ====================================================
 
-        function buyShopRecipe(index) {
-            const recipe = shopRecipes[index];
-            
-            // Проверяем, нет ли уже такого рецепта
-            if (dishes.some(d => d.title === recipe.title)) {
-                alert("Этот рецепт уже куплен и находится в Меню!");
-                return;
-            }
+async function buyShopRecipe(index) {
+    const recipe = shopRecipes[index];
+    
+    // Проверяем, нет ли уже такого рецепта
+    if (dishes.some(d => d.title === recipe.title)) {
+        alert("Этот рецепт уже куплен и находится в Меню!");
+        return;
+    }
 
-            if (!spendChips(50)) {
-                alert("У тебя недостаточно фишек! Покрути казино или кликай Бобнита.");
-                return;
-            }
+    // Тратим фишки (используем await для надежности)
+    const success = await spendChips(50);
+    if (!success) {
+        alert("У тебя недостаточно фишек! Покрути казино или кликай Бобнита.");
+        return;
+    }
 
-            // 1. Добавляем в массив в памяти
-            dishes.push(recipe);
-            
-            // 2. Сохраняем ВЕСЬ массив в localStorage
-            localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
+    // 1. Добавляем в массив в памяти
+    dishes.push(recipe);
+    
+    // 2. Сохраняем ВЕСЬ массив в localStorage
+    localStorage.setItem('leycore_custom_dishes', JSON.stringify(dishes));
 
-            // ✅ ИСПРАВЛЕНО: Теперь алерт в правильных кавычках
-            alert(`🎉 ПОЗДРАВЛЯЕМ! Рецепт "${recipe.title}" успешно куплен за 50 🪙 и добавлен в Меню!`);
+    // ✅ ИСПРАВЛЕНО: Обратные кавычки на месте
+    alert(`🎉 ПОЗДРАВЛЯЕМ! Рецепт "${recipe.title}" успешно куплен за 50 🪙 и добавлен в Меню!`);
 
-            // 3. Сразу отправляем обновленный инвентарь в облако Supabase!
-            if (typeof saveUserProfileToCloud === 'function') {
-                saveUserProfileToCloud();
-            }
+    // 3. Ждем отправки обновленного инвентаря в облако Supabase
+    if (typeof saveUserProfileToCloud === 'function') {
+        await saveUserProfileToCloud();
+    }
 
-            if (typeof renderDishes === 'function') renderDishes('all');
-            if (typeof renderAchievements === 'function') renderAchievements();
-        }
+    if (typeof renderDishes === 'function') renderDishes('all');
+    if (typeof renderAchievements === 'function') renderAchievements();
+}
 
-        function buyLavaTitle(index) {
-            const title = shopLavaTitles[index];
-            
-            // Если переменная unlockedTitles не определена глобально, берем её из памяти
-            if (typeof unlockedTitles === 'undefined') {
-                window.unlockedTitles = JSON.parse(localStorage.getItem('leycore_titles') || '["Новичок"]');
-            }
+async function buyLavaTitle(index) {
+    const title = shopLavaTitles[index];
+    
+    // Если переменная unlockedTitles не определена глобально, берем её из памяти
+    if (typeof unlockedTitles === 'undefined') {
+        window.unlockedTitles = JSON.parse(localStorage.getItem('leycore_titles') || '["Новичок"]');
+    }
 
-            if (unlockedTitles.includes(title)) {
-                alert("Этот титул уже в твоем Инвентаре!");
-                return;
-            }
+    if (unlockedTitles.includes(title)) {
+        alert("Этот титул уже в твоем Инвентаре!");
+        return;
+    }
 
-            if (!spendChips(100)) {
-                alert("У тебя недостаточно фишек! Нужно 100 🪙.");
-                return;
-            }
+    // Тратим фишки (используем await)
+    const success = await spendChips(100);
+    if (!success) {
+        alert("У тебя недостаточно фишек! Нужно 100 🪙.");
+        return;
+    }
 
-            // 1. Добавляем в массив
-            unlockedTitles.push(title);
-            
-            // 2. Сохраняем в память
-            localStorage.setItem('leycore_titles', JSON.stringify(unlockedTitles));
+    // 1. Добавляем в массив
+    unlockedTitles.push(title);
+    
+    // 2. Сохраняем в память
+    localStorage.setItem('leycore_titles', JSON.stringify(unlockedTitles));
 
-            // ✅ ИСПРАВЛЕНО: Теперь алерт в правильных кавычках
-            alert(`🌋 ВЕЛИЧЕСТВЕННО! Лавовый титул "${title}" куплен и доступен в Инвентаре!`);
+    // ✅ ИСПРАВЛЕНО: Обратные кавычки на месте
+    alert(`🌋 ВЕЛИЧЕСТВЕННО! Лавовый титул "${title}" куплен и доступен в Инвентаре!`);
 
-            // 3. Отправляем в облако
-            if (typeof saveUserProfileToCloud === 'function') {
-                saveUserProfileToCloud();
-            }
+    // 3. Ждем отправки в облако
+    if (typeof saveUserProfileToCloud === 'function') {
+        await saveUserProfileToCloud();
+    }
 
-            if (typeof renderAchievements === 'function') renderAchievements();
-            if (typeof renderTitlesList === 'function') renderTitlesList();
-        }
+    if (typeof renderAchievements === 'function') renderAchievements();
+    if (typeof renderTitlesList === 'function') renderTitlesList();
+}
+
 
 
 
@@ -11321,16 +11326,16 @@ function renderAchievements() {
             return parseInt(localStorage.getItem('leycore_chips') || '10', 10);
         }
 
-                function setChipBalance(newAmount) {
+                 async function setChipBalance(newAmount) {
             casinoChips = Math.max(0, Math.floor(newAmount));
             localStorage.setItem('leycore_chips', casinoChips.toString());
             
-            // 1. Мгновенно обновляем UI у игрока
-            updateCasinoUI();
+            // 1. Мгновенно обновляем UI
+            if (typeof updateCasinoUI === 'function') updateCasinoUI();
 
-            // 2. 🚀 МГНОВЕННО отправляем новый баланс в облако Supabase!
+            // 2. 🚀 Ждем завершения сохранения в облако, чтобы база была актуальной
             if (typeof saveUserProfileToCloud === 'function') {
-                saveUserProfileToCloud();
+                await saveUserProfileToCloud();
             }
         }
 
@@ -11339,10 +11344,12 @@ function renderAchievements() {
             setChipBalance(getChipBalance() + amount);
         }
 
-        function spendChips(amount) {
+          async function spendChips(amount) {
             let current = getChipBalance();
             if (current < amount) return false;
-            setChipBalance(current - amount);
+            
+            // Используем await, чтобы мы точно дождались списания
+            await setChipBalance(current - amount);
             return true;
         }
 
