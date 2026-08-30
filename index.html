@@ -7266,6 +7266,12 @@ div[onclick="toggleBobnitChat()"] {
     }
 }
 
+@media (max-width: 768px) {
+    .msgr-header { padding: 5px 10px !important; }
+    .msgr-encrypt-key-btn span { display: none !important; }
+    #msgr-msg-counter { display: none !important; }
+    .msgr-header-user { gap: 5px !important; }
+}
 
     </style>
 
@@ -14679,48 +14685,42 @@ async function loadLeycoreChatsList() {
     const container = document.getElementById('msgr-chats-container');
     if (!container) return;
 
-    let html = `
-        <div class="msgr-chat-item pinned ${msgrActiveChatId==='bobnit-chat'?'active':''}" onclick="openBobnitChatInMessenger()">
+    let html = `<div class="msgr-chat-item pinned ${msgrActiveChatId==='bobnit-chat'?'active':''}" onclick="openBobnitChatInMessenger()">
             <img src="bobnit_thanos.jpg" class="msgr-avatar" style="width:38px; height:38px;" alt="">
-            <div>
-                <div style="font-weight:800; font-size:0.85rem; color:#ffd700;">📌 Чат с Бобнитом</div>
-                <div style="font-size:0.68rem; color:#aaa;">Оракул & Квик-реплаи</div>
-            </div>
-        </div>
-    `;
+            <div><div style="font-weight:800; font-size:0.85rem; color:#ffd700;">📌 Бобнит</div></div>
+        </div>`;
 
     if (typeof _supabase !== 'undefined' && _supabase && msgrCurrentCoreID) {
-        try {
-            const { data } = await _supabase.from('chat_rooms').select('*');
-            if (data) {
-                data.forEach(chat => {
-                    const parts = chat.participants || [];
-                    if (parts.includes(msgrCurrentCoreID)) {
-                        const safeChatName = (chat.name || 'Приватный чат').replace(/'/g, "\\'");
-                        const chatAvatar = chat.avatar_url || 'https://via.placeholder.com/150/ff007f/ffffff?text=U';
+        const { data } = await _supabase.from('chat_rooms').select('*');
+        if (data) {
+            for (let chat of data) {
+                if (!chat.participants.includes(msgrCurrentCoreID)) continue;
 
-                        html += `
-                            <div class="msgr-chat-item ${msgrActiveChatId===chat.id?'active':''}" 
-                                 onclick="openLeycorePrivateChat('${chat.id}', '${safeChatName}', ${chat.is_encrypted})"
-                                 oncontextmenu="deleteLeycoreChat(event, '${chat.id}')"
-                                 title="Правый клик — удалить чат">
-                                <img src="${chatAvatar}" class="msgr-avatar" style="width:38px; height:38px;" alt="">
-                                <div style="flex:1; overflow:hidden;">
-                                    <div style="font-weight:800; font-size:0.85rem; color:#fff; text-overflow:ellipsis; overflow:hidden;">${chat.name || 'Приватный чат'}</div>
-                                    <div style="font-size:0.68rem; color:#00ff66;">${chat.type === 'group' ? '👥 Группа' : '● В сети'}</div>
-                                </div>
-                            </div>
-                        `;
+                let name = chat.name, avatar = 'https://via.placeholder.com/150/ff007f/ffffff?text=U';
+                
+                if (chat.type !== 'group') {
+                    const peerID = chat.participants.find(id => id !== msgrCurrentCoreID);
+                    const { data: peer } = await _supabase.from('user_profiles').select('*').eq('core_id', peerID).single();
+                    if (peer) {
+                        name = peer.user_name;
+                        avatar = peer.avatar_url || avatar;
                     }
-                });
+                } else {
+                    avatar = chat.avatar_url || 'https://via.placeholder.com/150/8000ff/ffffff?text=GROUP';
+                }
+
+                html += `<div class="msgr-chat-item" onclick="openLeycorePrivateChat('${chat.id}', '${name.replace(/'/g, "\\'")}', false)">
+                            <img src="${avatar}" class="msgr-avatar" style="width:38px; height:38px;">
+                            <div style="flex:1; overflow:hidden;">
+                                <div style="font-weight:800; font-size:0.85rem; color:#fff;">${name}</div>
+                            </div>
+                        </div>`;
             }
-        } catch(e){
-            console.error("Ошибка загрузки списка чатов:", e);
         }
     }
-
     container.innerHTML = html;
 }
+
 
 // 5. УДАЛЕНИЕ ЧАТА
 async function deleteLeycoreChat(event, chatId) {
@@ -15361,6 +15361,30 @@ function hideMsgrSidebarOnMobile() {
     if (sidebar && sidebar.classList.contains('active-mobile') && window.innerWidth <= 768) {
         sidebar.classList.remove('active-mobile');
     }
+}
+
+// Функция автоматической подписки на сообщения
+function subscribeToCurrentChatMessages(chatId) {
+    if (typeof _supabase === 'undefined') return;
+
+    // Отписываемся от старого чата, если был
+    if (window.currentSub) _supabase.removeChannel(window.currentSub);
+
+    window.currentSub = _supabase
+        .channel('chat_' + chatId)
+        .on('postgres_changes', {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'private_messages',
+            filter: 'chat_id=eq.' + chatId
+        }, payload => {
+            const newMsg = payload.new;
+            // Если сообщение не наше - рисуем его
+            if (newMsg.sender_id !== msgrCurrentCoreID) {
+                appendMsgUI('Собеседник', newMsg.message_text, false, newMsg.id);
+            }
+        })
+        .subscribe();
 }
 
     </script>
