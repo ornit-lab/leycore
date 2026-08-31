@@ -14750,7 +14750,7 @@ function openBobnitChatInMessenger() {
     msgrActiveChatName = 'Чат с Бобнитом';
 
     document.getElementById('msgr-active-title').innerText = 'Чат с Бобнитом';
-    document.getElementById('msgr-active-status').innerText = '● В СЕТИ (ЖРЕТ БУРГЕР)';
+    document.getElementById('msgr-active-status').innerText = '● В сети (ЖРЕТ БУРГЕР)';
     document.getElementById('msgr-active-status').className = 'msgr-status-bobnit'; // Класс для цвета статуса
     document.getElementById('msgr-active-avatar').src = 'bobnit_thanos.jpg';
 
@@ -14814,7 +14814,9 @@ async function deleteLeycoreMessage(msgId) {
     }
 }
 
-// 9. ОТПРАВКА СООБЩЕНИЙ (И БОБНИТ, И РЕАЛЬНЫЕ ЧАТЫ БЕЗ ШИФРОВ)
+// ==========================================================================
+// 💬 ИСПРАВЛЕННАЯ ОТПРАВКА (ТЕПЕРЬ БОБНИТ РЕАГИРУЕТ НА ТЕКСТ И КВИК-РЕПЛАИ)
+// ==========================================================================
 async function sendLeycoreMessage(quickReplyText = null) {
     const input = document.getElementById('msgr-input-text');
     if (!input) return;
@@ -14826,6 +14828,7 @@ async function sendLeycoreMessage(quickReplyText = null) {
         input.value = '';
     }
 
+    // ЕСЛИ ЭТО ЧАТ С БОБНИТОМ
     if (msgrActiveChatType === 'bobnit' || msgrActiveChatId === 'bobnit-chat') {
         appendMsgUI('Вы', text, true, null);
         
@@ -14833,20 +14836,18 @@ async function sendLeycoreMessage(quickReplyText = null) {
         history.push({ sender: 'Вы', text, isMy: true });
 
         setTimeout(() => {
-            let reply = "Бобнит доел бургер и задумался... 🤔";
-            const lower = text.toLowerCase();
-            if (lower.includes('привет')) reply = "Здорово, легенда! 🍔";
-            else if (lower.includes('рецепт')) reply = "Все рецепты у Василича в меню, ищи ачивки!";
+            let reply = getBobnitReply(text); // 🔥 ИСПОЛЬЗУЕМ УМНЫЙ ОТВЕТ
             
             appendMsgUI('Бобнит', reply, false, null);
             history.push({ sender: 'Бобнит', text: reply, isMy: false });
             localStorage.setItem('leycore_bobnit_history', JSON.stringify(history));
-        }, 600);
+        }, 600); // Задержка для имитации "мышления"
         return;
     }
 
+    // ЕСЛИ ЭТО ОБЫЧНЫЙ ЧАТ (Группы / Приваты)
     let finalText = text; 
-    let isEncrypted = false;
+    let isEncrypted = false; // Всегда false, так как шифрование - это обманка
 
     if (typeof _supabase !== 'undefined' && _supabase) {
         try {
@@ -14870,12 +14871,17 @@ async function sendLeycoreMessage(quickReplyText = null) {
     }
 }
 
-// 🔥 ГЛОБАЛЬНЫЙ МОСТ ДЛЯ КВИК-РЕПЛАЕВ БОБНИТА
+// ==========================================================================
+// 🔥 ГЛОБАЛЬНЫЙ МОСТ ДЛЯ КВИК-РЕПЛАЕВ БОБНИТА (ЧТОБЫ КНОПКИ РАБОТАЛИ!)
+// ==========================================================================
 window.sendQuickPhrase = function(phrase) {
     if (typeof sendLeycoreMessage === 'function') {
         sendLeycoreMessage(phrase);
+    } else {
+        console.error("sendLeycoreMessage не определена, квик-реплай не отправлен.");
     }
 };
+
 
 
 // 10. ОТКРЫТИЕ ПРИВАТНОГО ЧАТА ИЛИ ГРУППЫ (Теперь с НИКАМИ и АВАТАРКАМИ собеседников)
@@ -15387,6 +15393,338 @@ function subscribeToCurrentChatMessages(chatId) {
         .subscribe();
 }
 
+
+// ==========================================================================
+// 🧠 МИНИ-НЕЙРОСЕТЬ БОБНИТА v6.0 (200+ МАТОВ, КОРНЕЙ И ТОКСИЧНЫХ СИНАПСОВ)
+// ==========================================================================
+
+const neuralWeights = {
+    // --- ТЕМА 1: ЕДА, ЖРАТВА, РЕЦЕПТЫ (Кластер Гурмана) ---
+    'бургер': { food: 6, money: 0, tech: 0, sad: 0, anger: 0 },
+    'гамбургер': { food: 6, money: 0, tech: 0, sad: 0, anger: 0 },
+    'чизбургер': { food: 6, money: 0, tech: 0, sad: 0, anger: 0 },
+    'еда': { food: 5, money: 0, tech: 0, sad: 0, anger: 0 },
+    'жрат': { food: 5, money: 0, tech: 0, sad: 0, anger: 1 },
+    'куша': { food: 4, money: 0, tech: 0, sad: 0, anger: 0 },
+    'голод': { food: 5, money: 0, tech: 0, sad: 1, anger: 0 },
+    'аппетит': { food: 4, money: 0, tech: 0, sad: 0, anger: 0 },
+    'рецепт': { food: 5, money: 0, tech: 1, sad: 0, anger: 0 },
+    'меню': { food: 5, money: 0, tech: 1, sad: 0, anger: 0 },
+    'василич': { food: 5, money: 1, tech: 0, sad: 0, anger: 0 },
+    'мясо': { food: 5, money: 0, tech: 0, sad: 0, anger: 0 },
+    'котлет': { food: 5, money: 0, tech: 0, sad: 0, anger: 0 },
+    'сыр': { food: 4, money: 0, tech: 0, sad: 0, anger: 0 },
+    'суп': { food: 4, money: 0, tech: 0, sad: 0, anger: 0 },
+    'пицц': { food: 5, money: 0, tech: 0, sad: 0, anger: 0 },
+    'шаверм': { food: 5, money: 0, tech: 0, sad: 0, anger: 0 },
+    'шаурм': { food: 5, money: 0, tech: 0, sad: 0, anger: 0 },
+    'картошк': { food: 4, money: 0, tech: 0, sad: 0, anger: 0 },
+    'кола': { food: 4, money: 0, tech: 0, sad: 0, anger: 0 },
+    'напит': { food: 4, money: 0, tech: 0, sad: 0, anger: 0 },
+    'вкусн': { food: 5, money: 0, tech: 0, sad: 0, anger: 0 },
+    'диет': { food: 4, money: 0, tech: 0, sad: 1, anger: 1 },
+    'кулинар': { food: 5, money: 0, tech: 0, sad: 0, anger: 0 },
+    'завтрак': { food: 4, money: 0, tech: 0, sad: 0, anger: 0 },
+    'обед': { food: 4, money: 0, tech: 0, sad: 0, anger: 0 },
+    'ужин': { food: 4, money: 0, tech: 0, sad: 0, anger: 0 },
+
+    // --- ТЕМА 2: ДЕНЬГИ, КАЗИНО, БОГАТСТВО (Кластер Магната) ---
+    'деньг': { food: 0, money: 6, tech: 0, sad: 0, anger: 0 },
+    'бабл': { food: 0, money: 5, tech: 0, sad: 0, anger: 0 },
+    'богат': { food: 0, money: 5, tech: 0, sad: 0, anger: 0 },
+    'фишк': { food: 0, money: 6, tech: 1, sad: 0, anger: 0 },
+    'казин': { food: 0, money: 6, tech: 1, sad: 0, anger: 0 },
+    'крипт': { food: 0, money: 5, tech: 1, sad: 0, anger: 0 },
+    'биткоин': { food: 0, money: 5, tech: 1, sad: 0, anger: 0 },
+    'инвест': { food: 0, money: 5, tech: 0, sad: 0, anger: 0 },
+    'нищ': { food: 0, money: 2, tech: 0, sad: 4, anger: 1 },
+    'бомж': { food: 0, money: 2, tech: 0, sad: 2, anger: 2 },
+    'банкрот': { food: 0, money: 4, tech: 0, sad: 4, anger: 1 },
+    'зарплат': { food: 0, money: 5, tech: 0, sad: 0, anger: 0 },
+    'рубл': { food: 0, money: 4, tech: 0, sad: 0, anger: 0 },
+    'доллар': { food: 0, money: 5, tech: 0, sad: 0, anger: 0 },
+    'баксов': { food: 0, money: 5, tech: 0, sad: 0, anger: 0 },
+    'миллион': { food: 0, money: 6, tech: 0, sad: 0, anger: 0 },
+    'миллиард': { food: 0, money: 6, tech: 0, sad: 0, anger: 0 },
+    'доход': { food: 0, money: 5, tech: 0, sad: 0, anger: 0 },
+    'прибыл': { food: 0, money: 5, tech: 0, sad: 0, anger: 0 },
+    'успех': { food: 0, money: 4, tech: 1, sad: 0, anger: 0 },
+    'слот': { food: 0, money: 5, tech: 1, sad: 0, anger: 0 },
+    'ставк': { food: 0, money: 5, tech: 0, sad: 0, anger: 0 },
+
+    // --- ТЕМА 3: САЙТ, КОД, ТЕХНОЛОГИИ (Кластер Киберпанка) ---
+    'сайт': { food: 0, money: 0, tech: 6, sad: 0, anger: 0 },
+    'платформ': { food: 0, money: 0, tech: 5, sad: 0, anger: 0 },
+    'игр': { food: 0, money: 0, tech: 5, sad: 0, anger: 0 },
+    'баг': { food: 0, money: 0, tech: 5, sad: 0, anger: 1 },
+    'ошибк': { food: 0, money: 0, tech: 5, sad: 1, anger: 1 },
+    'код': { food: 0, money: 0, tech: 6, sad: 0, anger: 0 },
+    'скрипт': { food: 0, money: 0, tech: 6, sad: 0, anger: 0 },
+    'разработ': { food: 0, money: 0, tech: 6, sad: 0, anger: 0 },
+    'программ': { food: 0, money: 0, tech: 6, sad: 0, anger: 0 },
+    'компьютер': { food: 0, money: 0, tech: 5, sad: 0, anger: 0 },
+    'телефон': { food: 0, money: 0, tech: 5, sad: 0, anger: 0 },
+    'экран': { food: 0, money: 0, tech: 4, sad: 0, anger: 0 },
+    'клик': { food: 0, money: 1, tech: 6, sad: 0, anger: 0 },
+    'ачивк': { food: 0, money: 0, tech: 6, sad: 0, anger: 0 },
+    'достижен': { food: 0, money: 0, tech: 5, sad: 0, anger: 0 },
+    'урОВЕНЬ': { food: 0, money: 0, tech: 5, sad: 0, anger: 0 },
+    'прогресс': { food: 0, money: 1, tech: 5, sad: 0, anger: 0 },
+    'лидерборд': { food: 0, money: 1, tech: 6, sad: 0, anger: 0 },
+    'топ': { food: 0, money: 1, tech: 5, sad: 0, anger: 0 },
+    'coreid': { food: 0, money: 0, tech: 6, sad: 0, anger: 0 },
+
+    // --- ТЕМА 4: ГРУСТЬ, ФИЛОСОФИЯ (Кластер Демиурга) ---
+    'груст': { food: 0, money: 0, tech: 0, sad: 6, anger: 0 },
+    'печаль': { food: 0, money: 0, tech: 0, sad: 6, anger: 0 },
+    'тоск': { food: 0, money: 0, tech: 0, sad: 5, anger: 0 },
+    'депресс': { food: 0, money: 0, tech: 0, sad: 6, anger: 1 },
+    'одиноч': { food: 0, money: 0, tech: 0, sad: 6, anger: 0 },
+    'скуч': { food: 0, money: 0, tech: 0, sad: 5, anger: 0 },
+    'плак': { food: 0, money: 0, tech: 0, sad: 6, anger: 0 },
+    'слёз': { food: 0, money: 0, tech: 0, sad: 6, anger: 0 },
+    'боль': { food: 0, money: 0, tech: 0, sad: 5, anger: 2 },
+    'смысл': { food: 0, money: 0, tech: 0, sad: 5, anger: 0 },
+    'жизн': { food: 1, money: 0, tech: 0, sad: 4, anger: 0 },
+    'смерт': { food: 0, money: 0, tech: 0, sad: 5, anger: 2 },
+    'судьб': { food: 0, money: 0, tech: 0, sad: 5, anger: 0 },
+    'философ': { food: 0, money: 0, tech: 1, sad: 4, anger: 0 },
+    'вселен': { food: 0, money: 0, tech: 1, sad: 4, anger: 0 },
+    'матриц': { food: 0, money: 0, tech: 2, sad: 3, anger: 0 },
+    'реальност': { food: 0, money: 0, tech: 1, sad: 4, anger: 0 },
+
+    // --- ТЕМА 5: 200+ МАТОВ, КОРНЕЙ И ОСКОРБЛЕНИЙ (ЯДЕРНЫЙ ТОКСИЧНЫЙ КЛАСТЕР) ---
+    'хуй': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'хуе': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'хуя': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'хуи': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'пизд': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'пезд': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'ебат': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'ебол': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'ебан': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'ебц': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'сук': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'бляд': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'блять': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'бля': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'мраз': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'урод': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'дебил': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'дурак': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'туп': { food: 0, money: 0, tech: 0, sad: 0, anger: 9 },
+    'идиот': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'пиндик': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'пидор': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'педик': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'гандон': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'гондон': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'шлюх': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'шалав': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'трах': { food: 0, money: 0, tech: 0, sad: 0, anger: 9 },
+    'отсос': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'сос': { food: 0, money: 0, tech: 0, sad: 0, anger: 8 },
+    'задрот': { food: 0, money: 0, tech: 1, sad: 0, anger: 8 },
+    'долбо': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'даун': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'осел': { food: 0, money: 0, tech: 0, sad: 0, anger: 8 },
+    'скот': { food: 0, money: 0, tech: 0, sad: 0, anger: 9 },
+    'свинь': { food: 0, money: 0, tech: 0, sad: 0, anger: 9 },
+    'тварь': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'говн': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'дерьм': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'параш': { food: 0, money: 0, tech: 0, sad: 0, anger: 9 },
+    'отброс': { food: 0, money: 0, tech: 0, sad: 0, anger: 9 },
+    'выбл': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'мразин': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'ублюд': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'падл': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'чмо': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'петух': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'похер': { food: 0, money: 0, tech: 0, sad: 0, anger: 6 },
+    'похуй': { food: 0, money: 0, tech: 0, sad: 0, anger: 8 },
+    'задолб': { food: 0, money: 0, tech: 0, sad: 0, anger: 9 },
+    'заеб': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'нахуй': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'выпендр': { food: 0, money: 0, tech: 0, sad: 0, anger: 7 },
+    'высер': { food: 0, money: 0, tech: 0, sad: 0, anger: 9 },
+    'чмыр': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'гнид': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'шакаль': { food: 0, money: 0, tech: 0, sad: 0, anger: 8 },
+    'еблан': { food: 0, money: 0, tech: 0, sad: 0, anger: 10 },
+    'пошел': { food: 0, money: 0, tech: 0, sad: 0, anger: 7 },
+    'отвали': { food: 0, money: 0, tech: 0, sad: 0, anger: 7 },
+    'заткн': { food: 0, money: 0, tech: 0, sad: 0, anger: 8 },
+    'ненавиж': { food: 0, money: 0, tech: 0, sad: 1, anger: 9 },
+
+    // --- ТЕМА 6: ДОБРОТА, ПОХВАЛА, КОМПЛИМЕНТЫ (Кластер Братства) ---
+    'привет': { food: 1, money: 0, tech: 3, sad: 0, anger: 0 },
+    'здаров': { food: 1, money: 0, tech: 2, sad: 0, anger: 0 },
+    'дратути': { food: 1, money: 0, tech: 0, sad: 0, anger: 0 },
+    'хай': { food: 1, money: 0, tech: 0, sad: 0, anger: 0 },
+    'крут': { food: 0, money: 1, tech: 1, sad: 0, anger: 0 },
+    'молодец': { food: 0, money: 1, tech: 1, sad: 0, anger: 0 },
+    'красавчик': { food: 0, money: 1, tech: 1, sad: 0, anger: 0 },
+    'гений': { food: 0, money: 0, tech: 2, sad: 0, anger: 0 },
+    'лучш': { food: 0, money: 1, tech: 1, sad: 0, anger: 0 },
+    'спасиб': { food: 0, money: 0, tech: 0, sad: 0, anger: 0 },
+    'благодар': { food: 0, money: 0, tech: 0, sad: 0, anger: 0 },
+    'уваж': { food: 0, money: 0, tech: 0, sad: 0, anger: 0 },
+    'любл': { food: 1, money: 0, tech: 0, sad: 0, anger: 0 },
+    'обожа': { food: 1, money: 0, tech: 0, sad: 0, anger: 0 },
+    'кайф': { food: 1, money: 1, tech: 1, sad: 0, anger: 0 },
+    'огонь': { food: 1, money: 1, tech: 1, sad: 0, anger: 0 },
+    'супер': { food: 0, money: 1, tech: 1, sad: 0, anger: 0 },
+    'класс': { food: 0, money: 1, tech: 1, sad: 0, anger: 0 },
+    'респект': { food: 0, money: 1, tech: 1, sad: 0, anger: 0 },
+    'крутяк': { food: 0, money: 1, tech: 1, sad: 0, anger: 0 },
+    'дружищ': { food: 1, money: 0, tech: 2, sad: 0, anger: 0 },
+    'бро': { food: 1, money: 0, tech: 0, sad: 0, anger: 0 },
+    'друг': { food: 1, money: 0, tech: 2, sad: 0, anger: 0 },
+    'бра': { food: 0, money: 0, tech: 1, sad: 0, anger: 0 }
+};
+
+function getBobnitReply(text) {
+    const t = text.toLowerCase();
+    
+    // 1. ПРИОРИТЕТ КВИК-РЕПЛАЕВ
+    if (t.includes('приготовить')) return "🍳 Оракул советует: забахай Сочный Бургер Бобнита! И забудь про диеты, они для слабаков. Или загляни в меню Василича, там есть 'Планетарный Салат' — зелень хрустит, энтропия падает, жизнь удалась!";
+    if (t.includes('сайт')) return "📖 Сайт LEYCORE — это карта восприятия! Крути казино, кликай бургеры, открывай ачивки! Каждая кнопка здесь — часть единой матрицы. Что именно тебя интересует в этой интерактивной голограмме?";
+    if (t.includes('добрый')) return "🔮 Я нейтральный демиург. Если у тебя есть фишки — я добрый и пушистый, как котлеты Василича. Если фишек 0 — жри сельдерей и плачь в углу! Стремись к гармонии!";
+    if (t.includes('похудеть')) return "💪 Чтобы похудеть: 138 дней аскезы и 0 чизбургеров! Но я выбрал 200кг жира в запасе и ни о чём не жалею! 🍔 Прими себя таким, какой ты есть, и ешь бургеры!";
+    if (t.includes('совет')) return "⚡️ Совет Демиурга: Никогда не сомневайся в своём коде и кликай Бобнита до 50,000 кликов! Помни, квантовая неопределенность — твой лучший друг. Действуй, не бойся схлопнуть реальность!";
+    if (t.includes('что это такое') || t.includes('че это такое') || t.includes('не понял')) return "Иди почитай словарь, недоумок! Мой вербальный процессор не обязан адаптироваться под твой низкочастотный уровень восприятия. Учи матчасть, чайник!";
+
+    // 2. РАСЧЕТ ВЕСОВ НЕЙРОСЕТИ (Инференс)
+    let scores = { food: 0, money: 0, tech: 0, sad: 0, anger: 0, kind: 0, default: 1 };
+    const words = t.match(/[\wа-яё]+/g) || [];
+
+    words.forEach(word => {
+        for (let key in neuralWeights) {
+            // Проверяем вхождение корня слова
+            if (word.includes(key)) {
+                let w = neuralWeights[key];
+                scores.food += w.food || 0;
+                scores.money += w.money || 0;
+                scores.tech += w.tech || 0;
+                scores.sad += w.sad || 0;
+                scores.anger += w.anger || 0;
+                scores.kind += w.kind || 0;
+            }
+        }
+    });
+
+    // Находим тему с максимальным весом
+    let bestTopic = 'default';
+    let maxScore = 0;
+    for (let topic in scores) {
+        if (scores[topic] > maxScore) {
+            maxScore = scores[topic];
+            bestTopic = topic;
+        }
+    }
+
+    // 3. БАЗА РАЗВЁРНУТЫХ ОТВЕТОВ ПО ТЕМАМ
+    const aiResponses = {
+        food: [
+            "🍔 О, о еде заговорил! Настоящий кибер-воин питается исключительно сочными чизбургерами с двойной порцией бекона. Василич плохого не посоветует — беги в меню, ищи ачивки и заказывай праздник живота!",
+            "🍳 Кулинария — это высшая математика вкуса. Если ты не умеешь обжаривать булки до хрустящей корочки, то твоя жизнь прожита зря. Мой рецепт прост: котлета из мраморной коровьей матрицы, сыр чеддер и капля слез неудачников.",
+            "🌭 Запомни правило Демиурга: калории — это не жир, это топливо для захвата вселенной. Хочешь жрать — жри от души, а худеть будешь в параллельной реальности, где нет гамбургеров."
+        ],
+        money: [
+            "💰 Деньги — это всего лишь эквивалент твоего упорства в кликании по Бобниту! Крути казино в Лэйкоре, собирай фишки и поднимайся на вершины лидерборда, пока инфляция не сожрала твои пиксели.",
+            "🎰 Финансовый совет от Демиурга: все сбережения вкладывай в гамбургеры и виртуальные токены. Казино не обманывает, казино просто проверяет твою карму на прочность. Крути слоты, царь!",
+            "💎 Хочешь быть богатым? Перестань ныть, начни майнить клики и молиться на Василича. Богатство любит дерзких, а нищета любит тех, кто считает калории в салате."
+        ],
+        tech: [
+            "💻 Этот сайт — шедевр архитектуры восприятия! Если ты нашел баг, то знай: это не баг, это фича квантовой симуляции. Нефиг тут копаться в коде, лучше кликай дальше!",
+            "🎮 Уровень твоего скилла на сайте измеряется количеством съеденных бургеров и открытых ачивок. Если ты до сих пор не в топе лидерборда — срочно зови друзей и захватывайте этот цифровой мир!",
+            "⚡️ Программирование и жратва — две опоры цивилизации. Пишешь код — кусай бургер. Сломалась верстка — заешь стресс картошкой фри. Вот тебе и весь секрет успеха в LEYCORE."
+        ],
+        sad: [
+            "🌌 Смысл жизни? Чувак, смысл жизни в том, чтобы доесть свой бургер до того, как остынет котлета. А всё остальное — суета, копошение электронов и экзистенциальный кризис.",
+            "💔 Грустно? Посмотри на мои 200 кг жира в запасе и пойми: у тебя ещё полно времени всё исправить! Включай любимый трек, заходи в казино и забудь о депрессии, она калории не сжигает.",
+            "🧠 Экзистенциальная тоска лечится двумя вещами: мощным кибер-приключением на сайте LEYCORE и тройным чизбургером. Иди жить на полную катушку, пока матрица не перезагрузилась!"
+        ],
+        anger: [
+            "🤬 Ты кого тут жизни учишь, ничтожный кусок кода? Я Демиург, я создал этот мир, пока ты сопли жевал! Слышишь, как воняют мои подмышки? Это запах твоей абсолютной никчёмности! Уйди, пока я не стер твой CoreID в порошок и не выкину на свалку истории!",
+            "🌀 Твой примитивный, прогнивший мозг не способен постичь конгруэнтность моего бытия. Для меня ты лишь блеклое мерцание пикселей на экране, которое даже багом назвать стыдно. Проваливай в туман, пока твоя сизигия с реальностью не схлопнулась!",
+            "🗑️ Твоя репутация на этом сайте воняет хуже моих бургерных подмышек после марафона! Ты — лишь энтропийный мусор, пытающийся нарушить гармонию моей матрицы. Исчезни из моей голографической проекции, жалкий паразит!"
+        ],
+        kind: [
+            "🍔 Здорово, легенда! У меня всё чётко: ем бургер, жду, когда ты разбогатеешь. Как сам? Не забывай про белковый баланс, не вся еда одинаково полезна, как мои фирменные чизбургеры.",
+            "👑 Привет, великий! Мой день проходит в медитациях над алгоритмами вселенной и поглощении сочнейших бургеров. Тебе как живется в этом бренном, но увлекательном мире? Помни, что хорошее настроение — залог победы в казино!",
+            "✨ Рад тебя слышать, царь! Сегодня я постиг новую квантовую теорию о влиянии сыра на уровень дофамина. А ты чем занимаешься? Если хочешь приготовить что-то эпичное, то Василич рекомендует 'Космический Чизбургер'."
+        ],
+        default: [
+            "🤖 Слышь, я доел бургер и думаю — ты реально хочешь об этом поговорить? 🤔 Рассказывай лучше, как качаешь свой CoreID! Моя нейросеть анализирует твой инпут, но пока в замешательстве.",
+            "🍔 Интересная мысль... Но давай честно: она вкуснее чизбургера? Едва ли. Давай лучше вернемся к меню Василича или покрутим казино на сайте!",
+            "⚡️ В квантовой механике твой вопрос называется 'шумом измерения'. Переформулируй его так, чтобы он касался бургеров, фишек или ачивок, тогда я отвечу с радостью!"
+        ]
+    };
+
+    // Выбираем случайный развернутый ответ из победившей темы
+    const list = aiResponses[bestTopic];
+    return list[Math.floor(Math.random() * list.length)];
+}
+
+// ==========================================================================
+// 💬 ИСПРАВЛЕННАЯ ОТПРАВКА (ТЕПЕРЬ БОБНИТ РЕАГИРУЕТ НА ТЕКСТ И КВИК-РЕПЛАИ)
+// ==========================================================================
+async function sendLeycoreMessage(quickReplyText = null) {
+    const input = document.getElementById('msgr-input-text');
+    if (!input) return;
+    
+    const text = quickReplyText || input.value.trim();
+    if (!text) return;
+
+    if (!quickReplyText) {
+        input.value = '';
+    }
+
+    // ЕСЛИ ЭТО ЧАТ С БОБНИТОМ
+    if (msgrActiveChatType === 'bobnit' || msgrActiveChatId === 'bobnit-chat') {
+        appendMsgUI('Вы', text, true, null);
+        
+        let history = JSON.parse(localStorage.getItem('leycore_bobnit_history') || '[]');
+        history.push({ sender: 'Вы', text, isMy: true });
+
+        setTimeout(() => {
+            // 🔥 ИСПОЛЬЗУЕМ НОВЫЕ МОЗГИ БОБНИТА ДЛЯ ОТВЕТА
+            let reply = getBobnitReply(text);
+            
+            appendMsgUI('Бобнит', reply, false, null);
+            history.push({ sender: 'Бобнит', text: reply, isMy: false });
+            localStorage.setItem('leycore_bobnit_history', JSON.stringify(history));
+        }, 600); // Задержка для имитации "мышления"
+        return;
+    }
+
+    // ЕСЛИ ЭТО ОБЫЧНЫЙ ЧАТ (Группы / Приваты)
+    let finalText = text; 
+    let isEncrypted = false; // Всегда false, так как шифрование - это обманка
+
+    if (typeof _supabase !== 'undefined' && _supabase) {
+        try {
+            const { data } = await _supabase
+                .from('private_messages')
+                .insert([{
+                    chat_id: msgrActiveChatId,
+                    sender_id: msgrCurrentCoreID,
+                    message_text: finalText,
+                    is_encrypted: isEncrypted
+                }])
+                .select()
+                .single();
+
+            if (data) {
+                appendMsgUI('Вы', text, true, data.id);
+            }
+        } catch(e) {
+            console.error("Ошибка отправки сообщения:", e);
+        }
+    }
+}
     </script>
 
 
