@@ -7925,6 +7925,46 @@
     color: #ffcca8; padding: 5px 12px; border-radius: 14px; font-size: 0.78rem;
     font-weight: 600;
 }
+
+/* ==========================================================================
+   🍷 ЗАМЕНА ЧЁРНОГО ЗАТЕМНЕНИЯ НА КРАСНОВАТО-БОРДОВЫЙ ЦВЕТ ПОДВАЛА
+   ========================================================================== */
+
+/* 1. Основной фон контейнера TerraCore — бордово-красный, а не чёрный */
+#terracore-view-container {
+    background: #2b0b06 !important;
+}
+
+/* 2. Отключаем старые тёмно-серые/чёрные фильтры */
+#terracore-view-container::before {
+    display: none !important;
+}
+
+/* 3. Градиент ухода земли — растворяется строго в КРАСНО-БОРДОВЫЙ цвет подвала (#2b0b06) */
+.tc-soil-header-bg::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 220px; /* Высота зоны мягкого растворения */
+    background: linear-gradient(to bottom, rgba(43, 11, 6, 0) 0%, #2b0b06 100%) !important;
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* 4. Подвал подхватывает этот же цвет ровно в месте стыка */
+.tc-underground-floor {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #2b0b06 0%, #4a0c0c 35%, #1a0303 100%) !important;
+    padding: 20px 20px 80px 20px;
+    box-sizing: border-box;
+    border-top: none !important;
+    margin-top: -1px; /* Гарантированный нахлест без щелей */
+}
+
     </style>
 
 
