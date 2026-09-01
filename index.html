@@ -7598,162 +7598,280 @@
 
 
 /* ==========================================================================
-   🌍 ФИНАЛЬНАЯ ТЕМА TERRACORE (ПО МАКЕТУ С СРЕЗОМ ЗЕМЛИ)
+   🌍 TERRACORE v2.0 — ДВУХУРОВНЕВЫЙ ИНТЕРФЕЙС (ПОВЕРХНОСТЬ + ПОДЗЕМЕЛЬЕ)
    ========================================================================== */
+
+/* Подключение шрифта Postmodern One (закинь файл PostmodernOne.ttf в папку сайта) */
+@font-face {
+    font-family: 'Postmodern One';
+    src: url('PostmodernOne.ttf') format('truetype'),
+         url('PostmodernOne.woff2') format('woff2');
+}
 
 #terracore-view-container {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    
-    /* 🔥 ПРОСТО И КРАСИВО: картинка из той же папки */
-    background-image: url('terracore_bg.webp');
-    background-repeat: repeat-x;
-    background-size: cover;
-    background-position: center bottom;
-    background-color: #12100d;
-    
+    background: #100303;
     z-index: 99990;
     overflow-y: auto;
-    padding: 20px; box-sizing: border-box;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
     color: #e2d7c5;
 }
 
-
-/* Накладываем еще один мягкий градиент сверху, чтобы текст лучше читался */
-#terracore-view-container::before {
-    content: '';
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to bottom, rgba(10, 8, 6, 0.8) 0%, rgba(10, 8, 6, 0.5) 40%, rgba(10, 8, 6, 0) 100%);
-    pointer-events: none;
-    z-index: 0; /* Под элементами интерфейса */
+#terracore-leaves-canvas {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 5;
 }
 
+/* --- ЭТАЖ 1: ПОВЕРХНОСТЬ (НЕБО + ТРАВА) --- */
+.tc-hero-surface {
+    position: relative;
+    width: 100%; height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+    padding-top: 20px; box-sizing: border-box;
+    overflow: hidden;
+}
 
-/* Подключение шрифта Postmodern One */
-@font-face {
-    font-family: 'Postmodern One';
-    src: url('fonts/PostmodernOne.woff2') format('woff2'), /* Укажи реальный путь к файлу шрифта */
-         url('PostmodernOne.ttf') format('truetype');
+/* Голубое небо за травой */
+.tc-sky-background {
+    position: absolute; top: 0; left: 0; width: 100%; height: 180px;
+    background: linear-gradient(to bottom, #00bfff 0%, #38c0ff 60%, #87ceeb 100%);
+    z-index: 1;
+}
+
+/* Сочный срез земли без затемнения! */
+.tc-soil-header-bg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url('terracore_bg.webp');
+    background-repeat: repeat-x;
+    background-size: cover;
+    background-position: top center;
+    z-index: 2;
+}
+
+/* Верхняя панель с капсулами */
+.tc-top-bar {
+    position: relative; z-index: 10;
+    display: flex; justify-content: center; align-items: center; gap: 12px;
+    margin-top: 5px;
+}
+
+.tc-badge-status {
+    background: #5c3218 !important;
+    color: #e2d7c5; padding: 6px 20px; border-radius: 20px;
+    font-weight: bold; font-size: 0.85rem;
+    font-family: 'Postmodern One', sans-serif;
+}
+.tc-badge-status span { color: #00ff66 !important; }
+
+.tc-exit-btn {
+    background: #5c3218 !important;
+    border: none; color: #ff4d4d !important;
+    padding: 6px 20px; border-radius: 20px;
+    font-weight: bold; font-size: 0.85rem; cursor: pointer;
+    font-family: 'Postmodern One', sans-serif;
+}
+
+/* Логотип TERRACORE */
+.tc-hero-titles {
+    position: relative; z-index: 10;
+    text-align: center; margin-top: 40px;
 }
 
 .tc-main-title {
-    font-family: 'Postmodern One', 'Georgia', serif;
-    font-weight: normal;
-    font-size: 4rem;
-    margin: 40px 0 10px 0;
-    /* Твой фирменный градиент логотипа */
-    background: linear-gradient(180deg, #ffcc00 0%, #ff6600 50%, #cc0000 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.7));
-    letter-spacing: 3px;
-    text-align: center;
+    font-family: 'Postmodern One', sans-serif !important;
+    font-size: 4.8rem !important;
+    margin: 0; letter-spacing: 4px;
+    background: linear-gradient(180deg, #ffcc00 0%, #ff6600 50%, #cc0000 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.9));
 }
 
 .tc-subtitle {
-    font-family: 'Postmodern One', sans-serif;
-    font-size: 1rem;
-    color: #ffd700;
-    text-align: center;
-    letter-spacing: 1px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-    margin-bottom: 40px;
+    font-family: 'Postmodern One', sans-serif !important;
+    color: #111 !important; /* Тёмный контрастный шрифт подзаголовка */
+    font-size: 0.95rem; font-weight: 900;
+    margin-top: 10px;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.4);
+}
+
+/* 🔥 КНОПКА-СТРЕЛКА (ЖЕЛТАЯ С ПЛАШКАМИ) */
+.tc-scroll-down-arrow {
+    position: absolute; bottom: 40px; left: 40px; z-index: 10;
+    display: flex; flex-direction: column; align-items: center;
+    cursor: pointer; transition: transform 0.2s ease;
+}
+.tc-scroll-down-arrow:hover { transform: translateY(5px) scale(1.1); }
+
+.tc-arrow-purple-bar { width: 30px; height: 6px; background: #8a2be2; border-radius: 2px; margin-bottom: 3px; }
+.tc-arrow-pink-bar { width: 30px; height: 6px; background: #ff007f; border-radius: 2px; margin-bottom: 4px; }
+.tc-arrow-yellow-head {
+    width: 0; height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 30px solid #ff9900;
+    color: #ffcc00; font-size: 0;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.8));
+}
+
+/* --- ЭТАЖ 2: ПОДЗЕМЕЛЬЕ (КРАСНЫЙ ФОН И РАЙОНЫ) --- */
+.tc-underground-floor {
+    position: relative; z-index: 10;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #3d0808 0%, #610c0c 40%, #2b0404 100%);
+    padding: 40px 20px 80px 20px;
+    box-sizing: border-box;
+    border-top: 4px solid #8b0000;
+}
+
+.tc-underground-header h3 {
+    text-align: center; font-family: 'Postmodern One', serif;
+    color: #ffd700; font-size: 1.5rem; letter-spacing: 2px; margin-bottom: 30px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+
+/* 🔥 ФАКЕЛ СПРАВА */
+.tc-right-torch {
+    position: fixed; right: 30px; top: 50%; transform: translateY(-50%);
+    z-index: 12; display: flex; flex-direction: column; align-items: center;
+    pointer-events: none;
+}
+.tc-torch-fire {
+    font-size: 3rem;
+    animation: torchFlicker 0.15s infinite alternate;
+    filter: drop-shadow(0 0 20px #ff6600);
+}
+.tc-torch-wood {
+    width: 12px; height: 80px;
+    background: linear-gradient(to right, #3a1e05, #6e3b0a, #241102);
+    border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.9);
+}
+@keyframes torchFlicker {
+    0% { transform: scale(1) rotate(-2deg); opacity: 0.9; }
+    100% { transform: scale(1.15) rotate(2deg); opacity: 1; }
 }
 
 
-#terracore-leaves-canvas {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; z-index: 1;
-}
+/* ==========================================================================
+   🧪 СТИЛИ КОНТЕЙНЕРОВ РАЙОНОВ И ХИМИЧЕСКИХ КОЛБ ДЛЯ ПОДВАЛА
+   ========================================================================== */
 
-.tc-top-bar {
-    position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center;
-    max-width: 900px; margin: 0 auto 15px auto;
-}
-.tc-badge-status { font-size: 0.75rem; color: #52c493; background: rgba(82, 196, 147, 0.1); padding: 5px 12px; border-radius: 12px; border: 1px solid rgba(82, 196, 147, 0.3); }
-.tc-exit-btn { background: rgba(184, 51, 42, 0.2); border: 1px solid #b8332a; color: #ff7b73; padding: 6px 14px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-
-.tc-header-section { position: relative; z-index: 2; text-align: center; margin-bottom: 30px; }
-
-/* СЕТКА 10 РАЙОНОВ */
+/* Сетка карточек районов */
 .tc-districts-grid {
-    position: relative; z-index: 2;
-    max-width: 900px; margin: 0 auto 50px auto;
-    display: flex; flex-direction: column; gap: 16px;
+    position: relative; z-index: 10;
+    max-width: 850px; margin: 0 auto;
+    display: flex; flex-direction: column; gap: 18px;
+    padding-right: 50px; /* Отступ справа, чтобы не перекрывать факел */
 }
 
-/* Карточка района */
+@media (max-width: 768px) {
+    .tc-districts-grid { padding-right: 0; }
+}
+
+/* Карточка района (Магматический стиль подвала) */
 .tc-district-card {
-    background: linear-gradient(135deg, rgba(38, 26, 17, 0.85), rgba(20, 38, 29, 0.85));
-    border: 1px solid rgba(139, 107, 62, 0.4);
-    border-radius: 14px;
-    padding: 16px 20px;
-    backdrop-filter: blur(4px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-    transition: border-color 0.3s ease;
+    background: linear-gradient(135deg, rgba(50, 10, 10, 0.9), rgba(25, 5, 5, 0.95));
+    border: 2px solid #8b2500;
+    border-radius: 16px;
+    padding: 18px 22px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.7), inset 0 0 15px rgba(255, 68, 0, 0.15);
+    transition: all 0.3s ease;
 }
-.tc-district-card:hover { border-color: rgba(212, 163, 89, 0.7); }
+.tc-district-card:hover {
+    border-color: #ff5500;
+    box-shadow: 0 8px 30px rgba(255, 85, 0, 0.3), inset 0 0 20px rgba(255, 68, 0, 0.25);
+}
 
-.tc-district-header { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
-.tc-district-left { display: flex; align-items: center; gap: 16px; flex: 1; }
+.tc-district-header {
+    display: flex; align-items: center; justify-content: space-between; gap: 15px;
+}
+.tc-district-left {
+    display: flex; align-items: center; gap: 20px; flex: 1;
+}
 
-/* 🧪 СТИЛЬ ХИМИЧЕСКОЙ КОЛБЫ */
+/* 🧪 СТИЛЬ ХИМИЧЕСКОЙ КОЛБЫ В ПОДВАЛЕ */
 .tc-flask-wrapper {
     display: flex; flex-direction: column; align-items: center; gap: 4px;
+    min-width: 35px;
 }
 .tc-flask-container {
-    width: 22px; height: 50px;
-    border: 2px solid #a3895c;
+    width: 22px; height: 55px;
+    border: 2px solid #ffaa00;
     border-radius: 4px 4px 12px 12px;
     position: relative;
-    background: rgba(10, 10, 10, 0.6);
+    background: rgba(10, 0, 0, 0.8);
     overflow: hidden;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
+    box-shadow: 0 0 8px rgba(255, 170, 0, 0.4), inset 0 0 6px rgba(0,0,0,0.9);
 }
+
+/* Светящаяся огненно-зеленая эссенция в колбе */
 .tc-flask-liquid {
     position: absolute; bottom: 0; left: 0; width: 100%;
-    background: linear-gradient(to top, #2e8b57, #52c493);
-    transition: height 0.2s ease;
-    box-shadow: 0 0 8px #52c493;
+    background: linear-gradient(to top, #ff2200, #ffaa00, #00ff66);
+    transition: height 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 12px #ffaa00;
 }
-.tc-flask-percent { font-size: 0.65rem; font-weight: 800; color: #ffd700; }
+
+.tc-flask-percent {
+    font-size: 0.7rem; font-weight: 900; color: #ffd700;
+    text-shadow: 0 1px 3px #000;
+}
+
+/* Золотая кнопка + */
 .tc-plus-btn {
-    background: linear-gradient(135deg, #ffd700, #b8860b);
-    color: #1a0f05; border: none;
-    width: 22px; height: 22px; border-radius: 50%;
-    font-weight: 900; font-size: 0.85rem;
+    background: linear-gradient(135deg, #ffcc00, #ff6600);
+    color: #1a0000; border: none;
+    width: 24px; height: 24px; border-radius: 50%;
+    font-weight: 900; font-size: 0.9rem;
     cursor: pointer; display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-    transition: transform 0.1s ease;
+    box-shadow: 0 3px 8px rgba(255, 102, 0, 0.5);
+    transition: transform 0.1s ease, filter 0.2s ease;
 }
+.tc-plus-btn:hover { filter: brightness(1.2); }
 .tc-plus-btn:active { transform: scale(0.85); }
 
+/* Название района в карточке */
 .tc-district-title-box h2 {
-    margin: 0; font-size: 1.25rem; font-weight: 800; color: #e6cb9c;
-    font-family: 'Georgia', serif; letter-spacing: 1px;
-}
-.tc-toggle-btn {
-    background: rgba(139, 107, 62, 0.2);
-    border: 1px solid #8b6b3e; color: #d4a359;
-    padding: 6px 14px; border-radius: 8px;
-    font-weight: bold; font-size: 0.75rem; cursor: pointer;
+    margin: 0; font-size: 1.35rem; font-weight: 900; color: #ffaa00;
+    font-family: 'Postmodern One', 'Georgia', serif; letter-spacing: 2px;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.8);
 }
 
-/* Раскрываемый блок */
+/* Кнопка "Раскрыть ▾" */
+.tc-toggle-btn {
+    background: rgba(139, 37, 0, 0.3);
+    border: 1.5px solid #ff4400; color: #ffaa00;
+    padding: 8px 16px; border-radius: 10px;
+    font-weight: bold; font-size: 0.8rem; cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Postmodern One', sans-serif;
+}
+.tc-toggle-btn:hover {
+    background: #ff4400; color: #fff;
+    box-shadow: 0 0 12px rgba(255, 68, 0, 0.6);
+}
+
+/* Раскрываемый блок карточки */
 .tc-district-body {
-    margin-top: 15px; padding-top: 15px;
-    border-top: 1px solid rgba(139, 107, 62, 0.2);
+    margin-top: 16px; padding-top: 16px;
+    border-top: 1px solid rgba(255, 85, 0, 0.25);
     display: none;
 }
 .tc-vibe-box {
-    background: rgba(0,0,0,0.25); padding: 10px 14px; border-radius: 8px;
-    font-size: 0.85rem; color: #b5c7b9; line-height: 1.4; margin-bottom: 12px;
-    border-left: 3px solid #4a7c59;
+    background: rgba(15, 2, 2, 0.6); padding: 12px 16px; border-radius: 10px;
+    font-size: 0.88rem; color: #ffdca8; line-height: 1.45; margin-bottom: 14px;
+    border-left: 4px solid #ff5500;
 }
-.tc-spots-title { font-size: 0.75rem; color: #ffd700; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; }
+.tc-spots-title {
+    font-size: 0.78rem; color: #ffd700; font-weight: bold; margin-bottom: 10px;
+    text-transform: uppercase; letter-spacing: 1px;
+}
 .tc-spots-list { display: flex; flex-wrap: wrap; gap: 8px; }
 .tc-spot-chip {
-    background: rgba(46, 117, 89, 0.25); border: 1px solid rgba(82, 196, 147, 0.4);
-    color: #a3e0c0; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem;
+    background: rgba(255, 85, 0, 0.2); border: 1px solid rgba(255, 170, 0, 0.5);
+    color: #ffcca8; padding: 5px 12px; border-radius: 14px; font-size: 0.78rem;
+    font-weight: 600;
 }
     </style>
 
@@ -16328,24 +16446,24 @@ function enterTerraCoreMode() {
     const tcContainer = document.getElementById('terracore-view-container');
     if (tcContainer) tcContainer.style.display = 'block';
 
-    // Рендерим 10 районов
+    // 🔥 РЕНДЕРИМ 10 РАЙОНОВ С КОЛБАМИ В ПОДВАЛЕ
     renderTerraCoreDistricts();
 
-    // Запускаем анимированный листопад
+    // Запускаем листопад
     initLeavesCanvas();
 
     // Заменяем логотип на TerraCore
     const logoEl = document.querySelector('.logo, #main-logo-text, .header-logo');
     if (logoEl) {
         originalLogoText = logoEl.innerText;
-        logoEl.innerText = 'TerraCore';
-        logoEl.classList.add('tc-active-logo');
+        logoEl.innerText = 'TERRACORE';
     }
 
-    // Скрываем сайдбар мессенджера/сайта
+    // Скрываем сайдбар
     const sidebar = document.querySelector('.msgr-sidebar, .main-sidebar');
     if (sidebar) sidebar.style.display = 'none';
 }
+
 
 // 3. ВЫХОД ИЗ TERRACORE
 function exitTerraCoreMode() {
@@ -16504,6 +16622,15 @@ function initLeavesCanvas() {
 
     renderLeaves();
 }
+
+// Функция спуска в подземелье к районам
+function scrollToTerraCoreUnderground() {
+    const underground = document.getElementById('tc-underground-section');
+    if (underground) {
+        underground.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
     </script>
 
 
@@ -16770,26 +16897,61 @@ function initLeavesCanvas() {
     </div>
 </div>
 
-<!-- 🌿 ГЛАВНОЕ ОКНО TERRACORE -->
+<!-- 🌿 ГЛАВНОЕ ОКНО TERRACORE (ДВУХУРОВНЕВОЕ) -->
 <div id="terracore-view-container" style="display: none;">
-    <!-- Анимированный холст листьев -->
+    <!-- Анимированный листопад -->
     <canvas id="terracore-leaves-canvas"></canvas>
 
-    <!-- Шапка TerraCore -->
-    <div class="tc-top-bar">
-        <div class="tc-badge-status">🌿 ЛОКАЛЬНЫЙ СЕЙФ: АКТИВЕН</div>
-        <button onclick="exitTerraCoreMode()" class="tc-exit-btn">✕ Выйти из TerraCore</button>
+    <!-- ==========================================
+         ЭТАЖ 1: ПОВЕРХНОСТЬ (НЕБО + ШАПКА ЗЕМЛИ)
+         ========================================== -->
+    <div class="tc-hero-surface">
+        <!-- Голубое небо за травой -->
+        <div class="tc-sky-background"></div>
+        <!-- Прозрачный срез земли -->
+        <div class="tc-soil-header-bg"></div>
+
+        <!-- Верхние кнопки по центру -->
+        <div class="tc-top-bar">
+            <div class="tc-badge-status">сейф: <span>активен</span></div>
+            <button onclick="exitTerraCoreMode()" class="tc-exit-btn">выйти</button>
+        </div>
+
+        <!-- Логотип и подзаголовок -->
+        <div class="tc-hero-titles">
+            <h1 class="tc-main-title">TERRACORE</h1>
+            <p class="tc-subtitle">Исследование городских районов & Лаборатория воспоминаний</p>
+        </div>
+
+        <!-- Кнопка-стрелка спуска вниз -->
+        <div class="tc-scroll-down-arrow" onclick="scrollToTerraCoreUnderground()" title="Спуститься в подземелье районов">
+            <div class="tc-arrow-purple-bar"></div>
+            <div class="tc-arrow-pink-bar"></div>
+            <div class="tc-arrow-yellow-head">▼</div>
+        </div>
     </div>
 
-    <!-- Заголовок и описание -->
-    <div class="tc-header-section">
-        <h1 class="tc-main-title">TerraCore</h1>
-        <p class="tc-subtitle">Исследование городских районов & Лаборатория воспоминаний</p>
-    </div>
+    <!-- ==========================================
+         ЭТАЖ 2: ПОДЗЕМЕЛЬЕ (КРАСНЫЙ ФОН + РАЙОНЫ)
+         ========================================== -->
+    <div id="tc-underground-section" class="tc-underground-floor">
+        <!-- Анимированный Факел Справа -->
+        <div class="tc-right-torch">
+            <div class="tc-torch-wood"></div>
+            <div class="tc-torch-fire">🔥</div>
+            <div class="tc-torch-glow"></div>
+        </div>
 
-    <!-- 🏘 СПИСОК 10 РАЙОНОВ -->
-    <div id="terracore-districts-list" class="tc-districts-grid"></div>
+        <!-- Заголовок подземелья -->
+        <div class="tc-underground-header">
+            <h3>🏛 КАРТА ГОРОДСКИХ РАЙОНОВ</h3>
+        </div>
+
+        <!-- 10 РАЙОНОВ С КОЛБАМИ -->
+        <div id="terracore-districts-list" class="tc-districts-grid"></div>
+    </div>
 </div>
+
 
 
 </body>
