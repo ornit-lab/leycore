@@ -20025,7 +20025,9 @@ function tcSetComfort(n) {
     });
 }
 
-// Старт / Стоп записи
+// ==========================================================================
+// 🎙️ СТУДИЙНАЯ ЗАПИСЬ ЗВУКА (БЕЗ ОБРЕЗАНИЙ И БЕЗ ШУМОВ)
+// ==========================================================================
 async function tcToggleRecord() {
     const state = getTcVoiceState();
     const btn = document.getElementById('tc-mic-record-btn');
@@ -20034,8 +20036,29 @@ async function tcToggleRecord() {
 
     if (!state.recorder || state.recorder.state === 'inactive') {
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            state.recorder = new MediaRecorder(stream);
+            // Запрашиваем микрофон в студийном качестве (отключаем телефонные глушилки)
+            const stream = await navigator.mediaDevices.getUserMedia({
+                audio: {
+                    echoCancellation: false,   // Не режем эхо (оно убивает начало фразы)
+                    noiseSuppression: false,   // Не душим голос телефонным шумодавом
+                    autoGainControl: false,    // Не скачет громкость
+                    channelCount: 2,           // Стерео
+                    sampleRate: 48000          // Студийная частота 48kHz
+                }
+            });
+
+            // Выбираем лучший кодек системы
+            let mimeType = 'audio/webm;codecs=opus';
+            if (!MediaRecorder.isTypeSupported(mimeType)) {
+                mimeType = MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : '';
+            }
+
+            const options = {
+                audioBitsPerSecond: 192000 // 192 kbps кристальный чистый битрейт
+            };
+            if (mimeType) options.mimeType = mimeType;
+
+            state.recorder = new MediaRecorder(stream, options);
             state.chunks = [];
 
             state.recorder.ondataavailable = (e) => {
@@ -20045,7 +20068,7 @@ async function tcToggleRecord() {
             };
 
             state.recorder.onstop = () => {
-                const blob = new Blob(state.chunks, { type: 'audio/webm' });
+                const blob = new Blob(state.chunks, { type: mimeType || 'audio/webm' });
                 const reader = new FileReader();
                 reader.readAsDataURL(blob);
                 reader.onloadend = () => {
@@ -20054,24 +20077,27 @@ async function tcToggleRecord() {
                 stream.getTracks().forEach(t => t.stop());
             };
 
-            state.recorder.start();
-            if (btn) btn.classList.add('recording');
-            if (txt) txt.innerText = "Остановить запись";
+            // Даём микрофону 120мс на стабилизацию сигнала, чтобы не проглатывать 1-й слог
+            setTimeout(() => {
+                state.recorder.start(250); // пишем порциями по 250мс для надёжности
+                if (btn) btn.classList.add('recording');
+                if (txt) txt.innerText = "Остановить запись";
 
-            state.sec = 0;
-            if (timerEl) timerEl.innerText = "00:00";
-            if (state.timer) clearInterval(state.timer);
+                state.sec = 0;
+                if (timerEl) timerEl.innerText = "00:00";
+                if (state.timer) clearInterval(state.timer);
 
-            state.timer = setInterval(() => {
-                state.sec++;
-                const m = String(Math.floor(state.sec / 60)).padStart(2, '0');
-                const s = String(state.sec % 60).padStart(2, '0');
-                if (timerEl) timerEl.innerText = `${m}:${s}`;
-            }, 1000);
+                state.timer = setInterval(() => {
+                    state.sec++;
+                    const m = String(Math.floor(state.sec / 60)).padStart(2, '0');
+                    const s = String(state.sec % 60).padStart(2, '0');
+                    if (timerEl) timerEl.innerText = `${m}:${s}`;
+                }, 1000);
+            }, 120);
 
         } catch (err) {
-            alert("❌ Не удалось получить доступ к микрофону! Разрешите доступ в браузере.");
-            console.error("Microphone error:", err);
+            alert("❌ Ошибка доступа к микрофону! Разрешите микрофон в настройках браузера.");
+            console.error("Microphone HD error:", err);
         }
     } else if (state.recorder.state === 'recording') {
         state.recorder.stop();
@@ -20081,34 +20107,99 @@ async function tcToggleRecord() {
     }
 }
 
-// Сохранение и автоматическое сворачивание
-function tcSaveVoice(base64Audio) {
+// ==========================================================================
+// ☁️ СИНХРОНИЗАЦИЯ ГОЛОСОВЫХ ПАМЯТОК ЧЕРЕЗ SUPABASE
+// ==========================================================================
+
+// 1. СОХРАНЕНИЕ В SUPABASE
+async function tcSaveVoice(base64Audio) {
     const state = getTcVoiceState();
-    const notes = JSON.parse(localStorage.getItem('tc_voice_notes_v2') || '[]');
     const d = new Date();
     const months = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
     const formattedDate = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} года, ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    const memoId = Date.now();
+    const comfortLvl = state.comfort || 5;
 
-    notes.unshift({
-        id: Date.now(),
+    // Локальное мгновенное обновление (кэш)
+    const localNotes = JSON.parse(localStorage.getItem('tc_voice_notes_v2') || '[]');
+    localNotes.unshift({
+        id: memoId,
         date: formattedDate,
-        lvl: state.comfort || 5,
+        lvl: comfortLvl,
         audio: base64Audio
     });
+    localStorage.setItem('tc_voice_notes_v2', JSON.stringify(localNotes));
 
-    localStorage.setItem('tc_voice_notes_v2', JSON.stringify(notes));
     tcHideRecordInterface();
     tcRenderVoice();
+
+    // Отправка в облако Supabase
+    if (window.supabaseClient || window.supabase) {
+        const client = window.supabaseClient || window.supabase;
+        try {
+            const { error } = await client
+                .from('terracore_voice_memos')
+                .insert([{
+                    id: memoId,
+                    created_at: formattedDate,
+                    comfort_lvl: comfortLvl,
+                    audio_base64: base64Audio
+                }]);
+
+            if (error) {
+                console.error("Ошибка сохранения в Supabase:", error.message);
+            } else {
+                console.log("☁️ Памятка успешно сохранена в Supabase!");
+            }
+        } catch (e) {
+            console.error("Supabase request error:", e);
+        }
+    }
 }
 
-// Отрисовка заметок с хороводом 8 звёзд
-// Отрисовка заметок (Без звёзд, с чистым морфингом облака)
-function tcRenderVoice() {
+// 2. ЗАГРУЗКА ИЗ ОБЛАКА И ОТРИСОВКА
+async function tcRenderVoice() {
     const list = document.getElementById('tc-voice-notes-list');
     if (!list) return;
 
-    const notes = JSON.parse(localStorage.getItem('tc_voice_notes_v2') || '[]');
-    if (notes.length === 0) {
+    // Сначала показываем из локального кэша, чтобы интерфейс не ждал загрузки
+    let notes = JSON.parse(localStorage.getItem('tc_voice_notes_v2') || '[]');
+    drawVoiceList(notes);
+
+    // Подтягиваем свежие данные из Supabase
+    if (window.supabaseClient || window.supabase) {
+        const client = window.supabaseClient || window.supabase;
+        try {
+            const { data, error } = await client
+                .from('terracore_voice_memos')
+                .select('*')
+                .order('id', { ascending: false });
+
+            if (!error && data && data.length > 0) {
+                // Преобразуем формат Supabase в формат сайта
+                notes = data.map(item => ({
+                    id: item.id,
+                    date: item.created_at,
+                    lvl: item.comfort_lvl,
+                    audio: item.audio_base64
+                }));
+
+                // Обновляем локальный кэш и перерисовываем
+                localStorage.setItem('tc_voice_notes_v2', JSON.stringify(notes));
+                drawVoiceList(notes);
+            }
+        } catch (e) {
+            console.log("Оффлайн-режим или ошибка загрузки из Supabase");
+        }
+    }
+}
+
+// Вспомогательная функция прорисовки карточек
+function drawVoiceList(notes) {
+    const list = document.getElementById('tc-voice-notes-list');
+    if (!list) return;
+
+    if (!notes || notes.length === 0) {
         list.innerHTML = `<div style="text-align:center; color:#888; font-style:italic; padding:20px;">Пока нет сохранённых заметок. Запишите первую после прогулки!</div>`;
         return;
     }
@@ -20136,32 +20227,29 @@ function tcRenderVoice() {
     }).join('');
 }
 
-
-
-
-// Удаление
-function tcDeleteVoice(id) {
+// 3. УДАЛЕНИЕ ИЗ ОБЛАКА И ЛОКАЛЬНО
+async function tcDeleteVoice(id) {
     if (confirm("Точно удалить эту памятку?")) {
+        // Удаляем локально
         let notes = JSON.parse(localStorage.getItem('tc_voice_notes_v2') || '[]');
         notes = notes.filter(n => n.id !== id);
         localStorage.setItem('tc_voice_notes_v2', JSON.stringify(notes));
-        tcRenderVoice();
+        drawVoiceList(notes);
+
+        // Удаляем из базы данных Supabase
+        if (window.supabaseClient || window.supabase) {
+            const client = window.supabaseClient || window.supabase;
+            try {
+                await client
+                    .from('terracore_voice_memos')
+                    .delete()
+                    .eq('id', id);
+                console.log("🗑 Памятка удалена из Supabase!");
+            } catch (e) {
+                console.error("Ошибка удаления из Supabase:", e);
+            }
+        }
     }
-}
-
-// Переключатель вкладок
-function switchTerraCoreTab(tabName) {
-    const tabs = ['map', 'pp', 'roulette', 'voice'];
-    tabs.forEach(t => {
-        const btn = document.getElementById('tc-tab-btn-' + t);
-        const content = document.getElementById('tc-tab-content-' + t);
-        if (btn) btn.classList.toggle('active', t === tabName);
-        if (content) content.style.display = (t === tabName) ? 'block' : 'none';
-    });
-
-    if (tabName === 'pp' && typeof renderTerraCorePPGame === 'function') renderTerraCorePPGame();
-    if (tabName === 'roulette' && typeof renderRouletteModule === 'function') renderRouletteModule('start');
-    if (tabName === 'voice') tcRenderVoice();
 }
 
 
