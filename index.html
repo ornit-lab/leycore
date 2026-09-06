@@ -8212,11 +8212,12 @@
 .tc-district-card,
 .tc-city-flask,
 .tc-small-flask,
-#terracore-view-container,
+/* Оставляем видеочип только для заголовка, а контейнер очищаем! */
 .tc-main-title {
     will-change: transform;
-    transform: translateZ(0); /* Включает видеочип телефона вместо процессора */
+    transform: translateZ(0);
 }
+
 
 /* 2. Легкие стили специально для мобилок (экран менее 768px) */
 @media (max-width: 768px) {
@@ -8241,6 +8242,334 @@
     /* Уменьшаем высоту канваса и отключаем лишнюю нагрузку */
     #terracore-leaves-canvas {
         pointer-events: none;
+    }
+}
+
+
+/* ==========================================================================
+   🔮 ТАБЫ И МОДУЛЬ «ПРАВДА ИЛИ ПРАВДА» (200 ВОПРОСОВ)
+   ========================================================================== */
+
+/* Вкладки подземелья */
+.tc-underground-tabs {
+    display: flex; justify-content: center; gap: 15px;
+    margin-bottom: 25px; position: relative; z-index: 15;
+}
+
+.tc-tab-btn {
+    background: rgba(43, 11, 6, 0.8); border: 2px solid #8b2500;
+    color: #ffaa00; padding: 10px 24px; border-radius: 20px;
+    font-family: 'Postmodern One', sans-serif !important;
+    font-size: 1rem; font-weight: bold; cursor: pointer;
+    transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.tc-tab-btn:hover { border-color: #ffcc00; color: #fff; }
+
+.tc-tab-btn.active {
+    background: linear-gradient(135deg, #ff6600, #8b0000);
+    border-color: #ffd700; color: #fff;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+.tc-tab-content { display: none; }
+.tc-tab-content.active { display: block; }
+
+.tc-pp-subtitle {
+    text-align: center; color: #d4a359; font-size: 0.95rem;
+    margin-top: -20px; margin-bottom: 35px; font-style: italic;
+}
+
+/* Сетка игры ПП */
+.tc-pp-container {
+    display: flex; gap: 30px; max-width: 1100px; margin: 0 auto;
+    align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+    .tc-pp-container { flex-direction: column; align-items: center; }
+}
+
+.tc-pp-flask-side {
+    position: sticky; top: 100px;
+    display: flex; flex-direction: column; align-items: center;
+    min-width: 120px;
+}
+
+.tc-pp-grid {
+    flex: 1; display: flex; flex-direction: column; gap: 12px; width: 100%;
+}
+
+/* Карточка вопроса */
+.tc-pp-card {
+    background: linear-gradient(135deg, rgba(45, 12, 12, 0.85), rgba(20, 5, 5, 0.9));
+    border: 1.5px solid rgba(255, 102, 0, 0.4);
+    border-radius: 12px; padding: 14px 18px;
+    display: flex; align-items: center; gap: 15px;
+    cursor: pointer; transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.tc-pp-card:hover {
+    border-color: #ffd700; transform: translateX(5px);
+    box-shadow: 0 4px 18px rgba(255, 215, 0, 0.25);
+}
+
+.tc-pp-num {
+    background: rgba(255, 102, 0, 0.2); border: 1px solid #ff6600;
+    color: #ffd700; font-family: 'Postmodern One', sans-serif !important;
+    font-weight: bold; font-size: 0.85rem; padding: 4px 10px; border-radius: 8px;
+    min-width: 35px; text-align: center;
+}
+
+.tc-pp-text {
+    flex: 1; color: #f0e2ce; font-size: 0.92rem; line-height: 1.4;
+}
+
+/* Состояние исчерпанного (отвеченного) вопроса */
+.tc-pp-card.answered {
+    background: rgba(15, 10, 10, 0.7) !important;
+    border-color: #444 !important; opacity: 0.55;
+    box-shadow: none !important; transform: none !important;
+}
+
+.tc-pp-card.answered .tc-pp-num {
+    background: #333 !important; border-color: #555 !important; color: #888 !important;
+}
+
+.tc-pp-card.answered .tc-pp-text {
+    color: #888 !important; text-decoration: line-through;
+}
+
+.tc-pp-check {
+    font-weight: 900; color: #52c493; font-size: 1.1rem; display: none;
+}
+
+.tc-pp-card.answered .tc-pp-check { display: block; }
+
+
+/* ==========================================================================
+   🧪 ГЛАВНЫЕ КОЛБЫ (ГОРОД + ПП) ПОВЕРХ ВКЛАДОК
+   ========================================================================== */
+
+/* Контейнер для двух главных колб сверху */
+.tc-main-summary-flasks-row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 50px;
+    margin: 0 auto 30px auto;
+    position: relative;
+    z-index: 15;
+}
+
+.tc-summary-flask-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Прижимаем список вопросов ПП на всю ширину без внутренней боковой колбы */
+.tc-pp-grid-full {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+/* ==========================================================================
+   🚀 ПЛАВАЮЩАЯ КНОПКА «НАВЕРХ» (НАМЕРТВО ПРИКЛЕЕНА К ПРАВОМУ НИЖНЕМУ УГЛУ)
+   ========================================================================== */
+.tc-scroll-top-btn {
+    position: fixed !important;
+    bottom: 30px !important;
+    right: 30px !important;
+    z-index: 99999 !important; /* 🔥 Выше абсолютно всех элементов на сайте! */
+    width: 52px !important;
+    height: 52px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #ff6600, #8b0000) !important;
+    border: 2px solid #ffd700 !important;
+    color: #ffd700 !important;
+    font-size: 1.4rem !important;
+    font-weight: 900 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 4px 20px rgba(255, 102, 0, 0.8) !important;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.2s ease, visibility 0.3s ease !important;
+}
+
+/* Показываем кнопку */
+.tc-scroll-top-btn.visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+.tc-scroll-top-btn:hover {
+    transform: translateY(-5px) scale(1.1) !important;
+    border-color: #fff !important;
+    box-shadow: 0 6px 25px rgba(255, 215, 0, 0.9) !important;
+}
+
+.tc-scroll-top-btn:active {
+    transform: scale(0.9) !important;
+}
+
+/* ==========================================================================
+   📱 ИДЕАЛЬНАЯ МОБИЛЬНАЯ АДАПТАЦИЯ TERRACORE (ЭКРАНЫ МЕНЕЕ 768px)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    
+    /* 1. ШАПКА И ФОН (terracore_bg.webp) */
+    .tc-hero-surface {
+        height: 100vh;
+        justify-content: space-between; /* Распределяем элементы по вертикали */
+        padding: 15px 10px 30px 10px;
+    }
+
+    .tc-sky-background {
+        height: 120px; /* Уменьшаем высоту неба */
+    }
+
+    /* 🔥 Корректный сжатый срез земли под вертикальный экран */
+    .tc-soil-header-bg {
+        background-size: cover !important;
+        background-position: center top !important;
+    }
+
+    .tc-soil-header-bg::after {
+        height: 150px !important; /* Уменьшаем зону ухода в подвал */
+    }
+
+    /* 2. ВЕРХНИЕ КНОПКИ ШАПКИ */
+    .tc-top-bar {
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        transform: none !important;
+        width: 100%;
+        justify-content: center;
+        gap: 8px !important;
+        margin-top: 10px;
+    }
+
+    .tc-badge-status,
+    .tc-exit-btn {
+        padding: 6px 14px !important;
+        font-size: 0.75rem !important;
+    }
+
+    /* 3. 🔥 АДАПТИВНЫЙ ТЕКСТ ЛОГОТИПА И ПОДЗАГОЛОВКА */
+    .tc-hero-titles {
+        margin-top: 0 !important;
+        padding: 0 10px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Вместо огромных 8.5rem ставим аккуратные 10vw (пропорционально экрану) */
+    .tc-main-title {
+        font-size: clamp(2.5rem, 11vw, 3.8rem) !important;
+        letter-spacing: 2px !important;
+        line-height: 1.1 !important;
+    }
+
+    /* Подзаголовок сжимаем до читаемого мобильного формата */
+    .tc-subtitle {
+        font-size: clamp(0.85rem, 3.5vw, 1.1rem) !important;
+        margin-top: 10px !important;
+        line-height: 1.3 !important;
+    }
+
+    /* 4. КНОПКА-СТРЕЛКА ВНИЗ */
+    .tc-scroll-down-arrow {
+        position: relative !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        margin-bottom: 20px;
+    }
+
+    .tc-arrow-purple-bar,
+    .tc-arrow-pink-bar {
+        width: 30px !important;
+        height: 6px !important;
+    }
+
+    .tc-arrow-yellow-head {
+        border-left-width: 16px !important;
+        border-right-width: 16px !important;
+        border-top-width: 24px !important;
+    }
+
+    /* 5. ГЛАВНЫЕ КОЛБЫ (ГОРОД И ПП) ПОВЕРХ ВКЛАДОК */
+    .tc-main-summary-flasks-row {
+        gap: 25px !important; /* Уменьшаем расстояние между колбами */
+        margin-bottom: 20px !important;
+    }
+
+    .tc-city-flask-stage {
+        width: 65px !important;
+        height: 150px !important;
+    }
+
+    .tc-city-flask {
+        width: 46px !important;
+        height: 120px !important;
+    }
+
+    .tc-city-percent {
+        font-size: 1rem !important;
+    }
+
+    .tc-city-label {
+        font-size: 0.85rem !important;
+    }
+
+    /* 6. ПЕРЕКЛЮЧАТЕЛЬ ВКЛАДОК */
+    .tc-underground-tabs {
+        gap: 8px !important;
+        width: 100%;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+
+    .tc-tab-btn {
+        flex: 1;
+        padding: 8px 10px !important;
+        font-size: 0.75rem !important;
+        text-align: center;
+    }
+
+    /* 7. РАЙОНЫ И ИГРА «ПП» НА МОБИЛКЕ */
+    .tc-district-outer-wrapper {
+        gap: 10px !important;
+    }
+
+    .tc-district-title-box h2 {
+        font-size: 1.1rem !important;
+    }
+
+    .tc-toggle-btn {
+        padding: 6px 10px !important;
+        font-size: 0.7rem !important;
+    }
+
+    .tc-pp-card {
+        padding: 10px 12px !important;
+        gap: 10px !important;
+    }
+
+    .tc-pp-text {
+        font-size: 0.82rem !important;
     }
 }
 
@@ -15108,7 +15437,30 @@
         }
 
         // Запускаем при загрузке и ресайзе
-        document.addEventListener('DOMContentLoaded', relocateLavaSidebarForMobile);
+        // 🔥 ЗАПУСК ВСЕХ КОМПОНЕНТОВ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ
+document.addEventListener('DOMContentLoaded', () => {
+    // Вызовы старых функций
+    if (typeof renderAchievementsUI === 'function') renderAchievementsUI();
+    if (typeof renderInventoryUI === 'function') renderInventoryUI();
+    if (typeof renderShopUI === 'function') renderShopUI();
+
+    // 🚀 БЕЗОПАСНАЯ ПРИВЯЗКА СКРОЛЛА КНОПКИ «НАВЕРХ» (когда DOM уже точно готов)
+    const tcContainer = document.getElementById('terracore-view-container');
+    if (tcContainer) {
+        tcContainer.addEventListener('scroll', () => {
+            const topBtn = document.getElementById('tc-scroll-top-btn');
+            if (!topBtn) return;
+
+            // Если проскроллили вниз больше чем на 300px — показываем кнопку
+            if (tcContainer.scrollTop > 300) {
+                topBtn.classList.add('visible');
+            } else {
+                topBtn.classList.remove('visible');
+            }
+        });
+    }
+});
+
         window.addEventListener('resize', relocateLavaSidebarForMobile);
 
 
@@ -16880,35 +17232,37 @@ function exitTerraCoreMode() {
 }
 
 
+// 1. ОБНОВЛЕНИЕ ВЕРХНИХ ГЛАВНЫХ КОЛБ (ГОРОД И ПП)
+function updateTerraCoreSummaryFlasks() {
+    // Обновляем колбу ГОРОД
+    const cityPercent = getTerraCoreCityPercent();
+    const cityLiquid = document.getElementById('tc-city-flask-liquid');
+    const cityVal = document.getElementById('tc-city-percent-val');
+    if (cityLiquid) cityLiquid.style.height = `${cityPercent}%`;
+    if (cityVal) cityVal.innerText = `${cityPercent}%`;
+
+    // Обновляем колбу ПП
+    const answeredIndexes = JSON.parse(localStorage.getItem('terracore_pp_answered') || '[]');
+    const ppPercent = Math.min((answeredIndexes.length * 0.5), 100).toFixed(1);
+    const ppLiquid = document.getElementById('tc-pp-flask-liquid');
+    const ppVal = document.getElementById('tc-pp-percent-val');
+    if (ppLiquid) ppLiquid.style.height = `${ppPercent}%`;
+    if (ppVal) ppVal.innerText = `${ppPercent.endsWith('.0') ? parseInt(ppPercent) : ppPercent}%`;
+}
+
+// 2. РЕНДЕР РАЙОНОВ С СОХРАНЕНИЕМ СОСТОЯНИЯ РАСКРЫТИЯ
 function renderTerraCoreDistricts() {
     const grid = document.getElementById('terracore-districts-list');
     if (!grid) return;
 
+    // Обновляем верхние суммарные колбы
+    updateTerraCoreSummaryFlasks();
+
     const progress = getTerraCoreProgress();
-    const cityPercent = getTerraCoreCityPercent();
 
-    grid.innerHTML = `
-        <div class="tc-city-progress">
-            <div class="tc-city-flask-stage">
-                <div class="tc-city-flask-support support-left"></div>
-                <div class="tc-city-flask-support support-right"></div>
-
-                <div class="tc-city-flask">
-                    <div
-                        id="tc-city-flask-liquid"
-                        class="tc-city-flask-liquid"
-                        style="height: ${cityPercent}%;">
-                    </div>
-                </div>
-            </div>
-
-            <div class="tc-city-percent">${cityPercent}%</div>
-            <div class="tc-city-label">ГОРОД</div>
-        </div>
-    `;
-
-    TC_DISTRICTS_DATA.forEach(district => {
+    grid.innerHTML = TC_DISTRICTS_DATA.map(district => {
         const districtProgress = progress[district.id];
+        const isExpanded = tcExpandedDistricts.has(district.id); // Проверяем, был ли район раскрыт
 
         const spotsHtml = district.spots.map((spot, index) => {
             const isVisited = districtProgress.clicked.includes(index);
@@ -16927,7 +17281,7 @@ function renderTerraCoreDistricts() {
             `;
         }).join('');
 
-        grid.insertAdjacentHTML('beforeend', `
+        return `
             <div class="tc-district-outer-wrapper">
                 <div class="tc-district-progress">
                     <div class="tc-small-flask">
@@ -16937,7 +17291,6 @@ function renderTerraCoreDistricts() {
                             style="height: ${districtProgress.percent}%;">
                         </div>
                     </div>
-
                     <span
                         id="tc-flask-val-${district.id}"
                         class="tc-flask-percent">
@@ -16959,11 +17312,11 @@ function renderTerraCoreDistricts() {
                             class="tc-toggle-btn"
                             onclick="toggleDistrictExpand('${district.id}')"
                             id="tc-btn-${district.id}">
-                            Раскрыть ▾
+                            ${isExpanded ? 'Свернуть ▴' : 'Раскрыть ▾'}
                         </button>
                     </div>
 
-                    <div class="tc-district-body" id="tc-body-${district.id}">
+                    <div class="tc-district-body" id="tc-body-${district.id}" style="${isExpanded ? 'display: block;' : 'display: none;'}">
                         <div class="tc-vibe-box">
                             ✨ <b>Вайб района:</b> ${district.vibe}
                         </div>
@@ -16978,8 +17331,8 @@ function renderTerraCoreDistricts() {
                     </div>
                 </div>
             </div>
-        `);
-    });
+        `;
+    }).join('');
 }
 
 function toggleTerraCorePlace(districtId, placeIndex) {
@@ -17028,15 +17381,22 @@ function incFlaskPercent(distId) {
     }
 }
 
-// 6. АККОРДЕОН РАСКРЫТИЯ/СВЕРТЫВАНИЯ РАЙОНА
+// 🔥 МАССИВ ДЛЯ ХРАНЕНИЯ СОСТОЯНИЙ РАСКРЫТЫХ РАЙОНОВ
+const tcExpandedDistricts = new Set();
+
+// 1. ПЕРЕКЛЮЧАТЕЛЬ РАСКРЫТИЯ С ЗАПОМИНАНИЕМ
 function toggleDistrictExpand(distId) {
     const body = document.getElementById(`tc-body-${distId}`);
     const btn = document.getElementById(`tc-btn-${distId}`);
 
-    if (body) {
-        const isHidden = getComputedStyle(body).display === 'none';
-        body.style.display = isHidden ? 'block' : 'none';
-        if (btn) btn.innerText = isHidden ? 'Свернуть ▴' : 'Раскрыть ▾';
+    if (tcExpandedDistricts.has(distId)) {
+        tcExpandedDistricts.delete(distId);
+        if (body) body.style.display = 'none';
+        if (btn) btn.innerText = 'Раскрыть ▾';
+    } else {
+        tcExpandedDistricts.add(distId);
+        if (body) body.style.display = 'block';
+        if (btn) btn.innerText = 'Свернуть ▴';
     }
 }
 
@@ -17245,6 +17605,314 @@ function getTerraCoreCityPercent() {
 
     return Math.round(totalPercent / TC_DISTRICTS_DATA.length);
 }
+
+
+// ==========================================================================
+// 🔮 БАЗА 200 ВОПРОСОВ ДЛЯ ИГРЫ «ПРАВДА ИЛИ ПРАВДА» (TERRACORE)
+// ==========================================================================
+const TC_PP_QUESTIONS = [
+    // ТОМ 1 (1–100)
+    "Какое самое теплое воспоминание из детства греет тебя, когда тебе одиноко или грустно?",
+    "Какой момент из прошлого ты хотела бы пережить заново, ничего в нем не меняя?",
+    "Какая детская мечта до сих пор отзывается внутри тебя трепетом?",
+    "Какая музыка или запах способны мгновенно перенести тебя в определенный день твоей жизни?",
+    "Что за вещь или событие впервые заставило тебя почувствовать себя по-настоящему взрослой?",
+    "Каким человеком тебя видят случайные прохожие, и какой тебя знают только самые близкие?",
+    "Какой урок из детства или юности ты считаешь самым ценным в своей жизни?",
+    "Было ли в твоем прошлом место, где ты чувствовала себя в абсолютной безопасности и покое?",
+    "За какой поступок из прошлого тебе до сих пор слегка неловко, но ты вспоминаешь его с улыбкой?",
+    "Какая книга, фильм или история впервые заставила тебя плакать или глубоко задуматься?",
+    "Какой самый добрый жест со стороны чужого человека ты запомнила навсегда?",
+    "Если бы ты могла отправить письмо себе 12-летней, какой главный совет ты бы себе дала?",
+    "О чем ты чаще всего мечтала, когда смотрела в окно перед сном в детстве?",
+    "Какое увлечение прошлого ты случайно забросила, но хотела бы к нему вернуться?",
+    "Какое место в твоем родном городе связано с самыми важными эмоциональными моментами?",
+    "Был ли в твоей жизни человек, который сильно изменил твое восприятие мира, даже если вы больше не общаетесь?",
+    "Какое самое яркое открытие о себе ты сделала за последний год?",
+    "За что из того, что у тебя есть сейчас, ты больше всего благодарна своему прошлому?",
+    "Какая привычка или ритуал сохранились у тебя с самого детства?",
+    "Если бы твое детство можно было описать одним цветом или звуком, какими бы они были?",
+    "Что способно мгновенно поднять тебе настроение, даже в самый серый и тяжелый день?",
+    "Какой твой скрытый талант или черта характера до сих пор остается незамеченной большинством людей?",
+    "Что заставляет тебя чувствовать себя по-настоящему живой и настоящей?",
+    "Какой страх в твоей жизни оказался надуманным, а с каким ты до сих пор учишься справляться?",
+    "Как ты проявляешь заботу и любовь, когда стесняешься сказать о них вслух?",
+    "Что для тебя значит «быть в гармонии с собой»?",
+    "Какое качество в себе ты ценишь больше всего и бережешь от чужого влияния?",
+    "Бывают ли у тебя моменты, когда тебе хочется поставить весь мир на паузу, и что ты делаешь в такие минуты?",
+    "Какая мысль или идея заставляет тебя просыпаться с вдохновением?",
+    "Насколько легко тебе дается искреннее прощение людей, которые ошиблись?",
+    "Что ты чувствуешь, когда остаешься наедине с собой в абсолютной тишине?",
+    "О чем ты думаешь, когда смотришь на ночное небо или закат над городом?",
+    "Какой комплимент в твоей жизни был самым искренним и засел глубоко в сердце?",
+    "Бывает ли тебе трудно просить о помощи, и почему?",
+    "Какую личностную черту в людях ты находишь самой притягательной и редкой?",
+    "Что может заставить тебя потерять доверие к человеку раз и навсегда?",
+    "Какую эмоцию тебе сложнее всего выражать перед другими людьми?",
+    "Что для тебя означает термин «душевная красота»?",
+    "Какой твой личный маленький успех за последнее время принес тебе наибольшую гордость?",
+    "Какое у тебя самое любимое состояние природы (дождь, туман, золотой закат, морозное утро) и почему?",
+    "Что для тебя является самым главным фундаментом в отношениях между двумя людьми?",
+    "Какая мелочь в поведении человека делает его для тебя мгновенно родным и уютным?",
+    "Как ты понимаешь, что человеку перед тобой можно полностью доверить свои тайны?",
+    "Какое проявление заботы со стороны близкого человека вызывает у тебя мурашки?",
+    "Считаешь ли ты, что настоящая любовь — это чувство, или ежедневный осознанный выбор?",
+    "Какое идеальное свидание или совместный вечер ты рисуешь в своем воображении?",
+    "Что для тебя важнее в общении: долгие глубокие разговоры до утра или умение комфортно молчать вместе?",
+    "Какую роль в твоей жизни играет интуиция, когда ты знакомишься с новым человеком?",
+    "Что ты делаешь, когда чувствуешь, что человек тебе очень дорог, но ты боишься показаться навязчивой?",
+    "Какое самое ценное качество ты хочешь подарить своему человеку в отношениях?",
+    "Как ты думаешь, можно ли узнать человека на 100%, или в каждом всегда остается тайна?",
+    "Какой романтический жест из книг или фильмов кажется тебе самым настоящим и трогательным?",
+    "Что может заставить тебя чувствовать себя защищенной рядом с мужчиной?",
+    "Считаешь ли ты, что противоположности притягиваются, или людям важна общая база ценностей?",
+    "Какая общая цель или мечта делает пару монолитной и непобедимой?",
+    "Как ты выражаешь благодарность людям, которые делают твой мир лучше?",
+    "Какая самая большая ошибка, по твоему мнению, разрушает искренние чувства между людьми?",
+    "Что ты чувствуешь, когда видишь старенькую пару, держащуюся за руки на улице?",
+    "Какое ключевое слово или словосочетание описывает твое понимание слова «дом»?",
+    "Если бы ты могла загадать одно желание для нас двоих прямо сейчас, что бы это было?",
+    "Если бы ты могла заглянуть в будущее на 10 лет вперед, какой вопрос ты бы себе задала?",
+    "В чем, по-твоему, заключается истинный смысл путешествий и открытия новых мест?",
+    "Веришь ли ты в то, что случайные встречи на нашем пути на самом деле не случайны?",
+    "Какой главный фильтр восприятия помогает тебе не замечать серость и уныние вокруг?",
+    "Если бы у тебя была возможность создать свой идеальный район или город, каким бы он был?",
+    "Какое правило жизни ты установила для себя и стараешься никогда его не нарушать?",
+    "Как ты думаешь, что делает обычный день историческим и запоминающимся на всю жизнь?",
+    "Если бы у тебя была возможность обладать одной сверхспособностью, которая помогает людям, что бы ты выбрала?",
+    "Что для тебя значит понятие «свобода личности»?",
+    "Какая философская цитата или мысль стала твоим личным девизом за последнее время?",
+    "Как ты относишься к одиночеству: как к источнику силы или как к временной паузе?",
+    "Если бы ты могла сохранить в памяти только три картины из всех, что ты видела в жизни, что бы это было?",
+    "Что для тебя важнее: процесс достижения цели или сам момент ее реализации?",
+    "В чем ты видишь настоящую магию нашего повседневного мира?",
+    "Какая мечта кажется тебе настолько огромной, что о ней даже страшно говорить вслух?",
+    "Что для тебя означает «жить здесь и сейчас»?",
+    "Если бы ты могла мгновенно освоить любое искусство или навык в совершенстве, что бы это было?",
+    "Какой главный урок тебе преподал этот город за все время проживания в нем?",
+    "Какую роль в твоей жизни играет творчество и создание чего-то нового своими руками?",
+    "Если бы наш сегодняшней вечер был главой в книге, как бы ты ее назвала?",
+    "О какой своей особенной черте или странности ты обычно никому не рассказываешь при первых встречах?",
+    "Какое самое безумное или спонтанное решение в своей жизни ты приняла и не пожалела?",
+    "О чем ты думаешь в те секунды, когда смотришь в глаза человеку перед тем, как обнять его?",
+    "Какую личную тайну из прошлого ты отпустила с легким сердцем, когда поняла, что стала сильнее?",
+    "Если бы ты могла провести один день с любым человеком из истории или современности, кто бы это был?",
+    "За какой свой поступательный выбор ты искренне гордишься собой перед самой собой?",
+    "Какое самое уязвимое состояние ты переживала, и кто или что помогло тебе подняться?",
+    "Если бы тебе предложили оставить только один предмет из своей комнаты, который отражает твою душу, что бы это было?",
+    "Какая мысль вызывает у тебя добрую, мягкую улыбку прямо сейчас?",
+    "Что ты делаешь, когда чувствуешь вдохновение, но вокруг нет никого, кто мог бы его разделить?",
+    "Какое качество в мужчинах ты считаешь самым редким и благородным в современном мире?",
+    "Какой самый красивый вид или пейзаж в твоей жизни заставил твое сердце биться чаще?",
+    "В чем ты видишь силу тишины между двумя людьми?",
+    "Какую важную вещь о себе ты поняла только благодаря трудностям, через которые прошла?",
+    "Какой след ты хотела бы оставить в памяти людей, с которыми пересекается твой путь?",
+    "Что из того, что мы сегодня обсудили или увидели, удивило тебя больше всего?",
+    "Какой твой личный внутренний ориентир помогает тебе не сбиться с пути в сложные моменты?",
+    "Если бы у тебя была возможность подарить всему миру одно чувство прямо сейчас, что бы это было?",
+    "Что делает человека по-настоящему богатым изнутри, независимо от денег и статуса?",
+    "Какое ощущение или слово останется с тобой после этого разговора, когда ты придешь домой?",
+
+    // ТОМ 2 (101–200)
+    "Какое дело или занятие заставляет тебя полностью забыть о времени и заряжает лучше любого отдыха?",
+    "Какой твой личный внутренний источник силы помогает тебе подниматься, когда кажется, что ресурс на нуле?",
+    "В чем ты видишь разницу между просто «существованием» и «настоящей, сочной жизнью»?",
+    "Какая твоя победа над собой или своими привычками вызвала у тебя самый большой тихий триумф?",
+    "Если бы тебе предложили гарантированный успех в любой одной сфере жизни, что бы ты выбрала?",
+    "Какое качество в твоем характере появилось совсем недавно, но уже сильно изменило твою жизнь?",
+    "Если бы ты могла создать свой идеальный рабочий день без начальников и суеты, из чего бы он состоял?",
+    "Что для тебя означает слово «масштаб» применительно к человеку и его делам?",
+    "Какая идея или мысль заставляет тебя чувствовать вдохновение до мурашек по коже?",
+    "Какое занятие из тех, что ты пробуешь делать руками, привносит в твой разум наибольший покой?",
+    "В чем заключается твоя главная уникальность, которую ты раньше стеснялась, а теперь считаешь своей силой?",
+    "Какое важное решение в своей жизни ты приняла вопреки мнению всех окружающих, и оказалась права?",
+    "Каким одним словом или фразой ты бы описала свое текущее внутреннее состояние?",
+    "Что для тебя значит «быть преданной самой себе» в любой ситуации?",
+    "Если бы твоя энергия имела цвет и визуальную форму, как бы она выглядела?",
+    "Какое маленькое ежедневное действие дарит тебе наибольшее ощущение контроля над своей жизнью?",
+    "Какую черту своего характера ты планируешь развить в ближайший год?",
+    "Что способно заставить тебя искренне восхищаться человеком, с которым ты только что познакомилась?",
+    "Какой урок о ценности своего времени ты усвоила жестче всего в прошлом?",
+    "За что ты готова бороться до самого конца, не признавая компромиссов?",
+    "Какую мысль о себе ты чаще всего прячешь от чужих глаз, чтобы не казаться уязвимой?",
+    "Какое чувство или воспоминание ты до сих пор бережешь в самом тайном уголке своего сердца?",
+    "Бывает ли у тебя ощущение, что ты живешь на другой частоте, нежели большинство людей вокруг?",
+    "За какую свою прошлую ошибку или слабость ты наконец-то искренне простила саму себя?",
+    "Какая книга, песня или картина способна вызвать у тебя слезы очищения и облегчения?",
+    "Что ты чувствуешь, когда понимаешь, что человек, которому ты верила, оказался не тем, кем казался?",
+    "Какое самое глубокое откровение о людях ты получила за последние пару лет?",
+    "Что помогает тебе сохранять доброе и теплое сердце, несмотря на несправедливость вокруг?",
+    "Бывал ли в твоей жизни момент, когда тишина вокруг казалась ценнее любых слов и компаний?",
+    "Какая мысль или страх приходят к тебе перед самым сном, когда выключается весь внешний шум?",
+    "Что для тебя означает «быть честной с собой», даже когда правду принимать больно?",
+    "Какое свое воспоминание ты бы не отдала ни за какие деньги в мире?",
+    "Как ты реагируешь на критику или негатив со стороны людей, которые для тебя ничего не значат?",
+    "Какую главную маску ты снимаешь первым делом, когда приходишь домой и остаешься одна?",
+    "О чем ты искренне сожалела бы, если бы не сделала этого в ближайшие несколько лет?",
+    "Какое маленькое несовершенство в мире или в людях кажется тебе самым трогательным?",
+    "Как ты справляешься со внутренним критиком, когда он начинает сомневаться в твоих силах?",
+    "Какой самый важный разговор в твоей жизни до сих пор остался несказанным?",
+    "Что помогает тебе сохранять внутренний покой, когда вокруг разворачивается хаос?",
+    "Какое чувство ты испытываешь, когда смотришь на свои старые фотографии пятилетней давности?",
+    "Что для тебя является самым убедительным доказательством искренней дружбы?",
+    "Какая грань человеческой фальши вызывает у тебя самое быстрое отторжение и желание уйти?",
+    "Как ты понимаешь, что в отношениях с человеком наступила полная, безусловная безопасность?",
+    "Какой самый ценный совет о людях тебе когда-либо давали близкие?",
+    "Считаешь ли ты, что настоящие друзья должны поддерживать тебя даже тогда, когда ты ошибаешься?",
+    "Какое совместное событие или приключение способно сплотить людей на всю жизнь?",
+    "Что для тебя значит «уметь слышать между строк» во время глубокого разговора?",
+    "Как ты поступаешь, когда видишь, что дорогой тебе человек медленно разрушает себя?",
+    "Какую черту в людях ты научилась прощать с возрастом, хотя раньше не терпела ее?",
+    "Какое идеальное чувство уютного единения ты испытывала в компании правильных людей?",
+    "Как ты думаешь, что делает разговор с человеком неповторимым и запоминающимся?",
+    "Какое маленькое внимание со стороны близкого человека способно растопить твою усталость?",
+    "Что для тебя важнее: быть понятой единым человеком или быть принятой огромной компанией?",
+    "Какой подарок из тех, что тебе дарили, был самым ценным не по цене, а по заложенному смыслу?",
+    "Какое правило ты соблюдаешь, чтобы не перегружать близких своими проблемами?",
+    "Если бы ты могла забрать у близкого человека всю его боль прямо сейчас, сделала бы ты это?",
+    "Какую роль в твоей жизни играет умение вовремя сказать человеку слово «спасибо»?",
+    "Как ты отличаешь временных попутчиков в своей жизни от тех, кто останется с тобой навсегда?",
+    "Какое твое любимое совместное занятие с человеком, когда не хочется никуда спешить?",
+    "Если бы мы могли создать одно общее воспоминание прямо сегодня, каким бы ты его хотела видеть?",
+    "Какая деталь в городском пейзаже (свет фонарей, туман, отблеск дождя) чарует тебя сильнее всего?",
+    "Какая музыка идеально подходит для твоих одиночных вечерних прогулок по городу?",
+    "Если бы этот район, по которому мы гуляем, был музыкальным инструментом, как бы он звучал?",
+    "Какая погода или время суток заставляют твое восприятие мира работать на максимум уюта?",
+    "Замечаешь ли ты архитектуру зданий, когда идешь по улице, и какие формы тебе ближе?",
+    "Какое место в городе кажется тебе настоящим порталом в спокойствие и покой?",
+    "Если бы ты могла окрасить сегодняшний вечер в один абсолютный цвет, какой бы это был цвет?",
+    "Какая естественная текстура (дерево, старый камень, влажный асфальт, мох) вызывает у тебя приятный отклик?",
+    "Если бы наш город умел говорить, какой главный упрек или похвалу он бы сказал своим жителям?",
+    "Какое самое эстетичное место из тех, что ты посещала в жизни, запало тебе в душу навсегда?",
+    "Какую деталь в приходе осени ты любишь больше всего?",
+    "В чем для тебя заключается разница между серым унынием блеклого дня и его поэтичной тишиной?",
+    "Если бы ты могла провести ночь в любом здании или месте нашего города, что бы ты выбрала?",
+    "Какой характер или вайб у этого вечера, на твой взгляд, прямо сейчас?",
+    "Какое самое неожиданное и красивое открытие ты сделала, когда случайно свернула с обычного маршрута?",
+    "Как ты относишься к старым, брошенным местам: видишь в них увядание или историю?",
+    "Если бы ты могла запечатлеть один сегодняшний момент в виде картины на стене, какой кадр ты бы выбрала?",
+    "Какая особенность природы (закат, звёздное небо, шторм) заставляет тебя чувствовать величие Вселенной?",
+    "Какое уютное заведение или уголок города стал для тебя личным рефьюджиумом (убежищем)?",
+    "Что делает путь домой сквозь вечерний город настоящим сакральным ритуалом?",
+    "Если бы ты могла узнать один абсолютный факт о своем будущем, что бы ты хотела узнать?",
+    "Какое самое главное обещание ты дала самой себе и держишь его несмотря ни на что?",
+    "Как ты думаешь, наш жизненный путь — это строго прописанный сценарий или чистый холст?",
+    "Какую главную вершину ты планируешь покорить в ближайшие пару лет?",
+    "Если бы у тебя была возможность переписать одну страницу в истории своего прошлого, сделала бы ты это?",
+    "За какой выбор в своей жизни ты благодарна судьбе больше всего на свете?",
+    "Какое осознание о зрелости и взрослой жизни стало для тебя самым неожиданным за последнее время?",
+    "Какой след или наследие ты хотела бы оставить в этом мире после себя?",
+    "Считаешь ли ты, что труднообратимые изменения в жизни всегда происходят к лучшему?",
+    "Какое твое самое любимое чувство, когда ты оглядываешься на пройденный сложный этап?",
+    "Если бы ты могла выбрать одно слово, которое станет твоим ориентиром на весь следующий год, что это за слово?",
+    "Какую главную ценность ты хочешь передать своим будущим детям?",
+    "Что для тебя значит «быть автором своей судьбы», а не просто зрителем в зале?",
+    "Какая мысль дает тебе абсолютную уверенность в том, что все в твоей жизни сложится так, как надо?",
+    "Если бы ты могла подарить себе из будущего одно мгновенье абсолютной ясности, о чем бы ты спросила?",
+    "Какой самый важный шаг на пути к своей мечте ты сделала за последний месяц?",
+    "Что для тебя означает «жить без сожалений и страха перед завтрашним днем»?",
+    "Если бы этот разговор был фильмом, какой финальный саундтрек зазвучал бы в титрах?",
+    "Какую важную мысль о себе или о мире ты унесешь в своей голове после нашей сегодняшней прогулки?",
+    "Какое самое искреннее пожелание ты хотела бы сказать человеку, который сидит напротив тебя прямо сейчас?"
+];
+
+// 1. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК (КАРТА / ПП)
+function switchTerraCoreTab(tabName) {
+    const mapBtn = document.getElementById('tc-tab-btn-map');
+    const ppBtn = document.getElementById('tc-tab-btn-pp');
+    const mapContent = document.getElementById('tc-tab-content-map');
+    const ppContent = document.getElementById('tc-tab-content-pp');
+
+    if (tabName === 'map') {
+        mapBtn.classList.add('active');
+        ppBtn.classList.remove('active');
+        mapContent.style.display = 'block';
+        ppContent.style.display = 'none';
+    } else {
+        ppBtn.classList.add('active');
+        mapBtn.classList.remove('active');
+        ppContent.style.display = 'block';
+        mapContent.style.display = 'none';
+        
+        // При первом переходе рендерим вопросы ПП
+        renderTerraCorePPGame();
+    }
+}
+
+// 3. РЕНДЕР ИГРЫ «ПРАВДА ИЛИ ПРАВДА»
+function renderTerraCorePPGame() {
+    const grid = document.getElementById('tc-pp-questions-list');
+    if (!grid) return;
+
+    // Обновляем верхние суммарные колбы
+    updateTerraCoreSummaryFlasks();
+
+    const answeredIndexes = JSON.parse(localStorage.getItem('terracore_pp_answered') || '[]');
+
+    grid.innerHTML = TC_PP_QUESTIONS.map((qText, idx) => {
+        const isAnswered = answeredIndexes.includes(idx);
+
+        return `
+            <div class="tc-pp-card ${isAnswered ? 'answered' : ''}" onclick="toggleTerraCorePPQuestion(${idx})">
+                <div class="tc-pp-num">#${idx + 1}</div>
+                <div class="tc-pp-text">${qText}</div>
+                <div class="tc-pp-check">✓</div>
+            </div>
+        `;
+    }).join('');
+}
+
+// При входе в TerraCore сразу вызываем обновление суммарных колб
+const oldEnterTerraCoreMode = enterTerraCoreMode;
+enterTerraCoreMode = function() {
+    if (typeof oldEnterTerraCoreMode === 'function') oldEnterTerraCoreMode();
+    updateTerraCoreSummaryFlasks();
+};
+
+// 3. КЛИК И ОТМЕНА КЛИКА НА ВОПРОС (+0.5% / -0.5%)
+function toggleTerraCorePPQuestion(qIndex) {
+    let answeredIndexes = JSON.parse(localStorage.getItem('terracore_pp_answered') || '[]');
+    const pos = answeredIndexes.indexOf(qIndex);
+
+    if (pos === -1) {
+        // Отмечаем отвеченным (+0.5%)
+        answeredIndexes.push(qIndex);
+    } else {
+        // Снимаем отметку (мисклик) (-0.5%)
+        answeredIndexes.splice(pos, 1);
+    }
+
+    localStorage.setItem('terracore_pp_answered', JSON.stringify(answeredIndexes));
+    
+    // Перерисовываем UI игры
+    renderTerraCorePPGame();
+}
+
+
+// 🔥 ПЛАВНЫЙ ВОЗВРАТ НАВЕРХ
+function scrollToTerraCoreTop() {
+    const tcContainer = document.getElementById('terracore-view-container');
+    if (tcContainer) {
+        tcContainer.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+}
+
+// 🔥 ПОКАЗЫВАЕМ / СКРЫВАЕМ КНОПКУ «НАВЕРХ» ПРИ СКРОЛЛЕ
+document.getElementById('terracore-view-container').addEventListener('scroll', () => {
+    const tcContainer = document.getElementById('terracore-view-container');
+    const topBtn = document.getElementById('tc-scroll-top-btn');
+    if (!tcContainer || !topBtn) return;
+
+    // Если проскроллили вниз больше чем на 300px — показываем кнопчку
+    if (tcContainer.scrollTop > 300) {
+        topBtn.classList.add('visible');
+    } else {
+        topBtn.classList.remove('visible');
+    }
+});
 
     </script>
 
@@ -17541,29 +18209,83 @@ function getTerraCoreCityPercent() {
             <div class="tc-arrow-pink-bar"></div>
             <div class="tc-arrow-yellow-head"></div>
         </div>
+
     </div>
 
     <!-- ==========================================
-         ЭТАЖ 2: ПОДЗЕМЕЛЬЕ (БЕСШОВНЫЙ КРАСНЫЙ ФОН)
-         ========================================== -->
-    <div id="tc-underground-section" class="tc-underground-floor">
-        <!-- ФАКЕЛ ЖИВЕТ ТОЛЬКО ЗДЕСЬ (НЕ СВЕТИТСЯ В ШАПКЕ) -->
-        <div class="tc-right-torch">
-            <div class="tc-torch-fire">🔥</div>
-            <div class="tc-torch-wood"></div>
+     ЭТАЖ 2: ПОДЗЕМЕЛЬЕ (БЛОК КОЛБ ПОВЕРХ ВКЛАДОК)
+     ========================================== -->
+<div id="tc-underground-section" class="tc-underground-floor">
+    <div class="tc-right-torch">
+        <div class="tc-torch-fire">🔥</div>
+        <div class="tc-torch-wood"></div>
+    </div>
+
+    <!-- 🔥 1. ОБЩИЙ БЛОК ГЛАВНЫХ КОЛБ ПОВЕРХ ВКЛАДОК -->
+    <div class="tc-main-summary-flasks-row">
+        <!-- КОЛБА 1: ГОРОД -->
+        <div class="tc-summary-flask-card">
+            <div class="tc-city-flask-stage">
+                <div class="tc-city-flask-support support-left"></div>
+                <div class="tc-city-flask-support support-right"></div>
+                <div class="tc-city-flask">
+                    <div id="tc-city-flask-liquid" class="tc-city-flask-liquid" style="height: 0%;"></div>
+                </div>
+            </div>
+            <div id="tc-city-percent-val" class="tc-city-percent">0%</div>
+            <div class="tc-city-label">ГОРОД</div>
         </div>
 
+        <!-- КОЛБА 2: ПП (ТЕПЕРЬ ТОЖЕ С НОЖКАМИ!) -->
+        <div class="tc-summary-flask-card">
+            <div class="tc-city-flask-stage">
+                <div class="tc-city-flask-support support-left"></div>
+                <div class="tc-city-flask-support support-right"></div>
+                <div class="tc-city-flask">
+                    <div id="tc-pp-flask-liquid" class="tc-city-flask-liquid" style="height: 0%;"></div>
+                </div>
+            </div>
+            <div id="tc-pp-percent-val" class="tc-city-percent">0%</div>
+            <div class="tc-city-label">ПП</div>
+        </div>
+    </div>
+
+    <!-- 🔥 2. ПЕРЕКЛЮЧАТЕЛЬ ВКЛАДОК -->
+    <div class="tc-underground-tabs">
+        <button id="tc-tab-btn-map" class="tc-tab-btn active" onclick="switchTerraCoreTab('map')">
+            🗺️ КАРТА РАЙОНОВ
+        </button>
+        <button id="tc-tab-btn-pp" class="tc-tab-btn" onclick="switchTerraCoreTab('pp')">
+            💬 ПРАВДА ИЛИ ПРАВДА
+        </button>
+    </div>
+
+    <!-- ВКЛАДКА 1: КАРТА РАЙОНОВ -->
+    <div id="tc-tab-content-map" class="tc-tab-content active">
         <div class="tc-underground-header">
             <h3>🏛 КАРТА ГОРОДСКИХ РАЙОНОВ</h3>
         </div>
-
         <div id="terracore-districts-list" class="tc-districts-grid"></div>
+    </div>
+
+    <!-- ВКЛАДКА 2: ИГРА ПРАВДА ИЛИ ПРАВДА -->
+    <div id="tc-tab-content-pp" class="tc-tab-content" style="display: none;">
+        <div class="tc-underground-header">
+            <h3>🔮 ИГРА «ПРАВДА ИЛИ ПРАВДА»</h3>
+            <p class="tc-pp-subtitle">200 глубоких вопросов для исследования души и мира</p>
+        </div>
+        <div id="tc-pp-questions-list" class="tc-pp-grid-full"></div>
     </div>
 </div>
 
 
+</div>
 
 
+
+<button id="tc-scroll-top-btn" class="tc-scroll-top-btn" onclick="scrollToTerraCoreTop()" title="Наверх">
+    ▲
+</button>
 
 </body>
 
