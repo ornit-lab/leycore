@@ -17849,35 +17849,67 @@ function updateFlaskUI(distId, cur) {
     if (valText) valText.innerText = cur + '%';
 }
 
-// 1. ВХОД В ТЕРРАКОР (ВКЛЮЧАЕМ РЕЖИМ ТИШИНЫ)
+// 🔥 ГЛОБАЛЬНЫЙ МАССИВ ДЛЯ ПРИНУДИТЕЛЬНОЙ ОСТАНОВКИ ДИНАМИЧЕСКОГО АУДИО
+var tcPausedObjects = [];
+
+// 1. ВХОД В TERRACORE
 function enterTerraCoreMode() {
     const tcContainer = document.getElementById('terracore-view-container');
     if (tcContainer) tcContainer.style.display = 'block';
 
-    // 🔥 ТОТАЛЬНОЕ ГЛУШЕНИЕ ВСЕЙ МУЗЫКИ САЙТА
-    const allAudios = document.getElementsByTagName('audio');
-    for (let i = 0; i < allAudios.length; i++) {
-        // Ставим на паузу всё, кроме будущего эмбиента Терры
-        if (allAudios[i].id !== 'terracore-ambient-audio') {
-            allAudios[i].pause();
+    // ==========================================
+    // 💡 БРОНИРОВАННОЕ УДАЛЕНИЕ ЛАМПЫ (ТОП-СЕЛЕКТОРЫ)
+    // ==========================================
+    const siteLamps = document.querySelectorAll(
+        '.light-bulb, #main-light-bulb, #lamp, .lamp-container, ' +
+        'svg[class*="lamp"], div[class*="lamp"], [id*="lamp"], [class*="lamp"]'
+    );
+    siteLamps.forEach(lamp => {
+        lamp.style.setProperty('display', 'none', 'important');
+    });
+
+    // ==========================================
+    // 🎵 УЛЬТИМАТИВНЫЙ ГЛУШИТЕЛЬ ЛЮБОЙ МУЗЫКИ
+    // ==========================================
+    tcPausedObjects = [];
+
+    // Шаг А: Глушим все физические теги <audio> и <video> на странице
+    const allAudios = document.querySelectorAll('audio, video');
+    allAudios.forEach(aud => {
+        if (aud.id !== 'terracore-ambient-audio' && !aud.paused) {
+            aud.pause();
+            tcPausedObjects.push(aud);
+        }
+    });
+
+    // Шаг Б: Сканируем память браузера на скрытые динамические Audio-объекты
+    for (let key in window) {
+        try {
+            if (window[key] instanceof Audio && key !== 'terracore-ambient-audio') {
+                const dynAudio = window[key];
+                if (!dynAudio.paused) {
+                    dynAudio.pause();
+                    tcPausedObjects.push(dynAudio);
+                }
+            }
+        } catch (e) {
+            // Пропускаем защищенные свойства системы
         }
     }
 
-    // 🌿 ЗАПУСК ЭМБИЕНТА TERRACORE (если файл будет в папке)
+    // ==========================================
+    // 🌿 ЗАПУСК ЗЕМЛЯНОГО ЭМБИЕНТА
+    // ==========================================
     const tcAudio = document.getElementById('terracore-ambient-audio');
     if (tcAudio) {
         tcAudio.currentTime = 0;
         tcAudio.volume = 0.5;
-        // Используем .play() с обработкой ошибки (на случай если файла нет)
         tcAudio.play().catch(e => {
-            console.log("🎵 Земляной эмбиент: файл пока не найден или заблокирован браузером.");
+            console.log("🎵 Земляной эмбиент ожидает загрузки файла 'terracore_ambient.mp3' в папку сайта.");
         });
     }
 
-    // Твоя остальная логика (лампы, рендер и т.д.)
-    const siteLamps = document.querySelectorAll('.light-bulb, #main-light-bulb, #lamp, .lamp-container');
-    siteLamps.forEach(lamp => lamp.style.setProperty('display', 'none', 'important'));
-    
+    // Рендер и вызовы интерфейсов
     renderTerraCoreDistricts();
     updateTerraCoreSummaryFlasks();
     initLeavesCanvas();
@@ -17885,23 +17917,37 @@ function enterTerraCoreMode() {
     document.body.style.overflow = 'hidden'; // Блокируем скролл основного сайта
 }
 
-
-// 2. ВЫХОД ИЗ ТЕРРАКОРА (ВОЗВРАЩАЕМ ЗВУКИ)
+// 2. ВЫХОД ИЗ TERRACORE
 function exitTerraCoreMode() {
     const tcContainer = document.getElementById('terracore-view-container');
     if (tcContainer) tcContainer.style.display = 'none';
 
-    // 🔥 ВЫКЛЮЧАЕМ ЭМБИЕНТ ТЕРРЫ
+    if (tcLeavesAnimationId) cancelAnimationFrame(tcLeavesAnimationId);
+
+    // 🔥 1. ВЫКЛЮЧАЕМ ЭМБИЕНТ ТЕРРЫ
     const tcAudio = document.getElementById('terracore-ambient-audio');
     if (tcAudio) tcAudio.pause();
 
-    // 🔊 ВОЗВРАЩАЕМ МУЗЫКУ САЙТА (опционально)
-    // Если хочешь, чтобы музыка сайта сама НЕ включалась при выходе, просто удали этот блок ниже.
-    const mainSiteAudio = document.getElementById('main-bg-music'); // Замени на ID своего главного плеера
-    if (mainSiteAudio) mainSiteAudio.play().catch(e => {});
+    // 🔥 2. ВКЛЮЧАЕМ НАЗАД ВСЮ ПРИОСТАНОВЛЕННУЮ МУЗЫКУ САЙТА
+    tcPausedObjects.forEach(aud => {
+        try {
+            aud.play().catch(e => {});
+        } catch(e) {}
+    });
+    tcPausedObjects = [];
+
+    // 🔥 3. ВОЗВРАЩАЕМ ЛАМПЫ
+    const siteLamps = document.querySelectorAll(
+        '.light-bulb, #main-light-bulb, #lamp, .lamp-container, ' +
+        'svg[class*="lamp"], div[class*="lamp"], [id*="lamp"], [class*="lamp"]'
+    );
+    siteLamps.forEach(lamp => {
+        lamp.style.display = '';
+    });
 
     document.body.style.overflow = ''; // Возвращаем скролл
 }
+
 
 
 function getTerraCoreProgress() {
