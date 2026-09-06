@@ -8573,6 +8573,323 @@
     }
 }
 
+
+/* ==========================================================================
+   🎲 РУЛЕТКА КВЕСТОВ И СТИЛИ 3-Й ВКЛАДКИ
+   ========================================================================== */
+
+/* ==========================================================================
+   🧪 ГАРМОНИЧНОЕ ВЫРАВНИВАНИЕ КОЛБ И КНОПОК СБОКУ
+   ========================================================================== */
+
+/* Обертка для колбы и кнопок в один ряд */
+.tc-flask-with-controls {
+    display: flex;
+    align-items: center; /* Центрируем кнопки по высоте колбы */
+    gap: 10px;
+    position: relative;
+}
+
+/* Переделываем блок кнопок в вертикальный столбик справа */
+.tc-quest-manual-btns {
+    display: flex;
+    flex-direction: column; /* Кнопки одна под другой */
+    gap: 8px;
+    margin-top: 0; /* Убираем верхний отступ */
+    position: absolute;
+    right: -35px; /* Выносим за пределы колбы вправо */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.tc-quest-manual-btns button {
+    background: linear-gradient(135deg, #5c3218, #3d1f0e);
+    border: 1.5px solid #ff6600;
+    color: #ffd700;
+    width: 26px; /* Чуть увеличим для удобства */
+    height: 26px;
+    border-radius: 50%;
+    font-weight: 900;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    transition: all 0.2s ease;
+}
+
+.tc-quest-manual-btns button:hover {
+    border-color: #ffd700;
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+}
+
+.tc-quest-manual-btns button:active {
+    transform: scale(0.9);
+}
+
+/* Чтобы третья колба не казалась смещенной влево, добавим ей немного отступа слева */
+.tc-summary-flask-card:last-child {
+    margin-left: 15px;
+}
+
+
+/* Модуль рулетки */
+.tc-roulette-container {
+    max-width: 800px; margin: 0 auto; text-align: center;
+    background: linear-gradient(135deg, rgba(45, 12, 12, 0.9), rgba(20, 5, 5, 0.95));
+    border: 2px solid #8b2500; border-radius: 20px; padding: 35px 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+
+/* Этап 1: Главная кнопка начала */
+.tc-start-quest-btn {
+    background: linear-gradient(135deg, #ff6600, #cc0000);
+    border: 2px solid #ffd700; color: #fff;
+    padding: 16px 40px; border-radius: 30px;
+    font-family: 'Postmodern One', sans-serif !important;
+    font-size: 1.4rem; font-weight: bold; cursor: pointer;
+    box-shadow: 0 0 20px rgba(255, 102, 0, 0.6);
+    transition: all 0.3s ease;
+}
+.tc-start-quest-btn:hover {
+    transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+}
+
+/* Этап 2: Выбор района */
+.tc-district-select-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px; margin-top: 20px;
+}
+.tc-district-select-btn {
+    background: rgba(139, 37, 0, 0.3); border: 1.5px solid #ff4400;
+    color: #ffaa00; padding: 12px; border-radius: 12px;
+    font-family: 'Postmodern One', sans-serif !important;
+    font-size: 0.95rem; font-weight: bold; cursor: pointer; transition: all 0.2s ease;
+}
+.tc-district-select-btn:hover {
+    background: #ff4400; color: #fff; box-shadow: 0 0 12px rgba(255, 68, 0, 0.6);
+}
+
+/* Этап 3: Две Рулетки */
+.tc-wheels-wrapper {
+    display: flex; justify-content: space-around; align-items: center;
+    gap: 20px; flex-wrap: wrap; margin-top: 25px;
+}
+.tc-wheel-box {
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+    flex: 1; min-width: 220px;
+}
+.tc-wheel-title {
+    font-family: 'Postmodern One', sans-serif !important;
+    color: #ffd700; font-size: 1.1rem;
+}
+
+/* Круглая Рулетка с указателем */
+.tc-roulette-wheel-stage {
+    position: relative; width: 180px; height: 180px;
+    border-radius: 50%; border: 6px solid #ffd700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4), inset 0 0 15px rgba(0,0,0,0.8);
+    overflow: hidden; background: #200505;
+}
+
+/* Стрелочка-указатель сверху */
+.tc-wheel-pointer {
+    position: absolute; top: -2px; left: 50%; transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 12px solid transparent; border-right: 12px solid transparent;
+    border-top: 18px solid #ff0000; z-index: 10;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+}
+
+.tc-wheel-disc {
+    width: 100%; height: 100%; border-radius: 50%;
+    position: relative; transition: transform 7s cubic-bezier(0.15, 0.9, 0.2, 1);
+}
+
+.tc-spin-action-btn {
+    background: linear-gradient(135deg, #ffcc00, #ff6600);
+    border: none; color: #1a0000; padding: 10px 22px; border-radius: 20px;
+    font-weight: 900; font-size: 0.9rem; cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255, 102, 0, 0.5);
+    transition: all 0.2s ease;
+}
+.tc-spin-action-btn:disabled {
+    background: #444 !important; color: #888 !important;
+    cursor: not-allowed; box-shadow: none !important;
+}
+
+/* Этап 4: Активация Квеста */
+.tc-quest-activated-card {
+    background: linear-gradient(135deg, #4a0c0c, #1a0303);
+    border: 2px solid #ffd700; border-radius: 16px; padding: 25px;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+}
+.tc-quest-activated-card h4 {
+    color: #ff0055; font-family: 'Postmodern One', sans-serif !important;
+    font-size: 1.5rem; margin: 0 0 15px 0; letter-spacing: 2px;
+}
+.tc-quest-activated-card p {
+    color: #ffe2b3; font-size: 1.1rem; line-height: 1.5; margin-bottom: 25px;
+}
+
+
+/* 🔥 Гарантированное отображение кнопок выбора районов */
+.tc-district-select-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    margin-top: 25px !important;
+    width: 100% !important;
+}
+
+.tc-district-select-btn {
+    background: rgba(139, 37, 0, 0.4) !important;
+    border: 2px solid #ff4400 !important;
+    color: #ffaa00 !important;
+    padding: 12px 20px !important;
+    border-radius: 12px !important;
+    font-family: 'Postmodern One', sans-serif !important;
+    font-size: 1rem !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    min-width: 140px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5) !important;
+}
+
+.tc-district-select-btn:hover {
+    background: #ff4400 !important;
+    color: #fff !important;
+    box-shadow: 0 0 15px rgba(255, 68, 0, 0.8) !important;
+    transform: translateY(-2px) !important;
+}
+
+
+/* ==========================================================================
+   🚌 ТЕКСТОВЫЕ МЕТКИ ВНУТРИ РУЛЕТКИ
+   ========================================================================== */
+
+.tc-wheel-disc {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transition: transform 7s cubic-bezier(0.15, 0.9, 0.2, 1);
+    overflow: hidden; /* Чтобы текст не вылезал */
+}
+
+/* Обертка для текста (вращается к центру сегмента) */
+.tc-wheel-label-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Прижимаем к краю */
+    padding-top: 10px; /* Отступ цифры от края диска */
+    pointer-events: none;
+    box-sizing: border-box;
+}
+
+/* Сам текст (номер транспорта или число) */
+.tc-wheel-label-text {
+    color: #fff;
+    font-family: 'Postmodern One', sans-serif !important;
+    font-weight: 900;
+    font-size: 0.9rem; /* Размер номера */
+    text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+    /* Если номеров много (как в Центре), шрифт будет чуть меньше автоматически через JS */
+}
+
+/* Добавим центральную "втулку" для стиля */
+.tc-roulette-wheel-stage::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px; height: 20px;
+    background: #ffd700;
+    border: 3px solid #200505;
+    border-radius: 50%;
+    z-index: 5;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+/* ==========================================================================
+   🧪 УНИКАЛЬНЫЕ ЦВЕТА, ОБВОДКИ И ГРАДИЕНТЫ ДЛЯ 3-Х КОЛБ
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. КОЛБА «ГОРОД» (БИРЮЗОВО-ФИОЛЕТОВАЯ)
+   -------------------------------------------------------------------------- */
+.tc-summary-flask-card:nth-child(1) .tc-city-flask {
+    border-color: #00f2fe !important;
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.6),
+                inset 8px 0 12px rgba(255,255,255,0.2),
+                inset -10px 0 14px rgba(0,0,0,0.5) !important;
+}
+
+#tc-city-flask-liquid {
+    background: linear-gradient(180deg, #00f2fe 0%, #00a8ff 40%, #7000ff 100%) !important;
+    box-shadow: 0 -8px 18px rgba(0, 242, 254, 0.7),
+                inset 0 8px 12px rgba(255,255,255,0.3) !important;
+}
+
+.tc-summary-flask-card:nth-child(1) .tc-city-percent {
+    color: #00f2fe !important;
+    text-shadow: 0 0 12px #7000ff !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. КОЛБА «ПП» (ЗЕЛЁНО-ОРАНЖЕВАЯ)
+   -------------------------------------------------------------------------- */
+.tc-summary-flask-card:nth-child(2) .tc-city-flask {
+    border-color: #00ff87 !important;
+    box-shadow: 0 0 15px rgba(0, 255, 135, 0.6),
+                inset 8px 0 12px rgba(255,255,255,0.2),
+                inset -10px 0 14px rgba(0,0,0,0.5) !important;
+}
+
+#tc-pp-flask-liquid {
+    background: linear-gradient(180deg, #60efff 0%, #00ff87 45%, #ff9900 100%) !important;
+    box-shadow: 0 -8px 18px rgba(0, 255, 135, 0.7),
+                inset 0 8px 12px rgba(255,255,255,0.3) !important;
+}
+
+.tc-summary-flask-card:nth-child(2) .tc-city-percent {
+    color: #00ff87 !important;
+    text-shadow: 0 0 12px #ff9900 !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   3. КОЛБА «КВЕСТЫ» (КРАСНО-РОЗОВО-ЖЁЛТАЯ)
+   -------------------------------------------------------------------------- */
+.tc-summary-flask-card:nth-child(3) .tc-city-flask {
+    border-color: #ff0055 !important;
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.6),
+                inset 8px 0 12px rgba(255,255,255,0.2),
+                inset -10px 0 14px rgba(0,0,0,0.5) !important;
+}
+
+#tc-quest-flask-liquid {
+    background: linear-gradient(180deg, #ffe600 0%, #ff007f 50%, #cc0000 100%) !important;
+    box-shadow: 0 -8px 18px rgba(255, 230, 0, 0.75),
+                inset 0 8px 12px rgba(255,255,255,0.3) !important;
+}
+
+.tc-summary-flask-card:nth-child(3) .tc-city-percent {
+    color: #ffe600 !important;
+    text-shadow: 0 0 12px #ff0055 !important;
+}
+
+
     </style>
 
 
@@ -17816,28 +18133,42 @@ const TC_PP_QUESTIONS = [
     "Какое самое искреннее пожелание ты хотела бы сказать человеку, который сидит напротив тебя прямо сейчас?"
 ];
 
-// 1. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК (КАРТА / ПП)
+// 🔥 ИСПРАВЛЕННЫЙ ПЕРЕКЛЮЧАТЕЛЬ 3-Х ВКЛАДОК (КАРТА / ПП / РУЛЕТКА)
 function switchTerraCoreTab(tabName) {
+    // 1. Кнопки вкладок
     const mapBtn = document.getElementById('tc-tab-btn-map');
     const ppBtn = document.getElementById('tc-tab-btn-pp');
+    const rouletteBtn = document.getElementById('tc-tab-btn-roulette');
+
+    // 2. Контент вкладок
     const mapContent = document.getElementById('tc-tab-content-map');
     const ppContent = document.getElementById('tc-tab-content-pp');
+    const rouletteContent = document.getElementById('tc-tab-content-roulette');
 
+    // Снимаем класс active со всех кнопок и прячем весь контент
+    if (mapBtn) mapBtn.classList.remove('active');
+    if (ppBtn) ppBtn.classList.remove('active');
+    if (rouletteBtn) rouletteBtn.classList.remove('active');
+
+    if (mapContent) mapContent.style.display = 'none';
+    if (ppContent) ppContent.style.display = 'none';
+    if (rouletteContent) rouletteContent.style.display = 'none';
+
+    // Включаем нужную вкладку
     if (tabName === 'map') {
-        mapBtn.classList.add('active');
-        ppBtn.classList.remove('active');
-        mapContent.style.display = 'block';
-        ppContent.style.display = 'none';
-    } else {
-        ppBtn.classList.add('active');
-        mapBtn.classList.remove('active');
-        ppContent.style.display = 'block';
-        mapContent.style.display = 'none';
-        
-        // При первом переходе рендерим вопросы ПП
-        renderTerraCorePPGame();
+        if (mapBtn) mapBtn.classList.add('active');
+        if (mapContent) mapContent.style.display = 'block';
+    } else if (tabName === 'pp') {
+        if (ppBtn) ppBtn.classList.add('active');
+        if (ppContent) ppContent.style.display = 'block';
+        renderTerraCorePPGame(); // Рендерим 200 вопросов
+    } else if (tabName === 'roulette') {
+        if (rouletteBtn) rouletteBtn.classList.add('active');
+        if (rouletteContent) rouletteContent.style.display = 'block';
+        renderRouletteModule('start'); // 🔥 РЕНДЕРИМ СТАРТОВУЮ КНОПКУ РУЛЕТКИ
     }
 }
+
 
 // 3. РЕНДЕР ИГРЫ «ПРАВДА ИЛИ ПРАВДА»
 function renderTerraCorePPGame() {
@@ -17914,6 +18245,251 @@ document.getElementById('terracore-view-container').addEventListener('scroll', (
     }
 });
 
+
+// 1. УПРАВЛЕНИЕ ТРЕТЬЕЙ КОЛБОЙ (4 КВЕСТА = 100%)
+function updateQuestFlaskUI() {
+    let questCount = parseInt(localStorage.getItem('terracore_quests_count') || '0', 10);
+    let percent = Math.min(questCount * 25, 100);
+
+    const liquid = document.getElementById('tc-quest-flask-liquid');
+    const valText = document.getElementById('tc-quest-percent-val');
+
+    if (liquid) liquid.style.height = `${percent}%`;
+    if (valText) valText.innerText = `${percent}%`;
+}
+
+function incQuestPercent() {
+    let questCount = parseInt(localStorage.getItem('terracore_quests_count') || '0', 10);
+    questCount += 1;
+    localStorage.setItem('terracore_quests_count', questCount.toString());
+    updateQuestFlaskUI();
+}
+
+function decQuestPercent() {
+    let questCount = parseInt(localStorage.getItem('terracore_quests_count') || '0', 10);
+    if (questCount > 0) {
+        questCount -= 1;
+        localStorage.setItem('terracore_quests_count', questCount.toString());
+        updateQuestFlaskUI();
+    }
+}
+
+// ==========================================================================
+// 🎲 НЕУБИВАЕМЫЙ ДВИЖОК РУЛЕТКИ И СУПЕР-БАЗА ТРАНСПОРТА
+// ==========================================================================
+
+// Помощник получения базы данных транспорта (100% защита от ошибок)
+function getTcTransportData() {
+    return {
+        "ЮЗР": ["Троллейбус №11", "Троллейбус №14", "Троллейбус №15", "Троллейбус №17", "Троллейбус №20", "Троллейбус №22", "Троллейбус №62", "Автобус №33", "Автобус №26", "Автобус №37", "Автобус №45", "Автобус №46", "Маршрутка №7", "Маршрутка №43", "Маршрутка №44", "Маршрутка №12"],
+        "СЗР": ["Троллейбус №1", "Троллейбус №3", "Троллейбус №4", "Троллейбус №14", "Троллейбус №17", "Троллейбус №18", "Троллейбус №21", "Троллейбус №22", "Автобус №15", "Автобус №23", "Автобус №32", "Автобус №35", "Автобус №52", "Маршрутка №12"],
+        "НЮР": ["Троллейбус №1", "Троллейбус №6", "Троллейбус №8", "Троллейбус №9", "Троллейбус №15", "Троллейбус №17", "Троллейбус №18", "Троллейбус №20", "Троллейбус №61", "Автобус №5", "Автобус №32", "Автобус №42", "Автобус №45", "Автобус №47", "Автобус №52", "Маршрутка №333"],
+        "Финская долина": ["Автобус №47", "Автобус №23", "Автобус №46", "Маршрутка №44"],
+        "Залив": ["Троллейбус №1", "Троллейбус №3", "Троллейбус №4", "Троллейбус №9", "Троллейбус №15", "Троллейбус №17", "Троллейбус №18", "Троллейбус №22", "Троллейбус №61", "Автобус №15", "Автобус №32", "Автобус №23", "Автобус №52", "Маршрутка №44"],
+        "Богданка": ["Троллейбус №62", "Троллейбус №14", "Троллейбус №20", "Троллейбус №11", "Троллейбус №17", "Троллейбус №18", "Троллейбус №22", "Троллейбус №61", "Автобус №13", "Автобус №33", "Автобус №45", "Автобус №46", "Маршрутка №43", "Маршрутка №47"],
+        "Центр": ["Троллейбус №1", "Троллейбус №3", "Троллейбус №4", "Троллейбус №14", "Троллейбус №17", "Троллейбус №18", "Троллейбус №22", "Троллейбус №20", "Троллейбус №61", "Автобус №15", "Автобус №23", "Автобус №32", "Автобус №47", "Автобус №52"],
+        "Садовый": ["Троллейбус №10", "Автобус №13", "Автобус №42", "Автобус №45", "Маршрутка №65", "Маршрутка №12"]
+    };
+}
+
+function getTcStopsData() {
+    return ["4 остановки", "6 остановок", "7 остановок", "9 остановок", "12 остановок", "15 остановок"];
+}
+
+var tcSelectedDistrict = null;
+var tcWonTransport = null;
+var tcWonStops = null;
+
+// 🔥 ГЛАВНЫЙ МОДУЛЬ РЕНДЕРА ЭТАПОВ РУЛЕТКИ
+function renderRouletteModule(stage) {
+    if (!stage) stage = 'start';
+    const box = document.getElementById('tc-roulette-module-box');
+    if (!box) return;
+
+    const transportData = getTcTransportData();
+    const stopsData = getTcStopsData();
+
+    if (stage === 'start') {
+        box.innerHTML = `
+            <button class="tc-start-quest-btn" onclick="renderRouletteModule('select_district')">
+                🚀 НАЧАТЬ КВЕСТ
+            </button>
+        `;
+    } else if (stage === 'select_district') {
+        const districtKeys = Object.keys(transportData);
+        
+        const districtBtns = districtKeys.map(dName => `
+            <button class="tc-district-select-btn" onclick="selectRouletteDistrict('${dName}')">
+                📍 ${dName}
+            </button>
+        `).join('');
+
+        box.innerHTML = `
+            <h4 style="color:#ffd700; font-family:'Postmodern One',sans-serif; margin-top:0; font-size:1.3rem;">В каком районе вы сейчас находитесь?</h4>
+            <div class="tc-district-select-grid">
+                ${districtBtns}
+            </div>
+        `;
+    } else if (stage === 'spin') {
+        box.innerHTML = `
+            <h4 style="color:#ffaa00; font-family:'Postmodern One',sans-serif; margin-top:0; font-size:1.3rem;">Район: ${tcSelectedDistrict}</h4>
+            <div class="tc-wheels-wrapper">
+                <!-- РУЛЕТКА 1: ТРАНСПОРТ -->
+                <div class="tc-wheel-box">
+                    <div class="tc-wheel-title">🚌 Маршрут транспорта</div>
+                    <div class="tc-roulette-wheel-stage">
+                        <div class="tc-wheel-pointer"></div>
+                        <div class="tc-wheel-disc" id="tc-wheel-transport-disc"></div>
+                    </div>
+                    <button id="tc-spin-btn-1" class="tc-spin-action-btn" onclick="spinTransportWheel()">Крутить (7 сек)</button>
+                </div>
+
+                <!-- РУЛЕТКА 2: ОСТАНОВКИ -->
+                <div class="tc-wheel-box">
+                    <div class="tc-wheel-title">🚏 Количество остановок</div>
+                    <div class="tc-roulette-wheel-stage">
+                        <div class="tc-wheel-pointer"></div>
+                        <div class="tc-wheel-disc" id="tc-wheel-stops-disc"></div>
+                    </div>
+                    <button id="tc-spin-btn-2" class="tc-spin-action-btn" onclick="spinStopsWheel()" disabled>Заблокировано</button>
+                </div>
+            </div>
+        `;
+        buildWheelVisual('tc-wheel-transport-disc', transportData[tcSelectedDistrict] || []);
+        buildWheelVisual('tc-wheel-stops-disc', stopsData);
+    } else if (stage === 'activated') {
+        box.innerHTML = `
+            <div class="tc-quest-activated-card">
+                <h4>🔥 КВЕСТ АКТИВИРОВАН!</h4>
+                <p>Садитесь на <b>${tcWonTransport}</b> и выходите через <b>${tcWonStops}</b>.<br><br>
+                <b>Правило:</b> навигаторы заблокированы. Возвращение домой — только пешком по следам интуиции!</p>
+                <button class="tc-start-quest-btn" onclick="completeQuestAndReset()">
+                    ✓ ЗАВЕРШИТЬ КВЕСТ (+25% В КОЛБУ)
+                </button>
+            </div>
+        `;
+    }
+}
+
+function selectRouletteDistrict(dName) {
+    tcSelectedDistrict = dName;
+    tcWonTransport = null;
+    tcWonStops = null;
+    renderRouletteModule('spin');
+}
+
+// 🔥 ФУНКЦИЯ ПОСТРОЕНИЯ ВИЗУАЛА РУЛЕТКИ С ТЕКСТОМ
+function buildWheelVisual(discId, items) {
+    const disc = document.getElementById(discId);
+    if (!disc || !items || items.length === 0) return;
+
+    const count = items.length;
+    const angleStep = 360 / count;
+
+    // 1. Рисуем фоновые сектора (градиент)
+    let bgGradient = `conic-gradient(`;
+    items.forEach((item, i) => {
+        const color = i % 2 === 0 ? '#ff4400' : '#8b0000';
+        const startDeg = i * angleStep;
+        const endDeg = (i + 1) * angleStep;
+        bgGradient += `${color} ${startDeg}deg ${endDeg}deg${i === count - 1 ? '' : ','}`;
+    });
+    bgGradient += `)`;
+    disc.style.background = bgGradient;
+
+    // 2. Генерируем текстовые метки
+    disc.innerHTML = ''; // Очищаем старое
+    items.forEach((item, i) => {
+        // Вырезаем только число или короткое слово (чтобы влезло)
+        // Например: "Троллейбус №11" -> "11", "4 остановки" -> "4"
+        const shortLabel = item.replace(/Троллейбус №|Автобус №|Маршрутка №| остановки| остановок/g, '');
+        
+        const labelWrap = document.createElement('div');
+        labelWrap.className = 'tc-wheel-label-wrap';
+        
+        // Вращаем обертку так, чтобы текст встал ровно посередине цветного сектора
+        const rotation = (i * angleStep) + (angleStep / 2);
+        labelWrap.style.transform = `rotate(${rotation}deg)`;
+        
+        // Адаптивный размер шрифта (если секторов больше 12, делаем текст поменьше)
+        const fontSize = count > 12 ? '0.7rem' : '0.9rem';
+
+        labelWrap.innerHTML = `<span class="tc-wheel-label-text" style="font-size: ${fontSize}">${shortLabel}</span>`;
+        disc.appendChild(labelWrap);
+    });
+}
+
+
+function spinTransportWheel() {
+    const btn1 = document.getElementById('tc-spin-btn-1');
+    const disc1 = document.getElementById('tc-wheel-transport-disc');
+    if (!btn1 || !disc1) return;
+
+    btn1.disabled = true;
+    btn1.innerText = "Крутится...";
+
+    const transportData = getTcTransportData();
+    const items = transportData[tcSelectedDistrict] || [];
+    if (items.length === 0) return;
+
+    const randomIndex = Math.floor(Math.random() * items.length);
+    tcWonTransport = items[randomIndex];
+
+    const randomRotation = 360 * 5 + (360 - (randomIndex * (360 / items.length) + (360 / items.length) / 2));
+    disc1.style.transform = `rotate(${randomRotation}deg)`;
+
+    setTimeout(() => {
+        btn1.innerText = `Выпало: ${tcWonTransport}`;
+        const btn2 = document.getElementById('tc-spin-btn-2');
+        if (btn2) {
+            btn2.disabled = false;
+            btn2.innerText = "Крутить остановки";
+        }
+    }, 7000);
+}
+
+function spinStopsWheel() {
+    const btn2 = document.getElementById('tc-spin-btn-2');
+    const disc2 = document.getElementById('tc-wheel-stops-disc');
+    if (!btn2 || !disc2) return;
+
+    btn2.disabled = true;
+    btn2.innerText = "Крутится...";
+
+    const stopsData = getTcStopsData();
+    const randomIndex = Math.floor(Math.random() * stopsData.length);
+    tcWonStops = stopsData[randomIndex];
+
+    const randomRotation = 360 * 5 + (360 - (randomIndex * (360 / stopsData.length) + (360 / stopsData.length) / 2));
+    disc2.style.transform = `rotate(${randomRotation}deg)`;
+
+    setTimeout(() => {
+        btn2.innerText = `Выпало: ${tcWonStops}`;
+        setTimeout(() => {
+            renderRouletteModule('activated');
+        }, 1200);
+    }, 7000);
+}
+
+function completeQuestAndReset() {
+    incQuestPercent();
+    renderRouletteModule('start');
+}
+
+
+
+
+
+
+
+
+
+// Обновление всех 3-х суммарных колб (включаем вызов updateQuestFlaskUI)
+const oldUpdateTerraCoreSummaryFlasks = updateTerraCoreSummaryFlasks;
+updateTerraCoreSummaryFlasks = function() {
+    if (typeof oldUpdateTerraCoreSummaryFlasks === 'function') oldUpdateTerraCoreSummaryFlasks();
+    updateQuestFlaskUI();
+};
     </script>
 
 
@@ -18212,8 +18788,8 @@ document.getElementById('terracore-view-container').addEventListener('scroll', (
 
     </div>
 
-    <!-- ==========================================
-     ЭТАЖ 2: ПОДЗЕМЕЛЬЕ (БЛОК КОЛБ ПОВЕРХ ВКЛАДОК)
+   <!-- ==========================================
+     ЭТАЖ 2: ПОДЗЕМЕЛЬЕ (3 КОЛБЫ ПОВЕРХ ВКЛАДОК)
      ========================================== -->
 <div id="tc-underground-section" class="tc-underground-floor">
     <div class="tc-right-torch">
@@ -18221,7 +18797,7 @@ document.getElementById('terracore-view-container').addEventListener('scroll', (
         <div class="tc-torch-wood"></div>
     </div>
 
-    <!-- 🔥 1. ОБЩИЙ БЛОК ГЛАВНЫХ КОЛБ ПОВЕРХ ВКЛАДОК -->
+    <!-- 🔥 1. БЛОК 3 ГЛАВНЫХ КОЛБ ПОВЕРХ ВКЛАДОК -->
     <div class="tc-main-summary-flasks-row">
         <!-- КОЛБА 1: ГОРОД -->
         <div class="tc-summary-flask-card">
@@ -18236,7 +18812,7 @@ document.getElementById('terracore-view-container').addEventListener('scroll', (
             <div class="tc-city-label">ГОРОД</div>
         </div>
 
-        <!-- КОЛБА 2: ПП (ТЕПЕРЬ ТОЖЕ С НОЖКАМИ!) -->
+        <!-- КОЛБА 2: ПП -->
         <div class="tc-summary-flask-card">
             <div class="tc-city-flask-stage">
                 <div class="tc-city-flask-support support-left"></div>
@@ -18248,15 +18824,40 @@ document.getElementById('terracore-view-container').addEventListener('scroll', (
             <div id="tc-pp-percent-val" class="tc-city-percent">0%</div>
             <div class="tc-city-label">ПП</div>
         </div>
+
+        <!-- КОЛБА 3: КВЕСТЫ (С ВЫРАВНИВАНИЕМ) -->
+<div class="tc-summary-flask-card">
+    <div class="tc-flask-with-controls">
+        <div class="tc-city-flask-stage">
+            <div class="tc-city-flask-support support-left"></div>
+            <div class="tc-city-flask-support support-right"></div>
+            <div class="tc-city-flask">
+                <div id="tc-quest-flask-liquid" class="tc-city-flask-liquid" style="height: 0%;"></div>
+            </div>
+        </div>
+
+        <!-- Кнопки теперь СБОКУ (справа) -->
+        <div class="tc-quest-manual-btns">
+            <button onclick="incQuestPercent()" title="+25%">+</button>
+            <button onclick="decQuestPercent()" title="-25%">-</button>
+        </div>
+    </div>
+    <div id="tc-quest-percent-val" class="tc-city-percent">0%</div>
+    <div class="tc-city-label">КВЕСТЫ</div>
+</div>
+
     </div>
 
-    <!-- 🔥 2. ПЕРЕКЛЮЧАТЕЛЬ ВКЛАДОК -->
+    <!-- 🔥 2. ПЕРЕКЛЮЧАТЕЛЬ 3-Х ВКЛАДОК -->
     <div class="tc-underground-tabs">
         <button id="tc-tab-btn-map" class="tc-tab-btn active" onclick="switchTerraCoreTab('map')">
             🗺️ КАРТА РАЙОНОВ
         </button>
         <button id="tc-tab-btn-pp" class="tc-tab-btn" onclick="switchTerraCoreTab('pp')">
             💬 ПРАВДА ИЛИ ПРАВДА
+        </button>
+        <button id="tc-tab-btn-roulette" class="tc-tab-btn" onclick="switchTerraCoreTab('roulette')">
+            🎲 РУЛЕТКА КВЕСТОВ
         </button>
     </div>
 
@@ -18276,10 +18877,20 @@ document.getElementById('terracore-view-container').addEventListener('scroll', (
         </div>
         <div id="tc-pp-questions-list" class="tc-pp-grid-full"></div>
     </div>
+
+    <!-- ВКЛАДКА 3: РУЛЕТКА ГОРОДСКИХ КВЕСТОВ -->
+    <div id="tc-tab-content-roulette" class="tc-tab-content" style="display: none;">
+        <div class="tc-underground-header">
+            <h3>🎲 ГОРОДСКОЙ РАНДОМАЙЗЕР</h3>
+            <p class="tc-pp-subtitle">Интерактивный маршрут исследований без карт и навигаторов</p>
+        </div>
+
+        <div id="tc-roulette-module-box" class="tc-roulette-container">
+            <!-- ДИНАМИЧЕСКИЙ КОНТЕНТ ЭТАПОВ РУЛЕТКИ -->
+        </div>
+    </div>
 </div>
 
-
-</div>
 
 
 
