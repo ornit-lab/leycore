@@ -17849,43 +17849,58 @@ function updateFlaskUI(distId, cur) {
     if (valText) valText.innerText = cur + '%';
 }
 
-// 3. ЖЁСТКОЕ УДАЛЕНИЕ ЛАМПЫ И ФАКЕЛ ТОЛЬКО В ПОДВАЛЕ
+// 1. ВХОД В ТЕРРАКОР (ВКЛЮЧАЕМ РЕЖИМ ТИШИНЫ)
 function enterTerraCoreMode() {
     const tcContainer = document.getElementById('terracore-view-container');
     if (tcContainer) tcContainer.style.display = 'block';
 
-    // 🔥 УБИВАЕМ ВСЕ ВОЗМОЖНЫЕ ЛАМПЫ НА САЙТЕ К ХУЯМ
-    const siteLamps = document.querySelectorAll('.light-bulb, #main-light-bulb, #lamp, .lamp-container, svg[class*="lamp"], div[class*="lamp"]');
-    siteLamps.forEach(lamp => lamp.style.setProperty('display', 'none', 'important'));
-
-    renderTerraCoreDistricts();
-    initLeavesCanvas();
-
-    const logoEl = document.querySelector('.logo, #main-logo-text, .header-logo');
-    if (logoEl) {
-        originalLogoText = logoEl.innerText;
-        logoEl.innerText = 'TERRACORE';
+    // 🔥 ТОТАЛЬНОЕ ГЛУШЕНИЕ ВСЕЙ МУЗЫКИ САЙТА
+    const allAudios = document.getElementsByTagName('audio');
+    for (let i = 0; i < allAudios.length; i++) {
+        // Ставим на паузу всё, кроме будущего эмбиента Терры
+        if (allAudios[i].id !== 'terracore-ambient-audio') {
+            allAudios[i].pause();
+        }
     }
 
-    const sidebar = document.querySelector('.msgr-sidebar, .main-sidebar');
-    if (sidebar) sidebar.style.display = 'none';
+    // 🌿 ЗАПУСК ЭМБИЕНТА TERRACORE (если файл будет в папке)
+    const tcAudio = document.getElementById('terracore-ambient-audio');
+    if (tcAudio) {
+        tcAudio.currentTime = 0;
+        tcAudio.volume = 0.5;
+        // Используем .play() с обработкой ошибки (на случай если файла нет)
+        tcAudio.play().catch(e => {
+            console.log("🎵 Земляной эмбиент: файл пока не найден или заблокирован браузером.");
+        });
+    }
+
+    // Твоя остальная логика (лампы, рендер и т.д.)
+    const siteLamps = document.querySelectorAll('.light-bulb, #main-light-bulb, #lamp, .lamp-container');
+    siteLamps.forEach(lamp => lamp.style.setProperty('display', 'none', 'important'));
+    
+    renderTerraCoreDistricts();
+    updateTerraCoreSummaryFlasks();
+    initLeavesCanvas();
+    
+    document.body.style.overflow = 'hidden'; // Блокируем скролл основного сайта
 }
 
+
+// 2. ВЫХОД ИЗ ТЕРРАКОРА (ВОЗВРАЩАЕМ ЗВУКИ)
 function exitTerraCoreMode() {
     const tcContainer = document.getElementById('terracore-view-container');
     if (tcContainer) tcContainer.style.display = 'none';
 
-    if (tcLeavesAnimationId) cancelAnimationFrame(tcLeavesAnimationId);
+    // 🔥 ВЫКЛЮЧАЕМ ЭМБИЕНТ ТЕРРЫ
+    const tcAudio = document.getElementById('terracore-ambient-audio');
+    if (tcAudio) tcAudio.pause();
 
-    // Возвращаем лампы обратно
-    const siteLamps = document.querySelectorAll('.light-bulb, #main-light-bulb, #lamp, .lamp-container, svg[class*="lamp"], div[class*="lamp"]');
-    siteLamps.forEach(lamp => lamp.style.display = '');
+    // 🔊 ВОЗВРАЩАЕМ МУЗЫКУ САЙТА (опционально)
+    // Если хочешь, чтобы музыка сайта сама НЕ включалась при выходе, просто удали этот блок ниже.
+    const mainSiteAudio = document.getElementById('main-bg-music'); // Замени на ID своего главного плеера
+    if (mainSiteAudio) mainSiteAudio.play().catch(e => {});
 
-    const logoEl = document.querySelector('.logo, #main-logo-text, .header-logo');
-    if (logoEl) logoEl.innerText = originalLogoText;
-
-    const sidebar = document.querySelector('.msgr-sidebar, .main-sidebar');
-    if (sidebar) sidebar.style.display = '';
+    document.body.style.overflow = ''; // Возвращаем скролл
 }
 
 
