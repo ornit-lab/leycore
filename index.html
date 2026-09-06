@@ -9802,7 +9802,7 @@
 .tc-comfort-btn.level-2 { background: #b8860b; color: #fff; }
 .tc-comfort-btn.level-3 { background: #008844; color: #fff; }
 .tc-comfort-btn.level-4 { background: #7c22ce; color: #fff; box-shadow: 0 0 10px #a855f7; }
-.tc-comfort-btn.level-5 { background: #e11d48; color: #fff; box-shadow: 0 0 12px #ff0055; }
+.tc-comfort-btn.level-5 { background: #f0eaf7; color: #fff; box-shadow: 0 0 12px #ff0055; }
 
 .tc-comfort-btn.active {
     opacity: 1 !important; transform: scale(1.08) !important;
@@ -10096,7 +10096,7 @@
 .tc-comfort-btn.level-2:hover, .tc-comfort-btn.level-2.active { background: #ffd700 !important; color: #000 !important; box-shadow: 0 0 15px #ffd700; opacity: 1; }
 .tc-comfort-btn.level-3:hover, .tc-comfort-btn.level-3.active { background: #00ff87 !important; color: #000 !important; box-shadow: 0 0 15px #00ff87; opacity: 1; }
 .tc-comfort-btn.level-4:hover, .tc-comfort-btn.level-4.active { background: #a855f7 !important; box-shadow: 0 0 20px #a855f7; opacity: 1; }
-.tc-comfort-btn.level-5:hover, .tc-comfort-btn.level-5.active { background: #ff0055 !important; box-shadow: 0 0 20px #ff0055; opacity: 1; }
+.tc-comfort-btn.level-5:hover, .tc-comfort-btn.level-5.active { background: #ff0055 !important; box-shadow: 0 0 20px #f0eaf7; opacity: 1; }
 
 /* 5. ИДЕАЛЬНЫЕ ОРБИТЫ ЗВЕЗД (ЧЕТКО ПО ПЕРИМЕТРУ) */
 .tc-voice-card.card-lvl-5 { overflow: visible !important; } /* Чтобы звезды не обрезались */
@@ -10295,6 +10295,27 @@
         border-radius: 42px 42px 42px 42px;
         transform: scale(1);
     }
+}
+
+
+/* ==========================================================================
+   ☁️ КНОПКА ВЫБОРА УРОВНЯ 5 («НЕЗАБЫВАЕМО» — НЕБЕСНОЕ ОБЛАЧКО)
+   ========================================================================== */
+
+.tc-comfort-btn.level-5 {
+    background: linear-gradient(135deg, #e0f2fe, #bae6fd) !important;
+    color: #0369a1 !important; /* Насыщенный синий текст для идеальной читаемости */
+    border: 1.5px solid #7dd3fc !important;
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.5) !important;
+}
+
+/* При наведении или когда она активна */
+.tc-comfort-btn.level-5:hover,
+.tc-comfort-btn.level-5.active {
+    background: #ffffff !important;
+    color: #0284c7 !important;
+    border-color: #38bdf8 !important;
+    box-shadow: 0 0 18px rgba(56, 189, 248, 0.8) !important;
 }
 
 
@@ -20213,7 +20234,6 @@ function drawVoiceList(notes) {
                 </div>
                 <div class="tc-voice-right-col">
                     <div class="tc-comfort-badge lvl-${n.lvl}">
-                        ${n.lvl === 4 ? '<span class="tc-blue-flame">🔥</span> ' : ''}
                         ${names[n.lvl] || 'Комфорт'}
                     </div>
                     <button type="button" class="tc-voice-del-btn" onclick="tcDeleteVoice(${n.id})" title="Удалить">✕</button>
