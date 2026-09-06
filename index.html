@@ -8203,6 +8203,47 @@
     font-size: 0.7rem;
 }
 
+
+/* ==========================================================================
+   🚀 МОБИЛЬНАЯ ОПТИМИЗАЦИЯ И GPU-УСКОРЕНИЕ (ПРОТИВ НАГРЕВА ТЕЛЕФОНА)
+   ========================================================================== */
+
+/* 1. Принудительный перевод важных блоков на GPU-ускорение */
+.tc-district-card,
+.tc-city-flask,
+.tc-small-flask,
+#terracore-view-container,
+.tc-main-title {
+    will-change: transform;
+    transform: translateZ(0); /* Включает видеочип телефона вместо процессора */
+}
+
+/* 2. Легкие стили специально для мобилок (экран менее 768px) */
+@media (max-width: 768px) {
+    /* Облегчаем или отключаем тяжелый размывающий размыватель (blur) */
+    .tc-district-card,
+    .tc-modal-box {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: rgba(22, 8, 8, 0.95) !important; /* Заменяем блюр на плотный сочный фон */
+    }
+
+    /* Упрощаем тяжелые размытые тени */
+    .tc-main-title {
+        filter: drop-shadow(0 3px 6px rgba(0,0,0,0.8)) !important;
+    }
+    
+    .tc-flask-liquid,
+    .tc-city-flask-liquid {
+        box-shadow: none !important; /* Убираем тяжелое свечение эликсира на мобилах */
+    }
+
+    /* Уменьшаем высоту канваса и отключаем лишнюю нагрузку */
+    #terracore-leaves-canvas {
+        pointer-events: none;
+    }
+}
+
     </style>
 
 
@@ -16999,7 +17040,7 @@ function toggleDistrictExpand(distId) {
     }
 }
 
-// 7. ЛИСТОПАД (Желтые, зеленые и красные лепестки)
+// 🔥 УМНЫЙ, ОПТИМИЗИРОВАННЫЙ ЛИСТОПАД (БЕЗ НАГРЕВА ТЕЛЕФОНА)
 function initLeavesCanvas() {
     const canvas = document.getElementById('terracore-leaves-canvas');
     if (!canvas) return;
@@ -17013,24 +17054,44 @@ function initLeavesCanvas() {
         height = canvas.height = window.innerHeight;
     });
 
+    const isMobile = window.innerWidth < 768 || /Android|iPhone|iPad/i.test(navigator.userAgent);
     const leafColors = ['#e6b800', '#2e8b57', '#d94136', '#d4a359', '#4a7c59'];
     const leaves = [];
-    const maxLeaves = 22; // Небольшое количество, чтобы не грузить ПК/телефон
+    
+    // 💡 НА МОБИЛКЕ: всего 8 листочков вместо 22!
+    const maxLeaves = isMobile ? 8 : 22; 
 
     for (let i = 0; i < maxLeaves; i++) {
         leaves.push({
             x: Math.random() * width,
             y: Math.random() * height,
-            size: Math.random() * 6 + 6,
-            speedY: Math.random() * 1.2 + 0.6,
-            speedX: Math.random() * 0.8 - 0.4,
+            size: Math.random() * 5 + 5,
+            speedY: Math.random() * 1.0 + 0.5,
+            speedX: Math.random() * 0.6 - 0.3,
             color: leafColors[Math.floor(Math.random() * leafColors.length)],
             angle: Math.random() * Math.PI * 2,
-            spin: Math.random() * 0.04 - 0.02
+            spin: Math.random() * 0.03 - 0.015
         });
     }
 
-    function renderLeaves() {
+    let lastFrameTime = performance.now();
+    const targetFPS = isMobile ? 30 : 60; // 💡 НА МОБИЛКЕ: ограничение 30 FPS!
+    const frameInterval = 1000 / targetFPS;
+
+    function renderLeaves(currentTime) {
+        // Если окно TerraCore закрыто — НЕ РИСУЕМ Ничего и бережем батарею!
+        const tcContainer = document.getElementById('terracore-view-container');
+        if (!tcContainer || tcContainer.style.display === 'none') {
+            return;
+        }
+
+        tcLeavesAnimationId = requestAnimationFrame(renderLeaves);
+
+        // Ограничение кадров по времени
+        const delta = currentTime - lastFrameTime;
+        if (delta < frameInterval) return;
+        lastFrameTime = currentTime - (delta % frameInterval);
+
         ctx.clearRect(0, 0, width, height);
 
         leaves.forEach(l => {
@@ -17048,17 +17109,29 @@ function initLeavesCanvas() {
             ctx.rotate(l.angle);
             ctx.fillStyle = l.color;
             ctx.beginPath();
-            // Рисуем форме лепестка/листочка
             ctx.ellipse(0, 0, l.size, l.size / 2, 0, 0, Math.PI * 2);
             ctx.fill();
             ctx.restore();
         });
-
-        tcLeavesAnimationId = requestAnimationFrame(renderLeaves);
     }
 
-    renderLeaves();
+    // Старт анимации
+    if (tcLeavesAnimationId) cancelAnimationFrame(tcLeavesAnimationId);
+    tcLeavesAnimationId = requestAnimationFrame(renderLeaves);
 }
+
+// 💡 АВТО-ПАУЗА ПРИ СВОРАЧИВАНИИ ВКЛАДКИ
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        if (tcLeavesAnimationId) cancelAnimationFrame(tcLeavesAnimationId);
+    } else {
+        const tcContainer = document.getElementById('terracore-view-container');
+        if (tcContainer && tcContainer.style.display !== 'none') {
+            initLeavesCanvas();
+        }
+    }
+});
+
 
 // Функция спуска в подземелье к районам
 function scrollToTerraCoreUnderground() {
