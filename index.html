@@ -13469,6 +13469,7 @@
 
         // Инициализация клиента Supabase
         const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        window._supabase = _supabase; 
 
         // Функция загрузки комментариев и лайков из базы для конкретного блюда
         async function loadDishDataFromCloud(dishIndex) {
@@ -19603,41 +19604,6 @@
             "Какое самое искреннее пожелание ты хотела бы сказать человеку, который сидит напротив тебя прямо сейчас?"
         ];
 
-        // 🔥 ИСПРАВЛЕННЫЙ ПЕРЕКЛЮЧАТЕЛЬ 3-Х ВКЛАДОК (КАРТА / ПП / РУЛЕТКА)
-        function switchTerraCoreTab(tabName) {
-            // 1. Кнопки вкладок
-            const mapBtn = document.getElementById('tc-tab-btn-map');
-            const ppBtn = document.getElementById('tc-tab-btn-pp');
-            const rouletteBtn = document.getElementById('tc-tab-btn-roulette');
-
-            // 2. Контент вкладок
-            const mapContent = document.getElementById('tc-tab-content-map');
-            const ppContent = document.getElementById('tc-tab-content-pp');
-            const rouletteContent = document.getElementById('tc-tab-content-roulette');
-
-            // Снимаем класс active со всех кнопок и прячем весь контент
-            if (mapBtn) mapBtn.classList.remove('active');
-            if (ppBtn) ppBtn.classList.remove('active');
-            if (rouletteBtn) rouletteBtn.classList.remove('active');
-
-            if (mapContent) mapContent.style.display = 'none';
-            if (ppContent) ppContent.style.display = 'none';
-            if (rouletteContent) rouletteContent.style.display = 'none';
-
-            // Включаем нужную вкладку
-            if (tabName === 'map') {
-                if (mapBtn) mapBtn.classList.add('active');
-                if (mapContent) mapContent.style.display = 'block';
-            } else if (tabName === 'pp') {
-                if (ppBtn) ppBtn.classList.add('active');
-                if (ppContent) ppContent.style.display = 'block';
-                renderTerraCorePPGame(); // Рендерим 200 вопросов
-            } else if (tabName === 'roulette') {
-                if (rouletteBtn) rouletteBtn.classList.add('active');
-                if (rouletteContent) rouletteContent.style.display = 'block';
-                renderRouletteModule('start'); // 🔥 РЕНДЕРИМ СТАРТОВУЮ КНОПКУ РУЛЕТКИ
-            }
-        }
 
 
         // 3. РЕНДЕР ИГРЫ «ПРАВДА ИЛИ ПРАВДА»
@@ -20025,50 +19991,122 @@ function tcSetComfort(n) {
     });
 }
 
+
+
 // ==========================================================================
-// 🎙️ СТУДИЙНАЯ ЗАПИСЬ ЗВУКА (БЕЗ ОБРЕЗАНИЙ И БЕЗ ШУМОВ)
+// 🎙️ НЕУБИВАЕМЫЙ РЕНДЕР И ФОНОВАЯ СИНХРОНИЗАЦИЯ SUPABASE
 // ==========================================================================
+
+// 1. Поиск твоего клиента _supabase
+function getSupabaseClient() {
+    return window._supabase || null;
+}
+
+// ==========================================================================
+// 🎙️ АВТОНОМНЫЙ И СВЕРХНАДЁЖНЫЙ ДВИЖОК ГОЛОСОВЫХ ПАМЯТОК TERRACORE
+// ==========================================================================
+
+// Глобальное состояние
+var tcSelectedComfort = 5;
+var tcMediaRecorder = null;
+var tcAudioChunks = [];
+var tcRecordTimerInterval = null;
+var tcRecordSeconds = 0;
+
+// Умный поиск/создание клиента Supabase на лету
+function getSupabaseClient() {
+    if (window._supabase) return window._supabase;
+    if (window.supabaseClient) return window.supabaseClient;
+    if (typeof _supabase !== 'undefined') return _supabase;
+    
+    // Если глобальный клиент не найден — создаём его сами прямо здесь!
+    if (window.supabase && typeof window.supabase.createClient === 'function') {
+        try {
+            const url = 'https://grvwpbrovluwvokscjbf.supabase.co';
+            const key = 'sb_publishable_Ej9FIc-8wZbxxOGRjBvapw_s4u9rYtc';
+            window._supabase = window.supabase.createClient(url, key);
+            console.log("☁️ Автономный клиент Supabase успешно создан!");
+            return window._supabase;
+        } catch(e) {
+            console.error("Ошибка авто-инициализации Supabase:", e);
+        }
+    }
+    return null;
+}
+
+// 1. Показ интерфейса по кнопке "СДЕЛАТЬ ПАМЯТКУ"
+function tcShowRecordInterface() {
+    const startBtn = document.getElementById('tc-start-memo-btn');
+    const interfaceBox = document.getElementById('tc-record-interface');
+    if (startBtn) startBtn.style.display = 'none';
+    if (interfaceBox) interfaceBox.style.display = 'block';
+}
+
+// 2. Скрытие интерфейса (кнопка Отмена)
+function tcHideRecordInterface() {
+    const startBtn = document.getElementById('tc-start-memo-btn');
+    const interfaceBox = document.getElementById('tc-record-interface');
+    if (startBtn) startBtn.style.display = 'inline-block';
+    if (interfaceBox) interfaceBox.style.display = 'none';
+
+    if (tcMediaRecorder && tcMediaRecorder.state === 'recording') {
+        tcMediaRecorder.stop();
+        const btn = document.getElementById('tc-mic-record-btn');
+        const txt = document.getElementById('tc-mic-btn-text');
+        if (btn) btn.classList.remove('recording');
+        if (txt) txt.innerText = "Начать запись ГС";
+    }
+    if (tcRecordTimerInterval) clearInterval(tcRecordTimerInterval);
+}
+
+// 3. Выбор уровня комфорта (1-5)
+function tcSetComfort(n) {
+    tcSelectedComfort = n;
+    const btns = document.querySelectorAll('.tc-comfort-btn');
+    btns.forEach((btn, idx) => {
+        if (idx + 1 === n) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+}
+
+// 4. Старт / Стоп записи
 async function tcToggleRecord() {
-    const state = getTcVoiceState();
     const btn = document.getElementById('tc-mic-record-btn');
     const txt = document.getElementById('tc-mic-btn-text');
     const timerEl = document.getElementById('tc-voice-timer');
 
-    if (!state.recorder || state.recorder.state === 'inactive') {
+    if (!tcMediaRecorder || tcMediaRecorder.state === 'inactive') {
         try {
-            // Запрашиваем микрофон в студийном качестве (отключаем телефонные глушилки)
             const stream = await navigator.mediaDevices.getUserMedia({
                 audio: {
-                    echoCancellation: false,   // Не режем эхо (оно убивает начало фразы)
-                    noiseSuppression: false,   // Не душим голос телефонным шумодавом
-                    autoGainControl: false,    // Не скачет громкость
-                    channelCount: 2,           // Стерео
-                    sampleRate: 48000          // Студийная частота 48kHz
+                    echoCancellation: false,
+                    noiseSuppression: false,
+                    autoGainControl: false,
+                    channelCount: 2,
+                    sampleRate: 48000
                 }
             });
 
-            // Выбираем лучший кодек системы
             let mimeType = 'audio/webm;codecs=opus';
             if (!MediaRecorder.isTypeSupported(mimeType)) {
                 mimeType = MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : '';
             }
 
-            const options = {
-                audioBitsPerSecond: 192000 // 192 kbps кристальный чистый битрейт
-            };
+            const options = { audioBitsPerSecond: 192000 };
             if (mimeType) options.mimeType = mimeType;
 
-            state.recorder = new MediaRecorder(stream, options);
-            state.chunks = [];
+            tcMediaRecorder = new MediaRecorder(stream, options);
+            tcAudioChunks = [];
 
-            state.recorder.ondataavailable = (e) => {
-                if (e.data && e.data.size > 0) {
-                    state.chunks.push(e.data);
-                }
+            tcMediaRecorder.ondataavailable = (e) => {
+                if (e.data && e.data.size > 0) tcAudioChunks.push(e.data);
             };
 
-            state.recorder.onstop = () => {
-                const blob = new Blob(state.chunks, { type: mimeType || 'audio/webm' });
+            tcMediaRecorder.onstop = () => {
+                const blob = new Blob(tcAudioChunks, { type: mimeType || 'audio/webm' });
                 const reader = new FileReader();
                 reader.readAsDataURL(blob);
                 reader.onloadend = () => {
@@ -20077,130 +20115,87 @@ async function tcToggleRecord() {
                 stream.getTracks().forEach(t => t.stop());
             };
 
-            // Даём микрофону 120мс на стабилизацию сигнала, чтобы не проглатывать 1-й слог
             setTimeout(() => {
-                state.recorder.start(250); // пишем порциями по 250мс для надёжности
+                tcMediaRecorder.start(250);
                 if (btn) btn.classList.add('recording');
                 if (txt) txt.innerText = "Остановить запись";
 
-                state.sec = 0;
+                tcRecordSeconds = 0;
                 if (timerEl) timerEl.innerText = "00:00";
-                if (state.timer) clearInterval(state.timer);
+                if (tcRecordTimerInterval) clearInterval(tcRecordTimerInterval);
 
-                state.timer = setInterval(() => {
-                    state.sec++;
-                    const m = String(Math.floor(state.sec / 60)).padStart(2, '0');
-                    const s = String(state.sec % 60).padStart(2, '0');
+                tcRecordTimerInterval = setInterval(() => {
+                    tcRecordSeconds++;
+                    const m = String(Math.floor(tcRecordSeconds / 60)).padStart(2, '0');
+                    const s = String(tcRecordSeconds % 60).padStart(2, '0');
                     if (timerEl) timerEl.innerText = `${m}:${s}`;
                 }, 1000);
             }, 120);
 
         } catch (err) {
-            alert("❌ Ошибка доступа к микрофону! Разрешите микрофон в настройках браузера.");
-            console.error("Microphone HD error:", err);
+            alert("❌ Ошибка доступа к микрофону! Разрешите микрофон в браузере.");
+            console.error(err);
         }
-    } else if (state.recorder.state === 'recording') {
-        state.recorder.stop();
+    } else if (tcMediaRecorder.state === 'recording') {
+        tcMediaRecorder.stop();
         if (btn) btn.classList.remove('recording');
         if (txt) txt.innerText = "Начать запись ГС";
-        if (state.timer) clearInterval(state.timer);
+        if (tcRecordTimerInterval) clearInterval(tcRecordTimerInterval);
     }
 }
 
-// ==========================================================================
-// ☁️ СИНХРОНИЗАЦИЯ ГОЛОСОВЫХ ПАМЯТОК ЧЕРЕЗ SUPABASE
-// ==========================================================================
-
-// 1. СОХРАНЕНИЕ В SUPABASE
-async function tcSaveVoice(base64Audio) {
-    const state = getTcVoiceState();
-    const d = new Date();
-    const months = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
-    const formattedDate = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} года, ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-    const memoId = Date.now();
-    const comfortLvl = state.comfort || 5;
-
-    // Локальное мгновенное обновление (кэш)
-    const localNotes = JSON.parse(localStorage.getItem('tc_voice_notes_v2') || '[]');
-    localNotes.unshift({
-        id: memoId,
-        date: formattedDate,
-        lvl: comfortLvl,
-        audio: base64Audio
-    });
-    localStorage.setItem('tc_voice_notes_v2', JSON.stringify(localNotes));
-
-    tcHideRecordInterface();
-    tcRenderVoice();
-
-    // Отправка в облако Supabase
-    if (window.supabaseClient || window.supabase) {
-        const client = window.supabaseClient || window.supabase;
-        try {
-            const { error } = await client
-                .from('terracore_voice_memos')
-                .insert([{
-                    id: memoId,
-                    created_at: formattedDate,
-                    comfort_lvl: comfortLvl,
-                    audio_base64: base64Audio
-                }]);
-
-            if (error) {
-                console.error("Ошибка сохранения в Supabase:", error.message);
-            } else {
-                console.log("☁️ Памятка успешно сохранена в Supabase!");
-            }
-        } catch (e) {
-            console.error("Supabase request error:", e);
-        }
-    }
-}
-
-// 2. ЗАГРУЗКА ИЗ ОБЛАКА И ОТРИСОВКА
-async function tcRenderVoice() {
+// 5. Главная отрисовка памяток (Сначала кэш, потом Supabase)
+function tcRenderVoice() {
     const list = document.getElementById('tc-voice-notes-list');
-    if (!list) return;
+    const startBtn = document.getElementById('tc-start-memo-btn');
+    const interfaceBox = document.getElementById('tc-record-interface');
 
-    // Сначала показываем из локального кэша, чтобы интерфейс не ждал загрузки
-    let notes = JSON.parse(localStorage.getItem('tc_voice_notes_v2') || '[]');
-    drawVoiceList(notes);
+    if (startBtn && (!interfaceBox || interfaceBox.style.display === 'none')) {
+        startBtn.style.display = 'inline-block';
+    }
 
-    // Подтягиваем свежие данные из Supabase
-    if (window.supabaseClient || window.supabase) {
-        const client = window.supabaseClient || window.supabase;
-        try {
-            const { data, error } = await client
-                .from('terracore_voice_memos')
-                .select('*')
-                .order('id', { ascending: false });
+    // Мгновенный кэш из памяти
+    let localNotes = [];
+    try {
+        localNotes = JSON.parse(localStorage.getItem('tc_voice_notes_v2') || '[]');
+    } catch(e) { localNotes = []; }
+    
+    drawVoiceList(localNotes);
 
-            if (!error && data && data.length > 0) {
-                // Преобразуем формат Supabase в формат сайта
-                notes = data.map(item => ({
-                    id: item.id,
-                    date: item.created_at,
-                    lvl: item.comfort_lvl,
-                    audio: item.audio_base64
-                }));
-
-                // Обновляем локальный кэш и перерисовываем
-                localStorage.setItem('tc_voice_notes_v2', JSON.stringify(notes));
-                drawVoiceList(notes);
-            }
-        } catch (e) {
-            console.log("Оффлайн-режим или ошибка загрузки из Supabase");
-        }
+    // Стучимся в Supabase
+    const client = getSupabaseClient();
+    if (client) {
+        client
+            .from('terracore_voice_memos')
+            .select('*')
+            .order('id', { ascending: false })
+            .then(({ data, error }) => {
+                if (!error && data) {
+                    const cloudNotes = data.map(item => ({
+                        id: item.id,
+                        date: item.created_at,
+                        lvl: item.comfort_lvl,
+                        audio: item.audio_base64
+                    }));
+                    localStorage.setItem('tc_voice_notes_v2', JSON.stringify(cloudNotes));
+                    drawVoiceList(cloudNotes);
+                }
+            })
+            .catch(e => console.log("Синхронизация в фоне..."));
     }
 }
 
-// Вспомогательная функция прорисовки карточек
+// Отрисовка списка карточек (Чистое облако, без звёзд!)
 function drawVoiceList(notes) {
     const list = document.getElementById('tc-voice-notes-list');
     if (!list) return;
 
     if (!notes || notes.length === 0) {
-        list.innerHTML = `<div style="text-align:center; color:#888; font-style:italic; padding:20px;">Пока нет сохранённых заметок. Запишите первую после прогулки!</div>`;
+        list.innerHTML = `
+            <div style="text-align:center; color:#d4a359; font-style:italic; padding:25px; background:rgba(20,5,5,0.4); border-radius:12px; border:1px dashed rgba(255,170,0,0.3);">
+                ✨ Записей пока нет. Нажмите «Сделать памятку», чтобы создать первое воспоминание!
+            </div>
+        `;
         return;
     }
 
@@ -20218,6 +20213,7 @@ function drawVoiceList(notes) {
                 </div>
                 <div class="tc-voice-right-col">
                     <div class="tc-comfort-badge lvl-${n.lvl}">
+                        ${n.lvl === 4 ? '<span class="tc-blue-flame">🔥</span> ' : ''}
                         ${names[n.lvl] || 'Комфорт'}
                     </div>
                     <button type="button" class="tc-voice-del-btn" onclick="tcDeleteVoice(${n.id})" title="Удалить">✕</button>
@@ -20227,30 +20223,80 @@ function drawVoiceList(notes) {
     }).join('');
 }
 
-// 3. УДАЛЕНИЕ ИЗ ОБЛАКА И ЛОКАЛЬНО
+
+// 7. Сохранение ГС
+async function tcSaveVoice(base64Audio) {
+    const d = new Date();
+    const months = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+    const formattedDate = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} года, ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    const memoId = Date.now();
+    const comfortLvl = tcSelectedComfort || 5;
+
+    const localNotes = JSON.parse(localStorage.getItem('tc_voice_notes_v2') || '[]');
+    localNotes.unshift({
+        id: memoId,
+        date: formattedDate,
+        lvl: comfortLvl,
+        audio: base64Audio
+    });
+    localStorage.setItem('tc_voice_notes_v2', JSON.stringify(localNotes));
+
+    tcHideRecordInterface();
+    drawVoiceList(localNotes);
+
+    const client = getSupabaseClient();
+    if (client) {
+        try {
+            await client.from('terracore_voice_memos').insert([{
+                id: memoId,
+                created_at: formattedDate,
+                comfort_lvl: comfortLvl,
+                audio_base64: base64Audio
+            }]);
+            console.log("☁️ Памятка улетела в твой Supabase!");
+        } catch(e) {
+            console.error("Ошибка сохранения в базу:", e);
+        }
+    }
+}
+
+// 8. Удаление ГС
 async function tcDeleteVoice(id) {
     if (confirm("Точно удалить эту памятку?")) {
-        // Удаляем локально
         let notes = JSON.parse(localStorage.getItem('tc_voice_notes_v2') || '[]');
         notes = notes.filter(n => n.id !== id);
         localStorage.setItem('tc_voice_notes_v2', JSON.stringify(notes));
         drawVoiceList(notes);
 
-        // Удаляем из базы данных Supabase
-        if (window.supabaseClient || window.supabase) {
-            const client = window.supabaseClient || window.supabase;
+        const client = getSupabaseClient();
+        if (client) {
             try {
-                await client
-                    .from('terracore_voice_memos')
-                    .delete()
-                    .eq('id', id);
-                console.log("🗑 Памятка удалена из Supabase!");
-            } catch (e) {
-                console.error("Ошибка удаления из Supabase:", e);
+                await client.from('terracore_voice_memos').delete().eq('id', id);
+                console.log("🗑 Памятка удалена из базы!");
+            } catch(e) {
+                console.error("Ошибка удаления:", e);
             }
         }
     }
 }
+
+// 9. Переключатель 4-х вкладок
+function switchTerraCoreTab(tabName) {
+    const tabs = ['map', 'pp', 'roulette', 'voice'];
+    tabs.forEach(t => {
+        const btn = document.getElementById('tc-tab-btn-' + t);
+        const content = document.getElementById('tc-tab-content-' + t);
+        if (btn) btn.classList.toggle('active', t === tabName);
+        if (content) content.style.display = (t === tabName) ? 'block' : 'none';
+    });
+
+    if (tabName === 'pp' && typeof renderTerraCorePPGame === 'function') renderTerraCorePPGame();
+    if (tabName === 'roulette' && typeof renderRouletteModule === 'function') renderRouletteModule('start');
+    if (tabName === 'voice') tcRenderVoice();
+}
+
+
+
 
 
 
@@ -20659,53 +20705,48 @@ async function tcDeleteVoice(id) {
                 </div>
             </div>
 
-            <!-- ВКЛАДКА 4: ГОЛОСОВЫЕ ПАМЯТКИ -->
-            <div id="tc-tab-content-voice" class="tc-tab-content" style="display: none;">
-                <div class="tc-underground-header">
-                    <h3>🎙️ ГОЛОСОВЫЕ ПАМЯТКИ ПРОГУЛОК</h3>
-                    <p class="tc-pp-subtitle">Аудио-архив воспоминаний, эмоций и атмосферы ваших вечеров</p>
+           <!-- ВКЛАДКА 4: ГОЛОСОВЫЕ ПАМЯТКИ -->
+<div id="tc-tab-content-voice" class="tc-tab-content" style="display: none;">
+    <div class="tc-underground-header">
+        <h3>🎙️ ГОЛОСОВЫЕ ПАМЯТКИ ПРОГУЛОК</h3>
+        <p class="tc-pp-subtitle">Аудио-архив воспоминаний, эмоций и атмосферы ваших вечеров</p>
+    </div>
+
+    <div class="tc-voice-module-box">
+        <!-- БЛОК ЗАПИСИ (СНАЧАЛА ТОЛЬКО КНОПКА "СДЕЛАТЬ ПАМЯТКУ") -->
+        <div class="tc-voice-record-card">
+            <!-- Начальная кнопка -->
+            <button id="tc-start-memo-btn" class="tc-start-quest-btn" onclick="tcShowRecordInterface()">
+                🎙️ СДЕЛАТЬ ПАМЯТКУ
+            </button>
+            
+            <!-- Скрытый блок выбора комфорта и записи -->
+            <div id="tc-record-interface" style="display: none;">
+                <div class="tc-comfort-select-title">Как прошел ваш вечер? Выберите уровень комфорта:</div>
+                <div class="tc-comfort-selector-row">
+                    <button type="button" class="tc-comfort-btn level-1" onclick="tcSetComfort(1)">1. Уныло</button>
+                    <button type="button" class="tc-comfort-btn level-2" onclick="tcSetComfort(2)">2. Сойдет</button>
+                    <button type="button" class="tc-comfort-btn level-3" onclick="tcSetComfort(3)">3. Уютно</button>
+                    <button type="button" class="tc-comfort-btn level-4" onclick="tcSetComfort(4)">4. Волшебно</button>
+                    <button type="button" class="tc-comfort-btn level-5 active" onclick="tcSetComfort(5)">5. Незабываемо</button>
                 </div>
 
-                <div class="tc-voice-module-box">
-                    <!-- БЛОК ЗАПИСИ (СНАЧАЛА ТОЛЬКО КНОПКА "СДЕЛАТЬ ПАМЯТКУ") -->
-                    <div class="tc-voice-record-card">
-                        <!-- Начальная кнопка -->
-                        <button id="tc-start-memo-btn" class="tc-start-quest-btn" onclick="tcShowRecordInterface()">
-                            🎙️ СДЕЛАТЬ ПАМЯТКУ
-                        </button>
-
-                        <!-- Скрытый блок выбора комфорта и записи -->
-                        <div id="tc-record-interface" style="display: none;">
-                            <div class="tc-comfort-select-title">Как прошел ваш вечер? Выберите уровень комфорта:</div>
-                            <div class="tc-comfort-selector-row">
-                                <button type="button" class="tc-comfort-btn level-1" onclick="tcSetComfort(1)">1.
-                                    Уныло</button>
-                                <button type="button" class="tc-comfort-btn level-2" onclick="tcSetComfort(2)">2.
-                                    Сойдет</button>
-                                <button type="button" class="tc-comfort-btn level-3" onclick="tcSetComfort(3)">3.
-                                    Уютно</button>
-                                <button type="button" class="tc-comfort-btn level-4" onclick="tcSetComfort(4)">4.
-                                    Волшебно</button>
-                                <button type="button" class="tc-comfort-btn level-5 active" onclick="tcSetComfort(5)">5.
-                                    Незабываемо</button>
-                            </div>
-
-                            <div class="tc-voice-controls">
-                                <button id="tc-mic-record-btn" class="tc-mic-btn" onclick="tcToggleRecord()">
-                                    <span>🎙️</span> <span id="tc-mic-btn-text">Начать запись ГС</span>
-                                </button>
-                                <div id="tc-voice-timer" class="tc-voice-timer">00:00</div>
-                                <button type="button" class="tc-cancel-memo-btn"
-                                    onclick="tcHideRecordInterface()">Отмена</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- СПИСОК СОХРАНЕННЫХ КАРТОЧЕК -->
-                    <div class="tc-voice-history-header">🏛 Сохранённые голосовые заметки:</div>
-                    <div id="tc-voice-notes-list" class="tc-voice-grid"></div>
+                <div class="tc-voice-controls">
+                    <button id="tc-mic-record-btn" class="tc-mic-btn" onclick="tcToggleRecord()">
+                        <span>🎙️</span> <span id="tc-mic-btn-text">Начать запись ГС</span>
+                    </button>
+                    <div id="tc-voice-timer" class="tc-voice-timer">00:00</div>
+                    <button type="button" class="tc-cancel-memo-btn" onclick="tcHideRecordInterface()">Отмена</button>
                 </div>
             </div>
+        </div>
+
+        <!-- СПИСОК СОХРАНЕННЫХ КАРТОЧЕК -->
+        <div class="tc-voice-history-header">🏛 Сохранённые голосовые заметки:</div>
+        <div id="tc-voice-notes-list" class="tc-voice-grid"></div>
+    </div>
+</div>
+
 
 
         </div>
