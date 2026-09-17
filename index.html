@@ -4,6 +4,7 @@
 <head>
     <!-- Библиотека Supabase для связи с облаком -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 
     <meta charset="UTF-8">
@@ -12,7 +13,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@700;900&family=Montserrat:wght@300;500;800;900&family=Fira+Code:wght@400;600&family=Unbounded:wght@800;900&family=Russo+One&family=Philosopher:wght@400;700&family=Caveat:wght@700&family=Stalinist+One&family=Playfair+Display:wght@700;900&display=swap"
         rel="stylesheet">
-
 
 
     <style>
@@ -9767,557 +9767,1545 @@
    🎙️ ГОЛОСОВЫЕ ПАМЯТКИ v6.0 — ЦВЕТА И ВЫСОКОКЛАССНЫЕ АНИМАЦИИ
    ========================================================================== */
 
-.tc-voice-module-box {
-    max-width: 850px; margin: 0 auto; display: flex; flex-direction: column; gap: 25px; padding-bottom: 50px;
-}
+        .tc-voice-module-box {
+            max-width: 850px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            padding-bottom: 50px;
+        }
 
-/* Кнопка отмены */
-.tc-cancel-memo-btn {
-    background: transparent; border: 1.5px solid #ff4400; color: #ffaa00;
-    padding: 10px 22px; border-radius: 20px; font-family: 'Postmodern One', sans-serif !important;
-    font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease;
-}
-.tc-cancel-memo-btn:hover { background: rgba(255, 68, 0, 0.2); color: #fff; }
+        /* Кнопка отмены */
+        .tc-cancel-memo-btn {
+            background: transparent;
+            border: 1.5px solid #ff4400;
+            color: #ffaa00;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-family: 'Postmodern One', sans-serif !important;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
 
-/* Карточка записи */
-.tc-voice-record-card {
-    background: linear-gradient(135deg, rgba(45, 12, 12, 0.9), rgba(20, 5, 5, 0.95));
-    border: 2px solid #8b2500; border-radius: 20px; padding: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.8); text-align: center; position: relative;
-}
+        .tc-cancel-memo-btn:hover {
+            background: rgba(255, 68, 0, 0.2);
+            color: #fff;
+        }
 
-.tc-comfort-select-title { color: #ffaa00; font-size: 0.95rem; font-weight: bold; margin-bottom: 12px; }
+        /* Карточка записи */
+        .tc-voice-record-card {
+            background: linear-gradient(135deg, rgba(45, 12, 12, 0.9), rgba(20, 5, 5, 0.95));
+            border: 2px solid #8b2500;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            text-align: center;
+            position: relative;
+        }
 
-/* ЦВЕТНЫЕ КНОПКИ УРОВНЕЙ КОМФОРТА */
-.tc-comfort-selector-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
-.tc-comfort-btn {
-    border: 2px solid transparent; padding: 9px 16px; border-radius: 12px;
-    font-weight: bold; font-size: 0.85rem; cursor: pointer; opacity: 0.45;
-    transition: all 0.25s ease; font-family: 'Postmodern One', sans-serif !important;
-}
-.tc-comfort-btn:hover { opacity: 0.8; transform: translateY(-2px); }
+        .tc-comfort-select-title {
+            color: #ffaa00;
+            font-size: 0.95rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
 
-/* Цвета плашек при выборе */
-.tc-comfort-btn.level-1 { background: #555; color: #eee; }
-.tc-comfort-btn.level-2 { background: #b8860b; color: #fff; }
-.tc-comfort-btn.level-3 { background: #008844; color: #fff; }
-.tc-comfort-btn.level-4 { background: #7c22ce; color: #fff; box-shadow: 0 0 10px #a855f7; }
-.tc-comfort-btn.level-5 { background: #f0eaf7; color: #fff; box-shadow: 0 0 12px #ff0055; }
+        /* ЦВЕТНЫЕ КНОПКИ УРОВНЕЙ КОМФОРТА */
+        .tc-comfort-selector-row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
 
-.tc-comfort-btn.active {
-    opacity: 1 !important; transform: scale(1.08) !important;
-    border-color: #fff !important; box-shadow: 0 0 16px rgba(255,255,255,0.4);
-}
+        .tc-comfort-btn {
+            border: 2px solid transparent;
+            padding: 9px 16px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            cursor: pointer;
+            opacity: 0.45;
+            transition: all 0.25s ease;
+            font-family: 'Postmodern One', sans-serif !important;
+        }
 
-/* Кнопка записи и таймер */
-.tc-voice-controls { display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap; }
-.tc-mic-btn {
-    background: linear-gradient(135deg, #ff6600, #cc0000); border: 2px solid #ffd700;
-    color: #fff; padding: 12px 28px; border-radius: 30px;
-    font-family: 'Postmodern One', sans-serif !important; font-size: 1rem;
-    font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 10px;
-    box-shadow: 0 4px 15px rgba(255, 102, 0, 0.5); transition: all 0.25s ease;
-}
-.tc-mic-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 215, 0, 0.7); }
-.tc-mic-btn.recording { background: #dc2626 !important; border-color: #ff4d4d !important; animation: micPulse 1s infinite alternate; }
-@keyframes micPulse {
-    0% { transform: scale(1); box-shadow: 0 0 10px #dc2626; }
-    100% { transform: scale(1.06); box-shadow: 0 0 25px #ef4444; }
-}
+        .tc-comfort-btn:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
+        }
 
-.tc-voice-timer {
-    font-family: monospace; font-size: 1.3rem; font-weight: 900; color: #00ff87;
-    background: rgba(0,0,0,0.6); padding: 8px 16px; border-radius: 12px;
-    border: 1px solid #00ff87; box-shadow: 0 0 10px rgba(0,255,135,0.3);
-}
+        /* Цвета плашек при выборе */
+        .tc-comfort-btn.level-1 {
+            background: #555;
+            color: #eee;
+        }
 
-/* Список сохраненных карточек */
-.tc-voice-grid { display: flex; flex-direction: column; gap: 18px; }
+        .tc-comfort-btn.level-2 {
+            background: #b8860b;
+            color: #fff;
+        }
 
-/* ЦВЕТНЫЕ КАРТОЧКИ ПО УМОЛЧАНИЮ */
-.tc-voice-card {
-    position: relative; border-radius: 16px; padding: 18px 22px;
-    display: flex; justify-content: space-between; align-items: center; gap: 16px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.6); transition: all 0.3s ease;
-}
+        .tc-comfort-btn.level-3 {
+            background: #008844;
+            color: #fff;
+        }
 
-/* ==========================================================================
+        .tc-comfort-btn.level-4 {
+            background: #7c22ce;
+            color: #fff;
+            box-shadow: 0 0 10px #a855f7;
+        }
+
+        .tc-comfort-btn.level-5 {
+            background: #f0eaf7;
+            color: #fff;
+            box-shadow: 0 0 12px #ff0055;
+        }
+
+        .tc-comfort-btn.active {
+            opacity: 1 !important;
+            transform: scale(1.08) !important;
+            border-color: #fff !important;
+            box-shadow: 0 0 16px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Кнопка записи и таймер */
+        .tc-voice-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .tc-mic-btn {
+            background: linear-gradient(135deg, #ff6600, #cc0000);
+            border: 2px solid #ffd700;
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-family: 'Postmodern One', sans-serif !important;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(255, 102, 0, 0.5);
+            transition: all 0.25s ease;
+        }
+
+        .tc-mic-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+        }
+
+        .tc-mic-btn.recording {
+            background: #dc2626 !important;
+            border-color: #ff4d4d !important;
+            animation: micPulse 1s infinite alternate;
+        }
+
+        @keyframes micPulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 10px #dc2626;
+            }
+
+            100% {
+                transform: scale(1.06);
+                box-shadow: 0 0 25px #ef4444;
+            }
+        }
+
+        .tc-voice-timer {
+            font-family: monospace;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #00ff87;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 8px 16px;
+            border-radius: 12px;
+            border: 1px solid #00ff87;
+            box-shadow: 0 0 10px rgba(0, 255, 135, 0.3);
+        }
+
+        /* Список сохраненных карточек */
+        .tc-voice-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* ЦВЕТНЫЕ КАРТОЧКИ ПО УМОЛЧАНИЮ */
+        .tc-voice-card {
+            position: relative;
+            border-radius: 16px;
+            padding: 18px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        /* ==========================================================================
    🎨 ТОЧНЫЙ ЦВЕТНОЙ СТИЛЬ БЕЙДЖА И КРЕСТИКА ПО УРОВНЯМ
    ========================================================================== */
 
-/* 1. УНЫЛО (Серый) */
-.lvl-card-1 .tc-comfort-badge.lvl-1 {
-    background: rgba(60, 60, 60, 0.6) !important;
-    color: #cccccc !important;
-    border: 1.5px solid #888888 !important;
-    box-shadow: 0 0 10px rgba(136, 136, 136, 0.3) !important;
-}
-.lvl-card-1 .tc-voice-del-btn {
-    border-color: #888888 !important;
-    color: #cccccc !important;
-    background: rgba(136, 136, 136, 0.15) !important;
-}
+        /* 1. УНЫЛО (Серый) */
+        .lvl-card-1 .tc-comfort-badge.lvl-1 {
+            background: rgba(60, 60, 60, 0.6) !important;
+            color: #cccccc !important;
+            border: 1.5px solid #888888 !important;
+            box-shadow: 0 0 10px rgba(136, 136, 136, 0.3) !important;
+        }
 
-/* 2. СОЙДЕТ (Желтый) */
-.lvl-card-2 .tc-comfort-badge.lvl-2 {
-    background: rgba(255, 215, 0, 0.15) !important;
-    color: #ffd700 !important;
-    border: 1.5px solid #ffd700 !important;
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.4) !important;
-}
-.lvl-card-2 .tc-voice-del-btn {
-    border-color: #ffd700 !important;
-    color: #ffd700 !important;
-    background: rgba(255, 215, 0, 0.15) !important;
-}
+        .lvl-card-1 .tc-voice-del-btn {
+            border-color: #888888 !important;
+            color: #cccccc !important;
+            background: rgba(136, 136, 136, 0.15) !important;
+        }
 
-/* 3. УЮТНО (Зеленый) */
-.lvl-card-3 .tc-comfort-badge.lvl-3 {
-    background: rgba(0, 255, 135, 0.15) !important;
-    color: #00ff87 !important;
-    border: 1.5px solid #00ff87 !important;
-    box-shadow: 0 0 10px rgba(0, 255, 135, 0.4) !important;
-}
-.lvl-card-3 .tc-voice-del-btn {
-    border-color: #00ff87 !important;
-    color: #00ff87 !important;
-    background: rgba(0, 255, 135, 0.15) !important;
-}
+        /* 2. СОЙДЕТ (Желтый) */
+        .lvl-card-2 .tc-comfort-badge.lvl-2 {
+            background: rgba(255, 215, 0, 0.15) !important;
+            color: #ffd700 !important;
+            border: 1.5px solid #ffd700 !important;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.4) !important;
+        }
 
-/* 4. ВОЛШЕБНО (Фиолетовый) */
-.lvl-card-4 .tc-comfort-badge.lvl-4 {
-    background: rgba(168, 85, 247, 0.2) !important;
-    color: #d8b4fe !important;
-    border: 1.5px solid #a855f7 !important;
-    box-shadow: 0 0 15px rgba(168, 85, 247, 0.6) !important;
-}
-.lvl-card-4 .tc-voice-del-btn {
-    border-color: #a855f7 !important;
-    color: #d8b4fe !important;
-    background: rgba(168, 85, 247, 0.15) !important;
-}
+        .lvl-card-2 .tc-voice-del-btn {
+            border-color: #ffd700 !important;
+            color: #ffd700 !important;
+            background: rgba(255, 215, 0, 0.15) !important;
+        }
 
-/* 5. НЕЗАБЫВАЕМО (Рубиновый) */
-.lvl-card-5 .tc-comfort-badge.lvl-5 {
-    background: rgba(255, 0, 85, 0.2) !important;
-    color: #ff4d88 !important;
-    border: 1.5px solid #ff0055 !important;
-    box-shadow: 0 0 15px rgba(255, 0, 85, 0.6) !important;
-}
-.lvl-card-5 .tc-voice-del-btn {
-    border-color: #ff0055 !important;
-    color: #ff4d88 !important;
-    background: rgba(255, 0, 85, 0.15) !important;
-}
+        /* 3. УЮТНО (Зеленый) */
+        .lvl-card-3 .tc-comfort-badge.lvl-3 {
+            background: rgba(0, 255, 135, 0.15) !important;
+            color: #00ff87 !important;
+            border: 1.5px solid #00ff87 !important;
+            box-shadow: 0 0 10px rgba(0, 255, 135, 0.4) !important;
+        }
 
-/* Общий стиль для кнопок удаления */
-.tc-voice-del-btn {
-    border-radius: 50% !important;
-    width: 28px !important;
-    height: 28px !important;
-    cursor: pointer !important;
-    font-weight: bold !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    transition: all 0.2s ease !important;
-}
-.tc-voice-del-btn:hover {
-    transform: scale(1.15) !important;
-    filter: brightness(1.3) !important;
-}
+        .lvl-card-3 .tc-voice-del-btn {
+            border-color: #00ff87 !important;
+            color: #00ff87 !important;
+            background: rgba(0, 255, 135, 0.15) !important;
+        }
+
+        /* 4. ВОЛШЕБНО (Фиолетовый) */
+        .lvl-card-4 .tc-comfort-badge.lvl-4 {
+            background: rgba(168, 85, 247, 0.2) !important;
+            color: #d8b4fe !important;
+            border: 1.5px solid #a855f7 !important;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.6) !important;
+        }
+
+        .lvl-card-4 .tc-voice-del-btn {
+            border-color: #a855f7 !important;
+            color: #d8b4fe !important;
+            background: rgba(168, 85, 247, 0.15) !important;
+        }
+
+        /* 5. НЕЗАБЫВАЕМО (Рубиновый) */
+        .lvl-card-5 .tc-comfort-badge.lvl-5 {
+            background: rgba(255, 0, 85, 0.2) !important;
+            color: #ff4d88 !important;
+            border: 1.5px solid #ff0055 !important;
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.6) !important;
+        }
+
+        .lvl-card-5 .tc-voice-del-btn {
+            border-color: #ff0055 !important;
+            color: #ff4d88 !important;
+            background: rgba(255, 0, 85, 0.15) !important;
+        }
+
+        /* Общий стиль для кнопок удаления */
+        .tc-voice-del-btn {
+            border-radius: 50% !important;
+            width: 28px !important;
+            height: 28px !important;
+            cursor: pointer !important;
+            font-weight: bold !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .tc-voice-del-btn:hover {
+            transform: scale(1.15) !important;
+            filter: brightness(1.3) !important;
+        }
 
 
-.tc-voice-main-info { flex: 1; display: flex; flex-direction: column; gap: 8px; }
-.tc-voice-header-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.tc-voice-title { color: #ffaa00; font-family: 'Postmodern One', sans-serif !important; font-size: 1.05rem; font-weight: bold; }
-.tc-voice-date { color: #ccc; font-size: 0.8rem; }
-.tc-voice-player { height: 36px; max-width: 320px; width: 100%; outline: none; }
-.tc-voice-right-col { display: flex; align-items: center; gap: 10px; }
+        .tc-voice-main-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
 
-/* ==========================================================================
+        .tc-voice-header-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .tc-voice-title {
+            color: #ffaa00;
+            font-family: 'Postmodern One', sans-serif !important;
+            font-size: 1.05rem;
+            font-weight: bold;
+        }
+
+        .tc-voice-date {
+            color: #ccc;
+            font-size: 0.8rem;
+        }
+
+        .tc-voice-player {
+            height: 36px;
+            max-width: 320px;
+            width: 100%;
+            outline: none;
+        }
+
+        .tc-voice-right-col {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ==========================================================================
    ✨ 8 ЗВЁЗД НА ЕДИНОЙ СКОРОСТИ + ЧИСТЫЕ ЦВЕТНЫЕ БЕЙДЖИ
    ========================================================================== */
 
-/* 1. ЦВЕТНЫЕ БЕЙДЖИ ВНУТРИ КАРТОЧЕК */
-.tc-comfort-badge {
-    padding: 6px 14px !important;
-    border-radius: 20px !important;
-    font-family: 'FredokaOne', sans-serif !important;
-    font-size: 0.85rem !important;
-    font-weight: bold !important;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
-}
+        /* 1. ЦВЕТНЫЕ БЕЙДЖИ ВНУТРИ КАРТОЧЕК */
+        .tc-comfort-badge {
+            padding: 6px 14px !important;
+            border-radius: 20px !important;
+            font-family: 'FredokaOne', sans-serif !important;
+            font-size: 0.85rem !important;
+            font-weight: bold !important;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
 
-/* 1 - Уныло */
-.tc-comfort-badge.lvl-1 {
-    background: rgba(85, 85, 85, 0.4) !important;
-    color: #cccccc !important;
-    border: 1.5px solid #777777 !important;
-    box-shadow: 0 0 10px rgba(119, 119, 119, 0.3);
-}
+        /* 1 - Уныло */
+        .tc-comfort-badge.lvl-1 {
+            background: rgba(85, 85, 85, 0.4) !important;
+            color: #cccccc !important;
+            border: 1.5px solid #777777 !important;
+            box-shadow: 0 0 10px rgba(119, 119, 119, 0.3);
+        }
 
-/* 2 - Сойдет */
-.tc-comfort-badge.lvl-2 {
-    background: rgba(255, 215, 0, 0.15) !important;
-    color: #ffd700 !important;
-    border: 1.5px solid #ffd700 !important;
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
-}
+        /* 2 - Сойдет */
+        .tc-comfort-badge.lvl-2 {
+            background: rgba(255, 215, 0, 0.15) !important;
+            color: #ffd700 !important;
+            border: 1.5px solid #ffd700 !important;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+        }
 
-/* 3 - Уютно */
-.tc-comfort-badge.lvl-3 {
-    background: rgba(0, 255, 135, 0.15) !important;
-    color: #00ff87 !important;
-    border: 1.5px solid #00ff87 !important;
-    box-shadow: 0 0 10px rgba(0, 255, 135, 0.4);
-}
+        /* 3 - Уютно */
+        .tc-comfort-badge.lvl-3 {
+            background: rgba(0, 255, 135, 0.15) !important;
+            color: #00ff87 !important;
+            border: 1.5px solid #00ff87 !important;
+            box-shadow: 0 0 10px rgba(0, 255, 135, 0.4);
+        }
 
-/* 4 - Волшебно */
-.tc-comfort-badge.lvl-4 {
-    background: rgba(168, 85, 247, 0.2) !important;
-    color: #d8b4fe !important;
-    border: 1.5px solid #a855f7 !important;
-    box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
-}
+        /* 4 - Волшебно */
+        .tc-comfort-badge.lvl-4 {
+            background: rgba(168, 85, 247, 0.2) !important;
+            color: #d8b4fe !important;
+            border: 1.5px solid #a855f7 !important;
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
+        }
 
-/* 5 - Незабываемо */
-.tc-comfort-badge.lvl-5 {
-    background: rgba(255, 0, 85, 0.2) !important;
-    color: #ff4d88 !important;
-    border: 1.5px solid #ff0055 !important;
-    box-shadow: 0 0 12px rgba(255, 0, 85, 0.5);
-}
-
-
-/* 2. ИДЕАЛЬНЫЙ ХОРОВОД 8 ЗВЁЗД ПО ОРБИТЕ */
-.tc-voice-card.card-lvl-5 {
-    position: relative !important;
-    overflow: visible !important; /* Даем звездам кружить снаружи плашки */
-}
-
-/* Контейнер орбиты точно по размеру карточки */
-.tc-orbit-container {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none;
-    border-radius: 16px;
-}
-
-.tc-orbit-star {
-    position: absolute;
-    font-size: 14px;
-    color: #fff;
-    text-shadow: 0 0 6px #ffd700, 0 0 12px #ff0055;
-    pointer-events: none;
-    /* Единая плавная скорость движения без замедлений */
-    animation: smoothOrbit 8s infinite linear;
-}
-
-/* Распределяем ровно 8 звёзд по времени орбиты с шагом в 1 секунду */
-.tc-star-pos-1 { animation-delay: 0s; }
-.tc-star-pos-2 { animation-delay: -1s; }
-.tc-star-pos-3 { animation-delay: -2s; }
-.tc-star-pos-4 { animation-delay: -3s; }
-.tc-star-pos-5 { animation-delay: -4s; }
-.tc-star-pos-6 { animation-delay: -5s; }
-.tc-star-pos-7 { animation-delay: -6s; }
-.tc-star-pos-8 { animation-delay: -7s; }
-
-/* Траектория точно по периметру с учетом пропорций */
-@keyframes smoothOrbit {
-    0% {
-        top: -12px;
-        left: -12px;
-    }
-    38% {
-        top: -12px;
-        left: calc(100% - 4px);
-    }
-    50% {
-        top: calc(100% - 4px);
-        left: calc(100% - 4px);
-    }
-    88% {
-        top: calc(100% - 4px);
-        left: -12px;
-    }
-    100% {
-        top: -12px;
-        left: -12px;
-    }
-}
+        /* 5 - Незабываемо */
+        .tc-comfort-badge.lvl-5 {
+            background: rgba(255, 0, 85, 0.2) !important;
+            color: #ff4d88 !important;
+            border: 1.5px solid #ff0055 !important;
+            box-shadow: 0 0 12px rgba(255, 0, 85, 0.5);
+        }
 
 
-.tc-voice-del-btn {
-    background: rgba(220, 38, 38, 0.25); border: 1px solid #ef4444;
-    color: #ef4444; border-radius: 50%; width: 28px; height: 28px;
-    cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s ease;
-}
-.tc-voice-del-btn:hover { background: #ef4444; color: #fff; transform: scale(1.1); }
+        /* 2. ИДЕАЛЬНЫЙ ХОРОВОД 8 ЗВЁЗД ПО ОРБИТЕ */
+        .tc-voice-card.card-lvl-5 {
+            position: relative !important;
+            overflow: visible !important;
+            /* Даем звездам кружить снаружи плашки */
+        }
+
+        /* Контейнер орбиты точно по размеру карточки */
+        .tc-orbit-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            border-radius: 16px;
+        }
+
+        .tc-orbit-star {
+            position: absolute;
+            font-size: 14px;
+            color: #fff;
+            text-shadow: 0 0 6px #ffd700, 0 0 12px #ff0055;
+            pointer-events: none;
+            /* Единая плавная скорость движения без замедлений */
+            animation: smoothOrbit 8s infinite linear;
+        }
+
+        /* Распределяем ровно 8 звёзд по времени орбиты с шагом в 1 секунду */
+        .tc-star-pos-1 {
+            animation-delay: 0s;
+        }
+
+        .tc-star-pos-2 {
+            animation-delay: -1s;
+        }
+
+        .tc-star-pos-3 {
+            animation-delay: -2s;
+        }
+
+        .tc-star-pos-4 {
+            animation-delay: -3s;
+        }
+
+        .tc-star-pos-5 {
+            animation-delay: -4s;
+        }
+
+        .tc-star-pos-6 {
+            animation-delay: -5s;
+        }
+
+        .tc-star-pos-7 {
+            animation-delay: -6s;
+        }
+
+        .tc-star-pos-8 {
+            animation-delay: -7s;
+        }
+
+        /* Траектория точно по периметру с учетом пропорций */
+        @keyframes smoothOrbit {
+            0% {
+                top: -12px;
+                left: -12px;
+            }
+
+            38% {
+                top: -12px;
+                left: calc(100% - 4px);
+            }
+
+            50% {
+                top: calc(100% - 4px);
+                left: calc(100% - 4px);
+            }
+
+            88% {
+                top: calc(100% - 4px);
+                left: -12px;
+            }
+
+            100% {
+                top: -12px;
+                left: -12px;
+            }
+        }
+
+
+        .tc-voice-del-btn {
+            background: rgba(220, 38, 38, 0.25);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .tc-voice-del-btn:hover {
+            background: #ef4444;
+            color: #fff;
+            transform: scale(1.1);
+        }
 
 
 
-/* 1. ПОДКЛЮЧЕНИЕ НОВОГО ШРИФТА */
-@font-face {
-    font-family: 'FredokaOne';
-    src: url('FredokaOneCyrillic-Regular.ttf') format('truetype');
-}
+        /* 1. ПОДКЛЮЧЕНИЕ НОВОГО ШРИФТА */
+        @font-face {
+            font-family: 'FredokaOne';
+            src: url('FredokaOneCyrillic-Regular.ttf') format('truetype');
+        }
 
-/* 2. ПРИМЕНЯЕМ ШРИФТ ТОЛЬКО К ЭТОЙ ВКЛАДКЕ */
-#tc-tab-content-voice {
-    font-family: 'FredokaOne', sans-serif !important;
-}
+        /* 2. ПРИМЕНЯЕМ ШРИФТ ТОЛЬКО К ЭТОЙ ВКЛАДКЕ */
+        #tc-tab-content-voice {
+            font-family: 'FredokaOne', sans-serif !important;
+        }
 
-/* 3. ЭЛЕГАНТНЫЙ НЕОНОВЫЙ АУДИОПЛЕЕР (DARK STYLE) */
-.tc-voice-player {
-    width: 100%;
-    max-width: 300px;
-    height: 35px;
-    filter: invert(1) hue-rotate(180deg) brightness(1.2); /* Делаем плеер темным и контрастным */
-    opacity: 0.8;
-    transition: all 0.3s ease;
-    border-radius: 20px;
-    background: transparent;
-}
-.tc-voice-player:hover {
-    opacity: 1;
-    filter: invert(1) hue-rotate(180deg) brightness(1.5) drop-shadow(0 0 5px #ffaa00);
-}
+        /* 3. ЭЛЕГАНТНЫЙ НЕОНОВЫЙ АУДИОПЛЕЕР (DARK STYLE) */
+        .tc-voice-player {
+            width: 100%;
+            max-width: 300px;
+            height: 35px;
+            filter: invert(1) hue-rotate(180deg) brightness(1.2);
+            /* Делаем плеер темным и контрастным */
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            border-radius: 20px;
+            background: transparent;
+        }
 
-/* 4. ЦВЕТНАЯ ПОДСВЕТКА КНОПОК ВЫБОРА (ИНДИВИДУАЛЬНО) */
-.tc-comfort-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important; }
+        .tc-voice-player:hover {
+            opacity: 1;
+            filter: invert(1) hue-rotate(180deg) brightness(1.5) drop-shadow(0 0 5px #ffaa00);
+        }
 
-.tc-comfort-btn.level-1:hover, .tc-comfort-btn.level-1.active { background: #555 !important; box-shadow: 0 0 15px #555; opacity: 1; }
-.tc-comfort-btn.level-2:hover, .tc-comfort-btn.level-2.active { background: #ffd700 !important; color: #000 !important; box-shadow: 0 0 15px #ffd700; opacity: 1; }
-.tc-comfort-btn.level-3:hover, .tc-comfort-btn.level-3.active { background: #00ff87 !important; color: #000 !important; box-shadow: 0 0 15px #00ff87; opacity: 1; }
-.tc-comfort-btn.level-4:hover, .tc-comfort-btn.level-4.active { background: #a855f7 !important; box-shadow: 0 0 20px #a855f7; opacity: 1; }
-.tc-comfort-btn.level-5:hover, .tc-comfort-btn.level-5.active { background: #ff0055 !important; box-shadow: 0 0 20px #f0eaf7; opacity: 1; }
+        /* 4. ЦВЕТНАЯ ПОДСВЕТКА КНОПОК ВЫБОРА (ИНДИВИДУАЛЬНО) */
+        .tc-comfort-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
 
-/* 5. ИДЕАЛЬНЫЕ ОРБИТЫ ЗВЕЗД (ЧЕТКО ПО ПЕРИМЕТРУ) */
-.tc-voice-card.card-lvl-5 { overflow: visible !important; } /* Чтобы звезды не обрезались */
+        .tc-comfort-btn.level-1:hover,
+        .tc-comfort-btn.level-1.active {
+            background: #555 !important;
+            box-shadow: 0 0 15px #555;
+            opacity: 1;
+        }
 
-.tc-orbit-star {
-    position: absolute;
-    z-index: 100;
-    pointer-events: none;
-    font-size: 16px;
-    color: #fff;
-    text-shadow: 0 0 10px #ffd700, 0 0 20px #ff0055;
-}
+        .tc-comfort-btn.level-2:hover,
+        .tc-comfort-btn.level-2.active {
+            background: #ffd700 !important;
+            color: #000 !important;
+            box-shadow: 0 0 15px #ffd700;
+            opacity: 1;
+        }
 
-/* Звезда 1: по часовой стрелке */
-.tc-star-1 { animation: starClockwise 6s infinite linear; }
-/* Звезда 2: против часовой */
-.tc-star-2 { animation: starCounterClockwise 8s infinite linear; }
+        .tc-comfort-btn.level-3:hover,
+        .tc-comfort-btn.level-3.active {
+            background: #00ff87 !important;
+            color: #000 !important;
+            box-shadow: 0 0 15px #00ff87;
+            opacity: 1;
+        }
 
-@keyframes starClockwise {
-    0%   { top: -15px; left: -15px; }
-    25%  { top: -15px; left: calc(100% - 5px); }
-    50%  { top: calc(100% - 5px); left: calc(100% - 5px); }
-    75%  { top: calc(100% - 5px); left: -15px; }
-    100% { top: -15px; left: -15px; }
-}
+        .tc-comfort-btn.level-4:hover,
+        .tc-comfort-btn.level-4.active {
+            background: #a855f7 !important;
+            box-shadow: 0 0 20px #a855f7;
+            opacity: 1;
+        }
 
-@keyframes starCounterClockwise {
-    0%   { top: calc(100% - 5px); left: -15px; }
-    25%  { top: calc(100% - 5px); left: calc(100% - 5px); }
-    50%  { top: -15px; left: calc(100% - 5px); }
-    75%  { top: -15px; left: -15px; }
-    100% { top: calc(100% - 5px); left: -15px; }
-}
+        .tc-comfort-btn.level-5:hover,
+        .tc-comfort-btn.level-5.active {
+            background: #ff0055 !important;
+            box-shadow: 0 0 20px #f0eaf7;
+            opacity: 1;
+        }
 
-/* 6. ГОРЯЩАЯ АУРА ДЛЯ "ВОЛШЕБНО" (ЛУЧШЕЕ ПЛАМЯ) */
-.tc-voice-card.lvl-card-4 {
-    border: 2px solid #a855f7 !important;
-    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
-    background: linear-gradient(135deg, #1a052e, #0a0112) !important;
-    animation: blueFireBorder 1.5s infinite alternate ease-in-out;
-}
+        /* 5. ИДЕАЛЬНЫЕ ОРБИТЫ ЗВЕЗД (ЧЕТКО ПО ПЕРИМЕТРУ) */
+        .tc-voice-card.card-lvl-5 {
+            overflow: visible !important;
+        }
 
-@keyframes blueFireBorder {
-    0% { box-shadow: 0 0 10px #7c22ce, inset 0 0 10px #00d2ff; }
-    100% { box-shadow: 0 0 30px #00f2fe, inset 0 0 20px #7c22ce; }
-}
+        /* Чтобы звезды не обрезались */
+
+        .tc-orbit-star {
+            position: absolute;
+            z-index: 100;
+            pointer-events: none;
+            font-size: 16px;
+            color: #fff;
+            text-shadow: 0 0 10px #ffd700, 0 0 20px #ff0055;
+        }
+
+        /* Звезда 1: по часовой стрелке */
+        .tc-star-1 {
+            animation: starClockwise 6s infinite linear;
+        }
+
+        /* Звезда 2: против часовой */
+        .tc-star-2 {
+            animation: starCounterClockwise 8s infinite linear;
+        }
+
+        @keyframes starClockwise {
+            0% {
+                top: -15px;
+                left: -15px;
+            }
+
+            25% {
+                top: -15px;
+                left: calc(100% - 5px);
+            }
+
+            50% {
+                top: calc(100% - 5px);
+                left: calc(100% - 5px);
+            }
+
+            75% {
+                top: calc(100% - 5px);
+                left: -15px;
+            }
+
+            100% {
+                top: -15px;
+                left: -15px;
+            }
+        }
+
+        @keyframes starCounterClockwise {
+            0% {
+                top: calc(100% - 5px);
+                left: -15px;
+            }
+
+            25% {
+                top: calc(100% - 5px);
+                left: calc(100% - 5px);
+            }
+
+            50% {
+                top: -15px;
+                left: calc(100% - 5px);
+            }
+
+            75% {
+                top: -15px;
+                left: -15px;
+            }
+
+            100% {
+                top: calc(100% - 5px);
+                left: -15px;
+            }
+        }
+
+        /* 6. ГОРЯЩАЯ АУРА ДЛЯ "ВОЛШЕБНО" (ЛУЧШЕЕ ПЛАМЯ) */
+        .tc-voice-card.lvl-card-4 {
+            border: 2px solid #a855f7 !important;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+            background: linear-gradient(135deg, #1a052e, #0a0112) !important;
+            animation: blueFireBorder 1.5s infinite alternate ease-in-out;
+        }
+
+        @keyframes blueFireBorder {
+            0% {
+                box-shadow: 0 0 10px #7c22ce, inset 0 0 10px #00d2ff;
+            }
+
+            100% {
+                box-shadow: 0 0 30px #00f2fe, inset 0 0 20px #7c22ce;
+            }
+        }
 
 
-/* ==========================================================================
+        /* ==========================================================================
    ✨ ЯРКИЕ НЕОНОВЫЕ ПЛАШКИ (КАЖДАЯ В СВОЁМ СОЧНОМ ЦВЕТЕ)
    ========================================================================== */
 
-/* 1. УНЫЛО (Стильный графит с серебристо-серым неоном) */
-.tc-voice-card.lvl-card-1 {
-    background: linear-gradient(135deg, rgba(55, 55, 55, 0.85), rgba(25, 25, 25, 0.95)) !important;
-    border: 2px solid #888888 !important;
-    box-shadow: 0 0 15px rgba(160, 160, 160, 0.35), inset 0 0 15px rgba(160, 160, 160, 0.15) !important;
-}
+        /* 1. УНЫЛО (Стильный графит с серебристо-серым неоном) */
+        .tc-voice-card.lvl-card-1 {
+            background: linear-gradient(135deg, rgba(55, 55, 55, 0.85), rgba(25, 25, 25, 0.95)) !important;
+            border: 2px solid #888888 !important;
+            box-shadow: 0 0 15px rgba(160, 160, 160, 0.35), inset 0 0 15px rgba(160, 160, 160, 0.15) !important;
+        }
 
-/* 2. СОЙДЕТ (Теплый золотой янтарь с неоновым свечением) */
-.tc-voice-card.lvl-card-2 {
-    background: linear-gradient(135deg, rgba(80, 60, 10, 0.85), rgba(30, 20, 5, 0.95)) !important;
-    border: 2px solid #ffd700 !important;
-    box-shadow: 0 0 18px rgba(255, 215, 0, 0.45), inset 0 0 15px rgba(255, 215, 0, 0.2) !important;
-}
+        /* 2. СОЙДЕТ (Теплый золотой янтарь с неоновым свечением) */
+        .tc-voice-card.lvl-card-2 {
+            background: linear-gradient(135deg, rgba(80, 60, 10, 0.85), rgba(30, 20, 5, 0.95)) !important;
+            border: 2px solid #ffd700 !important;
+            box-shadow: 0 0 18px rgba(255, 215, 0, 0.45), inset 0 0 15px rgba(255, 215, 0, 0.2) !important;
+        }
 
-/* 3. УЮТНО (Глубокий изумруд с ядовито-зеленой неоновой аурой) */
-.tc-voice-card.lvl-card-3 {
-    background: linear-gradient(135deg, rgba(10, 70, 35, 0.85), rgba(5, 30, 15, 0.95)) !important;
-    border: 2px solid #00ff87 !important;
-    box-shadow: 0 0 18px rgba(0, 255, 135, 0.45), inset 0 0 15px rgba(0, 255, 135, 0.2) !important;
-}
+        /* 3. УЮТНО (Глубокий изумруд с ядовито-зеленой неоновой аурой) */
+        .tc-voice-card.lvl-card-3 {
+            background: linear-gradient(135deg, rgba(10, 70, 35, 0.85), rgba(5, 30, 15, 0.95)) !important;
+            border: 2px solid #00ff87 !important;
+            box-shadow: 0 0 18px rgba(0, 255, 135, 0.45), inset 0 0 15px rgba(0, 255, 135, 0.2) !important;
+        }
 
-/* ==========================================================================
+        /* ==========================================================================
    🔥 УРОВЕНЬ 4: «ВОЛШЕБНО» (ГАРАНТИРОВАННОЕ ГОРЯЩЕЕ СИНЕЕ ПЛАМЯ)
    ========================================================================== */
-.tc-voice-card.lvl-card-4 {
-    background: linear-gradient(135deg, rgba(60, 15, 95, 0.9), rgba(20, 5, 40, 0.98)) !important;
-    border: 2px solid #00f2fe !important;
-    /* 🔥 Мощная цикличная анимация пылающего сине-фиолетового огня */
-    animation: blueFlameRealBurn 1.6s infinite alternate ease-in-out !important;
-}
+        .tc-voice-card.lvl-card-4 {
+            background: linear-gradient(135deg, rgba(60, 15, 95, 0.9), rgba(20, 5, 40, 0.98)) !important;
+            border: 2px solid #00f2fe !important;
+            /* 🔥 Мощная цикличная анимация пылающего сине-фиолетового огня */
+            animation: blueFlameRealBurn 1.6s infinite alternate ease-in-out !important;
+        }
 
-@keyframes blueFlameRealBurn {
-    0% {
-        border-color: #a855f7;
-        box-shadow: 0 0 15px #a855f7,
+        @keyframes blueFlameRealBurn {
+            0% {
+                border-color: #a855f7;
+                box-shadow: 0 0 15px #a855f7,
                     0 -6px 15px rgba(0, 242, 254, 0.5),
                     inset 0 0 15px rgba(168, 85, 247, 0.4);
-    }
-    50% {
-        border-color: #00d2ff;
-        box-shadow: 0 0 25px #00d2ff,
+            }
+
+            50% {
+                border-color: #00d2ff;
+                box-shadow: 0 0 25px #00d2ff,
                     0 -14px 28px rgba(0, 210, 255, 0.8),
                     0 6px 18px rgba(168, 85, 247, 0.6),
                     inset 0 0 25px rgba(0, 210, 255, 0.5);
-    }
-    100% {
-        border-color: #00f2fe;
-        box-shadow: 0 0 35px #00f2fe,
+            }
+
+            100% {
+                border-color: #00f2fe;
+                box-shadow: 0 0 35px #00f2fe,
                     0 -22px 40px rgba(0, 242, 254, 0.95),
                     0 10px 22px rgba(112, 0, 255, 0.7),
                     inset 0 0 35px rgba(0, 242, 254, 0.65);
-    }
-}
+            }
+        }
 
 
-/* ==========================================================================
+        /* ==========================================================================
    ☁️ УРОВЕНЬ 5: «НЕЗАБЫВАЕМО» (ЖИВОЕ НЕБЕСНОЕ ОБЛАЧКО С МОРФИНГОМ ФОРМЫ)
    ========================================================================== */
-.tc-voice-card.lvl-card-5 {
-    /* Чистейший бело-голубой небесный градиент с перламутром */
-    background: linear-gradient(135deg, rgba(235, 248, 255, 0.95), rgba(180, 225, 255, 0.9)) !important;
-    border: 2px solid #ffffff !important;
-    box-shadow: 0 0 25px rgba(175, 225, 255, 0.8),
+        .tc-voice-card.lvl-card-5 {
+            /* Чистейший бело-голубой небесный градиент с перламутром */
+            background: linear-gradient(135deg, rgba(235, 248, 255, 0.95), rgba(180, 225, 255, 0.9)) !important;
+            border: 2px solid #ffffff !important;
+            box-shadow: 0 0 25px rgba(175, 225, 255, 0.8),
                 0 0 45px rgba(255, 255, 255, 0.6),
                 inset 0 0 20px rgba(255, 255, 255, 0.9) !important;
-    /* 🔥 Плавный непрерывный морфинг формы с задержкой по 3 сек */
-    animation: cloudMorphShape 12s infinite ease-in-out !important;
-    transition: all 0.5s ease !important;
-}
+            /* 🔥 Плавный непрерывный морфинг формы с задержкой по 3 сек */
+            animation: cloudMorphShape 12s infinite ease-in-out !important;
+            transition: all 0.5s ease !important;
+        }
 
-/* Перекрашиваем текст внутри облачка в благородный тёмно-синий для читаемости */
-.tc-voice-card.lvl-card-5 .tc-voice-title {
-    color: #0d3b66 !important;
-    text-shadow: none !important;
-}
-.tc-voice-card.lvl-card-5 .tc-voice-date {
-    color: #46637f !important;
-}
+        /* Перекрашиваем текст внутри облачка в благородный тёмно-синий для читаемости */
+        .tc-voice-card.lvl-card-5 .tc-voice-title {
+            color: #0d3b66 !important;
+            text-shadow: none !important;
+        }
 
-/* Бейдж внутри облачка */
-.tc-voice-card.lvl-card-5 .tc-comfort-badge.lvl-5 {
-    background: rgba(255, 255, 255, 0.95) !important;
-    color: #0284c7 !important;
-    border: 1.5px solid #38bdf8 !important;
-    box-shadow: 0 0 15px rgba(56, 189, 248, 0.6) !important;
-}
+        .tc-voice-card.lvl-card-5 .tc-voice-date {
+            color: #46637f !important;
+        }
 
-/* Крестик удаления для облачка */
-.tc-voice-card.lvl-card-5 .tc-voice-del-btn {
-    border-color: #0284c7 !important;
-    color: #0284c7 !important;
-    background: rgba(255, 255, 255, 0.8) !important;
-}
+        /* Бейдж внутри облачка */
+        .tc-voice-card.lvl-card-5 .tc-comfort-badge.lvl-5 {
+            background: rgba(255, 255, 255, 0.95) !important;
+            color: #0284c7 !important;
+            border: 1.5px solid #38bdf8 !important;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.6) !important;
+        }
 
-/* ==========================================================================
+        /* Крестик удаления для облачка */
+        .tc-voice-card.lvl-card-5 .tc-voice-del-btn {
+            border-color: #0284c7 !important;
+            color: #0284c7 !important;
+            background: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        /* ==========================================================================
    ☁️ УСКОРЕННЫЙ МОРФИНГ ОБЛАЧКА (ИНТЕРВАЛ ~1 СЕКУНДА)
    ========================================================================== */
 
-.tc-voice-card.lvl-card-5 {
-    /* Чистейший бело-голубой небесный градиент с перламутром */
-    background: linear-gradient(135deg, rgba(235, 248, 255, 0.95), rgba(180, 225, 255, 0.9)) !important;
-    border: 2px solid #ffffff !important;
-    box-shadow: 0 0 25px rgba(175, 225, 255, 0.85),
+        .tc-voice-card.lvl-card-5 {
+            /* Чистейший бело-голубой небесный градиент с перламутром */
+            background: linear-gradient(135deg, rgba(235, 248, 255, 0.95), rgba(180, 225, 255, 0.9)) !important;
+            border: 2px solid #ffffff !important;
+            box-shadow: 0 0 25px rgba(175, 225, 255, 0.85),
                 0 0 45px rgba(255, 255, 255, 0.65),
                 inset 0 0 20px rgba(255, 255, 255, 0.9) !important;
-    
-    /* 🔥 Цикл сокращен до 4.5 секунд (ровно по 1 секунде на форму + мягкий переход) */
-    animation: cloudMorphShapeFast 4.5s infinite ease-in-out !important;
-    transition: all 0.3s ease !important;
-}
 
-/* 🌀 СВЕРХПЛАВНЫЙ И ДИНАМИЧНЫЙ МОРФИНГ ФОРМ КАЖДУЮ СЕКУНДУ */
-@keyframes cloudMorphShapeFast {
-    /* 1. Идеальный гладкий Овал (~1 сек) */
-    0%, 20% {
-        border-radius: 42px 42px 42px 42px;
-        transform: scale(1);
-    }
-    /* Плавный переход в Квадрат */
-    25% {
-        border-radius: 20px 20px 20px 20px;
-    }
-    /* 2. Мягкий футуристичный Квадрат (~1 сек) */
-    30%, 45% {
-        border-radius: 10px 10px 10px 10px;
-        transform: scale(1.015);
-    }
-    /* Плавный переход в Ломаную Каплю */
-    50% {
-        border-radius: 25px 12px 35px 15px;
-    }
-    /* 3. Живая Асимметричная Капля (~1 сек) */
-    55%, 70% {
-        border-radius: 48px 12px 52px 16px;
-        transform: scale(0.985);
-    }
-    /* 4. Обратная перетекающая Волна (~1 сек) */
-    75%, 90% {
-        border-radius: 16px 50px 18px 46px;
-        transform: scale(1.01);
-    }
-    /* Зацикливание обратно в Овал */
-    100% {
-        border-radius: 42px 42px 42px 42px;
-        transform: scale(1);
-    }
-}
+            /* 🔥 Цикл сокращен до 4.5 секунд (ровно по 1 секунде на форму + мягкий переход) */
+            animation: cloudMorphShapeFast 4.5s infinite ease-in-out !important;
+            transition: all 0.3s ease !important;
+        }
+
+        /* 🌀 СВЕРХПЛАВНЫЙ И ДИНАМИЧНЫЙ МОРФИНГ ФОРМ КАЖДУЮ СЕКУНДУ */
+        @keyframes cloudMorphShapeFast {
+
+            /* 1. Идеальный гладкий Овал (~1 сек) */
+            0%,
+            20% {
+                border-radius: 42px 42px 42px 42px;
+                transform: scale(1);
+            }
+
+            /* Плавный переход в Квадрат */
+            25% {
+                border-radius: 20px 20px 20px 20px;
+            }
+
+            /* 2. Мягкий футуристичный Квадрат (~1 сек) */
+            30%,
+            45% {
+                border-radius: 10px 10px 10px 10px;
+                transform: scale(1.015);
+            }
+
+            /* Плавный переход в Ломаную Каплю */
+            50% {
+                border-radius: 25px 12px 35px 15px;
+            }
+
+            /* 3. Живая Асимметричная Капля (~1 сек) */
+            55%,
+            70% {
+                border-radius: 48px 12px 52px 16px;
+                transform: scale(0.985);
+            }
+
+            /* 4. Обратная перетекающая Волна (~1 сек) */
+            75%,
+            90% {
+                border-radius: 16px 50px 18px 46px;
+                transform: scale(1.01);
+            }
+
+            /* Зацикливание обратно в Овал */
+            100% {
+                border-radius: 42px 42px 42px 42px;
+                transform: scale(1);
+            }
+        }
 
 
-/* ==========================================================================
+        /* ==========================================================================
    ☁️ КНОПКА ВЫБОРА УРОВНЯ 5 («НЕЗАБЫВАЕМО» — НЕБЕСНОЕ ОБЛАЧКО)
    ========================================================================== */
 
-.tc-comfort-btn.level-5 {
-    background: linear-gradient(135deg, #e0f2fe, #bae6fd) !important;
-    color: #0369a1 !important; /* Насыщенный синий текст для идеальной читаемости */
-    border: 1.5px solid #7dd3fc !important;
-    box-shadow: 0 0 12px rgba(56, 189, 248, 0.5) !important;
+        .tc-comfort-btn.level-5 {
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd) !important;
+            color: #0369a1 !important;
+            /* Насыщенный синий текст для идеальной читаемости */
+            border: 1.5px solid #7dd3fc !important;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.5) !important;
+        }
+
+        /* При наведении или когда она активна */
+        .tc-comfort-btn.level-5:hover,
+        .tc-comfort-btn.level-5.active {
+            background: #ffffff !important;
+            color: #0284c7 !important;
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 18px rgba(56, 189, 248, 0.8) !important;
+        }
+
+        /* === 1. ИКОНКА НАВИГАЦИИ СЛЕВА ОТ КОЛБ (3 СФЕРЫ + КОЛЬЦА) === */
+        .echosfera-trigger-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            cursor: pointer;
+            user-select: none;
+            width: fit-content;
+            perspective: 1000px;
+            transition: transform 0.3s ease;
+        }
+
+        .echosfera-trigger-box:hover {
+            transform: scale(1.08);
+        }
+
+        .echosfera-orbit-container {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+
+        /* 3 кольца без пересечения */
+        .echo-ring {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            transform-style: preserve-3d;
+        }
+
+/* Контейнер иконки */
+.echosfera-orbit-container {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* При наведении или когда она активна */
-.tc-comfort-btn.level-5:hover,
-.tc-comfort-btn.level-5.active {
-    background: #ffffff !important;
-    color: #0284c7 !important;
-    border-color: #38bdf8 !important;
-    box-shadow: 0 0 18px rgba(56, 189, 248, 0.8) !important;
+/* 1. НЕПЕРЕСЕКАЮЩИЕСЯ 3D-КОЛЬЦА */
+.echo-ring {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
 }
 
+.echo-ring-green {
+    width: 120px; height: 120px;
+    border: 1.5px solid rgba(0, 255, 102, 0.45);
+    box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
+    transform: rotateX(68deg) rotateY(-20deg);
+}
+
+.echo-ring-purple {
+    width: 105px; height: 105px;
+    border: 1.5px solid rgba(176, 38, 255, 0.45);
+    box-shadow: 0 0 10px rgba(176, 38, 255, 0.2);
+    transform: rotateX(35deg) rotateY(45deg);
+}
+
+.echo-ring-black {
+    width: 85px; height: 85px;
+    border: 1.5px solid rgba(220, 220, 240, 0.6);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    transform: rotateX(78deg) rotateY(0deg);
+}
+
+/* 2. ИДЕАЛЬНО КРУГЛЫЕ 3D-СФЕРЫ (100% КРУГ БЕЗ ИСКАЖЕНИЙ) */
+.echo-sphere {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    top: calc(50% - 8px);
+    left: calc(50% - 8px);
+    pointer-events: auto;
+}
+
+/* 🟢 Зеленая 3D-сфера (Быстрое и плавное движение) */
+.sphere-green {
+    background: radial-gradient(circle at 35% 30%, #ffffff 0%, #00ff66 40%, #007a2e 75%, #00220a 100%);
+    box-shadow: 0 0 12px #00ff66, 0 0 22px rgba(0, 255, 102, 0.8);
+    animation: orbitGreenSmooth 2.5s linear infinite; /* Было 6s -> стало 2.5s! */
+}
+
+/* 🔮 Фиолетовая 3D-сфера (Средняя космическая скорость) */
+.sphere-purple {
+    background: radial-gradient(circle at 35% 30%, #ffffff 0%, #d866ff 40%, #7500b8 75%, #220038 100%);
+    box-shadow: 0 0 12px #b026ff, 0 0 22px rgba(176, 38, 255, 0.8);
+    animation: orbitPurpleSmooth 3.2s linear infinite reverse; /* Было 8s -> стало 3.2s! */
+}
+
+/* ⚫️ Черная 3D-сфера (Плавный внутренний контур) */
+.sphere-black {
+    background: radial-gradient(circle at 35% 30%, #ffffff 0%, #666677 35%, #181822 75%, #020205 100%);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 18px rgba(0, 0, 0, 0.9);
+    animation: orbitBlackSmooth 3.8s linear infinite; /* Было 10s -> стало 3.8s! */
+}
+
+
+/* 3. ТРАЕКТОРИИ ПО ОРБИТАМ (ШАРЫ ВСЕГДА 100% КРУГЛЫЕ) */
+@keyframes orbitGreenSmooth {
+    0%   { transform: translate(-55px, -18px) scale(1); z-index: 15; }
+    25%  { transform: translate(0px, 22px) scale(0.8); z-index: 2; }
+    50%  { transform: translate(55px, 18px) scale(1); z-index: 15; }
+    75%  { transform: translate(0px, -22px) scale(1.18); z-index: 15; }
+    100% { transform: translate(-55px, -18px) scale(1); z-index: 15; }
+}
+
+@keyframes orbitPurpleSmooth {
+    0%   { transform: translate(22px, -48px) scale(1.18); z-index: 15; }
+    25%  { transform: translate(-28px, 0px) scale(0.8); z-index: 2; }
+    50%  { transform: translate(-22px, 48px) scale(1); z-index: 15; }
+    75%  { transform: translate(28px, 0px) scale(1.18); z-index: 15; }
+    100% { transform: translate(22px, -48px) scale(1.18); z-index: 15; }
+}
+
+@keyframes orbitBlackSmooth {
+    0%   { transform: translate(-42px, 0px) scale(1); z-index: 15; }
+    25%  { transform: translate(0px, 10px) scale(0.8); z-index: 2; }
+    50%  { transform: translate(42px, 0px) scale(1); z-index: 15; }
+    75%  { transform: translate(0px, -10px) scale(1.18); z-index: 15; }
+    100% { transform: translate(-42px, 0px) scale(1); z-index: 15; }
+}
+
+
+        .echo-svg-map {
+            width: 52px;
+            height: 52px;
+            filter: drop-shadow(0 0 12px #00f0ff) drop-shadow(0 0 20px rgba(0, 240, 255, 0.5));
+            animation: echoFloat 3.5s ease-in-out infinite alternate;
+            z-index: 5;
+        }
+
+        .echo-label-title {
+            margin-top: 10px;
+            font-family: 'Unbounded', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #e0e6ff;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        @keyframes echoOrbitGreen {
+            0% {
+                transform: rotateX(65deg) rotateY(0deg) rotateZ(0deg);
+            }
+
+            100% {
+                transform: rotateX(65deg) rotateY(360deg) rotateZ(360deg);
+            }
+        }
+
+        @keyframes echoOrbitPurple {
+            0% {
+                transform: rotateX(35deg) rotateY(0deg) rotateZ(0deg);
+            }
+
+            100% {
+                transform: rotateX(35deg) rotateY(360deg) rotateZ(-360deg);
+            }
+        }
+
+        @keyframes echoOrbitBlack {
+            0% {
+                transform: rotateX(75deg) rotateY(360deg) rotateZ(0deg);
+            }
+
+            100% {
+                transform: rotateX(75deg) rotateY(0deg) rotateZ(360deg);
+            }
+        }
+
+        @keyframes echoFloat {
+            0% {
+                transform: translateY(0px);
+            }
+
+            100% {
+                transform: translateY(-8px);
+            }
+        }
+
+        /* === 2. МОДАЛЬНОЕ ОКНО ЭХОСФЕРЫ === */
+        .echosfera-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 3, 10, 0.96);
+            backdrop-filter: blur(12px);
+            z-index: 999999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .echosfera-window {
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+            height: 90vh;
+            background: #0d0818;
+            border: 2px solid rgba(0, 240, 255, 0.4);
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), inset 0 0 25px rgba(176, 38, 255, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: background 0.5s ease, border-color 0.5s ease;
+        }
+
+        /* Динамические атмосферные темы */
+        .echosfera-window.theme-green {
+            background: radial-gradient(circle at center, #071f12 0%, #030a05 100%);
+            border-color: #00ff66;
+        }
+
+        .echosfera-window.theme-purple {
+            background: radial-gradient(circle at center, #210833 0%, #08020d 100%);
+            border-color: #b026ff;
+        }
+
+        /* Чёрная тема для "Страх и ужас" */
+.echosfera-window.theme-black {
+    background: radial-gradient(circle at center, #121218 0%, #020204 100%);
+    border-color: #666688;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.98), inset 0 0 30px rgba(255, 255, 255, 0.05);
+}
+
+/* Чёрная неоновая кнопка (активная) */
+.echo-tag-btn.tag-black.active {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: #ffffff;
+    color: #ffffff;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4), inset 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+
+        .echosfera-header {
+            padding: 16px 24px;
+            background: rgba(10, 5, 20, 0.85);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10;
+        }
+
+        .echosfera-header-title {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        .echosfera-close-btn {
+            background: rgba(255, 42, 95, 0.15);
+            border: 1px solid #ff2a5f;
+            color: #ff2a5f;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .echosfera-close-btn:hover {
+            background: #ff2a5f;
+            color: #fff;
+            box-shadow: 0 0 15px #ff2a5f;
+        }
+
+        /* === 3. 3 КНОПКИ-ТЕГА ЭМОЦИОНАЛЬНОГО УРОВНЯ === */
+        .echosfera-tags-bar {
+            display: flex;
+            gap: 12px;
+            padding: 15px 24px;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 10;
+            flex-wrap: wrap;
+        }
+
+        .echo-tag-btn {
+            flex: 1;
+            min-width: 180px;
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            font-family: 'Unbounded', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            opacity: 0.45;
+            transition: all 0.3s ease;
+            background: rgba(20, 15, 30, 0.6);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .echo-tag-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Активные неоновые состояния */
+        .echo-tag-btn.tag-green.active {
+            opacity: 1;
+            background: rgba(0, 255, 102, 0.15);
+            border-color: #00ff66;
+            color: #00ff66;
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.4);
+        }
+
+        .echo-tag-btn.tag-purple.active {
+            opacity: 1;
+            background: rgba(176, 38, 255, 0.15);
+            border-color: #b026ff;
+            color: #d866ff;
+            box-shadow: 0 0 20px rgba(176, 38, 255, 0.4);
+        }
+
+        /* === 4. РАБОЧАЯ СЕТКА: КАРТА, БОБНИТ И КОЛБА === */
+        .echosfera-main-grid {
+            display: grid;
+            grid-template-columns: 1fr 310px;
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            z-index: 5;
+        }
+
+        @media (max-width: 850px) {
+            .echosfera-main-grid {
+                grid-template-columns: 1fr;
+                overflow-y: auto;
+            }
+        }
+
+        /* Зона карты */
+        .echo-map-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #08070b;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        #echoLeafletMap {
+            width: 100%;
+            height: 100%;
+            min-height: 320px;
+        }
+
+        /* Панель управления справа */
+        .echo-side-panel {
+            padding: 18px;
+            background: rgba(12, 6, 22, 0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto;
+        }
+
+        .echo-launch-action-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+            border: 2px solid #ffffff;
+            border-radius: 12px;
+            color: #000;
+            font-family: 'Unbounded', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-transform: uppercase;
+        }
+
+        .echo-launch-action-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
+        }
+
+        /* Блок Персонажа «Бобнит Прогулка Web» */
+        .bobnit-walk-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 14px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .bobnit-walk-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #00f0ff;
+        }
+
+        .bobnit-walk-text h4 {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 0.8rem;
+            color: #00f0ff;
+            margin-bottom: 2px;
+        }
+
+        .bobnit-walk-text p {
+            font-size: 0.72rem;
+            color: #aaa;
+            line-height: 1.3;
+        }
+
+        /* === 5. ИЗОГНУТАЯ КОЛБА-ЗМЕЯ НА 2D-СТОЛЕ === */
+        .flask-table-zone {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 2D Стол */
+        .flask-2d-table {
+            width: 100%;
+            height: 14px;
+            background: linear-gradient(180deg, #3a2212 0%, #1a0d06 100%);
+            border-top: 2px solid #8c532b;
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Обертка колбы с выходящим паром */
+        .flask-snake-wrapper {
+            position: relative;
+            width: 80px;
+            height: 160px;
+            margin-bottom: -4px;
+        }
+
+        /* Пар из горлышка */
+        .flask-steam-container {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            pointer-events: none;
+        }
+
+        .steam-particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 230, 0, 0.6);
+            border-radius: 50%;
+            filter: blur(4px);
+            animation: steamRise 2s infinite ease-out;
+        }
+
+        @keyframes steamRise {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(-30px) scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* Асимметричный векторный контур колбы-змеи */
+        .flask-snake-svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 10px rgba(176, 38, 255, 0.4));
+        }
+
+        .flask-liquid-path {
+            transition: height 0.6s ease;
+        }
+
+        .flask-counter-badge {
+            margin-top: 8px;
+            font-family: 'Unbounded', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #ffd700;
+        }
+
+        .flask-add-point-btn {
+            margin-top: 6px;
+            width: 100%;
+            padding: 8px;
+            background: rgba(0, 255, 102, 0.15);
+            border: 1px solid #00ff66;
+            color: #00ff66;
+            border-radius: 8px;
+            font-family: 'Unbounded', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .flask-add-point-btn:hover {
+            background: #00ff66;
+            color: #000;
+            box-shadow: 0 0 12px #00ff66;
+        }
+
+        /* === 6. ЭКРАН 5-СЕКУНДНОГО ПОИСКА === */
+        .echo-search-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(8, 4, 16, 0.95);
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .echo-search-webp {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            animation: pulseSearch 1.5s infinite alternate;
+        }
+
+        .echo-search-text {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 1rem;
+            color: #00f0ff;
+            text-shadow: 0 0 12px #00f0ff;
+        }
+
+        @keyframes pulseSearch {
+            0% {
+                transform: scale(0.95);
+                filter: drop-shadow(0 0 10px #00f0ff);
+            }
+
+            100% {
+                transform: scale(1.05);
+                filter: drop-shadow(0 0 25px #b026ff);
+            }
+        }
+
+        /* Холст для частичек */
+        #echoParticlesCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+
+        /* Красивая верстка карточки результата */
+#echoResultCard.rando-result-card {
+    background: rgba(12, 6, 22, 0.9);
+    border: 1px solid rgba(0, 240, 255, 0.4);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+    box-sizing: border-box;
+    width: 100%;
+}
+
+#echoResultTitle {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.85rem;
+    color: #ffd700;
+    margin: 0;
+    line-height: 1.3;
+}
+
+#echoResultDescription {
+    font-size: 0.78rem;
+    color: #e0e0e0;
+    margin: 0;
+    line-height: 1.4;
+}
+
+#echoGoogleRouteLink {
+    margin-top: 4px;
+    padding: 8px 12px;
+    background: linear-gradient(135deg, #4285F4, #1a73e8);
+    color: #ffffff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(66, 133, 244, 0.4);
+}
+
+/* Скрываем полосу прокрутки в правой панели */
+.echo-side-panel {
+    overflow-x: hidden !important;
+}
+.echo-side-panel::-webkit-scrollbar {
+    width: 4px;
+}
+.echo-side-panel::-webkit-scrollbar-thumb {
+    background: rgba(0, 240, 255, 0.3);
+    border-radius: 4px;
+}
+
+
+.bobnit-walk-card {
+    width: 100%;
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: 14px;
+    overflow: hidden;
+    padding: 0;
+    background: transparent;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+}
+
+.bobnit-walk-img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    display: block;
+    border-radius: 12px;
+}
+
+.flask-remove-point-btn {
+    flex: 1;
+    padding: 8px;
+    background: rgba(255, 42, 95, 0.15);
+    border: 1px solid #ff2a5f;
+    color: #ff2a5f;
+    border-radius: 8px;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.flask-remove-point-btn:hover {
+    background: #ff2a5f;
+    color: #fff;
+    box-shadow: 0 0 10px #ff2a5f;
+}
+
+/* Холст частиц поверх карты */
+#echoParticlesCanvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 999;
+}
 
 
     </style>
@@ -10329,6 +11317,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;900&family=Unbounded:wght@400;700;900&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+
 
 </head>
 
@@ -13490,7 +14481,7 @@
 
         // Инициализация клиента Supabase
         const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        window._supabase = _supabase; 
+        window._supabase = _supabase;
 
         // Функция загрузки комментариев и лайков из базы для конкретного блюда
         async function loadDishDataFromCloud(dishIndex) {
@@ -19689,7 +20680,7 @@
         }
 
         // 🔥 ПОКАЗЫВАЕМ / СКРЫВАЕМ КНОПКУ «НАВЕРХ» ПРИ СКРОЛЛЕ
-        document.getElementById('terracore-view-container').addEventListener('scroll', () => {
+        document.getElementById('terracore-view-container')?.addEventListener('scroll', () => {
             const tcContainer = document.getElementById('terracore-view-container');
             const topBtn = document.getElementById('tc-scroll-top-btn');
             if (!tcContainer || !topBtn) return;
@@ -19954,276 +20945,276 @@
             comfort: 5, recorder: null, chunks: [], timer: null, sec: 0
         };
 
-       // ==========================================================================
-// 🎙️ ГОЛОСОВЫЕ ПАМЯТКИ v6.0 — ОБНОВЛЕННЫЙ ДВИЖОК
-// ==========================================================================
+        // ==========================================================================
+        // 🎙️ ГОЛОСОВЫЕ ПАМЯТКИ v6.0 — ОБНОВЛЕННЫЙ ДВИЖОК
+        // ==========================================================================
 
-function getTcVoiceState() {
-    if (!window.tcVoiceState) {
-        window.tcVoiceState = {
-            comfort: 5,
-            recorder: null,
-            chunks: [],
-            timer: null,
-            sec: 0
-        };
-    }
-    return window.tcVoiceState;
-}
-
-// Показ интерфейса по кнопке "СДЕЛАТЬ ПАМЯТКУ"
-function tcShowRecordInterface() {
-    const startBtn = document.getElementById('tc-start-memo-btn');
-    const interfaceBox = document.getElementById('tc-record-interface');
-    if (startBtn) startBtn.style.display = 'none';
-    if (interfaceBox) interfaceBox.style.display = 'block';
-}
-
-// Скрытие интерфейса (кнопка Отмена)
-function tcHideRecordInterface() {
-    const startBtn = document.getElementById('tc-start-memo-btn');
-    const interfaceBox = document.getElementById('tc-record-interface');
-    if (startBtn) startBtn.style.display = 'inline-block';
-    if (interfaceBox) interfaceBox.style.display = 'none';
-
-    const state = getTcVoiceState();
-    if (state.recorder && state.recorder.state === 'recording') {
-        state.recorder.stop();
-        const btn = document.getElementById('tc-mic-record-btn');
-        const txt = document.getElementById('tc-mic-btn-text');
-        if (btn) btn.classList.remove('recording');
-        if (txt) txt.innerText = "Начать запись ГС";
-    }
-    if (state.timer) clearInterval(state.timer);
-}
-
-// Выбор уровня комфорта (1-5)
-function tcSetComfort(n) {
-    const state = getTcVoiceState();
-    state.comfort = n;
-
-    const btns = document.querySelectorAll('.tc-comfort-btn');
-    btns.forEach((btn, idx) => {
-        if (idx + 1 === n) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
+        function getTcVoiceState() {
+            if (!window.tcVoiceState) {
+                window.tcVoiceState = {
+                    comfort: 5,
+                    recorder: null,
+                    chunks: [],
+                    timer: null,
+                    sec: 0
+                };
+            }
+            return window.tcVoiceState;
         }
-    });
-}
 
-
-
-// ==========================================================================
-// 🎙️ НЕУБИВАЕМЫЙ РЕНДЕР И ФОНОВАЯ СИНХРОНИЗАЦИЯ SUPABASE
-// ==========================================================================
-
-// 1. Поиск твоего клиента _supabase
-function getSupabaseClient() {
-    return window._supabase || null;
-}
-
-// ==========================================================================
-// 🎙️ АВТОНОМНЫЙ И СВЕРХНАДЁЖНЫЙ ДВИЖОК ГОЛОСОВЫХ ПАМЯТОК TERRACORE
-// ==========================================================================
-
-// Глобальное состояние
-var tcSelectedComfort = 5;
-var tcMediaRecorder = null;
-var tcAudioChunks = [];
-var tcRecordTimerInterval = null;
-var tcRecordSeconds = 0;
-
-// Умный поиск/создание клиента Supabase на лету
-function getSupabaseClient() {
-    if (window._supabase) return window._supabase;
-    if (window.supabaseClient) return window.supabaseClient;
-    if (typeof _supabase !== 'undefined') return _supabase;
-    
-    // Если глобальный клиент не найден — создаём его сами прямо здесь!
-    if (window.supabase && typeof window.supabase.createClient === 'function') {
-        try {
-            const url = 'https://grvwpbrovluwvokscjbf.supabase.co';
-            const key = 'sb_publishable_Ej9FIc-8wZbxxOGRjBvapw_s4u9rYtc';
-            window._supabase = window.supabase.createClient(url, key);
-            console.log("☁️ Автономный клиент Supabase успешно создан!");
-            return window._supabase;
-        } catch(e) {
-            console.error("Ошибка авто-инициализации Supabase:", e);
+        // Показ интерфейса по кнопке "СДЕЛАТЬ ПАМЯТКУ"
+        function tcShowRecordInterface() {
+            const startBtn = document.getElementById('tc-start-memo-btn');
+            const interfaceBox = document.getElementById('tc-record-interface');
+            if (startBtn) startBtn.style.display = 'none';
+            if (interfaceBox) interfaceBox.style.display = 'block';
         }
-    }
-    return null;
-}
 
-// 1. Показ интерфейса по кнопке "СДЕЛАТЬ ПАМЯТКУ"
-function tcShowRecordInterface() {
-    const startBtn = document.getElementById('tc-start-memo-btn');
-    const interfaceBox = document.getElementById('tc-record-interface');
-    if (startBtn) startBtn.style.display = 'none';
-    if (interfaceBox) interfaceBox.style.display = 'block';
-}
+        // Скрытие интерфейса (кнопка Отмена)
+        function tcHideRecordInterface() {
+            const startBtn = document.getElementById('tc-start-memo-btn');
+            const interfaceBox = document.getElementById('tc-record-interface');
+            if (startBtn) startBtn.style.display = 'inline-block';
+            if (interfaceBox) interfaceBox.style.display = 'none';
 
-// 2. Скрытие интерфейса (кнопка Отмена)
-function tcHideRecordInterface() {
-    const startBtn = document.getElementById('tc-start-memo-btn');
-    const interfaceBox = document.getElementById('tc-record-interface');
-    if (startBtn) startBtn.style.display = 'inline-block';
-    if (interfaceBox) interfaceBox.style.display = 'none';
-
-    if (tcMediaRecorder && tcMediaRecorder.state === 'recording') {
-        tcMediaRecorder.stop();
-        const btn = document.getElementById('tc-mic-record-btn');
-        const txt = document.getElementById('tc-mic-btn-text');
-        if (btn) btn.classList.remove('recording');
-        if (txt) txt.innerText = "Начать запись ГС";
-    }
-    if (tcRecordTimerInterval) clearInterval(tcRecordTimerInterval);
-}
-
-// 3. Выбор уровня комфорта (1-5)
-function tcSetComfort(n) {
-    tcSelectedComfort = n;
-    const btns = document.querySelectorAll('.tc-comfort-btn');
-    btns.forEach((btn, idx) => {
-        if (idx + 1 === n) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
+            const state = getTcVoiceState();
+            if (state.recorder && state.recorder.state === 'recording') {
+                state.recorder.stop();
+                const btn = document.getElementById('tc-mic-record-btn');
+                const txt = document.getElementById('tc-mic-btn-text');
+                if (btn) btn.classList.remove('recording');
+                if (txt) txt.innerText = "Начать запись ГС";
+            }
+            if (state.timer) clearInterval(state.timer);
         }
-    });
-}
 
-// 4. Старт / Стоп записи
-async function tcToggleRecord() {
-    const btn = document.getElementById('tc-mic-record-btn');
-    const txt = document.getElementById('tc-mic-btn-text');
-    const timerEl = document.getElementById('tc-voice-timer');
+        // Выбор уровня комфорта (1-5)
+        function tcSetComfort(n) {
+            const state = getTcVoiceState();
+            state.comfort = n;
 
-    if (!tcMediaRecorder || tcMediaRecorder.state === 'inactive') {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({
-                audio: {
-                    echoCancellation: false,
-                    noiseSuppression: false,
-                    autoGainControl: false,
-                    channelCount: 2,
-                    sampleRate: 48000
+            const btns = document.querySelectorAll('.tc-comfort-btn');
+            btns.forEach((btn, idx) => {
+                if (idx + 1 === n) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
                 }
             });
+        }
 
-            let mimeType = 'audio/webm;codecs=opus';
-            if (!MediaRecorder.isTypeSupported(mimeType)) {
-                mimeType = MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : '';
+
+
+        // ==========================================================================
+        // 🎙️ НЕУБИВАЕМЫЙ РЕНДЕР И ФОНОВАЯ СИНХРОНИЗАЦИЯ SUPABASE
+        // ==========================================================================
+
+        // 1. Поиск твоего клиента _supabase
+        function getSupabaseClient() {
+            return window._supabase || null;
+        }
+
+        // ==========================================================================
+        // 🎙️ АВТОНОМНЫЙ И СВЕРХНАДЁЖНЫЙ ДВИЖОК ГОЛОСОВЫХ ПАМЯТОК TERRACORE
+        // ==========================================================================
+
+        // Глобальное состояние
+        var tcSelectedComfort = 5;
+        var tcMediaRecorder = null;
+        var tcAudioChunks = [];
+        var tcRecordTimerInterval = null;
+        var tcRecordSeconds = 0;
+
+        // Умный поиск/создание клиента Supabase на лету
+        function getSupabaseClient() {
+            if (window._supabase) return window._supabase;
+            if (window.supabaseClient) return window.supabaseClient;
+            if (typeof _supabase !== 'undefined') return _supabase;
+
+            // Если глобальный клиент не найден — создаём его сами прямо здесь!
+            if (window.supabase && typeof window.supabase.createClient === 'function') {
+                try {
+                    const url = 'https://grvwpbrovluwvokscjbf.supabase.co';
+                    const key = 'sb_publishable_Ej9FIc-8wZbxxOGRjBvapw_s4u9rYtc';
+                    window._supabase = window.supabase.createClient(url, key);
+                    console.log("☁️ Автономный клиент Supabase успешно создан!");
+                    return window._supabase;
+                } catch (e) {
+                    console.error("Ошибка авто-инициализации Supabase:", e);
+                }
+            }
+            return null;
+        }
+
+        // 1. Показ интерфейса по кнопке "СДЕЛАТЬ ПАМЯТКУ"
+        function tcShowRecordInterface() {
+            const startBtn = document.getElementById('tc-start-memo-btn');
+            const interfaceBox = document.getElementById('tc-record-interface');
+            if (startBtn) startBtn.style.display = 'none';
+            if (interfaceBox) interfaceBox.style.display = 'block';
+        }
+
+        // 2. Скрытие интерфейса (кнопка Отмена)
+        function tcHideRecordInterface() {
+            const startBtn = document.getElementById('tc-start-memo-btn');
+            const interfaceBox = document.getElementById('tc-record-interface');
+            if (startBtn) startBtn.style.display = 'inline-block';
+            if (interfaceBox) interfaceBox.style.display = 'none';
+
+            if (tcMediaRecorder && tcMediaRecorder.state === 'recording') {
+                tcMediaRecorder.stop();
+                const btn = document.getElementById('tc-mic-record-btn');
+                const txt = document.getElementById('tc-mic-btn-text');
+                if (btn) btn.classList.remove('recording');
+                if (txt) txt.innerText = "Начать запись ГС";
+            }
+            if (tcRecordTimerInterval) clearInterval(tcRecordTimerInterval);
+        }
+
+        // 3. Выбор уровня комфорта (1-5)
+        function tcSetComfort(n) {
+            tcSelectedComfort = n;
+            const btns = document.querySelectorAll('.tc-comfort-btn');
+            btns.forEach((btn, idx) => {
+                if (idx + 1 === n) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // 4. Старт / Стоп записи
+        async function tcToggleRecord() {
+            const btn = document.getElementById('tc-mic-record-btn');
+            const txt = document.getElementById('tc-mic-btn-text');
+            const timerEl = document.getElementById('tc-voice-timer');
+
+            if (!tcMediaRecorder || tcMediaRecorder.state === 'inactive') {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        audio: {
+                            echoCancellation: false,
+                            noiseSuppression: false,
+                            autoGainControl: false,
+                            channelCount: 2,
+                            sampleRate: 48000
+                        }
+                    });
+
+                    let mimeType = 'audio/webm;codecs=opus';
+                    if (!MediaRecorder.isTypeSupported(mimeType)) {
+                        mimeType = MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : '';
+                    }
+
+                    const options = {audioBitsPerSecond: 192000};
+                    if (mimeType) options.mimeType = mimeType;
+
+                    tcMediaRecorder = new MediaRecorder(stream, options);
+                    tcAudioChunks = [];
+
+                    tcMediaRecorder.ondataavailable = (e) => {
+                        if (e.data && e.data.size > 0) tcAudioChunks.push(e.data);
+                    };
+
+                    tcMediaRecorder.onstop = () => {
+                        const blob = new Blob(tcAudioChunks, {type: mimeType || 'audio/webm'});
+                        const reader = new FileReader();
+                        reader.readAsDataURL(blob);
+                        reader.onloadend = () => {
+                            tcSaveVoice(reader.result);
+                        };
+                        stream.getTracks().forEach(t => t.stop());
+                    };
+
+                    setTimeout(() => {
+                        tcMediaRecorder.start(250);
+                        if (btn) btn.classList.add('recording');
+                        if (txt) txt.innerText = "Остановить запись";
+
+                        tcRecordSeconds = 0;
+                        if (timerEl) timerEl.innerText = "00:00";
+                        if (tcRecordTimerInterval) clearInterval(tcRecordTimerInterval);
+
+                        tcRecordTimerInterval = setInterval(() => {
+                            tcRecordSeconds++;
+                            const m = String(Math.floor(tcRecordSeconds / 60)).padStart(2, '0');
+                            const s = String(tcRecordSeconds % 60).padStart(2, '0');
+                            if (timerEl) timerEl.innerText = `${m}:${s}`;
+                        }, 1000);
+                    }, 120);
+
+                } catch (err) {
+                    alert("❌ Ошибка доступа к микрофону! Разрешите микрофон в браузере.");
+                    console.error(err);
+                }
+            } else if (tcMediaRecorder.state === 'recording') {
+                tcMediaRecorder.stop();
+                if (btn) btn.classList.remove('recording');
+                if (txt) txt.innerText = "Начать запись ГС";
+                if (tcRecordTimerInterval) clearInterval(tcRecordTimerInterval);
+            }
+        }
+
+        // 5. Главная отрисовка памяток (Сначала кэш, потом Supabase)
+        function tcRenderVoice() {
+            const list = document.getElementById('tc-voice-notes-list');
+            const startBtn = document.getElementById('tc-start-memo-btn');
+            const interfaceBox = document.getElementById('tc-record-interface');
+
+            if (startBtn && (!interfaceBox || interfaceBox.style.display === 'none')) {
+                startBtn.style.display = 'inline-block';
             }
 
-            const options = { audioBitsPerSecond: 192000 };
-            if (mimeType) options.mimeType = mimeType;
+            // Мгновенный кэш из памяти
+            let localNotes = [];
+            try {
+                localNotes = JSON.parse(localStorage.getItem('tc_voice_notes_v2') || '[]');
+            } catch (e) {localNotes = [];}
 
-            tcMediaRecorder = new MediaRecorder(stream, options);
-            tcAudioChunks = [];
+            drawVoiceList(localNotes);
 
-            tcMediaRecorder.ondataavailable = (e) => {
-                if (e.data && e.data.size > 0) tcAudioChunks.push(e.data);
-            };
-
-            tcMediaRecorder.onstop = () => {
-                const blob = new Blob(tcAudioChunks, { type: mimeType || 'audio/webm' });
-                const reader = new FileReader();
-                reader.readAsDataURL(blob);
-                reader.onloadend = () => {
-                    tcSaveVoice(reader.result);
-                };
-                stream.getTracks().forEach(t => t.stop());
-            };
-
-            setTimeout(() => {
-                tcMediaRecorder.start(250);
-                if (btn) btn.classList.add('recording');
-                if (txt) txt.innerText = "Остановить запись";
-
-                tcRecordSeconds = 0;
-                if (timerEl) timerEl.innerText = "00:00";
-                if (tcRecordTimerInterval) clearInterval(tcRecordTimerInterval);
-
-                tcRecordTimerInterval = setInterval(() => {
-                    tcRecordSeconds++;
-                    const m = String(Math.floor(tcRecordSeconds / 60)).padStart(2, '0');
-                    const s = String(tcRecordSeconds % 60).padStart(2, '0');
-                    if (timerEl) timerEl.innerText = `${m}:${s}`;
-                }, 1000);
-            }, 120);
-
-        } catch (err) {
-            alert("❌ Ошибка доступа к микрофону! Разрешите микрофон в браузере.");
-            console.error(err);
+            // Стучимся в Supabase
+            const client = getSupabaseClient();
+            if (client) {
+                client
+                    .from('terracore_voice_memos')
+                    .select('*')
+                    .order('id', {ascending: false})
+                    .then(({data, error}) => {
+                        if (!error && data) {
+                            const cloudNotes = data.map(item => ({
+                                id: item.id,
+                                date: item.created_at,
+                                lvl: item.comfort_lvl,
+                                audio: item.audio_base64
+                            }));
+                            localStorage.setItem('tc_voice_notes_v2', JSON.stringify(cloudNotes));
+                            drawVoiceList(cloudNotes);
+                        }
+                    })
+                    .catch(e => console.log("Синхронизация в фоне..."));
+            }
         }
-    } else if (tcMediaRecorder.state === 'recording') {
-        tcMediaRecorder.stop();
-        if (btn) btn.classList.remove('recording');
-        if (txt) txt.innerText = "Начать запись ГС";
-        if (tcRecordTimerInterval) clearInterval(tcRecordTimerInterval);
-    }
-}
 
-// 5. Главная отрисовка памяток (Сначала кэш, потом Supabase)
-function tcRenderVoice() {
-    const list = document.getElementById('tc-voice-notes-list');
-    const startBtn = document.getElementById('tc-start-memo-btn');
-    const interfaceBox = document.getElementById('tc-record-interface');
+        // Отрисовка списка карточек (Чистое облако, без звёзд!)
+        function drawVoiceList(notes) {
+            const list = document.getElementById('tc-voice-notes-list');
+            if (!list) return;
 
-    if (startBtn && (!interfaceBox || interfaceBox.style.display === 'none')) {
-        startBtn.style.display = 'inline-block';
-    }
-
-    // Мгновенный кэш из памяти
-    let localNotes = [];
-    try {
-        localNotes = JSON.parse(localStorage.getItem('tc_voice_notes_v2') || '[]');
-    } catch(e) { localNotes = []; }
-    
-    drawVoiceList(localNotes);
-
-    // Стучимся в Supabase
-    const client = getSupabaseClient();
-    if (client) {
-        client
-            .from('terracore_voice_memos')
-            .select('*')
-            .order('id', { ascending: false })
-            .then(({ data, error }) => {
-                if (!error && data) {
-                    const cloudNotes = data.map(item => ({
-                        id: item.id,
-                        date: item.created_at,
-                        lvl: item.comfort_lvl,
-                        audio: item.audio_base64
-                    }));
-                    localStorage.setItem('tc_voice_notes_v2', JSON.stringify(cloudNotes));
-                    drawVoiceList(cloudNotes);
-                }
-            })
-            .catch(e => console.log("Синхронизация в фоне..."));
-    }
-}
-
-// Отрисовка списка карточек (Чистое облако, без звёзд!)
-function drawVoiceList(notes) {
-    const list = document.getElementById('tc-voice-notes-list');
-    if (!list) return;
-
-    if (!notes || notes.length === 0) {
-        list.innerHTML = `
+            if (!notes || notes.length === 0) {
+                list.innerHTML = `
             <div style="text-align:center; color:#d4a359; font-style:italic; padding:25px; background:rgba(20,5,5,0.4); border-radius:12px; border:1px dashed rgba(255,170,0,0.3);">
                 ✨ Записей пока нет. Нажмите «Сделать памятку», чтобы создать первое воспоминание!
             </div>
         `;
-        return;
-    }
+                return;
+            }
 
-    const names = { 1: "Уныло", 2: "Сойдет", 3: "Уютно", 4: "Волшебно", 5: "Незабываемо" };
+            const names = {1: "Уныло", 2: "Сойдет", 3: "Уютно", 4: "Волшебно", 5: "Незабываемо"};
 
-    list.innerHTML = notes.map(n => {
-        return `
+            list.innerHTML = notes.map(n => {
+                return `
             <div class="tc-voice-card lvl-card-${n.lvl}">
                 <div class="tc-voice-main-info">
                     <div class="tc-voice-header-row">
@@ -20240,84 +21231,538 @@ function drawVoiceList(notes) {
                 </div>
             </div>
         `;
-    }).join('');
-}
-
-
-// 7. Сохранение ГС
-async function tcSaveVoice(base64Audio) {
-    const d = new Date();
-    const months = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
-    const formattedDate = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} года, ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-    const memoId = Date.now();
-    const comfortLvl = tcSelectedComfort || 5;
-
-    const localNotes = JSON.parse(localStorage.getItem('tc_voice_notes_v2') || '[]');
-    localNotes.unshift({
-        id: memoId,
-        date: formattedDate,
-        lvl: comfortLvl,
-        audio: base64Audio
-    });
-    localStorage.setItem('tc_voice_notes_v2', JSON.stringify(localNotes));
-
-    tcHideRecordInterface();
-    drawVoiceList(localNotes);
-
-    const client = getSupabaseClient();
-    if (client) {
-        try {
-            await client.from('terracore_voice_memos').insert([{
-                id: memoId,
-                created_at: formattedDate,
-                comfort_lvl: comfortLvl,
-                audio_base64: base64Audio
-            }]);
-            console.log("☁️ Памятка улетела в твой Supabase!");
-        } catch(e) {
-            console.error("Ошибка сохранения в базу:", e);
+            }).join('');
         }
-    }
-}
 
-// 8. Удаление ГС
-async function tcDeleteVoice(id) {
-    if (confirm("Точно удалить эту памятку?")) {
-        let notes = JSON.parse(localStorage.getItem('tc_voice_notes_v2') || '[]');
-        notes = notes.filter(n => n.id !== id);
-        localStorage.setItem('tc_voice_notes_v2', JSON.stringify(notes));
-        drawVoiceList(notes);
 
-        const client = getSupabaseClient();
-        if (client) {
-            try {
-                await client.from('terracore_voice_memos').delete().eq('id', id);
-                console.log("🗑 Памятка удалена из базы!");
-            } catch(e) {
-                console.error("Ошибка удаления:", e);
+        // 7. Сохранение ГС
+        async function tcSaveVoice(base64Audio) {
+            const d = new Date();
+            const months = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+            const formattedDate = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} года, ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+            const memoId = Date.now();
+            const comfortLvl = tcSelectedComfort || 5;
+
+            const localNotes = JSON.parse(localStorage.getItem('tc_voice_notes_v2') || '[]');
+            localNotes.unshift({
+                id: memoId,
+                date: formattedDate,
+                lvl: comfortLvl,
+                audio: base64Audio
+            });
+            localStorage.setItem('tc_voice_notes_v2', JSON.stringify(localNotes));
+
+            tcHideRecordInterface();
+            drawVoiceList(localNotes);
+
+            const client = getSupabaseClient();
+            if (client) {
+                try {
+                    await client.from('terracore_voice_memos').insert([{
+                        id: memoId,
+                        created_at: formattedDate,
+                        comfort_lvl: comfortLvl,
+                        audio_base64: base64Audio
+                    }]);
+                    console.log("☁️ Памятка улетела в твой Supabase!");
+                } catch (e) {
+                    console.error("Ошибка сохранения в базу:", e);
+                }
             }
         }
+
+        // 8. Удаление ГС
+        async function tcDeleteVoice(id) {
+            if (confirm("Точно удалить эту памятку?")) {
+                let notes = JSON.parse(localStorage.getItem('tc_voice_notes_v2') || '[]');
+                notes = notes.filter(n => n.id !== id);
+                localStorage.setItem('tc_voice_notes_v2', JSON.stringify(notes));
+                drawVoiceList(notes);
+
+                const client = getSupabaseClient();
+                if (client) {
+                    try {
+                        await client.from('terracore_voice_memos').delete().eq('id', id);
+                        console.log("🗑 Памятка удалена из базы!");
+                    } catch (e) {
+                        console.error("Ошибка удаления:", e);
+                    }
+                }
+            }
+        }
+
+        // 9. Переключатель 4-х вкладок
+        function switchTerraCoreTab(tabName) {
+            const tabs = ['map', 'pp', 'roulette', 'voice'];
+            tabs.forEach(t => {
+                const btn = document.getElementById('tc-tab-btn-' + t);
+                const content = document.getElementById('tc-tab-content-' + t);
+                if (btn) btn.classList.toggle('active', t === tabName);
+                if (content) content.style.display = (t === tabName) ? 'block' : 'none';
+            });
+
+            if (tabName === 'pp' && typeof renderTerraCorePPGame === 'function') renderTerraCorePPGame();
+            if (tabName === 'roulette' && typeof renderRouletteModule === 'function') renderRouletteModule('start');
+            if (tabName === 'voice') tcRenderVoice();
+        }
+
+
+
+
+        // ==========================================================================
+        // 🌌 МОДУЛЬ «ЭХОСФЕРА» — ИНТЕРФЕЙС, ТЕМЫ И ЧАСТИЦЫ
+        // ==========================================================================
+
+       // ==========================================================================
+// 🌌 ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ЭХОСФЕРЫ (БЕЗ МЕРТВОЙ ЗОНЫ TDZ)
+// ==========================================================================
+window.echoMap = window.echoMap || null;
+window.echoCurrentCategory = window.echoCurrentCategory || 'green';
+window.echoParticlesAnimId = window.echoParticlesAnimId || null;
+window.echoCurrentMarker = window.echoCurrentMarker || null;
+window.echoVisitedPoints = window.echoVisitedPoints || 0;
+
+// Для удобства создаем удобные ссылки
+var echoMap = window.echoMap;
+var echoCurrentCategory = window.echoCurrentCategory;
+var echoParticlesAnimId = window.echoParticlesAnimId;
+var echoCurrentMarker = window.echoCurrentMarker;
+var echoVisitedPoints = window.echoVisitedPoints;
+
+
+
+window.ECHOSFERA_POINTS = [
+    // 🌿 СПОКОЙСТВИЕ И КОМФОРТ (10 точек)
+    { id: 1, category: 'green', name: 'Чебоксарский Ботанический Сад', desc: 'Уютные пруды с кувшинками, полная тишина и тень редких деревьев.', lat: 56.0980, lng: 47.2680 },
+    { id: 2, category: 'green', name: 'Сквер на бульваре Ефремова', desc: 'Атмосферный пешеходный центр с уличной музыкой и мягким светом фонарей.', lat: 56.1435, lng: 47.2488 },
+    { id: 3, category: 'green', name: 'Тихий левый берег Волги', desc: 'Песчаный берег, чистый сосновый воздух и размеренный шум волн.', lat: 56.1680, lng: 47.2250 },
+    { id: 4, category: 'green', name: 'Каштановая аллея у залива', desc: 'Уединенная парковая зона с удобными скамейками для неспешных разговоров.', lat: 56.1465, lng: 47.2460 },
+    { id: 5, category: 'green', name: 'Тихие поляны Рощи Гузовского', desc: 'Вековые дубы и атмосфера полнейшего умиротворения.', lat: 56.1420, lng: 47.1890 },
+    { id: 6, category: 'green', name: 'Сквер Константина Иванова', desc: 'Мягкий прохладный бриз с Волги и живописный вид на речной порт.', lat: 56.1492, lng: 47.2410 },
+    { id: 7, category: 'green', name: 'Аллея у Лакреевского леса', desc: 'Зеленый остров в сердце города с тенистыми тропинками.', lat: 56.1220, lng: 47.2380 },
+    { id: 8, category: 'green', name: 'Яблоневый сад у набережной', desc: 'Уютный уголок природы с видом на противоположный берег.', lat: 56.1510, lng: 47.2350 },
+    { id: 9, category: 'green', name: 'Пруды Нового Города', desc: 'Современный благоустроенный оазис с чистой водой и мостиками.', lat: 56.1360, lng: 47.3310 },
+    { id: 10, category: 'green', name: 'Смотровой сквер Сеспеля', desc: 'Тихая старинная улочка с архитектурой XIX века.', lat: 56.1470, lng: 47.2450 },
+
+    // 🔮 МИСТИКА И ВДОХНОВЕНИЕ (10 точек)
+    { id: 11, category: 'purple', name: 'Древний Введенский Собор (1651 г.)', desc: 'Самое старое здание Чувашии, наполненное духом прошлых веков.', lat: 56.1478, lng: 47.2495 },
+    { id: 12, category: 'purple', name: 'Смотреть на город с Парка Победы', desc: 'Высочайший холм Чебоксар с панорамным захватывающим видом.', lat: 56.1518, lng: 47.2612 },
+    { id: 13, category: 'purple', name: 'Старинные купеческие подвалы', desc: 'Архитектурные тайны старого города и загадочные каменные арки.', lat: 56.1460, lng: 47.2470 },
+    { id: 14, category: 'purple', name: 'Монумент Матери-Покровительнице', desc: 'Энергетический центр города над заливом с особым ночным освещением.', lat: 56.1482, lng: 47.2441 },
+    { id: 15, category: 'purple', name: 'Скрытый овраг реки Чебоксарки', desc: 'Таинственное место, где город исчезает среди крутых склонов.', lat: 56.1384, lng: 47.2410 },
+    { id: 16, category: 'purple', name: 'Старый маяк Казанской набережной', desc: 'Романтическая и таинственная локация на краю воды.', lat: 56.1505, lng: 47.2550 },
+    { id: 17, category: 'purple', name: 'Аллея Любви над заливом', desc: 'Место встречи ветров, вдохновения и красивых закатов.', lat: 56.1450, lng: 47.2420 },
+    { id: 18, category: 'purple', name: 'Мыс у Чебоксарской ГЭС', desc: 'Мощный индустриальный пейзаж, завораживающий своей масштабом.', lat: 56.1380, lng: 47.4350 },
+    { id: 19, category: 'purple', name: 'Панорамный холм Хевешской', desc: 'Секретная точка, откуда виден весь вечерний огненный город.', lat: 56.1120, lng: 47.2750 },
+    { id: 20, category: 'purple', name: 'Исторический холм Красной Площади', desc: 'Слияние истории, световых институций и энергии Залива.', lat: 56.1442, lng: 47.2490 },
+
+    // ⚫ СТРАХ И УЖАС (10 точек)
+    { id: 21, category: 'black', name: 'Заброшенные промзоны у Волги', desc: 'Скрип старого металла, бетонные развалины и мертвая тишина.', lat: 56.1512, lng: 47.2285 },
+    { id: 22, category: 'black', name: 'Туннель оврага Сугутки', desc: 'Мрачный и неосвещенный проход под высокими склонами.', lat: 56.1280, lng: 47.2290 },
+    { id: 23, category: 'black', name: 'Старый заброшенный причал Заволжья', desc: 'Ржавые конструкции у воды и ощущение полной оторванности от мира.', lat: 56.1750, lng: 47.2350 },
+    { id: 24, category: 'black', name: 'Грязевский овраг (Темная зона)', desc: 'Дикие глубокие склоны прямо посреди жилых массивов.', lat: 56.1210, lng: 47.2620 },
+    { id: 25, category: 'black', name: 'Забытый ж/д тупик Промышленной', desc: 'Заброшенные рельсы, поросшие кустарником и пустые вагоны.', lat: 56.1090, lng: 47.2950 },
+    { id: 26, category: 'black', name: 'Заброшенная насосная станция', desc: 'Мрачное одноэтажное строение с заколоченными окнами.', lat: 56.1560, lng: 47.2150 },
+    { id: 27, category: 'black', name: 'Путепровод Марпосадского шоссе', desc: 'Бетонные гулкие своды, где эхо создает жууткие звуки.', lat: 56.1310, lng: 47.3080 },
+    { id: 28, category: 'black', name: 'Заброшенный недострой ЮЗР', desc: 'Остов заброшенного здания, продуваемый темными ветрами.', lat: 56.1150, lng: 47.1950 },
+    { id: 29, category: 'black', name: 'Мрачные береговые кручи', desc: 'Опасные осыпающиеся обрывы к реке Волга без освещения.', lat: 56.1580, lng: 47.2720 },
+    { id: 30, category: 'black', name: 'Заброшенные складские коллекторы', desc: 'Аномально холодное и мрачное место на краю города.', lat: 56.0950, lng: 47.2350 }
+];
+
+
+
+        
+        // 1. Открытие модального окна
+        function openEchosferaModal() {
+            const modal = document.getElementById('echosferaModalOverlay');
+            if (modal) {
+                modal.style.display = 'flex';
+
+                // Автоматом подгружаем и инвалидируем карту Чебоксар
+                setTimeout(() => {
+                    initEchosferaMap();
+                    selectEchosferaCategory(echoCurrentCategory);
+                }, 200);
+            }
+        }
+
+        // 2. Закрытие модального окна
+        function closeEchosferaModal() {
+            const modal = document.getElementById('echosferaModalOverlay');
+            if (modal) modal.style.display = 'none';
+            if (echoParticlesAnimId) cancelAnimationFrame(echoParticlesAnimId);
+        }
+
+        // 3. Инициализация карты Чебоксар (с ограничением зоны)
+        function initEchosferaMap() {
+            if (echoMap) {
+                echoMap.invalidateSize();
+                return;
+            }
+
+            // Координаты центра Чебоксар
+            const cheboksaryCenter = [56.1435, 47.2488];
+
+            // Ограничительные рамки (чтобы нельзя было уехать далеко от Чебоксар)
+            const cheboksaryBounds = L.latLngBounds(
+                L.latLng(56.0200, 47.0500), // Юго-Запад
+                L.latLng(56.2500, 47.4500)  // Северо-Восток
+            );
+
+            echoMap = L.map('echoLeafletMap', {
+                center: cheboksaryCenter,
+                zoom: 13,
+                minZoom: 11,
+                maxZoom: 18,
+                maxBounds: cheboksaryBounds,
+                maxBoundsViscosity: 0.8
+            });
+
+            // Тёмный стиль карты CartoDB Dark Matter
+            // Чистая темная карта Esri без надписей и водяных знаков
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 18,
+    attribution: '&copy; LeyCore Echosfera'
+}).addTo(echoMap);
+
+
+        }
+
+        
+
+        function startEchosferaParticles(category) {
+    const canvas = document.getElementById('echoParticlesCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = canvas.parentElement.clientWidth || 600;
+    canvas.height = canvas.parentElement.clientHeight || 400;
+
+    if (window.echoParticlesAnimId) cancelAnimationFrame(window.echoParticlesAnimId);
+
+    const particles = [];
+    const count = 30;
+
+    for (let i = 0; i < count; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 12 + 8,
+            speedY: Math.random() * 1.2 + 0.6,
+            speedX: (Math.random() - 0.5) * 1,
+            angle: Math.random() * 360,
+            spin: (Math.random() - 0.5) * 2,
+            opacity: Math.random() * 0.7 + 0.3
+        });
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach(p => {
+            p.y += p.speedY;
+            p.x += p.speedX;
+            p.angle += p.spin;
+
+            if (p.y > canvas.height + 20) {
+                p.y = -20;
+                p.x = Math.random() * canvas.width;
+            }
+
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate((p.angle * Math.PI) / 180);
+            ctx.globalAlpha = p.opacity;
+
+            if (category === 'green') {
+                // 🌿 Зелёные листья
+                ctx.fillStyle = '#00ff66';
+                ctx.beginPath();
+                ctx.ellipse(0, 0, p.size / 1.8, p.size / 3.5, Math.PI / 4, 0, 2 * Math.PI);
+                ctx.fill();
+            } 
+            else if (category === 'purple') {
+                // 🔮 Книги & Звёздочки
+                if (p.size > 14) {
+                    ctx.fillStyle = '#d866ff';
+                    ctx.fillRect(-p.size/2, -p.size/3, p.size, p.size/1.4);
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(-p.size/2 + 2, -p.size/3 + 2, p.size - 4, 2);
+                } else {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, p.size / 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            } 
+                        else if (category === 'black') {
+                // ⚫️ Чёрный уровень: Черепки с глазницами + чёрные острые полоски/копья
+                if (p.size > 11) {
+                    // 💀 1. Падающий череп (бело-серый)
+                    ctx.fillStyle = '#d0d0e0';
+                    
+                    // Голова черепа
+                    ctx.beginPath();
+                    ctx.arc(0, -2, p.size / 2.2, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Челюсть
+                    ctx.fillRect(-p.size / 4, 0, p.size / 2, p.size / 3.2);
+                    
+                    // Тёмные глазницы
+                    ctx.fillStyle = '#050508';
+                    ctx.beginPath();
+                    ctx.arc(-p.size / 5, -3, p.size / 7, 0, Math.PI * 2);
+                    ctx.arc(p.size / 5, -3, p.size / 7, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    // 🗡 2. Чёрные летящие полоски-копья с легкой белой обводкой
+                    ctx.strokeStyle = '#000000';
+                    ctx.lineWidth = 3.5;
+                    ctx.beginPath();
+                    ctx.moveTo(0, -p.size * 1.3);
+                    ctx.lineTo(0, p.size * 1.3);
+                    ctx.stroke();
+
+                    // Контур для видимости на темном фоне
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+            }
+
+
+            ctx.restore();
+        });
+
+        window.echoParticlesAnimId = requestAnimationFrame(draw);
+    }
+
+    draw();
+}
+
+
+
+        // ==========================================================================
+        // 🌌 МОДУЛЬ «ЭХОСФЕРА» — 30 ТОЧЕК ЧЕБОКСАР, ПОИСК И SUPABASE
+        // ==========================================================================
+
+    
+
+        // 1. Переключение категории с сохранением в window
+function selectEchosferaCategory(category) {
+    window.echoCurrentCategory = category;
+    echoCurrentCategory = category;
+
+    // Обновляем неоновые кнопки
+    document.querySelectorAll('.echo-tag-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-echo-category') === category) {
+            btn.classList.add('active');
+        }
+    });
+
+    // Меняем фоновую тему модалки
+    const windowEl = document.querySelector('.echosfera-window');
+    if (windowEl) {
+        windowEl.className = `echosfera-window theme-${category}`;
+    }
+
+    // Запускаем частицы
+    if (typeof startEchosferaParticles === 'function') {
+        startEchosferaParticles(category);
     }
 }
 
-// 9. Переключатель 4-х вкладок
-function switchTerraCoreTab(tabName) {
-    const tabs = ['map', 'pp', 'roulette', 'voice'];
-    tabs.forEach(t => {
-        const btn = document.getElementById('tc-tab-btn-' + t);
-        const content = document.getElementById('tc-tab-content-' + t);
-        if (btn) btn.classList.toggle('active', t === tabName);
-        if (content) content.style.display = (t === tabName) ? 'block' : 'none';
-    });
+// 2. Поиск точки (5 секунд) с гарантированной защитой от пустых массивов
+function startEchosferaSearch() {
+    const searchOverlay = document.getElementById('echoSearchOverlay');
+    if (searchOverlay) searchOverlay.style.display = 'flex';
 
-    if (tabName === 'pp' && typeof renderTerraCorePPGame === 'function') renderTerraCorePPGame();
-    if (tabName === 'roulette' && typeof renderRouletteModule === 'function') renderRouletteModule('start');
-    if (tabName === 'voice') tcRenderVoice();
+    // 5 секунд поиска
+    setTimeout(() => {
+        if (searchOverlay) searchOverlay.style.display = 'none';
+
+               // 1. Получаем активную категорию
+        const activeCat = window.echoCurrentCategory || (typeof echoCurrentCategory !== 'undefined' ? echoCurrentCategory : 'green');
+
+        // 2. Получаем точки из всех возможных мест
+        let allPoints = [];
+        if (typeof window !== 'undefined' && Array.isArray(window.ECHOSFERA_POINTS) && window.ECHOSFERA_POINTS.length > 0) {
+            allPoints = window.ECHOSFERA_POINTS;
+        } else if (typeof ECHOSFERA_POINTS !== 'undefined' && Array.isArray(ECHOSFERA_POINTS)) {
+            allPoints = ECHOSFERA_POINTS;
+        }
+
+        // Если вдруг массив всё ещё пуст — подтягиваем резервный список прямо на месте
+        if (allPoints.length === 0) {
+            console.warn("Внимание: точки подтянуты из аварийного хранилища");
+            allPoints = [
+                { id: 1, category: 'green', name: 'Чебоксарский Ботанический Сад', desc: 'Уютные пруды с кувшинками, полная тишина и тень редких деревьев.', lat: 56.0980, lng: 47.2680 },
+                { id: 2, category: 'green', name: 'Сквер на бульваре Ефремова', desc: 'Атмосферный пешеходный центр с уличной музыкой и мягким светом фонарей.', lat: 56.1435, lng: 47.2488 },
+                { id: 11, category: 'purple', name: 'Древний Введенский Собор (1651 г.)', desc: 'Самое старое здание Чувашии, наполненное духом прошлых веков.', lat: 56.1478, lng: 47.2495 },
+                { id: 12, category: 'purple', name: 'Смотреть на город с Парка Победы', desc: 'Высочайший холм Чебоксар с панорамным захватывающим видом.', lat: 56.1518, lng: 47.2612 },
+                { id: 21, category: 'black', name: 'Заброшенные промзоны у Волги', desc: 'Скрип старого металла, бетонные развалины и мертвая тишина.', lat: 56.1512, lng: 47.2285 },
+                { id: 22, category: 'black', name: 'Туннель оврага Сугутки', desc: 'Мрачный и неосвещенный проход под высокими склонами.', lat: 56.1280, lng: 47.2290 }
+            ];
+        }
+
+
+
+        // Фильтруем точки по активному тегу
+        let availablePoints = allPoints.filter(p => p.category === activeCat);
+
+        // Страховка: если вдруг по категории не нашлось, берём все точки
+        if (availablePoints.length === 0) {
+            availablePoints = allPoints;
+        }
+
+        // Если база точек пуста, выходим
+        if (availablePoints.length === 0) {
+            alert('База точек Эхосферы не загружена!');
+            return;
+        }
+
+        // Выбираем случайную точку
+        const selectedPoint = availablePoints[Math.floor(Math.random() * availablePoints.length)];
+
+        // Выводим результат в карточку
+        const titleEl = document.getElementById('echoResultTitle');
+        const descEl = document.getElementById('echoResultDescription');
+        const linkEl = document.getElementById('echoGoogleRouteLink');
+        const cardEl = document.getElementById('echoResultCard');
+
+        if (titleEl) titleEl.innerText = selectedPoint.name;
+        if (descEl) descEl.innerText = selectedPoint.desc;
+
+        if (linkEl) {
+            linkEl.href = `https://www.google.com/maps/dir/?api=1&destination=${selectedPoint.lat},${selectedPoint.lng}&travelmode=walking`;
+        }
+
+        if (cardEl) cardEl.style.display = 'flex';
+
+        // Отображаем точку на карте Leaflet
+        if (window.echoMap || echoMap) {
+            const mapObj = window.echoMap || echoMap;
+
+            if (window.echoCurrentMarker) {
+                mapObj.removeLayer(window.echoCurrentMarker);
+            }
+
+            mapObj.flyTo([selectedPoint.lat, selectedPoint.lng], 16, { duration: 1.5 });
+
+            const markerColor = activeCat === 'green' ? '#00ff66' : (activeCat === 'purple' ? '#b026ff' : '#ff2a5f');
+
+            const customIcon = L.divIcon({
+                className: 'custom-echo-marker',
+                html: `<div style="
+                    width: 20px; height: 20px; 
+                    background: ${markerColor}; 
+                    border: 3px solid #ffffff; 
+                    border-radius: 50%; 
+                    box-shadow: 0 0 20px ${markerColor}, 0 0 35px ${markerColor};
+                "></div>`,
+                iconSize: [20, 20],
+                iconAnchor: [10, 10]
+            });
+
+            window.echoCurrentMarker = L.marker([selectedPoint.lat, selectedPoint.lng], { icon: customIcon }).addTo(mapObj)
+                .bindPopup(`<b style="color:#000;">${selectedPoint.name}</b><br><span style="color:#333;font-size:0.8rem;">${selectedPoint.desc}</span>`)
+                .openPopup();
+        }
+    }, 5000);
+}
+
+       // Безопасное получение количества пройденных точек
+function getEchoVisitedCount() {
+    let val = parseInt(window.echoVisitedPoints, 10);
+    if (isNaN(val)) {
+        val = parseInt(localStorage.getItem('echosfera_visited_count'), 10);
+    }
+    if (isNaN(val)) {
+        val = 0;
+    }
+    window.echoVisitedPoints = val;
+    return val;
+}
+
+// Обновление интерфейса колбы
+function updateEchosferaFlaskUI() {
+    let count = parseInt(window.echoVisitedPoints, 10);
+    if (isNaN(count)) count = parseInt(localStorage.getItem('echosfera_visited_count'), 10) || 0;
+    window.echoVisitedPoints = count;
+
+    // Обновляем циферблат
+    const counterEl = document.getElementById('echoVisitedCount');
+    if (counterEl) counterEl.innerText = count;
+
+    // Рассчитываем физическую высоту заполнения прямо из SVG
+    const liquidRect = document.getElementById('echoFlaskLiquidRect');
+    if (liquidRect) {
+        // Минимальная высота y = 190 (пустая), максимальная y = 10 (полная)
+        const percent = Math.min(Math.max(count / 30, 0), 1);
+        const newY = 190 - (percent * 180);
+        const newHeight = percent * 180;
+
+        liquidRect.setAttribute('y', newY);
+        liquidRect.setAttribute('height', newHeight);
+    }
 }
 
 
+async function addEchosferaPoint(delta) {
+    let count = parseInt(window.echoVisitedPoints, 10) || 0;
+    count = Math.min(Math.max(count + delta, 0), 30);
+
+    window.echoVisitedPoints = count;
+    localStorage.setItem('echosfera_visited_count', count);
+    updateEchosferaFlaskUI();
+
+    // Синхронизация с Supabase
+    if (typeof supabase !== 'undefined' && supabase) {
+        try {
+            const user = supabase.auth.user ? supabase.auth.user() : (await supabase.auth.getUser())?.data?.user;
+            if (user && user.id) {
+                await supabase
+                    .from('echosfera_progress')
+                    .upsert({ user_id: user.id, visited_points_count: count, updated_at: new Date() });
+            }
+        } catch (err) {
+            console.log('Supabase sync note:', err);
+        }
+    }
+}
 
 
+async function loadEchosferaProgress() {
+    let count = parseInt(localStorage.getItem('echosfera_visited_count'), 10) || 0;
+
+    if (typeof supabase !== 'undefined' && supabase) {
+        try {
+            const user = supabase.auth.user ? supabase.auth.user() : (await supabase.auth.getUser())?.data?.user;
+            if (user && user.id) {
+                const { data } = await supabase
+                    .from('echosfera_progress')
+                    .select('visited_points_count')
+                    .eq('user_id', user.id)
+                    .single();
+
+                if (data && data.visited_points_count !== undefined) {
+                    count = data.visited_points_count;
+                    localStorage.setItem('echosfera_visited_count', count);
+                }
+            }
+        } catch (err) {
+            console.log('Supabase load note:', err);
+        }
+    }
+
+    window.echoVisitedPoints = count;
+    updateEchosferaFlaskUI();
+}
+
+// Запуск загрузки прогресса при старте страницы
+document.addEventListener('DOMContentLoaded', loadEchosferaProgress);
 
 
     </script>
@@ -20619,6 +22064,37 @@ function switchTerraCoreTab(tabName) {
 
         </div>
 
+
+
+        <!-- ==========================================================================
+   🌌 ИКОНКА МОДУЛЯ «ЭХОСФЕРА» (СЛЕВА ОТ КОЛБ TERRACOR)
+   ========================================================================== -->
+        <!-- ИКОНКА «ЭХОСФЕРА» С НЕПЕРЕСЕКАЮЩИМИСЯ ИДЕАЛЬНЫМИ 3D-СФЕРАМИ -->
+<div class="echosfera-trigger-box" onclick="openEchosferaModal()">
+    <div class="echosfera-orbit-container">
+        <!-- 3 Независимых кольца -->
+        <div class="echo-ring echo-ring-green"></div>
+        <div class="echo-ring echo-ring-purple"></div>
+        <div class="echo-ring echo-ring-black"></div>
+
+        <!-- 3 Идеально круглых 3D-шара -->
+        <div class="echo-sphere sphere-green" title="Спокойствие и комфорт"></div>
+        <div class="echo-sphere sphere-purple" title="Мистика и вдохновение"></div>
+        <div class="echo-sphere sphere-black" title="Страх и ужас"></div>
+
+        <!-- Летающая иконка карты в центре -->
+        <svg class="echo-svg-map" viewBox="0 0 24 24" fill="none" stroke="#00f0ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="1 6 1 22 8 18 15 22 23 18 23 2 15 6 8 2 1 6"></polygon>
+            <line x1="8" y1="2" x2="8" y2="18"></line>
+            <line x1="15" y1="6" x2="15" y2="22"></line>
+            <circle cx="11.5" cy="10.5" r="2.5" fill="#ff2a5f" stroke="#ffffff" stroke-width="1"></circle>
+        </svg>
+    </div>
+    <div class="echo-label-title">ЭХОСФЕРА</div>
+</div>
+
+
+
         <!-- ==========================================
      ЭТАЖ 2: ПОДЗЕМЕЛЬЕ (3 КОЛБЫ ПОВЕРХ ВКЛАДОК)
      ========================================== -->
@@ -20674,10 +22150,14 @@ function switchTerraCoreTab(tabName) {
                         </div>
                     </div>
                     <div id="tc-quest-percent-val" class="tc-city-percent">0%</div>
+                    
                     <div class="tc-city-label">КВЕСТЫ</div>
                 </div>
 
             </div>
+
+
+
 
             <!-- 🔥 2. ПЕРЕКЛЮЧАТЕЛЬ 3-Х ВКЛАДОК -->
             <div class="tc-underground-tabs">
@@ -20725,47 +22205,53 @@ function switchTerraCoreTab(tabName) {
                 </div>
             </div>
 
-           <!-- ВКЛАДКА 4: ГОЛОСОВЫЕ ПАМЯТКИ -->
-<div id="tc-tab-content-voice" class="tc-tab-content" style="display: none;">
-    <div class="tc-underground-header">
-        <h3>🎙️ ГОЛОСОВЫЕ ПАМЯТКИ ПРОГУЛОК</h3>
-        <p class="tc-pp-subtitle">Аудио-архив воспоминаний, эмоций и атмосферы ваших вечеров</p>
-    </div>
-
-    <div class="tc-voice-module-box">
-        <!-- БЛОК ЗАПИСИ (СНАЧАЛА ТОЛЬКО КНОПКА "СДЕЛАТЬ ПАМЯТКУ") -->
-        <div class="tc-voice-record-card">
-            <!-- Начальная кнопка -->
-            <button id="tc-start-memo-btn" class="tc-start-quest-btn" onclick="tcShowRecordInterface()">
-                🎙️ СДЕЛАТЬ ПАМЯТКУ
-            </button>
-            
-            <!-- Скрытый блок выбора комфорта и записи -->
-            <div id="tc-record-interface" style="display: none;">
-                <div class="tc-comfort-select-title">Как прошел ваш вечер? Выберите уровень комфорта:</div>
-                <div class="tc-comfort-selector-row">
-                    <button type="button" class="tc-comfort-btn level-1" onclick="tcSetComfort(1)">1. Уныло</button>
-                    <button type="button" class="tc-comfort-btn level-2" onclick="tcSetComfort(2)">2. Сойдет</button>
-                    <button type="button" class="tc-comfort-btn level-3" onclick="tcSetComfort(3)">3. Уютно</button>
-                    <button type="button" class="tc-comfort-btn level-4" onclick="tcSetComfort(4)">4. Волшебно</button>
-                    <button type="button" class="tc-comfort-btn level-5 active" onclick="tcSetComfort(5)">5. Незабываемо</button>
+            <!-- ВКЛАДКА 4: ГОЛОСОВЫЕ ПАМЯТКИ -->
+            <div id="tc-tab-content-voice" class="tc-tab-content" style="display: none;">
+                <div class="tc-underground-header">
+                    <h3>🎙️ ГОЛОСОВЫЕ ПАМЯТКИ ПРОГУЛОК</h3>
+                    <p class="tc-pp-subtitle">Аудио-архив воспоминаний, эмоций и атмосферы ваших вечеров</p>
                 </div>
 
-                <div class="tc-voice-controls">
-                    <button id="tc-mic-record-btn" class="tc-mic-btn" onclick="tcToggleRecord()">
-                        <span>🎙️</span> <span id="tc-mic-btn-text">Начать запись ГС</span>
-                    </button>
-                    <div id="tc-voice-timer" class="tc-voice-timer">00:00</div>
-                    <button type="button" class="tc-cancel-memo-btn" onclick="tcHideRecordInterface()">Отмена</button>
+                <div class="tc-voice-module-box">
+                    <!-- БЛОК ЗАПИСИ (СНАЧАЛА ТОЛЬКО КНОПКА "СДЕЛАТЬ ПАМЯТКУ") -->
+                    <div class="tc-voice-record-card">
+                        <!-- Начальная кнопка -->
+                        <button id="tc-start-memo-btn" class="tc-start-quest-btn" onclick="tcShowRecordInterface()">
+                            🎙️ СДЕЛАТЬ ПАМЯТКУ
+                        </button>
+
+                        <!-- Скрытый блок выбора комфорта и записи -->
+                        <div id="tc-record-interface" style="display: none;">
+                            <div class="tc-comfort-select-title">Как прошел ваш вечер? Выберите уровень комфорта:</div>
+                            <div class="tc-comfort-selector-row">
+                                <button type="button" class="tc-comfort-btn level-1" onclick="tcSetComfort(1)">1.
+                                    Уныло</button>
+                                <button type="button" class="tc-comfort-btn level-2" onclick="tcSetComfort(2)">2.
+                                    Сойдет</button>
+                                <button type="button" class="tc-comfort-btn level-3" onclick="tcSetComfort(3)">3.
+                                    Уютно</button>
+                                <button type="button" class="tc-comfort-btn level-4" onclick="tcSetComfort(4)">4.
+                                    Волшебно</button>
+                                <button type="button" class="tc-comfort-btn level-5 active" onclick="tcSetComfort(5)">5.
+                                    Незабываемо</button>
+                            </div>
+
+                            <div class="tc-voice-controls">
+                                <button id="tc-mic-record-btn" class="tc-mic-btn" onclick="tcToggleRecord()">
+                                    <span>🎙️</span> <span id="tc-mic-btn-text">Начать запись ГС</span>
+                                </button>
+                                <div id="tc-voice-timer" class="tc-voice-timer">00:00</div>
+                                <button type="button" class="tc-cancel-memo-btn"
+                                    onclick="tcHideRecordInterface()">Отмена</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- СПИСОК СОХРАНЕННЫХ КАРТОЧЕК -->
+                    <div class="tc-voice-history-header">🏛 Сохранённые голосовые заметки:</div>
+                    <div id="tc-voice-notes-list" class="tc-voice-grid"></div>
                 </div>
             </div>
-        </div>
-
-        <!-- СПИСОК СОХРАНЕННЫХ КАРТОЧЕК -->
-        <div class="tc-voice-history-header">🏛 Сохранённые голосовые заметки:</div>
-        <div id="tc-voice-notes-list" class="tc-voice-grid"></div>
-    </div>
-</div>
 
 
 
@@ -20777,6 +22263,150 @@ function switchTerraCoreTab(tabName) {
         <button id="tc-scroll-top-btn" class="tc-scroll-top-btn" onclick="scrollToTerraCoreTop()" title="Наверх">
             ▲
         </button>
+
+
+        <!-- ==========================================================
+     🌌 МОДАЛЬНОЕ ОКНО «ЭХОСФЕРА»
+     ========================================================== -->
+        <div id="echosferaModalOverlay" class="echosfera-modal-overlay">
+
+            <div class="echosfera-window theme-green">
+
+                <!-- Заголовок окна -->
+                <div class="echosfera-header">
+                    <div class="echosfera-header-title">
+                        Что ты хочешь испытать?
+                    </div>
+
+                    <button type="button" class="echosfera-close-btn" onclick="closeEchosferaModal()"
+                        aria-label="Закрыть Эхосферу">
+                        ×
+                    </button>
+                </div>
+
+                <!-- Кнопки эмоциональных состояний -->
+                <div class="echosfera-tags-bar">
+
+                    <button type="button" class="echo-tag-btn tag-green active" data-echo-category="green"
+                        onclick="selectEchosferaCategory('green')">
+                        🌿 Спокойствие и комфорт
+                    </button>
+
+                    <button type="button" class="echo-tag-btn tag-purple" data-echo-category="purple"
+                        onclick="selectEchosferaCategory('purple')">
+                        🔮 Мистика и вдохновение
+                    </button>
+
+                    <button type="button" class="echo-tag-btn tag-black" data-echo-category="black"
+                        onclick="selectEchosferaCategory('black')">
+                        ⚫ Страх и ужас
+                    </button>
+
+                </div>
+
+                <!-- Основная область -->
+                <div class="echosfera-main-grid">
+
+                    <!-- Левая часть: карта -->
+                    <div class="echo-map-container">
+
+                        <!-- Холст атмосферных частиц -->
+                        <canvas id="echoParticlesCanvas"></canvas>
+
+                        <!-- Экран поиска -->
+                        <div id="echoSearchOverlay" class="echo-search-overlay">
+                            <img class="echo-search-webp" src="echosfera-search.webp" alt="Поиск точки">
+
+                            <div class="echo-search-text">
+                                Поиск точки на карте...
+                            </div>
+                        </div>
+
+                        <!-- Карта -->
+                        <div id="echoLeafletMap"></div>
+
+                    </div>
+
+                    <!-- Правая часть -->
+                    <aside class="echo-side-panel">
+
+                        <!-- Блок Бобнит (чистое фото 1400х600 на всю ширину) -->
+<div class="bobnit-walk-card">
+    <img class="bobnit-walk-img" src="bobnit-progulka.webp" alt="Бобнит прогулка web">
+</div>
+
+
+                        <!-- Кнопка запуска -->
+                        <button type="button" class="echo-launch-action-btn" onclick="startEchosferaSearch()">
+                            🚀 В путь
+                        </button>
+
+                        <!-- Информация о найденной точке -->
+                        <div id="echoResultCard" class="rando-result-card" style="display: none;">
+
+                            <h4 id="echoResultTitle">
+                                Точка найдена
+                            </h4>
+
+                            <p id="echoResultDescription"></p>
+
+                            <a id="echoGoogleRouteLink" class="rando-route-google-btn" href="#" target="_blank"
+                                rel="noopener noreferrer">
+                                🗺 Открыть маршрут
+                            </a>
+                        </div>
+
+                        <!-- ИЗОГНУТАЯ КОЛБА И УПРАВЛЕНИЕ СЧЕТЧИКОМ -->
+<div class="flask-table-zone">
+    <div class="flask-snake-wrapper">
+        <!-- Пар из горлышка -->
+        <div class="flask-steam-container" aria-hidden="true">
+            <span class="steam-particle" style="left: 4px; animation-delay: 0s;"></span>
+            <span class="steam-particle" style="left: 12px; animation-delay: 0.6s;"></span>
+            <span class="steam-particle" style="left: 20px; animation-delay: 1.2s;"></span>
+        </div>
+
+        <!-- Изогнутая колба со слоем заполнения -->
+        <svg class="flask-snake-svg" viewBox="0 0 100 200">
+            <defs>
+                <linearGradient id="echoLiquidGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#ff2a5f"/>
+                    <stop offset="50%" stop-color="#b026ff"/>
+                    <stop offset="100%" stop-color="#4a0080"/>
+                </linearGradient>
+
+                <!-- Маска контура колбы -->
+                <mask id="flaskMask">
+                    <path d="M43 12 C43 25 35 29 39 43 C43 57 27 65 25 82 C23 100 39 107 33 123 C27 140 14 147 18 166 C22 185 42 190 61 184 C80 178 86 163 78 146 C70 129 57 121 64 105 C71 89 87 80 78 62 C70 47 57 43 59 29 L59 12 Z" fill="#ffffff"/>
+                </mask>
+            </defs>
+
+            <!-- Фон пустой колбы -->
+            <path d="M43 12 C43 25 35 29 39 43 C43 57 27 65 25 82 C23 100 39 107 33 123 C27 140 14 147 18 166 C22 185 42 190 61 184 C80 178 86 163 78 146 C70 129 57 121 64 105 C71 89 87 80 78 62 C70 47 57 43 59 29 L59 12 Z" fill="rgba(15, 8, 25, 0.85)" stroke="#b026ff" stroke-width="3"/>
+
+            <!-- Жидкость, растущая снизу вверх -->
+            <rect id="echoFlaskLiquidRect" x="0" y="190" width="100" height="0" fill="url(#echoLiquidGradient)" mask="url(#flaskMask)" style="transition: all 0.5s ease;"/>
+        </svg>
+    </div>
+
+    <div class="flask-2d-table"></div>
+
+    <div class="flask-counter-badge">
+        <span id="echoVisitedCount">0</span> / 30 точек
+    </div>
+
+    <!-- Кнопки +1 и -1 -->
+    <div style="display: flex; gap: 8px; width: 100%; margin-top: 8px;">
+        <button type="button" class="flask-add-point-btn" onclick="addEchosferaPoint(1)">+ Добавить</button>
+        <button type="button" class="flask-remove-point-btn" onclick="addEchosferaPoint(-1)">− Убрать</button>
+    </div>
+</div>
+
+
+                    </aside>
+                </div>
+            </div>
+        </div>
 
 </body>
 
