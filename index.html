@@ -10651,102 +10651,165 @@
             transform-style: preserve-3d;
         }
 
-/* Контейнер иконки */
-.echosfera-orbit-container {
-    position: relative;
-    width: 130px;
-    height: 130px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        /* Контейнер иконки */
+        .echosfera-orbit-container {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-/* 1. НЕПЕРЕСЕКАЮЩИЕСЯ 3D-КОЛЬЦА */
-.echo-ring {
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-}
+        /* 1. НЕПЕРЕСЕКАЮЩИЕСЯ 3D-КОЛЬЦА */
+        .echo-ring {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+        }
 
-.echo-ring-green {
-    width: 120px; height: 120px;
-    border: 1.5px solid rgba(0, 255, 102, 0.45);
-    box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
-    transform: rotateX(68deg) rotateY(-20deg);
-}
+        .echo-ring-green {
+            width: 120px;
+            height: 120px;
+            border: 1.5px solid rgba(0, 255, 102, 0.45);
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
+            transform: rotateX(68deg) rotateY(-20deg);
+        }
 
-.echo-ring-purple {
-    width: 105px; height: 105px;
-    border: 1.5px solid rgba(176, 38, 255, 0.45);
-    box-shadow: 0 0 10px rgba(176, 38, 255, 0.2);
-    transform: rotateX(35deg) rotateY(45deg);
-}
+        .echo-ring-purple {
+            width: 105px;
+            height: 105px;
+            border: 1.5px solid rgba(176, 38, 255, 0.45);
+            box-shadow: 0 0 10px rgba(176, 38, 255, 0.2);
+            transform: rotateX(35deg) rotateY(45deg);
+        }
 
-.echo-ring-black {
-    width: 85px; height: 85px;
-    border: 1.5px solid rgba(220, 220, 240, 0.6);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-    transform: rotateX(78deg) rotateY(0deg);
-}
+        .echo-ring-black {
+            width: 85px;
+            height: 85px;
+            border: 1.5px solid rgba(220, 220, 240, 0.6);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            transform: rotateX(78deg) rotateY(0deg);
+        }
 
-/* 2. ИДЕАЛЬНО КРУГЛЫЕ 3D-СФЕРЫ (100% КРУГ БЕЗ ИСКАЖЕНИЙ) */
-.echo-sphere {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    top: calc(50% - 8px);
-    left: calc(50% - 8px);
-    pointer-events: auto;
-}
+        /* 2. ИДЕАЛЬНО КРУГЛЫЕ 3D-СФЕРЫ (100% КРУГ БЕЗ ИСКАЖЕНИЙ) */
+        .echo-sphere {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            top: calc(50% - 8px);
+            left: calc(50% - 8px);
+            pointer-events: auto;
+        }
 
-/* 🟢 Зеленая 3D-сфера (Быстрое и плавное движение) */
-.sphere-green {
-    background: radial-gradient(circle at 35% 30%, #ffffff 0%, #00ff66 40%, #007a2e 75%, #00220a 100%);
-    box-shadow: 0 0 12px #00ff66, 0 0 22px rgba(0, 255, 102, 0.8);
-    animation: orbitGreenSmooth 2.5s linear infinite; /* Было 6s -> стало 2.5s! */
-}
+        /* 🟢 Зеленая 3D-сфера (Быстрое и плавное движение) */
+        .sphere-green {
+            background: radial-gradient(circle at 35% 30%, #ffffff 0%, #00ff66 40%, #007a2e 75%, #00220a 100%);
+            box-shadow: 0 0 12px #00ff66, 0 0 22px rgba(0, 255, 102, 0.8);
+            animation: orbitGreenSmooth 2.5s linear infinite;
+            /* Было 6s -> стало 2.5s! */
+        }
 
-/* 🔮 Фиолетовая 3D-сфера (Средняя космическая скорость) */
-.sphere-purple {
-    background: radial-gradient(circle at 35% 30%, #ffffff 0%, #d866ff 40%, #7500b8 75%, #220038 100%);
-    box-shadow: 0 0 12px #b026ff, 0 0 22px rgba(176, 38, 255, 0.8);
-    animation: orbitPurpleSmooth 3.2s linear infinite reverse; /* Было 8s -> стало 3.2s! */
-}
+        /* 🔮 Фиолетовая 3D-сфера (Средняя космическая скорость) */
+        .sphere-purple {
+            background: radial-gradient(circle at 35% 30%, #ffffff 0%, #d866ff 40%, #7500b8 75%, #220038 100%);
+            box-shadow: 0 0 12px #b026ff, 0 0 22px rgba(176, 38, 255, 0.8);
+            animation: orbitPurpleSmooth 3.2s linear infinite reverse;
+            /* Было 8s -> стало 3.2s! */
+        }
 
-/* ⚫️ Черная 3D-сфера (Плавный внутренний контур) */
-.sphere-black {
-    background: radial-gradient(circle at 35% 30%, #ffffff 0%, #666677 35%, #181822 75%, #020205 100%);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 18px rgba(0, 0, 0, 0.9);
-    animation: orbitBlackSmooth 3.8s linear infinite; /* Было 10s -> стало 3.8s! */
-}
+        /* ⚫️ Черная 3D-сфера (Плавный внутренний контур) */
+        .sphere-black {
+            background: radial-gradient(circle at 35% 30%, #ffffff 0%, #666677 35%, #181822 75%, #020205 100%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 18px rgba(0, 0, 0, 0.9);
+            animation: orbitBlackSmooth 3.8s linear infinite;
+            /* Было 10s -> стало 3.8s! */
+        }
 
 
-/* 3. ТРАЕКТОРИИ ПО ОРБИТАМ (ШАРЫ ВСЕГДА 100% КРУГЛЫЕ) */
-@keyframes orbitGreenSmooth {
-    0%   { transform: translate(-55px, -18px) scale(1); z-index: 15; }
-    25%  { transform: translate(0px, 22px) scale(0.8); z-index: 2; }
-    50%  { transform: translate(55px, 18px) scale(1); z-index: 15; }
-    75%  { transform: translate(0px, -22px) scale(1.18); z-index: 15; }
-    100% { transform: translate(-55px, -18px) scale(1); z-index: 15; }
-}
+        /* 3. ТРАЕКТОРИИ ПО ОРБИТАМ (ШАРЫ ВСЕГДА 100% КРУГЛЫЕ) */
+        @keyframes orbitGreenSmooth {
+            0% {
+                transform: translate(-55px, -18px) scale(1);
+                z-index: 15;
+            }
 
-@keyframes orbitPurpleSmooth {
-    0%   { transform: translate(22px, -48px) scale(1.18); z-index: 15; }
-    25%  { transform: translate(-28px, 0px) scale(0.8); z-index: 2; }
-    50%  { transform: translate(-22px, 48px) scale(1); z-index: 15; }
-    75%  { transform: translate(28px, 0px) scale(1.18); z-index: 15; }
-    100% { transform: translate(22px, -48px) scale(1.18); z-index: 15; }
-}
+            25% {
+                transform: translate(0px, 22px) scale(0.8);
+                z-index: 2;
+            }
 
-@keyframes orbitBlackSmooth {
-    0%   { transform: translate(-42px, 0px) scale(1); z-index: 15; }
-    25%  { transform: translate(0px, 10px) scale(0.8); z-index: 2; }
-    50%  { transform: translate(42px, 0px) scale(1); z-index: 15; }
-    75%  { transform: translate(0px, -10px) scale(1.18); z-index: 15; }
-    100% { transform: translate(-42px, 0px) scale(1); z-index: 15; }
-}
+            50% {
+                transform: translate(55px, 18px) scale(1);
+                z-index: 15;
+            }
+
+            75% {
+                transform: translate(0px, -22px) scale(1.18);
+                z-index: 15;
+            }
+
+            100% {
+                transform: translate(-55px, -18px) scale(1);
+                z-index: 15;
+            }
+        }
+
+        @keyframes orbitPurpleSmooth {
+            0% {
+                transform: translate(22px, -48px) scale(1.18);
+                z-index: 15;
+            }
+
+            25% {
+                transform: translate(-28px, 0px) scale(0.8);
+                z-index: 2;
+            }
+
+            50% {
+                transform: translate(-22px, 48px) scale(1);
+                z-index: 15;
+            }
+
+            75% {
+                transform: translate(28px, 0px) scale(1.18);
+                z-index: 15;
+            }
+
+            100% {
+                transform: translate(22px, -48px) scale(1.18);
+                z-index: 15;
+            }
+        }
+
+        @keyframes orbitBlackSmooth {
+            0% {
+                transform: translate(-42px, 0px) scale(1);
+                z-index: 15;
+            }
+
+            25% {
+                transform: translate(0px, 10px) scale(0.8);
+                z-index: 2;
+            }
+
+            50% {
+                transform: translate(42px, 0px) scale(1);
+                z-index: 15;
+            }
+
+            75% {
+                transform: translate(0px, -10px) scale(1.18);
+                z-index: 15;
+            }
+
+            100% {
+                transform: translate(-42px, 0px) scale(1);
+                z-index: 15;
+            }
+        }
 
 
         .echo-svg-map {
@@ -10851,20 +10914,20 @@
         }
 
         /* Чёрная тема для "Страх и ужас" */
-.echosfera-window.theme-black {
-    background: radial-gradient(circle at center, #121218 0%, #020204 100%);
-    border-color: #666688;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.98), inset 0 0 30px rgba(255, 255, 255, 0.05);
-}
+        .echosfera-window.theme-black {
+            background: radial-gradient(circle at center, #121218 0%, #020204 100%);
+            border-color: #666688;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.98), inset 0 0 30px rgba(255, 255, 255, 0.05);
+        }
 
-/* Чёрная неоновая кнопка (активная) */
-.echo-tag-btn.tag-black.active {
-    opacity: 1;
-    background: rgba(255, 255, 255, 0.08);
-    border-color: #ffffff;
-    color: #ffffff;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4), inset 0 0 10px rgba(0, 0, 0, 0.8);
-}
+        /* Чёрная неоновая кнопка (активная) */
+        .echo-tag-btn.tag-black.active {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #ffffff;
+            color: #ffffff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4), inset 0 0 10px rgba(0, 0, 0, 0.8);
+        }
 
 
         .echosfera-header {
@@ -11152,43 +11215,52 @@
             box-shadow: 0 0 12px #00ff66;
         }
 
-       /* Экран 5-секундного поиска поверх карты */
-.echo-search-overlay {
-    position: absolute;
-    top: 0; 
-    left: 0;
-    width: 100%; 
-    height: 100%;
-    background: rgba(8, 4, 16, 0.92);
-    backdrop-filter: blur(8px);
-    z-index: 99999; /* Гарантирует, что плашка перекроет карту */
-    display: none; /* Скрыт по умолчанию */
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-}
+        /* Экран 5-секундного поиска поверх карты */
+        .echo-search-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(8, 4, 16, 0.92);
+            backdrop-filter: blur(8px);
+            z-index: 99999;
+            /* Гарантирует, что плашка перекроет карту */
+            display: none;
+            /* Скрыт по умолчанию */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
 
-   .echo-search-webp {
-       width: 195px;
-       height: 195px;
-       object-fit: contain;
-       animation: pulseSearch 1.5s infinite alternate ease-in-out;
-   }
-   
+        .echo-search-webp {
+            width: 195px;
+            height: 195px;
+            object-fit: contain;
+            animation: pulseSearch 1.5s infinite alternate ease-in-out;
+        }
 
 
-.echo-search-text {
-    font-family: 'Unbounded', sans-serif;
-    font-size: 0.95rem;
-    color: #00f0ff;
-    text-shadow: 0 0 12px #00f0ff;
-}
 
-@keyframes pulseSearch {
-    0% { transform: scale(0.92); filter: drop-shadow(0 0 10px #00f0ff); }
-    100% { transform: scale(1.08); filter: drop-shadow(0 0 25px #b026ff); }
-}
+        .echo-search-text {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 0.95rem;
+            color: #00f0ff;
+            text-shadow: 0 0 12px #00f0ff;
+        }
+
+        @keyframes pulseSearch {
+            0% {
+                transform: scale(0.92);
+                filter: drop-shadow(0 0 10px #00f0ff);
+            }
+
+            100% {
+                transform: scale(1.08);
+                filter: drop-shadow(0 0 25px #b026ff);
+            }
+        }
 
 
         /* Холст для частичек */
@@ -11204,250 +11276,338 @@
 
 
         /* Красивая верстка карточки результата */
-#echoResultCard.rando-result-card {
-    background: rgba(12, 6, 22, 0.9);
-    border: 1px solid rgba(0, 240, 255, 0.4);
-    border-radius: 12px;
-    padding: 12px;
+        #echoResultCard.rando-result-card {
+            background: rgba(12, 6, 22, 0.9);
+            border: 1px solid rgba(0, 240, 255, 0.4);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        #echoResultTitle {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 0.85rem;
+            color: #ffd700;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        #echoResultDescription {
+            font-size: 0.78rem;
+            color: #e0e0e0;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        #echoGoogleRouteLink {
+            margin-top: 4px;
+            padding: 8px 12px;
+            background: linear-gradient(135deg, #4285F4, #1a73e8);
+            color: #ffffff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(66, 133, 244, 0.4);
+        }
+
+        /* Скрываем полосу прокрутки в правой панели */
+        .echo-side-panel {
+            overflow-x: hidden !important;
+        }
+
+        .echo-side-panel::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .echo-side-panel::-webkit-scrollbar-thumb {
+            background: rgba(0, 240, 255, 0.3);
+            border-radius: 4px;
+        }
+
+
+        .bobnit-walk-card {
+            width: 100%;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 14px;
+            overflow: hidden;
+            padding: 0;
+            background: transparent;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+        }
+
+        .bobnit-walk-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+            border-radius: 12px;
+        }
+
+        .flask-remove-point-btn {
+            flex: 1;
+            padding: 8px;
+            background: rgba(255, 42, 95, 0.15);
+            border: 1px solid #ff2a5f;
+            color: #ff2a5f;
+            border-radius: 8px;
+            font-family: 'Unbounded', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .flask-remove-point-btn:hover {
+            background: #ff2a5f;
+            color: #fff;
+            box-shadow: 0 0 10px #ff2a5f;
+        }
+
+        /* Холст частиц поверх карты */
+        #echoParticlesCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+
+        /* Правая панель со скроллом */
+        .echo-side-panel {
+            padding: 18px;
+            background: rgba(12, 6, 22, 0.85);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto !important;
+            /* Разрешаем скролл */
+            max-height: 100%;
+        }
+
+        /* Защита картинки Бобнита от сжатия */
+        .bobnit-walk-card {
+            width: 100%;
+            flex-shrink: 0 !important;
+            /* Запрещает сжимать блок! */
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 14px;
+            overflow: hidden;
+            padding: 0;
+            background: transparent;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+        }
+
+        .bobnit-walk-img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            display: block;
+            flex-shrink: 0;
+        }
+
+
+
+        /* Иконки в кнопках уровней */
+        .echo-tag-svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        /* === ПОЛНЫЙ КИБЕРПАНК 3D-ОБХОД ДЛЯ КНОПКИ "В ПУТЬ" === */
+        .echo-launch-action-btn,
+        .echo-launch-action-btn-3d {
+            width: 100% !important;
+            padding: 13px 18px !important;
+
+            /* 🌈 СОЧНЫЙ ТРЁХЦВЕТНЫЙ ГРАДИЕНТ (Зелёный -> Фиолетовый -> Чёрный) */
+            background: linear-gradient(135deg, #00ff66 0%, #b026ff 50%, #0a0515 100%) !important;
+
+            /* ❌ УБИРАЕМ БЕЛУЮ РАМКУ (Заменяем на мягкий зелёный неон) */
+            border: 1px solid rgba(0, 255, 102, 0.5) !important;
+            outline: none !important;
+            border-radius: 12px !important;
+
+            /* ШРИФТ И ЦВЕТ */
+            color: #ffffff !important;
+            font-family: 'Unbounded', sans-serif !important;
+            font-size: 0.9rem !important;
+            font-weight: 900 !important;
+            letter-spacing: 1.5px !important;
+            text-transform: uppercase !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9) !important;
+
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 10px !important;
+            flex-shrink: 0 !important;
+
+            /* 3D-ОБЪЁМ (ТЁМНО-ФИОЛЕТОВАЯ СТУПЕНЬКА СНИЗУ) */
+            transform: translateY(-4px) !important;
+            box-shadow: 0 6px 0 #3b0066, 0 12px 25px rgba(176, 38, 255, 0.45) !important;
+            transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.2s ease !important;
+        }
+
+        /* Эффект наведения (Кнопка горит ярче) */
+        .echo-launch-action-btn:hover,
+        .echo-launch-action-btn-3d:hover {
+            transform: translateY(-5px) !important;
+            background: linear-gradient(135deg, #33ff85 0%, #c447ff 50%, #15092b 100%) !important;
+            box-shadow: 0 7px 0 #3b0066, 0 15px 30px rgba(0, 255, 102, 0.6) !important;
+            border-color: #00ff66 !important;
+        }
+
+        /* Реалистичное 3D-нажатие (Кнопка физически утапливается вглубь) */
+        .echo-launch-action-btn:active,
+        .echo-launch-action-btn-3d:active {
+            transform: translateY(2px) !important;
+            box-shadow: 0 1px 0 #3b0066, 0 4px 10px rgba(0, 0, 0, 0.8) !important;
+        }
+
+        /* Белая неоновая иконка ракеты вместо чёрной */
+        .echo-launch-svg {
+            width: 20px !important;
+            height: 20px !important;
+            stroke: #ffffff !important;
+            /* Делаем контур иконки белым */
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8)) !important;
+        }
+
+
+        /* === БРОНЕБОЙНЫЙ 3D-СТИЛЬ ДЛЯ КНОПКИ В ПУТЬ ПО ID === */
+        #echoLaunch3dBtn {
+            width: 100% !important;
+            padding: 13px 18px !important;
+
+            /* 🌈 ТРЁХЦВЕТНЫЙ КИБЕР-ГРАДИЕНТ */
+            background: linear-gradient(135deg, #00ff66 0%, #b026ff 50%, #0a0515 100%) !important;
+
+            /* УБИРАЕМ СТАРУЮ БЕЛУЮ РАМКУ */
+            border: 1px solid rgba(0, 255, 102, 0.5) !important;
+            outline: none !important;
+            border-radius: 12px !important;
+
+            /* ТЕКСТ */
+            color: #ffffff !important;
+            font-family: 'Unbounded', sans-serif !important;
+            font-size: 0.9rem !important;
+            font-weight: 900 !important;
+            letter-spacing: 1.5px !important;
+            text-transform: uppercase !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9) !important;
+
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 10px !important;
+            flex-shrink: 0 !important;
+
+            /* 3D-ОБЪЕМ С ТЁМНОЙ ПОДОШВОЙ */
+            transform: translateY(-4px) !important;
+            box-shadow: 0 6px 0 #3b0066, 0 12px 25px rgba(176, 38, 255, 0.45) !important;
+            transition: transform 0.1s ease, box-shadow 0.1s ease !important;
+        }
+
+        #echoLaunch3dBtn:hover {
+            transform: translateY(-5px) !important;
+            background: linear-gradient(135deg, #33ff85 0%, #c447ff 50%, #15092b 100%) !important;
+            box-shadow: 0 7px 0 #3b0066, 0 15px 30px rgba(0, 255, 102, 0.6) !important;
+            border-color: #00ff66 !important;
+        }
+
+        #echoLaunch3dBtn:active {
+            transform: translateY(2px) !important;
+            box-shadow: 0 1px 0 #3b0066, 0 4px 10px rgba(0, 0, 0, 0.8) !important;
+        }
+
+
+        /* === 1. СТИЛИ ДЛЯ ПАРНЫХ ИЛЛЮСТРАЦИЙ КОЛБ (colbi1.webp / colbi2.webp) === */
+.terracore-flasks-visual-wrapper {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
-    box-sizing: border-box;
-    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 15px auto;
 }
 
-#echoResultTitle {
-    font-family: 'Unbounded', sans-serif;
-    font-size: 0.85rem;
-    color: #ffd700;
-    margin: 0;
-    line-height: 1.3;
+/* === ПЕРСОНАЖ СЛЕВА ОТ КОЛБ: ПРАВИЛЬНЫЙ ГОРИЗОНТАЛЬНЫЙ ПРЯМОУГОЛЬНИК (1400х700) === */
+.terracore-dynamic-flask-img {
+    width: 250px !important;  /* Широкая горизонтальная сторона */
+    height: 170px !important; /* Высота ровно по уровню колб */
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: 16px !important;
+    border: 2px solid rgba(0, 240, 255, 0.4) !important;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.25) !important;
+    transition: transform 0.3s ease, border-color 0.3s ease !important;
+    display: block !important;
+    flex-shrink: 0 !important;
 }
 
-#echoResultDescription {
-    font-size: 0.78rem;
-    color: #e0e0e0;
-    margin: 0;
-    line-height: 1.4;
+.terracore-dynamic-flask-img:hover {
+    transform: scale(1.03) !important;
+    border-color: #ffd700 !important;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.5) !important;
 }
 
-#echoGoogleRouteLink {
-    margin-top: 4px;
-    padding: 8px 12px;
-    background: linear-gradient(135deg, #4285F4, #1a73e8);
-    color: #ffffff;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 0.75rem;
-    font-weight: bold;
-    text-align: center;
-    box-shadow: 0 0 10px rgba(66, 133, 244, 0.4);
-}
-
-/* Скрываем полосу прокрутки в правой панели */
-.echo-side-panel {
-    overflow-x: hidden !important;
-}
-.echo-side-panel::-webkit-scrollbar {
-    width: 4px;
-}
-.echo-side-panel::-webkit-scrollbar-thumb {
-    background: rgba(0, 240, 255, 0.3);
-    border-radius: 4px;
+/* === АККУРАТНЫЕ УМЕНЬШЕННЫЕ БАННЕРЫ (В 2.5 РАЗА МЕНЬШЕ) === */
+.terracore-tab-banner-img {
+    width: 40% !important; /* Уменьшили в 2.5 раза */
+    max-width: 500px !important; /* Ограничитель для широких экранов */
+    height: auto !important;
+    aspect-ratio: 14 / 6 !important; /* Сохраняем твои пропорции */
+    
+    object-fit: cover !important;
+    object-position: center !important;
+    
+    border-radius: 12px !important;
+    border: 1px solid rgba(255, 140, 0, 0.3) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    
+    /* Центрирование баннера над контентом */
+    margin: 10px auto 20px auto !important; 
+    display: block !important;
 }
 
 
-.bobnit-walk-card {
-    width: 100%;
-    border: 1px solid rgba(0, 240, 255, 0.3);
-    border-radius: 14px;
-    overflow: hidden;
-    padding: 0;
-    background: transparent;
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+/* === ПРЕВЬЮ ДЛЯ ГОЛОСОВЫХ ПАМЯТОК (БЕЗ НАДПИСЕЙ В УГЛУ) === */
+.voice-memo-preview-container {
+    width: 50% !important;
+    max-width: 620px !important;
+    aspect-ratio: 14 / 7 !important; /* Точный пропорциональный формат исходника */
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    border: 2px solid rgba(0, 255, 102, 0.4) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6) !important;
+    margin: 12px auto 20px auto !important;
+    position: relative !important;
 }
 
-.bobnit-walk-img {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-    display: block;
-    border-radius: 12px;
+.voice-memo-preview-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
 }
 
-.flask-remove-point-btn {
-    flex: 1;
-    padding: 8px;
-    background: rgba(255, 42, 95, 0.15);
-    border: 1px solid #ff2a5f;
-    color: #ff2a5f;
-    border-radius: 8px;
-    font-family: 'Unbounded', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-.flask-remove-point-btn:hover {
-    background: #ff2a5f;
-    color: #fff;
-    box-shadow: 0 0 10px #ff2a5f;
-}
-
-/* Холст частиц поверх карты */
-#echoParticlesCanvas {
+/* Настраиваем бейдж под размер */
+.voice-memo-preview-badge {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 999;
-}
-
-
-/* Правая панель со скроллом */
-.echo-side-panel {
-    padding: 18px;
-    background: rgba(12, 6, 22, 0.85);
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    overflow-y: auto !important; /* Разрешаем скролл */
-    max-height: 100%;
-}
-
-/* Защита картинки Бобнита от сжатия */
-.bobnit-walk-card {
-    width: 100%;
-    flex-shrink: 0 !important; /* Запрещает сжимать блок! */
-    border: 1px solid rgba(0, 240, 255, 0.3);
-    border-radius: 14px;
-    overflow: hidden;
-    padding: 0;
-    background: transparent;
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
-}
-
-.bobnit-walk-img {
-    width: 100%;
-    height: 130px;
-    object-fit: cover;
-    display: block;
-    flex-shrink: 0;
-}
-
-
-
-/* Иконки в кнопках уровней */
-.echo-tag-svg {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-}
-/* === ПОЛНЫЙ КИБЕРПАНК 3D-ОБХОД ДЛЯ КНОПКИ "В ПУТЬ" === */
-.echo-launch-action-btn, 
-.echo-launch-action-btn-3d {
-    width: 100% !important;
-    padding: 13px 18px !important;
-    
-    /* 🌈 СОЧНЫЙ ТРЁХЦВЕТНЫЙ ГРАДИЕНТ (Зелёный -> Фиолетовый -> Чёрный) */
-    background: linear-gradient(135deg, #00ff66 0%, #b026ff 50%, #0a0515 100%) !important;
-    
-    /* ❌ УБИРАЕМ БЕЛУЮ РАМКУ (Заменяем на мягкий зелёный неон) */
-    border: 1px solid rgba(0, 255, 102, 0.5) !important;
-    outline: none !important;
-    border-radius: 12px !important;
-    
-    /* ШРИФТ И ЦВЕТ */
-    color: #ffffff !important;
-    font-family: 'Unbounded', sans-serif !important;
-    font-size: 0.9rem !important;
-    font-weight: 900 !important;
-    letter-spacing: 1.5px !important;
-    text-transform: uppercase !important;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9) !important;
-    
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 10px !important;
-    flex-shrink: 0 !important;
-    
-    /* 3D-ОБЪЁМ (ТЁМНО-ФИОЛЕТОВАЯ СТУПЕНЬКА СНИЗУ) */
-    transform: translateY(-4px) !important;
-    box-shadow: 0 6px 0 #3b0066, 0 12px 25px rgba(176, 38, 255, 0.45) !important;
-    transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.2s ease !important;
-}
-
-/* Эффект наведения (Кнопка горит ярче) */
-.echo-launch-action-btn:hover,
-.echo-launch-action-btn-3d:hover {
-    transform: translateY(-5px) !important;
-    background: linear-gradient(135deg, #33ff85 0%, #c447ff 50%, #15092b 100%) !important;
-    box-shadow: 0 7px 0 #3b0066, 0 15px 30px rgba(0, 255, 102, 0.6) !important;
-    border-color: #00ff66 !important;
-}
-
-/* Реалистичное 3D-нажатие (Кнопка физически утапливается вглубь) */
-.echo-launch-action-btn:active,
-.echo-launch-action-btn-3d:active {
-    transform: translateY(2px) !important;
-    box-shadow: 0 1px 0 #3b0066, 0 4px 10px rgba(0, 0, 0, 0.8) !important;
-}
-
-/* Белая неоновая иконка ракеты вместо чёрной */
-.echo-launch-svg {
-    width: 20px !important;
-    height: 20px !important;
-    stroke: #ffffff !important; /* Делаем контур иконки белым */
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)) !important;
-}
-
-
-/* === БРОНЕБОЙНЫЙ 3D-СТИЛЬ ДЛЯ КНОПКИ В ПУТЬ ПО ID === */
-#echoLaunch3dBtn {
-    width: 100% !important;
-    padding: 13px 18px !important;
-    
-    /* 🌈 ТРЁХЦВЕТНЫЙ КИБЕР-ГРАДИЕНТ */
-    background: linear-gradient(135deg, #00ff66 0%, #b026ff 50%, #0a0515 100%) !important;
-    
-    /* УБИРАЕМ СТАРУЮ БЕЛУЮ РАМКУ */
-    border: 1px solid rgba(0, 255, 102, 0.5) !important;
-    outline: none !important;
-    border-radius: 12px !important;
-    
-    /* ТЕКСТ */
-    color: #ffffff !important;
-    font-family: 'Unbounded', sans-serif !important;
-    font-size: 0.9rem !important;
-    font-weight: 900 !important;
-    letter-spacing: 1.5px !important;
-    text-transform: uppercase !important;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9) !important;
-    
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 10px !important;
-    flex-shrink: 0 !important;
-    
-    /* 3D-ОБЪЕМ С ТЁМНОЙ ПОДОШВОЙ */
-    transform: translateY(-4px) !important;
-    box-shadow: 0 6px 0 #3b0066, 0 12px 25px rgba(176, 38, 255, 0.45) !important;
-    transition: transform 0.1s ease, box-shadow 0.1s ease !important;
-}
-
-#echoLaunch3dBtn:hover {
-    transform: translateY(-5px) !important;
-    background: linear-gradient(135deg, #33ff85 0%, #c447ff 50%, #15092b 100%) !important;
-    box-shadow: 0 7px 0 #3b0066, 0 15px 30px rgba(0, 255, 102, 0.6) !important;
-    border-color: #00ff66 !important;
-}
-
-#echoLaunch3dBtn:active {
-    transform: translateY(2px) !important;
-    box-shadow: 0 1px 0 #3b0066, 0 4px 10px rgba(0, 0, 0, 0.8) !important;
+    bottom: 8px;
+    left: 10px;
+    font-size: 0.65rem !important;
+    padding: 3px 8px !important;
 }
 
     </style>
@@ -20114,22 +20274,29 @@
 
 
         // 1. ОБНОВЛЕНИЕ ВЕРХНИХ ГЛАВНЫХ КОЛБ (ГОРОД И ПП)
-        function updateTerraCoreSummaryFlasks() {
-            // Обновляем колбу ГОРОД
-            const cityPercent = getTerraCoreCityPercent();
-            const cityLiquid = document.getElementById('tc-city-flask-liquid');
-            const cityVal = document.getElementById('tc-city-percent-val');
-            if (cityLiquid) cityLiquid.style.height = `${cityPercent}%`;
-            if (cityVal) cityVal.innerText = `${cityPercent}%`;
+       // 1. ОБНОВЛЕНИЕ ВЕРХНИХ ГЛАВНЫХ КОЛБ (ГОРОД И ПП)
+function updateTerraCoreSummaryFlasks() {
+    // Обновляем колбу ГОРОД
+    const cityPercent = getTerraCoreCityPercent();
+    const cityLiquid = document.getElementById('tc-city-flask-liquid');
+    const cityVal = document.getElementById('tc-city-percent-val');
+    if (cityLiquid) cityLiquid.style.height = `${cityPercent}%`;
+    if (cityVal) cityVal.innerText = `${cityPercent}%`;
 
-            // Обновляем колбу ПП
-            const answeredIndexes = JSON.parse(localStorage.getItem('terracore_pp_answered') || '[]');
-            const ppPercent = Math.min((answeredIndexes.length * 0.5), 100).toFixed(1);
-            const ppLiquid = document.getElementById('tc-pp-flask-liquid');
-            const ppVal = document.getElementById('tc-pp-percent-val');
-            if (ppLiquid) ppLiquid.style.height = `${ppPercent}%`;
-            if (ppVal) ppVal.innerText = `${ppPercent.endsWith('.0') ? parseInt(ppPercent) : ppPercent}%`;
-        }
+    // Обновляем колбу ПП
+    const answeredIndexes = JSON.parse(localStorage.getItem('terracore_pp_answered') || '[]');
+    const ppPercent = Math.min((answeredIndexes.length * 0.5), 100).toFixed(1);
+    const ppLiquid = document.getElementById('tc-pp-flask-liquid');
+    const ppVal = document.getElementById('tc-pp-percent-val');
+    if (ppLiquid) ppLiquid.style.height = `${ppPercent}%`;
+    if (ppVal) ppVal.innerText = `${ppPercent.endsWith('.0') ? parseInt(ppPercent) : ppPercent}%`;
+
+    // 🖼 МГНОВЕННАЯ ПРОВЕРКА И СМЕНА КАРТИНОК ПЕРСОНАЖЕЙ (colbi1.webp <-> colbi2.webp)
+    if (typeof updateTerracoreFlasksVisuals === 'function') {
+        updateTerracoreFlasksVisuals();
+    }
+}
+
 
         // 2. РЕНДЕР РАЙОНОВ С СОХРАНЕНИЕМ СОСТОЯНИЯ РАСКРЫТИЯ
         function renderTerraCoreDistricts() {
@@ -20853,6 +21020,8 @@
             questCount += 1;
             localStorage.setItem('terracore_quests_count', questCount.toString());
             updateQuestFlaskUI();
+            updateTerracoreFlasksVisuals();
+
         }
 
         function decQuestPercent() {
@@ -20861,8 +21030,41 @@
                 questCount -= 1;
                 localStorage.setItem('terracore_quests_count', questCount.toString());
                 updateQuestFlaskUI();
+                updateTerracoreFlasksVisuals();
+
             }
         }
+
+function updateTerracoreFlasksVisuals() {
+    let totalPercent = 0;
+    try {
+        const cityH = parseFloat(document.getElementById('tc-city-flask-liquid')?.style.height || 0);
+        const ppH = parseFloat(document.getElementById('tc-pp-flask-liquid')?.style.height || 0);
+        const questH = parseFloat(document.getElementById('tc-quest-flask-liquid')?.style.height || 0);
+        
+        totalPercent = cityH + ppH + questH;
+    } catch (e) {
+        totalPercent = 0;
+    }
+
+    // Находим одиночную картинку по ID
+    const singleImg = document.getElementById('terracoreFlaskSingleImg');
+    if (singleImg) {
+        if (totalPercent > 0) {
+            // Если есть прогресс — ставим радостного
+            if (!singleImg.src.includes('colbi2.webp')) {
+                singleImg.src = 'colbi2.webp';
+            }
+        } else {
+            // Если прогресс на нуле — грустного
+            if (!singleImg.src.includes('colbi1.webp')) {
+                singleImg.src = 'colbi1.webp';
+            }
+        }
+    }
+}
+
+
 
         // ==========================================================================
         // 🎲 НЕУБИВАЕМЫЙ ДВИЖОК РУЛЕТКИ И СУПЕР-БАЗА ТРАНСПОРТА
@@ -21455,65 +21657,65 @@
         // 🌌 МОДУЛЬ «ЭХОСФЕРА» — ИНТЕРФЕЙС, ТЕМЫ И ЧАСТИЦЫ
         // ==========================================================================
 
-       // ==========================================================================
-// 🌌 ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ЭХОСФЕРЫ (БЕЗ МЕРТВОЙ ЗОНЫ TDZ)
-// ==========================================================================
-window.echoMap = window.echoMap || null;
-window.echoCurrentCategory = window.echoCurrentCategory || 'green';
-window.echoParticlesAnimId = window.echoParticlesAnimId || null;
-window.echoCurrentMarker = window.echoCurrentMarker || null;
-window.echoVisitedPoints = window.echoVisitedPoints || 0;
+        // ==========================================================================
+        // 🌌 ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ЭХОСФЕРЫ (БЕЗ МЕРТВОЙ ЗОНЫ TDZ)
+        // ==========================================================================
+        window.echoMap = window.echoMap || null;
+        window.echoCurrentCategory = window.echoCurrentCategory || 'green';
+        window.echoParticlesAnimId = window.echoParticlesAnimId || null;
+        window.echoCurrentMarker = window.echoCurrentMarker || null;
+        window.echoVisitedPoints = window.echoVisitedPoints || 0;
 
-// Для удобства создаем удобные ссылки
-var echoMap = window.echoMap;
-var echoCurrentCategory = window.echoCurrentCategory;
-var echoParticlesAnimId = window.echoParticlesAnimId;
-var echoCurrentMarker = window.echoCurrentMarker;
-var echoVisitedPoints = window.echoVisitedPoints;
-
-
-
-window.ECHOSFERA_POINTS = [
-    // 🌿 СПОКОЙСТВИЕ И КОМФОРТ (10 точек)
-    { id: 1, category: 'green', name: 'Чебоксарский Ботанический Сад', desc: 'Уютные пруды с кувшинками, полная тишина и тень редких деревьев.', lat: 56.0980, lng: 47.2680 },
-    { id: 2, category: 'green', name: 'Сквер на бульваре Ефремова', desc: 'Атмосферный пешеходный центр с уличной музыкой и мягким светом фонарей.', lat: 56.1435, lng: 47.2488 },
-    { id: 3, category: 'green', name: 'Тихий левый берег Волги', desc: 'Песчаный берег, чистый сосновый воздух и размеренный шум волн.', lat: 56.1680, lng: 47.2250 },
-    { id: 4, category: 'green', name: 'Каштановая аллея у залива', desc: 'Уединенная парковая зона с удобными скамейками для неспешных разговоров.', lat: 56.1465, lng: 47.2460 },
-    { id: 5, category: 'green', name: 'Тихие поляны Рощи Гузовского', desc: 'Вековые дубы и атмосфера полнейшего умиротворения.', lat: 56.1420, lng: 47.1890 },
-    { id: 6, category: 'green', name: 'Сквер Константина Иванова', desc: 'Мягкий прохладный бриз с Волги и живописный вид на речной порт.', lat: 56.1492, lng: 47.2410 },
-    { id: 7, category: 'green', name: 'Аллея у Лакреевского леса', desc: 'Зеленый остров в сердце города с тенистыми тропинками.', lat: 56.1220, lng: 47.2380 },
-    { id: 8, category: 'green', name: 'Яблоневый сад у набережной', desc: 'Уютный уголок природы с видом на противоположный берег.', lat: 56.1510, lng: 47.2350 },
-    { id: 9, category: 'green', name: 'Пруды Нового Города', desc: 'Современный благоустроенный оазис с чистой водой и мостиками.', lat: 56.1360, lng: 47.3310 },
-    { id: 10, category: 'green', name: 'Смотровой сквер Сеспеля', desc: 'Тихая старинная улочка с архитектурой XIX века.', lat: 56.1470, lng: 47.2450 },
-
-    // 🔮 МИСТИКА И ВДОХНОВЕНИЕ (10 точек)
-    { id: 11, category: 'purple', name: 'Древний Введенский Собор (1651 г.)', desc: 'Самое старое здание Чувашии, наполненное духом прошлых веков.', lat: 56.1478, lng: 47.2495 },
-    { id: 12, category: 'purple', name: 'Смотреть на город с Парка Победы', desc: 'Высочайший холм Чебоксар с панорамным захватывающим видом.', lat: 56.1518, lng: 47.2612 },
-    { id: 13, category: 'purple', name: 'Старинные купеческие подвалы', desc: 'Архитектурные тайны старого города и загадочные каменные арки.', lat: 56.1460, lng: 47.2470 },
-    { id: 14, category: 'purple', name: 'Монумент Матери-Покровительнице', desc: 'Энергетический центр города над заливом с особым ночным освещением.', lat: 56.1482, lng: 47.2441 },
-    { id: 15, category: 'purple', name: 'Скрытый овраг реки Чебоксарки', desc: 'Таинственное место, где город исчезает среди крутых склонов.', lat: 56.1384, lng: 47.2410 },
-    { id: 16, category: 'purple', name: 'Старый маяк Казанской набережной', desc: 'Романтическая и таинственная локация на краю воды.', lat: 56.1505, lng: 47.2550 },
-    { id: 17, category: 'purple', name: 'Аллея Любви над заливом', desc: 'Место встречи ветров, вдохновения и красивых закатов.', lat: 56.1450, lng: 47.2420 },
-    { id: 18, category: 'purple', name: 'Мыс у Чебоксарской ГЭС', desc: 'Мощный индустриальный пейзаж, завораживающий своей масштабом.', lat: 56.1380, lng: 47.4350 },
-    { id: 19, category: 'purple', name: 'Панорамный холм Хевешской', desc: 'Секретная точка, откуда виден весь вечерний огненный город.', lat: 56.1120, lng: 47.2750 },
-    { id: 20, category: 'purple', name: 'Исторический холм Красной Площади', desc: 'Слияние истории, световых институций и энергии Залива.', lat: 56.1442, lng: 47.2490 },
-
-    // ⚫ СТРАХ И УЖАС (10 точек)
-    { id: 21, category: 'black', name: 'Заброшенные промзоны у Волги', desc: 'Скрип старого металла, бетонные развалины и мертвая тишина.', lat: 56.1512, lng: 47.2285 },
-    { id: 22, category: 'black', name: 'Туннель оврага Сугутки', desc: 'Мрачный и неосвещенный проход под высокими склонами.', lat: 56.1280, lng: 47.2290 },
-    { id: 23, category: 'black', name: 'Старый заброшенный причал Заволжья', desc: 'Ржавые конструкции у воды и ощущение полной оторванности от мира.', lat: 56.1750, lng: 47.2350 },
-    { id: 24, category: 'black', name: 'Грязевский овраг (Темная зона)', desc: 'Дикие глубокие склоны прямо посреди жилых массивов.', lat: 56.1210, lng: 47.2620 },
-    { id: 25, category: 'black', name: 'Забытый ж/д тупик Промышленной', desc: 'Заброшенные рельсы, поросшие кустарником и пустые вагоны.', lat: 56.1090, lng: 47.2950 },
-    { id: 26, category: 'black', name: 'Заброшенная насосная станция', desc: 'Мрачное одноэтажное строение с заколоченными окнами.', lat: 56.1560, lng: 47.2150 },
-    { id: 27, category: 'black', name: 'Путепровод Марпосадского шоссе', desc: 'Бетонные гулкие своды, где эхо создает жууткие звуки.', lat: 56.1310, lng: 47.3080 },
-    { id: 28, category: 'black', name: 'Заброшенный недострой ЮЗР', desc: 'Остов заброшенного здания, продуваемый темными ветрами.', lat: 56.1150, lng: 47.1950 },
-    { id: 29, category: 'black', name: 'Мрачные береговые кручи', desc: 'Опасные осыпающиеся обрывы к реке Волга без освещения.', lat: 56.1580, lng: 47.2720 },
-    { id: 30, category: 'black', name: 'Заброшенные складские коллекторы', desc: 'Аномально холодное и мрачное место на краю города.', lat: 56.0950, lng: 47.2350 }
-];
+        // Для удобства создаем удобные ссылки
+        var echoMap = window.echoMap;
+        var echoCurrentCategory = window.echoCurrentCategory;
+        var echoParticlesAnimId = window.echoParticlesAnimId;
+        var echoCurrentMarker = window.echoCurrentMarker;
+        var echoVisitedPoints = window.echoVisitedPoints;
 
 
 
-        
+        window.ECHOSFERA_POINTS = [
+            // 🌿 СПОКОЙСТВИЕ И КОМФОРТ (10 точек)
+            {id: 1, category: 'green', name: 'Чебоксарский Ботанический Сад', desc: 'Уютные пруды с кувшинками, полная тишина и тень редких деревьев.', lat: 56.0980, lng: 47.2680},
+            {id: 2, category: 'green', name: 'Сквер на бульваре Ефремова', desc: 'Атмосферный пешеходный центр с уличной музыкой и мягким светом фонарей.', lat: 56.1435, lng: 47.2488},
+            {id: 3, category: 'green', name: 'Тихий левый берег Волги', desc: 'Песчаный берег, чистый сосновый воздух и размеренный шум волн.', lat: 56.1680, lng: 47.2250},
+            {id: 4, category: 'green', name: 'Каштановая аллея у залива', desc: 'Уединенная парковая зона с удобными скамейками для неспешных разговоров.', lat: 56.1465, lng: 47.2460},
+            {id: 5, category: 'green', name: 'Тихие поляны Рощи Гузовского', desc: 'Вековые дубы и атмосфера полнейшего умиротворения.', lat: 56.1420, lng: 47.1890},
+            {id: 6, category: 'green', name: 'Сквер Константина Иванова', desc: 'Мягкий прохладный бриз с Волги и живописный вид на речной порт.', lat: 56.1492, lng: 47.2410},
+            {id: 7, category: 'green', name: 'Аллея у Лакреевского леса', desc: 'Зеленый остров в сердце города с тенистыми тропинками.', lat: 56.1220, lng: 47.2380},
+            {id: 8, category: 'green', name: 'Яблоневый сад у набережной', desc: 'Уютный уголок природы с видом на противоположный берег.', lat: 56.1510, lng: 47.2350},
+            {id: 9, category: 'green', name: 'Пруды Нового Города', desc: 'Современный благоустроенный оазис с чистой водой и мостиками.', lat: 56.1360, lng: 47.3310},
+            {id: 10, category: 'green', name: 'Смотровой сквер Сеспеля', desc: 'Тихая старинная улочка с архитектурой XIX века.', lat: 56.1470, lng: 47.2450},
+
+            // 🔮 МИСТИКА И ВДОХНОВЕНИЕ (10 точек)
+            {id: 11, category: 'purple', name: 'Древний Введенский Собор (1651 г.)', desc: 'Самое старое здание Чувашии, наполненное духом прошлых веков.', lat: 56.1478, lng: 47.2495},
+            {id: 12, category: 'purple', name: 'Смотреть на город с Парка Победы', desc: 'Высочайший холм Чебоксар с панорамным захватывающим видом.', lat: 56.1518, lng: 47.2612},
+            {id: 13, category: 'purple', name: 'Старинные купеческие подвалы', desc: 'Архитектурные тайны старого города и загадочные каменные арки.', lat: 56.1460, lng: 47.2470},
+            {id: 14, category: 'purple', name: 'Монумент Матери-Покровительнице', desc: 'Энергетический центр города над заливом с особым ночным освещением.', lat: 56.1482, lng: 47.2441},
+            {id: 15, category: 'purple', name: 'Скрытый овраг реки Чебоксарки', desc: 'Таинственное место, где город исчезает среди крутых склонов.', lat: 56.1384, lng: 47.2410},
+            {id: 16, category: 'purple', name: 'Старый маяк Казанской набережной', desc: 'Романтическая и таинственная локация на краю воды.', lat: 56.1505, lng: 47.2550},
+            {id: 17, category: 'purple', name: 'Аллея Любви над заливом', desc: 'Место встречи ветров, вдохновения и красивых закатов.', lat: 56.1450, lng: 47.2420},
+            {id: 18, category: 'purple', name: 'Мыс у Чебоксарской ГЭС', desc: 'Мощный индустриальный пейзаж, завораживающий своей масштабом.', lat: 56.1380, lng: 47.4350},
+            {id: 19, category: 'purple', name: 'Панорамный холм Хевешской', desc: 'Секретная точка, откуда виден весь вечерний огненный город.', lat: 56.1120, lng: 47.2750},
+            {id: 20, category: 'purple', name: 'Исторический холм Красной Площади', desc: 'Слияние истории, световых институций и энергии Залива.', lat: 56.1442, lng: 47.2490},
+
+            // ⚫ СТРАХ И УЖАС (10 точек)
+            {id: 21, category: 'black', name: 'Заброшенные промзоны у Волги', desc: 'Скрип старого металла, бетонные развалины и мертвая тишина.', lat: 56.1512, lng: 47.2285},
+            {id: 22, category: 'black', name: 'Туннель оврага Сугутки', desc: 'Мрачный и неосвещенный проход под высокими склонами.', lat: 56.1280, lng: 47.2290},
+            {id: 23, category: 'black', name: 'Старый заброшенный причал Заволжья', desc: 'Ржавые конструкции у воды и ощущение полной оторванности от мира.', lat: 56.1750, lng: 47.2350},
+            {id: 24, category: 'black', name: 'Грязевский овраг (Темная зона)', desc: 'Дикие глубокие склоны прямо посреди жилых массивов.', lat: 56.1210, lng: 47.2620},
+            {id: 25, category: 'black', name: 'Забытый ж/д тупик Промышленной', desc: 'Заброшенные рельсы, поросшие кустарником и пустые вагоны.', lat: 56.1090, lng: 47.2950},
+            {id: 26, category: 'black', name: 'Заброшенная насосная станция', desc: 'Мрачное одноэтажное строение с заколоченными окнами.', lat: 56.1560, lng: 47.2150},
+            {id: 27, category: 'black', name: 'Путепровод Марпосадского шоссе', desc: 'Бетонные гулкие своды, где эхо создает жууткие звуки.', lat: 56.1310, lng: 47.3080},
+            {id: 28, category: 'black', name: 'Заброшенный недострой ЮЗР', desc: 'Остов заброшенного здания, продуваемый темными ветрами.', lat: 56.1150, lng: 47.1950},
+            {id: 29, category: 'black', name: 'Мрачные береговые кручи', desc: 'Опасные осыпающиеся обрывы к реке Волга без освещения.', lat: 56.1580, lng: 47.2720},
+            {id: 30, category: 'black', name: 'Заброшенные складские коллекторы', desc: 'Аномально холодное и мрачное место на краю города.', lat: 56.0950, lng: 47.2350}
+        ];
+
+
+
+
         // 1. Открытие модального окна
         function openEchosferaModal() {
             const modal = document.getElementById('echosferaModalOverlay');
@@ -21560,128 +21762,128 @@ window.ECHOSFERA_POINTS = [
                 maxBoundsViscosity: 0.8
             });
 
-           L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-    maxZoom: 18,
-    maxNativeZoom: 16, // Лечит ошибку "data not available" при глубоком зуме!
-    attribution: '&copy; LeyCore Echosfera'
-}).addTo(echoMap);
+            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+                maxZoom: 18,
+                maxNativeZoom: 16, // Лечит ошибку "data not available" при глубоком зуме!
+                attribution: '&copy; LeyCore Echosfera'
+            }).addTo(echoMap);
 
 
 
         }
 
-        
+
 
         function startEchosferaParticles(category) {
-    const canvas = document.getElementById('echoParticlesCanvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+            const canvas = document.getElementById('echoParticlesCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
 
-    canvas.width = canvas.parentElement.clientWidth || 600;
-    canvas.height = canvas.parentElement.clientHeight || 400;
+            canvas.width = canvas.parentElement.clientWidth || 600;
+            canvas.height = canvas.parentElement.clientHeight || 400;
 
-    if (window.echoParticlesAnimId) cancelAnimationFrame(window.echoParticlesAnimId);
+            if (window.echoParticlesAnimId) cancelAnimationFrame(window.echoParticlesAnimId);
 
-    const particles = [];
-    const count = 30;
+            const particles = [];
+            const count = 30;
 
-    for (let i = 0; i < count; i++) {
-        particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            size: Math.random() * 12 + 8,
-            speedY: Math.random() * 1.2 + 0.6,
-            speedX: (Math.random() - 0.5) * 1,
-            angle: Math.random() * 360,
-            spin: (Math.random() - 0.5) * 2,
-            opacity: Math.random() * 0.7 + 0.3
-        });
-    }
-
-    function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        particles.forEach(p => {
-            p.y += p.speedY;
-            p.x += p.speedX;
-            p.angle += p.spin;
-
-            if (p.y > canvas.height + 20) {
-                p.y = -20;
-                p.x = Math.random() * canvas.width;
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 12 + 8,
+                    speedY: Math.random() * 1.2 + 0.6,
+                    speedX: (Math.random() - 0.5) * 1,
+                    angle: Math.random() * 360,
+                    spin: (Math.random() - 0.5) * 2,
+                    opacity: Math.random() * 0.7 + 0.3
+                });
             }
 
-            ctx.save();
-            ctx.translate(p.x, p.y);
-            ctx.rotate((p.angle * Math.PI) / 180);
-            ctx.globalAlpha = p.opacity;
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            if (category === 'green') {
-                // 🌿 Зелёные листья
-                ctx.fillStyle = '#00ff66';
-                ctx.beginPath();
-                ctx.ellipse(0, 0, p.size / 1.8, p.size / 3.5, Math.PI / 4, 0, 2 * Math.PI);
-                ctx.fill();
-            } 
-            else if (category === 'purple') {
-                // 🔮 Книги & Звёздочки
-                if (p.size > 14) {
-                    ctx.fillStyle = '#d866ff';
-                    ctx.fillRect(-p.size/2, -p.size/3, p.size, p.size/1.4);
-                    ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(-p.size/2 + 2, -p.size/3 + 2, p.size - 4, 2);
-                } else {
-                    ctx.fillStyle = '#ffffff';
-                    ctx.beginPath();
-                    ctx.arc(0, 0, p.size / 3, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            } 
-                        else if (category === 'black') {
-                // ⚫️ Чёрный уровень: Черепки с глазницами + чёрные острые полоски/копья
-                if (p.size > 11) {
-                    // 💀 1. Падающий череп (бело-серый)
-                    ctx.fillStyle = '#d0d0e0';
-                    
-                    // Голова черепа
-                    ctx.beginPath();
-                    ctx.arc(0, -2, p.size / 2.2, 0, Math.PI * 2);
-                    ctx.fill();
-                    
-                    // Челюсть
-                    ctx.fillRect(-p.size / 4, 0, p.size / 2, p.size / 3.2);
-                    
-                    // Тёмные глазницы
-                    ctx.fillStyle = '#050508';
-                    ctx.beginPath();
-                    ctx.arc(-p.size / 5, -3, p.size / 7, 0, Math.PI * 2);
-                    ctx.arc(p.size / 5, -3, p.size / 7, 0, Math.PI * 2);
-                    ctx.fill();
-                } else {
-                    // 🗡 2. Чёрные летящие полоски-копья с легкой белой обводкой
-                    ctx.strokeStyle = '#000000';
-                    ctx.lineWidth = 3.5;
-                    ctx.beginPath();
-                    ctx.moveTo(0, -p.size * 1.3);
-                    ctx.lineTo(0, p.size * 1.3);
-                    ctx.stroke();
+                particles.forEach(p => {
+                    p.y += p.speedY;
+                    p.x += p.speedX;
+                    p.angle += p.spin;
 
-                    // Контур для видимости на темном фоне
-                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
-                    ctx.lineWidth = 1;
-                    ctx.stroke();
-                }
+                    if (p.y > canvas.height + 20) {
+                        p.y = -20;
+                        p.x = Math.random() * canvas.width;
+                    }
+
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate((p.angle * Math.PI) / 180);
+                    ctx.globalAlpha = p.opacity;
+
+                    if (category === 'green') {
+                        // 🌿 Зелёные листья
+                        ctx.fillStyle = '#00ff66';
+                        ctx.beginPath();
+                        ctx.ellipse(0, 0, p.size / 1.8, p.size / 3.5, Math.PI / 4, 0, 2 * Math.PI);
+                        ctx.fill();
+                    }
+                    else if (category === 'purple') {
+                        // 🔮 Книги & Звёздочки
+                        if (p.size > 14) {
+                            ctx.fillStyle = '#d866ff';
+                            ctx.fillRect(-p.size / 2, -p.size / 3, p.size, p.size / 1.4);
+                            ctx.fillStyle = '#ffffff';
+                            ctx.fillRect(-p.size / 2 + 2, -p.size / 3 + 2, p.size - 4, 2);
+                        } else {
+                            ctx.fillStyle = '#ffffff';
+                            ctx.beginPath();
+                            ctx.arc(0, 0, p.size / 3, 0, Math.PI * 2);
+                            ctx.fill();
+                        }
+                    }
+                    else if (category === 'black') {
+                        // ⚫️ Чёрный уровень: Черепки с глазницами + чёрные острые полоски/копья
+                        if (p.size > 11) {
+                            // 💀 1. Падающий череп (бело-серый)
+                            ctx.fillStyle = '#d0d0e0';
+
+                            // Голова черепа
+                            ctx.beginPath();
+                            ctx.arc(0, -2, p.size / 2.2, 0, Math.PI * 2);
+                            ctx.fill();
+
+                            // Челюсть
+                            ctx.fillRect(-p.size / 4, 0, p.size / 2, p.size / 3.2);
+
+                            // Тёмные глазницы
+                            ctx.fillStyle = '#050508';
+                            ctx.beginPath();
+                            ctx.arc(-p.size / 5, -3, p.size / 7, 0, Math.PI * 2);
+                            ctx.arc(p.size / 5, -3, p.size / 7, 0, Math.PI * 2);
+                            ctx.fill();
+                        } else {
+                            // 🗡 2. Чёрные летящие полоски-копья с легкой белой обводкой
+                            ctx.strokeStyle = '#000000';
+                            ctx.lineWidth = 3.5;
+                            ctx.beginPath();
+                            ctx.moveTo(0, -p.size * 1.3);
+                            ctx.lineTo(0, p.size * 1.3);
+                            ctx.stroke();
+
+                            // Контур для видимости на темном фоне
+                            ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+                            ctx.lineWidth = 1;
+                            ctx.stroke();
+                        }
+                    }
+
+
+                    ctx.restore();
+                });
+
+                window.echoParticlesAnimId = requestAnimationFrame(draw);
             }
 
-
-            ctx.restore();
-        });
-
-        window.echoParticlesAnimId = requestAnimationFrame(draw);
-    }
-
-    draw();
-}
+            draw();
+        }
 
 
 
@@ -21689,223 +21891,285 @@ window.ECHOSFERA_POINTS = [
         // 🌌 МОДУЛЬ «ЭХОСФЕРА» — 30 ТОЧЕК ЧЕБОКСАР, ПОИСК И SUPABASE
         // ==========================================================================
 
-    
+
 
         // 1. Переключение категории с сохранением в window
-function selectEchosferaCategory(category) {
-    window.echoCurrentCategory = category;
-    echoCurrentCategory = category;
+        function selectEchosferaCategory(category) {
+            window.echoCurrentCategory = category;
+            echoCurrentCategory = category;
 
-    // Обновляем неоновые кнопки
-    document.querySelectorAll('.echo-tag-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-echo-category') === category) {
-            btn.classList.add('active');
-        }
-    });
+            // Обновляем неоновые кнопки
+            document.querySelectorAll('.echo-tag-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-echo-category') === category) {
+                    btn.classList.add('active');
+                }
+            });
 
-    // Меняем фоновую тему модалки
-    const windowEl = document.querySelector('.echosfera-window');
-    if (windowEl) {
-        windowEl.className = `echosfera-window theme-${category}`;
-    }
-
-    // Запускаем частицы
-    if (typeof startEchosferaParticles === 'function') {
-        startEchosferaParticles(category);
-    }
-}
-
-// 2. Поиск точки (5 секунд) с гарантированной защитой от пустых массивов
-function startEchosferaSearch() {
-    const searchOverlay = document.getElementById('echoSearchOverlay');
-    if (searchOverlay) searchOverlay.style.display = 'flex';
-
-    // 5 секунд поиска
-    setTimeout(() => {
-        if (searchOverlay) searchOverlay.style.display = 'none';
-
-               // 1. Получаем активную категорию
-        const activeCat = window.echoCurrentCategory || (typeof echoCurrentCategory !== 'undefined' ? echoCurrentCategory : 'green');
-
-        // 2. Получаем точки из всех возможных мест
-        let allPoints = [];
-        if (typeof window !== 'undefined' && Array.isArray(window.ECHOSFERA_POINTS) && window.ECHOSFERA_POINTS.length > 0) {
-            allPoints = window.ECHOSFERA_POINTS;
-        } else if (typeof ECHOSFERA_POINTS !== 'undefined' && Array.isArray(ECHOSFERA_POINTS)) {
-            allPoints = ECHOSFERA_POINTS;
-        }
-
-        // Если вдруг массив всё ещё пуст — подтягиваем резервный список прямо на месте
-        if (allPoints.length === 0) {
-            console.warn("Внимание: точки подтянуты из аварийного хранилища");
-            allPoints = [
-                { id: 1, category: 'green', name: 'Чебоксарский Ботанический Сад', desc: 'Уютные пруды с кувшинками, полная тишина и тень редких деревьев.', lat: 56.0980, lng: 47.2680 },
-                { id: 2, category: 'green', name: 'Сквер на бульваре Ефремова', desc: 'Атмосферный пешеходный центр с уличной музыкой и мягким светом фонарей.', lat: 56.1435, lng: 47.2488 },
-                { id: 11, category: 'purple', name: 'Древний Введенский Собор (1651 г.)', desc: 'Самое старое здание Чувашии, наполненное духом прошлых веков.', lat: 56.1478, lng: 47.2495 },
-                { id: 12, category: 'purple', name: 'Смотреть на город с Парка Победы', desc: 'Высочайший холм Чебоксар с панорамным захватывающим видом.', lat: 56.1518, lng: 47.2612 },
-                { id: 21, category: 'black', name: 'Заброшенные промзоны у Волги', desc: 'Скрип старого металла, бетонные развалины и мертвая тишина.', lat: 56.1512, lng: 47.2285 },
-                { id: 22, category: 'black', name: 'Туннель оврага Сугутки', desc: 'Мрачный и неосвещенный проход под высокими склонами.', lat: 56.1280, lng: 47.2290 }
-            ];
-        }
-
-
-
-        // Фильтруем точки по активному тегу
-        let availablePoints = allPoints.filter(p => p.category === activeCat);
-
-        // Страховка: если вдруг по категории не нашлось, берём все точки
-        if (availablePoints.length === 0) {
-            availablePoints = allPoints;
-        }
-
-        // Если база точек пуста, выходим
-        if (availablePoints.length === 0) {
-            alert('База точек Эхосферы не загружена!');
-            return;
-        }
-
-        // Выбираем случайную точку
-        const selectedPoint = availablePoints[Math.floor(Math.random() * availablePoints.length)];
-
-        // Выводим результат в карточку
-        const titleEl = document.getElementById('echoResultTitle');
-        const descEl = document.getElementById('echoResultDescription');
-        const linkEl = document.getElementById('echoGoogleRouteLink');
-        const cardEl = document.getElementById('echoResultCard');
-
-        if (titleEl) titleEl.innerText = selectedPoint.name;
-        if (descEl) descEl.innerText = selectedPoint.desc;
-
-        if (linkEl) {
-            linkEl.href = `https://www.google.com/maps/dir/?api=1&destination=${selectedPoint.lat},${selectedPoint.lng}&travelmode=walking`;
-        }
-
-        if (cardEl) cardEl.style.display = 'flex';
-
-        // Отображаем точку на карте Leaflet
-        if (window.echoMap || echoMap) {
-            const mapObj = window.echoMap || echoMap;
-
-            if (window.echoCurrentMarker) {
-                mapObj.removeLayer(window.echoCurrentMarker);
+            // Меняем фоновую тему модалки
+            const windowEl = document.querySelector('.echosfera-window');
+            if (windowEl) {
+                windowEl.className = `echosfera-window theme-${category}`;
             }
 
-            mapObj.flyTo([selectedPoint.lat, selectedPoint.lng], 16, { duration: 1.5 });
+            // Запускаем частицы
+            if (typeof startEchosferaParticles === 'function') {
+                startEchosferaParticles(category);
+            }
+        }
 
-            const markerColor = activeCat === 'green' ? '#00ff66' : (activeCat === 'purple' ? '#b026ff' : '#ff2a5f');
+        // 2. Поиск точки (5 секунд) с гарантированной защитой от пустых массивов
+        function startEchosferaSearch() {
+            const searchOverlay = document.getElementById('echoSearchOverlay');
+            if (searchOverlay) searchOverlay.style.display = 'flex';
 
-            const customIcon = L.divIcon({
-                className: 'custom-echo-marker',
-                html: `<div style="
+            // 5 секунд поиска
+            setTimeout(() => {
+                if (searchOverlay) searchOverlay.style.display = 'none';
+
+                // 1. Получаем активную категорию
+                const activeCat = window.echoCurrentCategory || (typeof echoCurrentCategory !== 'undefined' ? echoCurrentCategory : 'green');
+
+                // 2. Получаем точки из всех возможных мест
+                let allPoints = [];
+                if (typeof window !== 'undefined' && Array.isArray(window.ECHOSFERA_POINTS) && window.ECHOSFERA_POINTS.length > 0) {
+                    allPoints = window.ECHOSFERA_POINTS;
+                } else if (typeof ECHOSFERA_POINTS !== 'undefined' && Array.isArray(ECHOSFERA_POINTS)) {
+                    allPoints = ECHOSFERA_POINTS;
+                }
+
+                // Если вдруг массив всё ещё пуст — подтягиваем резервный список прямо на месте
+                if (allPoints.length === 0) {
+                    console.warn("Внимание: точки подтянуты из аварийного хранилища");
+                    allPoints = [
+                        {id: 1, category: 'green', name: 'Чебоксарский Ботанический Сад', desc: 'Уютные пруды с кувшинками, полная тишина и тень редких деревьев.', lat: 56.0980, lng: 47.2680},
+                        {id: 2, category: 'green', name: 'Сквер на бульваре Ефремова', desc: 'Атмосферный пешеходный центр с уличной музыкой и мягким светом фонарей.', lat: 56.1435, lng: 47.2488},
+                        {id: 11, category: 'purple', name: 'Древний Введенский Собор (1651 г.)', desc: 'Самое старое здание Чувашии, наполненное духом прошлых веков.', lat: 56.1478, lng: 47.2495},
+                        {id: 12, category: 'purple', name: 'Смотреть на город с Парка Победы', desc: 'Высочайший холм Чебоксар с панорамным захватывающим видом.', lat: 56.1518, lng: 47.2612},
+                        {id: 21, category: 'black', name: 'Заброшенные промзоны у Волги', desc: 'Скрип старого металла, бетонные развалины и мертвая тишина.', lat: 56.1512, lng: 47.2285},
+                        {id: 22, category: 'black', name: 'Туннель оврага Сугутки', desc: 'Мрачный и неосвещенный проход под высокими склонами.', lat: 56.1280, lng: 47.2290}
+                    ];
+                }
+
+
+
+                // Фильтруем точки по активному тегу
+                let availablePoints = allPoints.filter(p => p.category === activeCat);
+
+                // Страховка: если вдруг по категории не нашлось, берём все точки
+                if (availablePoints.length === 0) {
+                    availablePoints = allPoints;
+                }
+
+                // Если база точек пуста, выходим
+                if (availablePoints.length === 0) {
+                    alert('База точек Эхосферы не загружена!');
+                    return;
+                }
+
+                // Выбираем случайную точку
+                const selectedPoint = availablePoints[Math.floor(Math.random() * availablePoints.length)];
+
+                // Выводим результат в карточку
+                const titleEl = document.getElementById('echoResultTitle');
+                const descEl = document.getElementById('echoResultDescription');
+                const linkEl = document.getElementById('echoGoogleRouteLink');
+                const cardEl = document.getElementById('echoResultCard');
+
+                if (titleEl) titleEl.innerText = selectedPoint.name;
+                if (descEl) descEl.innerText = selectedPoint.desc;
+
+                if (linkEl) {
+                    linkEl.href = `https://www.google.com/maps/dir/?api=1&destination=${selectedPoint.lat},${selectedPoint.lng}&travelmode=walking`;
+                }
+
+                if (cardEl) cardEl.style.display = 'flex';
+
+                // Отображаем точку на карте Leaflet
+                if (window.echoMap || echoMap) {
+                    const mapObj = window.echoMap || echoMap;
+
+                    if (window.echoCurrentMarker) {
+                        mapObj.removeLayer(window.echoCurrentMarker);
+                    }
+
+                    mapObj.flyTo([selectedPoint.lat, selectedPoint.lng], 16, {duration: 1.5});
+
+                    const markerColor = activeCat === 'green' ? '#00ff66' : (activeCat === 'purple' ? '#b026ff' : '#ff2a5f');
+
+                    const customIcon = L.divIcon({
+                        className: 'custom-echo-marker',
+                        html: `<div style="
                     width: 20px; height: 20px; 
                     background: ${markerColor}; 
                     border: 3px solid #ffffff; 
                     border-radius: 50%; 
                     box-shadow: 0 0 20px ${markerColor}, 0 0 35px ${markerColor};
                 "></div>`,
-                iconSize: [20, 20],
-                iconAnchor: [10, 10]
-            });
+                        iconSize: [20, 20],
+                        iconAnchor: [10, 10]
+                    });
 
-            window.echoCurrentMarker = L.marker([selectedPoint.lat, selectedPoint.lng], { icon: customIcon }).addTo(mapObj)
-                .bindPopup(`<b style="color:#000;">${selectedPoint.name}</b><br><span style="color:#333;font-size:0.8rem;">${selectedPoint.desc}</span>`)
-                .openPopup();
+                    window.echoCurrentMarker = L.marker([selectedPoint.lat, selectedPoint.lng], {icon: customIcon}).addTo(mapObj)
+                        .bindPopup(`<b style="color:#000;">${selectedPoint.name}</b><br><span style="color:#333;font-size:0.8rem;">${selectedPoint.desc}</span>`)
+                        .openPopup();
+                }
+            }, 10000);
         }
-    }, 10000);
-}
 
-       // Безопасное получение количества пройденных точек
-function getEchoVisitedCount() {
-    let val = parseInt(window.echoVisitedPoints, 10);
-    if (isNaN(val)) {
-        val = parseInt(localStorage.getItem('echosfera_visited_count'), 10);
-    }
-    if (isNaN(val)) {
-        val = 0;
-    }
-    window.echoVisitedPoints = val;
-    return val;
-}
-
-// Обновление интерфейса колбы
-function updateEchosferaFlaskUI() {
-    let count = parseInt(window.echoVisitedPoints, 10);
-    if (isNaN(count)) count = parseInt(localStorage.getItem('echosfera_visited_count'), 10) || 0;
-    window.echoVisitedPoints = count;
-
-    // Обновляем циферблат
-    const counterEl = document.getElementById('echoVisitedCount');
-    if (counterEl) counterEl.innerText = count;
-
-    // Рассчитываем физическую высоту заполнения прямо из SVG
-    const liquidRect = document.getElementById('echoFlaskLiquidRect');
-    if (liquidRect) {
-        // Минимальная высота y = 190 (пустая), максимальная y = 10 (полная)
-        const percent = Math.min(Math.max(count / 30, 0), 1);
-        const newY = 190 - (percent * 180);
-        const newHeight = percent * 180;
-
-        liquidRect.setAttribute('y', newY);
-        liquidRect.setAttribute('height', newHeight);
-    }
-}
-
-
-async function addEchosferaPoint(delta) {
-    let count = parseInt(window.echoVisitedPoints, 10) || 0;
-    count = Math.min(Math.max(count + delta, 0), 30);
-
-    window.echoVisitedPoints = count;
-    localStorage.setItem('echosfera_visited_count', count);
-    updateEchosferaFlaskUI();
-
-    // Синхронизация с Supabase
-    if (typeof supabase !== 'undefined' && supabase) {
-        try {
-            const user = supabase.auth.user ? supabase.auth.user() : (await supabase.auth.getUser())?.data?.user;
-            if (user && user.id) {
-                await supabase
-                    .from('echosfera_progress')
-                    .upsert({ user_id: user.id, visited_points_count: count, updated_at: new Date() });
+        // Безопасное получение количества пройденных точек
+        function getEchoVisitedCount() {
+            let val = parseInt(window.echoVisitedPoints, 10);
+            if (isNaN(val)) {
+                val = parseInt(localStorage.getItem('echosfera_visited_count'), 10);
             }
-        } catch (err) {
-            console.log('Supabase sync note:', err);
+            if (isNaN(val)) {
+                val = 0;
+            }
+            window.echoVisitedPoints = val;
+            return val;
         }
-    }
-}
+
+        // Обновление интерфейса колбы
+        function updateEchosferaFlaskUI() {
+            let count = parseInt(window.echoVisitedPoints, 10);
+            if (isNaN(count)) count = parseInt(localStorage.getItem('echosfera_visited_count'), 10) || 0;
+            window.echoVisitedPoints = count;
+
+            // Обновляем циферблат
+            const counterEl = document.getElementById('echoVisitedCount');
+            if (counterEl) counterEl.innerText = count;
+
+            // Рассчитываем физическую высоту заполнения прямо из SVG
+            const liquidRect = document.getElementById('echoFlaskLiquidRect');
+            if (liquidRect) {
+                // Минимальная высота y = 190 (пустая), максимальная y = 10 (полная)
+                const percent = Math.min(Math.max(count / 30, 0), 1);
+                const newY = 190 - (percent * 180);
+                const newHeight = percent * 180;
+
+                liquidRect.setAttribute('y', newY);
+                liquidRect.setAttribute('height', newHeight);
+            }
+        }
 
 
-async function loadEchosferaProgress() {
-    let count = parseInt(localStorage.getItem('echosfera_visited_count'), 10) || 0;
+        async function addEchosferaPoint(delta) {
+            let count = parseInt(window.echoVisitedPoints, 10) || 0;
+            count = Math.min(Math.max(count + delta, 0), 30);
 
-    if (typeof supabase !== 'undefined' && supabase) {
-        try {
-            const user = supabase.auth.user ? supabase.auth.user() : (await supabase.auth.getUser())?.data?.user;
-            if (user && user.id) {
-                const { data } = await supabase
-                    .from('echosfera_progress')
-                    .select('visited_points_count')
-                    .eq('user_id', user.id)
-                    .single();
+            window.echoVisitedPoints = count;
+            localStorage.setItem('echosfera_visited_count', count);
+            updateEchosferaFlaskUI();
 
-                if (data && data.visited_points_count !== undefined) {
-                    count = data.visited_points_count;
-                    localStorage.setItem('echosfera_visited_count', count);
+            // Синхронизация с Supabase
+            if (typeof supabase !== 'undefined' && supabase) {
+                try {
+                    const user = supabase.auth.user ? supabase.auth.user() : (await supabase.auth.getUser())?.data?.user;
+                    if (user && user.id) {
+                        await supabase
+                            .from('echosfera_progress')
+                            .upsert({user_id: user.id, visited_points_count: count, updated_at: new Date()});
+                    }
+                } catch (err) {
+                    console.log('Supabase sync note:', err);
                 }
             }
-        } catch (err) {
-            console.log('Supabase load note:', err);
         }
+
+
+        async function loadEchosferaProgress() {
+            let count = parseInt(localStorage.getItem('echosfera_visited_count'), 10) || 0;
+
+            if (typeof supabase !== 'undefined' && supabase) {
+                try {
+                    const user = supabase.auth.user ? supabase.auth.user() : (await supabase.auth.getUser())?.data?.user;
+                    if (user && user.id) {
+                        const {data} = await supabase
+                            .from('echosfera_progress')
+                            .select('visited_points_count')
+                            .eq('user_id', user.id)
+                            .single();
+
+                        if (data && data.visited_points_count !== undefined) {
+                            count = data.visited_points_count;
+                            localStorage.setItem('echosfera_visited_count', count);
+                        }
+                    }
+                } catch (err) {
+                    console.log('Supabase load note:', err);
+                }
+            }
+
+            window.echoVisitedPoints = count;
+            updateEchosferaFlaskUI();
+        }
+
+        // Запуск загрузки прогресса при старте страницы
+        document.addEventListener('DOMContentLoaded', loadEchosferaProgress);
+
+
+        // 2. ДИНАМИЧЕСКОЕ ПРЕВЬЮ ИЗОБРАЖЕНИЙ ДЛЯ ГОЛОСОВЫХ ПАМЯТОК
+// Вызывай эту функцию при клике на выбор уровня комфорта
+function selectVoiceMemoLevel(levelKey) {
+    // levelKey может быть: 'unilo', 'soidet', 'uitno', 'volshebno', 'nezabivaemo'
+    const imgElement = document.getElementById('voiceMemoPreviewImg');
+    const badgeElement = document.getElementById('voiceMemoPreviewBadge');
+    
+    if (!imgElement) return;
+
+    let fileName = 'unilo.webp';
+    let labelText = 'Уныло';
+
+    switch(levelKey) {
+        case 'unilo':
+            fileName = 'unilo.webp';
+            labelText = '🌧 Уныло';
+            break;
+        case 'soidet':
+            fileName = 'soidet.webp';
+            labelText = '🚶‍♂️ Сойдет';
+            break;
+        case 'uitno':
+            fileName = 'uitno.webp';
+            labelText = '☕️ Уютно';
+            break;
+        case 'volshebno':
+            fileName = 'volshebno.webp';
+            labelText = '✨ Волшебно';
+            break;
+        case 'nezabivaemo':
+            fileName = 'nezabivaemo.webp';
+            labelText = '🔥 Незабываемо';
+            break;
+        default:
+            fileName = 'unilo.webp';
+            labelText = '🌧 Уныло';
     }
 
-    window.echoVisitedPoints = count;
-    updateEchosferaFlaskUI();
+    // Плавная смена картинки с легким эффектом затухания
+    imgElement.style.opacity = '0.3';
+    setTimeout(() => {
+        imgElement.src = fileName;
+        imgElement.style.opacity = '1';
+    }, 150);
+
+    if (badgeElement) {
+        badgeElement.innerText = labelText;
+    }
+
+    // Сохраняем выбор уровня в localStorage
+    localStorage.setItem('terracore_selected_voice_level', levelKey);
 }
 
-// Запуск загрузки прогресса при старте страницы
-document.addEventListener('DOMContentLoaded', loadEchosferaProgress);
-
+// Автоматический запуск проверки при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    updateTerracoreFlasksVisuals();
+    
+    // Восстанавливаем сохраненный уровень голосовой памятки если был
+    const savedLevel = localStorage.getItem('terracore_selected_voice_level') || 'unilo';
+    selectVoiceMemoLevel(savedLevel);
+});
 
     </script>
 
@@ -22212,28 +22476,29 @@ document.addEventListener('DOMContentLoaded', loadEchosferaProgress);
    🌌 ИКОНКА МОДУЛЯ «ЭХОСФЕРА» (СЛЕВА ОТ КОЛБ TERRACOR)
    ========================================================================== -->
         <!-- ИКОНКА «ЭХОСФЕРА» С НЕПЕРЕСЕКАЮЩИМИСЯ ИДЕАЛЬНЫМИ 3D-СФЕРАМИ -->
-<div class="echosfera-trigger-box" onclick="openEchosferaModal()">
-    <div class="echosfera-orbit-container">
-        <!-- 3 Независимых кольца -->
-        <div class="echo-ring echo-ring-green"></div>
-        <div class="echo-ring echo-ring-purple"></div>
-        <div class="echo-ring echo-ring-black"></div>
+        <div class="echosfera-trigger-box" onclick="openEchosferaModal()">
+            <div class="echosfera-orbit-container">
+                <!-- 3 Независимых кольца -->
+                <div class="echo-ring echo-ring-green"></div>
+                <div class="echo-ring echo-ring-purple"></div>
+                <div class="echo-ring echo-ring-black"></div>
 
-        <!-- 3 Идеально круглых 3D-шара -->
-        <div class="echo-sphere sphere-green" title="Спокойствие и комфорт"></div>
-        <div class="echo-sphere sphere-purple" title="Мистика и вдохновение"></div>
-        <div class="echo-sphere sphere-black" title="Страх и ужас"></div>
+                <!-- 3 Идеально круглых 3D-шара -->
+                <div class="echo-sphere sphere-green" title="Спокойствие и комфорт"></div>
+                <div class="echo-sphere sphere-purple" title="Мистика и вдохновение"></div>
+                <div class="echo-sphere sphere-black" title="Страх и ужас"></div>
 
-        <!-- Летающая иконка карты в центре -->
-        <svg class="echo-svg-map" viewBox="0 0 24 24" fill="none" stroke="#00f0ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="1 6 1 22 8 18 15 22 23 18 23 2 15 6 8 2 1 6"></polygon>
-            <line x1="8" y1="2" x2="8" y2="18"></line>
-            <line x1="15" y1="6" x2="15" y2="22"></line>
-            <circle cx="11.5" cy="10.5" r="2.5" fill="#ff2a5f" stroke="#ffffff" stroke-width="1"></circle>
-        </svg>
-    </div>
-    <div class="echo-label-title">ЭХОСФЕРА</div>
-</div>
+                <!-- Летающая иконка карты в центре -->
+                <svg class="echo-svg-map" viewBox="0 0 24 24" fill="none" stroke="#00f0ff" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="1 6 1 22 8 18 15 22 23 18 23 2 15 6 8 2 1 6"></polygon>
+                    <line x1="8" y1="2" x2="8" y2="18"></line>
+                    <line x1="15" y1="6" x2="15" y2="22"></line>
+                    <circle cx="11.5" cy="10.5" r="2.5" fill="#ff2a5f" stroke="#ffffff" stroke-width="1"></circle>
+                </svg>
+            </div>
+            <div class="echo-label-title">ЭХОСФЕРА</div>
+        </div>
 
 
 
@@ -22246,8 +22511,16 @@ document.addEventListener('DOMContentLoaded', loadEchosferaProgress);
                 <div class="tc-torch-wood"></div>
             </div>
 
-            <!-- 🔥 1. БЛОК 3 ГЛАВНЫХ КОЛБ ПОВЕРХ ВКЛАДОК -->
-            <div class="tc-main-summary-flasks-row">
+                       <!-- 🔥 1. БЛОК 3 ГЛАВНЫХ КОЛБ ПОВЕРХ ВКЛАДОК -->
+            <div class="tc-main-summary-flasks-row" style="display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;">
+
+                <!-- 🖼 ДИНАМИЧЕСКИЕ КАРТИНКИ ПЕРСОНАЖЕЙ (СЛЕВА ОТ КОЛБ) -->
+                <!-- ОДНА ЕДИНСТВЕННАЯ КАРТИНКА ПЕРСОНАЖА СЛЕВА ОТ КОЛБ -->
+<div class="terracore-flasks-visual-wrapper" style="margin: 0; flex-shrink: 0;">
+    <img id="terracoreFlaskSingleImg" class="terracore-dynamic-flask-img" src="colbi1.webp" alt="Статус колб TerraCor">
+</div>
+
+
                 <!-- КОЛБА 1: ГОРОД -->
                 <div class="tc-summary-flask-card">
                     <div class="tc-city-flask-stage">
@@ -22292,11 +22565,12 @@ document.addEventListener('DOMContentLoaded', loadEchosferaProgress);
                         </div>
                     </div>
                     <div id="tc-quest-percent-val" class="tc-city-percent">0%</div>
-                    
+
                     <div class="tc-city-label">КВЕСТЫ</div>
                 </div>
 
             </div>
+
 
 
 
@@ -22322,6 +22596,7 @@ document.addEventListener('DOMContentLoaded', loadEchosferaProgress);
             <div id="tc-tab-content-map" class="tc-tab-content active">
                 <div class="tc-underground-header">
                     <h3>🏛 КАРТА ГОРОДСКИХ РАЙОНОВ</h3>
+                    <img class="terracore-tab-banner-img" src="gorod.webp" alt="Карта районов Чебоксар">
                 </div>
                 <div id="terracore-districts-list" class="tc-districts-grid"></div>
             </div>
@@ -22330,6 +22605,7 @@ document.addEventListener('DOMContentLoaded', loadEchosferaProgress);
             <div id="tc-tab-content-pp" class="tc-tab-content" style="display: none;">
                 <div class="tc-underground-header">
                     <h3>🔮 ИГРА «ПРАВДА ИЛИ ПРАВДА»</h3>
+                    <img class="terracore-tab-banner-img" src="pp.webp" alt="Правда или правда">
                     <p class="tc-pp-subtitle">200 глубоких вопросов для исследования души и мира</p>
                 </div>
                 <div id="tc-pp-questions-list" class="tc-pp-grid-full"></div>
@@ -22339,6 +22615,7 @@ document.addEventListener('DOMContentLoaded', loadEchosferaProgress);
             <div id="tc-tab-content-roulette" class="tc-tab-content" style="display: none;">
                 <div class="tc-underground-header">
                     <h3>🎲 ГОРОДСКОЙ РАНДОМАЙЗЕР</h3>
+                    <img class="terracore-tab-banner-img" src="transport.webp" alt="Городской рандомайзер">
                     <p class="tc-pp-subtitle">Интерактивный маршрут исследований без карт и навигаторов</p>
                 </div>
 
@@ -22355,32 +22632,41 @@ document.addEventListener('DOMContentLoaded', loadEchosferaProgress);
                 </div>
 
                 <div class="tc-voice-module-box">
-                    <!-- БЛОК ЗАПИСИ (СНАЧАЛА ТОЛЬКО КНОПКА "СДЕЛАТЬ ПАМЯТКУ") -->
+                    <!-- БЛОК ЗАПИСИ -->
                     <div class="tc-voice-record-card">
                         <!-- Начальная кнопка -->
                         <button id="tc-start-memo-btn" class="tc-start-quest-btn" onclick="tcShowRecordInterface()">
-                            🎙️ СДЕЛАТЬ ПАМЯТКУ
+                            🎙 СДЕЛАТЬ ПАМЯТКУ
                         </button>
 
                         <!-- Скрытый блок выбора комфорта и записи -->
                         <div id="tc-record-interface" style="display: none;">
+
+                            <!-- 🖼 НАШ ВИДЖЕТ ПРЕВЬЮ КАРТИНОК -->
+                            <div class="voice-memo-preview-container">
+                                <img id="voiceMemoPreviewImg" class="voice-memo-preview-img" src="nezabivaemo.webp"
+                                    alt="Превью уровня комфорта">
+                            </div>
+
                             <div class="tc-comfort-select-title">Как прошел ваш вечер? Выберите уровень комфорта:</div>
+
                             <div class="tc-comfort-selector-row">
-                                <button type="button" class="tc-comfort-btn level-1" onclick="tcSetComfort(1)">1.
-                                    Уныло</button>
-                                <button type="button" class="tc-comfort-btn level-2" onclick="tcSetComfort(2)">2.
-                                    Сойдет</button>
-                                <button type="button" class="tc-comfort-btn level-3" onclick="tcSetComfort(3)">3.
-                                    Уютно</button>
-                                <button type="button" class="tc-comfort-btn level-4" onclick="tcSetComfort(4)">4.
-                                    Волшебно</button>
-                                <button type="button" class="tc-comfort-btn level-5 active" onclick="tcSetComfort(5)">5.
+                                <button type="button" class="tc-comfort-btn level-1"
+                                    onclick="selectVoiceMemoLevel('unilo'); tcSetComfort(1);">1. Уныло</button>
+                                <button type="button" class="tc-comfort-btn level-2"
+                                    onclick="selectVoiceMemoLevel('soidet'); tcSetComfort(2);">2. Сойдет</button>
+                                <button type="button" class="tc-comfort-btn level-3"
+                                    onclick="selectVoiceMemoLevel('uitno'); tcSetComfort(3);">3. Уютно</button>
+                                <button type="button" class="tc-comfort-btn level-4"
+                                    onclick="selectVoiceMemoLevel('volshebno'); tcSetComfort(4);">4. Волшебно</button>
+                                <button type="button" class="tc-comfort-btn level-5 active"
+                                    onclick="selectVoiceMemoLevel('nezabivaemo'); tcSetComfort(5);">5.
                                     Незабываемо</button>
                             </div>
 
                             <div class="tc-voice-controls">
                                 <button id="tc-mic-record-btn" class="tc-mic-btn" onclick="tcToggleRecord()">
-                                    <span>🎙️</span> <span id="tc-mic-btn-text">Начать запись ГС</span>
+                                    <span>🎙</span> <span id="tc-mic-btn-text">Начать запись ГС</span>
                                 </button>
                                 <div id="tc-voice-timer" class="tc-voice-timer">00:00</div>
                                 <button type="button" class="tc-cancel-memo-btn"
@@ -22388,6 +22674,7 @@ document.addEventListener('DOMContentLoaded', loadEchosferaProgress);
                             </div>
                         </div>
                     </div>
+
 
                     <!-- СПИСОК СОХРАНЕННЫХ КАРТОЧЕК -->
                     <div class="tc-voice-history-header">🏛 Сохранённые голосовые заметки:</div>
@@ -22427,22 +22714,43 @@ document.addEventListener('DOMContentLoaded', loadEchosferaProgress);
                 </div>
 
                 <!-- КНОПКИ УРОВНЕЙ С SVG-ИКОНКАМИ -->
-<div class="echosfera-tags-bar">
-    <button type="button" class="echo-tag-btn tag-green active" data-echo-category="green" onclick="selectEchosferaCategory('green')">
-        <svg class="echo-tag-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.4 19 2c1 2 2 4.1 2 7 0 6-4.5 11-10 11z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>
-        Спокойствие и комфорт
-    </button>
+                <div class="echosfera-tags-bar">
+                    <button type="button" class="echo-tag-btn tag-green active" data-echo-category="green"
+                        onclick="selectEchosferaCategory('green')">
+                        <svg class="echo-tag-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.4 19 2c1 2 2 4.1 2 7 0 6-4.5 11-10 11z">
+                            </path>
+                            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                        </svg>
+                        Спокойствие и комфорт
+                    </button>
 
-    <button type="button" class="echo-tag-btn tag-purple" data-echo-category="purple" onclick="selectEchosferaCategory('purple')">
-        <svg class="echo-tag-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-        Мистика и вдохновение
-    </button>
+                    <button type="button" class="echo-tag-btn tag-purple" data-echo-category="purple"
+                        onclick="selectEchosferaCategory('purple')">
+                        <svg class="echo-tag-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polygon
+                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                            </polygon>
+                        </svg>
+                        Мистика и вдохновение
+                    </button>
 
-    <button type="button" class="echo-tag-btn tag-black" data-echo-category="black" onclick="selectEchosferaCategory('black')">
-        <svg class="echo-tag-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="12" r="1"></circle><circle cx="15" cy="12" r="1"></circle><path d="M8 20v2h8v-2"></path><path d="M12 2a7 7 0 0 0-7 7c0 3 2 5 3.5 7.5S10 20 12 20s3.5-1 5-3.5S20 12 20 9a7 7 0 0 0-7-7z"></path></svg>
-        Страх и ужас
-    </button>
-</div>
+                    <button type="button" class="echo-tag-btn tag-black" data-echo-category="black"
+                        onclick="selectEchosferaCategory('black')">
+                        <svg class="echo-tag-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="9" cy="12" r="1"></circle>
+                            <circle cx="15" cy="12" r="1"></circle>
+                            <path d="M8 20v2h8v-2"></path>
+                            <path
+                                d="M12 2a7 7 0 0 0-7 7c0 3 2 5 3.5 7.5S10 20 12 20s3.5-1 5-3.5S20 12 20 9a7 7 0 0 0-7-7z">
+                            </path>
+                        </svg>
+                        Страх и ужас
+                    </button>
+                </div>
 
 
                 <!-- Основная область -->
@@ -22472,17 +22780,22 @@ document.addEventListener('DOMContentLoaded', loadEchosferaProgress);
                     <aside class="echo-side-panel">
 
                         <!-- Блок Бобнит (чистое фото 1400х600 на всю ширину) -->
-<div class="bobnit-walk-card">
-    <img class="bobnit-walk-img" src="bobnit-progulka.webp" alt="Бобнит прогулка web">
-</div>
+                        <div class="bobnit-walk-card">
+                            <img class="bobnit-walk-img" src="bobnit-progulka.webp" alt="Бобнит прогулка web">
+                        </div>
 
-<button id="echoLaunch3dBtn" type="button" onclick="startEchosferaSearch()">
-    <svg class="echo-launch-svg" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2">
-        <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
-        <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-3.05 11a22.35 22.35 0 0 1-3.95 2z"></path>
-    </svg>
-    <span>В ПУТЬ</span>
-</button>
+                        <button id="echoLaunch3dBtn" type="button" onclick="startEchosferaSearch()">
+                            <svg class="echo-launch-svg" viewBox="0 0 24 24" fill="none" stroke="#ffffff"
+                                stroke-width="2.2">
+                                <path
+                                    d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z">
+                                </path>
+                                <path
+                                    d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-3.05 11a22.35 22.35 0 0 1-3.95 2z">
+                                </path>
+                            </svg>
+                            <span>В ПУТЬ</span>
+                        </button>
 
 
 
@@ -22503,50 +22816,58 @@ document.addEventListener('DOMContentLoaded', loadEchosferaProgress);
                         </div>
 
                         <!-- ИЗОГНУТАЯ КОЛБА И УПРАВЛЕНИЕ СЧЕТЧИКОМ -->
-<div class="flask-table-zone">
-    <div class="flask-snake-wrapper">
-        <!-- Пар из горлышка -->
-        <div class="flask-steam-container" aria-hidden="true">
-            <span class="steam-particle" style="left: 4px; animation-delay: 0s;"></span>
-            <span class="steam-particle" style="left: 12px; animation-delay: 0.6s;"></span>
-            <span class="steam-particle" style="left: 20px; animation-delay: 1.2s;"></span>
-        </div>
+                        <div class="flask-table-zone">
+                            <div class="flask-snake-wrapper">
+                                <!-- Пар из горлышка -->
+                                <div class="flask-steam-container" aria-hidden="true">
+                                    <span class="steam-particle" style="left: 4px; animation-delay: 0s;"></span>
+                                    <span class="steam-particle" style="left: 12px; animation-delay: 0.6s;"></span>
+                                    <span class="steam-particle" style="left: 20px; animation-delay: 1.2s;"></span>
+                                </div>
 
-        <!-- Изогнутая колба со слоем заполнения -->
-        <svg class="flask-snake-svg" viewBox="0 0 100 200">
-            <defs>
-                <linearGradient id="echoLiquidGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#ff2a5f"/>
-                    <stop offset="50%" stop-color="#b026ff"/>
-                    <stop offset="100%" stop-color="#4a0080"/>
-                </linearGradient>
+                                <!-- Изогнутая колба со слоем заполнения -->
+                                <svg class="flask-snake-svg" viewBox="0 0 100 200">
+                                    <defs>
+                                        <linearGradient id="echoLiquidGradient" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stop-color="#ff2a5f" />
+                                            <stop offset="50%" stop-color="#b026ff" />
+                                            <stop offset="100%" stop-color="#4a0080" />
+                                        </linearGradient>
 
-                <!-- Маска контура колбы -->
-                <mask id="flaskMask">
-                    <path d="M43 12 C43 25 35 29 39 43 C43 57 27 65 25 82 C23 100 39 107 33 123 C27 140 14 147 18 166 C22 185 42 190 61 184 C80 178 86 163 78 146 C70 129 57 121 64 105 C71 89 87 80 78 62 C70 47 57 43 59 29 L59 12 Z" fill="#ffffff"/>
-                </mask>
-            </defs>
+                                        <!-- Маска контура колбы -->
+                                        <mask id="flaskMask">
+                                            <path
+                                                d="M43 12 C43 25 35 29 39 43 C43 57 27 65 25 82 C23 100 39 107 33 123 C27 140 14 147 18 166 C22 185 42 190 61 184 C80 178 86 163 78 146 C70 129 57 121 64 105 C71 89 87 80 78 62 C70 47 57 43 59 29 L59 12 Z"
+                                                fill="#ffffff" />
+                                        </mask>
+                                    </defs>
 
-            <!-- Фон пустой колбы -->
-            <path d="M43 12 C43 25 35 29 39 43 C43 57 27 65 25 82 C23 100 39 107 33 123 C27 140 14 147 18 166 C22 185 42 190 61 184 C80 178 86 163 78 146 C70 129 57 121 64 105 C71 89 87 80 78 62 C70 47 57 43 59 29 L59 12 Z" fill="rgba(15, 8, 25, 0.85)" stroke="#b026ff" stroke-width="3"/>
+                                    <!-- Фон пустой колбы -->
+                                    <path
+                                        d="M43 12 C43 25 35 29 39 43 C43 57 27 65 25 82 C23 100 39 107 33 123 C27 140 14 147 18 166 C22 185 42 190 61 184 C80 178 86 163 78 146 C70 129 57 121 64 105 C71 89 87 80 78 62 C70 47 57 43 59 29 L59 12 Z"
+                                        fill="rgba(15, 8, 25, 0.85)" stroke="#b026ff" stroke-width="3" />
 
-            <!-- Жидкость, растущая снизу вверх -->
-            <rect id="echoFlaskLiquidRect" x="0" y="190" width="100" height="0" fill="url(#echoLiquidGradient)" mask="url(#flaskMask)" style="transition: all 0.5s ease;"/>
-        </svg>
-    </div>
+                                    <!-- Жидкость, растущая снизу вверх -->
+                                    <rect id="echoFlaskLiquidRect" x="0" y="190" width="100" height="0"
+                                        fill="url(#echoLiquidGradient)" mask="url(#flaskMask)"
+                                        style="transition: all 0.5s ease;" />
+                                </svg>
+                            </div>
 
-    <div class="flask-2d-table"></div>
+                            <div class="flask-2d-table"></div>
 
-    <div class="flask-counter-badge">
-        <span id="echoVisitedCount">0</span> / 30 точек
-    </div>
+                            <div class="flask-counter-badge">
+                                <span id="echoVisitedCount">0</span> / 30 точек
+                            </div>
 
-    <!-- Кнопки +1 и -1 -->
-    <div style="display: flex; gap: 8px; width: 100%; margin-top: 8px;">
-        <button type="button" class="flask-add-point-btn" onclick="addEchosferaPoint(1)">+ Добавить</button>
-        <button type="button" class="flask-remove-point-btn" onclick="addEchosferaPoint(-1)">− Убрать</button>
-    </div>
-</div>
+                            <!-- Кнопки +1 и -1 -->
+                            <div style="display: flex; gap: 8px; width: 100%; margin-top: 8px;">
+                                <button type="button" class="flask-add-point-btn" onclick="addEchosferaPoint(1)">+
+                                    Добавить</button>
+                                <button type="button" class="flask-remove-point-btn" onclick="addEchosferaPoint(-1)">−
+                                    Убрать</button>
+                            </div>
+                        </div>
 
 
                     </aside>
