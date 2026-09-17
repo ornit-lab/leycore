@@ -11169,12 +11169,14 @@
     gap: 15px;
 }
 
-.echo-search-webp {
-    width: 160px;
-    height: 160px;
-    object-fit: contain;
-    animation: pulseSearch 1.5s infinite alternate ease-in-out;
-}
+   .echo-search-webp {
+       width: 195px;
+       height: 195px;
+       object-fit: contain;
+       animation: pulseSearch 1.5s infinite alternate ease-in-out;
+   }
+   
+
 
 .echo-search-text {
     font-family: 'Unbounded', sans-serif;
@@ -11300,6 +11302,90 @@
     width: 100%; height: 100%;
     pointer-events: none;
     z-index: 999;
+}
+
+
+/* Правая панель со скроллом */
+.echo-side-panel {
+    padding: 18px;
+    background: rgba(12, 6, 22, 0.85);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto !important; /* Разрешаем скролл */
+    max-height: 100%;
+}
+
+/* Защита картинки Бобнита от сжатия */
+.bobnit-walk-card {
+    width: 100%;
+    flex-shrink: 0 !important; /* Запрещает сжимать блок! */
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: 14px;
+    overflow: hidden;
+    padding: 0;
+    background: transparent;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+}
+
+.bobnit-walk-img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    display: block;
+    flex-shrink: 0;
+}
+
+
+
+/* Иконки в кнопках уровней */
+.echo-tag-svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+/* Настоящая 3D-кнопка "В ПУТЬ" */
+.echo-launch-action-btn-3d {
+    width: 100%;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #ff9900 0%, #ff5500 100%);
+    border: none;
+    border-radius: 14px;
+    color: #ffffff;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 900;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    
+    /* 3D-эффект объема и тени */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 0 #b33600, 0 12px 25px rgba(255, 85, 0, 0.5);
+    transition: all 0.15s ease-in-out;
+}
+
+.echo-launch-action-btn-3d:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 0 #b33600, 0 16px 30px rgba(255, 85, 0, 0.7);
+    background: linear-gradient(135deg, #ffaa00 0%, #ff6600 100%);
+}
+
+.echo-launch-action-btn-3d:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 0 #b33600, 0 5px 12px rgba(255, 85, 0, 0.4);
+}
+
+.echo-launch-svg {
+    width: 22px;
+    height: 22px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
 }
 
 
@@ -21413,12 +21499,12 @@ window.ECHOSFERA_POINTS = [
                 maxBoundsViscosity: 0.8
             });
 
-            // Тёмный стиль карты CartoDB Dark Matter
-            // Чистая темная карта Esri без надписей и водяных знаков
-L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+           L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
     maxZoom: 18,
+    maxNativeZoom: 16, // Лечит ошибку "data not available" при глубоком зуме!
     attribution: '&copy; LeyCore Echosfera'
 }).addTo(echoMap);
+
 
 
         }
@@ -21665,7 +21751,7 @@ function startEchosferaSearch() {
                 .bindPopup(`<b style="color:#000;">${selectedPoint.name}</b><br><span style="color:#333;font-size:0.8rem;">${selectedPoint.desc}</span>`)
                 .openPopup();
         }
-    }, 5000);
+    }, 10000);
 }
 
        // Безопасное получение количества пройденных точек
@@ -22279,25 +22365,30 @@ document.addEventListener('DOMContentLoaded', loadEchosferaProgress);
                     </button>
                 </div>
 
-                <!-- Кнопки эмоциональных состояний -->
-                <div class="echosfera-tags-bar">
+                <!-- КНОПКИ УРОВНЕЙ С SVG-ИКОНКАМИ -->
+<div class="echosfera-tags-bar">
+    <button type="button" class="echo-tag-btn tag-green active" data-echo-category="green" onclick="selectEchosferaCategory('green')">
+        <svg class="echo-tag-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.4 19 2c1 2 2 4.1 2 7 0 6-4.5 11-10 11z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>
+        Спокойствие и комфорт
+    </button>
 
-                    <button type="button" class="echo-tag-btn tag-green active" data-echo-category="green"
-                        onclick="selectEchosferaCategory('green')">
-                        🌿 Спокойствие и комфорт
-                    </button>
+    <button type="button" class="echo-tag-btn tag-purple" data-echo-category="purple" onclick="selectEchosferaCategory('purple')">
+        <svg class="echo-tag-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        Мистика и вдохновение
+    </button>
 
-                    <button type="button" class="echo-tag-btn tag-purple" data-echo-category="purple"
-                        onclick="selectEchosferaCategory('purple')">
-                        🔮 Мистика и вдохновение
-                    </button>
+    <button type="button" class="echo-tag-btn tag-black" data-echo-category="black" onclick="selectEchosferaCategory('black')">
+        <svg class="echo-tag-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="12" r="1"></circle><circle cx="15" cy="12" r="1"></circle><path d="M8 20v2h8v-2"></path><path d="M12 2a7 7 0 0 0-7 7c0 3 2 5 3.5 7.5S10 20 12 20s3.5-1 5-3.5S20 12 20 9a7 7 0 0 0-7-7z"></path></svg>
+        Страх и ужас
+    </button>
+</div>
 
-                    <button type="button" class="echo-tag-btn tag-black" data-echo-category="black"
-                        onclick="selectEchosferaCategory('black')">
-                        ⚫ Страх и ужас
-                    </button>
+<!-- ОБЪЕМНАЯ 3D-КНОПКА «В ПУТЬ» -->
+<button type="button" class="echo-launch-action-btn-3d" onclick="startEchosferaSearch()">
+    <svg class="echo-launch-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-3.05 11a22.35 22.35 0 0 1-3.95 2z"></path></svg>
+    <span>В ПУТЬ</span>
+</button>
 
-                </div>
 
                 <!-- Основная область -->
                 <div class="echosfera-main-grid">
@@ -22331,10 +22422,6 @@ document.addEventListener('DOMContentLoaded', loadEchosferaProgress);
 </div>
 
 
-                        <!-- Кнопка запуска -->
-                        <button type="button" class="echo-launch-action-btn" onclick="startEchosferaSearch()">
-                            🚀 В путь
-                        </button>
 
                         <!-- Информация о найденной точке -->
                         <div id="echoResultCard" class="rando-result-card" style="display: none;">
