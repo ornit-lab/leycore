@@ -7853,44 +7853,6 @@
             margin-bottom: 40px;
         }
 
-        /* 🔥 ФАКЕЛ ТОЛЬКО В ПОДВАЛЕ */
-        .tc-right-torch {
-            position: absolute;
-            right: 40px;
-            top: 120px;
-            z-index: 12;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            pointer-events: none;
-        }
-
-        .tc-torch-fire {
-            font-size: 3.8rem;
-            margin-bottom: -15px;
-            animation: torchFlicker 0.15s infinite alternate;
-            filter: drop-shadow(0 -5px 18px #ff6600);
-        }
-
-        .tc-torch-wood {
-            width: 16px;
-            height: 110px;
-            background: linear-gradient(to right, #2a1503, #5a300a, #1a0b01);
-            border-radius: 2px 2px 6px 6px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.9);
-        }
-
-        @keyframes torchFlicker {
-            0% {
-                transform: scale(1) rotate(-2deg);
-                opacity: 0.9;
-            }
-
-            100% {
-                transform: scale(1.15) rotate(2deg);
-                opacity: 1;
-            }
-        }
 
         /* ==========================================================================
    🧪 КОЛБОЧКИ СНАРУЖИ СЛЕВА ОТ КАРТОЧЕК РАЙОНОВ
@@ -11609,6 +11571,65 @@
     font-size: 0.65rem !important;
     padding: 3px 8px !important;
 }
+
+
+/* === МОБИЛЬНАЯ АДАПТАЦИЯ ТЕРРАКОРА === */
+@media (max-width: 768px) {
+    
+    /* 1. Главный ряд: ставим персонажа сверху, колбы снизу */
+    .tc-main-summary-flasks-row {
+        flex-direction: column !important; /* Элементы один под другим */
+        gap: 20px !important;
+        align-items: center !important;
+    }
+
+    /* Персонаж растягивается в длину по горизонтали */
+    .terracore-dynamic-flask-img {
+        width: 95% !important; /* Почти на всю ширину экрана */
+        height: auto !important;
+        aspect-ratio: 14 / 7 !important; /* Сохраняем широкий формат */
+        max-height: 180px !important;
+    }
+
+    /* Контейнер с 3 колбами под картинкой */
+    .tc-main-summary-flasks-row > div:last-child {
+        display: flex !important;
+        flex-direction: row !important; /* Колбы в одну линию */
+        justify-content: center !important;
+        gap: 10px !important; /* Уменьшаем зазор, чтобы влезли */
+        width: 100% !important;
+    }
+
+    /* Сами карточки колб делаем чуть компактнее, чтобы не переносились */
+    .tc-summary-flask-card {
+        transform: scale(0.9) !important; /* Немного уменьшаем масштаб колб */
+        margin: -5px !important; /* Компенсируем уменьшение масштаба */
+    }
+
+    /* 2. Превью в голосовых памятках (делаем КРУПНЫМИ на мобилке) */
+    .voice-memo-preview-container {
+        width: 92% !important; /* Увеличили значительно, чтобы было видно детали */
+        max-width: 100% !important;
+        aspect-ratio: 14 / 7 !important;
+        margin: 10px auto !important;
+    }
+
+    /* 3. Остальные баннеры на вкладках тоже подтягиваем */
+    .terracore-tab-banner-img {
+        width: 92% !important;
+        height: auto !important;
+        aspect-ratio: 14 / 7 !important;
+    }
+}
+
+/* Фикс для совсем узких экранов (меньше 400px), чтобы колбы не падали */
+@media (max-width: 400px) {
+    .tc-summary-flask-card {
+        transform: scale(0.8) !important;
+        gap: 5px !important;
+    }
+}
+
 
     </style>
 
