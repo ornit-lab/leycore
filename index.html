@@ -11152,47 +11152,42 @@
             box-shadow: 0 0 12px #00ff66;
         }
 
-        /* === 6. ЭКРАН 5-СЕКУНДНОГО ПОИСКА === */
-        .echo-search-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(8, 4, 16, 0.95);
-            z-index: 100;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
+       /* Экран 5-секундного поиска поверх карты */
+.echo-search-overlay {
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%; 
+    height: 100%;
+    background: rgba(8, 4, 16, 0.92);
+    backdrop-filter: blur(8px);
+    z-index: 99999; /* Гарантирует, что плашка перекроет карту */
+    display: none; /* Скрыт по умолчанию */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
 
-        .echo-search-webp {
-            width: 140px;
-            height: 140px;
-            object-fit: contain;
-            animation: pulseSearch 1.5s infinite alternate;
-        }
+.echo-search-webp {
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
+    animation: pulseSearch 1.5s infinite alternate ease-in-out;
+}
 
-        .echo-search-text {
-            font-family: 'Unbounded', sans-serif;
-            font-size: 1rem;
-            color: #00f0ff;
-            text-shadow: 0 0 12px #00f0ff;
-        }
+.echo-search-text {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.95rem;
+    color: #00f0ff;
+    text-shadow: 0 0 12px #00f0ff;
+}
 
-        @keyframes pulseSearch {
-            0% {
-                transform: scale(0.95);
-                filter: drop-shadow(0 0 10px #00f0ff);
-            }
+@keyframes pulseSearch {
+    0% { transform: scale(0.92); filter: drop-shadow(0 0 10px #00f0ff); }
+    100% { transform: scale(1.08); filter: drop-shadow(0 0 25px #b026ff); }
+}
 
-            100% {
-                transform: scale(1.05);
-                filter: drop-shadow(0 0 25px #b026ff);
-            }
-        }
 
         /* Холст для частичек */
         #echoParticlesCanvas {
