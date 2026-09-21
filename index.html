@@ -11655,6 +11655,109 @@
 }
 
 
+/* ==========================================================================
+   🌐 СТИЛИ ДЛЯ ПК (ДЕКТОП): ПЛОТНЫЙ И МОНОЛИТНЫЙ РЯД
+   ========================================================================== */
+.tc-main-summary-flasks-row {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 20px !important;
+    flex-wrap: nowrap !important; /* ЗАПРЕЩАЕМ переносы на ПК, чтобы не размазывало! */
+    width: 100% !important;
+    max-width: 1100px !important;
+    margin: 0 auto !important;
+}
+
+/* Картинка персонажа слева от колб на ПК */
+.terracore-dynamic-flask-img {
+    width: 220px !important;
+    height: 140px !important;
+    object-fit: cover !important;
+    border-radius: 14px !important;
+    border: 2px solid rgba(0, 240, 255, 0.4) !important;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2) !important;
+    flex-shrink: 0 !important;
+}
+
+/* Контейнер 3 колб на ПК */
+#tc-mobile-flasks-row {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    gap: 15px !important;
+    flex-shrink: 0 !important;
+}
+
+/* Баннеры на вкладках для ПК (город, pp, transport) */
+.terracore-tab-banner-img {
+    width: 40% !important;
+    max-width: 500px !important;
+    aspect-ratio: 14 / 6 !important;
+    object-fit: cover !important;
+    border-radius: 12px !important;
+    margin: 10px auto 20px auto !important;
+    display: block !important;
+}
+
+
+/* ==========================================================================
+   📱 МОБИЛЬНАЯ АДАПТАЦИЯ (ТЕЛЕФОНЫ И ПЛАНШЕТЫ ДО 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+    
+    /* На мобилке элементы идут друг под другом */
+    .tc-main-summary-flasks-row {
+        flex-direction: column !important;
+        flex-wrap: wrap !important;
+        gap: 12px !important;
+    }
+
+    /* Картинка персонажа сверху на мобилке */
+    .terracore-dynamic-flask-img {
+        width: 92% !important;
+        max-width: 350px !important;
+        height: auto !important;
+        aspect-ratio: 14 / 7 !important;
+        margin: 0 auto !important;
+    }
+
+    /* 3 колбы в ряд под картинкой */
+    #tc-mobile-flasks-row {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: flex-end !important;
+        gap: 8px !important;
+        width: 100% !important;
+    }
+
+    /* Компактный размер колб для мобильного экрана */
+    .tc-summary-flask-card {
+        transform: scale(0.85) !important;
+        margin: -12px !important;
+    }
+
+    /* 🔥 ВОЗВРАЩАЕМ КРУПНЫЙ РАЗМЕР КАРТИНКАМ НА ВКЛАДКАХ НА МОБИЛКЕ */
+    .terracore-tab-banner-img {
+        width: 92% !important; /* Почти во всю ширину экрана телефона */
+        max-width: 100% !important;
+        aspect-ratio: 14 / 7 !important;
+        margin: 12px auto !important;
+    }
+
+    /* Превью в голосовых памятках тоже делаем крупными */
+    .voice-memo-preview-container {
+        width: 92% !important;
+        max-width: 100% !important;
+        aspect-ratio: 14 / 7 !important;
+        margin: 12px auto !important;
+    }
+}
+
+
 
     </style>
 
@@ -22557,65 +22660,69 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="tc-torch-wood"></div>
             </div>
 
-                       <!-- 🔥 1. БЛОК 3 ГЛАВНЫХ КОЛБ ПОВЕРХ ВКЛАДОК -->
-            <div class="tc-main-summary-flasks-row" style="display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;">
+            <!-- 🔥 1. БЛОК 3 ГЛАВНЫХ КОЛБ ПОВЕРХ ВКЛАДОК -->
+<div class="tc-main-summary-flasks-row" style="display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;">
 
-                <!-- 🖼 ДИНАМИЧЕСКИЕ КАРТИНКИ ПЕРСОНАЖЕЙ (СЛЕВА ОТ КОЛБ) -->
-                <!-- ОДНА ЕДИНСТВЕННАЯ КАРТИНКА ПЕРСОНАЖА СЛЕВА ОТ КОЛБ -->
-<div class="terracore-flasks-visual-wrapper" style="margin: 0; flex-shrink: 0;">
-    <img id="terracoreFlaskSingleImg" class="terracore-dynamic-flask-img" src="colbi1.webp" alt="Статус колб TerraCor">
+    <!-- 🖼 ОДНА ЕДИНСТВЕННАЯ КАРТИНКА ПЕРСОНАЖА -->
+    <div class="terracore-flasks-visual-wrapper" style="margin: 0; flex-shrink: 0;">
+        <img id="terracoreFlaskSingleImg" class="terracore-dynamic-flask-img" src="colbi1.webp" alt="Статус колб TerraCor">
+    </div>
+
+    <!-- 📱 ТРИ КОЛБЫ, ОБЕРНУТЫЕ В СПЕЦИАЛЬНЫЙ КОНТЕЙНЕР ДЛЯ МОБИЛОК -->
+    <div id="tc-mobile-flasks-row">
+        
+        <!-- КОЛБА 1: ГОРОД -->
+        <div class="tc-summary-flask-card">
+            <div class="tc-city-flask-stage">
+                <div class="tc-city-flask-support support-left"></div>
+                <div class="tc-city-flask-support support-right"></div>
+                <div class="tc-city-flask">
+                    <div id="tc-city-flask-liquid" class="tc-city-flask-liquid" style="height: 0%;"></div>
+                </div>
+            </div>
+            <div id="tc-city-percent-val" class="tc-city-percent">0%</div>
+            <div class="tc-city-label">ГОРОД</div>
+        </div>
+
+        <!-- КОЛБА 2: ПП -->
+        <div class="tc-summary-flask-card">
+            <div class="tc-city-flask-stage">
+                <div class="tc-city-flask-support support-left"></div>
+                <div class="tc-city-flask-support support-right"></div>
+                <div class="tc-city-flask">
+                    <div id="tc-pp-flask-liquid" class="tc-city-flask-liquid" style="height: 0%;"></div>
+                </div>
+            </div>
+            <div id="tc-pp-percent-val" class="tc-city-percent">0%</div>
+            <div class="tc-city-label">ПП</div>
+        </div>
+
+        <!-- КОЛБА 3: КВЕСТЫ (С ВЫРАВНИВАНИЕМ) -->
+        <div class="tc-summary-flask-card">
+            <div class="tc-flask-with-controls">
+                <div class="tc-city-flask-stage">
+                    <div class="tc-city-flask-support support-left"></div>
+                    <div class="tc-city-flask-support support-right"></div>
+                    <div class="tc-city-flask">
+                        <div id="tc-quest-flask-liquid" class="tc-city-flask-liquid" style="height: 0%;"></div>
+                    </div>
+                </div>
+
+                <!-- Кнопки теперь СБОКУ (справа) -->
+                <div class="tc-quest-manual-btns">
+                    <button onclick="incQuestPercent()" title="+25%">+</button>
+                    <button onclick="decQuestPercent()" title="-25%">-</button>
+                </div>
+            </div>
+            <div id="tc-quest-percent-val" class="tc-city-percent">0%</div>
+
+            <div class="tc-city-label">КВЕСТЫ</div>
+        </div>
+
+    </div>
+
 </div>
 
-
-                <!-- КОЛБА 1: ГОРОД -->
-                <div class="tc-summary-flask-card">
-                    <div class="tc-city-flask-stage">
-                        <div class="tc-city-flask-support support-left"></div>
-                        <div class="tc-city-flask-support support-right"></div>
-                        <div class="tc-city-flask">
-                            <div id="tc-city-flask-liquid" class="tc-city-flask-liquid" style="height: 0%;"></div>
-                        </div>
-                    </div>
-                    <div id="tc-city-percent-val" class="tc-city-percent">0%</div>
-                    <div class="tc-city-label">ГОРОД</div>
-                </div>
-
-                <!-- КОЛБА 2: ПП -->
-                <div class="tc-summary-flask-card">
-                    <div class="tc-city-flask-stage">
-                        <div class="tc-city-flask-support support-left"></div>
-                        <div class="tc-city-flask-support support-right"></div>
-                        <div class="tc-city-flask">
-                            <div id="tc-pp-flask-liquid" class="tc-city-flask-liquid" style="height: 0%;"></div>
-                        </div>
-                    </div>
-                    <div id="tc-pp-percent-val" class="tc-city-percent">0%</div>
-                    <div class="tc-city-label">ПП</div>
-                </div>
-
-                <!-- КОЛБА 3: КВЕСТЫ (С ВЫРАВНИВАНИЕМ) -->
-                <div class="tc-summary-flask-card">
-                    <div class="tc-flask-with-controls">
-                        <div class="tc-city-flask-stage">
-                            <div class="tc-city-flask-support support-left"></div>
-                            <div class="tc-city-flask-support support-right"></div>
-                            <div class="tc-city-flask">
-                                <div id="tc-quest-flask-liquid" class="tc-city-flask-liquid" style="height: 0%;"></div>
-                            </div>
-                        </div>
-
-                        <!-- Кнопки теперь СБОКУ (справа) -->
-                        <div class="tc-quest-manual-btns">
-                            <button onclick="incQuestPercent()" title="+25%">+</button>
-                            <button onclick="decQuestPercent()" title="-25%">-</button>
-                        </div>
-                    </div>
-                    <div id="tc-quest-percent-val" class="tc-city-percent">0%</div>
-
-                    <div class="tc-city-label">КВЕСТЫ</div>
-                </div>
-
-            </div>
 
 
 
