@@ -11877,6 +11877,214 @@
 }
 
 
+/* === СВЕРХПЛАВНЫЙ ГЕРОЙСКИЙ ПЕРЕХОД (THUMBNAIL TO FULLSCREEN) === */
+.tc-pano-modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(4, 2, 8, 0);
+    backdrop-filter: blur(0px);
+    z-index: 9999999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    box-sizing: border-box;
+    transition: background 0.5s ease, backdrop-filter 0.5s ease;
+}
+
+/* Эффект плавного размытия и затемнения фона */
+.tc-pano-modal-overlay.active {
+    background: rgba(4, 2, 8, 0.95);
+    backdrop-filter: blur(12px);
+}
+
+/* Модалка: её размеры и плавный переход масштаба */
+.tc-pano-modal-container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    height: 85vh;
+    background: #0d0818;
+    border: 2px solid #00f0ff;
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(0, 240, 255, 0.4), inset 0 0 25px rgba(176, 38, 255, 0.3);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    
+    /* Задаем кривую плавности для перехода */
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: center center;
+}
+
+/* Контент внутри модалки плавно проявляется после завершения растягивания */
+.tc-pano-header, #tcPannellumViewer {
+    opacity: 0;
+    transition: opacity 0.35s ease-in-out;
+}
+
+.tc-pano-modal-overlay.active .tc-pano-header,
+.tc-pano-modal-overlay.active #tcPannellumViewer {
+    opacity: 1;
+}
+
+
+
+/* Единый монолитный блок кнопки места с приклеенной иконкой панорамы */
+.tc-spot-unified-card {
+    display: inline-flex;
+    align-items: stretch;
+    background: rgba(20, 12, 30, 0.7);
+    border: 1px solid rgba(176, 38, 255, 0.3);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.25s ease;
+    margin: 4px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.tc-spot-unified-card:hover {
+    border-color: #b026ff;
+    box-shadow: 0 0 15px rgba(176, 38, 255, 0.4);
+}
+
+.tc-spot-main-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 10px 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-align: left;
+}
+
+.tc-spot-check {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+/* Правая фиолетовая неоновая иконка панорамы */
+.tc-spot-pano-icon-btn {
+    background: rgba(176, 38, 255, 0.12);
+    border: none;
+    border-left: 1px solid rgba(176, 38, 255, 0.3);
+    color: #d866ff;
+    padding: 0 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+}
+
+.tc-spot-pano-icon-btn:hover {
+    background: rgba(176, 38, 255, 0.4);
+    color: #ffffff;
+    box-shadow: inset 0 0 10px rgba(176, 38, 255, 0.8);
+}
+
+.tc-spot-pano-icon-btn svg {
+    width: 18px;
+    height: 18px;
+    filter: drop-shadow(0 0 6px #b026ff);
+}
+
+
+/* === АКЦЕНТНЫЕ ЖЕЛТЫЕ СЧЕТЧИКИ МЕСТ === */
+.tc-district-count {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.78rem !important;
+    color: #ffd700 !important;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    font-weight: 800 !important;
+}
+
+/* === ПАСТЕЛЬНЫЕ УНИКАЛЬНЫЕ ТЕМЫ ДЛЯ КАЖДОГО РАЙОНА === */
+
+/* 1. Афанасьева — Желтовато-оранжевый */
+.tc-district-card#tc-card-afanasyeva {
+    background: linear-gradient(135deg, rgba(35, 25, 10, 0.9), rgba(15, 10, 5, 0.95)) !important;
+    border-color: rgba(255, 180, 50, 0.35) !important;
+}
+.tc-district-card#tc-card-afanasyeva h2 { color: #ffe0a3 !important; }
+
+/* 2. Садовый — Зелено-розовый */
+.tc-district-card#tc-card-sadoviy {
+    background: linear-gradient(135deg, rgba(15, 30, 22, 0.9), rgba(25, 15, 25, 0.95)) !important;
+    border-color: rgba(80, 220, 150, 0.35) !important;
+}
+.tc-district-card#tc-card-sadoviy h2 { color: #a3ffd6 !important; }
+
+/* 3. Центр (center) — Голубо-облачный вайб */
+.tc-district-card#tc-card-center {
+    background: linear-gradient(135deg, rgba(12, 32, 50, 0.92), rgba(6, 16, 28, 0.96)) !important;
+    border-color: rgba(100, 200, 255, 0.45) !important;
+    box-shadow: 0 4px 20px rgba(50, 160, 240, 0.2) !important;
+}
+
+.tc-district-card#tc-card-center h2 {
+    color: #7dd3fc !important; /* Нежно-голубой свет */
+    text-shadow: 0 0 12px rgba(125, 211, 252, 0.5) !important;
+}
+
+
+/* 4. Финская долина — Красно-коричневый */
+.tc-district-card#tc-card-finskaya {
+    background: linear-gradient(135deg, rgba(35, 15, 15, 0.9), rgba(15, 8, 8, 0.95)) !important;
+    border-color: rgba(220, 100, 80, 0.35) !important;
+}
+.tc-district-card#tc-card-finskaya h2 { color: #ffb8a3 !important; }
+
+/* 5. Богданка — Серо-зеленый */
+.tc-district-card#tc-card-bogdanka {
+    background: linear-gradient(135deg, rgba(20, 25, 22, 0.9), rgba(8, 12, 10, 0.95)) !important;
+    border-color: rgba(120, 160, 140, 0.35) !important;
+}
+.tc-district-card#tc-card-bogdanka h2 { color: #c8e6dc !important; }
+
+/* 6. Набережная — Голубо-фиолетовый */
+.tc-district-card#tc-card-naberezhnaya {
+    background: linear-gradient(135deg, rgba(18, 18, 38, 0.9), rgba(8, 8, 20, 0.95)) !important;
+    border-color: rgba(140, 140, 255, 0.35) !important;
+}
+.tc-district-card#tc-card-naberezhnaya h2 { color: #d0d0ff !important; }
+
+/* 7. ЮЗР — Травянисто-лаймовый и оранжевый */
+.tc-district-card#tc-card-uzr {
+    background: linear-gradient(135deg, rgba(25, 30, 12, 0.9), rgba(12, 15, 5, 0.95)) !important;
+    border-color: rgba(170, 220, 80, 0.35) !important;
+}
+.tc-district-card#tc-card-uzr h2 { color: #e1ffb3 !important; }
+
+/* 8. НУР — Золотисто-оранжевый */
+.tc-district-card#tc-card-nur {
+    background: linear-gradient(135deg, rgba(35, 22, 10, 0.9), rgba(15, 10, 3, 0.95)) !important;
+    border-color: rgba(255, 190, 80, 0.35) !important;
+}
+.tc-district-card#tc-card-nur h2 { color: #ffe8b3 !important; }
+
+/* 9. СЗР — Фиолетово-розовый */
+.tc-district-card#tc-card-szr {
+    background: linear-gradient(135deg, rgba(32, 15, 30, 0.9), rgba(14, 5, 15, 0.95)) !important;
+    border-color: rgba(220, 120, 220, 0.35) !important;
+}
+.tc-district-card#tc-card-szr h2 { color: #f5b3ff !important; }
+
+/* 10. Залив — Чернильно-глубокий (черный с легким неоном) */
+.tc-district-card#tc-card-zaliv {
+    background: linear-gradient(135deg, rgba(10, 10, 12, 0.95), rgba(3, 3, 5, 0.98)) !important;
+    border-color: rgba(100, 100, 120, 0.3) !important;
+    box-shadow: 0 0 25px rgba(0,0,0,0.8), inset 0 0 15px rgba(255,255,255,0.02) !important;
+}
+.tc-district-card#tc-card-zaliv h2 { color: #e6e6fa !important; }
+
+
 
     </style>
 
@@ -20585,39 +20793,37 @@ function renderTerraCoreDistricts() {
         const isExpanded = tcExpandedDistricts.has(district.id); // Проверяем, был ли район раскрыт
 
         const spotsHtml = district.spots.map((spot, index) => {
-            const isVisited = districtProgress.clicked.includes(index);
-            const panoFileName = `pano-${district.id}-${index + 1}.webp`; // Имя файла: pano-uzr-1.webp, pano-uzr-2.webp и т.д.
+    const isVisited = districtProgress.clicked.includes(index);
+    const panoFileName = `pano-${district.id}-${index + 1}.webp`;
 
-            return `
-                <div class="tc-spot-item-wrapper" style="display: inline-flex; flex-direction: column; align-items: flex-start; gap: 4px; margin: 4px;">
-                    <!-- 🌐 КНОПКА 360° ПАНОРАМЫ НАД МЕСТОМ -->
-                    <button
-                        type="button"
-                        class="tc-pano-btn"
-                        onclick="openTerracorePanorama('${panoFileName}', '${district.name} — ${spot}')"
-                        title="Посмотреть 360° панораму места">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
-                            <path d="M2 12h20"></path>
-                        </svg>
-                        <span>360°</span>
-                    </button>
+    return `
+        <div class="tc-spot-unified-card ${isVisited ? 'tc-spot-visited' : ''}">
+            <!-- ЛЕВАЯ ЧАСТЬ: КНОПКА ОТМЕТКИ ПОСЕЩЕНИЯ -->
+            <button
+                type="button"
+                class="tc-spot-main-btn"
+                onclick="toggleTerraCorePlace('${district.id}', ${index})"
+                title="${isVisited ? 'Нажмите, чтобы отменить' : 'Отметить место'}">
+                <span class="tc-spot-check">${isVisited ? '✓' : '+'}</span>
+                <span class="tc-spot-text">${spot}</span>
+            </button>
 
-                    <!-- КНОПКА ОТМЕТКИ ПОСЕЩЕНИЯ МЕСТА -->
-                    <button
-                        type="button"
-                        class="tc-spot-chip ${isVisited ? 'tc-spot-visited' : ''}"
-                        onclick="toggleTerraCorePlace('${district.id}', ${index})"
-                        title="${isVisited ? 'Нажмите, чтобы отменить посещение' : 'Отметить место'}">
-                        <span class="tc-spot-check">
-                            ${isVisited ? '✓' : '+'}
-                        </span>
-                        ${spot}
-                    </button>
-                </div>
-            `;
-        }).join('');
+            <!-- ПРАВАЯ ЧАСТЬ: ФИОЛЕТОВАЯ КНОПКА-ПРИКЛЕЕНАЯ ИКОНКА 360° -->
+            <button
+                type="button"
+                class="tc-spot-pano-icon-btn"
+                onclick="openTerracorePanorama('${panoFileName}', '${district.name} — ${spot}', event)"
+                title="Посмотреть 360° панораму">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M2 12h20"></path>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+            </button>
+        </div>
+    `;
+}).join('');
+
 
         return `
             <div class="tc-district-outer-wrapper">
@@ -22466,54 +22672,202 @@ document.addEventListener('DOMContentLoaded', () => {
 // 🌐 МОДУЛЬ 360° ПАНОРАМ ДЛЯ КАРТЫ РАЙОНОВ
 // ==========================================================================
 var tcActivePanoViewer = null;
+var lastClickedPanoButton = null; // Запоминаем, какая кнопка была нажата
 
-// Функция открытия панорамы (передаем путь к файлу и название места)
-function openTerracorePanorama(imageSrc, placeTitle) {
+// 🌐 ОТКРЫТИЕ ПАНОРАМЫ С ЭФФЕКТОМ ГЕРОЙСКОГО РАСШИРЕНИЯ И ЗВУКОМ
+function openTerracorePanorama(imageSrc, placeTitle, event) {
+    
+    // 🔊 ЗАПУСКАЕМ КИБЕР-ЗВУК!
+    playPanoPortalSound();
+
+    // Сохраняем кнопку и предотвращаем скролл
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        lastClickedPanoButton = event.currentTarget;
+    }
+    
+    // ... весь твой остальной старый код функции openTerracorePanorama без изменений ...
+}
+
+
+// 🌐 ОТКРЫТИЕ ПАНОРАМЫ С ЭФФЕКТОМ ГЕРОЙСКОГО РАСШИРЕНИЯ (THUMBNAIL TO FULLSCREEN)
+function openTerracorePanorama(imageSrc, placeTitle, event) {
+    // Сохраняем кнопку и предотвращаем скролл
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        lastClickedPanoButton = event.currentTarget;
+    }
+
     const modal = document.getElementById('tcPanoModalOverlay');
+    const container = document.querySelector('.tc-pano-modal-container');
     const titleEl = document.getElementById('tcPanoTitleText');
     
     if (titleEl) {
         titleEl.innerHTML = `🌐 360° ПАНОРАМА: <span style="color:#00f0ff; margin-left: 5px;">${placeTitle || 'Локация'}</span>`;
     }
     
-    if (modal) {
-        modal.style.display = 'flex';
+    if (!modal || !container) return;
+
+    // Включаем отображение
+    modal.style.display = 'flex';
+
+    // 1. ПОЗИЦИЯ "ДО" (First) - размеры нажатой кнопки
+    let startRect = { left: window.innerWidth / 2, top: window.innerHeight / 2, width: 10, height: 10 };
+    if (lastClickedPanoButton) {
+        startRect = lastClickedPanoButton.getBoundingClientRect();
     }
 
-    // Уничтожаем старую панораму, если была открыта
+    // 2. ПОЗИЦИЯ "ПОСЛЕ" (Last) - финальные размеры окна панорамы
+    const endRect = container.getBoundingClientRect();
+
+    // 3. ИНВЕРСИЯ (Invert) - сжимаем окно модалки до размеров кнопки
+    const scaleX = startRect.width / endRect.width;
+    const scaleY = startRect.height / endRect.height;
+    const translateX = (startRect.left + startRect.width / 2) - (endRect.left + endRect.width / 2);
+    const translateY = (startRect.top + startRect.height / 2) - (endRect.top + endRect.height / 2);
+
+    // Моментально сжимаем модалку без анимации
+    container.style.transition = 'none';
+    container.style.borderRadius = '8px'; // Скругление как у кнопки
+    container.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`;
+
+    // Принудительно заставляем браузер обновить стили
+    container.offsetHeight;
+
+    // 4. ИГРА (Play) - запускаем анимацию расширения
+    modal.classList.add('active');
+    container.style.transition = 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.55s cubic-bezier(0.16, 1, 0.3, 1)';
+    container.style.borderRadius = '20px';
+    container.style.transform = 'translate(0px, 0px) scale(1)';
+
+    // Стираем старый 3D просмотрщик
     if (tcActivePanoViewer) {
         try { tcActivePanoViewer.destroy(); } catch(e) {}
         tcActivePanoViewer = null;
     }
 
-    // Запускаем 3D-сферу Pannellum
+    // Подгружаем 3D панораму ровно в момент окончания анимации
     setTimeout(() => {
         tcActivePanoViewer = pannellum.viewer('tcPannellumViewer', {
             type: 'equirectangular',
             panorama: imageSrc,
             autoLoad: true,
-            autoRotate: -2, // Медленное авто-вращение для эффекта магии (2 градуса в сек)
+            autoRotate: -2,
             compass: false,
             showZoomCtrl: true,
             showFullscreenCtrl: true,
             mouseZoom: true,
-            hfov: 100, // Угол обзора камеры
+            hfov: 100,
             minHfov: 50,
             maxHfov: 120
         });
-    }, 150);
+    }, 550);
 }
 
-// Функция закрытия панорамы
+// 🌐 ЗАКРЫТИЕ ПАНОРАМЫ С СВЕРТЫВАНИЕМ ОБРАТНО В КНОПКУ
 function closeTerracorePanorama() {
     const modal = document.getElementById('tcPanoModalOverlay');
-    if (modal) modal.style.display = 'none';
+    const container = document.querySelector('.tc-pano-modal-container');
     
+    if (!modal || !container) return;
+
     if (tcActivePanoViewer) {
         try { tcActivePanoViewer.destroy(); } catch(e) {}
         tcActivePanoViewer = null;
     }
+
+    // Вычисляем координаты кнопки возврата
+    let startRect = { left: window.innerWidth / 2, top: window.innerHeight / 2, width: 10, height: 10 };
+    if (lastClickedPanoButton) {
+        startRect = lastClickedPanoButton.getBoundingClientRect();
+    }
+
+    const endRect = container.getBoundingClientRect();
+    const scaleX = startRect.width / endRect.width;
+    const scaleY = startRect.height / endRect.height;
+    const translateX = (startRect.left + startRect.width / 2) - (endRect.left + endRect.width / 2);
+    const translateY = (startRect.top + startRect.height / 2) - (endRect.top + endRect.height / 2);
+
+    // Запускаем обратное свертывание
+    modal.classList.remove('active');
+    container.style.borderRadius = '8px';
+    container.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`;
+
+    // Скрываем окно после завершения анимации
+    setTimeout(() => {
+        modal.style.display = 'none';
+        container.style.transform = '';
+        container.style.borderRadius = '';
+    }, 550);
 }
+
+
+// ==========================================================================
+// 🔊 СИНТЕЗАТОР ЗВУКА КИБЕР-ПОРТАЛА ("прпрпрпрп пппууууммм!")
+// ==========================================================================
+function playPanoPortalSound() {
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const now = audioCtx.currentTime;
+
+        // --- 1. ФАЗА "прпрпрпр" (Глитчевый механический заряд) ---
+        const oscGlitch = audioCtx.createOscillator();
+        const gainGlitch = audioCtx.createGain();
+        
+        oscGlitch.type = 'sawtooth'; // Пилообразная волна для жесткости
+        oscGlitch.frequency.setValueAtTime(100, now);
+        
+        // Быстрое прерывистое изменение частоты (эффект "пр-пр-пр")
+        for (let i = 0; i < 15; i++) {
+            const t = now + i * 0.03;
+            oscGlitch.frequency.setValueAtTime(110 + (i % 2 === 0 ? 190 : 0), t);
+        }
+        
+        gainGlitch.gain.setValueAtTime(0.25, now);
+        gainGlitch.gain.exponentialRampToValueAtTime(0.001, now + 0.45); // Затухает через полсекунды
+
+        oscGlitch.connect(gainGlitch);
+        gainGlitch.connect(audioCtx.destination);
+        oscGlitch.start(now);
+        oscGlitch.stop(now + 0.5);
+
+
+        // --- 2. ФАЗА "пппууууммм!" (Глубокий неоновый бас-дроп) ---
+        const oscBoom = audioCtx.createOscillator();
+        const gainBoom = audioCtx.createGain();
+        const filter = audioCtx.createBiquadFilter();
+
+        oscBoom.type = 'triangle'; // Мягкий, обволакивающий звук
+        filter.type = 'lowpass';
+        filter.Q.setValueAtTime(9, now); // Резонансный фильтр для "сочности"
+
+        // Частотный свип (от высокого 450Hz летит вниз до глубокого саб-баса 40Hz)
+        oscBoom.frequency.setValueAtTime(450, now);
+        oscBoom.frequency.exponentialRampToValueAtTime(42, now + 0.85);
+
+        // Свип фильтра (срезает верха, создавая звук "уууууу")
+        filter.frequency.setValueAtTime(1300, now);
+        filter.frequency.exponentialRampToValueAtTime(55, now + 0.85);
+
+        // Нарастание и долгое затухание баса
+        gainBoom.gain.setValueAtTime(0, now);
+        gainBoom.gain.linearRampToValueAtTime(0.65, now + 0.12); // Быстро раскрывается
+        gainBoom.gain.exponentialRampToValueAtTime(0.001, now + 1.3); // Мягко гаснет
+
+        oscBoom.connect(filter);
+        filter.connect(gainBoom);
+        gainBoom.connect(audioCtx.destination);
+
+        oscBoom.start(now);
+        oscBoom.stop(now + 1.4);
+
+    } catch (e) {
+        console.warn("Аудио-контекст не запущен:", e);
+    }
+}
+
 
     </script>
 
