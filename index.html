@@ -11758,6 +11758,121 @@
 }
 
 
+/* === КНОПКА 360° ПАНОРАМЫ НАД МЕСТОМ === */
+.tc-pano-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(0, 240, 255, 0.1);
+    border: 1px solid rgba(0, 240, 255, 0.5);
+    border-radius: 8px;
+    color: #00f0ff;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.25s ease;
+    margin-bottom: 8px;
+    user-select: none;
+}
+
+.tc-pano-btn:hover {
+    background: rgba(0, 240, 255, 0.25);
+    border-color: #00f0ff;
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.tc-pano-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+}
+
+/* === ПОЛНОЭКРАННОЕ ОКНО ПРОСМОТРА 360° ПАНОРАМЫ === */
+.tc-pano-modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(4, 2, 8, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 9999999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.tc-pano-modal-container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    height: 85vh;
+    background: #0d0818;
+    border: 2px solid #00f0ff;
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(0, 240, 255, 0.3), inset 0 0 20px rgba(176, 38, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.tc-pano-header {
+    padding: 14px 20px;
+    background: rgba(12, 6, 22, 0.9);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+}
+
+.tc-pano-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.95rem;
+    color: #ffd700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tc-pano-close-btn {
+    background: rgba(255, 42, 95, 0.15);
+    border: 1px solid #ff2a5f;
+    color: #ff2a5f;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+}
+
+.tc-pano-close-btn:hover {
+    background: #ff2a5f;
+    color: #ffffff;
+    box-shadow: 0 0 15px #ff2a5f;
+}
+
+/* Сам 3D-холст панорамы */
+#tcPannellumViewer {
+    width: 100%;
+    height: 100%;
+    background: #000;
+}
+
+/* Перекрашиваем стандартные контролы pannellum в неоновый стиль */
+.pnlm-load-button {
+    background: linear-gradient(135deg, #00f0ff, #b026ff) !important;
+    border: 2px solid #fff !important;
+}
+
+
 
     </style>
 
@@ -11769,6 +11884,10 @@
         href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;900&family=Unbounded:wght@400;700;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Движок 360° Панорам Pannellum -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.js"></script>
+
 
 
 
@@ -20447,38 +20566,56 @@ function updateTerraCoreSummaryFlasks() {
 }
 
 
-        // 2. РЕНДЕР РАЙОНОВ С СОХРАНЕНИЕМ СОСТОЯНИЯ РАСКРЫТИЯ
-        function renderTerraCoreDistricts() {
-            const grid = document.getElementById('terracore-districts-list');
-            if (!grid) return;
+      // 2. РЕНДЕР РАЙОНОВ С СОХРАНЕНИЕМ СОСТОЯНИЯ РАСКРЫТИЯ И КНОПКАМИ 360° ПАНОРАМ
+function renderTerraCoreDistricts() {
+    const grid = document.getElementById('terracore-districts-list');
+    if (!grid) return;
 
-            // Обновляем верхние суммарные колбы
-            updateTerraCoreSummaryFlasks();
+    // Обновляем верхние суммарные колбы
+    updateTerraCoreSummaryFlasks();
 
-            const progress = getTerraCoreProgress();
+    const progress = getTerraCoreProgress();
 
-            grid.innerHTML = TC_DISTRICTS_DATA.map(district => {
-                const districtProgress = progress[district.id];
-                const isExpanded = tcExpandedDistricts.has(district.id); // Проверяем, был ли район раскрыт
+    grid.innerHTML = TC_DISTRICTS_DATA.map(district => {
+        const districtProgress = progress[district.id];
+        const isExpanded = tcExpandedDistricts.has(district.id); // Проверяем, был ли район раскрыт
 
-                const spotsHtml = district.spots.map((spot, index) => {
-                    const isVisited = districtProgress.clicked.includes(index);
+        const spotsHtml = district.spots.map((spot, index) => {
+            const isVisited = districtProgress.clicked.includes(index);
+            const panoFileName = `pano-${district.id}-${index + 1}.webp`; // Имя файла: pano-uzr-1.webp, pano-uzr-2.webp и т.д.
 
-                    return `
-                <button
-                    type="button"
-                    class="tc-spot-chip ${isVisited ? 'tc-spot-visited' : ''}"
-                    onclick="toggleTerraCorePlace('${district.id}', ${index})"
-                    title="${isVisited ? 'Нажмите, чтобы отменить посещение' : 'Отметить место'}">
-                    <span class="tc-spot-check">
-                        ${isVisited ? '✓' : '+'}
-                    </span>
-                    ${spot}
-                </button>
+            return `
+                <div class="tc-spot-item-wrapper" style="display: inline-flex; flex-direction: column; align-items: flex-start; gap: 4px; margin: 4px;">
+                    <!-- 🌐 КНОПКА 360° ПАНОРАМЫ НАД МЕСТОМ -->
+                    <button
+                        type="button"
+                        class="tc-pano-btn"
+                        onclick="openTerracorePanorama('${panoFileName}', '${district.name} — ${spot}')"
+                        title="Посмотреть 360° панораму места">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                            <path d="M2 12h20"></path>
+                        </svg>
+                        <span>360°</span>
+                    </button>
+
+                    <!-- КНОПКА ОТМЕТКИ ПОСЕЩЕНИЯ МЕСТА -->
+                    <button
+                        type="button"
+                        class="tc-spot-chip ${isVisited ? 'tc-spot-visited' : ''}"
+                        onclick="toggleTerraCorePlace('${district.id}', ${index})"
+                        title="${isVisited ? 'Нажмите, чтобы отменить посещение' : 'Отметить место'}">
+                        <span class="tc-spot-check">
+                            ${isVisited ? '✓' : '+'}
+                        </span>
+                        ${spot}
+                    </button>
+                </div>
             `;
-                }).join('');
+        }).join('');
 
-                return `
+        return `
             <div class="tc-district-outer-wrapper">
                 <div class="tc-district-progress">
                     <div class="tc-small-flask">
@@ -20522,15 +20659,15 @@ function updateTerraCoreSummaryFlasks() {
                             📍 Мини-места и локации:
                         </div>
 
-                        <div class="tc-spots-list">
+                        <div class="tc-spots-list" style="display: flex; flex-wrap: wrap; gap: 8px;">
                             ${spotsHtml}
                         </div>
                     </div>
                 </div>
             </div>
         `;
-            }).join('');
-        }
+    }).join('');
+}
 
         function toggleTerraCorePlace(districtId, placeIndex) {
             const saved = JSON.parse(
@@ -22320,6 +22457,60 @@ document.addEventListener('DOMContentLoaded', () => {
     selectVoiceMemoLevel(savedLevel);
 });
 
+
+// ==========================================================================
+// 🌐 МОДУЛЬ 360° ПАНОРАМ ДЛЯ КАРТЫ РАЙОНОВ
+// ==========================================================================
+var tcActivePanoViewer = null;
+
+// Функция открытия панорамы (передаем путь к файлу и название места)
+function openTerracorePanorama(imageSrc, placeTitle) {
+    const modal = document.getElementById('tcPanoModalOverlay');
+    const titleEl = document.getElementById('tcPanoTitleText');
+    
+    if (titleEl) {
+        titleEl.innerHTML = `🌐 360° ПАНОРАМА: <span style="color:#00f0ff; margin-left: 5px;">${placeTitle || 'Локация'}</span>`;
+    }
+    
+    if (modal) {
+        modal.style.display = 'flex';
+    }
+
+    // Уничтожаем старую панораму, если была открыта
+    if (tcActivePanoViewer) {
+        try { tcActivePanoViewer.destroy(); } catch(e) {}
+        tcActivePanoViewer = null;
+    }
+
+    // Запускаем 3D-сферу Pannellum
+    setTimeout(() => {
+        tcActivePanoViewer = pannellum.viewer('tcPannellumViewer', {
+            type: 'equirectangular',
+            panorama: imageSrc,
+            autoLoad: true,
+            autoRotate: -2, // Медленное авто-вращение для эффекта магии (2 градуса в сек)
+            compass: false,
+            showZoomCtrl: true,
+            showFullscreenCtrl: true,
+            mouseZoom: true,
+            hfov: 100, // Угол обзора камеры
+            minHfov: 50,
+            maxHfov: 120
+        });
+    }, 150);
+}
+
+// Функция закрытия панорамы
+function closeTerracorePanorama() {
+    const modal = document.getElementById('tcPanoModalOverlay');
+    if (modal) modal.style.display = 'none';
+    
+    if (tcActivePanoViewer) {
+        try { tcActivePanoViewer.destroy(); } catch(e) {}
+        tcActivePanoViewer = null;
+    }
+}
+
     </script>
 
 
@@ -23027,6 +23218,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         </div>
+
+
+        <!-- МОДАЛЬНОЕ ОКНО 360° ПАНОРАМ ТЕРРАКОРА -->
+<div id="tcPanoModalOverlay" class="tc-pano-modal-overlay">
+    <div class="tc-pano-modal-container">
+        <!-- Шапка окна -->
+        <div class="tc-pano-header">
+            <div id="tcPanoTitleText" class="tc-pano-title">
+                🌐 360° ПАНОРАМА МЕСТА
+            </div>
+            <button type="button" class="tc-pano-close-btn" onclick="closeTerracorePanorama()">&times;</button>
+        </div>
+        
+        <!-- Контейнер для 3D-сферы -->
+        <div id="tcPannellumViewer"></div>
+    </div>
+</div>
+
 
 </body>
 
