@@ -12236,6 +12236,69 @@ body, html {
 }
 
 
+/* ==========================================================================
+   🔮 3D-ФЛАЖОК ДЛЯ ЗАГОЛОВКА СКАЗКИ (ПЕРЕБИВАЕТ СТРОКУ 1184)
+   ========================================================================== */
+#tale-content-target h2.section-title.title-purple,
+#page-tale-reading .tale-detail-view h2.section-title.title-purple {
+    /* 🎯 Намертво убираем гигантский размер и переводим в стильный компактный */
+    font-family: 'Unbounded', sans-serif !important;
+    font-size: clamp(0.95rem, 2vw, 1.25rem) !important; 
+    font-weight: 800 !important;
+    line-height: 1.35 !important;
+    color: #ffffff !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important;
+    
+    /* Формируем блок ленты/флажка */
+    display: inline-block !important;
+    position: relative !important;
+    background: linear-gradient(135deg, #b026ff 0%, #6600aa 100%) !important;
+    
+    /* Отступы и скругляем ТОЛЬКО правый край */
+    padding: 10px 20px 10px 16px !important;
+    border-radius: 0 10px 10px 0 !important;
+    
+    /* 📐 ВЫНОСИТ ФЛАЖОК ВЛЕВО ЗА КРАЙ КАРТОЧКИ СКАЗКИ */
+    margin: 15px 0 22px -20px !important;
+    
+    /* 3D-ОБЪЕМ И НЕОНОВОЕ СВЕЧЕНИЕ */
+    box-shadow: 0 6px 20px rgba(176, 38, 255, 0.5), 0 2px 8px rgba(0, 0, 0, 0.8) !important;
+    z-index: 5 !important;
+    
+    max-width: calc(100% + 20px) !important;
+    word-break: break-word !important;
+}
+
+/* 📐 3D-ПОДВОРОТ / ТЕНЕВОЙ ТРЕУГОЛЬНИК СНИЗУ ФЛАЖКА */
+#tale-content-target h2.section-title.title-purple::before,
+#page-tale-reading .tale-detail-view h2.section-title.title-purple::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    
+    /* Тёмный загнутый уголок */
+    border-style: solid !important;
+    border-width: 0 12px 12px 0 !important;
+    border-color: transparent #2a004a transparent transparent !important;
+}
+
+/* 📱 Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+    #tale-content-target h2.section-title.title-purple {
+        font-size: 0.9rem !important;
+        padding: 8px 16px 8px 12px !important;
+        margin: 10px 0 16px -16px !important;
+    }
+    
+    #tale-content-target h2.section-title.title-purple::before {
+        border-width: 0 10px 10px 0 !important;
+    }
+}
 
 
 
