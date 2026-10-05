@@ -12188,47 +12188,46 @@
    🧠 АДАПТАЦИЯ БАННЕРA (leycore-banner-img) ДЛЯ ПК И МОБИЛОК
    ========================================================================== */
 
-/* 1. СТИЛИ ДЛЯ ПК И ПЛАНШЕТОВ */
+/* ==========================================================================
+   🧠 БАННЕР LEYCORE (КОМПАКТНЫЙ НА ПК + ПОЛНЫЙ НА МОБИЛКЕ)
+   ========================================================================== */
+
+/* 1. ПК И БОЛЬШИЕ ЭКРАНЫ (Уменьшен в 2 раза) */
 .leycore-banner-img {
-    width: 100% !important;
-    max-width: 100% !important; /* Не даёт картинке выходить за пределы карточки */
+    width: 50% !important; /* В 2 раза меньше по ширине на ПК */
+    max-width: 600px !important; /* Ограничение, чтобы не раздувало */
     height: auto !important;
     
-    /* Сохраняем честное соотношение сторон */
     aspect-ratio: 16 / 9 !important; 
     object-fit: cover !important;
     object-position: center !important;
     
-    /* Мягкие скруглённые углы */
     border-radius: 20px !important;
-    
-    /* Сочный неоновый контур и тень */
     border: 1px solid rgba(176, 38, 255, 0.4) !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 25px rgba(176, 38, 255, 0.25) !important;
     
     display: block !important;
-    margin: 16px auto 22px auto !important;
+    margin: 20px auto 25px auto !important; /* Аккуратный отступ и выравнивание по центру */
     box-sizing: border-box !important;
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
 }
 
-/* Эффект наведения на ПК */
 .leycore-banner-img:hover {
     transform: translateY(-3px) !important;
     border-color: #b026ff !important;
     box-shadow: 0 14px 35px rgba(0, 0, 0, 0.8), 0 0 35px rgba(176, 38, 255, 0.45) !important;
 }
 
-/* 2. 📱 АДАПТАЦИЯ ДЛЯ ТЕЛЕФОНОВ (Убирает отдаление сайта и горизонтальный скролл) */
+/* 2. 📱 МОБИЛЬНЫЕ УСТРОЙСТВА (Оставляем 100% ширину) */
 @media (max-width: 768px) {
     .leycore-banner-img {
-        width: 100% !important;
+        width: 100% !important; /* На телефонах занимает всю ширину карточки */
         max-width: 100% !important;
         margin: 12px auto 18px auto !important;
         border-radius: 14px !important;
-        border-width: 1px !important;
     }
 }
+
 
 /* Защита от расширения сайта на мобилках */
 body, html {
