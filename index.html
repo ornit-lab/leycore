@@ -12106,14 +12106,14 @@
 }
 
 /* ==========================================================================
-   1. ГЛАВНЫЙ БАННЕР ПОД ЗАГОЛОВКОМ (Формат 1920x1080 / 16:9)
+   1. ГЛАВНЫЙ БАННЕР ПОД ЗАГОЛОВКОМ (АККУРАТНЫЙ НА ПК + АДАПТИВНЫЙ НА МОБИЛКЕ)
    ========================================================================== */
 .leycore-header-banner {
-    width: 100% !important;
-    max-width: 950px !important;
+    width: 90% !important;
+    max-width: 650px !important; /* Уменьшили размер на ПК, чтобы не был гигантом */
     height: auto !important;
     
-    /* 🎯 Точные пропорции 1920x1080 */
+    /* Сохраняем честные пропорции 16:9 (1920x1080) */
     aspect-ratio: 16 / 9 !important; 
     object-fit: cover !important;
     object-position: center !important;
@@ -12121,50 +12121,67 @@
     /* Мягкие скруглённые углы */
     border-radius: 20px !important;
     
-    /* Сочная неоновая рамка и глубокая тень */
+    /* Неоновая рамка и тень */
     border: 1px solid rgba(0, 240, 255, 0.3) !important;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 240, 255, 0.2) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 240, 255, 0.2) !important;
     
     display: block !important;
     margin: 15px auto 25px auto !important;
+    box-sizing: border-box !important;
     transition: transform 0.3s ease, box-shadow 0.3s ease !important;
 }
 
 .leycore-header-banner:hover {
     transform: translateY(-3px) !important;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.35) !important;
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.8), 0 0 28px rgba(0, 240, 255, 0.3) !important;
+}
+
+/* 📱 Мобильная адаптация баннера (чтобы не уезжал за края сайта) */
+@media (max-width: 768px) {
+    .leycore-header-banner {
+        width: 94% !important;
+        max-width: 100% !important;
+        margin: 10px auto 18px auto !important;
+        border-radius: 16px !important;
+    }
 }
 
 
 /* ==========================================================================
-   2. КВАДРАТНЫЕ ОБЛОЖКИ СКАЗОК В ХРАНИЛИЩЕ (Формат 1:1)
+   2. СВОБОДНЫЕ КВАДРАТНЫЕ ОБЛОЖКИ, ВПИСАННЫЕ В ВЕРХ КАРТОЧКИ СКАЗКИ (1:1)
    ========================================================================== */
+/* Сама карточка сказки */
+.tale-list-card {
+    overflow: hidden !important; /* Защита углов */
+}
+
+/* Обложка сказки: занимает 100% ширины карточки */
 .vault-story-banner {
-    width: 100% !important;
-    max-width: 280px !important; /* Ограничение ширины, чтобы квадрат не растягивало гигантом */
+    width: 100% !important; /* На всю ширину вашей карточки */
+    max-width: 100% !important;
     height: auto !important;
     
-    /* 🎯 Точный квадрат 1:1 для ваших картинок */
+    /* Квадратный формат 1:1 */
     aspect-ratio: 1 / 1 !important; 
     object-fit: cover !important;
     object-position: center !important;
     
-    /* Мягкое скругление углов */
-    border-radius: 18px !important;
+    /* Скругление под стиль карточки */
+    border-radius: 14px !important;
     
-    /* Фиолетовое неоновое свечение Хранилища */
-    border: 1px solid rgba(176, 38, 255, 0.4) !important;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 0 18px rgba(176, 38, 255, 0.25) !important;
+    /* Неоновая фиолетовая подцветка Хранилища */
+    border: 1px solid rgba(176, 38, 255, 0.35) !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), 0 0 15px rgba(176, 38, 255, 0.2) !important;
     
-    margin: 0 auto 16px auto !important; /* Центрирование квадрата в карточке */
+    margin: 0 0 14px 0 !important;
     display: block !important;
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
 }
 
 .tale-list-card:hover .vault-story-banner {
-    transform: scale(1.03) !important;
+    transform: scale(1.02) !important;
     border-color: #b026ff !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7), 0 0 28px rgba(176, 38, 255, 0.45) !important;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6), 0 0 22px rgba(176, 38, 255, 0.4) !important;
 }
 
 
