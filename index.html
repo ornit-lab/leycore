@@ -12300,6 +12300,65 @@ body, html {
     }
 }
 
+/* ==========================================================================
+   🖼 КОМПАКТНЫЕ 16:9 БАННЕРЫ (С СОХРАНЕНИЕМ ПРОПОРЦИЙ И СКРУГЛЕНИЯ)
+   ========================================================================== */
+
+/* Блок для двух картинок в словаре (компактный ряд по центру) */
+.dict-banners-row {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+    gap: 14px !important;
+    width: 100% !important;
+    max-width: 700px !important; /* Ограничиваем общий размер пары картинок */
+    margin: 15px auto 25px auto !important;
+}
+
+/* Сам компактный баннер 16:9 */
+.leycore-16x9-banner {
+    width: 100% !important;
+    max-width: 550px !important; /* 🎯 Уменьшили общий размер: не раздувает на весь экран */
+    height: auto !important;
+    
+    /* Сохраняем честный формат 16:9 */
+    aspect-ratio: 16 / 9 !important; 
+    object-fit: cover !important;
+    object-position: center !important;
+    
+    /* Мягкие скруглённые углы */
+    border-radius: 16px !important;
+    
+    /* Неоновая рамка и акууратная тень */
+    border: 1px solid rgba(0, 240, 255, 0.35) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 240, 255, 0.18) !important;
+    
+    display: block !important;
+    margin: 12px auto 20px auto !important; /* Центрирование */
+    box-sizing: border-box !important;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+/* Эффект наведения на ПК */
+.leycore-16x9-banner:hover {
+    transform: translateY(-3px) !important;
+    border-color: #00f0ff !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 240, 255, 0.35) !important;
+}
+
+/* 📱 Мобильная адаптация (аккуратно сожмется под экран смартфона) */
+@media (max-width: 768px) {
+    .dict-banners-row {
+        grid-template-columns: 1fr !important;
+        max-width: 100% !important;
+        gap: 12px !important;
+    }
+    
+    .leycore-16x9-banner {
+        width: 92% !important; /* На мобилке тоже не давит по краям */
+        max-width: 100% !important;
+        border-radius: 14px !important;
+    }
+}
 
 
     </style>
@@ -12760,17 +12819,8 @@ body, html {
         <!-- МЕНЮ ВАСИЛИЧА -->
         <div id="page-menu" class="page-view">
             <h2 class="section-title title-green" style="font-size: 3rem;">МЕНЮ ВАСИЛИЧА</h2>
-            <!-- БАННЕР БОБНИТА-ТАНОСА -->
-            <div class="thanos-banner">
-                <div class="thanos-avatar-box">
-                    <img src="bobnit_thanos.jpg" alt="Бобнит Танос" class="thanos-img">
-                </div>
-                <div class="thanos-quote-box">
-                    <div class="thanos-badge">ВАСИЛИЧ</div>
-                    <p class="thanos-quote">«Мстители, общий сбор на обед! Один щелчок Перчаткой Продуктов — и половина
-                        серого голода во вселенной растворяется в сухом анаболизме.»</p>
-                </div>
-            </div>
+           <img class="leycore-16x9-banner" src="menu_main.webp" alt="Меню Василича">
+
 
             <div class="menu-tabs">
                 <button class="menu-tab-btn active-menu-tab" onclick="filterDishes('all', this)">⚡ ВСЁ МЕНЮ</button>
@@ -12785,16 +12835,8 @@ body, html {
         <!-- СКАЗКИ / АПОСТЕРИОРИ -->
         <div id="page-metaphors" class="page-view">
             <h2 class="section-title title-purple">ХРАНИЛИЩЕ</h2>
-            <!-- БАННЕР ХРАНИЛИЩА -->
-            <div class="tales-banner">
-                <div class="tales-avatar-box">
-                    <img src="tales_keeper.jpg" alt="Хранитель Сказок" class="tales-img">
-                </div>
-                <div class="tales-quote-box">
-                    <div class="tales-badge">🔮 Сказочный Василич 🔮</div>
-                    <p class="tales-quote" id="tales-dynamic-quote"></p>
-                </div>
-            </div>
+            <img class="leycore-16x9-banner" src="tales_main.webp" alt="Хранилище сказок">
+
 
             <div class="tales-tabs">
                 <button class="tales-tab-btn active-tales-tab" onclick="switchTalesTab('tales', this)">🔮
@@ -12808,6 +12850,9 @@ body, html {
         <!-- СЛОВАРЬ ЛЭЙКОРА -->
         <div id="page-dictionary" class="page-view">
             <h2 class="section-title title-gold" style="font-size: 3rem;">СЛОВАРЬ ЛЭЙКОРА</h2>
+            <!-- ДВЕ ТЕМАТИЧЕСКИЕ КАРТИНКИ В СЛОВАРЕ (1920x1080) -->
+<div class="dict-banners-row"> <img class="leycore-16x9-banner" src="dict_1.webp" alt="Словарь 1"> </div>
+
             <div id="dictionary-content"></div>
         </div>
 
