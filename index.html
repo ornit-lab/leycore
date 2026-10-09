@@ -18580,12 +18580,11 @@ window.openRecipeStory = function (encodedTitle) {
     if (modal && titleEl && contentEl) {
         titleEl.innerText = recipe.title;
 
-        // 🖼 ВСТАВЛЯЕМ КАРТИНКУ СВЕРХУ, А ПОД НЕЙ ТЕКСТ ИСТОРИИ ЧЕРЕЗ innerHTML
         const storyText = recipe.story || "История этого блюда стерта из архивов Василича...";
         
+        // 🎯 ТЕПЕРЬ С КАВЫЧКАМИ — БЕЗ СИНТАКСИЧЕСКИХ ОШИБОК!
         contentEl.innerHTML = `
             ${recipe.storyImage ? `<img class="dish-story-top-art" src="${recipe.storyImage}" alt="Иллюстрация к истории: ${recipe.title}">` : ''}
-
             <div class="dish-story-text-body">${storyText}</div>
         `;
 
@@ -18596,6 +18595,7 @@ window.openRecipeStory = function (encodedTitle) {
         alert("Ошибка отображения: не найден контейнер истории в HTML сайта!");
     }
 };
+
 
 // Функция закрытия (остается без изменений)
 window.closeStoryModal = function () {
