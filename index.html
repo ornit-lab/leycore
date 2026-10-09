@@ -18557,17 +18557,11 @@ function renderTalesList() {
 // ==========================================
 
 window.openRecipeStory = function (encodedTitle) {
-    console.log("🎯 Клик по кнопке истории! Получен закодированный ник:", encodedTitle);
-
     const title = decodeURIComponent(encodedTitle);
-    console.log("🔍 Декодированное название блюда:", title);
-
     const recipe = dishes.find(r => r.title === title);
-    console.log("🥩 Найденный объект рецепта:", recipe);
 
     if (!recipe) {
-        console.error("❌ Рецепт с названием '" + title + "' не найден в массиве dishes!");
-        alert("Ошибка: Рецепт не найден. Василич что-то скрывает...");
+        alert("Ошибка: Рецепт не найден.");
         return;
     }
 
@@ -18575,26 +18569,22 @@ window.openRecipeStory = function (encodedTitle) {
     const titleEl = document.getElementById('story-title');
     const contentEl = document.getElementById('story-content');
 
-    console.log("📦 Элементы модалки в HTML:", {modal, titleEl, contentEl});
-
     if (modal && titleEl && contentEl) {
         titleEl.innerText = recipe.title;
 
+        // Если есть storyImage — берем его, если нет — берем обычный image
+        const imgPath = recipe.storyImage || recipe.image || '';
         const storyText = recipe.story || "История этого блюда стерта из архивов Василича...";
         
-        // 🎯 ТЕПЕРЬ С КАВЫЧКАМИ — БЕЗ СИНТАКСИЧЕСКИХ ОШИБОК!
         contentEl.innerHTML = `
-            ${recipe.storyImage ? `<img class="dish-story-top-art" src="${recipe.storyImage}" alt="Иллюстрация к истории: ${recipe.title}">` : ''}
-            <div class="dish-story-text-body">${storyText}</div>
+            ${imgPath ? `<img class="dish-story-top-art" src="${imgPath}" alt="${recipe.title}">` : ''}
+            <span class="dish-story-text-body" style="display: block; margin-top: 15px;">${storyText}</span>
         `;
 
         modal.style.display = 'flex';
-        console.log("✅ Модалка успешно открыта с артом!");
-    } else {
-        console.error("❌ Ошибка: Один из элементов модалки отсутствует в HTML!");
-        alert("Ошибка отображения: не найден контейнер истории в HTML сайта!");
     }
 };
+
 
 
 // Функция закрытия (остается без изменений)
