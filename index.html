@@ -15859,10 +15859,20 @@ window.switchPage = function (id) {
 
     window.scrollTo({top: 0, behavior: 'smooth'});
 
-    // 6. АВТО-РЕНДЕР СЛОВАРЯ
-    if (id === 'dictionary' && typeof renderDictionary === 'function') {
+    // Внутри функции switchPage(id):
+if (id === 'dictionary') {
+    // 1. Вызываем функцию инициализации фильтров (если она есть)
+    if (typeof initDictionaryFilters === 'function') {
+        initDictionaryFilters();
+    }
+    // 2. Гарантированно рендерим все термины по умолчанию ('ALL', 'all', '')
+    if (typeof renderDictionaryFiltered === 'function') {
+        renderDictionaryFiltered('', 'all', 'ALL');
+    } else if (typeof renderDictionary === 'function') {
         renderDictionary();
     }
+}
+
 
     // 7. ПРОВЕРКА БЛОКИРОВКИ СКАЗОК
     if (id === 'metaphors' && !isTalesUnlocked) {
@@ -25752,6 +25762,15 @@ setTimeout(() => {
         }
     });
 }, 1000);
+
+
+
+// Принудительный старт словаря при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof renderDictionaryFiltered === 'function') {
+        renderDictionaryFiltered('', 'all', 'ALL');
+    }
+});
 
 
 
