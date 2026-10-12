@@ -14012,6 +14012,425 @@
             overflow: hidden !important;
             text-overflow: ellipsis !important;
         }
+
+
+
+        /* -------------------------------------------------------------
+   КИБЕР-СТИЛИ СЛОВАРЯ (СИНИЙ/ФИОЛЕТОВЫЙ НЕОН + 3D-ЭФФЕКТ)
+   ------------------------------------------------------------- */
+:root {
+    --dict-bg-card: rgba(12, 10, 26, 0.88);
+    --dict-border-glow: rgba(0, 240, 255, 0.35);
+    --dict-neon-cyan: #00f0ff;
+    --dict-neon-purple: #b026ff;
+    --dict-neon-pink: #ff2a8d;
+}
+
+/* Шапка словаря */
+.dict-header-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.dict-main-title {
+    font-family: 'Unbounded', sans-serif !important;
+    font-size: clamp(1.8rem, 3.8vw, 2.7rem) !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    background: linear-gradient(90deg, #ff2a8d 0%, #b026ff 50%, #00f0ff 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    filter: drop-shadow(0 0 16px rgba(176, 38, 255, 0.45));
+    margin: 0 !important;
+}
+
+/* Кнопка переброса в Хранилище (Примеры использования) */
+.dict-examples-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(176, 38, 255, 0.25), rgba(0, 240, 255, 0.25));
+    border: 1px solid var(--dict-neon-cyan);
+    color: #fff;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 10px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.25);
+    transition: all 0.25s ease;
+}
+
+.dict-examples-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--dict-neon-cyan);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 6px var(--dict-neon-cyan));
+}
+
+.dict-examples-btn:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, rgba(176, 38, 255, 0.4), rgba(0, 240, 255, 0.4));
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.5);
+}
+
+/* Баннер словаря (в оригинальном формате 16:9 без обрезки) */
+.dict-banners-row {
+    width: 100%;
+    margin-bottom: 24px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 240, 255, 0.4);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), inset 0 0 25px rgba(0, 240, 255, 0.15);
+}
+
+.dict-banners-row img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 380px !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+/* ПАНЕЛЬ ФИЛЬТРОВ И ПОИСКА */
+.dict-filters-panel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 26px;
+    background: var(--dict-bg-card);
+    padding: 16px 20px;
+    border-radius: 20px;
+    border: 1px solid var(--dict-border-glow);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+}
+
+.dict-search-input {
+    background: rgba(16, 12, 32, 0.85);
+    border: 1px solid rgba(0, 240, 255, 0.35);
+    border-radius: 999px;
+    padding: 8px 18px;
+    color: #fff;
+    font-size: 0.82rem;
+    outline: none;
+    width: 220px;
+    font-family: 'Montserrat', sans-serif;
+}
+.dict-search-input::placeholder { color: rgba(255, 255, 255, 0.4); }
+
+.dict-category-select {
+    background: rgba(16, 12, 32, 0.85);
+    border: 1px solid rgba(176, 38, 255, 0.4);
+    border-radius: 999px;
+    padding: 8px 18px;
+    color: #fff;
+    font-size: 0.82rem;
+    outline: none;
+    cursor: pointer;
+    font-family: 'Unbounded', sans-serif;
+}
+
+/* АЛФАВИТНЫЙ ФИЛЬТР */
+.dict-alphabet-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+}
+
+.dict-alpha-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(176, 38, 255, 0.2);
+    color: rgba(255, 255, 255, 0.7);
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-family: 'Unbounded', sans-serif;
+}
+
+.dict-alpha-btn:hover, .dict-alpha-btn.active {
+    background: rgba(0, 240, 255, 0.25);
+    border-color: var(--dict-neon-cyan);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
+}
+
+/* -------------------------------------------------------------
+   КАТЕГОРИИ И КАРТОЧКИ ТЕРМИНОВ (3D-ЭФФЕКТ И НЕОН)
+------------------------------------------------------------- */
+.dict-cat-header {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--dict-neon-purple);
+    margin: 28px 0 14px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(176, 38, 255, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dict-letter {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.85rem;
+    color: var(--dict-neon-cyan);
+    margin: 16px 0 8px 4px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+/* СТРОКА/КАРТОЧКА ТЕРМИНА (3D-ЭФФЕКТ) */
+.dict-row {
+    background: var(--dict-bg-card);
+    border-radius: 16px;
+    border: 1px solid rgba(176, 38, 255, 0.25);
+    margin-bottom: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+}
+
+/* 3D-приподнимание при наведении */
+.dict-row:hover {
+    transform: translateY(-3px) scale(1.005);
+    border-color: rgba(0, 240, 255, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 18px rgba(0, 240, 255, 0.25);
+}
+
+/* ✨ АКТИВНЫЙ ТЕРМИН (НЕОНОВОЕ СВЕЧЕНИЕ ПРИ РАСКРЫТИИ) */
+.dict-row.active {
+    background: linear-gradient(135deg, rgba(14, 11, 28, 0.95), rgba(30, 15, 50, 0.95)) !important;
+    border-color: #ff2a8d !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 42, 141, 0.5), inset 0 0 15px rgba(176, 38, 255, 0.3) !important;
+    transform: translateY(-2px);
+}
+
+.word-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    gap: 14px;
+}
+
+.word-left-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    overflow: hidden;
+}
+
+/* Эпичные SVG-иконки для терминов */
+.word-svg-icon {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    stroke: var(--dict-neon-cyan);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.5));
+}
+
+.dict-row.active .word-svg-icon {
+    stroke: #ff2a8d;
+    filter: drop-shadow(0 0 10px #ff2a8d);
+}
+
+.word-name {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+
+.word-meta-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.word-cat-badge {
+    background: rgba(176, 38, 255, 0.15);
+    border: 1px solid rgba(176, 38, 255, 0.4);
+    color: #e280ff;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    font-family: 'Unbounded', sans-serif;
+}
+
+/* Кнопка дешифровки */
+.decode-btn {
+    background: linear-gradient(135deg, rgba(176, 38, 255, 0.3), rgba(0, 240, 255, 0.3));
+    border: 1px solid rgba(0, 240, 255, 0.5);
+    color: #fff;
+    padding: 7px 16px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    font-family: 'Unbounded', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+}
+
+.decode-btn:hover {
+    background: linear-gradient(135deg, #b026ff, #00f0ff);
+    box-shadow: 0 0 18px rgba(0, 240, 255, 0.6);
+    transform: scale(1.05);
+}
+
+/* Описание / Дешифровка */
+.word-def {
+    display: none;
+    padding: 0 18px 16px 64px;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    margin-top: 4px;
+    padding-top: 12px;
+}
+
+.dict-row.active .word-def {
+    display: block;
+    animation: fadeInDef 0.3s ease;
+}
+
+@keyframes fadeInDef {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 📱 АДАПТИВ */
+@media (max-width: 768px) {
+    .dict-filters-panel {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .dict-search-input, .dict-category-select {
+        width: 100%;
+    }
+    .word-cat-badge {
+        display: none;
+    }
+}
+
+
+/* 🌟 ПРИНУДИТЕЛЬНОЕ СВЕЧЕНИЕ ИКОНОК СЛОВАРЯ */
+.word-svg-icon {
+    width: 32px !important;
+    height: 32px !important;
+    flex-shrink: 0 !important;
+    fill: none !important; /* Убираем черную заливку */
+    stroke: #00f0ff !important; /* Насильно ставим лазурный неон */
+    stroke-width: 1.5 !important;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.6)) !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Эффект при раскрытии термина (меняем цвет на розовый) */
+.dict-row.active .word-svg-icon {
+    stroke: #ff2a8d !important;
+    filter: drop-shadow(0 0 12px rgba(255, 42, 141, 0.8)) !important;
+}
+
+
+
+/* ==========================================================================
+   🌈 ЖИВОЙ ПЕРЕЛИВАЮЩИЙСЯ НЕОНОВЫЙ КОНТУР (CYBER-FLOW)
+   ========================================================================== */
+
+.dict-row {
+    position: relative !important;
+    margin-bottom: 16px !important;
+    border-radius: 18px !important;
+    padding: 1px !important; /* Толщина нашего будущего бордера */
+    background: linear-gradient(90deg, #00f0ff, #ff2a8d, #b026ff, #00f0ff) !important;
+    background-size: 400% 400% !important;
+    animation: neon-flow 8s ease infinite !important; /* Запускаем переливание */
+    overflow: hidden !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+/* Внутренняя часть карточки (чтобы не закрасилась градиентом) */
+.dict-row::after {
+    content: "" !important;
+    position: absolute !important;
+    inset: 1px !important; /* Оставляем 1px для рамки */
+    background: #0c0a1a !important; /* Глухой темный фон карточки */
+    border-radius: 17px !important;
+    z-index: 0 !important;
+}
+
+/* Наводим порядок в слоях, чтобы текст был поверх подложки */
+.word-header, .word-def {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* ✨ ЭФФЕКТ ПРИ НАВЕДЕНИИ: УСИЛЯЕМ СВЕЧЕНИЕ И СКОРОСТЬ */
+.dict-row:hover {
+    transform: translateY(-4px) scale(1.01) !important;
+    animation: neon-flow 3s linear infinite !important; /* Переливается быстрее */
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.8), 
+        0 0 20px rgba(0, 240, 255, 0.3),
+        0 0 40px rgba(255, 42, 141, 0.3) !important;
+}
+
+/* 🔥 АКТИВНЫЙ ТЕРМИН: ГОРЯЩИЙ НЕОН */
+.dict-row.active {
+    box-shadow: 
+        0 0 30px rgba(0, 240, 255, 0.4),
+        0 0 60px rgba(255, 42, 141, 0.4) !important;
+}
+
+/* 🌀 САМА АНИМАЦИЯ ПЕРЕЛИВА */
+@keyframes neon-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Фикс для иконок внутри */
+.word-svg-icon {
+    position: relative;
+    z-index: 2;
+}
+
+
     </style>
 
 
@@ -14648,14 +15067,55 @@
 
         </div>
 
-        <!-- СЛОВАРЬ ЛЭЙКОРА -->
-        <div id="page-dictionary" class="page-view">
-            <h2 class="section-title title-gold" style="font-size: 3rem;">СЛОВАРЬ ЛЭЙКОРА</h2>
-            <!-- ДВЕ ТЕМАТИЧЕСКИЕ КАРТИНКИ В СЛОВАРЕ (1920x1080) -->
-            <div class="dict-banners-row"> <img class="leycore-16x9-banner" src="dict_1.webp" alt="Словарь 1"> </div>
+       <!-- ==========================================================================
+     РАЗМЕТКА ВКЛАДКИ «СЛОВАРЬ» 2.0 (ИНТЕРФЕЙС "ПОСЛЕ")
+     ========================================================================== -->
+<div id="page-dictionary" class="page-view">
+    
+    <!-- 1. ШАПКА СЛОВАРЯ И КНОПКА ПРИМЕРОВ В ХРАНИЛИЩЕ -->
+    <div class="dict-header-wrap">
+        <h2 class="section-title title-gold dict-main-title" style="font-size: unset; margin: 0;">СЛОВАРЬ ЛЭЙКОРА</h2>
+        
+        <!-- Кнопка перехода в Хранилище с SVG иконкой -->
+        <button type="button" class="dict-examples-btn" onclick="switchPage('metaphors')">
+            <svg viewBox="0 0 24 24">
+                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+                <path d="M6 6h10M6 10h10"/>
+            </svg>
+            <span>Примеры использования</span>
+        </button>
+    </div>
 
-            <div id="dictionary-content"></div>
+    <!-- 2. БАННЕР СЛОВАРЯ (ОРИГИНАЛЬНЫЙ ФОРМАТ 16:9 БЕЗ ОБРЕЗКИ) -->
+    <div class="dict-banners-row">
+        <img src="dict_1.webp" alt="Словарь Лэйкора">
+    </div>
+
+    <!-- 3. ПАНЕЛЬ ФИЛЬТРОВ (ПОИСК, КАТЕГОРИИ, АЛФАВИТ) -->
+    <div class="dict-filters-panel">
+        
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; flex: 1;">
+            <!-- Строка поиска -->
+            <input type="text" id="dictSearchInput" class="dict-search-input" placeholder="Найти термин..." oninput="filterDictionaryEngine()">
+            
+            <!-- Выпадающий список категорий -->
+            <select id="dictCategorySelect" class="dict-category-select" onchange="filterDictionaryEngine()">
+                <option value="all">📁 Все категории</option>
+            </select>
         </div>
+
+        <!-- Алфавитный фильтр (А-Я + Все) -->
+        <div class="dict-alphabet-row" id="dictAlphabetContainer">
+            <button class="dict-alpha-btn active" onclick="setDictLetter('ALL', this)">ВСЕ</button>
+            <!-- Скрипт сам сгенерирует буквы А-Я здесь -->
+        </div>
+
+    </div>
+
+    <!-- 4. КОНТЕЙНЕР ДЛЯ РЕНДЕРА ТЕРМИНОВ -->
+    <div id="dictionary-content"></div>
+
+</div>
 
         <!-- СТРАНИЦА ЧТЕНИЯ СКАЗКИ -->
         <div id="page-tale-reading" class="page-view">
@@ -14959,7 +15419,7 @@
         <!-- 2. 🎰 СЛОТ-МАШИНА ВАСИЛИЧА -->
         <div id="game-block-casino" class="game-section-block">
             <div class="casino-wrapper">
-                <h3 class="casino-title">🎰 КАЗИНО ДЕМИУРГА ВАСИЛИЧА</h3>
+                <h3 class="casino-title">🎰 КАЗИНО ВАСИЛИЧА</h3>
                 <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">
                     Крути барабан, выбивай рецепты, величественные титулы для чата и темы сайта!
                 </p>
@@ -16193,6 +16653,13 @@ function openDishPage(i) {
             ]
         };
 
+
+
+
+        // Подгружаем звук один раз при загрузке страницы
+const dictSfx = new Audio('dict_sfx.mp3');
+dictSfx.volume = 0.4; // Громкость на 40%, чтобы не пугать людей
+
         // ----------------------------------------------------
         // 5. ПОЛНЫЙ СЛОВАРЬ ЛЭЙКОРА (180+ СЛОВ)
         // ----------------------------------------------------
@@ -16207,7 +16674,7 @@ function openDishPage(i) {
                 {w: "АУТЕНТИЧНОСТЬ", d: "Подлинность, верность своей сути. Кодекс суверенного существования."},
                 {w: "ГНОЗИС", d: "Высшее интуитивное знание, озарение избранных."},
                 {w: "ДЕКОНСТРУКЦИЯ", d: "Разбор сложной системы на части для понимания её истинных внутренних механизмов."},
-                {w: "ДЕМИУРГ", d: "Творец собственной вселенной. Ты в своей комнате — Демиург."},
+                {w: "ДЕМИУРГ", d: "Творец собственной вселенной"},
                 {w: "ДЕРЕАЛИЗАЦИЯ", d: "Ощущение нереальности окружающего мира, словно сквозь стекло или в фильме."},
                 {w: "ДИХОТОМИЯ", d: "Деление целого на две взаимно исключающие части."},
                 {w: "ИНКАПСУЛЯЦИЯ", d: "Герметизация Кронтара от внешних вирусов и паразитических программ."},
@@ -16293,50 +16760,170 @@ function openDishPage(i) {
             ]
         };
 
-        // ИСПРАВЛЕННЫЙ РЕНДЕР СЛОВАРЯ (С БЭКТЭКАМИ И ПРАВИЛЬНЫМИ КАВЫЧКАМИ)
-        function renderDictionary() {
-            const container = document.getElementById('dictionary-content');
-            if (!container) return;
-            if (typeof dictionaryData === 'undefined') return;
+     
 
-            let html = '';
-            let catIdx = 0;
 
-            for (let category in dictionaryData) {
-                catIdx++;
-                html += `<div class="dict-cat-header">${category}</div>`;
-                let sortedWords = dictionaryData[category].sort((a, b) => a.w.localeCompare(b.w, 'ru'));
-                let currentLetter = '';
 
-                sortedWords.forEach((item, i) => {
-                    let firstLetter = item.w[0];
-                    if (firstLetter !== currentLetter) {
-                        currentLetter = firstLetter;
-                        html += `<div class="dict-letter">${currentLetter}</div>`;
-                    }
-                    const wordId = `word-c${catIdx}-${i}`;
-                    html += `
+let currentDictLetter = 'ALL';
+
+// 🌀 МАССИВ ИЗ 10 КИБЕР-ИКОНОК ДЛЯ РОТАЦИИ
+const dictSvgIcons = [
+    // 1. Куб (Абстракция)
+    `<svg class="word-svg-icon" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>`,
+    // 2. Атом (Суть)
+    `<svg class="word-svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M10.3 21a9 9 0 0 1-8.3-9 9 9 0 0 1 17.6-3"></path><path d="M21 10.3a9 9 0 0 1-9 8.3"></path><path d="M12 2a9 9 0 0 1 3 17.6"></path></svg>`,
+    // 3. Гексагон (Система)
+    `<svg class="word-svg-icon" viewBox="0 0 24 24"><path d="M12 2l9 4.5v11L12 22l-9-4.5v-11z"></path><path d="M12 22V12"></path><path d="M21 6.5L12 12 3 6.5"></path></svg>`,
+    // 4. Нейросеть (Связи)
+    `<svg class="word-svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"></circle><circle cx="5" cy="5" r="2"></circle><circle cx="19" cy="5" r="2"></circle><circle cx="19" cy="19" r="2"></circle><circle cx="5" cy="19" r="2"></circle><line x1="7" y1="7" x2="10.5" y2="10.5"></line><line x1="13.5" y1="13.5" x2="17" y2="17"></line><line x1="17" y1="7" x2="13.5" y2="10.5"></line><line x1="10.5" y1="13.5" x2="7" y2="17"></line></svg>`,
+    // 5. Искра (Озарение)
+    `<svg class="word-svg-icon" viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z"></path></svg>`,
+    // 6. Щит (Инкапсуляция)
+    `<svg class="word-svg-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>`,
+    // 7. Сфера (Целостность)
+    `<svg class="word-svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>`,
+    // 8. Пирамида (Иерархия)
+    `<svg class="word-svg-icon" viewBox="0 0 24 24"><path d="M12 2L2 20h20L12 2z"></path><path d="M12 2v18"></path><path d="M7 11h10"></path></svg>`,
+    // 9. Спираль (Процесс)
+    `<svg class="word-svg-icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-8 0 2 2 0 0 0-4 0"></path></svg>`,
+    // 10. Ключ (Дешифровка)
+    `<svg class="word-svg-icon" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"></circle><path d="m21 2-9.6 9.6"></path><path d="m15.5 7.5 3 3L22 7l-3-3"></path></svg>`
+];
+
+
+// Автоматическая инициализация категорий в селекте и алфавита при загрузке
+document.addEventListener('DOMContentLoaded', () => {
+    initDictionaryFilters();
+});
+
+function initDictionaryFilters() {
+    // 1. Заполняем селект категорий
+    const select = document.getElementById('dictCategorySelect');
+    if (select && typeof dictionaryData !== 'undefined') {
+        let optionsHtml = '<option value="all">📁 Все категории</option>';
+        for (let cat in dictionaryData) {
+            optionsHtml += `<option value="${cat}">${cat}</option>`;
+        }
+        select.innerHTML = optionsHtml;
+    }
+
+    // 2. Генерируем алфавит А-Я
+    const alphaContainer = document.getElementById('dictAlphabetContainer');
+    if (alphaContainer) {
+        const alphabet = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ".split('');
+        let alphaHtml = `<button class="dict-alpha-btn active" onclick="setDictLetter('ALL', this)">ВСЕ</button>`;
+        alphabet.forEach(letter => {
+            alphaHtml += `<button class="dict-alpha-btn" onclick="setDictLetter('${letter}', this)">${letter}</button>`;
+        });
+        alphaContainer.innerHTML = alphaHtml;
+    }
+}
+
+// Клик по букве алфавита
+function setDictLetter(letter, btn) {
+    document.querySelectorAll('.dict-alpha-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    currentDictLetter = letter;
+    filterDictionaryEngine();
+}
+
+// Главный движок фильтрации (Поиск + Категория + Буква)
+function filterDictionaryEngine() {
+    const searchInput = document.getElementById('dictSearchInput');
+    const categorySelect = document.getElementById('dictCategorySelect');
+    
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    const selectedCat = categorySelect ? categorySelect.value : 'all';
+
+    renderDictionaryFiltered(query, selectedCat, currentDictLetter);
+}
+
+// РЕНДЕР ОТФИЛЬТРОВАННОГО СЛОВАРЯ (С ИСПРАВЛЕННЫМ ВЫВОДОМ SVG-ИКОНОК)
+function renderDictionaryFiltered(query = '', categoryFilter = 'all', letterFilter = 'ALL') {
+    const container = document.getElementById('dictionary-content');
+    if (!container) return;
+    if (typeof dictionaryData === 'undefined') return;
+
+    let html = '';
+    let globalIndex = 0;
+    let catIdx = 0;
+
+    for (let category in dictionaryData) {
+        if (categoryFilter !== 'all' && category !== categoryFilter) continue;
+        catIdx++;
+
+        let sortedWords = dictionaryData[category].filter(item => {
+            const matchesQuery = item.w.toLowerCase().includes(query) || item.d.toLowerCase().includes(query);
+            const matchesLetter = (letterFilter === 'ALL') || item.w.toUpperCase().startsWith(letterFilter);
+            return matchesQuery && matchesLetter;
+        });
+
+        if (sortedWords.length === 0) continue;
+
+        sortedWords.sort((a, b) => a.w.localeCompare(b.w, 'ru'));
+
+        html += `<div class="dict-cat-header">✦ ${category}</div>`;
+        let currentLetter = '';
+
+        sortedWords.forEach((item, i) => {
+            globalIndex++;
+            let firstLetter = item.w[0].toUpperCase();
+            if (firstLetter !== currentLetter && letterFilter === 'ALL') {
+                currentLetter = firstLetter;
+                html += `<div class="dict-letter">| ${currentLetter}</div>`;
+            }
+
+            const wordId = `word-c${catIdx}-${i}-${globalIndex}`;
+            // Внутри цикла sortedWords.forEach:
+const svgIcon = dictSvgIcons[globalIndex % dictSvgIcons.length];
+
+
+            html += `
                 <div class="dict-row" id="${wordId}">
-                    <div class="word-header">
-                        <span class="word-name">${item.w}</span>
-                        <button class="decode-btn" onclick="toggleWord('${wordId}')">ДЕШИФРОВКА</button>
+                    <div class="word-header" onclick="toggleWord('${wordId}')" style="cursor: pointer;">
+                        <div class="word-left-group">
+                            ${svgIcon}
+                            <span class="word-name">${item.w}</span>
+                        </div>
+                        <div class="word-meta-right">
+                            <span class="word-cat-badge">${category.split('&')[0].trim()}</span>
+                            <button type="button" class="decode-btn" onclick="event.stopPropagation(); toggleWord('${wordId}')">ДЕШИФРОВКА</button>
+                        </div>
                     </div>
                     <div class="word-def">${item.d}</div>
                 </div>`;
-                });
-            }
-            container.innerHTML = html;
-        }
+        });
+    }
+
+    if (html === '') {
+        html = `<div style="text-align: center; padding: 40px; color: rgba(255,255,255,0.5); font-family: 'Unbounded', sans-serif;">Термины не найдены в архивах Лэйкора...</div>`;
+    }
+
+    container.innerHTML = html;
+}
 
 
+const sfxOpen = new Audio('dict_open.mp3');
+const sfxClose = new Audio('dict_close.mp3');
 
-        function toggleWord(id) {
-            const row = document.getElementById(id);
-            if (!row) return;
-            row.classList.toggle('active');
-            const btn = row.querySelector('.decode-btn');
-            if (btn) btn.innerText = row.classList.contains('active') ? 'СКРЫТЬ' : 'ДЕШИФРОВКА';
-        }
+function toggleWord(id) {
+    const row = document.getElementById(id);
+    if (!row) return;
+
+    if (row.classList.contains('active')) {
+        row.classList.remove('active');
+        sfxClose.currentTime = 0;
+        sfxClose.play();
+        row.querySelector('.decode-btn').innerText = 'ДЕШИФРОВКА';
+    } else {
+        row.classList.add('active');
+        sfxOpen.currentTime = 0;
+        sfxOpen.play();
+        row.querySelector('.decode-btn').innerText = 'СКРЫТЬ';
+    }
+}
+
+
 
         // ----------------------------------------------------
         // 7. РЕНДЕР СКАЗОК С НЕЙРО-ОБЛОЖКАМИ
