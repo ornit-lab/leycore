@@ -14726,6 +14726,39 @@
 }
 
 
+
+/* 🛠 ЖЕСТКОЕ ИСПРАВЛЕНИЕ РАСШИФРОВОК И КОМПЛИМЕНТОВ */
+.manifesto-card, 
+.compliment-card, 
+.skills-card,
+.liquid-content-box {
+    position: relative !important;
+    overflow: visible !important; /* Убираем обрезание текста */
+    word-break: break-word !important; /* Перенос длинных слов */
+    box-sizing: border-box !important;
+}
+
+/* Контейнер текста расшифровки */
+.manifesto-card p, 
+.manifesto-text,
+.compliment-desc,
+.stat-description {
+    max-width: 100% !important;
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
+    white-space: normal !important; /* Разрешаем тексту переноситься на новую строку */
+}
+
+/* Если расшифровка открывается в модалке или выпадающем списке */
+.modal-content, 
+.dropdown-content,
+.expanded-text {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+}
+
+
     </style>
 
 
