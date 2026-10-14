@@ -15984,6 +15984,30 @@
 
     <script>
 
+
+// ==========================================================================
+// 🔊 АУДИО-МИКШЕР LEYCORE SFX ENGINE
+// ==========================================================================
+const sfxCardOpen  = new Audio('card_open.mp3');
+const sfxCardClose = new Audio('card_close.mp3');
+const sfxRecipe    = new Audio('recipe_sfx.mp3');
+const sfxStory     = new Audio('story_sfx.mp3');
+
+// Настраиваем комфортную громкость (35-40%), чтобы не глушить слушателя музыки
+[sfxCardOpen, sfxCardClose, sfxRecipe, sfxStory].forEach(audio => {
+    audio.volume = 0.35;
+});
+
+// Универсальный бронебойный пускач звуков (с защитой от спам-кликов)
+function playSfx(audioObj) {
+    if (!audioObj) return;
+    audioObj.currentTime = 0; // Сбрасываем таймлайн в ноль для пулемётного темпа
+    audioObj.play().catch(() => {
+        // Браузеры иногда блокируют звук до самого первого клика юзера по экрану
+    });
+}
+
+
         const bobnitWinPhrases = [
             "Ладно-ладно, в этот раз тебе повезло, шельма... Но мои фишки я всё равно отработаю!",
             "ЧЁ?! Казино сломалось?! Василич, пересчитай бургеры, нас обчистили!",
@@ -16099,18 +16123,24 @@
 
 
 
-        // ----------------------------------------------------
-        // 1. ВЕРТИКАЛЬНАЯ ШКАЛА ПРОГРЕССА (10 КАРТОЧЕК = 100%)
-        // ----------------------------------------------------
-        function toggleLeycoreDef(id) {
+/* Раскрытие главных карточек познания со звуком */
+function toggleLeycoreDef(id) {
     const card = document.getElementById(id);
     if (!card) return;
 
     card.classList.toggle('opened');
-    const label = card.querySelector('.leycore-def-btn-wrap span');
+    const isOpened = card.classList.contains('opened');
+    
+    // 🔊 Играем нужный саундтрек действия:
+    if (isOpened) {
+        playSfx(sfxCardOpen);
+    } else {
+        playSfx(sfxCardClose);
+    }
 
+    const label = card.querySelector('.leycore-def-btn-wrap span');
     if (label) {
-        label.textContent = card.classList.contains('opened') ? 'СВЕРНУТЬ' : 'РАСКРЫТЬ';
+        label.textContent = isOpened ? 'СВЕРНУТЬ' : 'РАСКРЫТЬ';
     }
 
     if (typeof updateLeycoreProgress === 'function') {
@@ -16150,16 +16180,24 @@
         }
 
 
-        /* Раскрытие вложенных комплиментов */
+/* Раскрытие вложенных комплиментов со звуком */
 function toggleComp(id) {
     const item = document.getElementById(id);
     if (!item) return;
 
     item.classList.toggle('opened');
-    const label = item.querySelector('.comp-btn-text');
+    const isOpened = item.classList.contains('opened');
 
+    // 🔊 Звук для сакральных комплиментов
+    if (isOpened) {
+        playSfx(sfxCardOpen);
+    } else {
+        playSfx(sfxCardClose);
+    }
+
+    const label = item.querySelector('.comp-btn-text');
     if (label) {
-        label.textContent = item.classList.contains('opened') ? '[ СКРЫТЬ ]' : '[ РАСШИФРОВАТЬ ]';
+        label.textContent = isOpened ? '[ СКРЫТЬ ]' : '[ РАСШИФРОВАТЬ ]';
     }
 }
 
@@ -16831,6 +16869,7 @@ var switchPage = window.switchPage;
 
        // НАДЕЖНОЕ ОТКРЫТИЕ РЕЦЕПТА (БЕЗ ФАНТОМНЫХ ВЫЛЕТОВ В ИГРАХ)
 function openDishPage(i) {
+     playSfx(sfxRecipe);
     const d = dishes[i];
     if (!d) return;
 
@@ -21376,6 +21415,7 @@ function toggleWord(id) {
 
         // Функция закрытия (остается без изменений)
         window.closeStoryModal = function () {
+            playSfx(sfxStory);
             const modal = document.getElementById('story-modal');
             if (modal) {
                 modal.style.display = 'none';
