@@ -14431,6 +14431,301 @@
 }
 
 
+/* --- АРЕНА ГЛАВНОГО ЭКРАНА --- */
+.leycore-hero {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 20px 24px 80px;
+    box-sizing: border-box;
+}
+
+/* --- ВЕРХНИЙ МОНУМЕНТ: АРТ-КРИСТАЛЛ + КОДЕКС --- */
+.leycore-top-intro-box {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    background: rgba(12, 10, 26, 0.9);
+    border: 1px solid rgba(176, 38, 255, 0.45);
+    border-radius: 26px;
+    padding: 30px 40px;
+    margin-bottom: 35px;
+    box-shadow: 0 12px 45px rgba(0, 0, 0, 0.75), inset 0 0 30px rgba(176, 38, 255, 0.12);
+    backdrop-filter: blur(16px);
+}
+
+.leycore-banner-img {
+    width: min(36%, 380px);
+    height: auto;
+    max-height: 260px;
+    flex: 0 0 auto;
+    object-fit: cover;
+    border-radius: 20px;
+    border: 1.5px solid #ff2a8d;
+    box-shadow: 0 0 30px rgba(255, 42, 141, 0.45), inset 0 0 15px rgba(255, 42, 141, 0.2);
+    display: block;
+}
+
+.leycore-intro-text {
+    flex: 1;
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.88);
+}
+.leycore-intro-text strong {
+    font-family: 'Unbounded', sans-serif;
+    color: #fff;
+}
+
+/* РОЗОВЫЙ НЕОН ДЛЯ ГЛАВНОГО СМЫСЛА */
+.neon-pink-text {
+    color: #ff2a8d !important;
+    font-weight: 800;
+    text-shadow: 0 0 10px rgba(255, 42, 141, 0.8), 0 0 20px rgba(255, 42, 141, 0.4);
+}
+
+/* --- КАРТОЧКИ ПОЗНАНИЯ: КОНТЕЙНЕРЫ В КОНТЕЙНЕРАХ + 3D ПРИПОДНЯТИЕ --- */
+.leycore-def-card {
+    --card-accent: #00f0ff;
+    background: rgba(10, 12, 28, 0.92) !important;
+    border-radius: 20px !important;
+    margin: 0 0 18px !important;
+    border: 1px solid color-mix(in srgb, var(--card-accent) 65%, transparent) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.65), 0 0 18px color-mix(in srgb, var(--card-accent) 24%, transparent), inset 0 0 16px color-mix(in srgb, var(--card-accent) 8%, transparent) !important;
+    overflow: hidden !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease !important;
+    backdrop-filter: blur(12px) !important;
+}
+
+/* Разноцветная неоновая палитра для каждой карточки */
+.leycore-def-card:nth-of-type(1) { --card-accent: #b026ff; }
+.leycore-def-card:nth-of-type(2) { --card-accent: #00f0ff; }
+.leycore-def-card:nth-of-type(3) { --card-accent: #ffb703; }
+.leycore-def-card:nth-of-type(4) { --card-accent: #ff2a8d; }
+.leycore-def-card:nth-of-type(5) { --card-accent: #00ff66; }
+.leycore-def-card:nth-of-type(6) { --card-accent: #a78bfa; }
+.leycore-def-card:nth-of-type(7) { --card-accent: #ff8c42; }
+.leycore-def-card:nth-of-type(8) { --card-accent: #38bdf8; }
+.leycore-def-card:nth-of-type(9) { --card-accent: #fb7185; }
+.leycore-def-card:nth-of-type(10) { --card-accent: #c084fc; }
+
+.leycore-def-card:hover {
+    transform: translateY(-3px) scale(1.004) !important;
+    border-color: var(--card-accent) !important;
+    box-shadow: 0 12px 38px rgba(0, 0, 0, 0.75), 0 0 28px color-mix(in srgb, var(--card-accent) 45%, transparent), inset 0 0 20px color-mix(in srgb, var(--card-accent) 15%, transparent) !important;
+}
+
+/* КАРТОЧКА В РАСКРЫТОМ СОСТОЯНИИ */
+.leycore-def-card.opened {
+    border-color: var(--card-accent) !important;
+    box-shadow: 0 14px 44px rgba(0, 0, 0, 0.8), 0 0 32px color-mix(in srgb, var(--card-accent) 55%, transparent), inset 0 0 22px color-mix(in srgb, var(--card-accent) 18%, transparent) !important;
+}
+
+/* ШАПКА КАРТОЧКИ (ВНУТРЕННИЙ БЛОК) */
+.leycore-def-header {
+    width: 100%;
+    border: none;
+    background: rgba(255, 255, 255, 0.025);
+    padding: 16px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    color: #fff;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    box-sizing: border-box;
+    transition: background 0.25s ease;
+}
+
+.leycore-def-header:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.lc-title-group {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+/* НЕОНОВЫЙ КВАДРАТ С SVG-ИКОНКОЙ */
+.lc-icon-box {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    border-radius: 13px;
+    background: color-mix(in srgb, var(--card-accent) 14%, transparent);
+    border: 1px solid color-mix(in srgb, var(--card-accent) 65%, transparent);
+    display: grid;
+    place-items: center;
+    box-shadow: 0 0 15px color-mix(in srgb, var(--card-accent) 30%, transparent);
+}
+
+.lc-icon-box svg {
+    width: 21px;
+    height: 21px;
+    stroke: var(--card-accent);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 6px var(--card-accent));
+}
+
+/* КНОПКА [ РАСКРЫТЬ ] С ГЛАЗОМ И СТРЕЛОЧКОЙ */
+.leycore-def-btn-wrap {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: 10px;
+    color: var(--card-accent);
+    background: color-mix(in srgb, var(--card-accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--card-accent) 50%, transparent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+}
+
+.leycore-def-btn-wrap svg {
+    width: 15px;
+    height: 15px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.leycore-def-header:hover .leycore-def-btn-wrap {
+    color: #fff;
+    background: color-mix(in srgb, var(--card-accent) 28%, transparent);
+    box-shadow: 0 0 16px color-mix(in srgb, var(--card-accent) 45%, transparent);
+}
+
+/* ТЕЛО ОПИСАНИЯ: БЕЗ СПОЙЛЕРОВ, СКРЫТО ПО УМОЛЧАНИЮ */
+.leycore-def-body {
+    display: none;
+    padding: 20px 26px 26px 76px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.25);
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 0.94rem;
+    line-height: 1.75;
+}
+
+.leycore-def-card.opened .leycore-def-body {
+    display: block;
+    animation: lcReveal 0.3s ease;
+}
+
+.leycore-def-card.opened .leycore-def-btn-wrap {
+    color: #fff;
+    background: color-mix(in srgb, var(--card-accent) 25%, transparent);
+    border-color: var(--card-accent);
+    box-shadow: 0 0 14px color-mix(in srgb, var(--card-accent) 40%, transparent);
+}
+
+@keyframes lcReveal {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* БОКС СРАВНЕНИЯ NPC И ТАКТА ЛЭЙКОРА */
+.comparison-box {
+    margin-top: 14px;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    border-radius: 14px;
+    padding: 16px 20px;
+}
+.comp-title-npc { color: #ffb703; font-weight: 700; margin-bottom: 6px; }
+.comp-title-leycore { color: #00f0ff; font-weight: 700; margin: 14px 0 6px; }
+.leycore-list { margin: 0; padding-left: 20px; }
+.leycore-list li { margin-bottom: 8px; }
+
+/* --- ВЛОЖЕННЫЕ КАРТОЧКИ: САКРАЛЬНЫЕ КОМПЛИМЕНТЫ (ПУНКТ 10) --- */
+.compliments-box {
+    display: grid;
+    gap: 15px;
+    margin-top: 18px;
+}
+
+.compliment-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(192, 132, 252, 0.3);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+.compliment-header {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    background: rgba(255, 255, 255, 0.02);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.compliment-header > span:first-child { flex: 1; }
+
+.comp-btn-text {
+    color: #c084fc;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.compliment-item.opened {
+    border-color: #ff2a8d;
+    box-shadow: 0 0 20px rgba(255, 42, 141, 0.25);
+}
+
+.compliment-body {
+    display: none;
+    padding: 15px 18px;
+    background: rgba(176, 38, 255, 0.08);
+    border-top: 1px solid rgba(176, 38, 255, 0.2);
+    color: rgba(255, 255, 255, 0.88);
+    line-height: 1.65;
+    font-size: 0.9rem;
+}
+
+.compliment-item.opened .compliment-body {
+    display: block;
+    animation: lcReveal 0.25s ease;
+}
+
+/* 📱 АДАПТИВНОСТЬ */
+@media (max-width: 768px) {
+    .leycore-hero { padding: 14px 12px 60px; }
+    .leycore-top-intro-box { flex-direction: column; padding: 22px; gap: 20px; }
+    .leycore-banner-img { width: 100%; max-width: 100%; max-height: none; }
+    .leycore-def-header { padding: 14px 14px; font-size: 0.78rem; gap: 10px; }
+    .lc-title-group { gap: 10px; }
+    .lc-icon-box { width: 34px; height: 34px; flex-basis: 34px; }
+    .leycore-def-btn-wrap { padding: 6px 10px; font-size: 0.62rem; }
+    .leycore-def-body { padding: 16px; }
+    .compliment-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
+
+
     </style>
 
 
@@ -14684,207 +14979,255 @@
 
     <div class="container">
 
-        <!-- LEYCORE MAIN PAGE -->
-        <div id="page-leycore" class="page-view active-page">
-            <div class="leycore-hero">
+    
+<!-- ========================= [HTML РАЗМЕТКА] ========================= -->
+<div id="page-leycore" class="page-view active-page">
+    <div class="container">
+        <div class="leycore-hero">
 
-                <!-- ГОРИЗОНТАЛЬНЫЙ БАННЕР СО СКРУГЛЕННЫМИ УГЛАМИ -->
+            <!-- ВЕРХНИЙ БЛОК: АРТ-БАННЕР СЛЕВА + ВСТУПЛЕНИЕ СПРАВА -->
+            <div class="leycore-top-intro-box">
                 <img class="leycore-banner-img" src="leycore_brain.webp" alt="Баннер Leycore">
-
-
-                <p style="font-size: 1.15rem; margin-bottom: 2rem;"><strong>LEYCORE</strong> — от англ. <em>core</em> —
-                    сердцевина, и от рус. <em>лей</em> — лить. Симбиоз этих слов образует словосочетание —
-                    <strong>льющийся в сердце</strong>. Кодекс лэйкора таков, что он недоступен людям, у которых не
-                    развиты два полушария мозга. Важно, чтобы они работали слаженно, образуя сложные нейронные сети.
-                    Проще говоря — он доступен творческим людям. Обязательно прочитать гримуар перед раскрытием
-                    карточек!
+                <p class="leycore-intro-text">
+                    <strong>LEYCORE</strong> — от англ. <em>core</em> — сердцевина, и от рус. <em>лей</em> — лить. 
+                    Симбиоз этих слов образует словосочетание — <strong class="neon-pink-text">льющийся в сердце</strong>. 
+                    Кодекс лэйкора таков, что он недоступен людям, у которых не развиты два полушария мозга. 
+                    Важно, чтобы они работали слаженно, образуя сложные нейронные сети. 
+                    Проще говоря — он доступен творческим людям. Обязательно прочитать гримуар перед раскрытием карточек!
                 </p>
-
-                <!-- ИНТЕРАКТИВНЫЕ КАРТОЧКИ ПОЗНАНИЯ (10 ПУНКТОВ) -->
-
-                <!-- 1. ФИЛЬТРЫ ВОСПРИЯТИЯ -->
-                <div class="leycore-def-card" id="lc-1">
-                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-1')">
-                        <span>👁️ LEYCORE — Это иное ощущение пространства</span>
-                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
-                    </button>
-                    <div class="leycore-def-body">
-                        <p>Восприятие мира вокруг себя с фильтрами. Они невидимы для людей с прошивкой npc-версий.
-                            Например:</p>
-                        <div class="comparison-box">
-                            <div class="comp-title-npc">🤖 Обычный человек гуляет по улице:</div>
-                            <p style="color: var(--text-muted); margin-bottom: 0;">Что он видит: здания, дорогу,
-                                деревья, небо, машины.</p>
-
-                            <div class="comp-title-leycore">👁️ Человек с лэйкором в голове гуляет по улице:</div>
-                            <p style="color: var(--text-main); margin-bottom: 1rem;">Что он видит:</p>
-                            <ul class="leycore-list">
-                                <li><strong>Здания</strong> плавно переплетены с пространством, словно древние
-                                    титанические монолиты, держащие купол горизонта.</li>
-                                <li><strong>Дорога</strong> раскатывается вдоль всего города хромированной лентой,
-                                    связывающей векторы человеческих судеб.</li>
-                                <li><strong>Деревья</strong> шелестят кронами в ритме пульсации ночного воздуха,
-                                    фильтруя свет сквозь изумрудную сетку ветвей.</li>
-                                <li><strong>Небо</strong> нависает величественным океаном, меняющим градиенты от
-                                    закатного пурпура до суверенной космической тьмы, а вечерний мрак выглядывает из-под
-                                    листьев у старого моста, превращая обычный путь домой в сакральное приключение для
-                                    двоих.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2. ВЗГЛЯД НА ЧЕЛОВЕКА БЕЗ ЧСВ -->
-                <div class="leycore-def-card" id="lc-2">
-                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-2')">
-                        <span>👤 LEYCORE — Это глубокое видение человека</span>
-                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
-                    </button>
-                    <div class="leycore-def-body">
-                        Это не только по-иному ощущать пространство. Это видеть человека по-иному. Видеть его работу над
-                        своей внешностью, видеть труд, вложенный в эту личность, будь то проблемы, будь то пустота.
-                        Лэйкор принимает каждый характер и не создает воронку ЧСВ.
-                    </div>
-                </div>
-
-                <!-- 3. ОДИНОЧЕСТВО И САНДБОКС -->
-                <div class="leycore-def-card" id="lc-3">
-                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-3')">
-                        <span>🧘 LEYCORE — Это одиночество и сандбокс творца</span>
-                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
-                    </button>
-                    <div class="leycore-def-body">
-                        Ты сам придумываешь ивенты, ты создаешь вокруг себя реальность
-                        собственными руками. Ты воспринимаешь реальность как игру, где законы мира — это квесты, а
-                        основные цели — водить краской по плоти вселенной и наслаждаться своими рисунками, живя в них.
-                        Это самодостаточность: ты не грустишь от отсутствия близких людей. Ты настолько близок с собой,
-                        что ты сам себе друг, ты дружишь со своими страхами, которые когда-то вывел на свет.
-                    </div>
-                </div>
-
-                <!-- 4. СИНЕРГИЯ С СОАВТОРОМ -->
-                <div class="leycore-def-card" id="lc-4">
-                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-4')">
-                        <span>✨ LEYCORE — Это гибкость</span>
-                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
-                    </button>
-                    <div class="leycore-def-body">
-                        Он очень гибок. Если вплести в него соавтора — того, кто сам познал Лэйкор — то мир
-                        вокруг тебя окрасится такими красками, которых не существует в реальности. Словно фильтры,
-                        встроенные в твой мозг, взрываются и расцветают, образуя на старом фундаменте сверхновое
-                        поколение восприятия.
-                    </div>
-                </div>
-
-                <!-- 5. ПАПКА С КОДОМ -->
-                <div class="leycore-def-card" id="lc-5">
-                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-5')">
-                        <span>💻 LEYCORE — Это отдельная папка для своего кода</span>
-                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
-                    </button>
-                    <div class="leycore-def-body">
-                        Прописав свой код лет эдак 30 назад и забросив его в ноутбуке, обычный человек через 40 лет не
-                        найдет эти файлы в тысячах замусоренных папок и закроет крышку. Человек с Лэйкором создает
-                        отдельную подсвеченную директорию на видном месте, сохраняет к ней Root-доступ и в любое время
-                        может переписать свой системный код.
-                    </div>
-                </div>
-
-                <!-- 6. ТВОРЧЕСТВО В КАЖДОЙ СФЕРЕ -->
-                <div class="leycore-def-card" id="lc-6">
-                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-6')">
-                        <span>🎨 LEYCORE — Это творчество в каждой сфере</span>
-                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
-                    </button>
-                    <div class="leycore-def-body">
-                        Сила лэйкора в голове человека способна породить самые
-                        интересные, упоротые, завораживающие и комичные образы. Это словно магическая приправа для всех
-                        блюд, которую можно купить лишь сотнями дней работы над собой и своим мышлением. Примеры работ
-                        смотрим во вкладке <strong>"Сказки / Апостериори"</strong>.
-                    </div>
-                </div>
-
-                <!-- 7. ПСИХОЛОГИЯ НА УРОВНЕ МАГИИ -->
-                <div class="leycore-def-card" id="lc-7">
-                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-7')">
-                        <span>🔮 LEYCORE — Это психология на уровне магии (Сканер аур)</span>
-                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
-                    </button>
-                    <div class="leycore-def-body">
-                        У каждого человека есть аура, будь то злая, будь то хорошая.
-                        Опытный человек сразу распознает её. Проще говоря — это психология на уровне магии. С помощью
-                        этого навыка можно предотвратить контакт с человеком, имеющим странную ауру.
-                    </div>
-                </div>
-
-                <!-- 8. ДОБРО И ЗЛО -->
-                <div class="leycore-def-card" id="lc-8">
-                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-8')">
-                        <span>🛡️ LEYCORE — Это добро, осознающее природу зла</span>
-                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
-                    </button>
-                    <div class="leycore-def-body">
-                        Когда человек, прошедший сквозь годы личного ада и познавший самые тёмные, гнилые уголки этого
-                        мира, выбирается на свет с фундаментальным пониманием: истинная суверенность — это быть искренне
-                        добрым, но смертельно вооружённым.
-                    </div>
-                </div>
-
-                <!-- 9. ВСЁ В ЭТОМ МИРЕ -->
-                <div class="leycore-def-card" id="lc-9">
-                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-9')">
-                        <span>🌌 LEYCORE — Это всё в этом мире</span>
-                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
-                    </button>
-                    <div class="leycore-def-body">
-                        Он льется в сердцах всех людей, однако не каждый способен обнажить его.
-                    </div>
-                </div>
-
-                <!-- 10. ЯЗЫК МЕТАФОР И КОМПЛИМЕНТЫ -->
-                <div class="leycore-def-card" id="lc-10">
-                    <button class="leycore-def-header" onclick="toggleLeycoreDef('lc-10')">
-                        <span>💬 LEYCORE — Это язык метафор и сакральные комплименты</span>
-                        <span class="leycore-def-btn">[ РАСКРЫТЬ ]</span>
-                    </button>
-                    <div class="leycore-def-body">
-                        <p style="margin-bottom: 1.5rem;">Это объяснение различных вещей в жизни на языке метафор. Это
-                            язык, на котором невероятно красивые вещи объясняются невероятно непонятными словами.
-                            Например, комплименты:</p>
-
-                        <div class="compliments-box">
-                            <div class="compliment-item" id="c1">
-                                <button class="compliment-header" onclick="toggleComp('c1')">
-                                    <span>«Плацентарность твоего характера искушает, и воодушевляет тектонические плиты
-                                        моего восприятия, и, каждая доля сакральности, что вывеивается выходя в свет
-                                        рождает лингвистическую жадность мироздания»</span>
-                                    <span class="comp-btn-text" id="btn-text-c1">[ РАСШИФРОВАТЬ ]</span>
-                                </button>
-                                <div class="compliment-body">Твоя глубинная, обволакивающая и живая суть
-                                    (плацентарность) настолько мощна, что сотрясает основы моего мышления (тектонические
-                                    плиты). Каждый лучик твоей уникальности, когда ты показываешь его миру, пробуждает у
-                                    меня непреодолимое желание говорить о тебе бесконечно, забирая себе все слова
-                                    вселенной.</div>
-                            </div>
-
-                            <div class="compliment-item" id="c2">
-                                <button class="compliment-header" onclick="toggleComp('c2')">
-                                    <span>«Твоя мириада имманентных щёлочей меланина искажает пространство, даруя
-                                        этическим нормам природы дополнительный очаг изумления, детонирующее знамя моей
-                                        внутренней планеты»</span>
-                                    <span class="comp-btn-text" id="btn-text-c2">[ РАСШИФРОВАТЬ ]</span>
-                                </button>
-                                <div class="compliment-body">Твоя естественная красота и глубина (мириада щёлочей
-                                    меланина) настолько завораживают, что искривляют привычную реальность. Это
-                                    заставляет саму природу удивляться, а в моем внутреннем мире происходит взрыв
-                                    грандиозных эмоций и чувств к тебе.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-        </div>
+
+            <!-- ИНТЕРАКТИВНЫЕ КАРТОЧКИ ПОЗНАНИЯ (ВСЕ 10 ШТУК БЕЗ ИСКЛЮЧЕНИЙ) -->
+
+            <!-- 1. ФИЛЬТРЫ ВОСПРИЯТИЯ -->
+            <div class="leycore-def-card" id="lc-1">
+                <button class="leycore-def-header" type="button" onclick="toggleLeycoreDef('lc-1')">
+                    <span class="lc-title-group">
+                        <span class="lc-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </span>
+                        <span>LEYCORE — Это иное ощущение пространства</span>
+                    </span>
+                    <span class="leycore-def-btn-wrap">
+                        <svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <span>РАСКРЫТЬ</span>
+                    </span>
+                </button>
+                <div class="leycore-def-body">
+                    <p>Восприятие мира вокруг себя с фильтрами. Они невидимы для людей с прошивкой npc-версий. Например:</p>
+                    <div class="comparison-box">
+                        <div class="comp-title-npc">🤖 Обычный человек гуляет по улице:</div>
+                        <p style="color: rgba(255,255,255,0.6); margin-bottom: 0;">Что он видит: здания, дорогу, деревья, небо, машины.</p>
+                        <div class="comp-title-leycore">👁️ Человек с лэйкором в голове гуляет по улице:</div>
+                        <p style="color: #fff; margin-bottom: 1rem;">Что он видит:</p>
+                        <ul class="leycore-list">
+                            <li><strong>Здания</strong> плавно переплетены с пространством, словно древние титанические монолиты, держащие купол горизонта.</li>
+                            <li><strong>Дорога</strong> раскатывается вдоль всего города хромированной лентой, связывающей векторы человеческих судеб.</li>
+                            <li><strong>Деревья</strong> шелестят кронами в ритме пульсации ночного воздуха, фильтруя свет сквозь изумрудную сетку ветвей.</li>
+                            <li><strong>Небо</strong> нависает величественным океаном, меняющим градиенты от закатного пурпура до суверенной космической тьмы, а вечерний мрак выглядывает из-под листьев у старого моста, превращая обычный путь домой в сакральное приключение для двоих.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. ВЗГЛЯД НА ЧЕЛОВЕКА БЕЗ ЧСВ -->
+            <div class="leycore-def-card" id="lc-2">
+                <button class="leycore-def-header" type="button" onclick="toggleLeycoreDef('lc-2')">
+                    <span class="lc-title-group">
+                        <span class="lc-icon-box">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><path d="M3 21a9 9 0 0 1 18 0"/><path d="M9 8h.01M15 8h.01"/></svg>
+                        </span>
+                        <span>LEYCORE — Это глубокое видение человека</span>
+                    </span>
+                    <span class="leycore-def-btn-wrap">
+                        <svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <span>РАСКРЫТЬ</span>
+                    </span>
+                </button>
+                <div class="leycore-def-body">
+                    Это не только по-иному ощущать пространство. Это видеть человека по-иному. Видеть его работу над своей внешностью, видеть труд, вложенный в эту личность, будь то проблемы, будь то пустота. Лэйкор принимает каждый характер и не создает воронку ЧСВ.
+                </div>
+            </div>
+
+            <!-- 3. ОДИНОЧЕСТВО И САНДБОКС -->
+            <div class="leycore-def-card" id="lc-3">
+                <button class="leycore-def-header" type="button" onclick="toggleLeycoreDef('lc-3')">
+                    <span class="lc-title-group">
+                        <span class="lc-icon-box">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0M4 4l2 2m14-2-2 2"/></svg>
+                        </span>
+                        <span>LEYCORE — Это одиночество и сандбокс творца</span>
+                    </span>
+                    <span class="leycore-def-btn-wrap">
+                        <svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <span>РАСКРЫТЬ</span>
+                    </span>
+                </button>
+                <div class="leycore-def-body">
+                    Ты сам придумываешь события, ты создаешь вокруг себя реальность собственными руками. Ты воспринимаешь реальность как игру, где законы мира — это квесты, а основные цели — водить краской по плоти вселенной и наслаждаться своими рисунками, живя в них. Это самодостаточность: ты не грустишь от отсутствия близких людей. Ты настолько близок с собой, что ты сам себе друг, ты дружишь со своими страхами, которые когда-то вывел на свет.
+                </div>
+            </div>
+
+            <!-- 4. СИНЕРГИЯ С СОАВТОРОМ -->
+            <div class="leycore-def-card" id="lc-4">
+                <button class="leycore-def-header" type="button" onclick="toggleLeycoreDef('lc-4')">
+                    <span class="lc-title-group">
+                        <span class="lc-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </span>
+                        <span>LEYCORE — Это гибкость</span>
+                    </span>
+                    <span class="leycore-def-btn-wrap">
+                        <svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <span>РАСКРЫТЬ</span>
+                    </span>
+                </button>
+                <div class="leycore-def-body">
+                    Он очень гибок. Если вплести в него соавтора — того, кто сам познал Лэйкор — то мир вокруг тебя окрасится такими красками, которых не существует в реальности. Словно фильтры, встроенные в твой мозг, взрываются и расцветают, образуя на старом фундаменте сверхновое поколение восприятия.
+                </div>
+            </div>
+
+            <!-- 5. ПАПКА С КОДОМ -->
+            <div class="leycore-def-card" id="lc-5">
+                <button class="leycore-def-header" type="button" onclick="toggleLeycoreDef('lc-5')">
+                    <span class="lc-title-group">
+                        <span class="lc-icon-box">
+                            <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/><line x1="14" y1="4" x2="10" y2="20"/></svg>
+                        </span>
+                        <span>LEYCORE — Это отдельная папка для своего кода</span>
+                    </span>
+                    <span class="leycore-def-btn-wrap">
+                        <svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <span>РАСКРЫТЬ</span>
+                    </span>
+                </button>
+                <div class="leycore-def-body">
+                    Прописав свой код лет эдак 30 назад и забросив его в ноутбуке, обычный человек через 40 лет не найдет эти файлы в тысячах замусоренных папок и закроет крышку. Человек с Лэйкором создает отдельную подсвеченную директорию на видном месте, сохраняет к ней Root-доступ и в любое время может переписать свой системный код.
+                </div>
+            </div>
+
+            <!-- 6. ТВОРЧЕСТВО В КАЖДОЙ СФЕРЕ -->
+            <div class="leycore-def-card" id="lc-6">
+                <button class="leycore-def-header" type="button" onclick="toggleLeycoreDef('lc-6')">
+                    <span class="lc-title-group">
+                        <span class="lc-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9M12 3v9l7 4"/><path d="m19 2 1 3 3 1-3 1-1 3-1-3-3-1 3-1z"/></svg>
+                        </span>
+                        <span>LEYCORE — Это творчество в каждой сфере</span>
+                    </span>
+                    <span class="leycore-def-btn-wrap">
+                        <svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <span>РАСКРЫТЬ</span>
+                    </span>
+                </button>
+                <div class="leycore-def-body">
+                    Сила лэйкора в голове человека способна породить самые интересные, упоротые, завораживающие и комичные образы. Это словно магическая приправа для всех блюд, которую можно купить лишь сотнями дней работы над собой и своим мышлением. Примеры работ смотрим во вкладке <strong>«Сказки / Апостериори»</strong>.
+                </div>
+            </div>
+
+            <!-- 7. ПСИХОЛОГИЯ НА УРОВНЕ МАГИИ -->
+            <div class="leycore-def-card" id="lc-7">
+                <button class="leycore-def-header" type="button" onclick="toggleLeycoreDef('lc-7')">
+                    <span class="lc-title-group">
+                        <span class="lc-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M12 3a7 7 0 0 0-7 7c0 2.5 1.3 4.7 3.3 5.9L9 20h6l.7-4.1A7 7 0 0 0 12 3Z"/><path d="M9 20v2h6v-2M9 10h.01M15 10h.01"/></svg>
+                        </span>
+                        <span>LEYCORE — Это психология на уровне магии (Сканер аур)</span>
+                    </span>
+                    <span class="leycore-def-btn-wrap">
+                        <svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <span>РАСКРЫТЬ</span>
+                    </span>
+                </button>
+                <div class="leycore-def-body">
+                    У каждого человека есть аура, будь то злая, будь то хорошая. Опытный человек сразу распознает её. Проще говоря — это психология на уровне магии. С помощью этого навыка можно предотвратить контакт с человеком, имеющим странную ауру.
+                </div>
+            </div>
+
+            <!-- 8. ДОБРО И ЗЛО -->
+            <div class="leycore-def-card" id="lc-8">
+                <button class="leycore-def-header" type="button" onclick="toggleLeycoreDef('lc-8')">
+                    <span class="lc-title-group">
+                        <span class="lc-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+                        </span>
+                        <span>LEYCORE — Это добро, осознающее природу зла</span>
+                    </span>
+                    <span class="leycore-def-btn-wrap">
+                        <svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <span>РАСКРЫТЬ</span>
+                    </span>
+                </button>
+                <div class="leycore-def-body">
+                    Когда человек, прошедший сквозь годы личного ада и познавший самые тёмные, гнилые уголки этого мира, выбирается на свет с фундаментальным пониманием: истинная суверенность — это быть искренне добрым, но смертельно вооружённым.
+                </div>
+            </div>
+
+            <!-- 9. ВСЁ В ЭТОМ МИРЕ -->
+            <div class="leycore-def-card" id="lc-9">
+                <button class="leycore-def-header" type="button" onclick="toggleLeycoreDef('lc-9')">
+                    <span class="lc-title-group">
+                        <span class="lc-icon-box">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>
+                        </span>
+                        <span>LEYCORE — Это всё в этом мире</span>
+                    </span>
+                    <span class="leycore-def-btn-wrap">
+                        <svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <span>РАСКРЫТЬ</span>
+                    </span>
+                </button>
+                <div class="leycore-def-body">
+                    Он льется в сердцах всех людей, однако не каждый способен обнажить его.
+                </div>
+            </div>
+
+            <!-- 10. ЯЗЫК МЕТАФОР И САХАРНЫЕ/САКРАЛЬНЫЕ КОМПЛИМЕНТЫ -->
+            <div class="leycore-def-card" id="lc-10">
+                <button class="leycore-def-header" type="button" onclick="toggleLeycoreDef('lc-10')">
+                    <span class="lc-title-group">
+                        <span class="lc-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2Z"/><path d="M8 9h8M8 13h5"/></svg>
+                        </span>
+                        <span>LEYCORE — Это язык метафор и сакральные комплименты</span>
+                    </span>
+                    <span class="leycore-def-btn-wrap">
+                        <svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <span>РАСКРЫТЬ</span>
+                    </span>
+                </button>
+                <div class="leycore-def-body">
+                    <p>Это объяснение различных вещей в жизни на языке метафор. Это язык, на котором невероятно красивые вещи объясняются невероятно непонятными словами. Например, комплименты:</p>
+                    
+                    <div class="compliments-box">
+                        <!-- ВЛОЖЕННЫЙ КОМПЛИМЕНТ 1 -->
+                        <div class="compliment-item" id="c1">
+                            <button class="compliment-header" type="button" onclick="toggleComp('c1')">
+                                <span>«Плацентарность твоего характера искушает, и воодушевляет тектонические плиты моего восприятия, и, каждая доля сакральности, что вывеивается выходя в свет рождает лингвистическую жадность мироздания»</span>
+                                <span class="comp-btn-text" id="btn-text-c1">[ РАСШИФРОВАТЬ ]</span>
+                            </button>
+                            <div class="compliment-body">
+                                Твоя глубинная, обволакивающая и живая суть (плацентарность) настолько мощна, что сотрясает основы моего мышления (тектонические плиты). Каждый лучик твоей уникальности, когда ты показываешь его миру, пробуждает у меня непреодолимое желание говорить о тебе бесконечно, забирая себе все слова вселенной.
+                            </div>
+                        </div>
+
+                        <!-- ВЛОЖЕННЫЙ КОМПЛИМЕНТ 2 -->
+                        <div class="compliment-item" id="c2">
+                            <button class="compliment-header" type="button" onclick="toggleComp('c2')">
+                                <span>«Твоя мириада имманентных щёлочей меланина искажает пространство, даруя этическим нормам природы дополнительный очаг изумления, детонирующее знамя моей внутренней планеты»</span>
+                                <span class="comp-btn-text" id="btn-text-c2">[ РАСШИФРОВАТЬ ]</span>
+                            </button>
+                            <div class="compliment-body">
+                                Твоя естественная красота и глубина (мириада щёлочей меланина) настолько завораживают, что искривляют привычную реальность. Это заставляет саму природу удивляться, а в моем внутреннем мире происходит взрыв грандиозных эмоций и чувств к тебе.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- /leycore-hero -->
+    </div> <!-- /container -->
+</div> <!-- /page-leycore -->
 
         <!-- ==========================================================================
      МЕНЮ ВАСИЛИЧА 2.0 (ИНТЕРФЕЙС "ПОСЛЕ")
@@ -15760,20 +16103,20 @@
         // 1. ВЕРТИКАЛЬНАЯ ШКАЛА ПРОГРЕССА (10 КАРТОЧЕК = 100%)
         // ----------------------------------------------------
         function toggleLeycoreDef(id) {
-            const card = document.getElementById(id);
-            if (!card) return;
+    const card = document.getElementById(id);
+    if (!card) return;
 
-            card.classList.toggle('opened');
-            const btn = card.querySelector('.leycore-def-btn');
+    card.classList.toggle('opened');
+    const label = card.querySelector('.leycore-def-btn-wrap span');
 
-            if (card.classList.contains('opened')) {
-                if (btn) btn.innerText = '✓ ИЗУЧЕНО';
-            } else {
-                if (btn) btn.innerText = '[ РАСКРЫТЬ ]';
-            }
+    if (label) {
+        label.textContent = card.classList.contains('opened') ? 'СВЕРНУТЬ' : 'РАСКРЫТЬ';
+    }
 
-            updateLeycoreProgress();
-        }
+    if (typeof updateLeycoreProgress === 'function') {
+        updateLeycoreProgress();
+    }
+}
 
         function updateLeycoreProgress() {
             const allCards = document.querySelectorAll('.leycore-def-card');
@@ -15807,13 +16150,18 @@
         }
 
 
-        function toggleComp(id) {
-            const el = document.getElementById(id);
-            const btn = document.getElementById('btn-text-' + id);
-            if (!el || !btn) return;
-            el.classList.toggle('active');
-            btn.innerText = el.classList.contains('active') ? '[ СКРЫТЬ ]' : '[ РАСШИФРОВАТЬ ]';
-        }
+        /* Раскрытие вложенных комплиментов */
+function toggleComp(id) {
+    const item = document.getElementById(id);
+    if (!item) return;
+
+    item.classList.toggle('opened');
+    const label = item.querySelector('.comp-btn-text');
+
+    if (label) {
+        label.textContent = item.classList.contains('opened') ? '[ СКРЫТЬ ]' : '[ РАСШИФРОВАТЬ ]';
+    }
+}
 
        // ====================================================
 // ЕДИНАЯ ГЛОБАЛЬНАЯ НАВИГАЦИЯ САЙТА LEYCORE
