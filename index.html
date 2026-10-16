@@ -14927,28 +14927,28 @@
 
     <!-- САЙДБАР -->
     <nav class="sidebar-nav sidebar-lava-nav-stack" id="lavaSidebarNav">
-        <a href="javascript:void(0)" onclick="switchPage('leycore')" id="nav-leycore"
+        <a href="javascript:void(0)" onclick="sidebarNavigate('leycore')" id="nav-leycore"
             class="sidebar-link link-cyan active"><span>LEYCORE (ГЛАВНАЯ)</span><span class="icon">⚡️</span></a>
 
-        <a onclick="switchPage('symphonies')" id="nav-symphonies"
+        <a onclick="sidebarNavigate('symphonies')" id="nav-symphonies"
             class="sidebar-link link-purple"><span>ЛЭЙКОСТАЗ</span><span class="icon">🎧</span></a>
 
-        <a href="javascript:void(0)" onclick="switchPage('achievements')" id="nav-achievements"
+        <a href="javascript:void(0)" onclick="sidebarNavigate('achievements')" id="nav-achievements"
             class="sidebar-link link-purple arcade-only"><span>ПРОФИЛЬ</span><span class="icon">🏆</span></a>
 
-        <a onclick="switchPage('games')" id="nav-games"
+        <a onclick="sidebarNavigate('games')" id="nav-games"
             class="sidebar-link link-gold arcade-only"><span>ИГРЫ</span><span class="icon">🎮</span></a>
 
-        <a onclick="switchPage('global-chat')" id="nav-chat"
+        <a onclick="sidebarNavigate('global-chat')" id="nav-chat"
             class="sidebar-link link-cyan arcade-only"><span>ЧАТ</span><span class="icon">💬</span></a>
 
-        <a href="javascript:void(0)" onclick="switchPage('menu')" id="nav-menu"
+        <a href="javascript:void(0)" onclick="sidebarNavigate('menu')" id="nav-menu"
             class="sidebar-link link-green"><span>МЕНЮ ВАСИЛИЧА</span><span class="icon">🍖</span></a>
 
-        <a href="javascript:void(0)" onclick="switchPage('metaphors')" id="nav-metaphors"
+        <a href="javascript:void(0)" onclick="sidebarNavigate('metaphors')" id="nav-metaphors"
             class="sidebar-link link-purple"><span>ХРАНИЛИЩЕ</span><span class="icon">🔮</span></a>
 
-        <a href="javascript:void(0)" onclick="switchPage('dictionary')" id="nav-dictionary"
+        <a href="javascript:void(0)" onclick="sidebarNavigate('dictionary')" id="nav-dictionary"
             class="sidebar-link link-gold"><span>СЛОВАРЬ</span><span class="icon">📖</span></a>
         <!-- КНОПКА СПРЯТАТЬ / ПОКАЗАТЬ САЙДБАР (В САМОМ НИЗУ ВКЛАДОК) -->
         <button id="lavaSidebarToggleBtn" class="sidebar-toggle-btn" onclick="toggleLavaSidebar()"
@@ -15333,7 +15333,7 @@
 
          <!-- ДЕТАЛИ БЛЮДА -->
         <div id="page-dish-detail" class="page-view">
-            <button class="open-dish-btn" onclick="switchPage('menu')"
+            <button class="open-dish-btn" onclick="sidebarNavigate('menu')"
                 style="margin-bottom: 2rem; width: auto; padding: 12px 30px;">← НАЗАД В МЕНЮ</button>
             <div id="dish-detail-content"></div>
         </div>
@@ -15453,7 +15453,7 @@
         <h2 class="section-title title-gold dict-main-title" style="font-size: unset; margin: 0;">СЛОВАРЬ ЛЭЙКОРА</h2>
         
         <!-- Кнопка перехода в Хранилище с SVG иконкой -->
-        <button type="button" class="dict-examples-btn" onclick="switchPage('metaphors')">
+        <button type="button" class="dict-examples-btn" onclick="sidebarNavigate('metaphors')">
             <svg viewBox="0 0 24 24">
                 <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
                 <path d="M6 6h10M6 10h10"/>
@@ -15495,7 +15495,7 @@
 
         <!-- СТРАНИЦА ЧТЕНИЯ СКАЗКИ -->
         <div id="page-tale-reading" class="page-view">
-            <button class="read-btn" onclick="switchPage('metaphors')"
+            <button class="read-btn" onclick="sidebarNavigate('metaphors')"
                 style="width: auto; margin-bottom: 2rem; padding: 10px 30px;">← НАЗАД К ХРАНИЛИЩУ</button>
             <div id="tale-content-target"></div>
         </div>
@@ -16041,6 +16041,35 @@ function playSfx(audioObj) {
 }
 
 
+const sfxSideBar = new Audio('SideBar.mp3');
+const sfxCloseHistory = new Audio('closeHis.mp3');
+const sfxMenuSwitch = new Audio('menuSwooth.mp3');
+const sfxGrimoireOpen = new Audio('opengrimuar.mp3');
+const sfxGrimoireFlip = new Audio('list.mp3');
+const sfxTrackChoose = new Audio('chooseSi.mp3');
+const sfxGenreChoose = new Audio('zhanr.mp3');
+
+[
+    sfxSideBar,
+    sfxCloseHistory,
+    sfxMenuSwitch,
+    sfxGrimoireOpen,
+    sfxGrimoireFlip,
+    sfxTrackChoose,
+    sfxGenreChoose
+].forEach(sound => {
+    sound.volume = 0.70;
+});
+
+// Для звуков Гримуара — отдельная громкость
+sfxGrimoireOpen.volume = 0.70;
+sfxGrimoireFlip.volume = 0.60;
+
+
+
+
+
+
         const bobnitWinPhrases = [
             "Ладно-ладно, в этот раз тебе повезло, шельма... Но мои фишки я всё равно отработаю!",
             "ЧЁ?! Казино сломалось?! Василич, пересчитай бургеры, нас обчистили!",
@@ -16250,10 +16279,8 @@ window.switchPage = function (id) {
         }
     }
 
-    // 2. Звук перехода
-    if (typeof playSoftWhooshSound === 'function') {
-        playSoftWhooshSound();
-    }
+
+
 
     // 3. СКРЫВАЕМ ВСЕ СТРАНИЦЫ
     document.querySelectorAll('.page-view').forEach(p => {
@@ -16895,6 +16922,8 @@ var switchPage = window.switchPage;
 
 
         function filterDishes(category, btnElement) {
+            playSfx(sfxMenuSwitch);
+
             document.querySelectorAll('.menu-tab-btn').forEach(btn => btn.classList.remove('active-menu-tab'));
             if (btnElement) btnElement.classList.add('active-menu-tab');
             renderDishes(category);
@@ -18347,32 +18376,40 @@ function toggleWord(id) {
         }
 
         // Загрузка трека
-        function loadTrackByIndex(index) {
-            if (index < 0 || index >= tracks.length) return;
-            currentTrackIndex = index;
-            const track = tracks[currentTrackIndex];
+// Загрузка трека
+function loadTrackByIndex(index) {
+    if (index < 0 || index >= tracks.length) return;
 
-            audio.src = track.url;
-            document.getElementById('current-track-title').innerText = track.title;
-            document.getElementById('current-track-cat').innerText = "Жанр: " + track.cat.toUpperCase();
+    playSfx(sfxTrackChoose); // звук выбора трека
 
-            const coverImg = document.getElementById('current-track-cover');
-            if (coverImg) {
-                coverImg.src = track.cover;
-                coverImg.onerror = function () {this.src = 'strannik.jpg';};
-            }
+    currentTrackIndex = index;
+    const track = tracks[currentTrackIndex];
 
-            document.querySelectorAll('.lz-track-item').forEach((el, idx) => {
-                el.classList.toggle('active-track', idx === currentTrackIndex);
-            });
+    audio.src = track.url;
+    document.getElementById('current-track-title').innerText = track.title;
+    document.getElementById('current-track-cat').innerText =
+        "Жанр: " + track.cat.toUpperCase();
 
-            audio.play()
-                .then(() => {
-                    const playBtn = document.getElementById('main-play-btn');
-                    if (playBtn) playBtn.innerText = "❚❚";
-                })
-                .catch(err => console.warn("Автовоспроизведение заблокировано браузером:", err));
-        }
+    const coverImg = document.getElementById('current-track-cover');
+    if (coverImg) {
+        coverImg.src = track.cover;
+        coverImg.onerror = function () {
+            this.src = 'strannik.jpg';
+        };
+    }
+
+    document.querySelectorAll('.lz-track-item').forEach((el, idx) => {
+        el.classList.toggle('active-track', idx === currentTrackIndex);
+    });
+
+    audio.play()
+        .then(() => {
+            const playBtn = document.getElementById('main-play-btn');
+            if (playBtn) playBtn.innerText = "❚❚";
+        })
+        .catch(err => console.warn("Автовоспроизведение заблокировано браузером:", err));
+}
+
 
         function loadTrack(title) {
             const idx = tracks.findIndex(t => t.title === title);
@@ -18442,6 +18479,8 @@ function toggleWord(id) {
 
         // 🔥 ПЕРЕКЛЮЧЕНИЕ НАСТРОЕНИЙ С СИНХРОННЫМ НЕОНОВЫМ ПОДСВЕЧИВАНИЕМ
         function filterTracksByMood(mood) {
+            playSfx(sfxGenreChoose);
+
             const sections = ['sad', 'calm', 'cheerful'];
             sections.forEach(cat => {
                 const secEl = document.getElementById(`section-${cat}`);
@@ -18797,7 +18836,7 @@ function toggleWord(id) {
 
         function switchProfileSubTab(tabName) {
             currentProfileSubTab = tabName;
-            if (typeof playSoftWhooshSound === 'function') playSoftWhooshSound();
+           
 
             // Подсветка активной вкладки
             ['achievements', 'inventory', 'shop'].forEach(t => {
@@ -21439,6 +21478,8 @@ function toggleWord(id) {
             ${imgPath ? `<img class="dish-story-top-art" src="${imgPath}" alt="${recipe.title}">` : ''}
             <span class="dish-story-text-body" style="display: block; margin-top: 15px;">${storyText}</span>
         `;
+        playSfx(sfxStory);
+
 
                 modal.style.display = 'flex';
             }
@@ -21448,13 +21489,13 @@ function toggleWord(id) {
 
         // Функция закрытия (остается без изменений)
         window.closeStoryModal = function () {
-            playSfx(sfxStory);
-            const modal = document.getElementById('story-modal');
-            if (modal) {
-                modal.style.display = 'none';
-                console.log("🔒 Модалка закрыта.");
-            }
-        };
+    const modal = document.getElementById('story-modal');
+    if (!modal) return;
+
+    playSfx(sfxCloseHistory);
+    modal.style.display = 'none';
+};
+
 
 
 
@@ -21637,34 +21678,37 @@ function toggleWord(id) {
                 }
             },
 
-            open: function () {
-                this.pageIndex = 0;
-                this.render();
-                const m = document.getElementById('grimoireModalView');
-                if (m) m.style.display = 'flex';
-                this.playPaperSound();
-            },
+           open: function () {
+    playSfx(sfxGrimoireOpen); // opengrimuar.mp3
 
-            close: function () {
-                const m = document.getElementById('grimoireModalView');
-                if (m) m.style.display = 'none';
-            },
+    this.pageIndex = 0;
+    this.render();
 
-            next: function () {
-                if (this.pageIndex < this.pages.length - 1) {
-                    this.pageIndex++;
-                    this.playPaperSound();
-                    this.render();
-                }
-            },
+    const m = document.getElementById('grimoireModalView');
+    if (m) m.style.display = 'flex';
+},
 
-            prev: function () {
-                if (this.pageIndex > 0) {
-                    this.pageIndex--;
-                    this.playPaperSound();
-                    this.render();
-                }
-            }
+close: function () {
+    const m = document.getElementById('grimoireModalView');
+    if (m) m.style.display = 'none';
+},
+
+next: function () {
+    if (this.pageIndex < this.pages.length - 1) {
+        this.pageIndex++;
+        playSfx(sfxGrimoireFlip); // list.mp3
+        this.render();
+    }
+},
+
+prev: function () {
+    if (this.pageIndex > 0) {
+        this.pageIndex--;
+        playSfx(sfxGrimoireFlip); // list.mp3
+        this.render();
+    }
+}
+
         };
 
         // ==========================================
@@ -21707,6 +21751,13 @@ function toggleWord(id) {
                 };
             }
         })();
+
+
+        function sidebarNavigate(id) {
+    playSfx(sfxSideBar);
+    switchPage(id);
+}
+
 
         // ==========================================
         // 🎧 ПЛАВНОЕ УПРАВЛЕНИЕ АМБИЕНТ-ТРЕКОМ
@@ -21893,53 +21944,6 @@ function toggleWord(id) {
             } catch (e) { }
         }
 
-
-
-        // ==========================================
-        // 💨 МЯГКИЙ БАРХАТНЫЙ ЗВУК "ФЫЫУУ" ПРИ ПЕРЕХОДЕ ПО ВКЛАДКАМ
-        // ==========================================
-        function playSoftWhooshSound() {
-            try {
-                const AudioCtx = window.AudioContext || window.webkitAudioContext;
-                if (!AudioCtx) return;
-                const ctx = new AudioCtx();
-
-                // Разблокировка контекста для телефонов
-                if (ctx.state === 'suspended') {
-                    ctx.resume();
-                }
-
-                const now = ctx.currentTime;
-
-                // 1. МЯГКИЙ СИНУСОИДАЛЬНЫЙ СВИП (Плавно скользит вниз)
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                const filter = ctx.createBiquadFilter();
-
-                osc.type = 'sine'; // Чистый, мягкий без резких граней тон
-                osc.frequency.setValueAtTime(320, now); // Старт с мягкого средняка
-                osc.frequency.exponentialRampToValueAtTime(110, now + 0.16); // "Фыы-уу..."
-
-                // 2. СРЕЗАЕМ ВСЕ ОСТРЫЕ ВЕРХИ (Фильтр низких частот)
-                filter.type = 'lowpass';
-                filter.frequency.setValueAtTime(500, now);
-                filter.frequency.exponentialRampToValueAtTime(150, now + 0.16);
-
-                // 3. НЕЖНАЯ ОГИБАЮЩАЯ ГРОМКОСТИ (Без щелчков на старте)
-                gain.gain.setValueAtTime(0.001, now);
-                gain.gain.linearRampToValueAtTime(0.16, now + 0.03); // Плавное мягкое появление
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16); // Затухание
-
-                osc.connect(filter);
-                filter.connect(gain);
-                gain.connect(ctx.destination);
-
-                osc.start(now);
-                osc.stop(now + 0.18);
-
-                setTimeout(() => {ctx.close();}, 220);
-            } catch (e) { }
-        }
 
 
 
