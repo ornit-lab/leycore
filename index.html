@@ -26414,7 +26414,36 @@ document.addEventListener('click', function onFirstUserGesture(e) {
     }
 }, { once: true });
 
+// Железный запрет на глушение музыки:
+window.checkGrimoireAmbientState = function() { /* Музыка играет всегда! */ };
 
+
+
+// ==========================================================================
+// 🛡️ ФИКСЫ: НЕПРЕРЫВНЫЙ ЭМБИЕНТ + РАЗБЛОКИРОВКА SFX ДЛЯ МОБИЛОК
+// ==========================================================================
+
+// 1. Убиваем старую функцию-глушилку навсегда
+window.checkGrimoireAmbientState = function() {};
+
+// 2. Мобильный разблокировщик звуков (Touch Unlocker)
+document.addEventListener('touchstart', function unlockMobileAudio() {
+    // Прогреваем звук сайдбара в тихом режиме
+    if (typeof sfxSideBar !== 'undefined' && sfxSideBar) {
+        sfxSideBar.play().then(() => {
+            sfxSideBar.pause();
+            sfxSideBar.currentTime = 0;
+        }).catch(() => {});
+    }
+
+    // Подхватываем эмбиент, если он ещё спал
+    const ambient = document.getElementById('leycore-ambient-audio');
+    if (ambient && ambient.paused) {
+        ambient.play().then(() => {
+            if (typeof updateBgmButtonUI === 'function') updateBgmButtonUI(true);
+        }).catch(() => {});
+    }
+}, { once: true });
 
     </script>
 
@@ -26544,8 +26573,7 @@ document.addEventListener('click', function onFirstUserGesture(e) {
         </div>
     </div>
 
-    <!-- ТВОЙ АМБИЕНТ-ТРЕК ДЛЯ ГЛАВНОЙ СТРАНИЦЫ -->
-    <audio id="leycore-ambient-audio" src="ambient.mp3" loop preload="auto"></audio>
+   
     <!-- Секретный плеер для Космического сеанса -->
     <audio id="cosmic-ambient-audio" loop preload="auto">
         <source src="cosmic_ambient.mp3" type="audio/mp3">
@@ -27151,7 +27179,8 @@ document.addEventListener('click', function onFirstUserGesture(e) {
             </div>
         </div>
 
-
+ <!-- ТВОЙ АМБИЕНТ-ТРЕК ДЛЯ ГЛАВНОЙ СТРАНИЦЫ -->
+    <audio id="leycore-ambient-audio" src="ambient.mp3" loop preload="auto"></audio>
 </body>
 
 </html>
