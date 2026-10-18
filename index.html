@@ -14801,6 +14801,113 @@ video.vm-banner-img,
 
 
 
+/* ==========================================================================
+   🎮 3D-КИБЕР-КНОПКА BGM В ШАПКЕ LEYCORE
+   ========================================================================== */
+.lz-bgm-header-wrap {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin: 14px 0 16px 0 !important;
+}
+
+#bgmToggleBtn {
+    position: static !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    padding: 7px 18px 8px 18px !important;
+    border-radius: 999px !important;
+    background: linear-gradient(180deg, #0f1a1a 0%, #080f14 100%) !important;
+    
+    /* 3D-объем снизу */
+    border: 1px solid #00ff66 !important;
+    border-bottom: 3.5px solid #00993d !important;
+    color: #00ff66 !important;
+    box-shadow: 
+        0 4px 0 #005924,
+        0 8px 20px rgba(0, 255, 102, 0.35),
+        inset 0 1px 2px rgba(255, 255, 255, 0.25) !important;
+    
+    font-family: 'Unbounded', sans-serif !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 1.5px !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    outline: none !important;
+    transition: all 0.15s ease !important;
+}
+
+#bgmToggleBtn:hover {
+    filter: brightness(1.15);
+    box-shadow: 
+        0 4px 0 #005924,
+        0 10px 25px rgba(0, 255, 102, 0.55),
+        inset 0 1px 2px rgba(255, 255, 255, 0.3) !important;
+}
+
+#bgmToggleBtn:active {
+    transform: translateY(3px) !important;
+    border-bottom-width: 1px !important;
+    box-shadow: 0 1px 0 #005924, 0 4px 12px rgba(0, 255, 102, 0.4) !important;
+}
+
+/* Полоски эквалайзера */
+.lz-bgm-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 13px;
+}
+
+.lz-bgm-bar {
+    width: 3px;
+    height: 100%;
+    background: #00ff66;
+    border-radius: 2px;
+    box-shadow: 0 0 6px #00ff66;
+    animation: bgmWaveAnim 1.1s ease-in-out infinite alternate;
+}
+
+.lz-bgm-bar:nth-child(1) { height: 35%; animation-delay: 0.1s; }
+.lz-bgm-bar:nth-child(2) { height: 85%; animation-delay: 0.35s; }
+.lz-bgm-bar:nth-child(3) { height: 55%; animation-delay: 0.2s; }
+.lz-bgm-bar:nth-child(4) { height: 100%; animation-delay: 0.45s; }
+
+@keyframes bgmWaveAnim {
+    0% { height: 20%; }
+    50% { height: 100%; }
+    100% { height: 35%; }
+}
+
+/* Состояние ВЫКЛЮЧЕНО (Красный неон) */
+#bgmToggleBtn.muted {
+    border-color: #ff2a55 !important;
+    border-bottom: 3.5px solid #a80f2d !important;
+    color: #ff2a55 !important;
+    box-shadow: 
+        0 4px 0 #5e0013,
+        0 8px 18px rgba(255, 42, 85, 0.35),
+        inset 0 1px 2px rgba(255, 255, 255, 0.15) !important;
+}
+
+#bgmToggleBtn.muted:active {
+    transform: translateY(3px) !important;
+    border-bottom-width: 1px !important;
+    box-shadow: 0 1px 0 #5e0013, 0 4px 10px rgba(255, 42, 85, 0.3) !important;
+}
+
+#bgmToggleBtn.muted .lz-bgm-bar {
+    background: #ff2a55 !important;
+    box-shadow: 0 0 4px #ff2a55 !important;
+    animation: none !important;
+    height: 3px !important;
+}
+
+
     </style>
 
 
@@ -15011,6 +15118,19 @@ video.vm-banner-img,
 
     <header>
         <div class="badge">LEYCORE // v130.0 // local</div>
+        <!-- КНОПКА BGM В ЦЕНТРЕ ШАПКИ -->
+<div class="lz-bgm-header-wrap">
+    <button type="button" id="bgmToggleBtn" onclick="toggleGlobalAmbient(event)">
+        <div class="lz-bgm-bars">
+            <span class="lz-bgm-bar"></span>
+            <span class="lz-bgm-bar"></span>
+            <span class="lz-bgm-bar"></span>
+            <span class="lz-bgm-bar"></span>
+        </div>
+        <span id="bgmToggleText">BGM ON</span>
+    </button>
+</div>
+
         <h1 id="main-title">LEYCORE</h1>
         <!-- КНОПКА СТЁБА -->
         <p class="subtitle">Карта восприятия, творчества и скрытых связей между человеком и миром</p>
@@ -21768,14 +21888,12 @@ prev: function () {
         // 🌌 СИНЕРГИЯ С ГЛАВНОЙ СТРАНИЦЕЙ (ВКЛ/ВЫКЛ АМБИЕНТА)
         // ==========================================
         function checkGrimoireAmbientState(pageId) {
-            if (pageId === 'leycore') {
-                // Если пользователь на главной — запускаем тихий галактический амбиент
-                LEYCORE_GRIMOIRE.startGalacticAmbient();
-            } else {
-                // При переходе на другие страницы — плавно гасим его
-                LEYCORE_GRIMOIRE.stopGalacticAmbient();
-            }
-        }
+    const audio = document.getElementById('leycore-ambient-audio');
+    if (audio) {
+        audio.volume = 0.40;
+    }
+}
+
 
         // Запускаем звук при первом клике на главной странице (из-за правил браузера)
         document.addEventListener('click', function initAmbientOnUserClick() {
@@ -26249,6 +26367,52 @@ document.addEventListener('DOMContentLoaded', () => {
         renderDictionaryFiltered('', 'all', 'ALL');
     }
 });
+
+
+
+// ==========================================
+// 🎵 АВТОНОМНЫЙ КОНТРОЛЛЕР BGM
+// ==========================================
+function updateBgmButtonUI(isPlaying) {
+    const btn = document.getElementById('bgmToggleBtn');
+    const txt = document.getElementById('bgmToggleText');
+    if (!btn || !txt) return;
+
+    if (isPlaying) {
+        btn.classList.remove('muted');
+        txt.innerText = 'BGM ON';
+    } else {
+        btn.classList.add('muted');
+        txt.innerText = 'BGM OFF';
+    }
+}
+
+function toggleGlobalAmbient(e) {
+    if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+    }
+    const audio = document.getElementById('leycore-ambient-audio');
+    if (!audio) return;
+
+    if (!audio.paused) {
+        audio.pause();
+        updateBgmButtonUI(false);
+    } else {
+        audio.play().then(() => {
+            updateBgmButtonUI(true);
+        }).catch(() => {});
+    }
+}
+
+// Запуск фонового трека при первом клике юзера
+document.addEventListener('click', function onFirstUserGesture(e) {
+    if (e.target.closest('#bgmToggleBtn')) return;
+    const audio = document.getElementById('leycore-ambient-audio');
+    if (audio && audio.paused) {
+        audio.play().then(() => updateBgmButtonUI(true)).catch(() => {});
+    }
+}, { once: true });
 
 
 
