@@ -14801,6 +14801,191 @@ video.vm-banner-img,
 
 
 
+
+/* ==========================================================================
+   🎵 КИБЕР-КНОПКА ФОНОВОГО ЭМБИЕНТА (BGM TOGGLE)
+   ========================================================================== */
+.lz-bgm-toggle-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 90px; /* Аккуратно рядом с кнопкой чата */
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 15px;
+    border-radius: 999px;
+    background: rgba(10, 12, 24, 0.88);
+    border: 1px solid #00ff66;
+    color: #00ff66;
+    box-shadow: 0 0 16px rgba(0, 255, 102, 0.35), inset 0 0 10px rgba(0, 255, 102, 0.15);
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    user-select: none;
+}
+
+.lz-bgm-toggle-widget:hover {
+    transform: translateY(-2px) scale(1.04);
+}
+
+/* 📊 ПОЛОСКИ ЭКВАЛАЙЗЕРА */
+.lz-bgm-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 14px;
+}
+
+.lz-bgm-bar {
+    width: 3px;
+    height: 100%;
+    background: #00ff66;
+    border-radius: 2px;
+    box-shadow: 0 0 6px #00ff66;
+    animation: bgmWave 1.2s ease-in-out infinite alternate;
+}
+
+.lz-bgm-bar:nth-child(1) { height: 40%; animation-delay: 0.1s; }
+.lz-bgm-bar:nth-child(2) { height: 80%; animation-delay: 0.3s; }
+.lz-bgm-bar:nth-child(3) { height: 60%; animation-delay: 0.2s; }
+.lz-bgm-bar:nth-child(4) { height: 100%; animation-delay: 0.4s; }
+
+@keyframes bgmWave {
+    0% { height: 20%; }
+    50% { height: 100%; }
+    100% { height: 35%; }
+}
+
+/* 🛑 ВЫКЛЮЧЕННОЕ СОСТОЯНИЕ (КРАСНЫЙ НЕОН + СТОП-КАДР) */
+.lz-bgm-toggle-widget.muted {
+    border-color: #ff2a55 !important;
+    color: #ff2a55 !important;
+    box-shadow: 0 0 14px rgba(255, 42, 85, 0.35), inset 0 0 8px rgba(255, 42, 85, 0.15) !important;
+}
+
+.lz-bgm-toggle-widget.muted .lz-bgm-bar {
+    background: #ff2a55 !important;
+    box-shadow: 0 0 4px #ff2a55 !important;
+    animation: none !important;
+    height: 3px !important; /* Застыли в одной точке */
+}
+
+
+/* ==========================================================================
+   🎵 BGM WIDGET В ШАПКЕ ГЛАВНОЙ СТРАНИЦЫ
+   ========================================================================== */
+.lz-bgm-header-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 12px 0 16px 0;
+    width: 100%;
+}
+
+.lz-bgm-toggle-widget {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: rgba(10, 14, 28, 0.75);
+    border: 1px solid #00ff66;
+    color: #00ff66;
+    box-shadow: 0 0 18px rgba(0, 255, 102, 0.3), inset 0 0 10px rgba(0, 255, 102, 0.12);
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    user-select: none;
+    outline: none;
+}
+
+.lz-bgm-toggle-widget:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(0, 255, 102, 0.5), inset 0 0 15px rgba(0, 255, 102, 0.25);
+}
+
+/* 📊 ПОЛОСКИ ЭКВАЛАЙЗЕРА */
+.lz-bgm-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 13px;
+}
+
+.lz-bgm-bar {
+    width: 3px;
+    height: 100%;
+    background: #00ff66;
+    border-radius: 2px;
+    box-shadow: 0 0 6px #00ff66;
+    animation: bgmWave 1.2s ease-in-out infinite alternate;
+}
+
+.lz-bgm-bar:nth-child(1) { height: 40%; animation-delay: 0.1s; }
+.lz-bgm-bar:nth-child(2) { height: 80%; animation-delay: 0.3s; }
+.lz-bgm-bar:nth-child(3) { height: 60%; animation-delay: 0.2s; }
+.lz-bgm-bar:nth-child(4) { height: 100%; animation-delay: 0.4s; }
+
+@keyframes bgmWave {
+    0% { height: 20%; }
+    50% { height: 100%; }
+    100% { height: 35%; }
+}
+
+/* 🛑 ВЫКЛЮЧЕННОЕ СОСТОЯНИЕ (КРАСНЫЙ НЕОН + СТОП-КАДР) */
+.lz-bgm-toggle-widget.muted {
+    border-color: #ff2a55 !important;
+    color: #ff2a55 !important;
+    box-shadow: 0 0 15px rgba(255, 42, 85, 0.3), inset 0 0 8px rgba(255, 42, 85, 0.12) !important;
+}
+
+.lz-bgm-toggle-widget.muted .lz-bgm-bar {
+    background: #ff2a55 !important;
+    box-shadow: 0 0 4px #ff2a55 !important;
+    animation: none !important;
+    height: 3px !important;
+}
+
+
+/* ==========================================================================
+   🎯 ПРИНУДИТЕЛЬНЫЙ ЦЕНТР ДЛЯ КНОПКИ BGM В ШАПКЕ LEYCORE
+   ========================================================================== */
+.lz-bgm-header-wrap {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin: 14px 0 16px 0 !important;
+    text-align: center !important;
+}
+
+/* СНИМАЕМ FIXED! ТЕПЕРЬ ОНА В ЦЕНТРЕ ПОТОКА */
+.lz-bgm-toggle-widget,
+#bgmToggleBtn {
+    position: static !important; /* УБИВАЕТ ПРИВЯЗКУ К УГЛУ ЭКРАНА! */
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    margin: 0 auto !important;
+    bottom: auto !important;
+    right: auto !important;
+    left: auto !important;
+    top: auto !important;
+    z-index: 10 !important;
+}
+
+
+
     </style>
 
 
@@ -15011,6 +15196,19 @@ video.vm-banner-img,
 
     <header>
         <div class="badge">LEYCORE // v130.0 // local</div>
+        <!-- КИБЕР-КНОПКА BGM В ЦЕНТРЕ ШАПКИ -->
+<div class="lz-bgm-header-wrap">
+    <button type="button" id="bgmToggleBtn" class="lz-bgm-toggle-widget" onclick="toggleGlobalAmbient()">
+        <div class="lz-bgm-bars">
+            <span class="lz-bgm-bar"></span>
+            <span class="lz-bgm-bar"></span>
+            <span class="lz-bgm-bar"></span>
+            <span class="lz-bgm-bar"></span>
+        </div>
+        <span id="bgmToggleText">BGM ON</span>
+    </button>
+</div>
+
         <h1 id="main-title">LEYCORE</h1>
         <!-- КНОПКА СТЁБА -->
         <p class="subtitle">Карта восприятия, творчества и скрытых связей между человеком и миром</p>
@@ -26252,6 +26450,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+// ==========================================================================
+// 🌌 ГЛОБАЛЬНЫЙ ЭМБИЕНТ ДЛЯ LEYCORE
+// ==========================================================================
+const globalBgmAudio = document.getElementById('leycore-ambient-audio');
+
+if (globalBgmAudio) {
+    globalBgmAudio.loop = true;
+    globalBgmAudio.volume = 0.25;
+}
+
+let isBgmPlaying = false;
+
+function updateBgmUI(isPlaying) {
+    const btn = document.getElementById('bgmToggleBtn');
+    const btnText = document.getElementById('bgmToggleText');
+    if (!btn || !btnText) return;
+
+    if (isPlaying) {
+        btn.classList.remove('muted');
+        btnText.innerText = 'BGM ON';
+    } else {
+        btn.classList.add('muted');
+        btnText.innerText = 'BGM OFF';
+    }
+}
+
+function toggleGlobalAmbient() {
+    if (!globalBgmAudio) return;
+
+    if (isBgmPlaying) {
+        globalBgmAudio.pause();
+        isBgmPlaying = false;
+        updateBgmUI(false);
+    } else {
+        globalBgmAudio.play().then(() => {
+            isBgmPlaying = true;
+            updateBgmUI(true);
+        }).catch(err => {
+            console.warn("Браузер ожидает взаимодействия для звука:", err);
+        });
+    }
+}
+
+// Запуск при первом клике в любой точке сайта
+document.addEventListener('click', function initBgmOnFirstClick() {
+    if (!isBgmPlaying && globalBgmAudio) {
+        globalBgmAudio.play().then(() => {
+            isBgmPlaying = true;
+            updateBgmUI(true);
+        }).catch(() => {});
+    }
+}, { once: true });
+
     </script>
 
 
@@ -26986,6 +27237,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div id="tcPannellumViewer"></div>
             </div>
         </div>
+
+
+
+        <!-- КИБЕР-КНОПКА BGM -->
+<button type="button" id="bgmToggleBtn" class="lz-bgm-toggle-widget" onclick="toggleGlobalAmbient()">
+    <div class="lz-bgm-bars">
+        <span class="lz-bgm-bar"></span>
+        <span class="lz-bgm-bar"></span>
+        <span class="lz-bgm-bar"></span>
+        <span class="lz-bgm-bar"></span>
+    </div>
+    <span id="bgmToggleText">BGM ON</span>
+</button>
 
 
 </body>
