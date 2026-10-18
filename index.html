@@ -14774,21 +14774,29 @@
 
 
 /* ==========================================================================
-   🍳 ФИКС ЖИВОГО ВИДЕО-БАННЕРА ВАСИЛИЧА
+   🍳 ЧЕСТНЫЙ ФОРМАТ 16:9 ДЛЯ ВИДЕО ВАСИЛИЧА
    ========================================================================== */
 video.vm-banner-img,
-.vm-banner-container video,
-video#vasilich-cooking-video {
+#vasilich-cooking-video {
     width: 100% !important;
-    max-width: 100% !important;
+    max-width: 620px !important;  /* Чтобы видео не растаскивало на километр */
     height: auto !important;
-    max-height: 280px !important; /* Ограничиваем высоту, чтобы не занимало весь экран */
-    object-fit: cover !important;  /* Идеально кадрирует видео без искажения пропорций */
+    aspect-ratio: 16 / 9 !important; /* Жестко фиксируем кинематографичный формат 16:9 */
+    max-height: none !important;  /* Снимаем дурацкое ограничение высоты! */
+    object-fit: cover !important; 
     border-radius: 20px !important;
     display: block !important;
-    border: 1px solid rgba(0, 255, 102, 0.4) !important; /* Василичевский изумрудный неон */
-    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 255, 102, 0.25) !important;
-    pointer-events: none !important; /* Чтобы юзер не мог случайно кликнуть паузу */
+    border: 1px solid rgba(0, 255, 102, 0.45) !important;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 255, 102, 0.3) !important;
+    pointer-events: none !important;
+}
+
+/* Выравниваем родительский контейнер карточки */
+.vm-hero-card {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 30px !important;
 }
 
 
