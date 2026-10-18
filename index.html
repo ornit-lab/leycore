@@ -14773,6 +14773,26 @@
 
 
 
+/* ==========================================================================
+   🍳 ФИКС ЖИВОГО ВИДЕО-БАННЕРА ВАСИЛИЧА
+   ========================================================================== */
+video.vm-banner-img,
+.vm-banner-container video,
+video#vasilich-cooking-video {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 280px !important; /* Ограничиваем высоту, чтобы не занимало весь экран */
+    object-fit: cover !important;  /* Идеально кадрирует видео без искажения пропорций */
+    border-radius: 20px !important;
+    display: block !important;
+    border: 1px solid rgba(0, 255, 102, 0.4) !important; /* Василичевский изумрудный неон */
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 255, 102, 0.25) !important;
+    pointer-events: none !important; /* Чтобы юзер не мог случайно кликнуть паузу */
+}
+
+
+
     </style>
 
 
@@ -15317,9 +15337,10 @@
                 </div>
 
                 <!-- КАРТИНКА БАННЕРА БЕЗ ЗНАЧКА ВИДЕО -->
-                   <video class="vm-banner-img" autoplay loop muted playsinline>
-       <source src="vasilich_cooking.mp4" type="video/mp4">
-   </video>
+              <video class="vm-banner-img" id="vasilich-cooking-video" autoplay loop muted playsinline>
+    <source src="vasilich_cooking.mp4" type="video/mp4">
+</video>
+
    
 
             </div>
