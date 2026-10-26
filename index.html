@@ -21325,6 +21325,7 @@ function getAudioCtx() {
             playSfx(sfxSideBar);
             switchPage(id);
         }
+                window.sidebarNavigate = sidebarNavigate;
 
 
         // ==========================================
@@ -25630,25 +25631,6 @@ if (!ctx) return;
             }
         }, {once: true});
 
-
-        // ==========================================
-        // 🔊 ВОССТАНОВЛЕНИЕ ЗВУКА САЙДБАРА
-        // ==========================================
-        window.sidebarClickAudio = new Audio('SideBar.mp3');
-        window.sidebarClickAudio.volume = 0.8;
-
-        window.sidebarNavigate = function (pageId) {
-            try {
-                if (window.sidebarClickAudio) {
-                    window.sidebarClickAudio.currentTime = 0;
-                    window.sidebarClickAudio.play().catch(function (e) { });
-                }
-            } catch (err) { }
-
-            if (typeof switchPage === 'function') {
-                switchPage(pageId);
-            }
-        };
 
     </script>
 
