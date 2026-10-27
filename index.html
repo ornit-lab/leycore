@@ -416,57 +416,6 @@
             box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
         }
 
-        /* ВЕРТИКАЛЬНАЯ ШКАЛА ПРОГРЕССА (СПРАВА) */
-        .leycore-progress-widget {
-            position: fixed;
-            right: 20px;
-            top: 160px;
-            z-index: 999;
-            background: rgba(17, 14, 23, 0.95);
-            border: 1px solid var(--accent-cyan);
-            border-radius: 12px;
-            padding: 16px 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            height: 380px;
-            width: 70px;
-            box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
-            backdrop-filter: blur(12px);
-        }
-
-        .leycore-progress-head {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: var(--font-code);
-            font-size: 0.68rem;
-            color: var(--accent-cyan);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-align: center;
-            gap: 4px;
-        }
-
-        .leycore-progress-bg {
-            width: 12px;
-            height: 250px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 6px;
-            overflow: hidden;
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            display: flex;
-            align-items: flex-end;
-        }
-
-        .leycore-progress-fill {
-            width: 100%;
-            height: var(--progress, 0%);
-            background: linear-gradient(0deg, var(--accent-cyan), var(--accent-purple), var(--accent-green));
-            transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 15px var(--accent-cyan);
-        }
 
         .leycore-badge-unlocked {
             display: none;
@@ -14367,6 +14316,227 @@
             animation: none !important;
             height: 3px !important;
         }
+
+
+
+/* ==========================================================================
+   🔮 КОЛБА ЛЭЙКОРА (ПК + МОБИЛКИ) — ЕДИНЫЙ ЧИСТЫЙ БЛОК
+   ========================================================================== */
+
+/* 1. ГЛАВНЫЙ КОНТЕЙНЕР (ПК) */
+.leycore-flask-widget {
+    position: fixed;
+    right: 20px;
+    top: 160px;
+    width: 90px;
+    height: 420px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.5s ease;
+}
+
+/* 2. СЛОИ С КАРТИНКАМИ */
+.flask-bg-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+    pointer-events: none;
+    transition: opacity 0.8s ease-in-out; /* Плавное затухание */
+}
+
+#flask-bg-lava {
+    opacity: 0; /* По умолчанию лава скрыта */
+}
+
+/* 3. КОНТЕЙНЕР ДЛЯ ЖИДКОСТИ (ПК) */
+.flask-liquid-container {
+    position: absolute;
+    bottom: 38px; /* Не перекрывает надпись */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 28px;
+    height: 245px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    overflow: hidden;
+    z-index: 2;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9);
+    /* Форма закругленного скола снизу */
+    clip-path: polygon(0% 0%, 100% 0%, 100% 88%, 50% 98%, 0% 88%);
+}
+
+/* 4. САМА ЖИДКОСТЬ И АНИМАЦИЯ ВОЛН (ПК) */
+.flask-liquid {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+/* Волна 1 */
+.flask-liquid::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -50%;
+    width: 200%;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 40%;
+    animation: liquidWave 3s ease-in-out infinite alternate;
+}
+
+/* Волна 2 (для объема) */
+.flask-liquid::after {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: -30%;
+    width: 160%;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 45%;
+    animation: liquidWave2 4s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes liquidWave {
+    0% { transform: translateX(0) rotate(0deg); }
+    100% { transform: translateX(15%) rotate(8deg); }
+}
+@keyframes liquidWave2 {
+    0% { transform: translateX(0) rotate(0deg); }
+    100% { transform: translateX(-10%) rotate(-5deg); }
+}
+
+/* 5. ЦВЕТА ЖИДКОСТИ */
+.flask-liquid.theme-purple {
+    background: linear-gradient(180deg, #d866ff, #7500b8);
+    box-shadow: 0 0 20px #b026ff;
+}
+
+.flask-liquid.theme-lava {
+    background: linear-gradient(180deg, #fff700, #ff4500, #8b0000);
+    box-shadow: 0 0 25px #ff4500, 0 0 40px #ff8c00;
+    animation: lavaPulse 1s infinite alternate;
+}
+
+@keyframes lavaPulse {
+    0% { filter: brightness(1); }
+    100% { filter: brightness(1.5); }
+}
+
+/* 6. ПРОЦЕНТЫ ПОД КОЛБОЙ (ПК) */
+.flask-percent-bottom {
+    position: absolute;
+    bottom: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Unbounded', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(176, 38, 255, 0.8), 0 0 20px rgba(176, 38, 255, 0.4);
+    letter-spacing: 1px;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.flask-percent-bottom.lava-active {
+    color: #ffaa00;
+    text-shadow: 0 0 10px rgba(255, 69, 0, 0.8), 0 0 25px rgba(255, 69, 0, 0.6);
+}
+
+/* ==========================================================================
+   📱 МОБИЛЬНАЯ АДАПТАЦИЯ (ГОРИЗОНТАЛЬНАЯ) — ВСЁ В ОДНОМ МЕСТЕ
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* Главный контейнер */
+    .leycore-flask-widget {
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+        width: 95% !important;
+        max-width: 400px !important;
+        height: auto !important;
+        min-height: 120px;
+        margin: 20px auto 40px auto !important;
+        display: flex;
+        justify-content: center;
+    }
+
+
+
+    /* Жидкость заливается слева направо */
+    .flask-liquid {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important; /* Прижимаем к левому краю */
+        height: 100% !important;
+        width: 0%; /* Управляется JS */
+        transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    /* Убираем старые волны, чтобы не было каши */
+    .flask-liquid::before, .flask-liquid::after {
+        display: none !important;
+    }
+
+    @keyframes liquidWaveHorizontal {
+        0% { transform: translateY(0) rotate(0deg); }
+        100% { transform: translateY(15%) rotate(8deg); }
+    }
+    @keyframes liquidWaveHorizontal2 {
+        0% { transform: translateY(0) rotate(0deg); }
+        100% { transform: translateY(-10%) rotate(-5deg); }
+    }
+
+      /* Контейнер жидкости (ГОРИЗОНТАЛЬНЫЙ, ТОЧНО ПО ЦЕНТРУ) */
+    .flask-liquid-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        
+        /* 🔥 Сдвигаем влево (-60%) и зеркалим ОБОЛОЧКУ */
+        transform: translate(-60%, -50%) scaleX(-1) !important; 
+        
+        /* Ширина и высота */
+        width: 72% !important; 
+        height: 18px !important; 
+        
+        /* Скол слева */
+        clip-path: polygon(0% 0%, 95% 0%, 100% 50%, 95% 100%, 0% 100%);
+        border-radius: 10px;
+    }
+
+    /* 🔥 А ТЕПЕРЬ ГЛАВНЫЙ ФИКС: возвращаем жидкость в нормальное положение */
+    .flask-liquid-container .flask-liquid {
+        transform: scaleX(-1) !important;
+        /* Теперь она будет расти слева направо, как мы и хотели */
+    }
+
+    /* Проценты ровно по центру и НИЖЕ, чтобы не перекрывать кнопки */
+    .flask-percent-bottom {
+        position: absolute !important;
+        /* 🔥 Опускаем еще ниже (было -30px, ставим -50px) */
+        bottom: -50px !important; 
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        margin-top: 0 !important;
+        font-size: 1.2rem !important;
+    }
+}
+
     </style>
 
 
@@ -14477,15 +14647,22 @@
         </div>
     </div>
 
-    <div class="leycore-progress-widget">
-        <div class="leycore-progress-head">
-            <span>⚡ ЛЭЙКОР</span>
-            <span id="leycore-percent-text" style="font-weight: 800; color: var(--accent-green);">0%</span>
-        </div>
-        <div class="leycore-progress-bg">
-            <div class="leycore-progress-fill" id="leycore-bar-fill"></div>
-        </div>
+ <!-- ИНТЕРАКТИВНАЯ КОЛБА ЛЭЙКОРА (АДАПТИВНАЯ) -->
+<div id="leycore-progress-widget" class="leycore-flask-widget">
+    
+    <!-- Слой с картинками -->
+    <div id="flask-bg-purple" class="flask-bg-layer"></div>
+    <div id="flask-bg-lava" class="flask-bg-layer"></div>
+
+    <!-- Жидкость внутри -->
+    <div class="flask-liquid-container">
+        <div id="flask-liquid-fill" class="flask-liquid"></div>
     </div>
+
+    <!-- Индикатор процентов (теперь СНАРУЖИ, внизу) -->
+    <div id="leycore-percent-text" class="flask-percent-bottom">0%</div>
+    
+</div>
 
     <!-- ВСПОПЛЫВАЮЩАЯ АЧИВКА ПРИ 100% -->
     <div class="leycore-badge-unlocked" id="leycore-achievement">
@@ -15910,6 +16087,19 @@ function getAudioCtx() {
 
                 if (typeof renderAchievements === 'function') renderAchievements(); // Обновляем список
             }
+    // Если это ачивка "Познание Лэйкора" — показываем мощный баннер
+    if (name === "Познание Лэйкора") {
+        const banner = document.getElementById('leycore-lava-achievement');
+        const img = document.getElementById('achievement-img');
+        if (banner && img) {
+            // Ставим правильную картинку для мобилки или ПК
+            const isMobile = window.innerWidth <= 768;
+            img.src = isMobile ? 'flask_mob_lava.webp' : 'flask_pc_lava.webp';
+            
+            banner.style.display = 'flex';
+        }
+    }
+
         }
 
 
@@ -15940,36 +16130,99 @@ function getAudioCtx() {
             }
         }
 
-        function updateLeycoreProgress() {
-            const allCards = document.querySelectorAll('.leycore-def-card');
-            const openedCards = document.querySelectorAll('.leycore-def-card.opened');
+       function updateLeycoreProgress() {
+    const allCards = document.querySelectorAll('.leycore-def-card');
+    const openedCards = document.querySelectorAll('.leycore-def-card.opened');
 
-            if (allCards.length === 0) return;
+    if (allCards.length === 0) return;
 
-            const percent = Math.round((openedCards.length / allCards.length) * 100);
+    const percent = Math.round((openedCards.length / allCards.length) * 100);
 
-            const fill = document.getElementById('leycore-bar-fill');
-            const text = document.getElementById('leycore-percent-text');
-            const badge = document.getElementById('leycore-achievement');
+    // Находим все нужные элементы
+    const fill = document.getElementById('flask-liquid-fill');
+    const text = document.getElementById('leycore-percent-text');
+    const bgPurple = document.getElementById('flask-bg-purple');
+    const bgLava = document.getElementById('flask-bg-lava');
+    const widget = document.getElementById('leycore-progress-widget');
 
-            if (fill) fill.style.setProperty('--progress', percent + '%');
-            if (text) text.innerText = percent + '%';
+    // Обновляем текст
+    if (text) text.innerText = percent + '%';
 
-            if (badge) {
-                if (percent === 100) {
-                    badge.style.display = 'block';
+    // Определяем, мобилка это или ПК (по ширине экрана)
+    const isMobile = window.innerWidth <= 768;
 
-                    // Записываем достижение один раз
-                    addAchievement("Познание Лэйкора");
-
-                    setTimeout(() => {
-                        badge.style.display = 'none';
-                    }, 5000);
-                } else {
-                    badge.style.display = 'none';
-                }
-            }
+    // Устанавливаем фоновые картинки для ПК или Мобилки
+    if (bgPurple && bgLava) {
+        if (isMobile) {
+            bgPurple.style.backgroundImage = "url('flask_mob_purple.webp')";
+            bgLava.style.backgroundImage = "url('flask_mob_lava.webp')";
+        } else {
+            bgPurple.style.backgroundImage = "url('flask_pc_purple.webp')";
+            bgLava.style.backgroundImage = "url('flask_pc_lava.webp')";
         }
+    }
+
+        // Обновляем заполнение (высота на ПК, ширина на мобилке)
+    if (fill) {
+        if (isMobile) {
+            // На мобилке: заливаем слева направо (ширина)
+            fill.style.width = percent + '%';
+            fill.style.height = '100%'; 
+            
+            // 🔥 ГЛАВНЫЙ ФИКС: Прижимаем жидкость к нужному краю
+            // Так как контейнер отзеркален через scaleX(-1), 
+            // чтобы жидкость росла слева направо, мы ставим left: 0
+            fill.style.left = '0'; 
+            fill.style.right = 'auto';
+        } else {
+            // На ПК: заливаем снизу вверх (высота)
+            fill.style.height = percent + '%';
+            fill.style.width = '100%';
+        }
+    }
+
+    // Логика смены цветов и картинок
+    if (fill && bgPurple && bgLava) {
+        if (percent === 100) {
+            // Включаем лаву
+            bgLava.style.opacity = '1';  // Проявляем лавовую картинку
+            bgPurple.style.opacity = '0'; // Прячем фиолетовую
+            fill.className = 'flask-liquid theme-lava';
+            
+            // Мощная ачивка (только если ещё не получена)
+            if (typeof addAchievement === 'function') {
+                addAchievement("Познание Лэйкора", 100);
+            }
+        } else {
+            // Возвращаем фиолетовую
+            bgLava.style.opacity = '0';
+            bgPurple.style.opacity = '1';
+            fill.className = 'flask-liquid theme-purple';
+        }
+    }
+        // Логика смены цветов и картинок
+    if (fill && bgPurple && bgLava) {
+        if (percent === 100) {
+            bgLava.style.opacity = '1';  
+            bgPurple.style.opacity = '0'; 
+            fill.className = 'flask-liquid theme-lava';
+            
+            // Делаем текст процентов лавовым
+            if (text) text.classList.add('lava-active');
+
+            if (typeof addAchievement === 'function') {
+                addAchievement("Познание Лэйкора", 100);
+            }
+        } else {
+            bgLava.style.opacity = '0';
+            bgPurple.style.opacity = '1';
+            fill.className = 'flask-liquid theme-purple';
+            
+            // Убираем лавовый цвет с текста
+            if (text) text.classList.remove('lava-active');
+        }
+    }
+}
 
 
         /* Раскрытие вложенных комплиментов со звуком */
@@ -26370,6 +26623,22 @@ if (!ctx) return;
         <audio id="leycore-ambient-audio" src="ambient.mp3" loop preload="auto"></audio>
 
 
+
+        <!-- БАННЕР ПОЛНОГО ПОЗНАНИЯ ЛЭЙКОРА -->
+<div id="leycore-lava-achievement" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(10, 2, 0, 0.95); z-index: 9999999; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(10px); text-align: center;">
+    <!-- Иконка будет зависеть от мобилки/ПК -->
+    <img id="achievement-img" src="" style="width: 120px; margin-bottom: 20px; animation: float 2s infinite alternate ease-in-out;">
+    <h2 style="font-family: 'Unbounded', sans-serif; font-size: 2.5rem; background: linear-gradient(90deg, #ffd700, #ff4500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 30px #ff4500;">ВЫ ПОЛНОСТЬЮ ПОЗНАЛИ ЛЭЙКОР!</h2>
+    <p style="color: #fff; font-family: 'JetBrains Mono'; max-width: 500px; margin: 15px auto;">Ваша колба наполнилась до краев. Лава течет по вашим венам. Ачивка "Демиург" получена. Вы готовы к великим делам.</p>
+    <button onclick="document.getElementById('leycore-lava-achievement').style.display='none'" style="margin-top: 20px; padding: 15px 40px; background: #ff4500; color: #fff; border: 2px solid #ffd700; border-radius: 8px; font-family: 'Unbounded'; font-weight: 900; cursor: pointer; box-shadow: 0 0 30px #ff4500;">ПРИНЯТЬ СИЛУ</button>
+</div>
+
+<style>
+@keyframes float {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+}
+</style>
 </body>
 
 </html>
