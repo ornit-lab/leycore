@@ -14537,6 +14537,34 @@
     }
 }
 
+
+/* ==========================================
+   🚀 СУПЕР-ПРИКАЗ ДЛЯ МОБИЛОК (СТАВИМ КОЛБУ НАВЕРХ)
+   ========================================== */
+@media (max-width: 768px) {
+    /* Делаем контейнер страницы флексом, чтобы управлять порядком */
+    body {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* Принудительно ставим колбу на первое место */
+    .leycore-flask-widget {
+        order: -1 !important; 
+        margin-top: 20px !important; 
+        margin-bottom: 45px !important; /* Отступ снизу, чтобы текст не прилипал к плашке входа */
+        position: relative !important;
+    }
+
+    /* 🔥 ФИКС ПРОЦЕНТОВ: Ставим их СТРОГО ПОД колбой на мобилках */
+    .flask-percent-bottom {
+        position: absolute !important;
+        top: 100% !important; /* Привязываем к самому низу контейнера колбы */
+        bottom: auto !important;
+        margin-top: 5px !important; /* Небольшой отступ от картинки */
+        font-size: 1rem !important;
+    }
+}
     </style>
 
 
