@@ -7099,88 +7099,98 @@
         /* ==========================================================================
    📱 АДАПТАЦИЯ МЕССЕНДЖЕРА ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ
    ========================================================================== */
-        @media (max-width: 768px) {
-            #leycore-messenger-modal {
-                width: 100vw !important;
-                height: 100vh !important;
-                bottom: 0 !important;
-                right: 0 !important;
-                border-radius: 0 !important;
-            }
+       /* ==========================================================================
+   📱 ПОЛНОЭКРАННЫЙ РЕЖИМ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* 1. Сама модалка на весь экран */
+    #leycore-messenger-modal {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important; /* Учитывает адресную строку браузера на мобилках */
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        bottom: 0 !important;
+        right: 0 !important;
+        border-radius: 0 !important;
+        border: none !important;
+        z-index: 999999 !important; /* Перекрываем всё */
+        margin: 0 !important;
+        transform: none !important;
+        display: none; /* Скрыто по умолчанию */
+    }
 
-            /* Мобилка: скрываем левую панель по умолчанию */
-            /* Выдвижная панель */
-            .msgr-sidebar {
-                position: absolute !important;
-                left: -100% !important;
-                top: 0 !important;
-                height: 100% !important;
-                width: 280px !important;
-                z-index: 100 !important;
-                /* Было 30, ставим выше всего */
-                transition: left 0.3s ease-out !important;
-                background: rgba(15, 6, 25, 0.98) !important;
-            }
+    /* 2. Когда открыт — показываем */
+    #leycore-messenger-modal[style*="display: flex"] {
+        display: flex !important;
+    }
 
-            .msgr-sidebar.active-mobile {
-                left: 0 !important;
-            }
+    /* 3. Боковая панель (список чатов) тоже на весь экран */
+    .msgr-sidebar {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 100 !important;
+        border-radius: 0 !important;
+        border-right: none !important;
+        background: rgba(12, 5, 20, 0.98) !important;
+        transition: left 0.3s ease-out !important;
+        display: none; /* Скрыта, пока не откроем */
+    }
 
-            /* Суб-меню (профиль/группы) - должно быть ВЫШЕ всего */
-            .msgr-modal-subview {
-                z-index: 200 !important;
-            }
+    .msgr-sidebar.active-mobile {
+        display: flex !important;
+    }
 
-            /* Квик-реплаи должны прятаться, когда открыто суб-меню или сайдбар */
-            #msgr-quick-replies-box {
-                z-index: 10 !important;
-            }
+    /* 4. Чат-зона занимает всё оставшееся место */
+    .msgr-chat-area {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 50 !important;
+        border-radius: 0 !important;
+    }
 
+    /* 5. Если боковая панель открыта — прячем чат за ней (на всякий случай) */
+    .msgr-sidebar.active-mobile ~ .msgr-chat-area {
+        display: none !important;
+    }
 
-            /* Мобилка: показываем только правый чат по умолчанию */
-            .msgr-chat-area {
-                flex: 1 !important;
-                display: flex !important;
-                /* Всегда виден */
-                width: 100% !important;
-                /* Занимает всю ширину */
-            }
+    /* 6. Кнопка-гамбургер для вызова списка чатов */
+    #msgr-toggle-sidebar-btn {
+        display: flex !important;
+        background: none !important;
+        border: none !important;
+        color: #ffd700 !important;
+        font-size: 1.6rem !important;
+        cursor: pointer !important;
+        margin-right: 10px !important;
+        padding: 0 !important;
+    }
 
-            /* Показываем кнопку-гамбургер только на мобилках */
-            #msgr-toggle-sidebar-btn {
-                display: block !important;
-            }
-        }
-
-        /* По умолчанию на ПК кнопка скрыта */
-        .mobile-only-close-btn {
-            display: none !important;
-        }
-
-        /* На мобилах (экран до 768px) кнопка появляется */
-        @media (max-width: 768px) {
-            .mobile-only-close-btn {
-                display: block !important;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .msgr-header {
-                padding: 5px 10px !important;
-            }
-
-            .msgr-encrypt-key-btn span {
-                display: none !important;
-            }
-
-            #msgr-msg-counter {
-                display: none !important;
-            }
-
-            .msgr-header-user {
-                gap: 5px !important;
-            }
-        }
+    /* 7. Кнопка "Назад к чату" (внутри сайдбара) */
+    .mobile-only-close-btn {
+        display: block !important;
+        width: 100% !important;
+        padding: 12px !important;
+        background: rgba(255, 215, 0, 0.1) !important;
+        border: 1px solid #ffd700 !important;
+        color: #ffd700 !important;
+        font-family: 'Unbounded', sans-serif !important;
+        font-size: 0.8rem !important;
+        font-weight: bold !important;
+        cursor: pointer !important;
+        border-radius: 8px !important;
+        margin-bottom: 15px !important;
+    }
+}
 
         /* ==========================================================================
    🌿 TERRACORE — ПРИРОДНАЯ ТЕМА & ТАЙНЫЙ СЕЙФ
@@ -22417,21 +22427,21 @@ if (!ctx) return;
 
         // 3. ОТКРЫТИЕ И ИНИЦИАЛИЗАЦИЯ МЕССЕНДЖЕРА
         function toggleLeycoreMessenger() {
-            const modal = document.getElementById('leycore-messenger-modal');
-            if (!modal) return;
+    const modal = document.getElementById('leycore-messenger-modal');
+    if (!modal) return;
 
-            if (modal.style.display === 'flex') {
-                modal.style.display = 'none';
-                updateMyOnlineStatus(false);
-                if (msgrUserStatusInterval) clearInterval(msgrUserStatusInterval);
-            } else {
-                modal.style.display = 'flex';
-                playMsgrWarpSound();
-                initLeycoreMessenger();
-                updateMyOnlineStatus(true);
-                msgrUserStatusInterval = setInterval(() => updateMyOnlineStatus(true), 30000); // Обновляем статус каждые 30 сек
-            }
-        }
+    if (modal.style.display === 'flex') {
+        modal.style.display = 'none';
+        updateMyOnlineStatus(false);
+        if (msgrUserStatusInterval) clearInterval(msgrUserStatusInterval);
+    } else {
+        modal.style.display = 'flex';
+        playMsgrWarpSound();
+        initLeycoreMessenger();
+        updateMyOnlineStatus(true);
+        msgrUserStatusInterval = setInterval(() => updateMyOnlineStatus(true), 30000);
+    }
+}
 
         function playMsgrWarpSound() {
             try {
@@ -23111,11 +23121,11 @@ if (!ctx) return;
 
         // 1. Открытие/закрытие левой панели на мобилке (кнопка ☰)
         function toggleMsgrSidebar() {
-            const sidebar = document.querySelector('.msgr-sidebar');
-            if (sidebar) {
-                sidebar.classList.toggle('active-mobile');
-            }
-        }
+    const sidebar = document.querySelector('.msgr-sidebar');
+    if (sidebar) {
+        sidebar.classList.toggle('active-mobile');
+    }
+}
 
         // 2. Автоматическое скрытие панели при выборе чата (для мобилок)
         function hideMsgrSidebarOnMobile() {
