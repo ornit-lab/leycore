@@ -22636,76 +22636,7 @@ if (!ctx) return;
             }
         }
 
-    async function sendLeycoreMessage(quickReplyText = null) {
-    const input = document.getElementById('msgr-input-text');
-    if (!input) return;
-
-    const text = quickReplyText || input.value.trim();
-    if (!text) return;
-
-    // Очищаем поле ввода, если это ручной ввод
-    if (!quickReplyText) {
-        input.value = '';
-    }
-
-    // ЕСЛИ ЭТО ЧАТ С БОБНИТОМ
-    if (msgrActiveChatType === 'bobnit' || msgrActiveChatId === 'bobnit-chat') {
-        // 1. Показываем сообщение пользователя
-        appendMsgUI('Вы', text, true, null);
-
-        // 2. Загружаем историю чата из localStorage
-        let history = JSON.parse(localStorage.getItem('leycore_bobnit_history') || '[]');
-        history.push({ sender: 'Вы', text: text, isMy: true });
-
-        // 3. 🚀 ПОКАЗЫВАЕМ ИНДИКАТОР ЗАГРУЗКИ
-        const box = document.getElementById('msgr-messages-box');
-        const loadingId = 'loading-' + Date.now();
-        if (box) {
-            box.insertAdjacentHTML('beforeend', `
-                <div id="${loadingId}" class="msgr-msg other" style="opacity: 0.7; font-style: italic; color: #ffd700;">
-                    Бобнит пережёвывает бургер и думает...
-                </div>
-            `);
-            box.scrollTop = box.scrollHeight;
-        }
-
-        // 4. Формируем контекст для нейросети (последние 5 сообщений)
-        const contextForAI = history.slice(-5).map(msg => ({
-            role: msg.isMy ? "user" : "assistant",
-            content: msg.text
-        }));
-
-        // 5. Вызываем нейросеть через нашу функцию
-        const aiReply = await sendToBobnit(text, contextForAI);
-
-        // 6. Убираем индикатор загрузки
-        const loadingEl = document.getElementById(loadingId);
-        if (loadingEl) loadingEl.remove();
-
-        // 7. Показываем ответ Бобнита
-        appendMsgUI('Бобнит', aiReply, false, null);
-        history.push({ sender: 'Бобнит', text: aiReply, isMy: false });
-
-        // 8. Сохраняем историю (ограничиваем 50 сообщениями, чтобы не забивать память)
-        const trimmedHistory = history.slice(-50);
-        localStorage.setItem('leycore_bobnit_history', JSON.stringify(trimmedHistory));
-
-        return;
-    }
-
-    // ... остальной код для обычных чатов (приваты, группы) оставляем без изменений ...
-}
-
-        // ==========================================================================
-        // 🔥 ГЛОБАЛЬНЫЙ МОСТ ДЛЯ КВИК-РЕПЛАЕВ БОБНИТА (ЧТОБЫ КНОПКИ РАБОТАЛИ!)
-        // ==========================================================================
-        window.sendQuickPhrase = function (phrase) {
-            if (typeof sendLeycoreMessage === 'function') {
-                sendLeycoreMessage(phrase);
-            } else {
-                console.error("sendLeycoreMessage не определена, квик-реплай не отправлен.");
-            }
-        };
+   
 
 
 
@@ -23493,64 +23424,107 @@ if (!ctx) return;
             return list[Math.floor(Math.random() * list.length)];
         }
 
-        // ==========================================================================
-        // 💬 ИСПРАВЛЕННАЯ ОТПРАВКА (ТЕПЕРЬ БОБНИТ РЕАГИРУЕТ НА ТЕКСТ И КВИК-РЕПЛАИ)
-        // ==========================================================================
-        async function sendLeycoreMessage(quickReplyText = null) {
-            const input = document.getElementById('msgr-input-text');
-            if (!input) return;
+    // ==========================================================================
+// 💬 ОТПРАВКА СООБЩЕНИЙ (ПОДКЛЮЧЕНО К НЕЙРОСЕТИ DEEPSEEK)
+// ==========================================================================
+async function sendLeycoreMessage(quickReplyText = null) {
+    const input = document.getElementById('msgr-input-text');
+    if (!input) return;
 
-            const text = quickReplyText || input.value.trim();
-            if (!text) return;
+    const text = quickReplyText || input.value.trim();
+    if (!text) return;
 
-            if (!quickReplyText) {
-                input.value = '';
-            }
+    if (!quickReplyText) {
+        input.value = '';
+    }
 
-            // ЕСЛИ ЭТО ЧАТ С БОБНИТОМ
-            if (msgrActiveChatType === 'bobnit' || msgrActiveChatId === 'bobnit-chat') {
-                appendMsgUI('Вы', text, true, null);
+    // ЕСЛИ ЭТО ЧАТ С БОБНИТОМ
+    if (msgrActiveChatType === 'bobnit' || msgrActiveChatId === 'bobnit-chat') {
+        // 1. Показываем сообщение пользователя
+        appendMsgUI('Вы', text, true, null);
 
-                let history = JSON.parse(localStorage.getItem('leycore_bobnit_history') || '[]');
-                history.push({sender: 'Вы', text, isMy: true});
+        // 2. Загружаем историю из памяти
+        let history = JSON.parse(localStorage.getItem('leycore_bobnit_history') || '[]');
+        history.push({ sender: 'Вы', text: text, isMy: true });
 
-                setTimeout(() => {
-                    // 🔥 ИСПОЛЬЗУЕМ НОВЫЕ МОЗГИ БОБНИТА ДЛЯ ОТВЕТА
-                    let reply = getBobnitReply(text);
-
-                    appendMsgUI('Бобнит', reply, false, null);
-                    history.push({sender: 'Бобнит', text: reply, isMy: false});
-                    localStorage.setItem('leycore_bobnit_history', JSON.stringify(history));
-                }, 600); // Задержка для имитации "мышления"
-                return;
-            }
-
-            // ЕСЛИ ЭТО ОБЫЧНЫЙ ЧАТ (Группы / Приваты)
-            let finalText = text;
-            let isEncrypted = false; // Всегда false, так как шифрование - это обманка
-
-            if (typeof _supabase !== 'undefined' && _supabase) {
-                try {
-                    const {data} = await _supabase
-                        .from('private_messages')
-                        .insert([{
-                            chat_id: msgrActiveChatId,
-                            sender_id: msgrCurrentCoreID,
-                            message_text: finalText,
-                            is_encrypted: isEncrypted
-                        }])
-                        .select()
-                        .single();
-
-                    if (data) {
-                        appendMsgUI('Вы', text, true, data.id);
-                    }
-                } catch (e) {
-                    console.error("Ошибка отправки сообщения:", e);
-                }
-            }
+        // 3. Показываем индикатор "Бобнит думает"
+        const box = document.getElementById('msgr-messages-box');
+        const loadingId = 'loading-' + Date.now();
+        if (box) {
+            box.insertAdjacentHTML('beforeend', `
+                <div id="${loadingId}" class="msgr-msg other" style="opacity: 0.7; font-style: italic; color: #ffd700;">
+                    Бобнит пережёвывает бургер и думает...
+                </div>
+            `);
+            box.scrollTop = box.scrollHeight;
         }
 
+        // 4. Формируем контекст для нейросети (последние 5 сообщений)
+        const contextForAI = history.slice(-5).map(msg => ({
+            role: msg.isMy ? "user" : "assistant",
+            content: msg.text
+        }));
+
+        
+         // 5. Вызываем нашу новую нейросеть!
+        console.log("🚀 Отправляем запрос нейросети. Текст:", text); 
+        // 5. 🚀 ВЫЗЫВАЕМ НАШУ НОВУЮ НЕЙРОСЕТЬ
+                // 5. 🚀 ВЫЗЫВАЕМ НАШУ НОВУЮ НЕЙРОСЕТЬ
+        console.log("🚀 Отправляем запрос нейросети. Текст:", text);
+        const aiReply = await sendToBobnit(text, contextForAI);
+
+        // 6. Убираем индикатор загрузки
+        const loadingEl = document.getElementById(loadingId);
+        if (loadingEl) loadingEl.remove();
+
+        // 🔥 7. ПРОВЕРКА НА ОШИБКУ (ЕСЛИ НЕЙРОСЕТЬ ВЕРНУЛА ПУСТОТУ)
+        let finalReply = aiReply;
+        if (!finalReply || finalReply.trim() === "") {
+            console.warn("⚠️ Нейросеть вернула пустой ответ. Показываем заглушку.");
+            finalReply = "У меня мозг завис. Попробуй еще раз.";
+        }
+
+        // 8. Показываем ответ от нейросети (даже если это фраза-заглушка)
+        appendMsgUI('Бобнит', finalReply, false, null);
+        history.push({ sender: 'Бобнит', text: finalReply, isMy: false });
+        
+        // Сохраняем историю (ограничиваем 50 сообщениями)
+        localStorage.setItem('leycore_bobnit_history', JSON.stringify(history.slice(-50)));
+        
+        return;
+        history.push({ sender: 'Бобнит', text: aiReply, isMy: false });
+        
+        // Сохраняем историю (ограничиваем 50 сообщениями)
+        localStorage.setItem('leycore_bobnit_history', JSON.stringify(history.slice(-50)));
+        
+        return;
+    }
+
+    // ЕСЛИ ЭТО ОБЫЧНЫЙ ЧАТ (Группы / Приваты)
+    let finalText = text;
+    let isEncrypted = false;
+
+    if (typeof _supabase !== 'undefined' && _supabase) {
+        try {
+            const { data } = await _supabase
+                .from('private_messages')
+                .insert([{
+                    chat_id: msgrActiveChatId,
+                    sender_id: msgrCurrentCoreID,
+                    message_text: finalText,
+                    is_encrypted: isEncrypted
+                }])
+                .select()
+                .single();
+
+            if (data) {
+                appendMsgUI('Вы', text, true, data.id);
+            }
+        } catch (e) {
+            console.error("Ошибка отправки сообщения:", e);
+        }
+    }
+}
         // ==========================================================================
         // 🌿 TERRACORE v1.0 — ДВИЖОК СЕКРЕТНОГО СЕЙФА & ЛОКАЦИЙ
         // ==========================================================================
@@ -25933,8 +25907,8 @@ async function sendToBobnit(userMessage, chatHistory = []) {
     
 Твои знания про этот сайт (если вдруг кто спросит):
 - ЛэйCore — это сайт не для всех. Тут есть много интересных вкладок.
-- "Меню Василича" — там вы можете посмотреть, как я готовлю блюда, или приготовьте сами! Че я должен за вас отдуваться.
-- "Мои истории со столовки" — если хотите поржать, вам туда.
+- "Меню Василича" — там вы можете посмотреть, как я готовлю блюда, или приготовьте сами! Че я должен за вас отдуваться
+- "Мои истории со столовки" — если хотите поржать, вам туда
 - "Лэйкостаз" — это симбиоз двух слов, как и в лэйкоре. Стаз — остановка, замедление. Ну а про лэйкор прочтите на главном экране. Это момент, когда лэйкор останавливается и затихает, чтобы восстановиться.
 - В "Словаре" можете улучшить свой скудный словарный запас.
 - В "Хранилище" можете почитать что-то интересное и необычное, правда для этого вам придется решить загадку, хаха!
@@ -25975,10 +25949,12 @@ async function sendToBobnit(userMessage, chatHistory = []) {
             throw new Error("Пустой ответ от API");
         }
 
-    } catch (error) {
+        } catch (error) {
+        // 🔥 ВОТ ЭТА СТРОКА ПОКАЖЕТ НАМ ОШИБКУ В КОНСОЛИ
         console.error("❌ Ошибка связи с Бобнитом (ProxyAPI):", error);
+        
         // Фраза-заглушка из твоего ТЗ
-        return "Бля, у меня мозг завис. Попробуй еще раз.";
+        return "У меня мозг завис. Попробуй еще раз.";
     }
 }
 
