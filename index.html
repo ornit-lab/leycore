@@ -23229,15 +23229,8 @@ function resetUnreadCount(chatId) {
     }
 }
 
-// Сброс счетчика при открытии чата
-function resetUnreadCount() {
-    unreadCount = 0;
-    const badge = document.getElementById('msgr-unread-badge');
-    if (badge) badge.style.display = 'none';
-}
 
-
-    async function loadLeycoreChatsList() {
+async function loadLeycoreChatsList() {
     const container = document.getElementById('msgr-chats-container');
     if (!container) return;
 
@@ -23318,23 +23311,20 @@ function resetUnreadCount() {
         return b.lastTime - a.lastTime;
     });
 
-       // 4. Рендер HTML
+    // 4. Рендер HTML
     let html = '';
-      chatsArray.forEach(chat => {
+    chatsArray.forEach(chat => {
         const isActive = msgrActiveChatId === chat.id;
         const activeClass = isActive ? 'active' : '';
 
-        // 🔥 ПРОВЕРЯЕМ, ЕСТЬ ЛИ НЕПРОЧИТАННЫЕ (из базы)
-        // Мы не знаем точно, поэтому используем локальный счетчик
         const unreadCounts = JSON.parse(localStorage.getItem('leycore_unread_counts') || '{}');
         const unread = unreadCounts[chat.id] || 0;
         
-        // HTML для бейджа или галочки
         let statusIcon = '';
         if (unread > 0) {
             statusIcon = `<div class="msgr-unread-badge-list">${unread}</div>`;
-        } else {
-            // Если прочитано — зеленый кружок (только для личных чатов)
+        } else if (chat.lastMsg !== 'Напишите первое сообщение...') {
+            // Показываем зеленый кружок только если есть хотя бы одно сообщение
             statusIcon = `<div class="msgr-read-indicator"></div>`;
         }
 
@@ -23358,7 +23348,6 @@ function resetUnreadCount() {
 
     container.innerHTML = html;
 }
-
         // 5. УДАЛЕНИЕ ЧАТА
         async function deleteLeycoreChat(event, chatId) {
             if (event) event.preventDefault();
