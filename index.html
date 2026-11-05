@@ -6748,29 +6748,7 @@
 
 
 
-        /* ==========================================================================
-   📐 ЖЕЛЕЗОБЕТОННАЯ СЕТКА МЕССЕНДЖЕРА LEYCORE
-   ========================================================================== */
-
-        #leycore-messenger-modal {
-            position: fixed !important;
-            bottom: 20px !important;
-            right: 20px !important;
-            width: 850px !important;
-            height: 580px !important;
-            max-width: calc(100vw - 40px) !important;
-            max-height: calc(100vh - 40px) !important;
-            background: rgba(12, 5, 20, 0.98) !important;
-            border: 1px solid rgba(255, 215, 0, 0.3) !important;
-            border-radius: 20px !important;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(255, 0, 128, 0.2) !important;
-            z-index: 9999 !important;
-            display: none;
-            /* По умолчанию скрыт */
-            flex-direction: row !important;
-            overflow: hidden !important;
-            backdrop-filter: blur(15px) !important;
-        }
+   
 
         /* 1. ВЫДВИЖНАЯ ПАНЕЛЬ (СТРОГО АБСОЛЮТНАЯ, НЕ РАСТАЛКИВАЕТ КОЛОНКИ!) */
         .msgr-modal-subview {
@@ -6799,17 +6777,6 @@
             display: flex !important;
             flex-direction: column !important;
             flex-shrink: 0 !important;
-        }
-
-        /* 3. ПРАВАЯ ЗОНА ЧАТА (ЗАНИМАЕТ ВСЁ ОСТАВШЕЕСЯ МЕСТО) */
-        .msgr-chat-area {
-            flex: 1 !important;
-            display: flex !important;
-            flex-direction: column !important;
-            background: rgba(16, 7, 26, 0.7) !important;
-            min-width: 0 !important;
-            /* Предотвращает переполнение */
-            overflow: hidden !important;
         }
 
 
@@ -6903,13 +6870,6 @@
             background: rgba(255, 215, 0, 0.08);
         }
 
-        /* 4. ОСНОВНАЯ ЗОНА ЧАТА */
-        .msgr-chat-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background: rgba(18, 8, 30, 0.7);
-        }
 
         .msgr-header {
             padding: 12px 20px;
@@ -7033,67 +6993,7 @@
             border-right: 1px solid rgba(255, 215, 0, 0.3);
         }
 
-        @media (max-width: 768px) {
-            #leycore-messenger-modal {
-                width: 100vw;
-                height: 100vh;
-                bottom: 0;
-                right: 0;
-                border-radius: 0;
-            }
-
-            .msgr-sidebar {
-                width: 100%;
-            }
-
-            .msgr-chat-area {
-                display: none;
-            }
-
-            /* В мобилке переключение списка и чата */
-            .msgr-chat-area.active-mobile {
-                display: flex;
-            }
-        }
-
-        @media (max-width: 768px) {
-    /* ... остальные стили ... */
-
-    /* 🔥 ЧАТ НА ВЕСЬ ЭКРАН (БЕЗ ЗАЗОРОВ) */
-    .msgr-chat-area {
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        max-width: 100vw !important;
-        max-height: 100vh !important;
-        z-index: 100 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        background: #0c0514 !important;
-        box-sizing: border-box !important;
-        border-radius: 0 !important;
-        border: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    /* Убираем лишние отступы у шапки */
-    .msgr-header {
-        padding: 10px !important;
-        border-radius: 0 !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-    }
-
-    /* Поле ввода тоже на всю ширину */
-    .msgr-input-bar {
-        padding: 10px !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-    }
-}
+      
 
         /* ==========================================================================
    🛠 ФИКС 4 БАГОВ: УВЕДОМЛЕНИЯ, КВИК-РЕПЛАИ, КРЕСТИК И СООБЩЕНИЯ
@@ -7219,54 +7119,7 @@
         }
 
 
- /* ==========================================================================
-   📱 ПОЛНОЭКРАННЫЙ РЕЖИМ ДЛЯ МОБИЛЬНЫХ (КАК TELEGRAM)
-   ========================================================================== */
-@media (max-width: 768px) {
-    /* 1. Сама модалка — строго на весь экран */
-    #leycore-messenger-modal {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        height: 100dvh !important;
-        border-radius: 0 !important;
-        border: none !important;
-        z-index: 999999 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        display: none;
-        flex-direction: row !important;
-        box-sizing: border-box !important;
-        overflow: hidden !important;
-    }
-    
-    #leycore-messenger-modal[style*="display: flex"] {
-        display: flex !important;
-    }
-
-    /* 2. Левая панель (Список чатов) — на весь экран, поверх */
-    .msgr-sidebar {
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        z-index: 200 !important;
-        background: #0c0514 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        transform: translateX(-100%) !important; /* Сдвинут влево */
-        transition: transform 0.3s ease-out !important;
-        box-sizing: border-box !important;
-    }
-
-    .msgr-sidebar.active-mobile {
-        transform: translateX(0) !important; /* Выезжает */
-    }
-
-}
+ 
 
         /* ==========================================================================
    🌿 TERRACORE — ПРИРОДНАЯ ТЕМА & ТАЙНЫЙ СЕЙФ
@@ -14777,10 +14630,6 @@
     transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
 }
 
-/* 5. Плавное появление модалки (окна мессенджера) */
-#leycore-messenger-modal {
-    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
-}
 
 /* 6. Плавное изменение цвета активного чата */
 .msgr-chat-item {
@@ -14828,6 +14677,365 @@
 
 #msgr-toggle-sidebar-btn {
     display: flex !important; /* Показываем на мобилке */
+}
+
+
+/* ==========================================================================
+   📐 ЧИСТАЯ И ВЫВЕРЕННАЯ СЕТКА МЕССЕНДЖЕРА LEYCORE
+   ========================================================================== */
+
+/* --- 1. ОБЩИЙ КОНТЕЙНЕР (ПК) --- */
+#leycore-messenger-modal {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    width: 850px !important;
+    height: 580px !important;
+    max-width: calc(100vw - 40px) !important;
+    max-height: calc(100vh - 40px) !important;
+    background: rgba(12, 5, 20, 0.98) !important;
+    border: 1px solid rgba(255, 215, 0, 0.3) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(255, 0, 128, 0.2) !important;
+    z-index: 999999 !important;
+    display: none;
+    flex-direction: row !important;
+    overflow: hidden !important;
+    backdrop-filter: blur(15px) !important;
+}
+
+/* --- 2. САЙДБАР (ЛЕВАЯ ПАНЕЛЬ) --- */
+.msgr-sidebar {
+    width: 280px !important;
+    min-width: 280px !important;
+    max-width: 280px !important;
+    background: rgba(8, 3, 15, 0.95) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-shrink: 0 !important;
+    height: 100% !important;
+}
+
+.msgr-my-profile-card {
+    padding: 15px;
+    background: rgba(255, 215, 0, 0.05);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.msgr-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ffd700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    flex-shrink: 0;
+}
+
+.msgr-my-info {
+    flex: 1;
+    overflow: hidden;
+}
+
+.msgr-my-info .name {
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.msgr-my-info .core-id {
+    font-size: 0.68rem;
+    color: #ffd700;
+    font-family: monospace;
+    letter-spacing: 0.5px;
+}
+
+.msgr-actions-bar {
+    display: flex;
+    padding: 10px;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.msgr-action-btn {
+    flex: 1;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.72rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.msgr-action-btn:hover {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: #ffd700;
+}
+
+.msgr-chats-list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.msgr-chat-item {
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    transition: all 0.2s ease;
+}
+
+.msgr-chat-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.msgr-chat-item.active {
+    background: rgba(255, 0, 128, 0.15);
+    border-left: 4px solid #ff0055;
+    box-shadow: inset 0 0 15px rgba(255, 0, 85, 0.1);
+}
+
+.msgr-chat-item.pinned {
+    background: rgba(255, 215, 0, 0.08);
+}
+
+/* --- 3. ЗОНА ЧАТА (ПРАВАЯ ПАНЕЛЬ) --- */
+.msgr-chat-area {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    background: rgba(18, 8, 30, 0.7) !important;
+    min-width: 0 !important;
+    height: 100% !important;
+    overflow: hidden !important;
+}
+
+.msgr-header {
+    padding: 12px 20px;
+    background: rgba(10, 4, 18, 0.8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0; /* Шапка не сжимается */
+}
+
+.msgr-header-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.msgr-encrypt-key-btn {
+    padding: 6px 12px;
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid #ffd700;
+    border-radius: 20px;
+    color: #ffd700;
+    font-size: 0.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.msgr-encrypt-key-btn.active {
+    background: #00ff66;
+    color: #000;
+    border-color: #00ff66;
+    box-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+}
+
+/* --- 4. СООБЩЕНИЯ --- */
+.msgr-messages-box {
+    flex: 1 !important; /* Растягивается на всё место */
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 0 !important; /* Критически важно для скролла во flex */
+}
+
+.msgr-msg {
+    max-width: 70%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 0.88rem;
+    line-height: 1.4;
+    position: relative;
+    word-break: break-word;
+}
+
+.msgr-msg.my {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #701a75, #ff007f);
+    color: #fff;
+    border-bottom-right-radius: 2px;
+}
+
+.msgr-msg.other {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-bottom-left-radius: 2px;
+}
+
+.msgr-msg .sender-name {
+    font-size: 0.68rem;
+    color: #ffd700;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+/* --- 5. ПАНЕЛЬ ВВОДА --- */
+.msgr-input-bar {
+    padding: 12px 15px;
+    background: rgba(10, 4, 18, 0.9);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0; /* Поле ввода не сжимается */
+}
+
+.msgr-input-bar input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 10px 15px;
+    color: #fff;
+    outline: none;
+}
+
+.msgr-send-btn {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #ff007f, #ffd700);
+    border: none;
+    border-radius: 10px;
+    color: #000;
+    font-weight: 900;
+    cursor: pointer;
+    flex-shrink: 0; /* Кнопка не сжимается */
+}
+
+/* --- 6. ПОДВИЖНЫЕ ПАНЕЛИ (ПОИСК / ПРОФИЛЬ) --- */
+.msgr-modal-subview {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 280px !important;
+    height: 100% !important;
+    background: rgba(10, 3, 18, 0.98) !important;
+    z-index: 200 !important;
+    display: none;
+    flex-direction: column !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+    border-right: 1px solid rgba(255, 215, 0, 0.3) !important;
+}
+
+/* ==========================================================================
+   📱 МОБИЛЬНАЯ ВЕРСИЯ (ПОЛНЫЙ ЭКРАН, БЕЗ КОНФЛИКТОВ)
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* 1. Модалка на весь экран */
+    #leycore-messenger-modal {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        bottom: 0 !important;
+        right: 0 !important;
+        border-radius: 0 !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: none;
+        flex-direction: row !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    #leycore-messenger-modal[style*="display: flex"] {
+        display: flex !important;
+    }
+
+    /* 2. Сайдбар (Список чатов) — на весь экран, выезжает */
+    .msgr-sidebar {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 200 !important;
+        background: #0c0514 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        transform: translateX(-100%) !important;
+        transition: transform 0.3s ease-out !important;
+        box-sizing: border-box !important;
+    }
+
+    .msgr-sidebar.active-mobile {
+        transform: translateX(0) !important;
+    }
+
+    /* 3. Чат — на весь экран, всегда на месте */
+    .msgr-chat-area {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 100 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        background: #0c0514 !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important; /* Важно, чтобы не было скролла всей страницы */
+    }
+
+    /* 4. Скрываем чат, когда открыт сайдбар */
+    .msgr-sidebar.active-mobile ~ .msgr-chat-area {
+        display: none !important;
+    }
+
+    /* 5. Фикс отступов */
+    .msgr-header {
+        padding: 10px !important;
+        border-radius: 0 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .msgr-input-bar {
+        padding: 10px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* 6. Кнопка-гамбургер */
+    #msgr-toggle-sidebar-btn {
+        display: flex !important;
+    }
 }
     </style>
 
