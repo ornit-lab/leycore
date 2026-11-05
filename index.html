@@ -15067,6 +15067,79 @@
     box-shadow: 0 0 10px rgba(51, 144, 236, 0.5);
     flex-shrink: 0; /* Чтобы не сжимался */
 }
+
+
+
+/* ==========================================================================
+   📱 ФИКС ДЛЯ УЗКИХ ЭКРАНОВ (REDMI И ДРУГИЕ МАЛЕНЬКИЕ ТЕЛЕФОНЫ)
+   ========================================================================== */
+@media (max-width: 450px) {
+    /* 1. Шапка чата — разрешаем перенос элементов */
+    .msgr-header {
+        flex-wrap: wrap !important;
+        padding: 8px !important;
+        gap: 8px !important;
+        height: auto !important;
+        min-height: auto !important;
+    }
+
+    /* 2. Все кнопки в шапке — уменьшаем и делаем аккуратными */
+    .msgr-header-user {
+        gap: 8px !important;
+        flex: 1 1 auto !important; /* Растягиваем */
+        min-width: 0 !important; /* Важно для сжатия текста */
+    }
+
+    .msgr-header-user div {
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    /* 3. Группа кнопок справа */
+    .msgr-header > div:last-child {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: flex-end !important;
+        gap: 6px !important;
+    }
+
+    /* 4. Кнопка шифрования — уменьшаем */
+    .msgr-encrypt-key-btn {
+        padding: 4px 8px !important;
+        font-size: 0.65rem !important;
+    }
+    .msgr-encrypt-key-btn span {
+        display: none !important; /* Скрываем текст "Зашифровать", оставляем ключик */
+    }
+
+    /* 5. Крестик и корзина — фиксируем размер, чтобы не пропадали */
+    .msgr-close-btn {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 0.9rem !important;
+        flex-shrink: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* Скрываем счетчик сообщений на узких экранах, чтобы не мешал */
+    #msgr-msg-counter {
+        display: none !important;
+    }
+}
+
+/* 🔥 ЗЕЛЕНЫЙ КРУЖОК "ПРОЧИТАНО" */
+.msgr-read-indicator {
+    width: 10px;
+    height: 10px;
+    background: #00ff66;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #00ff66;
+    margin-left: 8px;
+    flex-shrink: 0;
+}
     </style>
 
 
@@ -23247,18 +23320,23 @@ function resetUnreadCount() {
 
        // 4. Рендер HTML
     let html = '';
-    chatsArray.forEach(chat => {
+      chatsArray.forEach(chat => {
         const isActive = msgrActiveChatId === chat.id;
         const activeClass = isActive ? 'active' : '';
 
-        // 🔥 Получаем количество непрочитанных для этого чата из памяти
+        // 🔥 ПРОВЕРЯЕМ, ЕСТЬ ЛИ НЕПРОЧИТАННЫЕ (из базы)
+        // Мы не знаем точно, поэтому используем локальный счетчик
         const unreadCounts = JSON.parse(localStorage.getItem('leycore_unread_counts') || '{}');
         const unread = unreadCounts[chat.id] || 0;
         
-        // HTML для бейджа непрочитанных
-        const unreadBadgeHTML = unread > 0 
-            ? `<div class="msgr-unread-badge-list">${unread}</div>` 
-            : '';
+        // HTML для бейджа или галочки
+        let statusIcon = '';
+        if (unread > 0) {
+            statusIcon = `<div class="msgr-unread-badge-list">${unread}</div>`;
+        } else {
+            // Если прочитано — зеленый кружок (только для личных чатов)
+            statusIcon = `<div class="msgr-read-indicator"></div>`;
+        }
 
         html += `
         <div class="msgr-chat-item ${activeClass}" onclick="${chat.type === 'bobnit' ? 'openBobnitChatInMessenger()' : `openLeycorePrivateChat('${chat.id}', '${chat.name.replace(/'/g, "\\'")}', false)`}">
@@ -23272,7 +23350,7 @@ function resetUnreadCount() {
                     <div style="font-size:0.75rem; color:#bbb; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:1;">
                         ${chat.lastMsg}
                     </div>
-                    ${unreadBadgeHTML}
+                    ${statusIcon}
                 </div>
             </div>
         </div>`;
@@ -23571,6 +23649,14 @@ async function openLeycorePrivateChat(chatId, chatName, isEncrypted) {
                     box.innerHTML = '<div style="color:red; text-align:center; padding:20px;">Ошибка загрузки переписки.</div>';
                 }
             }
+                // 🔥 ПОМЕЧАЕМ ВСЕ СООБЩЕНИЯ КАК ПРОЧИТАННЫЕ
+    if (typeof _supabase !== 'undefined' && _supabase) {
+        await _supabase
+            .from('private_messages')
+            .update({ is_read: true })
+            .eq('chat_id', chatId)
+            .neq('sender_id', msgrCurrentCoreID); // Только не мои сообщения
+    }
                        // 🔥 ПОДПИСЫВАЕМСЯ НА REALTIME-ОБНОВЛЕНИЯ ДЛЯ ЭТОГО ЧАТА
             if (typeof subscribeToCurrentChatMessages === 'function') {
                 subscribeToCurrentChatMessages(chatId);
@@ -23989,15 +24075,21 @@ async function openLeycorePrivateChat(chatId, chatName, isEncrypted) {
             schema: 'public',
             table: 'private_messages',
             filter: 'chat_id=eq.' + chatId
-        }, payload => {
+                }, payload => {
             const newMsg = payload.new;
-            
-            // Если сообщение не мое — рисуем его
             if (newMsg.sender_id !== msgrCurrentCoreID) {
                 appendMsgUI('Собеседник', newMsg.message_text, false, newMsg.id, newMsg.created_at);
                 
-                // 🔥 ДОБАВЛЯЕМ СЧЕТЧИК НЕПРОЧИТАННЫХ
-                addUnreadMessage(newMsg.chat_id);
+                // 🔥 Если мессенджер закрыт — добавляем непрочитанное
+                const modal = document.getElementById('leycore-messenger-modal');
+                if (!modal || modal.style.display !== 'flex') {
+                    addUnreadMessage(newMsg.chat_id);
+                }
+                
+                // Если чат открыт, но мы в нем — помечаем прочитанным
+                if (modal && modal.style.display === 'flex' && msgrActiveChatId === newMsg.chat_id) {
+                    _supabase.from('private_messages').update({ is_read: true }).eq('id', newMsg.id);
+                }
             }
         })
         .subscribe();
@@ -24294,136 +24386,129 @@ window.sendQuickPhrase = function (phrase) {
 let isSending = false; // Глобальная переменная для защиты от двойных кликов
 
 // ==========================================================================
-// 💬 ОТПРАВКА СООБЩЕНИЙ (ПОДКЛЮЧЕНО К НЕЙРОСЕТИ DEEPSEEK + ЗАЩИТА ОТ СПАМА)
+// 💬 ОТПРАВКА СООБЩЕНИЙ (ЗАЩИТА ОТ ДВОЙНЫХ КЛИКОВ + НЕЙРОСЕТЬ)
 // ==========================================================================
 async function sendLeycoreMessage(quickReplyText = null) {
-    // 🔥 ЗАЩИТА ОТ ДВОЙНОГО КЛИКА
-    if (isSending) return; 
-    isSending = true;
+    // 🔥 ЗАЩИТА ОТ ДВОЙНОГО КЛИКА (проверяем глобальную переменную)
+    if (window.isSending) return; 
+    window.isSending = true;
 
-    const input = document.getElementById('msgr-input-text');
-    if (!input) {
-        isSending = false; // Сбрасываем блокировку, если поля нет
-        return;
-    }
+    try {
+        const input = document.getElementById('msgr-input-text');
+        if (!input) return;
 
-    const text = quickReplyText || input.value.trim();
-    if (!text) {
-        isSending = false; // Сбрасываем, если текст пустой
-        return;
-    }
+        const text = quickReplyText || input.value.trim();
+        if (!text) return;
 
-    if (!quickReplyText) {
-        input.value = '';
-    }
-
-    // ЕСЛИ ЭТО ЧАТ С БОБНИТОМ
-    if (msgrActiveChatType === 'bobnit' || msgrActiveChatId === 'bobnit-chat') {
-        
-        // 1. Показываем сообщение пользователя (время ставится автоматически)
-        appendMsgUI('Вы', text, true, null);
-
-        // 2. Загружаем историю из памяти и добавляем текущее время
-        let history = JSON.parse(localStorage.getItem('leycore_bobnit_history') || '[]');
-        history.push({ 
-            sender: 'Вы', 
-            text: text, 
-            isMy: true,
-            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        });
-
-        // 3. Показываем индикатор "Бобнит думает"
-        const box = document.getElementById('msgr-messages-box');
-        const loadingId = 'loading-' + Date.now();
-        if (box) {
-            box.insertAdjacentHTML('beforeend', `
-                <div id="${loadingId}" class="msgr-msg other" style="opacity: 0.7; font-style: italic; color: #ffd700;">
-                    Бобнит пережёвывает бургер и думает...
-                </div>
-            `);
-            box.scrollTop = box.scrollHeight;
+        if (!quickReplyText) {
+            input.value = '';
         }
 
-        // 4. Формируем контекст для нейросети (последние 5 сообщений)
-        const contextForAI = history.slice(-5).map(msg => ({
-            role: msg.isMy ? "user" : "assistant",
-            content: msg.text
-        }));
-
-        // 5. Вызываем нейросеть!
-        console.log("🚀 Отправляем запрос нейросети. Текст:", text);
-        const aiReply = await sendToBobnit(text, contextForAI);
-
-        // 6. Убираем индикатор загрузки
-        const loadingEl = document.getElementById(loadingId);
-        if (loadingEl) loadingEl.remove();
-
-        // 7. Проверка на ошибку
-        let finalReply = aiReply;
-        if (!finalReply || finalReply.trim() === "") {
-            console.warn("⚠️ Нейросеть вернула пустой ответ. Показываем заглушку.");
-            finalReply = "У меня мозг завис. Попробуй еще раз.";
-        }
-
-        // 8. Показываем ответ от нейросети
-        appendMsgUI('Бобнит', finalReply, false, null);
-        
-        // 9. Добавляем ответ в историю с ВРЕМЕНЕМ
-        history.push({ 
-            sender: 'Бобнит', 
-            text: finalReply, 
-            isMy: false,
-            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        });
-        
-        // 10. 🔥 ПРОВЕРКА НА УСТАЛОСТЬ (35 СООБЩЕНИЙ)
-        if (history.length >= 35) {
-            localStorage.removeItem('leycore_bobnit_history');
+        // ЕСЛИ ЭТО ЧАТ С БОБНИТОМ
+        if (msgrActiveChatType === 'bobnit' || msgrActiveChatId === 'bobnit-chat') {
             
-            setTimeout(() => {
-                const tiredModal = document.getElementById('bobnit-tired-modal');
-                if (tiredModal) tiredModal.style.display = 'flex';
-                
-                if (box) box.innerHTML = '';
-                if (typeof updateMsgCounter === 'function') updateMsgCounter(0);
-            }, 2000);
-        } else {
-            localStorage.setItem('leycore_bobnit_history', JSON.stringify(history.slice(-50)));
-        }
-        
-        // 🔥 РАЗБЛОКИРУЕМ ОТПРАВКУ И ВЫХОДИМ
-        setTimeout(() => { isSending = false; }, 1000); 
-        return; 
-    }
+            // 1. Показываем сообщение пользователя
+            appendMsgUI('Вы', text, true, null);
 
-    // ЕСЛИ ЭТО ОБЫЧНЫЙ ЧАТ (Группы / Приваты)
-    let finalText = text;
-    let isEncrypted = false;
+            // 2. Загружаем историю из памяти и добавляем текущее время
+            let history = JSON.parse(localStorage.getItem('leycore_bobnit_history') || '[]');
+            history.push({ 
+                sender: 'Вы', 
+                text: text, 
+                isMy: true,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            });
 
-    if (typeof _supabase !== 'undefined' && _supabase) {
-        try {
-            const { data } = await _supabase
-                .from('private_messages')
-                .insert([{
-                    chat_id: msgrActiveChatId,
-                    sender_id: msgrCurrentCoreID,
-                    message_text: finalText,
-                    is_encrypted: isEncrypted
-                }])
-                .select()
-                .single();
-
-            if (data) {
-                // Передаем текущее время, чтобы оно сразу отобразилось
-                appendMsgUI('Вы', text, true, data.id, new Date().toISOString());
+            // 3. Показываем индикатор "Бобнит думает"
+            const box = document.getElementById('msgr-messages-box');
+            const loadingId = 'loading-' + Date.now();
+            if (box) {
+                box.insertAdjacentHTML('beforeend', `
+                    <div id="${loadingId}" class="msgr-msg other" style="opacity: 0.7; font-style: italic; color: #ffd700;">
+                        Бобнит пережёвывает бургер и думает...
+                    </div>
+                `);
+                box.scrollTop = box.scrollHeight;
             }
-        } catch (e) {
-            console.error("Ошибка отправки сообщения:", e);
-        }
-    }
 
-    // 🔥 РАЗБЛОКИРУЕМ ОТПРАВКУ ДЛЯ ОБЫЧНЫХ ЧАТОВ
-    setTimeout(() => { isSending = false; }, 1000); 
+            // 4. Формируем контекст для нейросети (последние 5 сообщений)
+            const contextForAI = history.slice(-5).map(msg => ({
+                role: msg.isMy ? "user" : "assistant",
+                content: msg.text
+            }));
+
+            // 5. Вызываем нейросеть!
+            console.log("🚀 Отправляем запрос нейросети. Текст:", text);
+            const aiReply = await sendToBobnit(text, contextForAI);
+
+            // 6. Убираем индикатор загрузки
+            const loadingEl = document.getElementById(loadingId);
+            if (loadingEl) loadingEl.remove();
+
+            // 7. Проверка на ошибку
+            let finalReply = aiReply;
+            if (!finalReply || finalReply.trim() === "") {
+                console.warn("⚠️ Нейросеть вернула пустой ответ. Показываем заглушку.");
+                finalReply = "У меня мозг завис. Попробуй еще раз.";
+            }
+
+            // 8. Показываем ответ от нейросети
+            appendMsgUI('Бобнит', finalReply, false, null);
+            
+            // 9. Добавляем ответ в историю с ВРЕМЕНЕМ
+            history.push({ 
+                sender: 'Бобнит', 
+                text: finalReply, 
+                isMy: false,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            });
+            
+            // 10. 🔥 ПРОВЕРКА НА УСТАЛОСТЬ (35 СООБЩЕНИЙ)
+            if (history.length >= 35) {
+                localStorage.removeItem('leycore_bobnit_history');
+                
+                setTimeout(() => {
+                    const tiredModal = document.getElementById('bobnit-tired-modal');
+                    if (tiredModal) tiredModal.style.display = 'flex';
+                    
+                    if (box) box.innerHTML = '';
+                    if (typeof updateMsgCounter === 'function') updateMsgCounter(0);
+                }, 2000);
+            } else {
+                localStorage.setItem('leycore_bobnit_history', JSON.stringify(history.slice(-50)));
+            }
+            
+            return; // Выходим из функции (блокировка снимется в finally)
+        }
+
+        // ЕСЛИ ЭТО ОБЫЧНЫЙ ЧАТ (Группы / Приваты)
+        let finalText = text;
+        let isEncrypted = false;
+
+        if (typeof _supabase !== 'undefined' && _supabase) {
+            try {
+                const { data } = await _supabase
+                    .from('private_messages')
+                    .insert([{
+                        chat_id: msgrActiveChatId,
+                        sender_id: msgrCurrentCoreID,
+                        message_text: finalText,
+                        is_encrypted: isEncrypted
+                    }])
+                    .select()
+                    .single();
+
+                if (data) {
+                    appendMsgUI('Вы', text, true, data.id, new Date().toISOString());
+                }
+            } catch (e) {
+                console.error("Ошибка отправки сообщения:", e);
+            }
+        }
+    } finally {
+        // 🔥 ГАРАНТИРОВАННО СНИМАЕМ БЛОКИРОВКУ (даже если была ошибка)
+        setTimeout(() => { window.isSending = false; }, 1000);
+    }
 }
 
         // ==========================================================================
