@@ -23302,33 +23302,35 @@ function resetUnreadCount() {
         }
 
         // 6. ЧАТ С БОБНИТОМ
-        function openBobnitChatInMessenger() {
-
-             hideMsgrSidebarOnMobile();
-            msgrActiveChatId = 'bobnit-chat';
-            msgrActiveChatType = 'bobnit';
-            msgrActiveChatName = 'Чат с Бобнитом';
-
-            document.getElementById('msgr-active-title').innerText = 'Чат с Бобнитом';
-            document.getElementById('msgr-active-status').innerText = '● В сети (ЖРЕТ БУРГЕР)';
-            document.getElementById('msgr-active-status').className = 'msgr-status-bobnit'; // Класс для цвета статуса
-            document.getElementById('msgr-active-avatar').src = 'bobnit_thanos.jpg';
-
-            const qrBox = document.getElementById('msgr-quick-replies-box');
-            if (qrBox) {qrBox.style.setProperty('display', 'flex', 'important');}
-
-            const encBtn = document.getElementById('msgr-encrypt-btn');
-            if (encBtn) {updateEncryptionButtonUI(false);} // Бобнит не может быть зашифрован
-
-            toggleBobnitTrashButton(true);
-
-            renderBobnitChatHistory();
-            updateEncryptionButtonUI(false);
-            toggleBobnitTrashButton(true);
-            hideMsgrSidebarOnMobile();
-
-
+    function openBobnitChatInMessenger() {
+        // 🔥 ОТПИСЫВАЕМСЯ ОТ СТАРОГО ЧАТА (чтобы не было уведомлений)
+        if (window.currentSub && typeof _supabase !== 'undefined') {
+            _supabase.removeChannel(window.currentSub);
+            window.currentSub = null;
         }
+
+        hideMsgrSidebarOnMobile();
+        msgrActiveChatId = 'bobnit-chat';
+        msgrActiveChatType = 'bobnit';
+        msgrActiveChatName = 'Чат с Бобнитом';
+
+        document.getElementById('msgr-active-title').innerText = 'Чат с Бобнитом';
+        document.getElementById('msgr-active-status').innerText = '● В сети (ЖРЕТ БУРГЕР)';
+        document.getElementById('msgr-active-status').className = 'msgr-status-bobnit'; // Класс для цвета статуса
+        document.getElementById('msgr-active-avatar').src = 'bobnit_thanos.jpg';
+
+        const qrBox = document.getElementById('msgr-quick-replies-box');
+        if (qrBox) { qrBox.style.setProperty('display', 'flex', 'important'); }
+
+        const encBtn = document.getElementById('msgr-encrypt-btn');
+        if (encBtn) { updateEncryptionButtonUI(false); } // Бобнит не может быть зашифрован
+
+        toggleBobnitTrashButton(true);
+
+        renderBobnitChatHistory();
+        updateEncryptionButtonUI(false);
+        toggleBobnitTrashButton(true);
+    }
 
    function renderBobnitChatHistory() {
     const box = document.getElementById('msgr-messages-box');
@@ -23568,6 +23570,10 @@ async function openLeycorePrivateChat(chatId, chatName, isEncrypted) {
                     console.error("Ошибка загрузки сообщений:", e);
                     box.innerHTML = '<div style="color:red; text-align:center; padding:20px;">Ошибка загрузки переписки.</div>';
                 }
+            }
+                       // 🔥 ПОДПИСЫВАЕМСЯ НА REALTIME-ОБНОВЛЕНИЯ ДЛЯ ЭТОГО ЧАТА
+            if (typeof subscribeToCurrentChatMessages === 'function') {
+                subscribeToCurrentChatMessages(chatId);
             }
         }
 
@@ -23970,8 +23976,7 @@ async function openLeycorePrivateChat(chatId, chatName, isEncrypted) {
         sidebar.classList.remove('active-mobile');
     }
 }
-        // Функция автоматической подписки на сообщения
-        function subscribeToCurrentChatMessages(chatId) {
+      function subscribeToCurrentChatMessages(chatId) {
     if (typeof _supabase === 'undefined') return;
 
     // Отписываемся от старого чата, если был
@@ -23986,11 +23991,13 @@ async function openLeycorePrivateChat(chatId, chatName, isEncrypted) {
             filter: 'chat_id=eq.' + chatId
         }, payload => {
             const newMsg = payload.new;
-            // Если сообщение не наше - рисуем его
+            
+            // Если сообщение не мое — рисуем его
             if (newMsg.sender_id !== msgrCurrentCoreID) {
                 appendMsgUI('Собеседник', newMsg.message_text, false, newMsg.id, newMsg.created_at);
                 
-                addUnreadMessage(newMsg.chat_id); 
+                // 🔥 ДОБАВЛЯЕМ СЧЕТЧИК НЕПРОЧИТАННЫХ
+                addUnreadMessage(newMsg.chat_id);
             }
         })
         .subscribe();
