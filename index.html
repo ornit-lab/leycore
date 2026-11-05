@@ -15044,6 +15044,29 @@
         display: flex !important;
     }
 }
+
+
+
+/* ==========================================================================
+   🔵 БЕЙДЖ НЕПРОЧИТАННЫХ В СПИСКЕ ЧАТОВ (КАК В ТЕЛЕГРАМЕ)
+   ========================================================================== */
+.msgr-unread-badge-list {
+    background: #3390ec; /* Синий цвет Телеграма */
+    color: #ffffff;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 900;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    margin-left: 8px;
+    box-shadow: 0 0 10px rgba(51, 144, 236, 0.5);
+    flex-shrink: 0; /* Чтобы не сжимался */
+}
     </style>
 
 
@@ -23079,18 +23102,57 @@ function toggleLeycoreMessenger() {
             }
         }
 
-let unreadCount = 0;
+// Глобальный счетчик для кнопки (красный кружок снаружи)
+let globalUnreadCount = 0;
 
-function addUnreadMessage() {
-    // Если мессенджер открыт (display: flex) — не показываем счетчик
+function addUnreadMessage(chatId) {
+    // Если мессенджер открыт И мы находимся в этом чате — не добавляем непрочитанные
     const modal = document.getElementById('leycore-messenger-modal');
-    if (modal && modal.style.display === 'flex') return;
+    if (modal && modal.style.display === 'flex' && msgrActiveChatId === chatId) {
+        return;
+    }
 
-    unreadCount++;
+    // 1. Обновляем счетчик для конкретного чата (синий кружок в списке)
+    let unreadCounts = JSON.parse(localStorage.getItem('leycore_unread_counts') || '{}');
+    unreadCounts[chatId] = (unreadCounts[chatId] || 0) + 1;
+    localStorage.setItem('leycore_unread_counts', JSON.stringify(unreadCounts));
+
+    // 2. Обновляем глобальный счетчик для кнопки (красный кружок снаружи)
+    globalUnreadCount++;
     const badge = document.getElementById('msgr-unread-badge');
     if (badge) {
-        badge.innerText = unreadCount;
+        badge.innerText = globalUnreadCount;
         badge.style.display = 'flex';
+    }
+
+    // 3. Перерисовываем список чатов (чтобы появился синий кружок)
+    if (typeof loadLeycoreChatsList === 'function') {
+        loadLeycoreChatsList();
+    }
+}
+
+// 🔥 Сброс счетчика при открытии чата
+function resetUnreadCount(chatId) {
+    // 1. Сбрасываем конкретный чат
+    let unreadCounts = JSON.parse(localStorage.getItem('leycore_unread_counts') || '{}');
+    delete unreadCounts[chatId]; // Удаляем запись для этого чата
+    localStorage.setItem('leycore_unread_counts', JSON.stringify(unreadCounts));
+
+    // 2. Пересчитываем глобальный счетчик
+    globalUnreadCount = Object.values(unreadCounts).reduce((sum, val) => sum + val, 0);
+    const badge = document.getElementById('msgr-unread-badge');
+    if (badge) {
+        if (globalUnreadCount > 0) {
+            badge.innerText = globalUnreadCount;
+            badge.style.display = 'flex';
+        } else {
+            badge.style.display = 'none';
+        }
+    }
+
+    // 3. Перерисовываем список (чтобы синий кружок исчез)
+    if (typeof loadLeycoreChatsList === 'function') {
+        loadLeycoreChatsList();
     }
 }
 
@@ -23183,12 +23245,20 @@ function resetUnreadCount() {
         return b.lastTime - a.lastTime;
     });
 
-    // 4. Рендер (🔥 МГНОВЕННАЯ ПРОВЕРКА НА АКТИВНОСТЬ)
+       // 4. Рендер HTML
     let html = '';
     chatsArray.forEach(chat => {
-        // Вот здесь мы проверяем, активен ли чат прямо сейчас
         const isActive = msgrActiveChatId === chat.id;
         const activeClass = isActive ? 'active' : '';
+
+        // 🔥 Получаем количество непрочитанных для этого чата из памяти
+        const unreadCounts = JSON.parse(localStorage.getItem('leycore_unread_counts') || '{}');
+        const unread = unreadCounts[chat.id] || 0;
+        
+        // HTML для бейджа непрочитанных
+        const unreadBadgeHTML = unread > 0 
+            ? `<div class="msgr-unread-badge-list">${unread}</div>` 
+            : '';
 
         html += `
         <div class="msgr-chat-item ${activeClass}" onclick="${chat.type === 'bobnit' ? 'openBobnitChatInMessenger()' : `openLeycorePrivateChat('${chat.id}', '${chat.name.replace(/'/g, "\\'")}', false)`}">
@@ -23198,8 +23268,11 @@ function resetUnreadCount() {
                     <div style="font-weight:800; font-size:0.85rem; color:${chat.type === 'bobnit' ? '#ffd700' : '#fff'};">${chat.name}</div>
                     <div style="font-size:0.65rem; color:#aaa;">${chat.timeStr}</div>
                 </div>
-                <div style="font-size:0.75rem; color:#bbb; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px;">
-                    ${chat.lastMsg}
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:2px;">
+                    <div style="font-size:0.75rem; color:#bbb; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:1;">
+                        ${chat.lastMsg}
+                    </div>
+                    ${unreadBadgeHTML}
                 </div>
             </div>
         </div>`;
@@ -23356,7 +23429,7 @@ function appendMsgUI(sender, text, isMy, msgId, msgTime = null) {
 
      // 10. ОТКРЫТИЕ ПРИВАТНОГО ЧАТА ИЛИ ГРУППЫ
 async function openLeycorePrivateChat(chatId, chatName, isEncrypted) {
-    
+        resetUnreadCount(chatId); // 🔥 СБРАСЫВАЕМ ПРИ ОТКРЫТИИ
     // 🔥 МГНОВЕННАЯ ПОДСВЕТКА (ДО ЗАПРОСА В БАЗУ)
     // 1. Убираем подсветку со всех чатов
     document.querySelectorAll('.msgr-chat-item').forEach(el => el.classList.remove('active'));
@@ -23917,8 +23990,7 @@ async function openLeycorePrivateChat(chatId, chatName, isEncrypted) {
             if (newMsg.sender_id !== msgrCurrentCoreID) {
                 appendMsgUI('Собеседник', newMsg.message_text, false, newMsg.id, newMsg.created_at);
                 
-                // 🔥 ВОТ ЗДЕСЬ ВЫЗЫВАЕМ СЧЕТЧИК
-                addUnreadMessage();
+                addUnreadMessage(newMsg.chat_id); 
             }
         })
         .subscribe();
