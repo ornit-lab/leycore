@@ -6750,23 +6750,29 @@
 
    
 
-        /* 1. ВЫДВИЖНАЯ ПАНЕЛЬ (СТРОГО АБСОЛЮТНАЯ, НЕ РАСТАЛКИВАЕТ КОЛОНКИ!) */
-        .msgr-modal-subview {
-            position: absolute !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 280px !important;
-            height: 100% !important;
-            background: rgba(10, 3, 18, 0.98) !important;
-            z-index: 20 !important;
-            /* Поверх всего */
-            display: none;
-            flex-direction: column !important;
-            padding: 20px !important;
-            box-sizing: border-box !important;
-            border-right: 1px solid rgba(255, 215, 0, 0.3) !important;
-        }
+/* ==========================================================================
+   📱 СУБ-МЕНЮ (ПОИСК, ПРОФИЛЬ, ВСЕ ПОЛЬЗОВАТЕЛИ) — САМЫЙ ВЕРХНИЙ СЛОЙ
+   ========================================================================== */
+.msgr-modal-subview {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(10, 3, 18, 0.98) !important;
+    z-index: 99999 !important; /* 🔥 САМЫЙ ВЫСОКИЙ СЛОЙ (выше всего) */
+    display: none;
+    flex-direction: column !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+    border-right: 1px solid rgba(255, 215, 0, 0.3) !important;
+    backdrop-filter: blur(10px);
+}
 
+/* Когда открыт — показываем */
+.msgr-modal-subview[style*="display: flex"] {
+    display: flex !important;
+}
         /* 2. ЛЕВАЯ БОКОВАЯ ПАНЕЛЬ (ФИКСИРОВАННАЯ ШИРИНА) */
         .msgr-sidebar {
             width: 280px !important;
@@ -14974,9 +14980,10 @@
         overflow: hidden !important;
     }
 
-    #leycore-messenger-modal[style*="display: flex"] {
-        display: flex !important;
-    }
+    #leycore-messenger-modal {
+    /* ... */
+    z-index: 999999 !important; /* 🔥 Самый высокий */
+}
 
     /* 2. Сайдбар (Список чатов) — на весь экран, выезжает */
     .msgr-sidebar {
@@ -23250,7 +23257,7 @@ function resetUnreadCount() {
 
         }
 
-     function renderBobnitChatHistory() {
+   function renderBobnitChatHistory() {
     const box = document.getElementById('msgr-messages-box');
     if (!box) return;
     box.innerHTML = '';
@@ -23271,7 +23278,11 @@ function resetUnreadCount() {
         if (lastDate !== currentDateString) {
             const dateSeparator = document.createElement('div');
             dateSeparator.innerHTML = getDateSeparatorHTML(msgDate);
-            box.appendChild(dateSeparator.firstChild); // Добавляем сам div
+            
+            // 🛡 ЗАЩИТА ОТ ОШИБКИ (проверяем, что элемент создался)
+            if (dateSeparator.firstElementChild) {
+                box.appendChild(dateSeparator.firstElementChild);
+            }
             lastDate = currentDateString;
         }
 
@@ -23678,12 +23689,13 @@ async function openLeycorePrivateChat(chatId, chatName, isEncrypted) {
         }
 
    async function openMsgrAllUsersList() {
-    showMsgrSubview("Все пользователи", `
-        <div style="display:flex; flex-direction:column; gap:15px;">
+           showMsgrSubview("Все пользователи", `
+        <div style="display:flex; flex-direction:column; gap:15px; height: 100%;">
             <input type="text" id="all-users-search-input" placeholder="Поиск по нику или CoreID..." 
                    oninput="searchAllUsers(this.value)"
-                   style="width:100%; padding:10px; background:#111; border:1px solid #ff007f; color:#fff; border-radius:8px; font-size:0.85rem;">
-            <div id="all-users-list-container" style="max-height: 400px; overflow-y: auto;">
+                   style="width:100%; padding:10px; background:#111; border:1px solid #ff007f; color:#fff; border-radius:8px; font-size:0.85rem; box-sizing: border-box; flex-shrink: 0;">
+            
+            <div id="all-users-list-container" style="flex: 1; overflow-y: auto; padding-right: 5px;">
                 <div style="text-align:center; color:#aaa;">Загрузка пользователей...</div>
             </div>
         </div>
@@ -23714,38 +23726,38 @@ async function openLeycorePrivateChat(chatId, chatName, isEncrypted) {
 }
 
         function renderAllUsers(usersToRender) {
-            const container = document.getElementById('all-users-list-container');
-            if (!container) return;
+    const container = document.getElementById('all-users-list-container');
+    if (!container) return;
 
-            if (!usersToRender || usersToRender.length === 0) {
-                container.innerHTML = '<div style="color:#aaa; text-align:center;">Пользователи не найдены.</div>';
-                return;
-            }
+    if (!usersToRender || usersToRender.length === 0) {
+        container.innerHTML = '<div style="color:#aaa; text-align:center;">Пользователи не найдены.</div>';
+        return;
+    }
 
-            let html = '';
-            usersToRender.forEach(user => {
-                if (user.core_id === msgrCurrentCoreID) return; // Не показываем текущего пользователя
+    let html = '';
+    usersToRender.forEach(user => {
+        if (user.core_id === msgrCurrentCoreID) return; // Не показываем себя
 
-                const avatar = user.avatar_url || 'https://via.placeholder.com/150/ff007f/ffffff?text=U';
-                const statusText = user.is_online ? '● В сети' : formatLastSeen(user.last_online_at);
-                const statusClass = user.is_online ? 'msgr-status-online' : 'msgr-status-offline';
+        const avatar = user.avatar_url || 'https://via.placeholder.com/150/ff007f/ffffff?text=U';
+        const statusText = user.is_online ? '● В сети' : formatLastSeen(user.last_online_at);
+        const statusClass = user.is_online ? 'msgr-status-online' : 'msgr-status-offline';
 
-                html += `
+        html += `
             <div style="display:flex; align-items:center; gap:12px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
                 <img src="${avatar}" class="msgr-avatar" style="width:36px; height:36px;" alt="">
-                <div style="flex:1;">
-                    <div style="font-weight:bold; color:#fff; font-size:0.85rem;">${user.user_name}</div>
+                <div style="flex:1; overflow:hidden;">
+                    <div style="font-weight:bold; color:#fff; font-size:0.85rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${user.user_name}</div>
                     <div style="font-size:0.65rem; ${statusClass}">${statusText}</div>
                 </div>
                 <button onclick="initiateChatFromAllUsers('${user.core_id}', '${user.user_name.replace(/'/g, "\\'")}')" 
-                        style="background:linear-gradient(135deg, #00ff66, #00bb33); color:#000; padding:6px 12px; border-radius:6px; font-size:0.75rem; cursor:pointer;">
+                        style="background:linear-gradient(135deg, #00ff66, #00bb33); color:#000; padding:6px 12px; border-radius:6px; font-size:0.75rem; cursor:pointer; white-space: nowrap; flex-shrink: 0; border: none; font-weight: bold;">
                     Написать
                 </button>
             </div>
         `;
-            });
-            container.innerHTML = html;
-        }
+    });
+    container.innerHTML = html;
+}
 
         function searchAllUsers(query) {
             const lowerQuery = query.toLowerCase();
@@ -23803,11 +23815,25 @@ async function openLeycorePrivateChat(chatId, chatName, isEncrypted) {
             if (qrBox) {qrBox.style.setProperty('display', 'none', 'important');}
         }
 
-        function showMsgrSubview(title, html) {
-            document.getElementById('msgr-subview-title').innerText = title;
-            document.getElementById('msgr-subview-content').innerHTML = html;
-            document.getElementById('msgr-subview-panel').style.display = 'flex';
-        }
+      function showMsgrSubview(title, html) {
+    // Обновляем заголовок и контент
+    document.getElementById('msgr-subview-title').innerText = title;
+    document.getElementById('msgr-subview-content').innerHTML = html;
+    
+    // Показываем панель
+    document.getElementById('msgr-subview-panel').style.display = 'flex';
+
+    // 🔥 На мобилке принудительно поднимаем панель на самый верх
+    if (window.innerWidth <= 768) {
+        const panel = document.getElementById('msgr-subview-panel');
+        panel.style.setProperty('z-index', '9999999', 'important'); // Поднимаем выше всего
+        panel.style.setProperty('position', 'fixed', 'important'); // Фиксируем на экране
+        panel.style.setProperty('top', '0', 'important');
+        panel.style.setProperty('left', '0', 'important');
+        panel.style.setProperty('width', '100vw', 'important');
+        panel.style.setProperty('height', '100vh', 'important');
+    }
+}
         function closeMsgrSubview() {
             document.getElementById('msgr-subview-panel').style.display = 'none';
         }
