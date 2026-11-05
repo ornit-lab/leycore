@@ -6654,33 +6654,96 @@
             display: none !important;
         }
 
-        /* 2. ЕДИНСТВЕННАЯ ЗОЛОТАЯ КНОПКА "ЧАТ" В САМОМ ПРАВОМ УГЛУ */
-        #leycore-chat-launcher-btn {
-            position: fixed !important;
-            bottom: 25px !important;
-            right: 25px !important;
-            /* 🔥 Сместили в самый правый угол! */
-            width: 70px;
-            height: 70px;
-            background: rgba(20, 8, 30, 0.95);
-            border: 2px solid #ffd700;
-            border-radius: 16px;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), inset 0 0 10px rgba(255, 215, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 9990;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            backdrop-filter: blur(8px);
-        }
+   /* ==========================================================================
+   🚀 СУПЕР-3D КНОПКА ЧАТА (КВАДРАТНАЯ, ЧЕРНАЯ ИКОНКА)
+   ========================================================================== */
+#leycore-chat-launcher-btn {
+    position: fixed !important;
+    bottom: 25px !important;
+    right: 25px !important;
+    width: 75px !important;
+    height: 75px !important;
+    
+    /* Белый фон, скругленные углы */
+    background: #ffffff !important;
+    border: none !important;
+    border-radius: 18px !important; /* Квадрат со скруглением */
+    
+    /* Иконка по центру */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+    cursor: pointer !important;
+    z-index: 9990 !important;
+    
+    /* 🔥 ЖЕСТКИЙ 3D-ЭФФЕКТ */
+    box-shadow: 
+        0 8px 0 #b3b3b3, /* Серый объем снизу */
+        0 15px 25px rgba(0, 0, 0, 0.6), /* Тень на пол */
+        0 0 20px rgba(255, 255, 255, 0.3) !important; /* Легкое свечение */
+        
+    transition: all 0.15s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
 
-        #leycore-chat-launcher-btn:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.9), inset 0 0 15px rgba(255, 215, 0, 0.5);
-            border-color: #fff066;
-        }
+/* Иконка внутри кнопки */
+#leycore-chat-launcher-btn svg {
+    width: 42px !important;
+    height: 42px !important;
+    /* 🔥 ЧЕРНЫЙ ЦВЕТ ИКОНКИ, ЧТОБЫ ВИДНО БЫЛО */
+    fill: #171717 !important; 
+    transition: transform 0.2s ease !important;
+}
+
+/* Эффект при наведении (на ПК) */
+#leycore-chat-launcher-btn:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 
+        0 11px 0 #b3b3b3, 
+        0 20px 30px rgba(0, 0, 0, 0.7),
+        0 0 30px rgba(255, 255, 255, 0.5) !important;
+}
+
+#leycore-chat-launcher-btn:hover svg {
+    transform: scale(1.1) !important;
+}
+
+/* 🔥 ЭФФЕКТ НАЖАТИЯ (Кнопка вдавливается) */
+#leycore-chat-launcher-btn:active {
+    transform: translateY(4px) !important;
+    box-shadow: 
+        0 4px 0 #b3b3b3, 
+        0 5px 10px rgba(0, 0, 0, 0.6),
+        0 0 15px rgba(255, 255, 255, 0.3) !important;
+}
+
+/* ==========================================================================
+   🔴 КРАСНЫЙ ИНДИКАТОР НЕПРОЧИТАННЫХ
+   ========================================================================== */
+.msgr-unread-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff0055; /* Неоново-красный */
+    color: #ffffff;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 900;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #ffffff; /* Белый ободок */
+    box-shadow: 0 0 15px #ff0055, 0 0 30px rgba(255, 0, 85, 0.5); /* Неоновое свечение */
+    animation: pulseUnread 1.5s infinite alternate;
+}
+
+@keyframes pulseUnread {
+    0% { transform: scale(1); box-shadow: 0 0 10px #ff0055; }
+    100% { transform: scale(1.1); box-shadow: 0 0 20px #ff0055, 0 0 40px #ff0055; }
+}
 
 
 
@@ -14626,6 +14689,131 @@
     background: rgba(255, 0, 128, 0.15);
 }
 
+
+/* ==========================================================================
+   🟢 ПОДСВЕТКА АКТИВНОГО ЧАТА В СПИСКЕ (КАК В TELEGRAM)
+   ========================================================================== */
+.msgr-chat-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* При наведении */
+.msgr-chat-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* 🔥 АКТИВНЫЙ ЧАТ (Подсветка) */
+.msgr-chat-item.active {
+    background: rgba(255, 0, 128, 0.15); /* Нежно-розовый фон */
+    border-left: 4px solid #ff0055; /* Яркая полоса слева */
+    box-shadow: inset 0 0 15px rgba(255, 0, 85, 0.1); /* Легкое внутреннее свечение */
+}
+
+/* Убираем нижнюю границу у последнего чата, чтобы было аккуратно */
+.msgr-chat-item:last-child {
+    border-bottom: none;
+}
+
+
+/* ==========================================================================
+   🍬 СУПЕР-ПЛАВНОСТЬ И РЕЗИНОВЫЕ АНИМАЦИИ (TELEGRAM STYLE)
+   ========================================================================== */
+
+/* 1. Плавные переходы для всех кнопок и элементов списка */
+.msgr-chat-item,
+.msgr-action-btn,
+.msgr-close-btn,
+.msgr-send-btn,
+.msgr-qr-btn {
+    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+/* 2. Эффект "нажатия" (пружинка) */
+.msgr-chat-item:active,
+.msgr-action-btn:active,
+.msgr-close-btn:active,
+.msgr-send-btn:active,
+.msgr-qr-btn:active {
+    transform: scale(0.96) !important;
+}
+
+/* 3. Анимация появления сообщений (выезжают снизу) */
+@keyframes msgSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.msgr-msg {
+    animation: msgSlideIn 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important;
+}
+
+/* 4. Плавное открытие/закрытие выдвижных панелей (сайдбары) */
+.msgr-sidebar {
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+/* 5. Плавное появление модалки (окна мессенджера) */
+#leycore-messenger-modal {
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+/* 6. Плавное изменение цвета активного чата */
+.msgr-chat-item {
+    transition: background 0.2s ease, border-left 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+/* 7. Анимация пульсации для кнопки "Отправить" при наведении */
+.msgr-send-btn:hover {
+    transform: scale(1.05) rotate(-5deg) !important;
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.6) !important;
+}
+
+/* 8. Плавный скролл в списке сообщений */
+.msgr-messages-box {
+    scroll-behavior: smooth !important;
+}
+
+
+
+/* ==========================================================================
+   📅 ПЛАШКА ДАТЫ (КАК В TELEGRAM)
+   ========================================================================== */
+.msgr-date-separator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+/* Линии по бокам от текста */
+.msgr-date-separator::before,
+.msgr-date-separator::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0 15px;
+}
+
     </style>
 
 
@@ -16001,6 +16189,71 @@
 
     <script>
 
+
+// ==========================================================================
+// 🌐 ГЛОБАЛЬНЫЙ ТРЕКЕР ОНЛАЙНА (РАБОТАЕТ ПО ВСЕМУ САЙТУ)
+// ==========================================================================
+
+// Функция обновления статуса (использует твой существующий _supabase)
+async function updateGlobalUserStatus(isOnline) {
+    const myName = localStorage.getItem('leycore_username');
+    if (!myName || typeof _supabase === 'undefined' || !_supabase) return;
+
+    try {
+        // 1. Проверяем, есть ли пользователь в базе
+        const {data: existingUser} = await _supabase
+            .from('user_profiles')
+            .select('core_id')
+            .eq('user_name', myName)
+            .maybeSingle(); // Используем maybeSingle, чтобы не было ошибки, если юзера нет
+
+        const now = new Date().toISOString();
+
+        if (!existingUser) {
+            // 2. Если пользователя нет — создаем ему профиль
+            const genCoreID = Math.floor(1000000000 + Math.random() * 9000000000).toString();
+            await _supabase.from('user_profiles').insert([{
+                user_name: myName,
+                core_id: genCoreID,
+                is_online: isOnline,
+                last_online_at: now
+            }]);
+            console.log(`🟢 Создан профиль для ${myName}`);
+        } else {
+            // 3. Если есть — просто обновляем статус и время
+            await _supabase
+                .from('user_profiles')
+                .update({is_online: isOnline, last_online_at: now})
+                .eq('user_name', myName);
+            console.log(`🔄 Статус ${myName} обновлен: ${isOnline ? 'В сети' : 'Оффлайн'}`);
+        }
+    } catch (e) {
+        console.error("Ошибка обновления глобального статуса:", e);
+    }
+}
+
+// 🔥 ЗАПУСК ПРИ ЗАГРУЗКЕ САЙТА (СРАЗУ, БЕЗ ОЖИДАНИЯ МЕССЕНДЖЕРА)
+window.addEventListener('load', () => {
+    // Небольшая задержка, чтобы Supabase успел инициализироваться
+    setTimeout(() => {
+        updateGlobalUserStatus(true);
+        
+        // Обновляем статус каждые 60 секунд, пока открыта вкладка
+        setInterval(() => updateGlobalUserStatus(true), 60000);
+    }, 1500);
+});
+
+// 🔥 ОТМЕЧАЕМ ОФФЛАЙН, КОГДА ЗАКРЫВАЮТ ВКЛАДКУ
+window.addEventListener('beforeunload', () => {
+    const myName = localStorage.getItem('leycore_username');
+    if (myName && typeof _supabase !== 'undefined' && _supabase) {
+        // Используем navigator.sendBeacon для надежной отправки при закрытии
+        const url = `${SUPABASE_URL}/rest/v1/user_profiles?user_name=eq.${myName}`;
+        const data = JSON.stringify({ is_online: false, last_online_at: new Date().toISOString() });
+        
+        navigator.sendBeacon(url, data);
+    }
+});
 
         // ==========================================================================
         // 🔊 АУДИО-МИКШЕР LEYCORE SFX ENGINE
@@ -22439,18 +22692,23 @@ if (!ctx) return;
         let msgrUserStatusInterval = null;
         let allUsersData = []; // Для хранения всех пользователей и поиска
 
-        // Вспомогательная функция для форматирования времени
-        function formatLastSeen(timestamp) {
-            if (!timestamp) return 'был давно';
-            const now = new Date();
-            const lastSeen = new Date(timestamp);
-            const diffSeconds = Math.floor((now - lastSeen) / 1000);
+      function formatLastSeen(timestamp) {
+    if (!timestamp) return 'был давно';
+    
+    const now = new Date();
+    const lastSeen = new Date(timestamp);
+    const diffSeconds = Math.floor((now - lastSeen) / 1000);
 
-            if (diffSeconds < 60) return 'был только что';
-            if (diffSeconds < 3600) return `был ${Math.floor(diffSeconds / 60)} мин. назад`;
-            if (diffSeconds < 86400) return `был ${Math.floor(diffSeconds / 3600)} ч. назад`;
-            return lastSeen.toLocaleDateString();
-        }
+    // Если разница отрицательная (часовые пояса), показываем "только что"
+    if (diffSeconds < 0) return 'был только что';
+
+    if (diffSeconds < 60) return 'был только что';
+    if (diffSeconds < 3600) return `был ${Math.floor(diffSeconds / 60)} мин. назад`;
+    if (diffSeconds < 86400) return `был ${Math.floor(diffSeconds / 3600)} ч. назад`;
+    
+    // Если больше суток — показываем дату
+    return `был ${lastSeen.toLocaleDateString()}`;
+}
 
         // 1. УПРАВЛЕНИЕ СТАТУСОМ АКТИВНОСТИ В SUPABASE (для Realtime-статусов)
         async function updateMyOnlineStatus(isOnline) {
@@ -22476,22 +22734,45 @@ if (!ctx) return;
         };
         window.toggleBobnitChat = window.openBobnitChatFromNotif;
 
-        // 3. ОТКРЫТИЕ И ИНИЦИАЛИЗАЦИЯ МЕССЕНДЖЕРА
-        function toggleLeycoreMessenger() {
+    // ==========================================================================
+// 3. ОТКРЫТИЕ И ИНИЦИАЛИЗАЦИЯ МЕССЕНДЖЕРА
+// ==========================================================================
+function toggleLeycoreMessenger() {
     const modal = document.getElementById('leycore-messenger-modal');
     if (!modal) return;
 
+    // ЕСЛИ МЕССЕНДЖЕР УЖЕ ОТКРЫТ — ЗАКРЫВАЕМ
     if (modal.style.display === 'flex') {
-        modal.style.display = 'none';
+        modal.style.opacity = '0'; // Плавно прячем
+        setTimeout(() => {
+            modal.style.display = 'none';
+            modal.style.opacity = '1';
+        }, 200);
+        
         updateMyOnlineStatus(false);
         if (msgrUserStatusInterval) clearInterval(msgrUserStatusInterval);
-    } else {
-        // Открываем сразу список чатов на мобилке
-if (window.innerWidth <= 768) {
-    const sidebar = document.querySelector('.msgr-sidebar');
-    if (sidebar) sidebar.classList.add('active-mobile');
-}
+    } 
+    // ЕСЛИ ЗАКРЫТ — ОТКРЫВАЕМ
+    else {
+        // 🔥 СБРАСЫВАЕМ СЧЕТЧИК ПРИ ОТКРЫТИИ (здесь, а не в закрытии!)
+        resetUnreadCount();
+
+        // 1. На мобилке сразу открываем список чатов
+        if (window.innerWidth <= 768) {
+            const sidebar = document.querySelector('.msgr-sidebar');
+            if (sidebar) sidebar.classList.add('active-mobile');
+        }
+
+        // 2. Показываем модалку с прозрачностью 0 (для анимации)
         modal.style.display = 'flex';
+        modal.style.opacity = '0';
+        
+        // 3. Принудительно заставляем браузер применить стили, затем плавно показываем
+        requestAnimationFrame(() => {
+            modal.style.opacity = '1';
+        });
+
+        // 4. Запускаем звук и инициализацию
         playMsgrWarpSound();
         initLeycoreMessenger();
         updateMyOnlineStatus(true);
@@ -22568,26 +22849,52 @@ if (window.innerWidth <= 768) {
             }
         }
 
-      async function loadLeycoreChatsList() {
+let unreadCount = 0;
+
+function addUnreadMessage() {
+    // Если мессенджер открыт (display: flex) — не показываем счетчик
+    const modal = document.getElementById('leycore-messenger-modal');
+    if (modal && modal.style.display === 'flex') return;
+
+    unreadCount++;
+    const badge = document.getElementById('msgr-unread-badge');
+    if (badge) {
+        badge.innerText = unreadCount;
+        badge.style.display = 'flex';
+    }
+}
+
+// Сброс счетчика при открытии чата
+function resetUnreadCount() {
+    unreadCount = 0;
+    const badge = document.getElementById('msgr-unread-badge');
+    if (badge) badge.style.display = 'none';
+}
+
+
+    async function loadLeycoreChatsList() {
     const container = document.getElementById('msgr-chats-container');
     if (!container) return;
 
-    // 1. Бобнит (Всегда первый)
-    let html = `
-    <div class="msgr-chat-item pinned ${msgrActiveChatId === 'bobnit-chat' ? 'active' : ''}" onclick="openBobnitChatInMessenger()">
-        <img src="bobnit_thanos.jpg" class="msgr-avatar" style="width:48px; height:48px;" alt="">
-        <div style="flex:1; overflow:hidden; display:flex; flex-direction:column;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div style="font-weight:800; font-size:0.9rem; color:#ffd700;">📌 Бобнит</div>
-                <div style="font-size:0.65rem; color:#aaa;">В сети</div>
-            </div>
-            <div style="font-size:0.75rem; color:#ccc; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px;">
-                ${localStorage.getItem('leycore_bobnit_history') ? 'Нажми, чтобы продолжить...' : 'Привет, царь! Я в новом Кибер-Мессенджере.'}
-            </div>
-        </div>
-    </div>`;
+    let chatsArray = [];
 
-    // 2. Остальные чаты из базы (если есть)
+    // 1. Бобнит
+    let bobnitLastMsgTime = 0;
+    const bobnitHistory = JSON.parse(localStorage.getItem('leycore_bobnit_history') || '[]');
+    if (bobnitHistory.length > 0) bobnitLastMsgTime = Date.now();
+    
+    chatsArray.push({
+        id: 'bobnit-chat',
+        type: 'bobnit',
+        name: '📌 Бобнит',
+        avatar: 'bobnit_thanos.jpg',
+        lastMsg: bobnitHistory.length > 0 ? bobnitHistory[bobnitHistory.length - 1].text : 'Нажми, чтобы продолжить...',
+        lastTime: bobnitLastMsgTime,
+        timeStr: bobnitHistory.length > 0 ? 'Недавно' : 'В сети',
+        isPinned: true
+    });
+
+    // 2. Остальные чаты
     if (typeof _supabase !== 'undefined' && _supabase && msgrCurrentCoreID) {
         const {data} = await _supabase.from('chat_rooms').select('*');
         if (data) {
@@ -22596,7 +22903,8 @@ if (window.innerWidth <= 768) {
 
                 let name = chat.name, avatar = 'https://via.placeholder.com/150/ff007f/ffffff?text=U';
                 let lastMsgText = 'Напишите первое сообщение...';
-                let lastMsgTime = '';
+                let lastMsgTime = 0;
+                let timeStr = '';
 
                 if (chat.type !== 'group') {
                     const peerID = chat.participants.find(id => id !== msgrCurrentCoreID);
@@ -22609,7 +22917,6 @@ if (window.innerWidth <= 768) {
                     avatar = chat.avatar_url || 'https://via.placeholder.com/150/8000ff/ffffff?text=GROUP';
                 }
 
-                // 🔥 ЗАГРУЖАЕМ ПОСЛЕДНЕЕ СООБЩЕНИЕ
                 const {data: msgs} = await _supabase
                     .from('private_messages')
                     .select('*')
@@ -22620,27 +22927,54 @@ if (window.innerWidth <= 768) {
                 if (msgs && msgs.length > 0) {
                     lastMsgText = msgs[0].message_text;
                     if (lastMsgText.length > 25) lastMsgText = lastMsgText.substring(0, 25) + '...';
-                    
                     const msgDate = new Date(msgs[0].created_at);
-                    lastMsgTime = msgDate.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+                    lastMsgTime = msgDate.getTime();
+                    timeStr = msgDate.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
                 }
 
-                html += `
-                <div class="msgr-chat-item" onclick="openLeycorePrivateChat('${chat.id}', '${name.replace(/'/g, "\\'")}', false)">
-                    <img src="${avatar}" class="msgr-avatar" style="width:48px; height:48px;">
-                    <div style="flex:1; overflow:hidden; display:flex; flex-direction:column;">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <div style="font-weight:800; font-size:0.85rem; color:#fff;">${name}</div>
-                            <div style="font-size:0.65rem; color:#aaa;">${lastMsgTime}</div>
-                        </div>
-                        <div style="font-size:0.75rem; color:#bbb; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px;">
-                            ${lastMsgText}
-                        </div>
-                    </div>
-                </div>`;
+                chatsArray.push({
+                    id: chat.id,
+                    type: chat.type,
+                    name: name,
+                    avatar: avatar,
+                    lastMsg: lastMsgText,
+                    lastTime: lastMsgTime,
+                    timeStr: timeStr,
+                    isPinned: false
+                });
             }
         }
     }
+
+    // 3. Сортировка
+    chatsArray.sort((a, b) => {
+        if (a.isPinned && !b.isPinned) return -1;
+        if (!a.isPinned && b.isPinned) return 1;
+        return b.lastTime - a.lastTime;
+    });
+
+    // 4. Рендер (🔥 МГНОВЕННАЯ ПРОВЕРКА НА АКТИВНОСТЬ)
+    let html = '';
+    chatsArray.forEach(chat => {
+        // Вот здесь мы проверяем, активен ли чат прямо сейчас
+        const isActive = msgrActiveChatId === chat.id;
+        const activeClass = isActive ? 'active' : '';
+
+        html += `
+        <div class="msgr-chat-item ${activeClass}" onclick="${chat.type === 'bobnit' ? 'openBobnitChatInMessenger()' : `openLeycorePrivateChat('${chat.id}', '${chat.name.replace(/'/g, "\\'")}', false)`}">
+            <img src="${chat.avatar}" class="msgr-avatar" style="width:48px; height:48px;">
+            <div style="flex:1; overflow:hidden; display:flex; flex-direction:column;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div style="font-weight:800; font-size:0.85rem; color:${chat.type === 'bobnit' ? '#ffd700' : '#fff'};">${chat.name}</div>
+                    <div style="font-size:0.65rem; color:#aaa;">${chat.timeStr}</div>
+                </div>
+                <div style="font-size:0.75rem; color:#bbb; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px;">
+                    ${chat.lastMsg}
+                </div>
+            </div>
+        </div>`;
+    });
+
     container.innerHTML = html;
 }
 
@@ -22693,35 +23027,80 @@ if (window.innerWidth <= 768) {
 
         }
 
-        function renderBobnitChatHistory() {
-            const box = document.getElementById('msgr-messages-box');
-            if (!box) return;
-            box.innerHTML = '';
+     function renderBobnitChatHistory() {
+    const box = document.getElementById('msgr-messages-box');
+    if (!box) return;
+    box.innerHTML = '';
 
-            let history = JSON.parse(localStorage.getItem('leycore_bobnit_history') || '[]');
-            if (history.length === 0) {
-                history = [{sender: 'Бобнит', text: 'Привет, царь! Я в новом Кибер-Мессенджере. Задавай вопросы! 🍔', isMy: false}];
-            }
+    let history = JSON.parse(localStorage.getItem('leycore_bobnit_history') || '[]');
+    if (history.length === 0) {
+        history = [{sender: 'Бобнит', text: 'Привет, царь! Я в новом Кибер-Мессенджере. Задавай вопросы! 🍔', isMy: false, time: new Date().toISOString()}];
+    }
 
-            history.forEach(msg => appendMsgUI(msg.sender, msg.text, msg.isMy, null));
-            updateMsgCounter(history.length);
+    let lastDate = null;
+
+    history.forEach(msg => {
+        // Если у сообщения нет времени (старые записи), ставим текущее
+        const msgDate = msg.time ? new Date(msg.time) : new Date();
+        const currentDateString = msgDate.toDateString();
+
+        // 🔥 Если день сменился — вставляем разделитель
+        if (lastDate !== currentDateString) {
+            const dateSeparator = document.createElement('div');
+            dateSeparator.innerHTML = getDateSeparatorHTML(msgDate);
+            box.appendChild(dateSeparator.firstChild); // Добавляем сам div
+            lastDate = currentDateString;
         }
 
-        // 7. ОТРЕСОВКА СООБЩЕНИЙ С КНОПКОЙ УДАЛЕНИЯ 🗑️
-        function appendMsgUI(sender, text, isMy, msgId) {
-            const box = document.getElementById('msgr-messages-box');
-            if (!box) return;
+        appendMsgUI(msg.sender, msg.text, msg.isMy, null, msg.time || msgDate.toISOString());
+    });
+    
+    updateMsgCounter(history.length);
+}
 
-            const div = document.createElement('div');
-            div.className = `msgr-msg ${isMy ? 'my' : 'other'}`;
-            const deleteBtn = (isMy && msgId) ? `<span onclick="deleteLeycoreMessage('${msgId}')" style="cursor:pointer; margin-left:8px; opacity:0.6;" title="Удалить для всех">🗑️</span>` : '';
 
-            div.innerHTML = `<div class="sender-name">${sender} ${deleteBtn}</div>${text}`;
+// 🔥 Функция для создания разделителя дат
+function getDateSeparatorHTML(dateObj) {
+    if (!dateObj || isNaN(dateObj)) return '';
+    
+    // Форматируем дату как "20 октября 2026"
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    const dateStr = dateObj.toLocaleDateString('ru-RU', options);
+    
+    return `<div class="msgr-date-separator">${dateStr}</div>`;
+}
 
-            box.appendChild(div);
-            box.scrollTop = box.scrollHeight;
-            updateMsgCounter(box.querySelectorAll('.msgr-msg').length);
+
+function appendMsgUI(sender, text, isMy, msgId, msgTime = null) {
+    const box = document.getElementById('msgr-messages-box');
+    if (!box) return;
+
+    const div = document.createElement('div');
+    div.className = `msgr-msg ${isMy ? 'my' : 'other'}`;
+    const deleteBtn = (isMy && msgId) ? `<span onclick="deleteLeycoreMessage('${msgId}')" style="cursor:pointer; margin-left:8px; opacity:0.6;" title="Удалить для всех">🗑️</span>` : '';
+
+    // 🔥 Форматируем время (только часы и минуты)
+    let timeStr = '';
+    if (msgTime) {
+        const dateObj = new Date(msgTime);
+        if (!isNaN(dateObj)) {
+            timeStr = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }
+    } else {
+        const now = new Date();
+        timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    div.innerHTML = `
+        <div class="sender-name">${sender} ${deleteBtn}</div>
+        <div style="word-break: break-word;">${text}</div>
+        <div style="font-size: 0.6rem; color: rgba(255,255,255,0.4); text-align: ${isMy ? 'right' : 'left'}; margin-top: 4px;">${timeStr}</div>
+    `;
+
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+    updateMsgCounter(box.querySelectorAll('.msgr-msg').length);
+}
 
         function updateMsgCounter(count) {
             const el = document.getElementById('msgr-msg-counter');
@@ -22741,23 +23120,41 @@ if (window.innerWidth <= 768) {
 
 
 
-        // 10. ОТКРЫТИЕ ПРИВАТНОГО ЧАТА ИЛИ ГРУППЫ (Теперь с НИКАМИ и АВАТАРКАМИ собеседников)
-        async function openLeycorePrivateChat(chatId, chatName, isEncrypted) {
-            const qrBox = document.getElementById('msgr-quick-replies-box');
-            if (qrBox) {qrBox.style.setProperty('display', 'none', 'important');}
-            toggleBobnitTrashButton(false);
-            hideMsgrSidebarOnMobile();
+     // 10. ОТКРЫТИЕ ПРИВАТНОГО ЧАТА ИЛИ ГРУППЫ
+async function openLeycorePrivateChat(chatId, chatName, isEncrypted) {
+    
+    // 🔥 МГНОВЕННАЯ ПОДСВЕТКА (ДО ЗАПРОСА В БАЗУ)
+    // 1. Убираем подсветку со всех чатов
+    document.querySelectorAll('.msgr-chat-item').forEach(el => el.classList.remove('active'));
+    
+    // 2. Находим нужный чат по ID и подсвечиваем его
+    const activeEl = Array.from(document.querySelectorAll('.msgr-chat-item')).find(el => 
+        el.getAttribute('onclick') && el.getAttribute('onclick').includes(chatId)
+    );
+    if (activeEl) {
+        activeEl.classList.add('active');
+    } else {
+        // Если чат только что создан и его еще нет в DOM, просто запомним ID (он подсветится при след. рендере)
+        console.log("Чат найден в памяти, но еще не отрисован в списке.");
+    }
 
-            msgrActiveChatId = chatId;
-            msgrActiveChatType = 'private'; // Пока что все, кроме Бобнита, считаем private
-            msgrActiveChatName = chatName;
+    // 3. Прячем квик-реплаи и кнопку удаления Бобнита
+    const qrBox = document.getElementById('msgr-quick-replies-box');
+    if (qrBox) { qrBox.style.setProperty('display', 'none', 'important'); }
+    toggleBobnitTrashButton(false);
+    hideMsgrSidebarOnMobile();
 
-            // 🔥 ПОДТЯГИВАЕМ ИНФОРМАЦИЮ О КОМНАТЕ ЧАТА (для участников и аватарок)
-            let chatInfo = null;
-            if (typeof _supabase !== 'undefined' && _supabase) {
-                const {data} = await _supabase.from('chat_rooms').select('*').eq('id', chatId).single();
-                if (data) chatInfo = data;
-            }
+    // 4. Записываем активный чат в глобальные переменные
+    msgrActiveChatId = chatId;
+    msgrActiveChatType = 'private';
+    msgrActiveChatName = chatName;
+
+    // 5. ПОДТЯГИВАЕМ ИНФОРМАЦИЮ О КОМНАТЕ ЧАТА (для участников и аватарок)
+    let chatInfo = null;
+    if (typeof _supabase !== 'undefined' && _supabase) {
+        const {data} = await _supabase.from('chat_rooms').select('*').eq('id', chatId).single();
+        if (data) chatInfo = data;
+    }
 
             let displayTitle = chatName;
             let displayAvatar = 'https://via.placeholder.com/150/ff007f/ffffff?text=U'; // Дефолтная аватарка пользователя
@@ -22818,29 +23215,52 @@ if (window.innerWidth <= 768) {
             // Обновляем список чатов (чтобы выделить активный)
             loadLeycoreChatsList();
 
-            // Загрузка сообщений из Supabase
+                       // Загрузка сообщений из Supabase
             const box = document.getElementById('msgr-messages-box');
             box.innerHTML = '<div style="color:#aaa; text-align:center; padding:20px;">Загрузка переписки...</div>';
 
             if (typeof _supabase !== 'undefined' && _supabase) {
                 try {
-                    const {data: msgs} = await _supabase
+                    // 🔥 Вот здесь мы объявляем msgs (она внутри try)
+                    const { data: msgs, error } = await _supabase
                         .from('private_messages')
                         .select('*')
                         .eq('chat_id', chatId)
-                        .order('created_at', {ascending: true});
+                        .order('created_at', { ascending: true });
+
+                    if (error) throw error;
 
                     box.innerHTML = '';
+                    
                     if (msgs && msgs.length > 0) {
+                        let lastDate = null;
+                        
                         msgs.forEach(m => {
                             const isMy = (m.sender_id === msgrCurrentCoreID);
-                            appendMsgUI(isMy ? 'Вы' : displayTitle, m.message_text, isMy, m.id); // Используем displayTitle как имя отправителя
+                            const msgDate = new Date(m.created_at);
+                            const currentDateString = msgDate.toDateString();
+
+                            // 🔥 Если день сменился — вставляем разделитель
+                            if (lastDate !== currentDateString) {
+                                const dateSeparator = document.createElement('div');
+                                dateSeparator.innerHTML = getDateSeparatorHTML(msgDate);
+                                if (dateSeparator.firstChild) {
+                                    box.appendChild(dateSeparator.firstChild);
+                                }
+                                lastDate = currentDateString;
+                            }
+
+                            // 🔥 Передаем реальное время из базы
+                            appendMsgUI(isMy ? 'Вы' : displayTitle, m.message_text, isMy, m.id, m.created_at); 
                         });
                     } else {
                         box.innerHTML = '<div style="color:#666; text-align:center; margin-top:20px;">Напишите первое сообщение!</div>';
                         updateMsgCounter(0);
                     }
-                } catch (e) {console.error(e);}
+                } catch (e) {
+                    console.error("Ошибка загрузки сообщений:", e);
+                    box.innerHTML = '<div style="color:red; text-align:center; padding:20px;">Ошибка загрузки переписки.</div>';
+                }
             }
         }
 
@@ -23034,9 +23454,8 @@ if (window.innerWidth <= 768) {
             }
         }
 
-        // 14. СПИСОК ВСЕХ ПОЛЬЗОВАТЕЛЕЙ (НОВАЯ ФИЧА!)
-        async function openMsgrAllUsersList() {
-            showMsgrSubview("Все пользователи", `
+   async function openMsgrAllUsersList() {
+    showMsgrSubview("Все пользователи", `
         <div style="display:flex; flex-direction:column; gap:15px;">
             <input type="text" id="all-users-search-input" placeholder="Поиск по нику или CoreID..." 
                    oninput="searchAllUsers(this.value)"
@@ -23047,26 +23466,29 @@ if (window.innerWidth <= 768) {
         </div>
     `);
 
-            if (typeof _supabase !== 'undefined' && _supabase) {
-                try {
-                    const {data: users, error} = await _supabase
-                        .from('user_profiles')
-                        .select('user_name, core_id, avatar_url, is_online, last_online_at'); // Запрашиваем статусы!
+    if (typeof _supabase !== 'undefined' && _supabase) {
+        try {
+            // Запрашиваем ВСЕХ пользователей сайта (сортируем: онлайн сверху, потом по времени)
+            const {data: users, error} = await _supabase
+                .from('user_profiles')
+                .select('user_name, core_id, avatar_url, is_online, last_online_at')
+                .order('is_online', {ascending: false}) // Сначала те, кто онлайн
+                .order('last_online_at', {ascending: false}); // Потом те, кто заходил недавно
 
-                    if (error) {
-                        console.error("Ошибка загрузки пользователей:", error);
-                        document.getElementById('all-users-list-container').innerHTML = '<div style="color:red; text-align:center;">Ошибка загрузки.</div>';
-                        return;
-                    }
-                    allUsersData = users; // Сохраняем для поиска
-                    renderAllUsers(allUsersData);
-
-                } catch (e) {
-                    console.error("Критическая ошибка загрузки пользователей:", e);
-                    document.getElementById('all-users-list-container').innerHTML = '<div style="color:red; text-align:center;">Критическая ошибка.</div>';
-                }
+            if (error) {
+                console.error("Ошибка загрузки пользователей:", error);
+                document.getElementById('all-users-list-container').innerHTML = '<div style="color:red; text-align:center;">Ошибка загрузки.</div>';
+                return;
             }
+            allUsersData = users;
+            renderAllUsers(allUsersData);
+
+        } catch (e) {
+            console.error("Критическая ошибка загрузки пользователей:", e);
+            document.getElementById('all-users-list-container').innerHTML = '<div style="color:red; text-align:center;">Критическая ошибка.</div>';
         }
+    }
+}
 
         function renderAllUsers(usersToRender) {
             const container = document.getElementById('all-users-list-container');
@@ -23228,27 +23650,30 @@ if (window.innerWidth <= 768) {
 }
         // Функция автоматической подписки на сообщения
         function subscribeToCurrentChatMessages(chatId) {
-            if (typeof _supabase === 'undefined') return;
+    if (typeof _supabase === 'undefined') return;
 
-            // Отписываемся от старого чата, если был
-            if (window.currentSub) _supabase.removeChannel(window.currentSub);
+    // Отписываемся от старого чата, если был
+    if (window.currentSub) _supabase.removeChannel(window.currentSub);
 
-            window.currentSub = _supabase
-                .channel('chat_' + chatId)
-                .on('postgres_changes', {
-                    event: 'INSERT',
-                    schema: 'public',
-                    table: 'private_messages',
-                    filter: 'chat_id=eq.' + chatId
-                }, payload => {
-                    const newMsg = payload.new;
-                    // Если сообщение не наше - рисуем его
-                    if (newMsg.sender_id !== msgrCurrentCoreID) {
-                        appendMsgUI('Собеседник', newMsg.message_text, false, newMsg.id);
-                    }
-                })
-                .subscribe();
-        }
+    window.currentSub = _supabase
+        .channel('chat_' + chatId)
+        .on('postgres_changes', {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'private_messages',
+            filter: 'chat_id=eq.' + chatId
+        }, payload => {
+            const newMsg = payload.new;
+            // Если сообщение не наше - рисуем его
+            if (newMsg.sender_id !== msgrCurrentCoreID) {
+                appendMsgUI('Собеседник', newMsg.message_text, false, newMsg.id, newMsg.created_at);
+                
+                // 🔥 ВОТ ЗДЕСЬ ВЫЗЫВАЕМ СЧЕТЧИК
+                addUnreadMessage();
+            }
+        })
+        .subscribe();
+}
 
 
         // ==========================================================================
@@ -23554,12 +23979,18 @@ async function sendLeycoreMessage(quickReplyText = null) {
 
     // ЕСЛИ ЭТО ЧАТ С БОБНИТОМ
     if (msgrActiveChatType === 'bobnit' || msgrActiveChatId === 'bobnit-chat') {
-        // 1. Показываем сообщение пользователя
+        
+        // 1. Показываем сообщение пользователя (время ставится автоматически)
         appendMsgUI('Вы', text, true, null);
 
-        // 2. Загружаем историю из памяти
+        // 2. Загружаем историю из памяти и добавляем текущее время для Бобнита
         let history = JSON.parse(localStorage.getItem('leycore_bobnit_history') || '[]');
-        history.push({ sender: 'Вы', text: text, isMy: true });
+        history.push({ 
+            sender: 'Вы', 
+            text: text, 
+            isMy: true,
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        });
 
         // 3. Показываем индикатор "Бобнит думает"
         const box = document.getElementById('msgr-messages-box');
@@ -23579,7 +24010,7 @@ async function sendLeycoreMessage(quickReplyText = null) {
             content: msg.text
         }));
 
-        // 5. Вызываем нашу новую нейросеть!
+        // 5. Вызываем нейросеть!
         console.log("🚀 Отправляем запрос нейросети. Текст:", text);
         const aiReply = await sendToBobnit(text, contextForAI);
 
@@ -23587,7 +24018,7 @@ async function sendLeycoreMessage(quickReplyText = null) {
         const loadingEl = document.getElementById(loadingId);
         if (loadingEl) loadingEl.remove();
 
-        // 7. ПРОВЕРКА НА ОШИБКУ (ЕСЛИ НЕЙРОСЕТЬ ВЕРНУЛА ПУСТОТУ)
+        // 7. Проверка на ошибку
         let finalReply = aiReply;
         if (!finalReply || finalReply.trim() === "") {
             console.warn("⚠️ Нейросеть вернула пустой ответ. Показываем заглушку.");
@@ -23597,28 +24028,26 @@ async function sendLeycoreMessage(quickReplyText = null) {
         // 8. Показываем ответ от нейросети
         appendMsgUI('Бобнит', finalReply, false, null);
         
-        // 9. Добавляем ответ в историю
-        history.push({ sender: 'Бобнит', text: finalReply, isMy: false });
+        // 9. Добавляем ответ в историю с ВРЕМЕНЕМ
+        history.push({ 
+            sender: 'Бобнит', 
+            text: finalReply, 
+            isMy: false,
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        });
         
         // 10. 🔥 ПРОВЕРКА НА УСТАЛОСТЬ (35 СООБЩЕНИЙ)
         if (history.length >= 35) {
-            // Очищаем историю в памяти и localStorage
             localStorage.removeItem('leycore_bobnit_history');
             
-            // Ждем 2 секунды, чтобы пользователь увидел ответ Бобнита, и показываем плашку
             setTimeout(() => {
                 const tiredModal = document.getElementById('bobnit-tired-modal');
                 if (tiredModal) tiredModal.style.display = 'flex';
                 
-                // Очищаем визуальный чат
-                const box = document.getElementById('msgr-messages-box');
                 if (box) box.innerHTML = '';
-                
-                // Обнуляем счетчик
                 if (typeof updateMsgCounter === 'function') updateMsgCounter(0);
             }, 2000);
         } else {
-            // Если усталости нет, просто сохраняем историю (ограничиваем 50 сообщениями)
             localStorage.setItem('leycore_bobnit_history', JSON.stringify(history.slice(-50)));
         }
         
@@ -23643,7 +24072,8 @@ async function sendLeycoreMessage(quickReplyText = null) {
                 .single();
 
             if (data) {
-                appendMsgUI('Вы', text, true, data.id);
+                // Передаем текущее время, чтобы оно сразу отобразилось
+                appendMsgUI('Вы', text, true, data.id, new Date().toISOString());
             }
         } catch (e) {
             console.error("Ошибка отправки сообщения:", e);
@@ -26258,17 +26688,18 @@ function startNewBobnitChat() {
     </audio>
 
 
-    <!-- ==========================================================================
-     📱 КИБЕР-КНОПКА "ЧАТ" (Заменяет старый чат Бобнита на главной)
-     ========================================================================== -->
-    <div id="leycore-chat-launcher-btn" onclick="toggleLeycoreMessenger()">
-        <!-- Векторная SVG-иконка чата (без эмодзи!) -->
-        <svg viewBox="0 0 24 24">
-            <path
-                d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z" />
-        </svg>
-        <span>ЧАТ</span>
-    </div>
+  <!-- 🚀 НОВАЯ 3D КНОПКА ЧАТА -->
+<div id="leycore-chat-launcher-btn" onclick="toggleLeycoreMessenger()">
+    <!-- Мультяшная SVG иконка чатика (Черная) -->
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C6.48 2 2 6.48 2 12C2 13.85 2.5 15.58 3.35 17.09L2.06 21.94L6.91 20.65C8.42 21.5 10.15 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C10.41 20 8.93 19.54 7.66 18.75L7.12 18.4L4.17 19.17L4.94 16.22L4.59 15.68C3.8 14.41 3.34 12.93 3.34 11.34C3.34 6.98 6.98 3.34 11.34 3.34C15.7 3.34 19.34 6.98 19.34 11.34C19.34 15.7 15.7 19.34 11.34 19.34H12V20Z" fill="#171717"/>
+        <rect x="7" y="8" width="10" height="2" rx="1" fill="#171717"/>
+        <rect x="7" y="12" width="7" height="2" rx="1" fill="#171717"/>
+    </svg>
+
+    <!-- 🔴 ИНДИКАТОР НЕПРОЧИТАННЫХ -->
+    <div id="msgr-unread-badge" class="msgr-unread-badge" style="display: none;">1</div>
+</div>
 
     <!-- ==========================================================================
      💬 ЧИСТАЯ СТРУКТУРА КИБЕР-МЕССЕНДЖЕРА
