@@ -15718,6 +15718,259 @@
             /* Чуть ярче золотой */
             box-shadow: 0 0 25px rgba(255, 215, 0, 0.3), inset 0 0 15px rgba(255, 215, 0, 0.1) !important;
         }
+
+
+
+        /* ==========================================================================
+   🎴 3D КАРТОЧКИ РЕЦЕПТОВ (КАК ИЗ UIVERSE)
+   ========================================================================== */
+
+/* Сетка для карточек (чтобы они не расплющивались) */
+.vm-dishes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 30px;
+    padding: 20px 0;
+}
+
+/* Контейнер для 3D */
+.card-perspective {
+    perspective: 1500px;
+    width: 100%;
+    height: 340px; /* Чуть выше, чтобы влез контент */
+    font-family: 'Inter', sans-serif;
+}
+
+/* Сама карточка */
+.card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #0f172a;
+    border-radius: 18px;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(176, 38, 255, 0.3); /* Фиолетовая рамка */
+    cursor: pointer;
+    
+    /* 🔥 ВОТ ЭТИ ДВЕ СТРОЧКИ УСКОРЯЮТ АНИМАЦИЮ */
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+.card:hover {
+    transform: rotateY(10deg) rotateX(10deg) translateY(-5px);
+    border-color: #ffd700; /* Золотая рамка при наведении */
+    box-shadow: 0 20px 50px -10px rgba(255, 215, 0, 0.2);
+}
+
+/* Эффект "мики" (переливание) */
+.mica-lamination {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    mix-blend-mode: color-dodge;
+    opacity: 0.4;
+    background: linear-gradient(
+        135deg,
+        rgba(176, 38, 255, 0) 0%,
+        rgba(176, 38, 255, 0.2) 25%,
+        rgba(0, 240, 255, 0.2) 50%,
+        rgba(255, 215, 0, 0.2) 75%,
+        rgba(176, 38, 255, 0) 100%
+    );
+    background-size: 400% 400%;
+    animation: mica-shimmer 8s linear infinite;
+}
+
+@keyframes mica-shimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Шум (текстура) */
+.mica-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 7;
+    pointer-events: none;
+    opacity: 0.1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Световой блик */
+.light-sweep {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: skewX(-25deg);
+    z-index: 15;
+    transition: 0.5s;
+}
+
+.card:hover .light-sweep {
+    left: 150%;
+    transition: 0.7s;
+}
+
+/* Блок с картинкой */
+.art-viewport {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    height: 200px; /* Высота картинки */
+    background: linear-gradient(180deg, #1e1b4b, #312e81);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Свечение за картинкой */
+.character-glow {
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    top: -25%;
+    left: -25%;
+    background: radial-gradient(circle, #c084fc 0%, transparent 60%);
+    opacity: 0.3;
+    filter: blur(30px);
+    animation: pulse-glow 4s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-glow {
+    from { transform: scale(0.8); opacity: 0.2; }
+    to { transform: scale(1.1); opacity: 0.4; }
+}
+
+/* Шапка (название) */
+.card-header {
+    position: absolute;
+    top: 22px;
+    left: 22px;
+    right: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: 10;
+}
+
+.card-title {
+    font-family: 'Unbounded', sans-serif;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+/* Нижний блок (выезжает) */
+.card-content {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    height: 110px;
+     background: rgba(15, 23, 42, 0.98);
+    backdrop-filter: blur(12px);
+    border-radius: 10px;
+    padding: 12px;
+    box-sizing: border-box;
+    border-top: 1px solid rgba(176, 38, 255, 0.3);
+    z-index: 10;
+    transition: height 0.3s ease-out;
+    overflow: hidden;
+}
+
+.card:hover .card-content {
+    height: 240px; /* Выезжает при наведении */
+}
+
+.rarity-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: #ffd700;
+    background: rgba(255, 215, 0, 0.1);
+    padding: 3px 8px;
+    border-radius: 15px;
+    display: inline-block;
+    margin-bottom: 8px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.ability-name {
+    color: white;
+    font-weight: 900;
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Unbounded', sans-serif;
+}
+
+.ability-name::after {
+    content: "";
+    flex-grow: 1;
+    height: 1px;
+    background: linear-gradient(90deg, #ffd700, transparent);
+}
+
+.ability-desc {
+    color: #94a3b8;
+    font-size: 0.7rem;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    max-height: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-item:last-child {
+    border: none;
+}
+
+.stat-label {
+    font-size: 0.55rem;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: #ffd700; /* Золотые цифры */
+    font-weight: bold;
+}
+
+/* Кнопки (внутри выезжающего блока) */
+.vm-actions-row {
+    display: flex;
+    gap: 8px;
+}
     </style>
 
 
@@ -18072,78 +18325,88 @@
             }
         }
 
-        // ----------------------------------------------------
-        // ФУНКЦИЯ ФИЛЬТРАЦИИ МЕНЮ ПО КАТЕГОРИЯМ (ИНТЕРФЕЙС 2.0)
-        // ----------------------------------------------------
-        function renderDishes(filter = 'all') {
-            const grid = document.getElementById('dishes-grid');
-            if (!grid) return;
+       function renderDishes(filter = 'all') {
+    const grid = document.getElementById('dishes-grid');
+    if (!grid) return;
 
-            let filtered = dishes;
-            if (filter !== 'all') {
-                filtered = dishes.filter(d => d.category === filter);
-            }
+    let filtered = dishes;
+    if (filter !== 'all') {
+        filtered = dishes.filter(d => d.category === filter);
+    }
 
-            grid.innerHTML = filtered.map((d) => {
-                const realIndex = dishes.indexOf(d);
+    grid.innerHTML = filtered.map((d) => {
+        const realIndex = dishes.indexOf(d);
 
-                // Бейджик категории в стиле макета ПОСЛЕ
-                let badgeHtml = '';
-                if (d.category === 'heavy') {
-                    badgeHtml = `<div class="vm-category-pill vm-pill-heavy">✦ ТЯЖЁЛОЕ</div>`;
-                } else if (d.category === 'cloud') {
-                    badgeHtml = `<div class="vm-category-pill vm-pill-cloud">☁️ ЛЁГКОЕ</div>`;
-                } else if (d.category === 'dessert') {
-                    badgeHtml = `<div class="vm-category-pill vm-pill-dessert">🧁 БЛАЖЕНСТВО</div>`;
-                }
+        // Бейджик категории
+        let badgeHtml = '';
+        if (d.category === 'heavy') {
+            badgeHtml = `<div class="vm-category-pill vm-pill-heavy">✦ ТЯЖЁЛОЕ</div>`;
+        } else if (d.category === 'cloud') {
+            badgeHtml = `<div class="vm-category-pill vm-pill-cloud">☁️ ЛЁГКОЕ</div>`;
+        } else if (d.category === 'dessert') {
+            badgeHtml = `<div class="vm-category-pill vm-pill-dessert">🧁 БЛАЖЕНСТВО</div>`;
+        }
 
-                // Краткое превью текста блюда
-                const snippet = d.laykor || d.composition || 'Сытное блюдо Василича с мощным зарядом энергии.';
+        const snippet = d.laykor || d.composition || 'Сытное блюдо Василича с мощным зарядом энергии.';
+        const kcalPart = d.macros ? d.macros.split('//')[0].trim() : '~850 ККАЛ';
 
-                // Калории из macros (берем первую часть до //)
-                const kcalPart = d.macros ? d.macros.split('//')[0].trim() : '~850 ККАЛ';
+        return `
+        <div class="card-perspective">
+            <div class="card">
+                <!-- Эффекты -->
+                <div class="mica-lamination"></div>
+                <div class="mica-overlay"></div>
+                <div class="light-sweep"></div>
 
-                return `
-            <div class="vm-dish-card">
-                <!-- ВЕРХНЯЯ КАРТИНКА С БЕЙДЖЕМ И КНОПКОЙ ИЗБРАННОГО -->
-                <div class="vm-card-media">
-                    ${d.image ? `<img class="vm-card-img" src="${d.image}" alt="${d.title}">` : ''}
-                    ${badgeHtml}
-                    <button type="button" class="vm-like-heart-btn" onclick="toggleDishLike(this, event)" title="В избранное">♡</button>
+                <!-- Блок с картинкой -->
+                <div class="art-viewport">
+                    <div class="character-glow"></div>
+                    ${d.image ? `<img class="vm-card-img" src="${d.image}" alt="${d.title}" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; z-index: 2;">` : ''}
                 </div>
 
-                <!-- СОДЕРЖИМОЕ КАРТОЧКИ -->
-                <div class="vm-card-content">
-                    <div>
-                        <h3 class="vm-dish-title">${d.title}</h3>
-                        <p class="vm-dish-snippet">${snippet}</p>
+                <!-- Шапка карточки -->
+                <div class="card-header">
+                    <div class="card-title">${d.title}</div>
+                </div>
+
+                <!-- Контент (выезжает при наведении) -->
+                <div class="card-content">
+                    <div class="rarity-tag">${badgeHtml}</div>
+                    <div class="ability-name">Лэйкор</div>
+                    <div class="ability-desc">${snippet}</div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">ККАЛ</span>
+                            <span class="stat-value">${kcalPart.replace('~', '')}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">ВРЕМЯ</span>
+                            <span class="stat-value">25м</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">РЕЙТИНГ</span>
+                            <span class="stat-value">4.9</span>
+                        </div>
                     </div>
 
-                    <div>
-                        <!-- МЕТА-СТАТИСТИКА (ККАЛ, ВРЕМЯ, РЕЙТИНГ) -->
-                        <div class="vm-meta-pills">
-                            <span class="vm-meta-item">🔥 ${kcalPart}</span>
-                            <span class="vm-meta-item">⏱ ~25 мин</span>
-                            <span class="vm-meta-item">⭐ 4.9</span>
-                        </div>
-
-                        <!-- КОНТЕЙНЕР КНОПОК: ИСТОРИЯ + РЕЦЕПТ -->
-                        <div class="vm-actions-row">
-                            ${d.story ? `
-                                <button type="button" class="vm-btn-story" onclick="openRecipeStory('${encodeURIComponent(d.title)}')">
-                                    📖 История
-                                </button>
-                            ` : ''}
-                            <button type="button" class="vm-btn-recipe" onclick="openDishPage(${realIndex})">
-                                Рецепт →
+                    <!-- Кнопки (внутри контента, чтобы не мешали) -->
+                    <div class="vm-actions-row" style="margin-top: 15px;">
+                        ${d.story ? `
+                            <button type="button" class="vm-btn-story" onclick="event.stopPropagation(); openRecipeStory('${encodeURIComponent(d.title)}')">
+                                📖 История
                             </button>
-                        </div>
+                        ` : ''}
+                        <button type="button" class="vm-btn-recipe" onclick="event.stopPropagation(); openDishPage(${realIndex})">
+                            Рецепт →
+                        </button>
                     </div>
                 </div>
             </div>
+        </div>
         `;
-            }).join('');
-        }
+    }).join('');
+}
 
         // Связка фильтра с переключением активных кнопок
         function filterDishes(category, btnElement) {
@@ -23740,26 +24003,27 @@
             // 4. Звук
             playMsgrWarpSound();
 
-            // 5. 🔥 ИНИЦИАЛИЗАЦИЯ И ЖЕСТКИЕ 5 СЕКУНД
-            // Запускаем загрузку, но лоадер скроем ровно через 5 секунд (или позже, если загрузка не успела)
-            const startTime = Date.now();
-            const minDisplayTime = 5000; // 5 секунд
+               // 5. 🔥 УМНЫЙ ТАЙМЕР (5 сек первый раз, 1.7 сек последующие)
+    const isFirstVisit = !localStorage.getItem('leycore_messenger_visited');
+    const minDisplayTime = isFirstVisit ? 5000 : 1700;
 
-            initLeycoreMessenger().finally(() => {
-                const elapsedTime = Date.now() - startTime;
-                const remainingTime = Math.max(0, minDisplayTime - elapsedTime);
+    if (isFirstVisit) {
+        localStorage.setItem('leycore_messenger_visited', 'true');
+    }
 
-                // Ждем оставшееся время до 5 секунд и скрываем лоадер
-                setTimeout(() => {
-                    if (loaderOverlay) {
-                        loaderOverlay.style.opacity = '0';
-                        setTimeout(() => {
-                            loaderOverlay.style.display = 'none';
-                            loaderOverlay.style.opacity = '1';
-                        }, 400); // Плавное исчезновение
-                    }
-                }, remainingTime);
-            });
+    // 🔥 Запускаем загрузку чатов В ФОНЕ (не ждем её)
+    initLeycoreMessenger().catch(e => console.error("Ошибка инициализации:", e));
+
+    // 🔥 ЖЕСТКИЙ ТАЙМЕР: лоадер скроется ровно через minDisplayTime
+    setTimeout(() => {
+        if (loaderOverlay) {
+            loaderOverlay.style.opacity = '0';
+            setTimeout(() => {
+                loaderOverlay.style.display = 'none';
+                loaderOverlay.style.opacity = '1';
+            }, 400);
+        }
+    }, minDisplayTime);
 
             // 6. Обновляем статус
             updateMyOnlineStatus(true);
@@ -23899,141 +24163,141 @@
         }
 
 
-async function loadLeycoreChatsList() {
-    const container = document.getElementById('msgr-chats-container');
-    if (!container) return;
+        async function loadLeycoreChatsList() {
+            const container = document.getElementById('msgr-chats-container');
+            if (!container) return;
 
-    let chatsArray = [];
+            let chatsArray = [];
 
-    // 1. Бобнит
-    let bobnitLastMsgTime = 0;
-    const bobnitHistory = JSON.parse(localStorage.getItem('leycore_bobnit_history') || '[]');
-    if (bobnitHistory.length > 0) bobnitLastMsgTime = Date.now();
+            // 1. Бобнит
+            let bobnitLastMsgTime = 0;
+            const bobnitHistory = JSON.parse(localStorage.getItem('leycore_bobnit_history') || '[]');
+            if (bobnitHistory.length > 0) bobnitLastMsgTime = Date.now();
 
-    chatsArray.push({
-        id: 'bobnit-chat',
-        type: 'bobnit',
-        name: '📌 Бобнит',
-        avatar: 'bobnit_thanos.jpg',
-        lastMsg: bobnitHistory.length > 0 ? bobnitHistory[bobnitHistory.length - 1].text : 'Нажми, чтобы продолжить...',
-        lastTime: bobnitLastMsgTime,
-        timeStr: bobnitHistory.length > 0 ? 'Недавно' : 'В сети',
-        isPinned: true,
-        isUnread: false // У Бобнита нет непрочитанных (он всегда в списке)
-    });
+            chatsArray.push({
+                id: 'bobnit-chat',
+                type: 'bobnit',
+                name: '📌 Бобнит',
+                avatar: 'bobnit_thanos.jpg',
+                lastMsg: bobnitHistory.length > 0 ? bobnitHistory[bobnitHistory.length - 1].text : 'Нажми, чтобы продолжить...',
+                lastTime: bobnitLastMsgTime,
+                timeStr: bobnitHistory.length > 0 ? 'Недавно' : 'В сети',
+                isPinned: true,
+                isUnread: false // У Бобнита нет непрочитанных (он всегда в списке)
+            });
 
-    // 2. Остальные чаты
-    if (typeof _supabase !== 'undefined' && _supabase && msgrCurrentCoreID) {
-        const {data} = await _supabase.from('chat_rooms').select('*');
-        if (data) {
-            for (let chat of data) {
-                if (!chat.participants.includes(msgrCurrentCoreID)) continue;
+            // 2. Остальные чаты
+            if (typeof _supabase !== 'undefined' && _supabase && msgrCurrentCoreID) {
+                const {data} = await _supabase.from('chat_rooms').select('*');
+                if (data) {
+                    for (let chat of data) {
+                        if (!chat.participants.includes(msgrCurrentCoreID)) continue;
 
-                let name = chat.name, avatar = 'https://via.placeholder.com/150/ff007f/ffffff?text=U';
-                let lastMsgText = 'Напишите первое сообщение...';
-                let lastMsgTime = 0;
-                let timeStr = '';
-                let isUnread = false; // 🔥 Флаг для непрочитанного
+                        let name = chat.name, avatar = 'https://via.placeholder.com/150/ff007f/ffffff?text=U';
+                        let lastMsgText = 'Напишите первое сообщение...';
+                        let lastMsgTime = 0;
+                        let timeStr = '';
+                        let isUnread = false; // 🔥 Флаг для непрочитанного
 
-                // Получаем имя и аватар собеседника
-                if (chat.type !== 'group') {
-                    const peerID = chat.participants.find(id => id !== msgrCurrentCoreID);
-                    const {data: peer} = await _supabase.from('user_profiles').select('*').eq('core_id', peerID).single();
-                    if (peer) {
-                        name = peer.user_name;
-                        avatar = peer.avatar_url || avatar;
+                        // Получаем имя и аватар собеседника
+                        if (chat.type !== 'group') {
+                            const peerID = chat.participants.find(id => id !== msgrCurrentCoreID);
+                            const {data: peer} = await _supabase.from('user_profiles').select('*').eq('core_id', peerID).single();
+                            if (peer) {
+                                name = peer.user_name;
+                                avatar = peer.avatar_url || avatar;
+                            }
+                        } else {
+                            avatar = chat.avatar_url || 'https://via.placeholder.com/150/8000ff/ffffff?text=GROUP';
+                        }
+
+                        // 🔥 1. ИЩЕМ ПОСЛЕДНЕЕ СООБЩЕНИЕ ОТ СОБЕСЕДНИКА (чтобы проверить непрочитанное)
+                        const {data: peerMsgs} = await _supabase
+                            .from('private_messages')
+                            .select('*')
+                            .eq('chat_id', chat.id)
+                            .neq('sender_id', msgrCurrentCoreID) // Только сообщения собеседника
+                            .order('created_at', {ascending: false})
+                            .limit(1);
+
+                        if (peerMsgs && peerMsgs.length > 0) {
+                            const lastPeerMsg = peerMsgs[0];
+                            // Если сообщение не прочитано — ставим флаг
+                            if (lastPeerMsg.is_read === false || lastPeerMsg.is_read === null || lastPeerMsg.is_read === undefined) {
+                                isUnread = true;
+                            }
+                        }
+
+                        // 🔥 2. ИЩЕМ ПОСЛЕДНЕЕ СООБЩЕНИЕ ВООБЩЕ (для превью)
+                        const {data: lastMsgsAll} = await _supabase
+                            .from('private_messages')
+                            .select('*')
+                            .eq('chat_id', chat.id)
+                            .order('created_at', {ascending: false})
+                            .limit(1);
+
+                        if (lastMsgsAll && lastMsgsAll.length > 0) {
+                            lastMsgText = lastMsgsAll[0].message_text;
+                            if (lastMsgText.length > 25) lastMsgText = lastMsgText.substring(0, 25) + '...';
+                            const msgDate = new Date(lastMsgsAll[0].created_at);
+                            lastMsgTime = msgDate.getTime();
+                            timeStr = msgDate.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+                        }
+
+                        // Добавляем чат в массив
+                        chatsArray.push({
+                            id: chat.id,
+                            type: chat.type,
+                            name: name,
+                            avatar: avatar,
+                            lastMsg: lastMsgText,
+                            lastTime: lastMsgTime,
+                            timeStr: timeStr,
+                            isPinned: false,
+                            isUnread: isUnread // 🔥 Передаем флаг
+                        });
                     }
-                } else {
-                    avatar = chat.avatar_url || 'https://via.placeholder.com/150/8000ff/ffffff?text=GROUP';
                 }
-
-                // 🔥 1. ИЩЕМ ПОСЛЕДНЕЕ СООБЩЕНИЕ ОТ СОБЕСЕДНИКА (чтобы проверить непрочитанное)
-                const {data: peerMsgs} = await _supabase
-                    .from('private_messages')
-                    .select('*')
-                    .eq('chat_id', chat.id)
-                    .neq('sender_id', msgrCurrentCoreID) // Только сообщения собеседника
-                    .order('created_at', {ascending: false})
-                    .limit(1);
-
-                if (peerMsgs && peerMsgs.length > 0) {
-                    const lastPeerMsg = peerMsgs[0];
-                    // Если сообщение не прочитано — ставим флаг
-                    if (lastPeerMsg.is_read === false || lastPeerMsg.is_read === null || lastPeerMsg.is_read === undefined) {
-                        isUnread = true;
-                    }
-                }
-
-                // 🔥 2. ИЩЕМ ПОСЛЕДНЕЕ СООБЩЕНИЕ ВООБЩЕ (для превью)
-                const {data: lastMsgsAll} = await _supabase
-                    .from('private_messages')
-                    .select('*')
-                    .eq('chat_id', chat.id)
-                    .order('created_at', {ascending: false})
-                    .limit(1);
-
-                if (lastMsgsAll && lastMsgsAll.length > 0) {
-                    lastMsgText = lastMsgsAll[0].message_text;
-                    if (lastMsgText.length > 25) lastMsgText = lastMsgText.substring(0, 25) + '...';
-                    const msgDate = new Date(lastMsgsAll[0].created_at);
-                    lastMsgTime = msgDate.getTime();
-                    timeStr = msgDate.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-                }
-
-                // Добавляем чат в массив
-                chatsArray.push({
-                    id: chat.id,
-                    type: chat.type,
-                    name: name,
-                    avatar: avatar,
-                    lastMsg: lastMsgText,
-                    lastTime: lastMsgTime,
-                    timeStr: timeStr,
-                    isPinned: false,
-                    isUnread: isUnread // 🔥 Передаем флаг
-                });
             }
-        }
-    }
 
-    // 3. Сортировка
-    chatsArray.sort((a, b) => {
-        if (a.isPinned && !b.isPinned) return -1;
-        if (!a.isPinned && b.isPinned) return 1;
-        return b.lastTime - a.lastTime;
-    });
+            // 3. Сортировка
+            chatsArray.sort((a, b) => {
+                if (a.isPinned && !b.isPinned) return -1;
+                if (!a.isPinned && b.isPinned) return 1;
+                return b.lastTime - a.lastTime;
+            });
 
-    // 4. Рендер HTML
-    let html = '';
-    chatsArray.forEach(chat => {
-        const isActive = msgrActiveChatId === chat.id;
-        const isBobnit = (chat.id === 'bobnit-chat');
-        const activeClass = (isActive && isBobnit) ? 'active active-bobnit' : (isActive ? 'active' : '');
+            // 4. Рендер HTML
+            let html = '';
+            chatsArray.forEach(chat => {
+                const isActive = msgrActiveChatId === chat.id;
+                const isBobnit = (chat.id === 'bobnit-chat');
+                const activeClass = (isActive && isBobnit) ? 'active active-bobnit' : (isActive ? 'active' : '');
 
-        // 🔥 БЕЙДЖ НЕПРОЧИТАННЫХ (КРАСНЫЙ С ЦИФРОЙ)
-        const unreadCounts = JSON.parse(localStorage.getItem('leycore_unread_counts') || '{}');
-        const unread = unreadCounts[chat.id] || 0;
+                // 🔥 БЕЙДЖ НЕПРОЧИТАННЫХ (КРАСНЫЙ С ЦИФРОЙ)
+                const unreadCounts = JSON.parse(localStorage.getItem('leycore_unread_counts') || '{}');
+                const unread = unreadCounts[chat.id] || 0;
 
-               let statusIcon = '';
-        
-        // 🔥 Если это Бобнит — вообще не показываем кружок
-        if (chat.type === 'bobnit' || chat.id === 'bobnit-chat') {
-            statusIcon = ''; 
-        }
-        // 1. Если есть непрочитанные (из localStorage) — красный бейдж с цифрой
-        else if (unread > 0) {
-            statusIcon = `<div class="msgr-unread-badge-list">${unread}</div>`;
-        } 
-        // 2. Если isUnread (новое сообщение от собеседника) — ЗЕЛЕНЫЙ кружок
-        else if (chat.isUnread) {
-            statusIcon = `<div class="msgr-read-indicator"></div>`;
-        } 
-        // 3. Если есть сообщения, но прочитаны — СЕРЫЙ кружок
-        else if (chat.lastMsg !== 'Напишите первое сообщение...' && chat.lastMsg !== 'Нажми, чтобы продолжить...') {
-            statusIcon = `<div class="msgr-read-indicator" style="background: #555; box-shadow: none; opacity: 0.5;"></div>`;
-        }
+                let statusIcon = '';
 
-        html += `
+                // 🔥 Если это Бобнит — вообще не показываем кружок
+                if (chat.type === 'bobnit' || chat.id === 'bobnit-chat') {
+                    statusIcon = '';
+                }
+                // 1. Если есть непрочитанные (из localStorage) — красный бейдж с цифрой
+                else if (unread > 0) {
+                    statusIcon = `<div class="msgr-unread-badge-list">${unread}</div>`;
+                }
+                // 2. Если isUnread (новое сообщение от собеседника) — ЗЕЛЕНЫЙ кружок
+                else if (chat.isUnread) {
+                    statusIcon = `<div class="msgr-read-indicator"></div>`;
+                }
+                // 3. Если есть сообщения, но прочитаны — СЕРЫЙ кружок
+                else if (chat.lastMsg !== 'Напишите первое сообщение...' && chat.lastMsg !== 'Нажми, чтобы продолжить...') {
+                    statusIcon = `<div class="msgr-read-indicator" style="background: #555; box-shadow: none; opacity: 0.5;"></div>`;
+                }
+
+                html += `
         <div class="msgr-chat-item ${activeClass} ${chat.type === 'bobnit' ? 'bobnit-pinned' : ''}" onclick="${chat.type === 'bobnit' ? 'openBobnitChatInMessenger()' : `openLeycorePrivateChat('${chat.id}', '${chat.name.replace(/'/g, "\\'")}', false)`}">
             <img src="${chat.avatar}" class="msgr-avatar" style="width:48px; height:48px;">
             <div style="flex:1; overflow:hidden; display:flex; flex-direction:column;">
@@ -24049,25 +24313,25 @@ async function loadLeycoreChatsList() {
                 </div>
             </div>
         </div>`;
-    });
+            });
 
-    container.innerHTML = html;
+            container.innerHTML = html;
 
-    // 🔥 ПРИНУДИТЕЛЬНАЯ ПОДСВЕТКА БОБНИТА (ПОСЛЕ РЕНДЕРА)
-    if (msgrActiveChatId === 'bobnit-chat' || msgrActiveChatType === 'bobnit') {
-        document.querySelectorAll('.msgr-chat-item').forEach(el => {
-            el.classList.remove('active', 'active-bobnit');
-        });
+            // 🔥 ПРИНУДИТЕЛЬНАЯ ПОДСВЕТКА БОБНИТА (ПОСЛЕ РЕНДЕРА)
+            if (msgrActiveChatId === 'bobnit-chat' || msgrActiveChatType === 'bobnit') {
+                document.querySelectorAll('.msgr-chat-item').forEach(el => {
+                    el.classList.remove('active', 'active-bobnit');
+                });
 
-        const bobnitEl = Array.from(document.querySelectorAll('.msgr-chat-item')).find(el =>
-            el.getAttribute('onclick') && el.getAttribute('onclick').includes('openBobnitChatInMessenger')
-        );
+                const bobnitEl = Array.from(document.querySelectorAll('.msgr-chat-item')).find(el =>
+                    el.getAttribute('onclick') && el.getAttribute('onclick').includes('openBobnitChatInMessenger')
+                );
 
-        if (bobnitEl) {
-            bobnitEl.classList.add('active', 'active-bobnit');
+                if (bobnitEl) {
+                    bobnitEl.classList.add('active', 'active-bobnit');
+                }
+            }
         }
-    }
-}
         // 5. УДАЛЕНИЕ ЧАТА
         async function deleteLeycoreChat(event, chatId) {
             if (event) event.preventDefault();
@@ -24212,163 +24476,163 @@ async function loadLeycoreChatsList() {
 
 
 
-       // 10. ОТКРЫТИЕ ПРИВАТНОГО ЧАТА ИЛИ ГРУППЫ
-async function openLeycorePrivateChat(chatId, chatName, isEncrypted) {
-    resetUnreadCount(chatId); // 🔥 СБРАСЫВАЕМ ПРИ ОТКРЫТИИ
-    
-    // 1. Снимаем подсветку со всех, кроме Бобнита
-    document.querySelectorAll('.msgr-chat-item').forEach(el => {
-        if (!el.classList.contains('bobnit-pinned')) {
-            el.classList.remove('active');
-        }
-    });
+        // 10. ОТКРЫТИЕ ПРИВАТНОГО ЧАТА ИЛИ ГРУППЫ
+        async function openLeycorePrivateChat(chatId, chatName, isEncrypted) {
+            resetUnreadCount(chatId); // 🔥 СБРАСЫВАЕМ ПРИ ОТКРЫТИИ
 
-    // 2. Находим нужный чат по ID и подсвечиваем его
-    const activeEl = Array.from(document.querySelectorAll('.msgr-chat-item')).find(el =>
-        el.getAttribute('onclick') && el.getAttribute('onclick').includes(chatId)
-    );
-    if (activeEl) {
-        activeEl.classList.add('active');
-    }
+            // 1. Снимаем подсветку со всех, кроме Бобнита
+            document.querySelectorAll('.msgr-chat-item').forEach(el => {
+                if (!el.classList.contains('bobnit-pinned')) {
+                    el.classList.remove('active');
+                }
+            });
 
-    // 3. Прячем квик-реплаи и кнопку удаления Бобнита
-    const qrBox = document.getElementById('msgr-quick-replies-box');
-    if (qrBox) { qrBox.style.setProperty('display', 'none', 'important'); }
-    toggleBobnitTrashButton(false);
-    hideMsgrSidebarOnMobile();
+            // 2. Находим нужный чат по ID и подсвечиваем его
+            const activeEl = Array.from(document.querySelectorAll('.msgr-chat-item')).find(el =>
+                el.getAttribute('onclick') && el.getAttribute('onclick').includes(chatId)
+            );
+            if (activeEl) {
+                activeEl.classList.add('active');
+            }
 
-    // 4. Записываем активный чат в глобальные переменные
-    msgrActiveChatId = chatId;
-    msgrActiveChatType = 'private';
-    msgrActiveChatName = chatName;
+            // 3. Прячем квик-реплаи и кнопку удаления Бобнита
+            const qrBox = document.getElementById('msgr-quick-replies-box');
+            if (qrBox) {qrBox.style.setProperty('display', 'none', 'important');}
+            toggleBobnitTrashButton(false);
+            hideMsgrSidebarOnMobile();
 
-    // 5. ПОДТЯГИВАЕМ ИНФОРМАЦИЮ О КОМНАТЕ ЧАТА
-    let chatInfo = null;
-    if (typeof _supabase !== 'undefined' && _supabase) {
-        const { data } = await _supabase.from('chat_rooms').select('*').eq('id', chatId).single();
-        if (data) chatInfo = data;
-    }
+            // 4. Записываем активный чат в глобальные переменные
+            msgrActiveChatId = chatId;
+            msgrActiveChatType = 'private';
+            msgrActiveChatName = chatName;
 
-    let displayTitle = chatName;
-    let displayAvatar = 'https://via.placeholder.com/150/ff007f/ffffff?text=U';
+            // 5. ПОДТЯГИВАЕМ ИНФОРМАЦИЮ О КОМНАТЕ ЧАТА
+            let chatInfo = null;
+            if (typeof _supabase !== 'undefined' && _supabase) {
+                const {data} = await _supabase.from('chat_rooms').select('*').eq('id', chatId).single();
+                if (data) chatInfo = data;
+            }
 
-    const statusEl = document.getElementById('msgr-active-status');
-    if (statusEl) statusEl.className = '';
+            let displayTitle = chatName;
+            let displayAvatar = 'https://via.placeholder.com/150/ff007f/ffffff?text=U';
 
-    if (chatInfo && chatInfo.type === 'group') {
-        displayTitle = chatInfo.name || 'Группа';
-        displayAvatar = chatInfo.avatar_url || 'https://via.placeholder.com/150/8000ff/ffffff?text=GROUP';
-        if (statusEl) {
-            statusEl.innerText = '👥 Группа';
-            statusEl.className = 'msgr-status-group';
-        }
-    } else {
-        let peerCoreID = null;
-        if (chatInfo && chatInfo.participants) {
-            peerCoreID = chatInfo.participants.find(id => id !== msgrCurrentCoreID);
-        }
+            const statusEl = document.getElementById('msgr-active-status');
+            if (statusEl) statusEl.className = '';
 
-        if (peerCoreID && typeof _supabase !== 'undefined' && _supabase) {
-            const { data: peerProfile } = await _supabase.from('user_profiles').select('*').eq('core_id', peerCoreID).single();
-            if (peerProfile) {
-                displayTitle = peerProfile.user_name || 'Собеседник';
-                displayAvatar = peerProfile.avatar_url || 'https://via.placeholder.com/150/ff007f/ffffff?text=U';
-
+            if (chatInfo && chatInfo.type === 'group') {
+                displayTitle = chatInfo.name || 'Группа';
+                displayAvatar = chatInfo.avatar_url || 'https://via.placeholder.com/150/8000ff/ffffff?text=GROUP';
                 if (statusEl) {
-                    if (peerProfile.is_online) {
-                        statusEl.innerText = '● В сети';
-                        statusEl.className = 'msgr-status-online';
-                    } else {
-                        statusEl.innerText = formatLastSeen(peerProfile.last_online_at);
+                    statusEl.innerText = '👥 Группа';
+                    statusEl.className = 'msgr-status-group';
+                }
+            } else {
+                let peerCoreID = null;
+                if (chatInfo && chatInfo.participants) {
+                    peerCoreID = chatInfo.participants.find(id => id !== msgrCurrentCoreID);
+                }
+
+                if (peerCoreID && typeof _supabase !== 'undefined' && _supabase) {
+                    const {data: peerProfile} = await _supabase.from('user_profiles').select('*').eq('core_id', peerCoreID).single();
+                    if (peerProfile) {
+                        displayTitle = peerProfile.user_name || 'Собеседник';
+                        displayAvatar = peerProfile.avatar_url || 'https://via.placeholder.com/150/ff007f/ffffff?text=U';
+
+                        if (statusEl) {
+                            if (peerProfile.is_online) {
+                                statusEl.innerText = '● В сети';
+                                statusEl.className = 'msgr-status-online';
+                            } else {
+                                statusEl.innerText = formatLastSeen(peerProfile.last_online_at);
+                                statusEl.className = 'msgr-status-offline';
+                            }
+                        }
+                    }
+                } else {
+                    displayTitle = 'Неизвестный чат';
+                    if (statusEl) {
+                        statusEl.innerText = '● Оффлайн';
                         statusEl.className = 'msgr-status-offline';
                     }
                 }
             }
-        } else {
-            displayTitle = 'Неизвестный чат';
-            if (statusEl) {
-                statusEl.innerText = '● Оффлайн';
-                statusEl.className = 'msgr-status-offline';
-            }
-        }
-    }
 
-    // Обновляем UI шапки чата
-    document.getElementById('msgr-active-title').innerText = displayTitle;
-    document.getElementById('msgr-active-avatar').src = displayAvatar;
+            // Обновляем UI шапки чата
+            document.getElementById('msgr-active-title').innerText = displayTitle;
+            document.getElementById('msgr-active-avatar').src = displayAvatar;
 
-    // Обновляем кнопку шифрования
-    const encryptedChats = JSON.parse(localStorage.getItem('leycore_fake_encrypted') || '{}');
-    updateEncryptionButtonUI(!!encryptedChats[chatId]);
+            // Обновляем кнопку шифрования
+            const encryptedChats = JSON.parse(localStorage.getItem('leycore_fake_encrypted') || '{}');
+            updateEncryptionButtonUI(!!encryptedChats[chatId]);
 
-    // Загрузка сообщений из Supabase
-    const box = document.getElementById('msgr-messages-box');
-    box.innerHTML = '<div style="color:#aaa; text-align:center; padding:20px;">Загрузка переписки...</div>';
+            // Загрузка сообщений из Supabase
+            const box = document.getElementById('msgr-messages-box');
+            box.innerHTML = '<div style="color:#aaa; text-align:center; padding:20px;">Загрузка переписки...</div>';
 
-    if (typeof _supabase !== 'undefined' && _supabase) {
-        try {
-            const { data: msgs, error } = await _supabase
-                .from('private_messages')
-                .select('*')
-                .eq('chat_id', chatId)
-                .order('created_at', { ascending: true });
+            if (typeof _supabase !== 'undefined' && _supabase) {
+                try {
+                    const {data: msgs, error} = await _supabase
+                        .from('private_messages')
+                        .select('*')
+                        .eq('chat_id', chatId)
+                        .order('created_at', {ascending: true});
 
-            if (error) throw error;
+                    if (error) throw error;
 
-            box.innerHTML = '';
-            
-            if (msgs && msgs.length > 0) {
-                let lastDate = null;
-                
-                msgs.forEach(m => {
-                    const isMy = (m.sender_id === msgrCurrentCoreID);
-                    const msgDate = new Date(m.created_at);
-                    const currentDateString = msgDate.toDateString();
+                    box.innerHTML = '';
 
-                    if (lastDate !== currentDateString) {
-                        const dateSeparator = document.createElement('div');
-                        dateSeparator.innerHTML = getDateSeparatorHTML(msgDate);
-                        if (dateSeparator.firstChild) {
-                            box.appendChild(dateSeparator.firstChild);
-                        }
-                        lastDate = currentDateString;
+                    if (msgs && msgs.length > 0) {
+                        let lastDate = null;
+
+                        msgs.forEach(m => {
+                            const isMy = (m.sender_id === msgrCurrentCoreID);
+                            const msgDate = new Date(m.created_at);
+                            const currentDateString = msgDate.toDateString();
+
+                            if (lastDate !== currentDateString) {
+                                const dateSeparator = document.createElement('div');
+                                dateSeparator.innerHTML = getDateSeparatorHTML(msgDate);
+                                if (dateSeparator.firstChild) {
+                                    box.appendChild(dateSeparator.firstChild);
+                                }
+                                lastDate = currentDateString;
+                            }
+
+                            appendMsgUI(isMy ? 'Вы' : displayTitle, m.message_text, isMy, m.id, m.created_at);
+                        });
+                    } else {
+                        box.innerHTML = '<div style="color:#666; text-align:center; margin-top:20px;">Напишите первое сообщение!</div>';
+                        updateMsgCounter(0);
                     }
-
-                    appendMsgUI(isMy ? 'Вы' : displayTitle, m.message_text, isMy, m.id, m.created_at);
-                });
-            } else {
-                box.innerHTML = '<div style="color:#666; text-align:center; margin-top:20px;">Напишите первое сообщение!</div>';
-                updateMsgCounter(0);
+                } catch (e) {
+                    console.error("Ошибка загрузки сообщений:", e);
+                    box.innerHTML = '<div style="color:red; text-align:center; padding:20px;">Ошибка загрузки переписки.</div>';
+                }
             }
-        } catch (e) {
-            console.error("Ошибка загрузки сообщений:", e);
-            box.innerHTML = '<div style="color:red; text-align:center; padding:20px;">Ошибка загрузки переписки.</div>';
+
+            // 🔥 ПОМЕЧАЕМ ВСЕ СООБЩЕНИЯ КАК ПРОЧИТАННЫЕ (ПОСЛЕ ЗАГРУЗКИ)
+            if (typeof _supabase !== 'undefined' && _supabase) {
+                try {
+                    await _supabase
+                        .from('private_messages')
+                        .update({is_read: true})
+                        .eq('chat_id', chatId)
+                        .neq('sender_id', msgrCurrentCoreID); // Только не мои
+                } catch (e) {
+                    console.error("Ошибка пометки прочитанных:", e);
+                }
+            }
+
+            // 🔥 ОБНОВЛЯЕМ СПИСОК ЧАТОВ (ЧТОБЫ ЗЕЛЕНЫЙ КРУЖОК ИСЧЕЗ)
+            if (typeof loadLeycoreChatsList === 'function') {
+                await loadLeycoreChatsList();
+            }
+
+            // 🔥 ПОДПИСЫВАЕМСЯ НА REALTIME
+            if (typeof subscribeToCurrentChatMessages === 'function') {
+                subscribeToCurrentChatMessages(chatId);
+            }
         }
-    }
-
-    // 🔥 ПОМЕЧАЕМ ВСЕ СООБЩЕНИЯ КАК ПРОЧИТАННЫЕ (ПОСЛЕ ЗАГРУЗКИ)
-    if (typeof _supabase !== 'undefined' && _supabase) {
-        try {
-            await _supabase
-                .from('private_messages')
-                .update({ is_read: true })
-                .eq('chat_id', chatId)
-                .neq('sender_id', msgrCurrentCoreID); // Только не мои
-        } catch (e) {
-            console.error("Ошибка пометки прочитанных:", e);
-        }
-    }
-
-    // 🔥 ОБНОВЛЯЕМ СПИСОК ЧАТОВ (ЧТОБЫ ЗЕЛЕНЫЙ КРУЖОК ИСЧЕЗ)
-    if (typeof loadLeycoreChatsList === 'function') {
-        await loadLeycoreChatsList();
-    }
-
-    // 🔥 ПОДПИСЫВАЕМСЯ НА REALTIME
-    if (typeof subscribeToCurrentChatMessages === 'function') {
-        subscribeToCurrentChatMessages(chatId);
-    }
-}
 
         // 11. ЗАГРУЗКА АВАТАРКИ ИЗ ГАЛЕРЕИ (для личного профиля)
         function openMsgrProfileEdit() {
