@@ -16408,7 +16408,89 @@
         }
         
 
+        /* ==========================================================================
+           🎨 РАЗНОЦВЕТНЫЕ ПАЛИТРЫ ДЛЯ КАРТОЧЕК БЛЮД (UIVERSE STYLE)
+           ========================================================================== */
 
+        /* 1. ТЯЖЁЛЫЕ БЛЮДА (Розово-Красное обрамление) */
+        .card-perspective:has(.vm-pill-heavy) .card {
+            border-color: rgba(255, 0, 127, 0.6) !important;
+            box-shadow: 0 10px 30px -10px rgba(255, 0, 127, 0.3) !important;
+        }
+        .card-perspective:has(.vm-pill-heavy) .vm-category-pill {
+            background: rgba(255, 0, 127, 0.2) !important;
+            border-color: #ff007f !important;
+            color: #ff66a3 !important;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.4) !important;
+        }
+        .card-perspective:has(.vm-pill-heavy) .mica-lamination {
+            background: linear-gradient(135deg, rgba(255, 0, 127, 0) 0%, rgba(255, 0, 127, 0.2) 50%, rgba(255, 0, 127, 0) 100%) !important;
+        }
+
+        /* 2. ОБЛАЧНЫЕ БЛЮДА (Голубое обрамление) */
+        .card-perspective:has(.vm-pill-cloud) .card {
+            border-color: rgba(0, 240, 255, 0.6) !important;
+            box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.3) !important;
+        }
+        .card-perspective:has(.vm-pill-cloud) .vm-category-pill {
+            background: rgba(0, 240, 255, 0.15) !important;
+            border-color: #00f0ff !important;
+            color: #66f6ff !important;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.4) !important;
+        }
+        .card-perspective:has(.vm-pill-cloud) .mica-lamination {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0) 0%, rgba(0, 240, 255, 0.2) 50%, rgba(0, 240, 255, 0) 100%) !important;
+        }
+
+        /* 3. ДЕСЕРТЫ / БЛАЖЕНСТВО (Золотистое обрамление) */
+        .card-perspective:has(.vm-pill-dessert) .card {
+            border-color: rgba(255, 215, 0, 0.6) !important;
+            box-shadow: 0 10px 30px -10px rgba(255, 215, 0, 0.3) !important;
+        }
+        .card-perspective:has(.vm-pill-dessert) .vm-category-pill {
+            background: rgba(255, 215, 0, 0.2) !important;
+            border-color: #ffd700 !important;
+            color: #ffe866 !important;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.4) !important;
+        }
+        .card-perspective:has(.vm-pill-dessert) .mica-lamination {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0) 0%, rgba(255, 215, 0, 0.2) 50%, rgba(255, 215, 0, 0) 100%) !important;
+        }
+
+        /* ==========================================================================
+           📱 МОБИЛЬНАЯ ОПТИМИЗАЦИЯ (ЧТОБЫ НЕ ГРЕЛОСЬ)
+           ========================================================================== */
+        @media (max-width: 768px) {
+            /* Отключаем тяжелые тени на мобилке, оставляем только светящуюся рамку */
+            .card-perspective:has(.vm-pill-heavy) .card { box-shadow: none !important; }
+            .card-perspective:has(.vm-pill-cloud) .card { box-shadow: none !important; }
+            .card-perspective:has(.vm-pill-dessert) .card { box-shadow: none !important; }
+            
+            /* Отключаем анимацию переливания (mica), если она тормозит */
+            .mica-lamination { display: none !important; }
+        }
+
+                /* ==========================================================================
+           🎨 ПЕРЕКРАС РАМОК ВОКРУГ КАРТИНОК (.art-viewport)
+           ========================================================================== */
+
+        /* 1. ТЯЖЁЛЫЕ (Розовые) */
+        .card-perspective:has(.vm-pill-heavy) .art-viewport {
+            border: 1px solid rgba(255, 0, 127, 0.6) !important;
+            background: linear-gradient(180deg, rgba(255, 0, 127, 0.15), rgba(20, 0, 10, 0.9)) !important;
+        }
+
+        /* 2. ЛЁГКИЕ (Голубые) */
+        .card-perspective:has(.vm-pill-cloud) .art-viewport {
+            border: 1px solid rgba(0, 240, 255, 0.6) !important;
+            background: linear-gradient(180deg, rgba(0, 240, 255, 0.15), rgba(0, 10, 20, 0.9)) !important;
+        }
+
+        /* 3. БЛАЖЕНСТВО (Золотистые) */
+        .card-perspective:has(.vm-pill-dessert) .art-viewport {
+            border: 1px solid rgba(255, 215, 0, 0.6) !important;
+            background: linear-gradient(180deg, rgba(255, 215, 0, 0.15), rgba(20, 15, 0, 0.9)) !important;
+        }
         
 
         
