@@ -18182,7 +18182,7 @@
 
                     <!-- ОБЛОЖКА ТЕКУЩЕГО ТРЕКА (КВАДРАТНАЯ) -->
                     <div class="lz-current-cover-box">
-                        <img id="current-track-cover" class="lz-current-cover-img" src="strannik.jpg"
+                        <img id="current-track-cover" class="lz-current-cover-img" src="leycostaz.png"
                             alt="Обложка трека">
                     </div>
 
@@ -18269,7 +18269,7 @@
 
                     <!-- СТАТУС БОБНИТА -->
                     <div class="lz-bobnit-status-box">
-                        <img src="strannik.jpg" alt="Бобнит" class="lz-bobnit-avatar">
+                        <img src="leycostaz.png" alt="Бобнит" class="lz-bobnit-avatar">
                         <div class="lz-bobnit-text">
                             <strong>Бобнит шепчет:</strong><br>
                             «Выкручивай колонки на максимум, путник! Этот лоу-фай бас лечит геморрой и заряжает бургеры
@@ -21231,7 +21231,7 @@
                         return `
                     <div class="lz-track-item" onclick="loadTrackByIndex(${globalIdx})">
                         <div class="lz-track-left">
-                            <img class="lz-track-thumb" src="${t.cover}" alt="${t.title}" onerror="this.src='strannik.jpg'">
+                            <img class="lz-track-thumb" src="${t.cover}" alt="${t.title}" onerror="this.src='leycostaz.png'">
                             <span class="lz-track-title-info">🎵 ${t.title}</span>
                         </div>
                         <div class="lz-track-right">
@@ -21263,7 +21263,7 @@
             if (coverImg) {
                 coverImg.src = track.cover;
                 coverImg.onerror = function () {
-                    this.src = 'strannik.jpg';
+                    this.src = 'leycostaz.png';
                 };
             }
 
