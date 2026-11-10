@@ -16671,6 +16671,118 @@
             filter: drop-shadow(0 0 8px #ffffff);
         }
         
+
+
+
+        /* ==========================================================================
+           🍔 АНИМИРОВАННЫЙ БУРГЕР (ФИНАЛЬНЫЙ ФИКС)
+           ========================================================================== */
+
+        /* Контейнер */
+        .burger-container {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Сама кнопка (ромб) */
+        #mobile-burger-btn.square {
+            border: 1.5px solid #5e42a6;
+            height: 32px;
+            width: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(45deg);
+            overflow: hidden; /* Обрезаем всё, что вылезает за ромб */
+            cursor: pointer;
+            transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -16px;
+            margin-left: -16px;
+            box-sizing: border-box;
+        }
+
+        #mobile-burger-btn.square .burgerwrap {
+            height: 20px;
+            width: 20px;
+            transform: rotate(-45deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Фиолетовые полоски */
+        #mobile-burger-btn.square span {
+            height: 3px;
+            width: 16px;
+            background: linear-gradient(145deg, #b026ff, #ff0055);
+            display: block;
+            transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            border-radius: 2px;
+        }
+
+        /* Белые полоски (прячем СПРАВА) */
+        #mobile-burger-btn.square span:after {
+            content: "";
+            height: 3px;
+            width: 16px;
+            position: absolute;
+            background: #ffffff;
+            left: 35px; /* 🎯 Теперь прячем вправо */
+            top: 0;
+            transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 2px;
+        }
+
+        /* ==========================================
+           СОСТОЯНИЕ "АКТИВНО" (МЕНЮ ОТКРЫТО)
+           ========================================== */
+        #mobile-burger-btn.square.active {
+            transform: rotate(135deg);
+            border: 1.5px solid #ff0055;
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.6), 0 0 25px rgba(255, 0, 85, 0.4);
+        }
+
+        #mobile-burger-btn.square.active .burgerwrap {
+            transform: rotate(-135deg);
+        }
+
+        /* Фиолетовые уезжают ВЛЕВО */
+        #mobile-burger-btn.square.active span {
+            margin-left: -35px; /* 🎯 Теперь уводим влево */
+        }
+
+        /* Белые выезжают справа на их место */
+        #mobile-burger-btn.square.active span:after {
+            left: 0px;
+        }
+
+        /* Задержки для плавности */
+        #mobile-burger-btn.square span:nth-of-type(1),
+        #mobile-burger-btn.square span:nth-of-type(1):after {
+            transition-delay: 0.05s;
+        }
+
+        #mobile-burger-btn.square span:nth-of-type(2),
+        #mobile-burger-btn.square span:nth-of-type(2):after {
+            transition-delay: 0.1s;
+        }
+
+        #mobile-burger-btn.square span:nth-of-type(3),
+        #mobile-burger-btn.square span:nth-of-type(3):after {
+            transition-delay: 0.15s;
+        }
+
     </style>
 
 
@@ -16742,14 +16854,16 @@
             <div class="mobile-logo-mini">LEYCORE</div>
         </div>
 
-        <!-- Кнопка бургера -->
-        <button id="mobile-burger-btn" onclick="toggleMobileMenu()">
-            <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-        </button>
+        <!-- Контейнер для бургера (защищает верстку шапки) -->
+        <div class="burger-container">
+            <a href="javascript:void(0)" id="mobile-burger-btn" class="square" onclick="toggleMobileMenu()">
+                <div class="burgerwrap">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </a>
+        </div>
     </div>
 
         <!-- 📱 НЕВИДИМЫЙ ЩИТ ДЛЯ ЗАКРЫТИЯ БУРГЕРА -->
@@ -28797,15 +28911,18 @@
         window.toggleMobileMenu = function() {
             const menu = document.getElementById('mobile-dropdown-menu');
             const overlay = document.getElementById('mobile-menu-overlay');
+            const burger = document.getElementById('mobile-burger-btn');
             
-            if (menu && overlay) {
+            if (menu && overlay && burger) {
                 const isActive = menu.classList.toggle('active');
                 
-                // Если меню открылось — показываем щит. Если закрылось — прячем.
+                // Если меню открылось — показываем щит и включаем анимацию бургера
                 if (isActive) {
                     overlay.classList.add('active');
+                    burger.classList.add('active'); // 🎯 Включаем анимацию
                 } else {
                     overlay.classList.remove('active');
+                    burger.classList.remove('active'); // 🎯 Выключаем анимацию
                 }
             }
         }
