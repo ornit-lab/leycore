@@ -16783,6 +16783,156 @@
             transition-delay: 0.15s;
         }
 
+
+
+                /* ==========================================================================
+           🎙 КОМПАКТНЫЙ МИКРОФОН В СТРОКЕ
+           ========================================================================== */
+
+        .mic-card {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.5s all;
+            flex-shrink: 0;
+        }
+
+        .mic-center {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            padding: 1px;
+            position: relative;
+            isolation: isolate;
+            transition: 0.5s all;
+        }
+
+        /* Оранжевый ореол */
+        .mic-center::before {
+            content: "";
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            top: 0;
+            left: 0;
+            border-radius: 50%;
+            background: linear-gradient(-40deg, #ff8c00, #8b0000, #ff4500);
+            z-index: -1;
+            transition: 0.5s all;
+        }
+
+        .mic-inner-1 {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        .mic-inner-1::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: linear-gradient(-40deg, #2a0a00, #1a0500);
+            transition: 0.5s all;
+        }
+
+        .mic-inner-1 > svg {
+            fill: #ff4500;
+            position: absolute;
+            width: 93%;
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+            transition: 0.5s all;
+            opacity: 0.4;
+        }
+
+        .mic-inner-1 > svg path {
+            animation: 5s path-opacity linear infinite, 30s rotate infinite linear;
+            transform-origin: 50%;
+        }
+        @keyframes path-opacity { 0% { opacity: 1; } 38% { opacity: 0; } 62% { opacity: 0; } to { opacity: 1; } }
+        @keyframes rotate { 0% { rotate: 0deg; } to { rotate: 360deg; } }
+
+        .mic-inner-2 {
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+            border-radius: 50%;
+            background: linear-gradient(#ff8c00, #ff4500);
+            box-shadow: inset 0 0 5px 0 #fffa, 0 0 10px 0 #ff4500;
+            transition: 0.2s all;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mic-inner-2:active {
+            transform: translate(-50%, -50%) scale(0.9);
+        }
+
+        .mic-inner-2 > svg {
+            width: 20px;
+            fill: #ffffff;
+        }
+
+
+        /* Когда начинается запись (класс добавляется через JS) */
+        .mic-card.recording .center-mic { box-shadow: 0 0 10px 0 #ff450000; }
+        .mic-card.recording .mic-inner-1::before, 
+        .mic-card.recording .center-mic::before { opacity: 0; }
+        .mic-card.recording .mic-inner-1 > svg { opacity: 0; }
+        .mic-card.recording .mic-inner-2 > svg { opacity: 0; }
+     
+
+
+                /* Микрофон при записи: ПОЛНОСТЬЮ ИСЧЕЗАЕТ */
+        .mic-card.recording .mic-inner-2 {
+            opacity: 0 !important;
+            pointer-events: none !important; /* Чтобы по нему нельзя было кликнуть */
+            transform: translate(-50%, -50%) scale(0.5) !important; /* Плавно сжимается в точку */
+            transition: all 0.3s ease !important;
+        }
+
+
+                /* Полоски */
+        .voice {
+            position: absolute;
+            width: 4px;
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+            transform: translateX(calc(var(--n) * 10px));
+            border-radius: 99em;
+            background: linear-gradient(#ff8c00, #ff4500);
+            opacity: 0;
+            --m: var(--n);
+            transition: 0.1s calc(var(--m) * 0.03s) all;
+            pointer-events: none;
+        }
+
+        /* 🎯 ОЖИВЛЯЕМ ПОЛОСКИ (АНИМАЦИЯ) */
+        .mic-card.recording .voice {
+            opacity: 1;
+            transition: 0.5s calc(var(--m) * 0.075s + 0.4s) all;
+            /* Вот эта строка заставляет их пульсировать */
+            animation: voicePulse 0.8s ease-in-out infinite alternate;
+            animation-delay: calc(var(--m) * 0.1s); /* Разная задержка для каждой полоски */
+        }
+
+        /* Анимация пульсации */
+        @keyframes voicePulse {
+            0% { transform: translateX(calc(var(--n) * 10px)) scaleY(0.5); }
+            100% { transform: translateX(calc(var(--n) * 10px)) scaleY(1.3); }
+        }
     </style>
 
 
@@ -18683,8 +18833,9 @@
                 }
             }
 
-
-
+            // 🎯 ПРОВЕРКА: Узнаем, какая страница открыта прямо сейчас (ДО скрытия)
+            const currentPage = document.querySelector('.page-view.active-page');
+            const isAlreadyActive = currentPage && currentPage.id === 'page-' + id;
 
             // 3. СКРЫВАЕМ ВСЕ СТРАНИЦЫ
             document.querySelectorAll('.page-view').forEach(p => {
@@ -18707,9 +18858,10 @@
             const navItem = document.getElementById('nav-' + id);
             if (navItem) navItem.classList.add('active');
 
-                        // 🎯 Скроллим вверх ТОЛЬКО если мы переключили вкладку на другую,
-            // а не просто обновляем текущую. А лучше вообще убрать принудительный скролл.
-            // window.scrollTo({top: 0, behavior: 'smooth'});
+            // 🎯 СКРОЛЛ ВВЕРХ: Срабатывает только на ПК (экран > 768px) и только при переходе на НОВУЮ вкладку
+            if (!isAlreadyActive && window.innerWidth > 768) {
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
 
             // Внутри функции switchPage(id):
             if (id === 'dictionary') {
@@ -18752,12 +18904,11 @@
                 updateMgbLeaderboardUI(); // МГБ
             }
 
-
-
         };
 
         // Для обратной совместимости, если где-то вызывается без window:
         var switchPage = window.switchPage;
+
 
 
 
@@ -27633,24 +27784,6 @@
             if (interfaceBox) interfaceBox.style.display = 'block';
         }
 
-        // Скрытие интерфейса (кнопка Отмена)
-        function tcHideRecordInterface() {
-            const startBtn = document.getElementById('tc-start-memo-btn');
-            const interfaceBox = document.getElementById('tc-record-interface');
-            if (startBtn) startBtn.style.display = 'inline-block';
-            if (interfaceBox) interfaceBox.style.display = 'none';
-
-            const state = getTcVoiceState();
-            if (state.recorder && state.recorder.state === 'recording') {
-                state.recorder.stop();
-                const btn = document.getElementById('tc-mic-record-btn');
-                const txt = document.getElementById('tc-mic-btn-text');
-                if (btn) btn.classList.remove('recording');
-                if (txt) txt.innerText = "Начать запись ГС";
-            }
-            if (state.timer) clearInterval(state.timer);
-        }
-
         // Выбор уровня комфорта (1-5)
         function tcSetComfort(n) {
             const state = getTcVoiceState();
@@ -27717,21 +27850,30 @@
             if (interfaceBox) interfaceBox.style.display = 'block';
         }
 
-        // 2. Скрытие интерфейса (кнопка Отмена)
+                // Скрытие интерфейса (кнопка Отмена)
         function tcHideRecordInterface() {
             const startBtn = document.getElementById('tc-start-memo-btn');
             const interfaceBox = document.getElementById('tc-record-interface');
+            const micCard = document.querySelector('.mic-card'); // 🎯 Новая карточка микрофона
+
+            // Прячем интерфейс
             if (startBtn) startBtn.style.display = 'inline-block';
             if (interfaceBox) interfaceBox.style.display = 'none';
 
+            // 🎯 ПРИНУДИТЕЛЬНО ОСТАНАВЛИВАЕМ ЗАПИСЬ
             if (tcMediaRecorder && tcMediaRecorder.state === 'recording') {
                 tcMediaRecorder.stop();
-                const btn = document.getElementById('tc-mic-record-btn');
-                const txt = document.getElementById('tc-mic-btn-text');
-                if (btn) btn.classList.remove('recording');
-                if (txt) txt.innerText = "Начать запись ГС";
             }
+            
+            // Убираем анимацию полосок с микрофона
+            if (micCard) micCard.classList.remove('recording');
+            
+            // Останавливаем таймер
             if (tcRecordTimerInterval) clearInterval(tcRecordTimerInterval);
+            
+            // Сбрасываем время
+            const timerEl = document.getElementById('tc-voice-timer');
+            if (timerEl) timerEl.innerText = "00:00";
         }
 
         // 3. Выбор уровня комфорта (1-5)
@@ -27748,11 +27890,11 @@
         }
 
         // 4. Старт / Стоп записи
-        async function tcToggleRecord() {
-            const btn = document.getElementById('tc-mic-record-btn');
-            const txt = document.getElementById('tc-mic-btn-text');
+                async function tcToggleRecord() {
             const timerEl = document.getElementById('tc-voice-timer');
+            const micCard = document.querySelector('.mic-card'); // 🎯 Наша карточка
 
+            // Если запись НЕ идет - запускаем
             if (!tcMediaRecorder || tcMediaRecorder.state === 'inactive') {
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia({
@@ -27792,8 +27934,9 @@
 
                     setTimeout(() => {
                         tcMediaRecorder.start(250);
-                        if (btn) btn.classList.add('recording');
-                        if (txt) txt.innerText = "Остановить запись";
+                        
+                        // 🎯 ВКЛЮЧАЕМ АНИМАЦИЮ
+                        if (micCard) micCard.classList.add('recording');
 
                         tcRecordSeconds = 0;
                         if (timerEl) timerEl.innerText = "00:00";
@@ -27808,13 +27951,16 @@
                     }, 120);
 
                 } catch (err) {
-                    alert("❌ Ошибка доступа к микрофону! Разрешите микрофон в браузере.");
+                    alert("❌ Ошибка доступа к микрофону!");
                     console.error(err);
                 }
-            } else if (tcMediaRecorder.state === 'recording') {
+            } 
+            // Если запись УЖЕ идет - останавливаем
+            else if (tcMediaRecorder.state === 'recording') {
                 tcMediaRecorder.stop();
-                if (btn) btn.classList.remove('recording');
-                if (txt) txt.innerText = "Начать запись ГС";
+                
+                // 🎯 ВЫКЛЮЧАЕМ АНИМАЦИЮ
+                if (micCard) micCard.classList.remove('recording');
                 if (tcRecordTimerInterval) clearInterval(tcRecordTimerInterval);
             }
         }
@@ -29612,14 +29758,45 @@
                                     Незабываемо</button>
                             </div>
 
-                            <div class="tc-voice-controls">
-                                <button id="tc-mic-record-btn" class="tc-mic-btn" onclick="tcToggleRecord()">
-                                    <span>🎙</span> <span id="tc-mic-btn-text">Начать запись ГС</span>
-                                </button>
-                                <div id="tc-voice-timer" class="tc-voice-timer">00:00</div>
-                                <button type="button" class="tc-cancel-memo-btn"
-                                    onclick="tcHideRecordInterface()">Отмена</button>
-                            </div>
+                           <div class="tc-voice-controls" style="display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;">
+    
+    <!-- 🎙 НОВЫЙ МИКРОФОН -->
+    <div class="mic-card" id="tc-mic-card" style="cursor: pointer;" onclick="tcToggleRecord()">
+        <div class="mic-center">
+            <div class="mic-inner-1">
+                <div class="mic-inner-shadow"></div>
+                <!-- Вращающиеся лучи -->
+                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                    <path style="--n: 0" d="m 30.453794,9.3312954 -7.917031,3.5592496 8.075484,-2.250199 -7.806103,2.917861 8.557307,-1.823038 -8.01593,2.507185 8.032066,-1.895797 -7.983357,2.191854 8.253646,-0.977637 -8.734005,1.906681 L 32,14.873112 l -9.067975,0.906608 8.710099,0.266304 -8.198337,0.552543 7.954998,1.087624 -8.270359,-0.982046 8.279219,2.090895 -8.390625,-1.414284 8.181494,2.680253 -8.493537,-2.051535 8.574554,3.155482 -8.388715,-2.417975 7.336077,3.764862 -7.570347,-3.119239 7.237398,3.832637 -7.562214,-3.356722 6.916716,4.528063 -7.329944,-4.38842 7.092427,5.335096 -7.522317,-4.887511 6.814077,5.918297 -6.887962,-5.110619 5.521649,5.616634 -6.233909,-5.767836 5.503403,6.751906 -5.491939,-6.372858 4.625472,7.39895 -5.068521,-6.684095 4.000882,6.969487 -4.68072,-7.079913 4.067284,7.979967 -4.48828,-7.327749 3.010363,8.041865 -3.735533,-8.032202 2.503054,8.57713 -2.902357,-8.203242 2.094285,8.20334 -2.684607,-8.291976 1.06104,8.716643 -1.776125,-8.125127 0.548536,8.299855 -0.813624,-8.416399 -0.2412,8.255522 L 16.20771,23.125726 15.4421,31.701845 15.242929,23.498523 14.064558,32 l 0.587277,-8.835274 -1.775082,8.37072 1.697587,-8.093671 -3.170898,7.927081 2.584123,-8.084272 -3.20426,7.480536 2.254814,-7.96847 -3.8887271,7.853878 3.2403521,-8.19436 L 8.5610877,29.9216 12.517886,22.497285 7.5507089,29.379668 12.046198,21.750364 6.5947523,28.570304 11.055889,21.326265 5.4426979,28.097163 10.629019,21.028054 4.4997068,26.94961 10.731633,20.566843 3.5132226,25.764534 10.220303,20.149972 3.2927557,24.739834 9.9810583,19.654045 2.25673,23.960218 9.8652404,19.451429 1.8038025,23.025827 9.1046796,19.305047 1.0291963,21.555247 8.8352996,18.637383 0.90505552,20.950147 8.9559849,17.953237 0.9246021,19.240753 8.907278,17.657181 0.65431136,18.026538 8.7262532,16.78565 0.5308521,17.051216 8.7100981,16.473386 0,15.541286 8.824018,15.881794 0.17195626,14.6181 9.1037086,14.950552 0.23447998,13.458068 8.6244205,14.814837 0.40791848,12.550588 8.9364745,14.259836 1.0246568,11.088151 9.341318,13.573511 1.641235,10.168207 9.6112694,13.161477 1.7015879,9.1318812 9.971778,12.327072 2.3821045,7.6182529 9.6879205,11.86392 3.2459742,6.8826274 10.117137,11.432536 4.2522803,5.6193205 10.888769,10.858447 4.6941645,5.0610563 10.938973,10.41757 5.3889774,4.4354757 11.553884,10.397012 6.2911485,3.1246138 12.033296,9.9732614 7.3230861,2.4581945 12.666552,9.595625 8.6349575,1.9229662 13.051856,9.3018977 9.4508097,1.2088495 13.185675,9.2572544 10.683277,1.2559984 14.212019,9.2256532 12.117736,1.0223135 14.17597,8.9557988 13.079224,0.52392743 14.989847,9.1493007 14.342518,0.06442887 15.21856,8.9010195 15.757805,0.26553656 16.219363,8.5761175 16.984975,0 16.522093,8.9428382 18.228047,0.68063187 16.978697,8.7763882 19.415853,0.47938802 17.718936,9.2226522 20.227761,0.55605524 18.269339,9.0150209 21.474281,0.92620575 18.557405,9.5604719 22.481131,1.8826641 19.503145,9.4634767 23.73152,2.0932348 19.774712,10.109628 24.706197,2.9199374 20.257986,9.8369465 25.662155,3.7293008 20.549857,10.562019 26.849902,4.5097482 21.012419,11.167536 27.793574,5.049022 21.500486,11.014131 28.082307,5.9267906 22.083214,11.453541 29.000529,7.258799 22.251749,11.984448 29.3388,8.3969033 22.438949,12.80168 Z"></path>
+                </svg>
+            </div>
+            
+            <!-- Сама кнопка (Микрофон) -->
+            <div class="mic-inner-2" id="tc-mic-record-btn">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient y2="1" x2="0.35" id="mic-gradient">
+                            <stop stop-color="#ffd700" offset="0%"></stop>
+                            <stop stop-color="#ff4500" offset="100%"></stop>
+                        </linearGradient>
+                    </defs>
+                    <path d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M19,11C19,14.53 16.39,17.44 13,17.93V21H11V17.93C7.61,17.44 5,14.53 5,11H7A5,5 0 0,0 12,16A5,5 0 0,0 17,11H19Z"></path>
+                </svg>
+            </div>
+            
+            <!-- Полоски для анимации записи -->
+            <div style="--n: 1; height: 4.5em" class="voice"></div>
+            <div style="--n: 2; height: 3.5em" class="voice"></div>
+            <div style="--n: 3; height: 2em" class="voice"></div>
+            <div style="--n: -1; --m: 1; height: 4.5em" class="voice"></div>
+            <div style="--n: -2; --m: 2; height: 3.5em" class="voice"></div>
+            <div style="--n: -3; --m: 3; height: 2em" class="voice"></div>
+        </div>
+    </div>
+
+    <div id="tc-voice-timer" class="tc-voice-timer">00:00</div>
+    <button type="button" class="tc-cancel-memo-btn" onclick="tcHideRecordInterface()">Отмена</button>
+</div>
                         </div>
                     </div>
 
