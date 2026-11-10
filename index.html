@@ -26272,8 +26272,6 @@
         // 🌿 TERRACORE v1.0 — ДВИЖОК СЕКРЕТНОГО СЕЙФА & ЛОКАЦИЙ
         // ==========================================================================
 
-        const TC_CORRECT_CODE = "2CORES_1WORLD";
-
         // 🏛 СТРУКТУРА 10 РАЙОНОВ (Легко редактировать описания и мини-места!)
         const TC_DISTRICTS_DATA = [
             {
@@ -26376,14 +26374,66 @@
             if (modal) modal.style.display = 'none';
         }
 
-        function verifyTerraCorePass() {
-            const val = document.getElementById('tc-pass-input').value.trim();
-            if (val === TC_CORRECT_CODE) {
-                closeTerraCorePassModal();
-                enterTerraCoreMode();
-            } else {
-                alert("❌ НЕВЕРНЫЙ КОД ДОСТУПА СЕЙФА!");
-                document.getElementById('tc-pass-input').value = '';
+                async function verifyTerraCorePass() {
+            const inputVal = document.getElementById('tc-pass-input').value.trim();
+            const myName = localStorage.getItem('leycore_username');
+
+            if (!myName) {
+                alert("❌ Сначала авторизуйся на сайте (введи свой ник)!");
+                return;
+            }
+
+            try {
+                // 1. Ищем в базе запись, где уже установлен пароль
+                const { data, error } = await _supabase
+                    .from('leaderboard')
+                    .select('safe_password')
+                    .not('safe_password', 'is', null) // Ищем того, у кого пароль уже есть
+                    .limit(1)
+                    .single();
+
+                if (error && error.code !== 'PGRST116') {
+                    console.error("Ошибка базы:", error);
+                    alert("Ошибка связи с базой!");
+                    return;
+                }
+
+                // 2. Если пароль в базе ЕСТЬ (кто-то его уже установил)
+                if (data && data.safe_password) {
+                    if (inputVal === data.safe_password) {
+                        closeTerraCorePassModal();
+                        enterTerraCoreMode();
+                    } else {
+                        alert("❌ НЕВЕРНЫЙ КОД ДОСТУПА СЕЙФА!");
+                        document.getElementById('tc-pass-input').value = '';
+                    }
+                } 
+                // 3. Если пароля в базе НЕТ (ты заходишь впервые)
+                else {
+                    // Раз пароля нет, мы разрешаем установить его тому, кто ввел "2CORES_1WORLD"
+                    if (inputVal === "2CORES_1WORLD") {
+                        // Записываем этот пароль в базу напротив ТВОЕГО ника
+                        const { error: updateError } = await _supabase
+                            .from('leaderboard')
+                            .update({ safe_password: inputVal })
+                            .eq('player_name', myName);
+
+                        if (updateError) {
+                            console.error("Ошибка записи пароля:", updateError);
+                            alert("Не удалось сохранить пароль в базе!");
+                        } else {
+                            alert("👑 ВЫ СТАЛИ ХРАНИТЕЛЕМ СЕЙФА! Пароль успешно установлен и сохранен в базе.");
+                            closeTerraCorePassModal();
+                            enterTerraCoreMode();
+                        }
+                    } else {
+                        alert("❌ НЕВЕРНЫЙ КОД ДОСТУПА СЕЙФА!");
+                        document.getElementById('tc-pass-input').value = '';
+                    }
+                }
+            } catch (err) {
+                console.error("Критическая ошибка:", err);
+                alert("Ошибка при проверке пароля.");
             }
         }
 
