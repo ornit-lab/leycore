@@ -16933,6 +16933,303 @@
             0% { transform: translateX(calc(var(--n) * 10px)) scaleY(0.5); }
             100% { transform: translateX(calc(var(--n) * 10px)) scaleY(1.3); }
         }
+
+
+
+                /* ==========================================================================
+           🔪 НОВЫЙ ДИЗАЙН КАРТОЧЕК РЕЦЕПТОВ (КИБЕРПАНК)
+           ========================================================================== */
+
+        /* Обертка для всего рецепта */
+        .cyber-dish-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Главный неоновый блок */
+        .cyber-card {
+            position: relative;
+            background: rgba(10, 10, 15, 0.85);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(10px);
+            /* Убираем стандартную рамку, будем рисовать свою */
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* 🎯 РИСУЕМ СКОШЕННЫЕ УГЛЫ ЧЕРЕЗ SVG-ФОН */
+        .cyber-card::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px; right: -1px; bottom: -1px;
+            border-radius: 15px;
+            pointer-events: none;
+            z-index: -1;
+            /* Делаем градиентную рамку */
+            background: var(--card-color);
+            /* Вырезаем углы с помощью маски */
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            padding: 2px; /* Толщина рамки */
+            
+            /* Эффект скошенных углов */
+            clip-path: polygon(
+                0 20px, 20px 0, 
+                calc(100% - 20px) 0, 100% 20px, 
+                100% calc(100% - 20px), calc(100% - 20px) 100%, 
+                20px 100%, 0 calc(100% - 20px)
+            );
+        }
+
+        /* Свечение вокруг карточки */
+        .cyber-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 15px;
+            box-shadow: 0 0 20px var(--card-glow);
+            z-index: -2;
+            pointer-events: none;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+        
+        .cyber-card:hover::after {
+            opacity: 1;
+        }
+
+        /* Шапка карточки (Иконка + Название) */
+        .cyber-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+                .cyber-icon {
+            width: 32px !important; /* Увеличили размер */
+            height: 32px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* 🎯 Иконка берет цвет из темы (красный, голубой, оранжевый) */
+            color: var(--text-color); 
+            filter: drop-shadow(0 0 8px var(--text-glow));
+        }
+
+        .cyber-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke-width: 2px;
+        }
+
+        .cyber-title {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--text-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px var(--text-glow);
+            margin: 0;
+        }
+
+               /* Заголовок самого блюда (Гигантский) */
+        .cyber-dish-title {
+            font-family: 'Unbounded', sans-serif;
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.1;
+            
+            /* 🎯 УБРАЛИ ОБВОДКУ И ОСТАВИЛИ ТОЛЬКО ЧИСТОЕ СВЕЧЕНИЕ */
+            color: var(--text-color) !important;
+            text-shadow: 
+                0 0 10px var(--text-glow),
+                0 0 20px var(--text-glow),
+                0 0 40px var(--text-glow);
+            
+            /* Убираем все фоны и градиенты текста, которые ломали буквы */
+            background: none !important;
+            -webkit-background-clip: unset !important;
+            -webkit-text-fill-color: var(--text-color) !important;
+            filter: none !important;
+        }
+
+        /* Контент карточки */
+        .cyber-content {
+            color: #ccc;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Красивая картинка блюда */
+        .cyber-dish-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+
+        /* Кнопки лайков */
+        .cyber-rating-row {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .cyber-rating-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Unbounded', sans-serif;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        .cyber-rating-btn:hover {
+            background: var(--card-glow);
+            border-color: var(--text-color);
+        }
+
+        /* 🎨 ЦВЕТОВЫЕ ПАЛИТРЫ ДЛЯ КАТЕГОРИЙ */
+        
+        /* ТЯЖЁЛЫЕ (Красный неон) */
+        .theme-heavy {
+            --card-color: linear-gradient(135deg, #ff2a5f, #8b0000);
+            --card-glow: rgba(255, 42, 95, 0.2);
+            --text-color: #ff2a5f;
+            --text-glow: rgba(255, 42, 95, 0.6);
+        }
+
+        /* ЛЁГКИЕ (Голубой неон) */
+        .theme-cloud {
+            --card-color: linear-gradient(135deg, #00f0ff, #0055ff);
+            --card-glow: rgba(0, 240, 255, 0.2);
+            --text-color: #00f0ff;
+            --text-glow: rgba(0, 240, 255, 0.6);
+        }
+
+        /* ДЕСЕРТЫ / БЛАЖЕНСТВО (Оранжевый неон) */
+        .theme-dessert {
+            --card-color: linear-gradient(135deg, #ffaa00, #ff4500);
+            --card-glow: rgba(255, 170, 0, 0.2);
+            --text-color: #ffaa00;
+            --text-glow: rgba(255, 170, 0, 0.6);
+        }
+
+        /* Мобильная оптимизация */
+        @media (max-width: 768px) {
+            .cyber-card { padding: 15px; }
+            .cyber-title { font-size: 0.95rem; }
+            .cyber-dish-title { font-size: 1.6rem; -webkit-text-stroke: 1px var(--text-color); }
+            .cyber-rating-row { flex-direction: column; gap: 10px; }
+            .cyber-rating-btn { width: 100%; }
+        }
+
+
+                /* ==========================================================================
+           👍 НОВЫЕ 3D ЛАЙКИ И ДИЗЛАЙКИ (UI-VERSE STYLE)
+           ========================================================================== */
+
+        /* Контейнер, который на ПК уезжает вправо */
+        .rating-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        @media (min-width: 769px) {
+            .rating-container {
+                position: absolute;
+                right: -120px; /* Выносим вправо на ПК */
+                top: 100px;
+                margin-top: 0;
+                background: rgba(15, 10, 20, 0.6);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                padding: 20px 15px;
+                border-radius: 20px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(10px);
+                z-index: 10;
+            }
+        }
+
+        /* Сами кнопки */
+        .like-btn, .dislike-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            gap: 5px;
+            position: relative;
+        }
+
+        /* Текст счетчика под иконкой */
+        .like-counter, .dislike-counter {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 900;
+            color: #888;
+            transition: all 0.3s ease;
+        }
+
+        /* SVG-иконки */
+        .like-btn svg, .dislike-btn svg {
+            width: 45px;
+            height: 45px;
+            fill: #666; /* Серый цвет по умолчанию */
+            transition: all 0.3s ease;
+        }
+
+        /* Анимация при наведении */
+        .like-btn:hover svg, .dislike-btn:hover svg {
+            transform: scale(1.1) rotate(-10deg);
+        }
+
+        /* Цвета при активации */
+        .like-btn.active svg {
+            fill: #00f0ff; /* Бирюзовый лайк */
+            filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.6));
+        }
+        .like-btn.active .like-counter {
+            color: #00f0ff;
+        }
+
+        .dislike-btn.active svg {
+            fill: #ff2a5f; /* Красный дизлайк */
+            filter: drop-shadow(0 0 15px rgba(255, 42, 95, 0.6));
+        }
+        .dislike-btn.active .dislike-counter {
+            color: #ff2a5f;
+        }
+
+        /* На мобилках просто ставим их в ряд */
+        @media (max-width: 768px) {
+            .rating-container {
+                flex-direction: row;
+                justify-content: center;
+                gap: 40px;
+            }
+        }
     </style>
 
 
@@ -19497,15 +19794,25 @@
             renderDishes(category);
         }
 
-        // НАДЕЖНОЕ ОТКРЫТИЕ РЕЦЕПТА (БЕЗ ФАНТОМНЫХ ВЫЛЕТОВ В ИГРАХ)
-        function openDishPage(i) {
+              async function openDishPage(i) { // 🎯 ДОБАВИЛИ ASYNC
             playSfx(sfxRecipe);
             const d = dishes[i];
             if (!d) return;
 
-            // Загружаем облачные данные в фоне, не подвешивая весь сайт!
+            let themeClass = 'theme-heavy';
+            if (d.category === 'cloud') themeClass = 'theme-cloud';
+            if (d.category === 'dessert') themeClass = 'theme-dessert';
+
+            // 🎯 ЖДЕМ ЗАГРУЗКИ ДАННЫХ ИЗ ОБЛАКА (ВОТ ОНО РЕШЕНИЕ)
             if (typeof loadDishDataFromCloud === 'function') {
-                loadDishDataFromCloud(i).catch(err => console.warn("Фоновое облако:", err));
+                try {
+                    await loadDishDataFromCloud(i);
+                    // После загрузки обновляем локальную переменную d свежими данными
+                    d.likes = dishes[i].likes || 0;
+                    d.dislikes = dishes[i].dislikes || 0;
+                } catch (err) {
+                    console.warn("Не удалось загрузить лайки:", err);
+                }
             }
 
             if (d.title && typeof trackRecipeRead === 'function') {
@@ -19514,35 +19821,48 @@
             }
 
             const detailContent = document.getElementById('dish-detail-content');
-            if (!detailContent) {
-                console.error("❌ Не найден контейнер dish-detail-content!");
-                return;
-            }
+            if (!detailContent) return;
 
-            const votes = typeof userVotes !== 'undefined' ? userVotes : {};
+            // SVG-иконки (они у тебя уже есть, оставляем)
+            const iconComp = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>`;
+            const iconCook = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"></path><line x1="6" y1="17" x2="18" y2="17"></line></svg>`;
+            const iconLaykor = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
 
+            // Твой HTML-код карточек...
             detailContent.innerHTML = `
-        <div class="dish-detail-container" style="max-width: 800px; margin: 0 auto; padding: 20px;">
-            <h2 class="section-title title-green" style="font-size: 2.2rem; margin-bottom: 20px;">${d.title}</h2>
-
-            ${d.image ? `
-                <div style="text-align: center; margin-bottom: 2rem;">
-                    <img src="${d.image}" alt="${d.title}" style="max-width: 100%; max-height: 440px; border-radius: 16px; border: 1px solid rgba(0, 255, 102, 0.4); box-shadow: 0 0 30px rgba(0, 255, 102, 0.3); object-fit: cover;">
-                </div>
-            ` : ''}
+        <div class="cyber-dish-wrapper ${themeClass}">
+            <h2 class="cyber-dish-title">${d.title}</h2>
+            ${d.image ? `<img src="${d.image}" class="cyber-dish-image" alt="${d.title}">` : ''}
             
-            <div class="dish-block" style="margin-bottom: 15px;"><div class="dish-block-title" style="font-weight: bold; margin-bottom: 6px;">🥗 СОСТАВ</div><p>${d.composition || '—'}</p></div>
-            <div class="dish-block" style="margin-bottom: 15px;"><div class="dish-block-title" style="font-weight: bold; margin-bottom: 6px;">🔥 ПРИГОТОВЛЕНИЕ</div><p>${d.cooking || '—'}</p></div>
-            <div class="dish-block laykor-box" style="margin-bottom: 25px;"><div class="dish-block-title" style="color: #b026ff; font-weight: bold; margin-bottom: 6px;">🔮 ЛЭЙКОР</div><p>${d.laykor || '—'}</p></div>
+            <div class="cyber-card">
+                <div class="cyber-header"><span class="cyber-icon">${iconComp}</span><h3 class="cyber-title">СОСТАВ</h3></div>
+                <div class="cyber-content"><p>${d.composition || '—'}</p></div>
+            </div>
+            
+            <div class="cyber-card">
+                <div class="cyber-header"><span class="cyber-icon">${iconCook}</span><h3 class="cyber-title">ПРИГОТОВЛЕНИЕ</h3></div>
+                <div class="cyber-content"><p>${d.cooking || '—'}</p></div>
+            </div>
+            
+            <div class="cyber-card">
+                <div class="cyber-header"><span class="cyber-icon">${iconLaykor}</span><h3 class="cyber-title">ЛЭЙКОР</h3></div>
+                <div class="cyber-content" style="font-style: italic;"><p>${d.laykor || '—'}</p></div>
+            </div>
 
-            <div class="rating-section" style="display: flex; gap: 12px; margin-bottom: 25px;">
-                <button class="rating-btn like-btn" onclick="updateRating(${i}, 'like')">👍 ${d.likes || 0} Лайков</button>
-                <button class="rating-btn dislike-btn" onclick="updateRating(${i}, 'dislike')">👎 ${d.dislikes || 0} Дизлайков</button>
+            <!-- РЕЙТИНГ -->
+            <div class="rating-container">
+                <div class="like-btn ${userVotes[i] === 'like' ? 'active' : ''}" onclick="updateRating(${i}, 'like')">
+                    <svg viewBox="0 0 32 32"><path d="M29.845,17.099l-2.489,8.725C26.989,27.105,25.804,28,24.473,28H11c-0.553,0-1-0.448-1-1V13c0-0.215,0.069-0.425,0.198-0.597l5.392-7.24C16.188,4.414,17.05,4,17.974,4C19.643,4,21,5.357,21,7.026V12h5.002c1.265,0,2.427,0.579,3.188,1.589C29.954,14.601,30.192,15.88,29.845,17.099z"></path><path d="M7,12H3c-0.553,0-1,0.448-1,1v14c0,0.552,0.447,1,1,1h4c0.553,0,1-0.448,1-1V13C8,12.448,7.553,12,7,12z"></path></svg>
+                    <span class="like-counter">${d.likes || 0}</span>
+                </div>
+                <div class="dislike-btn ${userVotes[i] === 'dislike' ? 'active' : ''}" onclick="updateRating(${i}, 'dislike')">
+                    <svg viewBox="0 0 32 32"><path d="M2.156,14.901l2.489-8.725C5.012,4.895,6.197,4,7.528,4h13.473C21.554,4,22,4.448,22,5v14c0,0.215-0.068,0.425-0.197,0.597l-5.392,7.24C15.813,27.586,14.951,28,14.027,28c-1.669,0-3.026-1.357-3.026-3.026V20H5.999c-1.265,0-2.427-0.579-3.188-1.589C2.047,17.399,1.809,16.12,2.156,14.901z"></path><path d="M25.001,20h4C29.554,20,30,19.552,30,19V5c0-0.552-0.446-1-0.999-1h-4c-0.553,0-1,0.448-1,1v14C24.001,19.552,24.448,20,25.001,20z"></path></svg>
+                    <span class="dislike-counter">${d.dislikes || 0}</span>
+                </div>
             </div>
         </div>
     `;
 
-            // Мгновенно переключаем на рецепт ТОЛЬКО сейчас, а не в казино!
             switchPage('dish-detail');
         }
 
@@ -21078,42 +21398,51 @@
         // (Чтобы не спамили лайки)
         let userVotes = JSON.parse(localStorage.getItem('leycore_user_votes')) || {};
 
-        function updateRating(dishIndex, type) {
-            // 1. ПРОВЕРКА НА СПАМ (Один голос на одно блюдо)
+               function updateRating(dishIndex, type) {
+            // 1. Проверка на спам
             if (userVotes[dishIndex]) {
-                alert("Твой суверенный голос уже учтен в анналах Кронтара! Больше нельзя. ✋");
+                alert("Твой голос уже учтен! Больше нельзя. ✋");
                 return;
             }
 
-            // 2. ОБНОВЛЯЕМ ДАННЫЕ
+            // 2. Обновляем данные в памяти
             if (type === 'like') {
-                dishes[dishIndex].likes++;
-                userVotes[dishIndex] = 'like';
+                dishes[dishIndex].likes = (dishes[dishIndex].likes || 0) + 1;
             } else {
-                dishes[dishIndex].dislikes++;
-                userVotes[dishIndex] = 'dislike';
+                dishes[dishIndex].dislikes = (dishes[dishIndex].dislikes || 0) + 1;
+            }
+            userVotes[dishIndex] = type;
+            
+            // 3. Отправляем в облако
+            if (typeof sendRatingToCloud === 'function') {
+                sendRatingToCloud(dishIndex, type);
             }
 
-            // ⬇️ ВОТ ЭТУ СТРОЧКУ ДОБАВЛЯЕМ СЮДА! Она отправит голос в облако Supabase: ⬇️
-            sendRatingToCloud(dishIndex, type);
-
-            // Сохраняем факт голосования в память браузера
+            // 4. Сохраняем голос в браузер
             localStorage.setItem('leycore_user_votes', JSON.stringify(userVotes));
 
-            // 3. ТОЧЕЧНОЕ ОБНОВЛЕНИЕ ИНТЕРФЕЙСА (БЕЗ ПЕРЕЗАГРУЗКИ СТРАНИЦЫ)
-            // Находим кнопки и обновляем текст внутри них
+            // 5. 🎯 ТОЧЕЧНО ОБНОВЛЯЕМ ИНТЕРФЕЙС (БЕЗ ПЕРЕЗАГРУЗКИ)
             const likeBtn = document.querySelector('.like-btn');
             const dislikeBtn = document.querySelector('.dislike-btn');
+            
+            const likeCount = document.querySelector('.like-counter');
+            const dislikeCount = document.querySelector('.dislike-counter');
 
-            if (likeBtn && dislikeBtn) {
-                likeBtn.innerHTML = `👍 ${dishes[dishIndex].likes} Лайков`;
-                dislikeBtn.innerHTML = `👎 ${dishes[dishIndex].dislikes} Дизлайков`;
+            if (likeBtn && dislikeBtn && likeCount && dislikeCount) {
+                // Обновляем цифры
+                likeCount.innerText = dishes[dishIndex].likes || 0;
+                dislikeCount.innerText = dishes[dishIndex].dislikes || 0;
 
-                // Визуально блокируем кнопки после клика
-                likeBtn.style.opacity = "0.5";
-                dislikeBtn.style.opacity = "0.5";
-                likeBtn.style.cursor = "default";
-                dislikeBtn.style.cursor = "default";
+                // Подсвечиваем нужную кнопку
+                if (type === 'like') {
+                    likeBtn.classList.add('active');
+                    dislikeBtn.style.opacity = "0.4";
+                    dislikeBtn.style.pointerEvents = "none";
+                } else {
+                    dislikeBtn.classList.add('active');
+                    likeBtn.style.opacity = "0.4";
+                    likeBtn.style.pointerEvents = "none";
+                }
             }
         }
 
