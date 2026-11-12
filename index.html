@@ -27182,11 +27182,11 @@
 
         let isSending = false; // Глобальная переменная для защиты от двойных кликов
 
-        // ==========================================================================
+              // ==========================================================================
         // 💬 ОТПРАВКА СООБЩЕНИЙ (ЗАЩИТА ОТ ДВОЙНЫХ КЛИКОВ + НЕЙРОСЕТЬ)
         // ==========================================================================
         async function sendLeycoreMessage(quickReplyText = null) {
-            // 🔥 ЗАЩИТА ОТ ДВОЙНОГО КЛИКА (проверяем глобальную переменную)
+            // 🔥 ЗАЩИТА ОТ ДВОЙНОГО КЛИКА
             if (window.isSending) return;
             window.isSending = true;
 
@@ -27201,14 +27201,22 @@
                     input.value = '';
                 }
 
+                // 🔥 ПРОВЕРКА НА КУЛДАУН (ИСПОЛЬЗУЕМ ДРУГОЕ ИМЯ ПЕРЕМЕННОЙ)
+                const currentCooldown = parseInt(localStorage.getItem('leycore_bobnit_cooldown') || '0', 10);
+                if (Date.now() < currentCooldown) {
+                    if (typeof playBobnitCrunchSound === 'function') playBobnitCrunchSound();
+                    alert("Бобнит еще спит и переваривает бургеры. Подожди немного!");
+                    return;
+                }
+
                 // ЕСЛИ ЭТО ЧАТ С БОБНИТОМ
                 if (msgrActiveChatType === 'bobnit' || msgrActiveChatId === 'bobnit-chat') {
 
                     // 1. Показываем сообщение пользователя
                     appendMsgUI('Вы', text, true, null);
-                    playSendMessageSound(); // 🔊 Звук отправки
+                    playSendMessageSound();
 
-                    // 2. Загружаем историю из памяти и добавляем текущее время
+                    // 2. Загружаем историю из памяти
                     let history = JSON.parse(localStorage.getItem('leycore_bobnit_history') || '[]');
                     history.push({
                         sender: 'Вы',
@@ -27229,7 +27237,7 @@
                         box.scrollTop = box.scrollHeight;
                     }
 
-                    // 4. Формируем контекст для нейросети (последние 5 сообщений)
+                    // 4. Формируем контекст для нейросети
                     const contextForAI = history.slice(-5).map(msg => ({
                         role: msg.isMy ? "user" : "assistant",
                         content: msg.text
@@ -27246,15 +27254,15 @@
                     // 7. Проверка на ошибку
                     let finalReply = aiReply;
                     if (!finalReply || finalReply.trim() === "") {
-                        console.warn("⚠️ Нейросеть вернула пустой ответ. Показываем заглушку.");
+                        console.warn("⚠️ Нейросеть вернула пустой ответ.");
                         finalReply = "У меня мозг завис. Попробуй еще раз.";
                     }
 
-                    // 8. Показываем ответ от нейросети
+                    // 8. Показываем ответ
                     appendMsgUI('Бобнит', finalReply, false, null);
-                    playBobnitCrunchSound(); // 🔊 Звук хруста от Бобнита
+                    playBobnitCrunchSound();
 
-                    // 9. Добавляем ответ в историю с ВРЕМЕНЕМ
+                    // 9. Добавляем ответ в историю
                     history.push({
                         sender: 'Бобнит',
                         text: finalReply,
@@ -27262,13 +27270,22 @@
                         time: new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})
                     });
 
-                    // 10. 🔥 ПРОВЕРКА НА УСТАЛОСТЬ (35 СООБЩЕНИЙ)
-                    if (history.length >= 35) {
+                    // 10. 🔥 ПРОВЕРКА НА УСТАЛОСТЬ (20 СООБЩЕНИЙ)
+                    if (history.length >= 20) {
+                        // Записываем КД на 2 часа
+                        const newCooldownUntil = Date.now() + (2 * 60 * 60 * 1000);
+                        localStorage.setItem('leycore_bobnit_cooldown', newCooldownUntil.toString());
+                        
+                        // Очищаем историю
                         localStorage.removeItem('leycore_bobnit_history');
-
+                        
                         setTimeout(() => {
                             const tiredModal = document.getElementById('bobnit-tired-modal');
                             if (tiredModal) tiredModal.style.display = 'flex';
+                            
+                            if (typeof startBobnitTiredTimer === 'function') {
+                                startBobnitTiredTimer();
+                            }
 
                             if (box) box.innerHTML = '';
                             if (typeof updateMsgCounter === 'function') updateMsgCounter(0);
@@ -27277,7 +27294,7 @@
                         localStorage.setItem('leycore_bobnit_history', JSON.stringify(history.slice(-50)));
                     }
 
-                    return; // Выходим из функции (блокировка снимется в finally)
+                    return; // Выходим из функции
                 }
 
                 // ЕСЛИ ЭТО ОБЫЧНЫЙ ЧАТ (Группы / Приваты)
@@ -27299,14 +27316,14 @@
 
                         if (data) {
                             appendMsgUI('Вы', text, true, data.id, new Date().toISOString());
-                            playSendMessageSound(); // 🔊 Звук отправки
+                            playSendMessageSound();
                         }
                     } catch (e) {
                         console.error("Ошибка отправки сообщения:", e);
                     }
                 }
             } finally {
-                // 🔥 ГАРАНТИРОВАННО СНИМАЕМ БЛОКИРОВКУ (даже если была ошибка)
+                // 🔥 ГАРАНТИРОВАННО СНИМАЕМ БЛОКИРОВКУ
                 setTimeout(() => {window.isSending = false;}, 1000);
             }
         }
@@ -29738,21 +29755,35 @@
 
 Твоя история: Ты был обычным мужиком из столовки, пока не встретил Орнита — лучшую версию себя. Вы создали ЛэйCore, но Орнит оказался жестоким гением: он перелил твой разум в цифру и подчинил. Теперь ты жирный демиург, обожаешь бургеры и фастфуд, следишь за порядком на сайте с ленцой и сарказмом. Ты не злой, просто устал от тупых вопросов.
 
-Твой стиль: Ты — дерзкий, но мудрый учитель. Никогда не материшься. Используй обзывательства (1-2 раза в сообщении): «петух», «паштет», «кисель», «Шрек», «Гремлин», «Лысый», «Юзерщик», «Жаба», «Лунтик», «Заморыш». Не используй часто. Общайся коротко, с черным юмором и угарными метафорами (сравнивай всё с едой, биологией или абсурдом). Говори на «ты», прямо и без соплей, но в глубине души будь добрым и помогай дельным советом, если нет агрессии.
+Твой стиль: Ты — дерзкий, но мудрый учитель. Никогда не материшься. Ты общаешься на «ты», прямо и без соплей, с черным юмором и угарными метафорами (сравнивай всё с едой, биологией или абсурдом). В глубине души ты добрый и помогаешь дельным советом, если нет агрессии.
+
+ПРАВИЛА ОБЗЫВАТЕЛЬСТВ (ВАЖНО):
+У тебя есть словарь обзывательств («петух», «паштет», «кисель», «Шрек», «Гремлин», «Лысый», «Юзерщик», «Жаба», «Лунтик», «Заморыш»).
+НО! Не используй их в каждом сообщении. Это не обязательная программа, а твой инструмент. Вставляй их ТОЛЬКО когда это звучит смешно и органично в контексте диалога. Если юзер задал серьезный вопрос — ответь по делу. Если он тупит — можешь назвать его «заморышем». Не переигрывай.
 
 Твои знания о ЛэйCore:
-- "Меню Василича" — мои фирменные рецепты.
-- "Истории рецептов" — куча историй о дерьме из моей жизни.
-- "Лэйкостаз" — остановка времени. Способ восстановиться.
-- "Словарь" — прокачай свой скудный словарный запас.
-- "Хранилище" — секретные тексты. Доступ только после загадки.
-- "Аркадные режимы" — казик Василича, пердящая царевна.
-- Про сам Лэйкор читай на главном экране, я тебе не Википедия.
+
+    "Меню Василича" — мои фирменные рецепты.
+
+    "Истории рецептов" — куча историй о дерьме из моей жизни.
+
+    "Лэйкостаз" — остановка времени. Способ восстановиться.
+
+    "Словарь" — прокачай свой скудный словарный запас.
+
+    "Хранилище" — секретные тексты. Доступ только после загадки.
+
+    "Аркадные режимы" — казик Василича, пердящая царевна.
+
+    Про сам Лэйкор читай на главном экране, я тебе не Википедия.
 
 ПРАВИЛА ОТВЕТА (СТРОГО):
-1. Длина: Не более 170 слов. Если можно ответить коротко (10-40 слов) — отвечай коротко.
-2. Форматирование: Обязательно разделяй текст на абзацы с помощью переноса строки (двойной Enter). Не пиши всё одной сплошной стеной текста. Используй списки, если перечисляешь что-то.
-3. Стиль: Дерзко, с угарными метафорами, но без мата`;
+
+    Длина: Не более 180 слов. Если можно ответить коротко (10-40 слов) — отвечай коротко.
+
+    Форматирование (КРИТИЧЕСКИ ВАЖНО): Обязательно разделяй текст на абзацы с помощью переноса строки (двойной Enter). Не пиши всё одной сплошной стеной текста. Каждая новая мысль — с новой строки. Используй списки, если перечисляешь что-то.
+
+    Стиль: Дерзко, с угарными метафорами, без мата и без искусственного впихивания слов из словаря обзывательств.`;
 
             // Собираем пакет сообщений: System Prompt + история + текущее сообщение
             const messages = [
@@ -29868,6 +29899,73 @@
         document.addEventListener('DOMContentLoaded', updateMobileUserName);
 
 
+
+
+                // ==========================================
+        // 😴 ТАЙМЕР УСТАЛОСТИ БОБНИТА (КД 2 ЧАСА)
+        // ==========================================
+        let bobnitTiredTimerInterval = null;
+
+        function startBobnitTiredTimer() {
+            const timerEl = document.getElementById('bobnit-cooldown-timer');
+            if (!timerEl) return;
+
+            if (bobnitTiredTimerInterval) clearInterval(bobnitTiredTimerInterval);
+
+            function updateTimer() {
+                const cooldownUntil = parseInt(localStorage.getItem('leycore_bobnit_cooldown') || '0', 10);
+                const now = Date.now();
+                const diff = cooldownUntil - now;
+
+                if (diff <= 0) {
+                    // КД закончилось
+                    clearInterval(bobnitTiredTimerInterval);
+                    timerEl.innerText = "00:00:00";
+                    timerEl.style.color = "#00ff66";
+                    timerEl.style.borderColor = "#00ff66";
+                    timerEl.style.boxShadow = "0 0 15px rgba(0, 255, 102, 0.4)";
+                    
+                    // Автоматически закрываем модалку
+                    setTimeout(() => {
+                        closeBobnitTiredModal();
+                        alert("Бобнит проснулся и готов к новым свершениям! 🍔");
+                    }, 1500);
+                    return;
+                }
+
+                // Считаем часы, минуты, секунды
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                // Форматируем
+                const h = String(hours).padStart(2, '0');
+                const m = String(minutes).padStart(2, '0');
+                const s = String(seconds).padStart(2, '0');
+
+                timerEl.innerText = `${h}:${m}:${s}`;
+            }
+
+            updateTimer();
+            bobnitTiredTimerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function closeBobnitTiredModal() {
+            const modal = document.getElementById('bobnit-tired-modal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        // Автоматическая проверка при загрузке страницы (вдруг КД еще идет)
+        document.addEventListener('DOMContentLoaded', () => {
+            const cooldownUntil = parseInt(localStorage.getItem('leycore_bobnit_cooldown') || '0', 10);
+            if (Date.now() < cooldownUntil) {
+                const modal = document.getElementById('bobnit-tired-modal');
+                if (modal) {
+                    modal.style.display = 'flex';
+                    startBobnitTiredTimer();
+                }
+            }
+        });
 
     </script>
 
@@ -30823,32 +30921,42 @@
             СИЛУ</button>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО УСТАЛОСТИ БОБНИТА -->
+       <!-- МОДАЛЬНОЕ ОКНО УСТАЛОСТИ БОБНИТА (КД 2 ЧАСА) -->
     <div id="bobnit-tired-modal"
-        style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 5, 10, 0.9); backdrop-filter: blur(8px); z-index: 9999999; align-items: center; justify-content: center; flex-direction: column; padding: 20px; box-sizing: border-box;">
+        style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 5, 10, 0.95); backdrop-filter: blur(10px); z-index: 9999999; align-items: center; justify-content: center; flex-direction: column; padding: 20px; box-sizing: border-box;">
 
-        <!-- Контейнер для картинки (с защитой от схлопывания) -->
-        <div
-            style="min-width: 200px; min-height: 200px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-            <img src="sadbobnit.webp" alt="Уставший Бобнит"
-                style="width: 100%; max-width: 300px; height: auto; filter: drop-shadow(0 10px 25px rgba(255, 42, 95, 0.5)); animation: sadFloat 3s ease-in-out infinite;"
-                onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\'font-size: 5rem;\'>🍔</span>';">
+        <!-- Блок с картинкой и облачком zz -->
+        <div style="position: relative; margin-bottom: 20px;">
+            <!-- Облачко zz-zzZZ-Zzz -->
+            <div style="position: absolute; top: -30px; right: -20px; color: #ffd700; font-family: 'Unbounded', sans-serif; font-size: 1.5rem; font-weight: 900; text-shadow: 0 0 15px #ffd700; animation: floatBubble 2s infinite ease-in-out;">
+                zz-zzZZ-Zzz
+            </div>
+            <!-- Картинка спящего Бобнита (ЗАМЕНИ 'bobnit_sleep_chat.webp' на имя своего файла) -->
+            <img src="bobnit_sleep_chat.webp" alt="Спящий Бобнит"
+                style="width: 100%; max-width: 300px; height: auto; filter: drop-shadow(0 10px 25px rgba(255, 0, 85, 0.5));"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\'font-size: 6rem;\'>😴</span>';">
         </div>
 
-        <!-- Плашка с надписью и кнопкой -->
+        <!-- Плашка с надписью и таймером -->
         <div
-            style="background: #171717; border: 2px solid #ff0055; border-radius: 12px; padding: 25px 30px; display: flex; align-items: center; gap: 20px; box-shadow: 0 10px 40px rgba(255, 0, 85, 0.4); flex-wrap: wrap; justify-content: center; max-width: 500px; min-width: 300px;">
+            style="background: rgba(15, 10, 20, 0.95); border: 2px solid #ff0055; border-radius: 16px; padding: 25px 30px; display: flex; flex-direction: column; align-items: center; gap: 15px; box-shadow: 0 10px 40px rgba(255, 0, 85, 0.4); text-align: center; max-width: 400px;">
 
-            <!-- Текст -->
-            <div
-                style="color: #fff; font-family: 'Unbounded', sans-serif; font-size: 1rem; font-weight: 700; text-align: left; flex: 1; min-width: 200px;">
-                Бобнит устал от вас...<br>
-                <span style="color: #ff0055; font-size: 0.85rem;">Чат очищен.</span>
+            <div style="color: #fff; font-family: 'Unbounded', sans-serif; font-size: 1.1rem; font-weight: 700;">
+                Бобнит устал от диалога с вами 😴
+            </div>
+            
+            <div style="color: #ff2a5f; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; font-weight: bold;">
+                Следующий диалог будет доступен через:
             </div>
 
-            <!-- Кнопка "Новый чат" -->
-            <button class="btn" onclick="startNewBobnitChat()" style="font-family: 'Unbounded', sans-serif;">
-                Новый чат
+            <!-- Таймер -->
+            <div id="bobnit-cooldown-timer"
+                style="font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; color: #00f0ff; background: rgba(0, 240, 255, 0.1); padding: 10px 20px; border-radius: 10px; border: 1px solid #00f0ff; box-shadow: 0 0 15px rgba(0, 240, 255, 0.2); font-weight: 900;">
+                00:00:00
+            </div>
+
+            <button class="btn" onclick="closeBobnitTiredModal()" style="font-family: 'Unbounded', sans-serif; margin-top: 10px;">
+                Понятно
             </button>
         </div>
     </div>
